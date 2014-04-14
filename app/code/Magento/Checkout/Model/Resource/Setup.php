@@ -1,20 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Checkout
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-
-/**
  * Checkout Resource Setup Model
  *
- * @category    Magento
- * @package     Magento_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 namespace Magento\Checkout\Model\Resource;
 
@@ -26,25 +17,32 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     protected $_customerAddress;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Eav\Model\Entity\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Eav\Model\Entity\Setup\Context $context,
         $resourceName,
         \Magento\App\CacheInterface $cache,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
         \Magento\Customer\Helper\Address $customerAddress,
         $moduleName = 'Magento_Checkout',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_customerAddress = $customerAddress;
-        parent::__construct($context, $resourceName, $cache, $attrGrCollFactory, $moduleName, $connectionName);
+        parent::__construct(
+            $context,
+            $resourceName,
+            $cache,
+            $attrGroupCollectionFactory,
+            $moduleName,
+            $connectionName
+        );
     }
 
     /**

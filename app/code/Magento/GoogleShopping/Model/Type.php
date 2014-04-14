@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Model;
+
+use Magento\Catalog\Model\Product as CatalogModelProduct;
+use Magento\Gdata\Gshopping\Entry;
 
 /**
  * Google Content Item Types Model
@@ -15,9 +19,7 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Model;
-
-class Type extends \Magento\Core\Model\AbstractModel
+class Type extends \Magento\Model\AbstractModel
 {
     /**
      * Mapping attributes collection
@@ -58,8 +60,8 @@ class Type extends \Magento\Core\Model\AbstractModel
     protected $_collectionFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\GoogleShopping\Model\Resource\Attribute\CollectionFactory $collectionFactory
      * @param \Magento\GoogleShopping\Model\AttributeFactory $attributeFactory
      * @param \Magento\GoogleShopping\Model\Config $config
@@ -70,8 +72,8 @@ class Type extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\GoogleShopping\Model\Resource\Attribute\CollectionFactory $collectionFactory,
         \Magento\GoogleShopping\Model\AttributeFactory $attributeFactory,
         \Magento\GoogleShopping\Model\Config $config,
@@ -89,6 +91,9 @@ class Type extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GoogleShopping\Model\Resource\Type');
@@ -99,19 +104,19 @@ class Type extends \Magento\Core\Model\AbstractModel
      *
      * @param int $attributeSetId Attribute Set
      * @param string $targetCountry Two-letters country ISO code
-     * @return \Magento\GoogleShopping\Model\Type
+     * @return $this
      */
     public function loadByAttributeSetId($attributeSetId, $targetCountry)
     {
-        return $this->getResource()
-            ->loadByAttributeSetIdAndTargetCountry($this, $attributeSetId, $targetCountry);
+        return $this->getResource()->loadByAttributeSetIdAndTargetCountry($this, $attributeSetId, $targetCountry);
     }
 
     /**
      * Prepare Entry data and attributes before saving in Google Content
      *
-     * @param \Magento\Gdata\Gshopping\Entry $entry
-     * @return \Magento\Gdata\Gshopping\Entry
+     * @param CatalogModelProduct $product
+     * @param Entry $entry
+     * @return Entry
      */
     public function convertProductToEntry($product, $entry)
     {
@@ -131,10 +136,10 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Return Product attribute values array
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param CatalogModelProduct $product
      * @return array Product attribute values
      */
-    protected function _getAttributesMapByProduct(\Magento\Catalog\Model\Product $product)
+    protected function _getAttributesMapByProduct(CatalogModelProduct $product)
     {
         $result = array();
         $group = $this->_config->getAttributeGroupsFlat();
@@ -157,10 +162,15 @@ class Type extends \Magento\Core\Model\AbstractModel
                             $result[$group[$name]] = $this->_attributeFactory->createAttribute($group[$name]);
                         }
                         // add group attribute to parent attribute
-                        $result[$group[$name]]->addData(array(
-                            'group_attribute_' . $name => $this->_attributeFactory->createAttribute($name)
-                                ->addData($attribute->getData())
-                        ));
+                        $result[$group[$name]]->addData(
+                            array(
+                                'group_attribute_' . $name => $this->_attributeFactory->createAttribute(
+                                    $name
+                                )->addData(
+                                    $attribute->getData()
+                                )
+                            )
+                        );
                         unset($group[$name]);
                     } else {
                         if (!isset($result[$name])) {
@@ -201,11 +211,10 @@ class Type extends \Magento\Core\Model\AbstractModel
     {
         $group = $this->_config->getAttributeGroupsFlat();
         foreach ($group as $child => $parent) {
-            if (isset($attributes[$parent]) &&
-                !isset($attributes[$parent]['group_attribute_' . $child])) {
-                    $attributes[$parent]->addData(
-                        array('group_attribute_' . $child => $this->_attributeFactory->createAttribute($child))
-                    );
+            if (isset($attributes[$parent]) && !isset($attributes[$parent]['group_attribute_' . $child])) {
+                $attributes[$parent]->addData(
+                    array('group_attribute_' . $child => $this->_attributeFactory->createAttribute($child))
+                );
             }
         }
 
@@ -221,8 +230,10 @@ class Type extends \Magento\Core\Model\AbstractModel
     protected function _getAttributesCollection()
     {
         if (is_null($this->_attributesCollection)) {
-            $this->_attributesCollection = $this->_collectionFactory->create()
-                ->addAttributeSetFilter($this->getAttributeSetId(), $this->getTargetCountry());
+            $this->_attributesCollection = $this->_collectionFactory->create()->addAttributeSetFilter(
+                $this->getAttributeSetId(),
+                $this->getTargetCountry()
+            );
         }
         return $this->_attributesCollection;
     }
@@ -230,9 +241,9 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Remove attributes which were removed from mapping.
      *
-     * @param \Magento\Gdata\Gshopping\Entry $entry
-     * @param array $existAttributes
-     * @return \Magento\Gdata\Gshopping\Entry
+     * @param Entry $entry
+     * @param string[] $existAttributes
+     * @return Entry
      */
     protected function _removeNonexistentAttributes($entry, $existAttributes)
     {
@@ -249,9 +260,8 @@ class Type extends \Magento\Core\Model\AbstractModel
         $contentAttributes = $entry->getContentAttributes();
         foreach ($contentAttributes as $contentAttribute) {
             $name = $this->_gsData->normalizeName($contentAttribute->getName());
-            if (!in_array($name, $ignoredAttributes) &&
-                !in_array($existAttributes, $existAttributes)) {
-                    $entry->removeContentAttribute($name);
+            if (!in_array($name, $ignoredAttributes) && !in_array($existAttributes, $existAttributes)) {
+                $entry->removeContentAttribute($name);
             }
         }
 

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
 
 /**
@@ -56,13 +55,14 @@ class Layout extends \Magento\View\Element\Html\Select
      * Add page types information to the options
      *
      * @param array $pageTypes
+     * @return void
      */
     protected function _addPageTypeOptions(array $pageTypes)
     {
         $label = array();
         // Sort list of page types by label
         foreach ($pageTypes as $key => $row) {
-            $label[$key]  = $row['label'];
+            $label[$key] = $row['label'];
         }
         array_multisort($label, SORT_STRING, $pageTypes);
 

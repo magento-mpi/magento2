@@ -2,25 +2,21 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price;
 
+use Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group\AbstractGroup;
 
 /**
  * Adminhtml group price item renderer
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price;
-
-class Group
-    extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group\AbstractGroup
+class Group extends AbstractGroup
 {
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/product/edit/price/group.phtml';
 
     /**
@@ -58,20 +54,22 @@ class Group
      *
      * Add "Add Group Price" button to layout
      *
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group
+     * @return $this
      */
     protected function _prepareLayout()
     {
-        $button = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
+        $button = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array(
                 'label' => __('Add Group Price'),
                 'onclick' => 'return groupPriceControl.addItem()',
                 'class' => 'add'
-            ));
+            )
+        );
         $button->setName('add_group_price_item_button');
 
         $this->setChild('add_button', $button);
         return parent::_prepareLayout();
     }
-
 }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Product;
 
 class ViewTest extends \PHPUnit_Framework_TestCase
@@ -36,17 +35,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function testSetGiftRegistryTemplate($options, $expectedTemplate)
     {
         $request = $this->_block->getRequest();
-        $request->expects($this->any())
-            ->method('getParam')
-            ->with('options')
-            ->will($this->returnValue($options));
+        $request->expects($this->any())->method('getParam')->with('options')->will($this->returnValue($options));
         $childBlock = $this->getMockForAbstractClass('Magento\View\Element\AbstractBlock', array(), '', false);
-        $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento\View\Layout', array(), array(), '', false);
         $this->_block->setLayout($layout);
-        $layout->expects($this->once())
-            ->method('getBlock')
-            ->with('test')
-            ->will($this->returnValue($childBlock));
+        $layout->expects($this->once())->method('getBlock')->with('test')->will($this->returnValue($childBlock));
         $this->_block->setGiftRegistryTemplate('test', 'template.phtml');
         $actualTemplate = $childBlock->getTemplate();
         $this->assertSame($expectedTemplate, $actualTemplate);
@@ -58,12 +51,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function setGiftRegistryTemplateDataProvider()
     {
         return array(
-            'no options' => array(
-                'some other option', null
-            ),
-            'with options' => array(
-                \Magento\GiftRegistry\Block\Product\View::FLAG, 'template.phtml'
-            ),
+            'no options' => array('some other option', null),
+            'with options' => array(\Magento\GiftRegistry\Block\Product\View::FLAG, 'template.phtml')
         );
     }
 
@@ -78,24 +67,17 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function testSetGiftRegistryUrl()
     {
-        $this->_urlBuilder->expects($this->any())
-            ->method('getUrl')
-            ->will($this->returnValue('some_url'));
+        $this->_urlBuilder->expects($this->any())->method('getUrl')->will($this->returnValue('some_url'));
         $request = $this->_block->getRequest();
         $valueMap = array(
             array('options', null, \Magento\GiftRegistry\Block\Product\View::FLAG),
-            array('entity', null, 'any'),
+            array('entity', null, 'any')
         );
-        $request->expects($this->any())
-            ->method('getParam')
-            ->will($this->returnValueMap($valueMap));
+        $request->expects($this->any())->method('getParam')->will($this->returnValueMap($valueMap));
         $childBlock = $this->getMockForAbstractClass('Magento\View\Element\AbstractBlock', array(), '', false);
-        $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento\View\Layout', array(), array(), '', false);
         $this->_block->setLayout($layout);
-        $layout->expects($this->once())
-            ->method('getBlock')
-            ->with('test')
-            ->will($this->returnValue($childBlock));
+        $layout->expects($this->once())->method('getBlock')->with('test')->will($this->returnValue($childBlock));
         $this->_block->setGiftRegistryUrl('test');
         $actualUrl = $childBlock->getAddToGiftregistryUrl();
         $this->assertSame('some_url', $actualUrl);
@@ -104,12 +86,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function testSetGiftRegistryUrlNoOptions()
     {
         $childBlock = $this->getMockForAbstractClass('Magento\View\Element\AbstractBlock', array(), '', false);
-        $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento\View\Layout', array(), array(), '', false);
         $this->_block->setLayout($layout);
-        $layout->expects($this->once())
-            ->method('getBlock')
-            ->with('test')
-            ->will($this->returnValue($childBlock));
+        $layout->expects($this->once())->method('getBlock')->with('test')->will($this->returnValue($childBlock));
         $this->_block->setGiftRegistryUrl('test');
         $actualUrl = $childBlock->getGiftRegistryUrl();
         $this->assertNull($actualUrl);

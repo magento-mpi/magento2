@@ -9,7 +9,7 @@
 # @license     {license_link}
 #
 ---
-#Enter Form to Orders Adn Retirn
+#Enter Form to Orders Adn Return
 orders_and_returns:
     mca: sales/guest/form/
     title: Orders and Returns
@@ -18,7 +18,7 @@ orders_and_returns:
             fieldsets:
                 -
                     orders_and_returns_form:
-                        xpath: //div[div/h1='Orders and Returns']
+                        xpath: //form[@id='oar-widget-orders-and-returns-form']
                         fields:
                             order_id: //input[@id='oar-order-id']
                             billing_last_name: //input[@id='oar-billing-lastname']
@@ -28,57 +28,70 @@ orders_and_returns:
                             search_type_id: //select[@id='quick-search-type-id']
                         buttons:
                             continue: //button[span='Continue']
-        messages:
+        messages: &rmaMessages
             incorrect_data: //li[normalize-space(@class)='error-msg' and contains(.,'You entered incorrect data. Please try again.')]
             empty_order_id: //*[@id='advice-required-entry-oar_order_id']
             empty_billing_last_name: //*[@id='advice-required-entry-oar_billing_lastname']
             empty_email: //*[@id='advice-required-entry-oar_email']
             empty_zip: //*[@id='advice-required-entry-oar_zip']
+            specify_product_quantity: //li[normalize-space(@class)='error-msg' and contains(.,'Quantity of %productName% is greater than you can return.')]
+            successfully_submitted_return: "//li[normalize-space(@class)='success-msg' and contains(.,'You submitted Return #')]"
 
 guest_view_order:
-    mca: /sales/guest/view/
+    mca: sales/guest/view/
     title: 'Order # %elementTitle%'
     uimap:
         form:
             fieldsets:
                 -
                     page_title:
-                        xpath: //*[@class='page-title title-buttons']
+                        xpath: //div[@class='order details view']
                         links:
-                            reorder: //a[text()='Reorder']
-                            print_order: //a[text()='Print Order']
-                            return: //a[text()='Return']
+                            reorder: //a[span='Reorder']
+                            print_order: //a[span='Print Order']
+                            return: //a[span='Return']
+        messages: *rmaMessages
 
-guest_create_rma:
-    mca: rma/guest/create/order_id/%id%/
+create_new_return:
+    mca: rma/returns/create/order_id/%id%/
     title: Create New Return
-    uimap:
+    uimap: &create_new_return-uimap
         form:
             fieldsets:
                 -
                     create_rma:
                         xpath: //*[@id='rma_create_form']
                         links:
-                            back: //p[@class='back-link a-left']/a
-                            add_item_to_return: //a[text()='Add Item To Return']
+                            back: //a[span='Back']
+                            add_item_to_return: //a[span='Add Item To Return']
                         fields:
-                            email: //*[@id='email']
-                            quantity: //*[@id='items:qty_requested%param%']
-                            comment: //*[@id='rma_comment']
+                            email: //input[@id='email']
+                            quantity: //input[@id='items:qty_requested%param%']
+                            comment: //textarea[@id='rma_comment']
                         dropdowns:
-                            item: //*[@id='items:item%param%']
-                            resolution: //*[@id='items:resolution%param%']
-                            condition: //*[@id='items:condition%param%']
-                            reason: //*[@id='items:reason%param%']
+                            item: //select[@id='items:item%param%']
+                            resolution: //select[@id='items:resolution%param%']
+                            condition: //select[@id='items:condition%param%']
+                            reason: //select[@id='items:reason%param%']
                         buttons:
-                            submit: //*[@id='submit.save']
-        messages:
-            specify_product_quantity: //li[normalize-space(@class)='error-msg' and contains(.,'Quantity of %productName% is greater than you can return.')]
+                            submit: //button[@id='submit.save']
+                        pageelements:
+                            custom_items_attribute: //*[@id='items:%attributeCode%%param%']
+        messages: *rmaMessages
+
+guest_create_rma:
+    mca: rma/guest/create/order_id/%id%/
+    title: Create New Return
+    uimap: *create_new_return-uimap
+
+my_returns:
+    mca: rma/returns/history/
+    title: My Returns
+    uimap:
+        messages: *rmaMessages
 
 guest_view_returns:
     mca: rma/guest/returns/
     title: 'Order # %elementTitle%'
     uimap:
-        form:
-        messages:
-            successfully_submitted_return: "//li[normalize-space(@class)='success-msg' and contains(.,'You submitted Return #')]"
+        messages: *rmaMessages

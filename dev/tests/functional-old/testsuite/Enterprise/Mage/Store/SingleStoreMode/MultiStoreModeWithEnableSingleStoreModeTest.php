@@ -76,9 +76,6 @@ class Enterprise_Mage_Store_SingleStoreMode_MultiStoreModeWithEnableSingleStoreM
      */
     public function verificationAllTypesOfWidgetsInSingleStoreMode($dataWidgetType)
     {
-        if ($dataWidgetType == 'cms_hierarchy_node_link' && $this->getBrowser() == 'chrome') {
-            $this->markTestIncomplete('MAGETWO-11559');
-        }
         $widgetData = $this->loadDataSet('CmsWidget', $dataWidgetType . '_settings');
         $this->navigate('manage_cms_widgets');
         $this->clickButton('add_new_widget_instance');
@@ -150,7 +147,6 @@ class Enterprise_Mage_Store_SingleStoreMode_MultiStoreModeWithEnableSingleStoreM
      */
     public function editCustomer($userData)
     {
-        $this->markTestIncomplete('BUG: Fatal error on customer wishlist tab');
         //Preconditions
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
@@ -159,7 +155,7 @@ class Enterprise_Mage_Store_SingleStoreMode_MultiStoreModeWithEnableSingleStoreM
         $storeCreditGrid = $this->getTableHeadRowNames($this->_getControlXpath('fieldset', 'store_credit_balance'));
         $this->assertTrue(in_array('Website', $storeCreditGrid), "Store Credit table not contain 'Website' column");
         $salesGrid = $this->getTableHeadRowNames($this->_getControlXpath('fieldset', 'sales_statistics'));
-        $this->assertTrue(in_array('Website', $salesGrid), "Sales Statistics table not contain 'Website' column");
+        $this->assertTrue(in_array('Web Site', $salesGrid), "Sales Statistics table not contain 'Website' column");
         $this->openTab('account_information');
         $this->assertTrue($this->controlIsPresent('dropdown', 'associate_to_website'),
             "Dropdown associate_to_website is not present on page");

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Quote\Address;
 
+use \Magento\Model\AbstractModel;
 
 /**
  * @method \Magento\Sales\Model\Resource\Quote\Address\Rate _getResource()
@@ -39,22 +41,23 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Quote\Address;
-
-class Rate extends \Magento\Shipping\Model\Rate\AbstractRate
+class Rate extends AbstractModel
 {
     /**
      * @var \Magento\Sales\Model\Quote\Address
      */
     protected $_address;
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Sales\Model\Resource\Quote\Address\Rate');
     }
 
     /**
-     * @return $this|\Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -84,24 +87,37 @@ class Rate extends \Magento\Shipping\Model\Rate\AbstractRate
     }
 
     /**
-     * @param \Magento\Shipping\Model\Rate\Result\AbstractResult $rate
+     * @param \Magento\Sales\Model\Quote\Address\RateResult\AbstractResult $rate
      * @return $this
      */
-    public function importShippingRate(\Magento\Shipping\Model\Rate\Result\AbstractResult $rate)
+    public function importShippingRate(\Magento\Sales\Model\Quote\Address\RateResult\AbstractResult $rate)
     {
-        if ($rate instanceof \Magento\Shipping\Model\Rate\Result\Error) {
-            $this->setCode($rate->getCarrier() . '_error')
-                ->setCarrier($rate->getCarrier())
-                ->setCarrierTitle($rate->getCarrierTitle())
-                ->setErrorMessage($rate->getErrorMessage());
-        } elseif ($rate instanceof \Magento\Shipping\Model\Rate\Result\Method) {
-            $this->setCode($rate->getCarrier() . '_' . $rate->getMethod())
-                ->setCarrier($rate->getCarrier())
-                ->setCarrierTitle($rate->getCarrierTitle())
-                ->setMethod($rate->getMethod())
-                ->setMethodTitle($rate->getMethodTitle())
-                ->setMethodDescription($rate->getMethodDescription())
-                ->setPrice($rate->getPrice());
+        if ($rate instanceof \Magento\Sales\Model\Quote\Address\RateResult\Error) {
+            $this->setCode(
+                $rate->getCarrier() . '_error'
+            )->setCarrier(
+                $rate->getCarrier()
+            )->setCarrierTitle(
+                $rate->getCarrierTitle()
+            )->setErrorMessage(
+                $rate->getErrorMessage()
+            );
+        } elseif ($rate instanceof \Magento\Sales\Model\Quote\Address\RateResult\Method) {
+            $this->setCode(
+                $rate->getCarrier() . '_' . $rate->getMethod()
+            )->setCarrier(
+                $rate->getCarrier()
+            )->setCarrierTitle(
+                $rate->getCarrierTitle()
+            )->setMethod(
+                $rate->getMethod()
+            )->setMethodTitle(
+                $rate->getMethodTitle()
+            )->setMethodDescription(
+                $rate->getMethodDescription()
+            )->setPrice(
+                $rate->getPrice()
+            );
         }
         return $this;
     }

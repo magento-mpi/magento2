@@ -11,8 +11,9 @@
  */
 namespace Magento\MultipleWishlist\Model\Resource\Item\Report;
 
-class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Catalog data
@@ -51,7 +52,7 @@ class Collection
      * @param \Magento\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -66,7 +67,7 @@ class Collection
         \Magento\Object\Copy\Config $fieldsetConfig,
         \Magento\Customer\Model\Resource\Customer $resourceCustomer,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_wishlistData = $wishlistData;
         $this->_catalogData = $catalogData;
@@ -77,6 +78,8 @@ class Collection
 
     /**
      * Init model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -86,7 +89,7 @@ class Collection
     /**
      * Add customer information to collection items
      *
-     * @return \Magento\MultipleWishlist\Model\Resource\Item\Report\Collection
+     * @return $this
      */
     protected function _addCustomerInfo()
     {
@@ -119,7 +122,8 @@ class Collection
             $concatenate[] = $adapter->getCheckSql(
                 '{{middlename}} IS NOT NULL AND {{middlename}} != \'\'',
                 $adapter->getConcatSql(array('LTRIM(RTRIM({{middlename}}))', '\' \'')),
-                '\'\'');
+                '\'\''
+            );
         }
         $this->_joinCustomerAttibute($this->_resourceCustomer->getAttribute('lastname'));
         $fields['lastname'] = 'at_lastname.value';
@@ -127,10 +131,11 @@ class Collection
         if (isset($fields['suffix'])) {
             $this->_joinCustomerAttibute($this->_resourceCustomer->getAttribute('suffix'));
             $fields['suffix'] = 'at_suffix.value';
-            $concatenate[] = $adapter
-                    ->getCheckSql('{{suffix}} IS NOT NULL AND {{suffix}} != \'\'',
+            $concatenate[] = $adapter->getCheckSql(
+                '{{suffix}} IS NOT NULL AND {{suffix}} != \'\'',
                 $adapter->getConcatSql(array('\' \'', 'LTRIM(RTRIM({{suffix}}))')),
-                '\'\'');
+                '\'\''
+            );
         }
 
         $nameExpr = $adapter->getConcatSql($concatenate);
@@ -143,22 +148,19 @@ class Collection
     /**
      * Join customer attribute
      *
-     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
+     * @param AbstractAttribute $attribute
+     * @return void
      */
-    protected function _joinCustomerAttibute(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute)
+    protected function _joinCustomerAttibute(AbstractAttribute $attribute)
     {
         $adapter = $this->getSelect()->getAdapter();
         $tableName = $adapter->getTableName('at_' . $attribute->getName());
         $joinExpr = array(
             $tableName . '.entity_id = wishlist_table.customer_id',
-            $adapter->quoteInto(
-                $tableName . '.attribute_id = ?', $attribute->getAttributeId()
-            )
+            $adapter->quoteInto($tableName . '.attribute_id = ?', $attribute->getAttributeId())
         );
         $this->getSelect()->joinLeft(
-            array(
-                $tableName => $attribute->getBackend()->getTable()
-            ),
+            array($tableName => $attribute->getBackend()->getTable()),
             implode(' AND ', $joinExpr),
             array()
         );
@@ -168,7 +170,7 @@ class Collection
      * Filter collection by store ids
      *
      * @param array $storeIds
-     * @return \Magento\MultipleWishlist\Model\Resource\Item\Report\Collection
+     * @return $this
      */
     public function filterByStoreIds(array $storeIds)
     {
@@ -179,7 +181,7 @@ class Collection
     /**
      * Add product information to collection
      *
-     * @return \Magento\MultipleWishlist\Model\Resource\Item\Report\Collection
+     * @return $this
      */
     protected function _addProductInfo()
     {
@@ -200,14 +202,17 @@ class Collection
     /**
      * Add selected data
      *
-     * @return \Magento\MultipleWishlist\Model\Resource\Item\Report\Collection
+     * @return $this
      */
     protected function _initSelect()
     {
         parent::_initSelect();
         $select = $this->getSelect();
-        $select->reset(\Zend_Db_Select::COLUMNS)
-            ->columns(array('item_qty' => 'qty', 'added_at', 'description', 'product_id'));
+        $select->reset(
+            \Zend_Db_Select::COLUMNS
+        )->columns(
+            array('item_qty' => 'qty', 'added_at', 'description', 'product_id')
+        );
 
         $adapter = $this->getSelect()->getAdapter();
         $defaultWishlistName = $this->_wishlistData->getDefaultWishlistName();
@@ -220,21 +225,26 @@ class Collection
             )
         );
 
-        $this->addFilterToMap('wishlist_name', $adapter->getIfNullSql('name', $adapter->quote($defaultWishlistName)))
-            ->addFilterToMap('item_qty', 'main_table.qty')
-            ->_addCustomerInfo()
-            ->_addProductInfo();
+        $this->addFilterToMap(
+            'wishlist_name',
+            $adapter->getIfNullSql('name', $adapter->quote($defaultWishlistName))
+        )->addFilterToMap(
+            'item_qty',
+            'main_table.qty'
+        )->_addCustomerInfo()->_addProductInfo();
 
         return $this;
     }
 
     /**
      * Add product info to collection
+     *
+     * @return void
      */
     protected function _afterLoad()
     {
         parent::_afterLoad();
-        foreach($this->_items as $item) {
+        foreach ($this->_items as $item) {
             /* @var $item \Magento\MultipleWishlist\Model\Item $item*/
             $product = $item->getProduct();
             $item->setProductName($product->getName());

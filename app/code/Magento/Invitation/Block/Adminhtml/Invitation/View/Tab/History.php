@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
 
 /**
  * Invitation view status history tab block
@@ -14,18 +15,17 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
-
-class History
-    extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class History extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * @var string
+     */
     protected $_template = 'view/tab/history.phtml';
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -38,13 +38,13 @@ class History
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory,
         array $data = array()
     ) {
@@ -53,21 +53,41 @@ class History
         $this->_historyFactory = $historyFactory;
     }
 
+    /**
+     * Returns the Tab label
+     *
+     * @return string
+     */
     public function getTabLabel()
     {
         return __('Status History');
     }
 
+    /**
+     * Returns the Tab title
+     *
+     * @return string
+     */
     public function getTabTitle()
     {
         return __('Status History');
     }
 
+    /**
+     * Return whether the tab can be shown
+     *
+     * @return true
+     */
     public function canShowTab()
     {
         return true;
     }
 
+    /**
+     * Return whether the tab is hidden
+     *
+     * @return false
+     */
     public function isHidden()
     {
         return false;
@@ -90,10 +110,12 @@ class History
      */
     public function getHistoryCollection()
     {
-        return $this->_historyFactory->create()
-            ->getCollection()
-            ->addFieldToFilter('invitation_id', $this->getInvitation()->getId())
-            ->addOrder('history_id');
+        return $this->_historyFactory->create()->getCollection()->addFieldToFilter(
+            'invitation_id',
+            $this->getInvitation()->getId()
+        )->addOrder(
+            'history_id'
+        );
     }
 
     /**
@@ -107,7 +129,7 @@ class History
     public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
-            $date = $this->_locale->date($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_localeDate->date($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatDate($date, $format, $showTime);
@@ -124,7 +146,7 @@ class History
     public function formatTime($date = null, $format = 'short', $showDate = false)
     {
         if (is_string($date)) {
-            $date = $this->_locale->date($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_localeDate->date($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatTime($date, $format, $showDate);

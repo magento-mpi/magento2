@@ -20,8 +20,14 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery;
 
+use Magento\Backend\Block\Media\Uploader;
+use Magento\View\Element\AbstractBlock;
+
 class Content extends \Magento\Backend\Block\Widget
 {
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/product/helper/gallery.phtml';
 
     /**
@@ -51,33 +57,35 @@ class Content extends \Magento\Backend\Block\Widget
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return AbstractBlock
+     */
     protected function _prepareLayout()
     {
         $this->addChild('uploader', 'Magento\Backend\Block\Media\Uploader');
 
-        $this->getUploader()->getConfig()
-            ->setUrl(
-                $this->_urlBuilder->addSessionParam()
-                    ->getUrl('catalog/product_gallery/upload')
-            )
-            ->setFileField('image')
-            ->setFilters(array(
+        $this->getUploader()->getConfig()->setUrl(
+            $this->_urlBuilder->addSessionParam()->getUrl('catalog/product_gallery/upload')
+        )->setFileField(
+            'image'
+        )->setFilters(
+            array(
                 'images' => array(
                     'label' => __('Images (.gif, .jpg, .png)'),
-                    'files' => array('*.gif', '*.jpg','*.jpeg', '*.png')
+                    'files' => array('*.gif', '*.jpg', '*.jpeg', '*.png')
                 )
-            ));
+            )
+        );
 
         $this->_eventManager->dispatch('catalog_product_gallery_prepare_layout', array('block' => $this));
 
         return parent::_prepareLayout();
     }
 
-
     /**
      * Retrieve uploader block
      *
-     * @return \Magento\Backend\Block\Media\Uploader
+     * @return Uploader
      */
     public function getUploader()
     {
@@ -94,11 +102,17 @@ class Content extends \Magento\Backend\Block\Widget
         return $this->getChildHtml('uploader');
     }
 
+    /**
+     * @return string
+     */
     public function getJsObjectName()
     {
         return $this->getHtmlId() . 'JsObject';
     }
 
+    /**
+     * @return string
+     */
     public function getAddImagesButton()
     {
         return $this->getButtonHtml(
@@ -109,6 +123,9 @@ class Content extends \Magento\Backend\Block\Widget
         );
     }
 
+    /**
+     * @return string
+     */
     public function getImagesJson()
     {
         if (is_array($this->getElement()->getValue())) {
@@ -123,6 +140,9 @@ class Content extends \Magento\Backend\Block\Widget
         return '[]';
     }
 
+    /**
+     * @return string
+     */
     public function getImagesValuesJson()
     {
         $values = array();
@@ -156,10 +176,13 @@ class Content extends \Magento\Backend\Block\Widget
         return $imageTypes;
     }
 
+    /**
+     * @return bool
+     */
     public function hasUseDefault()
     {
         foreach ($this->getMediaAttributes() as $attribute) {
-            if($this->getElement()->canDisplayUseDefault($attribute))  {
+            if ($this->getElement()->canDisplayUseDefault($attribute)) {
                 return true;
             }
         }
@@ -177,9 +200,11 @@ class Content extends \Magento\Backend\Block\Widget
         return $this->getElement()->getDataObject()->getMediaAttributes();
     }
 
+    /**
+     * @return string
+     */
     public function getImageTypesJson()
     {
         return $this->_jsonEncoder->encode($this->getImageTypes());
     }
-
 }

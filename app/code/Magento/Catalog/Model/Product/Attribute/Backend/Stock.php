@@ -18,6 +18,8 @@
  */
 namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
+use Magento\Catalog\Model\Product;
+
 class Stock extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
@@ -44,8 +46,8 @@ class Stock extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Set inventory data to custom attribute
      *
-     * @param \Magento\Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @param Product $object
+     * @return $this
      */
     public function afterLoad($object)
     {
@@ -53,10 +55,7 @@ class Stock extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         $item->loadByProduct($object);
         $object->setData(
             $this->getAttribute()->getAttributeCode(),
-            array(
-                'is_in_stock' => $item->getIsInStock(),
-                'qty' => $item->getQty(),
-            )
+            array('is_in_stock' => $item->getIsInStock(), 'qty' => $item->getQty())
         );
         return parent::afterLoad($object);
     }
@@ -64,8 +63,8 @@ class Stock extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Prepare inventory data from custom attribute
      *
-     * @param \Magento\Catalog\Model\Product $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend|void
+     * @param Product $object
+     * @return void
      */
     public function beforeSave($object)
     {
@@ -83,8 +82,8 @@ class Stock extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Validate
      *
-     * @param \Magento\Catalog\Model\Product $object
-     * @throws \Magento\Core\Exception
+     * @param Product $object
+     * @throws \Magento\Model\Exception
      * @return bool
      */
     public function validate($object)
@@ -92,9 +91,7 @@ class Stock extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         $attrCode = $this->getAttribute()->getAttributeCode();
         $value = $object->getData($attrCode);
         if (!empty($value['qty']) && !preg_match('/^-?\d*(\.|,)?\d{0,4}$/i', $value['qty'])) {
-            throw new \Magento\Core\Exception(
-                __('Please enter a valid number in this field.')
-            );
+            throw new \Magento\Model\Exception(__('Please enter a valid number in this field.'));
         }
         return true;
     }

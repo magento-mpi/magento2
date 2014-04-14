@@ -37,21 +37,22 @@ class Core_Mage_AdminMenu_AdminMenuTest extends Mage_Selenium_TestCase
     public function testCurrentMenuItemIsHighlighted($currentPageName)
     {
         $this->navigate($currentPageName);
-
-        $area = $this->getConfigHelper()->getArea();
-        $mca = $this->getUimapHelper()->getPageMca($area, $currentPageName);
-        $this->addParameter('mcaXpath', $mca);
-        $this->assertEquals(1, $this->getControlCount('pageelement', 'active_menu_element'),
-            "Top level menu item for '$currentPageName' isn't active");
-        $this->assertTrue($this->controlIsPresent('pageelement', 'general_menu_xpath'),
-            "Expected active menu item for page $currentPageName doesn't exist");
+        $this->assertEquals(
+            1,
+            $this->getControlCount('pageelement', 'active_menu_element'),
+            "Top level menu item after navigate to '$currentPageName' page isn't active"
+        );
+        $this->addParameter('pageUrl', $this->url());
+        $this->assertTrue(
+            $this->controlIsPresent('pageelement', 'active_menu_with_page_link'),
+            "Active top level menu item doesn't contain link for '$currentPageName' page"
+        );
     }
 
     /**
      * Retrieve menu items with their top level parents
      *
      * @return array $items
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function menuItemsWithParentsDataProvider()
     {

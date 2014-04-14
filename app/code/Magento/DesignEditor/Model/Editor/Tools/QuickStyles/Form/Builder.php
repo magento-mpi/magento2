@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form;
+
+use Magento\Data\Form;
 
 /**
  * VDE area model
  */
-namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form;
-
 class Builder
 {
     /**
@@ -54,8 +55,8 @@ class Builder
         \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $rendererFactory,
         \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $elementsFactory
     ) {
-        $this->_formFactory     = $formFactory;
-        $this->_configFactory   = $configFactory;
+        $this->_formFactory = $formFactory;
+        $this->_configFactory = $configFactory;
         $this->_rendererFactory = $rendererFactory;
         $this->_elementsFactory = $elementsFactory;
     }
@@ -64,7 +65,7 @@ class Builder
      * Create varien data form with provided params
      *
      * @param array $data
-     * @return \Magento\Data\Form
+     * @return Form
      * @throws \InvalidArgumentException
      */
     public function create(array $data = array())
@@ -81,32 +82,29 @@ class Builder
         }
 
         if (!isset($data['tab'])) {
-            throw new \InvalidArgumentException((sprintf('Invalid controls tab "%s".', $data['tab'])));
+            throw new \InvalidArgumentException(sprintf('Invalid controls tab "%s".', $data['tab']));
         }
 
         if ($isFilePresent) {
-            /** @var $form \Magento\Data\Form */
-            $form = $this->_formFactory->create(array(
-                'data' => $data,
-            ));
+            /** @var $form Form */
+            $form = $this->_formFactory->create(array('data' => $data));
 
             $this->_addElementTypes($form);
 
             $columns = $this->_initColumns($form, $data['tab']);
             $this->_populateColumns($columns, $data['tab']);
         } else {
-            $form = $this->_formFactory->create(array(
-                'data' => array(
-                    'action' => '#',
-                ))
-            );
+            $form = $this->_formFactory->create(array('data' => array('action' => '#')));
         }
 
         if ($this->_isFormEmpty($form)) {
             $hintMessage = __('Sorry, but you cannot edit these theme styles.');
-            $form->addField($data['tab'] . '-tab-error', 'note', array(
-                'after_element_html' => '<p class="error-notice">' . $hintMessage . '</p>'
-            ), '^');
+            $form->addField(
+                $data['tab'] . '-tab-error',
+                'note',
+                array('after_element_html' => '<p class="error-notice">' . $hintMessage . '</p>'),
+                '^'
+            );
         }
         return $form;
     }
@@ -114,7 +112,7 @@ class Builder
     /**
      * Check is any elements present in form
      *
-     * @param \Magento\Data\Form $form
+     * @param Form $form
      * @return bool
      */
     protected function _isFormEmpty($form)
@@ -134,7 +132,7 @@ class Builder
     /**
      * Add column elements to form
      *
-     * @param \Magento\Data\Form $form
+     * @param Form $form
      * @param string $tab
      * @return array
      */
@@ -142,24 +140,17 @@ class Builder
     {
         /** @var $columnLeft \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column */
         $columnLeft = $form->addField('column-left-' . $tab, 'column', array());
-        $columnLeft->setRendererFactory($this->_rendererFactory)
-            ->setElementsFactory($this->_elementsFactory);
+        $columnLeft->setRendererFactory($this->_rendererFactory)->setElementsFactory($this->_elementsFactory);
 
         /** @var $columnMiddle \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column */
         $columnMiddle = $form->addField('column-middle-' . $tab, 'column', array());
-        $columnMiddle->setRendererFactory($this->_rendererFactory)
-            ->setElementsFactory($this->_elementsFactory);
+        $columnMiddle->setRendererFactory($this->_rendererFactory)->setElementsFactory($this->_elementsFactory);
 
         /** @var $columnRight \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column */
         $columnRight = $form->addField('column-right-' . $tab, 'column', array());
-        $columnRight->setRendererFactory($this->_rendererFactory)
-            ->setElementsFactory($this->_elementsFactory);
+        $columnRight->setRendererFactory($this->_rendererFactory)->setElementsFactory($this->_elementsFactory);
 
-        $columns = array(
-            'left'   => $columnLeft,
-            'middle' => $columnMiddle,
-            'right'  => $columnRight
-        );
+        $columns = array('left' => $columnLeft, 'middle' => $columnMiddle, 'right' => $columnRight);
 
         return $columns;
     }
@@ -169,6 +160,7 @@ class Builder
      *
      * @param array $columns
      * @param string $tab
+     * @return void
      */
     protected function _populateColumns($columns, $tab)
     {
@@ -200,22 +192,18 @@ class Builder
     {
         $label = __($positionData['title']);
 
-        $config = array(
-            'name'  => $htmlId,
-            'label' => $label,
-        );
+        $config = array('name' => $htmlId, 'label' => $label);
         if (isset($control['components'])) {
             $config['components'] = $control['components'];
             $config['title'] = $label;
         } else {
             $config['value'] = $control['value'];
-            $config['title'] = htmlspecialchars(sprintf('%s {%s: %s}',
-                $control['selector'],
-                $control['attribute'],
-                $control['value']
-            ), ENT_COMPAT);
+            $config['title'] = htmlspecialchars(
+                sprintf('%s {%s: %s}', $control['selector'], $control['attribute'], $control['value']),
+                ENT_COMPAT
+            );
             if (isset($control['options'])) {
-                $config['options'] =  $control['options'];
+                $config['options'] = $control['options'];
             }
         }
 
@@ -225,7 +213,8 @@ class Builder
     /**
      * Add custom element types
      *
-     * @param \Magento\Data\Form $form
+     * @param Form $form
+     * @return void
      */
     protected function _addElementTypes($form)
     {

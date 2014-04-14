@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
 
 /**
  * Pbridge result payment block
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
-
 class Result extends \Magento\Backend\Block\Template
 {
     /**
@@ -28,6 +24,8 @@ class Result extends \Magento\Backend\Block\Template
     protected $_pbridgeData = null;
 
     /**
+     * Json encoder interface
+     *
      * @var \Magento\Json\EncoderInterface
      */
     protected $_jsonEncoder;
@@ -56,8 +54,6 @@ class Result extends \Magento\Backend\Block\Template
      */
     public function getJsonHiddenPbridgeParams()
     {
-        return $this->_jsonEncoder->encode(
-            $this->_pbridgeData->getPbridgeParams()
-        );
+        return $this->_jsonEncoder->encode($this->_pbridgeData->getPbridgeParams());
     }
 }

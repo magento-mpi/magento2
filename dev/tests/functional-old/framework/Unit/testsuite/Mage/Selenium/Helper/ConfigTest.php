@@ -1,12 +1,10 @@
 <?php
+
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 class Mage_Selenium_Helper_ConfigTest extends Unit_PHPUnit_TestCase
 {
@@ -16,7 +14,7 @@ class Mage_Selenium_Helper_ConfigTest extends Unit_PHPUnit_TestCase
      */
     private $_configHelper;
 
-    public function  __construct($name = NULL, array $data = array(), $dataName = '')
+    public function __construct($name = null, array $data = array(), $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
         $this->_configHelper = $this->_testConfig->getHelper('config');
@@ -86,12 +84,16 @@ class Mage_Selenium_Helper_ConfigTest extends Unit_PHPUnit_TestCase
         $this->assertNotEmpty($this->_configHelper->getBaseUrl());
 
         $this->_configHelper->setArea('admin');
-        $this->assertRegExp('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/',
-            $this->_configHelper->getBaseUrl());
+        $this->assertRegExp(
+            '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/',
+            $this->_configHelper->getBaseUrl()
+        );
 
         $this->_configHelper->setArea('frontend');
-        $this->assertRegExp('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/',
-            $this->_configHelper->getBaseUrl());
+        $this->assertRegExp(
+            '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/',
+            $this->_configHelper->getBaseUrl()
+        );
     }
 
     /**
@@ -121,7 +123,7 @@ class Mage_Selenium_Helper_ConfigTest extends Unit_PHPUnit_TestCase
      */
     public function testGetBasePath()
     {
-        $this->_configHelper->setApplication('magento2community');
+        $this->_configHelper->setApplication('ce');
         $this->_configHelper->setArea('admin');
         $uimapPath = $this->_configHelper->getBasePath();
         $this->assertInternalType('string', $uimapPath);
@@ -133,11 +135,11 @@ class Mage_Selenium_Helper_ConfigTest extends Unit_PHPUnit_TestCase
      */
     public function testGetFixturesFallbackOrder()
     {
-        $this->_configHelper->setApplication('magento2community');
+        $this->_configHelper->setApplication('ce');
         $fallbackOrder = $this->_configHelper->getFixturesFallbackOrder();
         $this->assertInternalType('array', $fallbackOrder);
         $this->assertSame($fallbackOrder, array('default'));
-        $this->_configHelper->setApplication('magento2enterprise');
+        $this->_configHelper->setApplication('ee');
         $fallbackOrder = $this->_configHelper->getFixturesFallbackOrder();
         $this->assertInternalType('array', $fallbackOrder);
         $this->assertSame($fallbackOrder, array('default', 'enterprise'));
@@ -148,11 +150,11 @@ class Mage_Selenium_Helper_ConfigTest extends Unit_PHPUnit_TestCase
      */
     public function testGetHelpersFallbackOrder()
     {
-        $this->_configHelper->setApplication('magento2community');
+        $this->_configHelper->setApplication('ce');
         $fallbackOrder = $this->_configHelper->getHelpersFallbackOrder();
         $this->assertInternalType('array', $fallbackOrder);
         $this->assertSame($fallbackOrder, array('Core'));
-        $this->_configHelper->setApplication('magento2enterprise');
+        $this->_configHelper->setApplication('ee');
         $fallbackOrder = $this->_configHelper->getHelpersFallbackOrder();
         $this->assertInternalType('array', $fallbackOrder);
         $this->assertSame($fallbackOrder, array('Core', 'Enterprise'));
@@ -183,7 +185,7 @@ class Mage_Selenium_Helper_ConfigTest extends Unit_PHPUnit_TestCase
     }
 
     /**
-     * @covers Mage_Selenium_Helper_Config::setScreenshotDir
+     * @covers  Mage_Selenium_Helper_Config::setScreenshotDir
      * @depends testGetSetScreenshotDir
      */
     public function testSetScreenshotDirInvalidParameterException()
@@ -215,7 +217,7 @@ class Mage_Selenium_Helper_ConfigTest extends Unit_PHPUnit_TestCase
     }
 
     /**
-     * @covers Mage_Selenium_Helper_Config::setLogDir
+     * @covers  Mage_Selenium_Helper_Config::setLogDir
      * @depends testGetSetLogDir
      */
     public function testSetLogDirInvalidParameterException()

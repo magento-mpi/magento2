@@ -7,45 +7,45 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Customer\Edit\Tab;
 
 /**
  * Order RMA Grid
  */
-namespace Magento\Rma\Block\Adminhtml\Customer\Edit\Tab;
-
-class Rma
-    extends \Magento\Rma\Block\Adminhtml\Rma\Grid
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Rma extends \Magento\Rma\Block\Adminhtml\Rma\Grid implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $urlModel, $backendHelper, $collectionFactory, $rmaFactory, $data);
+        parent::__construct($context, $backendHelper, $collectionFactory, $rmaFactory, $data);
     }
 
+    /**
+     * Initialize customer edit tab rma
+     *
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
@@ -56,7 +56,7 @@ class Rma
     /**
      * Prepare massaction
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
+     * @return $this
      */
     protected function _prepareMassaction()
     {
@@ -66,7 +66,7 @@ class Rma
     /**
      * Configuring and setting collection
      *
-     * @return \Magento\Rma\Block\Adminhtml\Customer\Edit\Tab\Rma
+     * @return $this
      */
     protected function _beforePrepareCollection()
     {
@@ -79,8 +79,7 @@ class Rma
         }
         if ($customerId) {
             /** @var $collection \Magento\Rma\Model\Resource\Rma\Grid\Collection */
-            $collection = $this->_collectionFactory->create()
-                ->addFieldToFilter('customer_id', $customerId);
+            $collection = $this->_collectionFactory->create()->addFieldToFilter('customer_id', $customerId);
 
             $this->setCollection($collection);
         }

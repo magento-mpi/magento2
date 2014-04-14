@@ -7,11 +7,10 @@
  */
 namespace Magento\AdminNotification\Model\System\Message;
 
-class Security
-    implements \Magento\AdminNotification\Model\System\MessageInterface
+class Security implements \Magento\AdminNotification\Model\System\MessageInterface
 {
     /**
-     * Cache kay for saving verification result
+     * Cache key for saving verification result
      */
     const VERIFICATION_RESULT_CACHE_KEY = 'configuration_files_access_level_verification';
 
@@ -26,7 +25,7 @@ class Security
      * Time out for HTTP verification request
      * @var int
      */
-    private $_verificationTimeOut  = 2;
+    private $_verificationTimeOut = 2;
 
     /**
      * @var \Magento\App\CacheInterface
@@ -39,7 +38,7 @@ class Security
     protected $_backendConfig;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
@@ -51,13 +50,13 @@ class Security
     /**
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\HTTP\Adapter\CurlFactory $curlFactory
      */
     public function __construct(
         \Magento\App\CacheInterface $cache,
         \Magento\Backend\App\ConfigInterface $backendConfig,
-        \Magento\Core\Model\Config $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\HTTP\Adapter\CurlFactory $curlFactory
     ) {
         $this->_cache = $cache;
@@ -81,7 +80,7 @@ class Security
             return true;
         }
 
-        $adminSessionLifetime = (int) $this->_backendConfig->getValue('admin/security/session_lifetime');
+        $adminSessionLifetime = (int)$this->_backendConfig->getValue('admin/security/session_lifetime');
         $this->_cache->save(true, self::VERIFICATION_RESULT_CACHE_KEY, array(), $adminSessionLifetime);
         return false;
     }
@@ -93,10 +92,7 @@ class Security
      */
     private function _isFileAccessible()
     {
-        $unsecureBaseURL = $this->_config->getValue(
-            \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL,
-            'default'
-        );
+        $unsecureBaseURL = $this->_config->getValue(\Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL, 'default');
 
         /** @var $http \Magento\HTTP\Adapter\Curl */
         $http = $this->_curlFactory->create();
@@ -136,7 +132,9 @@ class Security
      */
     public function getText()
     {
-        return __('Your web server is configured incorrectly. As a result, configuration files with sensitive information are accessible from the outside. Please contact your hosting provider.');
+        return __(
+            'Your web server is configured incorrectly. As a result, configuration files with sensitive information are accessible from the outside. Please contact your hosting provider.'
+        );
     }
 
     /**

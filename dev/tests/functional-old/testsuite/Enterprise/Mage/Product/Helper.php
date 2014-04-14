@@ -22,22 +22,6 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
     #*                                                    Frontend Helper Methods         *
     #**************************************************************************************
     /**
-     * Choose custom options and additional products
-     *
-     * @param array $dataForBuy
-     */
-    public function frontAddProductToCart($dataForBuy = null)
-    {
-        if ($this->controlIsPresent('button', 'customize_and_add_to_cart')) {
-            $this->clickButton('customize_and_add_to_cart', false);
-            $this->waitForControlVisible('fieldset', 'customize_product_info');
-            $this->waitForControlNotVisible('fieldset', 'product_info');
-            $this->waitForControlStopsMoving('fieldset', 'customize_product_info');
-        }
-        parent::frontAddProductToCart($dataForBuy);
-    }
-
-    /**
      * Verify Gift Card info on frontend
      *
      * @param array $productData

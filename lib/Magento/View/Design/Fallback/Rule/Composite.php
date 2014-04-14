@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Fallback\Rule;
 
 /**
@@ -16,18 +15,22 @@ namespace Magento\View\Design\Fallback\Rule;
 class Composite implements RuleInterface
 {
     /**
+     * Rules
+     *
      * @var RuleInterface[]
      */
     protected $rules = array();
 
     /**
+     * Constructors
+     *
      * @param RuleInterface[] $rules
      * @throws \InvalidArgumentException
      */
     public function __construct(array $rules)
     {
         foreach ($rules as $rule) {
-            if (!($rule instanceof RuleInterface)) {
+            if (!$rule instanceof RuleInterface) {
                 throw new \InvalidArgumentException('Each item should implement the fallback rule interface.');
             }
         }

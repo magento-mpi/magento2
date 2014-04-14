@@ -24,9 +24,8 @@ class Observer
     /**
      * @param \Magento\Backend\Model\Auth\Session $authSession
      */
-    public function __construct(
-        \Magento\Backend\Model\Auth\Session $authSession
-    ) {
+    public function __construct(\Magento\Backend\Model\Auth\Session $authSession)
+    {
         $this->_authSession = $authSession;
     }
 
@@ -34,7 +33,7 @@ class Observer
      * Set hide survey question to session
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Enterprise\Model\Observer
+     * @return $this
      */
     public function setHideSurveyQuestion($observer)
     {

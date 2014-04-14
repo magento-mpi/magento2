@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Controller\Adminhtml;
 
+use Magento\App\ResponseInterface;
 use Magento\Backend\App\Action;
 
 class Giftcardaccount extends \Magento\Backend\App\Action
@@ -24,7 +24,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -34,21 +34,21 @@ class Giftcardaccount extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
-     * @var \Magento\Core\Filter\Date
+     * @var \Magento\Stdlib\DateTime\Filter\Date
      */
     protected $_dateFilter;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\Core\Filter\Date $dateFilter
+     * @param \Magento\Stdlib\DateTime\Filter\Date $dateFilter
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Core\Filter\Date $dateFilter
+        \Magento\Stdlib\DateTime\Filter\Date $dateFilter
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
@@ -58,6 +58,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Default action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -66,8 +68,14 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         if ($this->_showCodePoolStatusMessage) {
             $usage = $this->_objectManager->create('Magento\GiftCardAccount\Model\Pool')->getPoolUsageInfo();
 
-            $url = $this->_objectManager->get('Magento\Backend\Model\Url')->getUrl('adminhtml/*/generate');
-            $notice = __('Code Pool used: <b>%1%%</b> (free <b>%2</b> of <b>%3</b> total). Generate new code pool <a href="%4">here</a>.', $usage->getPercent(), $usage->getFree(), $usage->getTotal(), $url);
+            $url = $this->_objectManager->get('Magento\Backend\Model\UrlInterface')->getUrl('adminhtml/*/generate');
+            $notice = __(
+                'Code Pool used: <b>%1%%</b> (free <b>%2</b> of <b>%3</b> total). Generate new code pool <a href="%4">here</a>.',
+                $usage->getPercent(),
+                $usage->getFree(),
+                $usage->getTotal(),
+                $url
+            );
             if ($usage->getPercent() == 100) {
                 $this->messageManager->addError($notice);
             } else {
@@ -80,9 +88,10 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
-
     /**
      * Create new Gift Card Account
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -92,6 +101,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Edit GiftCardAccount
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -117,19 +128,24 @@ class Giftcardaccount extends \Magento\Backend\App\Action
             $id ? __('Edit Gift Card Account') : __('New Gift Card Account')
         );
         $this->_addContent(
-                $this->_view->getLayout()
-                    ->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit')
-                    ->setData('form_action_url', $this->getUrl('adminhtml/*/save'))
-            )->_addLeft(
-                $this->_view->getLayout()
-                    ->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tabs')
+            $this->_view->getLayout()->createBlock(
+                'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit'
+            )->setData(
+                'form_action_url',
+                $this->getUrl('adminhtml/*/save')
             )
-            ->_setActiveMenu('Magento_GiftCardAccount::customer_giftcardaccount');
+        )->_addLeft(
+            $this->_view->getLayout()->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tabs')
+        )->_setActiveMenu(
+            'Magento_GiftCardAccount::customer_giftcardaccount'
+        );
         $this->_view->renderLayout();
     }
 
     /**
      * Save action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -146,9 +162,12 @@ class Giftcardaccount extends \Magento\Backend\App\Action
                 return;
             }
 
-            if ($this->_objectManager->get('Magento\Core\Model\StoreManager')->isSingleStoreMode()) {
-                $data['website_id'] = $this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore(true)
-                    ->getWebsiteId();
+            if ($this->_objectManager->get('Magento\Store\Model\StoreManager')->isSingleStoreMode()) {
+                $data['website_id'] = $this->_objectManager->get(
+                    'Magento\Store\Model\StoreManager'
+                )->getStore(
+                    true
+                )->getWebsiteId();
             }
 
             if (!empty($data)) {
@@ -164,7 +183,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
                 if ($model->getSendAction()) {
                     try {
-                        if($model->getStatus()){
+                        if ($model->getStatus()) {
                             $model->sendEmail();
                             $sending = $model->getEmailSent();
                         } else {
@@ -179,13 +198,17 @@ class Giftcardaccount extends \Magento\Backend\App\Action
                     if ($sending) {
                         $this->messageManager->addSuccess(__('You saved the gift card account.'));
                     } else {
-                        $this->messageManager->addError(__('You saved the gift card account, but an email was not sent.'));
+                        $this->messageManager->addError(
+                            __('You saved the gift card account, but an email was not sent.')
+                        );
                     }
                 } else {
                     $this->messageManager->addSuccess(__('You saved the gift card account.'));
 
                     if ($status) {
-                        $this->messageManager->addNotice(__('An email was not sent because the gift card account is not active.'));
+                        $this->messageManager->addNotice(
+                            __('An email was not sent because the gift card account is not active.')
+                        );
                     }
                 }
 
@@ -200,7 +223,6 @@ class Giftcardaccount extends \Magento\Backend\App\Action
                 // go to grid
                 $this->_redirect('adminhtml/*/');
                 return;
-
             } catch (\Exception $e) {
                 // display error message
                 $this->messageManager->addError($e->getMessage());
@@ -216,6 +238,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Delete action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -232,7 +256,6 @@ class Giftcardaccount extends \Magento\Backend\App\Action
                 // go to grid
                 $this->_redirect('adminhtml/*/');
                 return;
-
             } catch (\Exception $e) {
                 // display error message
                 $this->messageManager->addError($e->getMessage());
@@ -249,6 +272,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Render GCA grid
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -258,18 +283,21 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Generate code pool
+     *
+     * @return void
      */
     public function generateAction()
     {
         try {
             $this->_objectManager->create('Magento\GiftCardAccount\Model\Pool')->generatePool();
             $this->messageManager->addSuccess(__('New code pool was generated.'));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We were unable to generate a new code pool.'));
         }
-        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*/*/')));
+
+        $this->_redirect($this->getUrl('*/*/'));
     }
 
     /**
@@ -284,6 +312,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Render GCA history grid
+     *
+     * @return void
      */
     public function gridHistoryAction()
     {
@@ -295,9 +325,9 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
         $this->_view->loadLayout();
         $this->getResponse()->setBody(
-            $this->_view->getLayout()
-                ->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\History')
-                ->toHtml()
+            $this->_view->getLayout()->createBlock(
+                'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\History'
+            )->toHtml()
         );
     }
 
@@ -322,6 +352,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Export GCA grid to MSXML
+     *
+     * @return ResponseInterface
      */
     public function exportMsxmlAction()
     {
@@ -329,11 +361,17 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         $fileName = 'giftcardaccounts.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getExcelFile($fileName),
+            \Magento\App\Filesystem::VAR_DIR
+        );
     }
 
     /**
      * Export GCA grid to CSV
+     *
+     * @return ResponseInterface
      */
     public function exportCsvAction()
     {
@@ -341,11 +379,17 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         $fileName = 'giftcardaccounts.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile($fileName));
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getCsvFile($fileName),
+            \Magento\App\Filesystem::VAR_DIR
+        );
     }
 
     /**
      * Delete gift card accounts specified using grid massaction
+     *
+     * @return void
      */
     public function massDeleteAction()
     {
@@ -359,9 +403,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
                     $model->delete();
                 }
 
-                $this->messageManager->addSuccess(
-                    __('You deleted a total of %1 records.', count($ids))
-                );
+                $this->messageManager->addSuccess(__('You deleted a total of %1 records.', count($ids)));
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             }
@@ -372,7 +414,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
     /**
      * Filtering posted data. Converting localized data if needed
      *
-     * @param array
+     * @param array $data
      * @return array
      */
     protected function _filterPostData($data)
@@ -385,6 +427,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
      * Setter for code pool status message flag
      *
      * @param bool $isShow
+     * @return void
      */
     public function setShowCodePoolStatusMessage($isShow)
     {

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CatalogEvent\Block\Adminhtml;
 
+use Magento\Backend\Block\Widget\Grid\Container;
 
 /**
  * Catalog Events Adminhtml Block
@@ -15,11 +17,11 @@
  * @category   Magento
  * @package    Magento_CatalogEvent
  */
-
-namespace Magento\CatalogEvent\Block\Adminhtml;
-
-class Event extends \Magento\Backend\Block\Widget\Grid\Container
+class Event extends Container
 {
+    /**
+     * @return void
+     */
     public function _construct()
     {
         $this->_controller = 'adminhtml_event';
@@ -29,7 +31,11 @@ class Event extends \Magento\Backend\Block\Widget\Grid\Container
         parent::_construct();
     }
 
-    public function getHeaderCssClass() {
+    /**
+     * @return string
+     */
+    public function getHeaderCssClass()
+    {
         return 'icon-head head-catalogevent';
     }
 }

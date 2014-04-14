@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Integration\Model\Oauth;
 
 /**
@@ -20,7 +19,7 @@ namespace Magento\Integration\Model\Oauth;
  * @method \Magento\Integration\Model\Resource\Oauth\Nonce getResource()
  * @method \Magento\Integration\Model\Resource\Oauth\Nonce _getResource()
  */
-class Nonce extends \Magento\Core\Model\AbstractModel
+class Nonce extends \Magento\Model\AbstractModel
 {
     /**
      * Oauth data
@@ -30,18 +29,18 @@ class Nonce extends \Magento\Core\Model\AbstractModel
     protected $_oauthData;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Integration\Helper\Oauth\Data $oauthData
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Integration\Helper\Oauth\Data $oauthData,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -60,9 +59,9 @@ class Nonce extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * "After save" actions
+     * The "After save" actions
      *
-     * @return \Magento\Integration\Model\Oauth\Nonce
+     * @return $this
      */
     protected function _afterSave()
     {

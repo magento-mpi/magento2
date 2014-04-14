@@ -7,11 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Backend;
 
-class Serialized extends \Magento\Core\Model\Config\Value
+class Serialized extends \Magento\App\Config\Value
 {
+    /**
+     * @return void
+     */
     protected function _afterLoad()
     {
         if (!is_array($this->getValue())) {
@@ -20,6 +22,9 @@ class Serialized extends \Magento\Core\Model\Config\Value
         }
     }
 
+    /**
+     * @return void
+     */
     protected function _beforeSave()
     {
         if (is_array($this->getValue())) {

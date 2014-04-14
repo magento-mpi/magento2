@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Product\Combine;
+
+use Magento\Customer\Model\Customer;
+use Zend_Db_Expr;
 
 /**
  * Last viewed/orderd items conditions combine
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Product\Combine;
-
-class History
-    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
+class History extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Flag of using condition combine (for conditions of Product_Attribute)
@@ -23,8 +24,9 @@ class History
      */
     protected $_combineProductCondition = true;
 
-    const VIEWED    = 'viewed_history';
-    const ORDERED   = 'ordered_history';
+    const VIEWED = 'viewed_history';
+
+    const ORDERED = 'ordered_history';
 
     /**
      * @var string
@@ -51,7 +53,7 @@ class History
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -72,22 +74,21 @@ class History
      */
     public function getNewChildSelectOptions()
     {
-        return $this->_conditionFactory->create('Product\Combine')
-            ->setDateConditions(true)
-            ->getNewChildSelectOptions();
+        return $this->_conditionFactory->create(
+            'Product\Combine'
+        )->setDateConditions(
+            true
+        )->getNewChildSelectOptions();
     }
 
     /**
      * Initialize value select options
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\History
+     * @return $this
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(
-            self::VIEWED  => __('viewed'),
-            self::ORDERED => __('ordered'),
-        ));
+        $this->setValueOption(array(self::VIEWED => __('viewed'), self::ORDERED => __('ordered')));
         return $this;
     }
 
@@ -97,7 +98,7 @@ class History
      * Modify value_option array if needed
      *
      * @param \Magento\Rule\Model\Rule $rule
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\History
+     * @return $this
      */
     public function setRule($rule)
     {
@@ -128,15 +129,12 @@ class History
     /**
      * Prepare operator select options
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\History
+     * @return $this
      */
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array(
-            '=='  => __('was'),
-            '!='  => __('was not')
-        ));
+        $this->setOperatorOption(array('==' => __('was'), '!=' => __('was not')));
         return $this;
     }
 
@@ -147,16 +145,19 @@ class History
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('If Product %1 %2 and matches %3 of these Conditions:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'If Product %1 %2 and matches %3 of these Conditions:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml(),
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
      * Build query for matching last viewed/orderd items
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
+     * @param Customer|Zend_Db_Expr $customer
+     * @param int|Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
@@ -202,7 +203,7 @@ class History
      */
     protected function _getRequiredValidation()
     {
-        return ($this->getOperator() == '==');
+        return $this->getOperator() == '==';
     }
 
     /**
@@ -222,9 +223,6 @@ class History
                 break;
         }
 
-        return array(
-            'product' => 'item.product_id',
-            'date'    => $dateField
-        );
+        return array('product' => 'item.product_id', 'date' => $dateField);
     }
 }

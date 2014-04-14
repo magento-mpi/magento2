@@ -13,7 +13,7 @@
 # Manage Product Attributes page
 manage_attributes:
     mca: catalog/product_attribute/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_attribute')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/catalog/product_attribute/')]
     title: Product Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &searchProductAttributeGrid
@@ -43,10 +43,11 @@ manage_attributes:
             attribute_used_in_configurable: //li[normalize-space(@class)='error-msg' and contains(.,'This attribute is used in configurable products.')]
             success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The product attribute has been deleted.')]
             exists_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='An attribute with this code already exists.']
+            with_same_code: //*[@class='mage-error' and @for='attribute_label' and text()='Attribute with the same code (%code%) already exists.']
             success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the product attribute.')]
             wrong_length_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Maximum length of this field must be equal or less than 30 symbols.']
-            invalid_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.' and not(contains(@style,'display: none;'))]
-            error_invalid_position: //*[@class='mage-error' and @for='position' and text()='Please enter a valid number in this field.' and not(contains(@style,'display: none;'))]
+            invalid_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.']
+            error_invalid_position: //*[@class='mage-error' and @for='position' and text()='Please enter a valid number in this field.']
             delete_confirm_message: Are you sure you want to do this?
 
 # Add New Product Attribute page

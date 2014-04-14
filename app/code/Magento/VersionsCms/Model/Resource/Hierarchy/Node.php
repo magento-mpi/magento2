@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Model\Resource\Hierarchy;
 
 /**
  * Cms Hierarchy Pages Node Resource Model
  */
-namespace Magento\VersionsCms\Model\Resource\Hierarchy;
-
-class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Node extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Primary key auto increment flag
@@ -76,6 +75,8 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Initialize connection and define main table and field
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -96,35 +97,33 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
-        $select->joinLeft(array('page_table' => $this->getTable('cms_page')),
-                $this->getMainTable() . '.page_id = page_table.page_id',
-                array(
-                    'page_title'        => 'title',
-                    'page_identifier'   => 'identifier',
-                    'page_is_active'    => 'is_active'
-                ))
-            ->joinLeft(
-                array('metadata_table' => $this->_metadataTable),
-                sprintf('%s.%s = metadata_table.node_id', $this->getMainTable(), $this->getIdFieldName()),
-                array(
-                    'meta_first_last',
-                    'meta_next_previous',
-                    'meta_chapter',
-                    'meta_section',
-                    'meta_cs_enabled',
-                    'pager_visibility',
-                    'pager_frame',
-                    'pager_jump',
-                    'menu_visibility',
-                    'menu_layout',
-                    'menu_brief',
-                    'menu_excluded',
-                    'menu_levels_down',
-                    'menu_ordered',
-                    'menu_list_type',
-                    'top_menu_visibility',
-                    'top_menu_excluded'
-        ));
+        $select->joinLeft(
+            array('page_table' => $this->getTable('cms_page')),
+            $this->getMainTable() . '.page_id = page_table.page_id',
+            array('page_title' => 'title', 'page_identifier' => 'identifier', 'page_is_active' => 'is_active')
+        )->joinLeft(
+            array('metadata_table' => $this->_metadataTable),
+            sprintf('%s.%s = metadata_table.node_id', $this->getMainTable(), $this->getIdFieldName()),
+            array(
+                'meta_first_last',
+                'meta_next_previous',
+                'meta_chapter',
+                'meta_section',
+                'meta_cs_enabled',
+                'pager_visibility',
+                'pager_frame',
+                'pager_jump',
+                'menu_visibility',
+                'menu_layout',
+                'menu_brief',
+                'menu_excluded',
+                'menu_levels_down',
+                'menu_ordered',
+                'menu_list_type',
+                'top_menu_visibility',
+                'top_menu_excluded'
+            )
+        );
 
         $this->_applyParamFilters($select);
 
@@ -135,7 +134,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Add attributes filter to select object based on flags
      *
      * @param \Zend_Db_Select $select Select object instance
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     protected function _applyParamFilters($select)
     {
@@ -153,7 +152,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Flag to indicate whether append active pages only or not
      *
      * @param bool $flag
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function setAppendActivePagesOnly($flag)
     {
@@ -165,7 +164,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Flag to indicate whether append included pages (menu_excluded=0) only or not
      *
      * @param bool $flag
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function setAppendIncludedPagesOnly($flag)
     {
@@ -178,7 +177,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $object
      * @param string $url
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function loadByRequestUrl($object, $url)
     {
@@ -186,8 +185,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
         if ($url !== null) {
             $select = $this->_getLoadSelect('request_url', $url, $object);
             if ($object) {
-                $select->where('scope = ?', $object->getScope())
-                    ->where('scope_id = ?', $object->getScopeId());
+                $select->where('scope = ?', $object->getScope())->where('scope_id = ?', $object->getScopeId());
             }
             $data = $read->fetchRow($select);
 
@@ -205,15 +203,21 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $object
      * @param int $parentNodeId
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function loadFirstChildByParent($object, $parentNodeId)
     {
         $read = $this->_getReadAdapter();
         if ($parentNodeId !== null) {
-            $select = $this->_getLoadSelect('parent_node_id', $parentNodeId, $object)
-                ->order(array($this->getMainTable() . '.sort_order'))
-                ->limit(1);
+            $select = $this->_getLoadSelect(
+                'parent_node_id',
+                $parentNodeId,
+                $object
+            )->order(
+                array($this->getMainTable() . '.sort_order')
+            )->limit(
+                1
+            );
             $data = $read->fetchRow($select);
 
             if ($data) {
@@ -229,7 +233,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Remove children by root node.
      *
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $object
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function removeTreeChilds($object)
     {
@@ -246,9 +250,13 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getTreeXpathsByPage($pageId)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), 'xpath')
-            ->where('page_id = ?', $pageId);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable(),
+            'xpath'
+        )->where(
+            'page_id = ?',
+            $pageId
+        );
 
         $rowset = $this->_getReadAdapter()->fetchAll($select);
         $treeXpaths = array();
@@ -262,32 +270,36 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Rebuild URL rewrites for a tree with specified path.
      *
      * @param string $xpath
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function updateRequestUrlsForTreeByXpath($xpath)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from(
-                array('node_table' => $this->getMainTable()),
-                array(
-                    $this->getIdFieldName(),
-                    'parent_node_id',
-                    'page_id',
-                    'identifier',
-                    'request_url',
-                    'level',
-                    'sort_order'
-                ))
-            ->joinLeft(
-                array('page_table' => $this->getTable('cms_page')),
-                'node_table.page_id=page_table.page_id',
-                array('page_identifier' => 'identifier'))
-            ->where('xpath LIKE ? OR xpath = ?', $xpath. '/%')
-            ->group('node_table.node_id')
-            ->order(array('level', 'sort_order'));
+        $select = $this->_getReadAdapter()->select()->from(
+            array('node_table' => $this->getMainTable()),
+            array(
+                $this->getIdFieldName(),
+                'parent_node_id',
+                'page_id',
+                'identifier',
+                'request_url',
+                'level',
+                'sort_order'
+            )
+        )->joinLeft(
+            array('page_table' => $this->getTable('cms_page')),
+            'node_table.page_id=page_table.page_id',
+            array('page_identifier' => 'identifier')
+        )->where(
+            'xpath LIKE ? OR xpath = ?',
+            $xpath . '/%'
+        )->group(
+            'node_table.node_id'
+        )->order(
+            array('level', 'sort_order')
+        );
 
-        $nodes      = array();
-        $rowSet     = $this->_getReadAdapter()->fetchAll($select);
+        $nodes = array();
+        $rowSet = $this->_getReadAdapter()->fetchAll($select);
         foreach ($rowSet as $row) {
             $nodes[intval($row['parent_node_id'])][$row[$this->getIdFieldName()]] = $row;
         }
@@ -309,7 +321,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param array $nodes
      * @param int $parentNodeId
      * @param string $path
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     protected function _updateNodeRequestUrls(array $nodes, $parentNodeId = 0, $path = null)
     {
@@ -329,8 +341,10 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
                 $this->_getWriteAdapter()->update(
                     $this->getMainTable(),
                     array('request_url' => $requestUrl),
-                    $this->_getWriteAdapter()->quoteInto($this->getIdFieldName() . '=?',
-                    $nodeRow[$this->getIdFieldName()])
+                    $this->_getWriteAdapter()->quoteInto(
+                        $this->getIdFieldName() . '=?',
+                        $nodeRow[$this->getIdFieldName()]
+                    )
                 );
             }
 
@@ -354,16 +368,24 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function checkIdentifier($identifier, $storeId)
     {
         $adapter = $this->_getReadAdapter();
-        $select  = $adapter->select()
-            ->from(array('main_table' => $this->getTable('cms_page')), array('page_id', 'website_root'))
-            ->join(
-                array('cps' => $this->getTable('cms_page_store')),
-                'main_table.page_id = cps.page_id',
-                array())
-            ->where('main_table.identifier = ?', $identifier)
-            ->where('main_table.is_active = 1 AND cps.store_id IN (0, ?) ', $storeId)
-            ->order('store_id ' . \Magento\DB\Select::SQL_DESC)
-            ->limit(1);
+        $select = $adapter->select()->from(
+            array('main_table' => $this->getTable('cms_page')),
+            array('page_id', 'website_root')
+        )->join(
+            array('cps' => $this->getTable('cms_page_store')),
+            'main_table.page_id = cps.page_id',
+            array()
+        )->where(
+            'main_table.identifier = ?',
+            $identifier
+        )->where(
+            'main_table.is_active = 1 AND cps.store_id IN (0, ?) ',
+            $storeId
+        )->order(
+            'store_id ' . \Magento\DB\Select::SQL_DESC
+        )->limit(
+            1
+        );
 
         $page = $adapter->fetchRow($select);
 
@@ -377,10 +399,10 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Prepare xpath after object save
      *
-     * @param \Magento\Core\Model\AbstractModel|\Magento\VersionsCms\Model\Hierarchy\Node $object
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @param \Magento\Model\AbstractModel|\Magento\VersionsCms\Model\Hierarchy\Node $object
+     * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         if ($object->dataHasChangedFor($this->getIdFieldName())) {
             // update xpath
@@ -397,18 +419,17 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Saving meta if such available for node (in case node is root node of three)
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @param \Magento\Model\AbstractModel $object
+     * @return $this
      */
-    public function saveMetaData(\Magento\Core\Model\AbstractModel $object)
+    public function saveMetaData(\Magento\Model\AbstractModel $object)
     {
         // we save to metadata table not only metadata :(
         //if ($object->getParentNodeId()) {
         //    return $this;
         //}
         $preparedData = $this->_prepareDataForTable($object, $this->_metadataTable);
-        $this->_getWriteAdapter()->insertOnDuplicate(
-            $this->_metadataTable, $preparedData, array_keys($preparedData));
+        $this->_getWriteAdapter()->insertOnDuplicate($this->_metadataTable, $preparedData, array_keys($preparedData));
         return $this;
     }
 
@@ -430,7 +451,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
         $read = $this->_getReadAdapter();
         if ($read) {
             $select = $this->_getLoadSelectWithoutWhere();
-            $found  = false;
+            $found = false;
             // Whether add parent node limitation to select or not
             $addParentNodeCondition = false;
 
@@ -446,13 +467,20 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
                         break;
                     }
                     $xpath = explode('/', $node->getXpath());
-                    array_pop($xpath); // exclude self node
+                    array_pop($xpath);
+                    // exclude self node
                     if (count($xpath) > 0) {
                         $found = true;
-                        $select->where($this->getMainTable() . '.node_id IN (?)', $xpath)
-                            ->where('metadata_table.' . $fieldName . '=1')
-                            ->order(array($this->getMainTable() . '.level ' . \Magento\DB\Select::SQL_DESC))
-                            ->limit(1);
+                        $select->where(
+                            $this->getMainTable() . '.node_id IN (?)',
+                            $xpath
+                        )->where(
+                            'metadata_table.' . $fieldName . '=1'
+                        )->order(
+                            array($this->getMainTable() . '.level ' . \Magento\DB\Select::SQL_DESC)
+                        )->limit(
+                            1
+                        );
                     }
                     break;
 
@@ -512,7 +540,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Setter for $_treeMaxDepth
      *
      * @param int $depth
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function setTreeMaxDepth($depth)
     {
@@ -524,7 +552,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Setter for $_treeIsBrief
      *
      * @param bool $brief
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function setTreeIsBrief($brief)
     {
@@ -537,14 +565,14 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * 2 level array
      *
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $object
-     * @param int $up, if equals zero - no limitation
-     * @param int $down, if equals zero - no limitation
+     * @param int $up ,if equals zero - no limitation
+     * @param int $down ,if equals zero - no limitation
      * @return array
      */
     public function getTreeSlice($object, $up = 0, $down = 0)
     {
-        $tree       = array();
-        $parentId   = $object->getParentNodeId();
+        $tree = array();
+        $parentId = $object->getParentNodeId();
 
         if ($this->_treeMaxDepth > 0 && $object->getLevel() > $this->_treeMaxDepth) {
             return $tree;
@@ -579,7 +607,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
          */
         $adapter = $this->_getReadAdapter();
         if ($parentIds) {
-            $parentId = $parentIds[count($parentIds) -1];
+            $parentId = $parentIds[count($parentIds) - 1];
             if ($this->_treeIsBrief) {
                 $where = $adapter->quoteInto($this->getMainTable() . '.node_id IN (?)', $parentIds);
                 // Collect neighbours if there are no children
@@ -593,12 +621,10 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
             $where = 'parent_node_id IS NULL';
         }
 
-        $select = $this->_getLoadSelectWithoutWhere()
-            ->where($where);
+        $select = $this->_getLoadSelectWithoutWhere()->where($where);
 
         if ($object) {
-            $select->where('scope = ?', $object->getScope())
-                ->where('scope_id = ?', $object->getScopeId());
+            $select->where('scope = ?', $object->getScope())->where('scope_id = ?', $object->getScopeId());
         }
 
         $select->order(array('level', $this->getMainTable() . '.sort_order'));
@@ -629,9 +655,10 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
         $select->where('xpath LIKE ?', $xpath);
 
         if (max($down, $this->_treeMaxDepth) > 0) {
-            $maxLevel = $this->_treeMaxDepth > 0
-                      ? min($this->_treeMaxDepth, $object->getLevel() + $down)
-                      : $object->getLevel() + $down;
+            $maxLevel = $this->_treeMaxDepth > 0 ? min(
+                $this->_treeMaxDepth,
+                $object->getLevel() + $down
+            ) : $object->getLevel() + $down;
             $select->where($select->getAdapter()->quoteIdentifier('level') . ' <= ?', $maxLevel);
         }
         $select->order(array('level', $this->getMainTable() . '.sort_order'));
@@ -669,9 +696,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
         } else {
             $where = $this->_getReadAdapter()->quoteInto('parent_node_id=?', $object->getParentNodeId());
         }
-        $select = $this->_getLoadSelectWithoutWhere()
-            ->where($where)
-            ->order($this->getMainTable() . '.sort_order');
+        $select = $this->_getLoadSelectWithoutWhere()->where($where)->order($this->getMainTable() . '.sort_order');
         $nodes = $select->query()->fetchAll();
 
         return $nodes;
@@ -691,11 +716,17 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $parentIds = preg_split('/\/{1}/', $object->getXpath(), 0, PREG_SPLIT_NO_EMPTY);
         array_pop($parentIds); //remove self node
-        $select = $this->_getLoadSelectWithoutWhere()
-            ->where($this->getMainTable() . '.node_id IN (?)', $parentIds)
-            ->where('metadata_table.' . $fieldName . ' IN (?)', $values)
-            ->order(array($this->getMainTable() . '.level ' . \Magento\DB\Select::SQL_DESC))
-            ->limit(1);
+        $select = $this->_getLoadSelectWithoutWhere()->where(
+            $this->getMainTable() . '.node_id IN (?)',
+            $parentIds
+        )->where(
+            'metadata_table.' . $fieldName . ' IN (?)',
+            $values
+        )->order(
+            array($this->getMainTable() . '.level ' . \Magento\DB\Select::SQL_DESC)
+        )->limit(
+            1
+        );
         $params = $this->_getReadAdapter()->fetchRow($select);
 
         if (is_array($params) && count($params) > 0) {
@@ -708,21 +739,26 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Load page data for model if defined page id
      *
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $object
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function loadPageData($object)
     {
         $pageId = $object->getPageId();
         if (!empty($pageId)) {
             $columns = array(
-                'page_title'        => 'title',
-                'page_identifier'   => 'identifier',
-                'page_is_active'    => 'is_active'
+                'page_title' => 'title',
+                'page_identifier' => 'identifier',
+                'page_is_active' => 'is_active'
             );
-            $select = $this->_getReadAdapter()->select()
-                ->from($this->getTable('cms_page'), $columns)
-                ->where('page_id=?', $pageId)
-                ->limit(1);
+            $select = $this->_getReadAdapter()->select()->from(
+                $this->getTable('cms_page'),
+                $columns
+            )->where(
+                'page_id=?',
+                $pageId
+            )->limit(
+                1
+            );
             $row = $this->_getReadAdapter()->fetchRow($select);
             if ($row) {
                 $object->addData($row);
@@ -737,13 +773,11 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $pageId
      * @param int|array $nodes
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function removePageFromNodes($pageId, $nodes)
     {
-        $whereClause = array('page_id = ?' => $pageId,
-            'parent_node_id IN (?)' => $nodes
-        );
+        $whereClause = array('page_id = ?' => $pageId, 'parent_node_id IN (?)' => $nodes);
         $this->_getWriteAdapter()->delete($this->getMainTable(), $whereClause);
 
         return $this;
@@ -753,14 +787,12 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Remove nodes defined by id.
      * Which will also remove their child nodes by foreign key.
      *
-     * @param int|array $nodeIds
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @param int|int[] $nodeIds
+     * @return $this
      */
     public function dropNodes($nodeIds)
     {
-        $this->_getWriteAdapter()->delete($this->getMainTable(),
-            array('node_id IN (?)' => $nodeIds)
-        );
+        $this->_getWriteAdapter()->delete($this->getMainTable(), array('node_id IN (?)' => $nodeIds));
         return $this;
     }
 
@@ -776,8 +808,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
         $read = $this->_getReadAdapter();
         $select = $read->select();
         $xpath = explode('/', $object->getXpath());
-        $select->from($this->_metadataTable)
-            ->where('node_id = ?', $xpath[0]);
+        $select->from($this->_metadataTable)->where('node_id = ?', $xpath[0]);
 
         return $read->fetchRow($select);
     }
@@ -800,13 +831,15 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $nodeId
      * @param int $sortOrder
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function updateSortOrder($nodeId, $sortOrder)
     {
-        $this->_getWriteAdapter()->update($this->getMainTable(),
-                array('sort_order' => $sortOrder),
-                array($this->getIdFieldName() . ' = ? ' => $nodeId));
+        $this->_getWriteAdapter()->update(
+            $this->getMainTable(),
+            array('sort_order' => $sortOrder),
+            array($this->getIdFieldName() . ' = ? ' => $nodeId)
+        );
 
         return $this;
     }
@@ -817,17 +850,14 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param string $scope
      * @param int $scopeId
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection $collection
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      * @throws \Exception
      */
     public function copyTo($scope, $scopeId, $collection)
     {
         // Copy hierarchy
         /** @var $nodesModel \Magento\VersionsCms\Model\Hierarchy\Node */
-        $nodesModel = $this->_nodeFactory->create(array('data' => array(
-            'scope' =>  $scope,
-            'scope_id' => $scopeId,
-        )));
+        $nodesModel = $this->_nodeFactory->create(array('data' => array('scope' => $scope, 'scope_id' => $scopeId)));
 
         $nodes = array();
         foreach ($collection as $node) {
@@ -837,9 +867,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
 
             $nodeData = $node->toArray();
             $nodeData['node_id'] = '_' . $nodeData['node_id'];
-            $nodeData['parent_node_id'] = empty($nodeData['parent_node_id'])
-                ? ''
-                : ('_' . $nodeData['parent_node_id']);
+            $nodeData['parent_node_id'] = empty($nodeData['parent_node_id']) ? '' : '_' . $nodeData['parent_node_id'];
             if (empty($nodeData['identifier'])) {
                 $nodeData['identifier'] = $nodeData['page_identifier'];
             }
@@ -863,7 +891,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $scope
      * @param int $scopeId
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function deleteByScope($scope, $scopeId)
     {
@@ -871,18 +899,23 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
         try {
             $adapter = $this->_getWriteAdapter();
             // Delete metadata
-            $adapter->delete($this->getTable('magento_versionscms_hierarchy_metadata'), array(
-                'node_id IN (?)' => $adapter
-                    ->select()
-                    ->from($this->getMainTable(), array('node_id'))
-                    ->where('scope = ?', $scope)
-                    ->where('scope_id = ?', $scopeId)
-            ));
+            $adapter->delete(
+                $this->getTable('magento_versionscms_hierarchy_metadata'),
+                array(
+                    'node_id IN (?)' => $adapter->select()->from(
+                        $this->getMainTable(),
+                        array('node_id')
+                    )->where(
+                        'scope = ?',
+                        $scope
+                    )->where(
+                        'scope_id = ?',
+                        $scopeId
+                    )
+                )
+            );
             // Delete nodes
-            $adapter->delete($this->getMainTable(), array(
-                'scope = ?'    => $scope,
-                'scope_id = ?' => $scopeId,
-            ));
+            $adapter->delete($this->getMainTable(), array('scope = ?' => $scope, 'scope_id = ?' => $scopeId));
             $this->commit();
         } catch (\Exception $e) {
             $this->rollBack();
@@ -900,16 +933,20 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getIsInherited($scope, $scopeId)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter
-            ->select()
-            ->from($this->getMainTable())
-            ->where('scope = ?', $scope)
-            ->where('scope_id = ?', $scopeId)
-            ->where(
-                $adapter->quoteIdentifier('level') . ' = ?',
-                \Magento\VersionsCms\Model\Hierarchy\Node::NODE_LEVEL_FAKE
-            )
-            ->limit(1);
+        $select = $adapter->select()->from(
+            $this->getMainTable()
+        )->where(
+            'scope = ?',
+            $scope
+        )->where(
+            'scope_id = ?',
+            $scopeId
+        )->where(
+            $adapter->quoteIdentifier('level') . ' = ?',
+            \Magento\VersionsCms\Model\Hierarchy\Node::NODE_LEVEL_FAKE
+        )->limit(
+            1
+        );
         return $adapter->fetchRow($select) ? false : true;
     }
 
@@ -918,17 +955,19 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $scope
      * @param int $scopeId
+     * @return void
      */
     public function addEmptyNode($scope, $scopeId)
     {
-        if ($scope != \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT
-            && $this->getIsInherited($scope, $scopeId)
+        if ($scope != \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT && $this->getIsInherited(
+            $scope,
+            $scopeId
+        )
         ) {
-            $this->_getWriteAdapter()->insert($this->getMainTable(), array(
-                'sort_order' => 0,
-                'scope' => $scope,
-                'scope_id' => $scopeId,
-            ));
+            $this->_getWriteAdapter()->insert(
+                $this->getMainTable(),
+                array('sort_order' => 0, 'scope' => $scope, 'scope_id' => $scopeId)
+            );
         }
     }
 }

@@ -7,17 +7,20 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Module/etc/module.xsd">
     <module name="Magento_Install" version="0.7.0" active="true">
         <sequence>
             <module name="Magento_Core"/>
+            <module name="Magento_Store"/>
         </sequence>
         <depends>
+            <module name="Magento_Store"/>
             <module name="Magento_Core"/>
             <module name="Magento_AdminNotification"/>
             <module name="Magento_Directory"/>
             <module name="Magento_User"/>
             <module name="Magento_Backend"/>
+            <module name="Magento_Theme"/>
         </depends>
     </module>
 </config>

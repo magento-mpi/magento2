@@ -9,11 +9,11 @@
  */
 namespace Magento\Backend\Model\Widget\Grid\Row;
 
-class UrlGeneratorId
-    implements \Magento\Backend\Model\Widget\Grid\Row\GeneratorInterface
+class UrlGeneratorId implements \Magento\Backend\Model\Widget\Grid\Row\GeneratorInterface
 {
     /**
      * Create url for passed item using passed url model
+     *
      * @param \Magento\Object $item
      * @return string
      */

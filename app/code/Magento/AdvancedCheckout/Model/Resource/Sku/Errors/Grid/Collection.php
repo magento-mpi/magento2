@@ -55,7 +55,7 @@ class Collection extends \Magento\Data\Collection
     /**
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return \Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid\Collection
+     * @return $this
      */
     public function loadData($printQuery = false, $logQuery = false)
     {
@@ -64,9 +64,7 @@ class Collection extends \Magento\Data\Collection
             foreach ($parentBlock->getFailedItems() as $affectedItem) {
                 // Escape user-submitted input
                 if (isset($affectedItem['item']['qty'])) {
-                    $affectedItem['item']['qty'] = empty($affectedItem['item']['qty'])
-                        ? ''
-                        : (float)$affectedItem['item']['qty'];
+                    $affectedItem['item']['qty'] = empty($affectedItem['item']['qty']) ? '' : (double)$affectedItem['item']['qty'];
                 }
                 $item = new \Magento\Object();
                 $item->setCode($affectedItem['code']);
@@ -81,9 +79,7 @@ class Collection extends \Magento\Data\Collection
                     $productId = $affectedItem['item']['id'];
                     $item->setProductId($productId);
                     $product->load($productId);
-                    /* @var $stockStatus \Magento\CatalogInventory\Model\Stock\Status */
-                    $stockStatus = $this->_inventoryModel;
-                    $status = $stockStatus->getProductStatus($productId, $this->getWebsiteId());
+                    $status = $this->_inventoryModel->getProductStockStatus($productId, $this->getWebsiteId());
                     if (!empty($status[$productId])) {
                         $product->setIsSalable($status[$productId]);
                     }
@@ -107,4 +103,3 @@ class Collection extends \Magento\Data\Collection
         return $this->_cart->getStore()->getWebsiteId();
     }
 }
-

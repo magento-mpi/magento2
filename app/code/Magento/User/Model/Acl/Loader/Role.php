@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model\Acl\Loader;
 
 use Magento\User\Model\Acl\Role\Group as RoleGroup;
@@ -47,32 +46,25 @@ class Role implements \Magento\Acl\LoaderInterface
      * Populate ACL with roles from external storage
      *
      * @param \Magento\Acl $acl
+     * @return void
      */
     public function populateAcl(\Magento\Acl $acl)
     {
         $roleTableName = $this->_resource->getTableName('admin_role');
         $adapter = $this->_resource->getConnection('core_read');
 
-        $select = $adapter->select()
-            ->from($roleTableName)
-            ->order('tree_level');
+        $select = $adapter->select()->from($roleTableName)->order('tree_level');
 
         foreach ($adapter->fetchAll($select) as $role) {
-            $parent = ($role['parent_id'] > 0) ? $role['parent_id'] : null;
+            $parent = $role['parent_id'] > 0 ? $role['parent_id'] : null;
             switch ($role['role_type']) {
                 case RoleGroup::ROLE_TYPE:
-                    $acl->addRole(
-                        $this->_groupFactory->create(array('roleId' => $role['role_id'])),
-                        $parent
-                    );
+                    $acl->addRole($this->_groupFactory->create(array('roleId' => $role['role_id'])), $parent);
                     break;
 
                 case RoleUser::ROLE_TYPE:
                     if (!$acl->hasRole($role['role_id'])) {
-                        $acl->addRole(
-                            $this->_roleFactory->create(array('roleId' => $role['role_id'])),
-                            $parent
-                        );
+                        $acl->addRole($this->_roleFactory->create(array('roleId' => $role['role_id'])), $parent);
                     } else {
                         $acl->addRoleParent($role['role_id'], $parent);
                     }

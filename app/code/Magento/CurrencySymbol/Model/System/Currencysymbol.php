@@ -29,16 +29,17 @@ class Currencysymbol
     /**
      * Store id
      *
-     * @var string | null
+     * @var string|null
      */
     protected $_storeId;
 
     /**
      * Website id
      *
-     * @var string | null
+     * @var string|null
      */
     protected $_websiteId;
+
     /**
      * Cache types which should be invalidated
      *
@@ -48,13 +49,15 @@ class Currencysymbol
         \Magento\App\Cache\Type\Config::TYPE_IDENTIFIER,
         \Magento\App\Cache\Type\Block::TYPE_IDENTIFIER,
         \Magento\App\Cache\Type\Layout::TYPE_IDENTIFIER,
+        \Magento\PageCache\Model\Cache\Type::TYPE_IDENTIFIER
     );
 
     /**
      * Config path to custom currency symbol value
      */
     const XML_PATH_CUSTOM_CURRENCY_SYMBOL = 'currency/options/customsymbol';
-    const XML_PATH_ALLOWED_CURRENCIES     = 'currency/options/allow';
+
+    const XML_PATH_ALLOWED_CURRENCIES = 'currency/options/allow';
 
     /*
      * Separator used in config in allowed currencies list
@@ -84,69 +87,69 @@ class Currencysymbol
     protected $_configFactory;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\Config\ReinitableConfigInterface
      */
     protected $_coreConfig;
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\App\Config\ReinitableConfigInterface $coreConfig
      * @param \Magento\Backend\Model\Config\Factory $configFactory
      * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Event\ManagerInterface $eventManager
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\App\Config\ReinitableConfigInterface $coreConfig,
         \Magento\Backend\Model\Config\Factory $configFactory,
         \Magento\App\Cache\TypeListInterface $cacheTypeList,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Store\Model\System\Store $systemStore,
         \Magento\Event\ManagerInterface $eventManager
     ) {
         $this->_coreConfig = $coreConfig;
         $this->_configFactory = $configFactory;
         $this->_cacheTypeList = $cacheTypeList;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
-        $this->_systemStore  = $systemStore;
+        $this->_locale = $localeResolver->getLocale();
+        $this->_systemStore = $systemStore;
         $this->_eventManager = $eventManager;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
      * Sets store Id
      *
-     * @param  $storeId
-     * @return \Magento\CurrencySymbol\Model\System\Currencysymbol
+     * @param  string|null $storeId
+     * @return $this
      */
-    public function setStoreId($storeId=null)
+    public function setStoreId($storeId = null)
     {
         $this->_storeId = $storeId;
         $this->_symbolsData = array();
@@ -157,10 +160,10 @@ class Currencysymbol
     /**
      * Sets website Id
      *
-     * @param  $websiteId
-     * @return \Magento\CurrencySymbol\Model\System\Currencysymbol
+     * @param string|null $websiteId
+     * @return $this
      */
-    public function setWebsiteId($websiteId=null)
+    public function setWebsiteId($websiteId = null)
     {
         $this->_websiteId = $websiteId;
         $this->_symbolsData = array();
@@ -183,10 +186,14 @@ class Currencysymbol
 
         $allowedCurrencies = explode(
             self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
-            $this->_coreStoreConfig->getConfig(self::XML_PATH_ALLOWED_CURRENCIES, null)
+            $this->_scopeConfig->getValue(
+                self::XML_PATH_ALLOWED_CURRENCIES,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                null
+            )
         );
 
-        /* @var $storeModel \Magento\Core\Model\System\Store */
+        /* @var $storeModel \Magento\Store\Model\System\Store */
         $storeModel = $this->_systemStore;
         foreach ($storeModel->getWebsiteCollection() as $website) {
             $websiteShow = false;
@@ -200,17 +207,21 @@ class Currencysymbol
                     }
                     if (!$websiteShow) {
                         $websiteShow = true;
-                        $websiteSymbols  = $website->getConfig(self::XML_PATH_ALLOWED_CURRENCIES);
-                        $allowedCurrencies = array_merge($allowedCurrencies, explode(
-                            self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
-                            $websiteSymbols
-                        ));
+                        $websiteSymbols = $website->getConfig(self::XML_PATH_ALLOWED_CURRENCIES);
+                        $allowedCurrencies = array_merge(
+                            $allowedCurrencies,
+                            explode(self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR, $websiteSymbols)
+                        );
                     }
-                    $storeSymbols = $this->_coreStoreConfig->getConfig(self::XML_PATH_ALLOWED_CURRENCIES, $store);
-                    $allowedCurrencies = array_merge($allowedCurrencies, explode(
-                        self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
-                        $storeSymbols
-                    ));
+                    $storeSymbols = $this->_scopeConfig->getValue(
+                        self::XML_PATH_ALLOWED_CURRENCIES,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        $store
+                    );
+                    $allowedCurrencies = array_merge(
+                        $allowedCurrencies,
+                        explode(self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR, $storeSymbols)
+                    );
                 }
             }
         }
@@ -219,17 +230,14 @@ class Currencysymbol
         $currentSymbols = $this->_unserializeStoreConfig(self::XML_PATH_CUSTOM_CURRENCY_SYMBOL);
 
         foreach ($allowedCurrencies as $code) {
-            if (!$symbol = $this->_locale->getTranslation($code, 'currencysymbol')) {
+            if (!($symbol = $this->_locale->getTranslation($code, 'currencysymbol'))) {
                 $symbol = $code;
             }
             $name = $this->_locale->getTranslation($code, 'nametocurrency');
             if (!$name) {
                 $name = $code;
             }
-            $this->_symbolsData[$code] = array(
-                'parentSymbol'  => $symbol,
-                'displayName' => $name
-            );
+            $this->_symbolsData[$code] = array('parentSymbol' => $symbol, 'displayName' => $name);
 
             if (isset($currentSymbols[$code]) && !empty($currentSymbols[$code])) {
                 $this->_symbolsData[$code]['displaySymbol'] = $currentSymbols[$code];
@@ -250,14 +258,15 @@ class Currencysymbol
      * Saves currency symbol to config
      *
      * @param  $symbols array
-     * @return \Magento\CurrencySymbol\Model\System\Currencysymbol
+     * @return $this
      */
-    public function setCurrencySymbolsData($symbols=array())
+    public function setCurrencySymbolsData($symbols = array())
     {
         foreach ($this->getCurrencySymbolsData() as $code => $values) {
             if (isset($symbols[$code])) {
-                if ($symbols[$code] == $values['parentSymbol'] || empty($symbols[$code]))
-                unset($symbols[$code]);
+                if ($symbols[$code] == $values['parentSymbol'] || empty($symbols[$code])) {
+                    unset($symbols[$code]);
+                }
             }
         }
         if ($symbols) {
@@ -266,14 +275,18 @@ class Currencysymbol
             $value['options']['fields']['customsymbol']['inherit'] = 1;
         }
 
-        $this->_configFactory->create()
-            ->setSection(self::CONFIG_SECTION)
-            ->setWebsite(null)
-            ->setStore(null)
-            ->setGroups($value)
-            ->save();
+        $this->_configFactory->create()->setSection(
+            self::CONFIG_SECTION
+        )->setWebsite(
+            null
+        )->setStore(
+            null
+        )->setGroups(
+            $value
+        )->save();
 
-        $this->_eventManager->dispatch('admin_system_config_changed_section_currency_before_reinit',
+        $this->_eventManager->dispatch(
+            'admin_system_config_changed_section_currency_before_reinit',
             array('website' => $this->_websiteId, 'store' => $this->_storeId)
         );
 
@@ -283,7 +296,8 @@ class Currencysymbol
 
         $this->clearCache();
 
-        $this->_eventManager->dispatch('admin_system_config_changed_section_currency',
+        $this->_eventManager->dispatch(
+            'admin_system_config_changed_section_currency',
             array('website' => $this->_websiteId, 'store' => $this->_storeId)
         );
 
@@ -293,8 +307,8 @@ class Currencysymbol
     /**
      * Returns custom currency symbol by currency code
      *
-     * @param  $code
-     * @return bool|string
+     * @param string $code
+     * @return string|false
      */
     public function getCurrencySymbol($code)
     {
@@ -309,7 +323,7 @@ class Currencysymbol
     /**
      * Clear translate cache
      *
-     * @return \Magento\CurrencySymbol\Model\System\Currencysymbol
+     * @return $this
      */
     public function clearCache()
     {
@@ -330,7 +344,11 @@ class Currencysymbol
     protected function _unserializeStoreConfig($configPath, $storeId = null)
     {
         $result = array();
-        $configData = (string)$this->_coreStoreConfig->getConfig($configPath, $storeId);
+        $configData = (string)$this->_scopeConfig->getValue(
+            $configPath,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
         if ($configData) {
             $result = unserialize($configData);
         }

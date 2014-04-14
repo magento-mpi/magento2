@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cms\Controller\Adminhtml;
 
 /**
  * Cms manage pages controller
@@ -16,31 +16,29 @@
  * @package    Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Controller\Adminhtml;
-
 class Page extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Filter\Date
+     * @var \Magento\Stdlib\DateTime\Filter\Date
      */
     protected $_dateFilter;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Filter\Date $dateFilter
+     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Stdlib\DateTime\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Filter\Date $dateFilter
+        \Magento\Registry $coreRegistry,
+        \Magento\Stdlib\DateTime\Filter\Date $dateFilter
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_dateFilter = $dateFilter;
@@ -50,21 +48,28 @@ class Page extends \Magento\Backend\App\Action
     /**
      * Init actions
      *
-     * @return \Magento\Cms\Controller\Adminhtml\Page
+     * @return $this
      */
     protected function _initAction()
     {
         // load layout, set active menu and breadcrumbs
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Cms::cms_page')
-            ->_addBreadcrumb(__('CMS'), __('CMS'))
-            ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'))
-        ;
+        $this->_setActiveMenu(
+            'Magento_Cms::cms_page'
+        )->_addBreadcrumb(
+            __('CMS'),
+            __('CMS')
+        )->_addBreadcrumb(
+            __('Manage Pages'),
+            __('Manage Pages')
+        );
         return $this;
     }
 
     /**
      * Index action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -76,6 +81,8 @@ class Page extends \Magento\Backend\App\Action
 
     /**
      * Create new CMS page
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -85,6 +92,8 @@ class Page extends \Magento\Backend\App\Action
 
     /**
      * Edit CMS page
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -97,7 +106,7 @@ class Page extends \Magento\Backend\App\Action
         // 2. Initial checking
         if ($id) {
             $model->load($id);
-            if (! $model->getId()) {
+            if (!$model->getId()) {
                 $this->messageManager->addError(__('This page no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
@@ -108,7 +117,7 @@ class Page extends \Magento\Backend\App\Action
 
         // 3. Set entered data if was error when we do save
         $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
-        if (! empty($data)) {
+        if (!empty($data)) {
             $model->setData($data);
         }
 
@@ -116,10 +125,9 @@ class Page extends \Magento\Backend\App\Action
         $this->_coreRegistry->register('cms_page', $model);
 
         // 5. Build edit form
-        $this->_initAction()
-            ->_addBreadcrumb(
-                $id ? __('Edit Page') : __('New Page'),
-                $id ? __('Edit Page') : __('New Page')
+        $this->_initAction()->_addBreadcrumb(
+            $id ? __('Edit Page') : __('New Page'),
+            $id ? __('Edit Page') : __('New Page')
         );
 
         $this->_view->renderLayout();
@@ -127,6 +135,8 @@ class Page extends \Magento\Backend\App\Action
 
     /**
      * Save action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -144,7 +154,10 @@ class Page extends \Magento\Backend\App\Action
 
             $model->setData($data);
 
-            $this->_eventManager->dispatch('cms_page_prepare_save', array('page' => $model, 'request' => $this->getRequest()));
+            $this->_eventManager->dispatch(
+                'cms_page_prepare_save',
+                array('page' => $model, 'request' => $this->getRequest())
+            );
 
             //validating
             if (!$this->_validatePostData($data)) {
@@ -163,14 +176,13 @@ class Page extends \Magento\Backend\App\Action
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('*/*/edit', array('page_id' => $model->getId(), '_current'=>true));
+                    $this->_redirect('*/*/edit', array('page_id' => $model->getId(), '_current' => true));
                     return;
                 }
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
-
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Something went wrong while saving the page.'));
@@ -185,6 +197,8 @@ class Page extends \Magento\Backend\App\Action
 
     /**
      * Delete action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -201,12 +215,17 @@ class Page extends \Magento\Backend\App\Action
                 // display success message
                 $this->messageManager->addSuccess(__('The page has been deleted.'));
                 // go to grid
-                $this->_eventManager->dispatch('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'success'));
+                $this->_eventManager->dispatch(
+                    'adminhtml_cmspage_on_delete',
+                    array('title' => $title, 'status' => 'success')
+                );
                 $this->_redirect('*/*/');
                 return;
-
             } catch (\Exception $e) {
-                $this->_eventManager->dispatch('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'fail'));
+                $this->_eventManager->dispatch(
+                    'adminhtml_cmspage_on_delete',
+                    array('title' => $title, 'status' => 'fail')
+                );
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 // go back to edit form
@@ -223,7 +242,7 @@ class Page extends \Magento\Backend\App\Action
     /**
      * Check the permission to run it
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {
@@ -241,13 +260,16 @@ class Page extends \Magento\Backend\App\Action
     /**
      * Filtering posted data. Converting localized data if needed
      *
-     * @param array
+     * @param array $data
      * @return array
      */
     protected function _filterPostData($data)
     {
         $inputFilter = new \Zend_Filter_Input(
-            array('custom_theme_from' => $this->_dateFilter, 'custom_theme_to' => $this->_dateFilter), array(), $data);
+            array('custom_theme_from' => $this->_dateFilter, 'custom_theme_to' => $this->_dateFilter),
+            array(),
+            $data
+        );
         $data = $inputFilter->getUnescaped();
         return $data;
     }
@@ -267,8 +289,9 @@ class Page extends \Magento\Backend\App\Action
             if (!empty($data['layout_update_xml']) && !$validatorCustomLayout->isValid($data['layout_update_xml'])) {
                 $errorNo = false;
             }
-            if (!empty($data['custom_layout_update_xml'])
-                && !$validatorCustomLayout->isValid($data['custom_layout_update_xml'])
+            if (!empty($data['custom_layout_update_xml']) && !$validatorCustomLayout->isValid(
+                $data['custom_layout_update_xml']
+            )
             ) {
                 $errorNo = false;
             }

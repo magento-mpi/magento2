@@ -33,14 +33,15 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     public function testGetAbsolutePath()
     {
         $dir = $this->getDirectoryInstance('foo');
-        $this->assertContains(
-            '_files/foo',
-            $dir->getAbsolutePath()
-        );
-        $this->assertContains(
-            '_files/foo/bar',
-            $dir->getAbsolutePath('bar')
-        );
+        $this->assertContains('_files/foo', $dir->getAbsolutePath());
+        $this->assertContains('_files/foo/bar', $dir->getAbsolutePath('bar'));
+    }
+
+    public function testGetRelativePath()
+    {
+        $dir = $this->getDirectoryInstance('foo');
+        $this->assertEquals('', $dir->getRelativePath());
+        $this->assertEquals('bar', $dir->getRelativePath(__DIR__ . '/../_files/foo/bar'));
     }
 
     /**
@@ -99,8 +100,8 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     public function searchProvider()
     {
         return array(
-            array('foo', '/bar/', array('bar/baz/file_one.txt', 'bar/file_two.txt')),
-            array('foo', '/\.txt/', array('bar/baz/file_one.txt', 'bar/file_two.txt', 'file_three.txt')),
+            array('foo', 'bar/*', array('bar/file_two.txt', 'bar/baz')),
+            array('foo', '/*/*.txt', array('bar/file_two.txt')),
             array('foo', '/notfound/', array())
         );
     }
@@ -126,11 +127,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function existsProvider()
     {
-        return array(
-            array('foo', 'bar', true),
-            array('foo', 'bar/baz/', true),
-            array('foo', 'bar/notexists', false)
-        );
+        return array(array('foo', 'bar', true), array('foo', 'bar/baz/', true), array('foo', 'bar/notexists', false));
     }
 
     /**
@@ -143,10 +140,20 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     public function testStat($dirPath, $path)
     {
         $dir = $this->getDirectoryInstance($dirPath);
-        $expectedInfo =  array(
-            'dev', 'ino', 'mode', 'nlink', 'uid',
-            'gid', 'rdev', 'size', 'atime',
-            'mtime', 'ctime', 'blksize', 'blocks'
+        $expectedInfo = array(
+            'dev',
+            'ino',
+            'mode',
+            'nlink',
+            'uid',
+            'gid',
+            'rdev',
+            'size',
+            'atime',
+            'mtime',
+            'ctime',
+            'blksize',
+            'blocks'
         );
         $result = $dir->stat($path);
         foreach ($expectedInfo as $key) {
@@ -161,10 +168,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function statProvider()
     {
-        return array(
-            array('foo', 'bar'),
-            array('foo', 'file_three.txt')
-        );
+        return array(array('foo', 'bar'), array('foo', 'file_three.txt'));
     }
 
     /**
@@ -212,10 +216,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function isReadableProvider()
     {
-        return array(
-            array('foo', 'bar', true),
-            array('foo', 'file_three.txt', true)
-        );
+        return array(array('foo', 'bar', true), array('foo', 'file_three.txt', true));
     }
 
     /**
@@ -225,10 +226,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function isFileProvider()
     {
-        return array(
-            array('bar', false),
-            array('file_three.txt', true)
-        );
+        return array(array('bar', false), array('file_three.txt', true));
     }
 
     /**
@@ -238,10 +236,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function isDirectoryProvider()
     {
-        return array(
-            array('bar', true),
-            array('file_three.txt', false)
-        );
+        return array(array('bar', true), array('file_three.txt', false));
     }
 
     /**
@@ -255,6 +250,32 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test readFile
+     *
+     * @dataProvider readFileProvider
+     * @param string $path
+     * @param string $content
+     */
+    public function testReadFile($path, $content)
+    {
+        $directory = $this->getDirectoryInstance('');
+        $this->assertEquals($content, $directory->readFile($path));
+    }
+
+    /**
+     * Data provider for testReadFile
+     *
+     * @return array
+     */
+    public function readFileProvider()
+    {
+        return array(
+            array('popup.csv', 'var myData = 5;'),
+            array('data.csv', '"field1", "field2"' . PHP_EOL . '"field3", "field4"' . PHP_EOL)
+        );
+    }
+
+    /**
      * Get readable file instance
      * Get full path for files located in _files directory
      *
@@ -264,12 +285,26 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     private function getDirectoryInstance($path)
     {
         $fullPath = __DIR__ . '/../_files/' . $path;
-        $config = array(
-            'path' => $fullPath
-        );
+        $config = array('path' => $fullPath);
         $objectManager = Bootstrap::getObjectManager();
         $directoryFactory = $objectManager->create('Magento\Filesystem\Directory\ReadFactory');
-        return $directoryFactory->create($config,
-            new \Magento\Filesystem\DriverFactory($objectManager->get('Magento\Filesystem\DirectoryList')));
+        return $directoryFactory->create(
+            $config,
+            new \Magento\Filesystem\DriverFactory($objectManager->get('Magento\App\Filesystem\DirectoryList'))
+        );
+    }
+
+    /**
+     * test read recursively read
+     */
+    public function testReadRecursively()
+    {
+        $expected = array('bar/baz/file_one.txt', 'bar', 'bar/baz', 'bar/file_two.txt', 'file_three.txt');
+
+        $dir = $this->getDirectoryInstance('foo');
+        $actual = $dir->readRecursively('');
+        $this->assertNotEquals($expected, $actual);
+        sort($expected);
+        $this->assertEquals($expected, $actual);
     }
 }

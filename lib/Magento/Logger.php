@@ -5,19 +5,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento;
 
 /**
  * Logger model
  */
-namespace Magento;
-
 class Logger
 {
     /**#@+
      * Keys that stand for particular log streams
      */
-    const LOGGER_SYSTEM    = 'system';
+    const LOGGER_SYSTEM = 'system';
+
     const LOGGER_EXCEPTION = 'exception';
+
     /**#@-*/
 
     /**
@@ -26,19 +27,18 @@ class Logger
     protected $_loggers = array();
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param string $defaultFile
      */
-    public function __construct(\Magento\Filesystem $filesystem, $defaultFile = '')
+    public function __construct(\Magento\App\Filesystem $filesystem, $defaultFile = '')
     {
         $this->_filesystem = $filesystem;
-        $this->addStreamLog(self::LOGGER_SYSTEM, $defaultFile)
-            ->addStreamLog(self::LOGGER_EXCEPTION, $defaultFile);
+        $this->addStreamLog(self::LOGGER_SYSTEM, $defaultFile)->addStreamLog(self::LOGGER_EXCEPTION, $defaultFile);
     }
 
     /**
@@ -56,7 +56,7 @@ class Logger
     {
         $file = $fileOrWrapper ?: "{$loggerKey}.log";
         if (!preg_match('#^[a-z][a-z0-9+.-]*\://#i', $file)) {
-            $logDir = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::LOG);
+            $logDir = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::LOG_DIR);
             $logDir->create();
             $file = $logDir->getAbsolutePath($file);
         }
@@ -100,6 +100,7 @@ class Logger
      * @param string $message
      * @param int $level
      * @param string $loggerKey
+     * @return void
      */
     public function log($message, $level = \Zend_Log::DEBUG, $loggerKey = self::LOGGER_SYSTEM)
     {
@@ -120,6 +121,7 @@ class Logger
      * @param string $message
      * @param int $level
      * @param string $file
+     * @return void
      */
     public function logFile($message, $level = \Zend_Log::DEBUG, $file = '')
     {
@@ -142,6 +144,7 @@ class Logger
      *
      * @param string $message
      * @param string $loggerKey
+     * @return void
      */
     public function logDebug($message, $loggerKey = self::LOGGER_SYSTEM)
     {
@@ -152,6 +155,7 @@ class Logger
      * Log an exception
      *
      * @param \Exception $e
+     * @return void
      */
     public function logException(\Exception $e)
     {

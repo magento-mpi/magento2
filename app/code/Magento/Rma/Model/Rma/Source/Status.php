@@ -7,49 +7,61 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Model\Rma\Source;
 
 /**
  * RMA Item status attribute model
  */
-namespace Magento\Rma\Model\Rma\Source;
-
 class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
 {
     /**
      * Status constants
      */
-    const STATE_PENDING            = 'pending';
-    const STATE_AUTHORIZED         = 'authorized';
+    const STATE_PENDING = 'pending';
+
+    const STATE_AUTHORIZED = 'authorized';
+
     const STATE_PARTIAL_AUTHORIZED = 'partially_authorized';
-    const STATE_RECEIVED           = 'received';
-    const STATE_RECEIVED_ON_ITEM   = 'received_on_item';
-    const STATE_APPROVED           = 'approved';
-    const STATE_APPROVED_ON_ITEM   = 'approved_on_item';
-    const STATE_REJECTED           = 'rejected';
-    const STATE_REJECTED_ON_ITEM   = 'rejected_on_item';
-    const STATE_DENIED             = 'denied';
-    const STATE_CLOSED             = 'closed';
-    const STATE_PROCESSED_CLOSED   = 'processed_closed';
+
+    const STATE_RECEIVED = 'received';
+
+    const STATE_RECEIVED_ON_ITEM = 'received_on_item';
+
+    const STATE_APPROVED = 'approved';
+
+    const STATE_APPROVED_ON_ITEM = 'approved_on_item';
+
+    const STATE_REJECTED = 'rejected';
+
+    const STATE_REJECTED_ON_ITEM = 'rejected_on_item';
+
+    const STATE_DENIED = 'denied';
+
+    const STATE_CLOSED = 'closed';
+
+    const STATE_PROCESSED_CLOSED = 'processed_closed';
 
     /**
+     * Rma item attribute status factory
+     *
      * @var \Magento\Rma\Model\Item\Attribute\Source\StatusFactory
      */
     protected $_statusFactory;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $attrOptionFactory
      * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $attrOptionFactory,
         \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory
     ) {
         $this->_statusFactory = $statusFactory;
-        parent::__construct($coreData, $attrOptCollFactory, $attrOptionFactory);
+        parent::__construct($coreData, $attrOptionCollectionFactory, $attrOptionFactory);
     }
 
     /**
@@ -61,19 +73,32 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
     public function getItemLabel($state)
     {
         switch ($state) {
-            case self::STATE_PENDING:            return __('Pending');
-            case self::STATE_AUTHORIZED:         return __('Authorized');
-            case self::STATE_PARTIAL_AUTHORIZED: return __('Partially Authorized');
-            case self::STATE_RECEIVED:           return __('Return Received');
-            case self::STATE_RECEIVED_ON_ITEM:   return __('Return Partially Received');
-            case self::STATE_APPROVED:           return __('Approved');
-            case self::STATE_APPROVED_ON_ITEM:   return __('Partially Approved');
-            case self::STATE_REJECTED:           return __('Rejected');
-            case self::STATE_REJECTED_ON_ITEM:   return __('Partially Rejected');
-            case self::STATE_DENIED:             return __('Denied');
-            case self::STATE_CLOSED:             return __('Closed');
-            case self::STATE_PROCESSED_CLOSED:   return __('Processed and Closed');
-            default: return $state;
+            case self::STATE_PENDING:
+                return __('Pending');
+            case self::STATE_AUTHORIZED:
+                return __('Authorized');
+            case self::STATE_PARTIAL_AUTHORIZED:
+                return __('Partially Authorized');
+            case self::STATE_RECEIVED:
+                return __('Return Received');
+            case self::STATE_RECEIVED_ON_ITEM:
+                return __('Return Partially Received');
+            case self::STATE_APPROVED:
+                return __('Approved');
+            case self::STATE_APPROVED_ON_ITEM:
+                return __('Partially Approved');
+            case self::STATE_REJECTED:
+                return __('Rejected');
+            case self::STATE_REJECTED_ON_ITEM:
+                return __('Partially Rejected');
+            case self::STATE_DENIED:
+                return __('Denied');
+            case self::STATE_CLOSED:
+                return __('Closed');
+            case self::STATE_PROCESSED_CLOSED:
+                return __('Processed and Closed');
+            default:
+                return $state;
         }
     }
 
@@ -91,12 +116,12 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
      *
      * @param array $itemStatusArray Array of RMA items status
      * @return string
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getStatusByItems($itemStatusArray)
     {
         if (!is_array($itemStatusArray) || empty($itemStatusArray)) {
-            throw new \Magento\Core\Exception(__('This is the wrong RMA item status.'));
+            throw new \Magento\Model\Exception(__('This is the wrong RMA item status.'));
         }
 
         $itemStatusArray = array_unique($itemStatusArray);
@@ -106,7 +131,7 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
 
         foreach ($itemStatusArray as $status) {
             if (!$itemStatusModel->checkStatus($status)) {
-                throw new \Magento\Core\Exception(__('This is the wrong RMA item status.'));
+                throw new \Magento\Model\Exception(__('This is the wrong RMA item status.'));
             }
         }
 
@@ -116,7 +141,7 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED => 4,
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_RECEIVED => 8,
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED => 16,
-            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED => 32,
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED => 32
         );
         $rmaBitMaskStatus = 0;
         foreach ($itemStatusArray as $status) {
@@ -131,29 +156,29 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
             return self::STATE_CLOSED;
         } elseif ($rmaBitMaskStatus == 5) {
             return self::STATE_PENDING;
-        } elseif (($rmaBitMaskStatus > 2) && ($rmaBitMaskStatus < 8)) {
+        } elseif ($rmaBitMaskStatus > 2 && $rmaBitMaskStatus < 8) {
             return self::STATE_PARTIAL_AUTHORIZED;
         } elseif ($rmaBitMaskStatus == 8) {
             return self::STATE_RECEIVED;
-        } elseif (($rmaBitMaskStatus >= 9) && ($rmaBitMaskStatus <= 15)) {
+        } elseif ($rmaBitMaskStatus >= 9 && $rmaBitMaskStatus <= 15) {
             return self::STATE_RECEIVED_ON_ITEM;
         } elseif ($rmaBitMaskStatus == 16) {
             return self::STATE_PROCESSED_CLOSED;
         } elseif ($rmaBitMaskStatus == 20) {
             return self::STATE_PROCESSED_CLOSED;
-        } elseif (($rmaBitMaskStatus >= 17) && ($rmaBitMaskStatus <= 31)) {
+        } elseif ($rmaBitMaskStatus >= 17 && $rmaBitMaskStatus <= 31) {
             return self::STATE_APPROVED_ON_ITEM;
         } elseif ($rmaBitMaskStatus == 32) {
             return self::STATE_CLOSED;
         } elseif ($rmaBitMaskStatus == 36) {
             return self::STATE_CLOSED;
-        } elseif (($rmaBitMaskStatus >= 33) && ($rmaBitMaskStatus <= 47)) {
+        } elseif ($rmaBitMaskStatus >= 33 && $rmaBitMaskStatus <= 47) {
             return self::STATE_REJECTED_ON_ITEM;
         } elseif ($rmaBitMaskStatus == 48) {
             return self::STATE_PROCESSED_CLOSED;
         } elseif ($rmaBitMaskStatus == 52) {
             return self::STATE_PROCESSED_CLOSED;
-        } elseif (($rmaBitMaskStatus > 48)) {
+        } elseif ($rmaBitMaskStatus > 48) {
             return self::STATE_APPROVED_ON_ITEM;
         } else {
             return self::STATE_PENDING;
@@ -163,7 +188,7 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
     /**
      * Get available states keys for entities
      *
-     * @return array
+     * @return string[]
      */
     protected function _getAvailableValues()
     {
@@ -176,7 +201,7 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
             self::STATE_APPROVED_ON_ITEM,
             self::STATE_REJECTED_ON_ITEM,
             self::STATE_CLOSED,
-            self::STATE_PROCESSED_CLOSED,
+            self::STATE_PROCESSED_CLOSED
         );
     }
 
@@ -188,21 +213,20 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
      */
     public function getButtonDisabledStatus($status)
     {
-        if (
-            in_array(
-                $status,
-                array(
-                    self::STATE_PARTIAL_AUTHORIZED,
-                    self::STATE_RECEIVED,
-                    self::STATE_RECEIVED_ON_ITEM,
-                    self::STATE_APPROVED_ON_ITEM,
-                    self::STATE_REJECTED_ON_ITEM,
-                    self::STATE_CLOSED,
-                    self::STATE_PROCESSED_CLOSED,
-                )
+        if (in_array(
+            $status,
+            array(
+                self::STATE_PARTIAL_AUTHORIZED,
+                self::STATE_RECEIVED,
+                self::STATE_RECEIVED_ON_ITEM,
+                self::STATE_APPROVED_ON_ITEM,
+                self::STATE_REJECTED_ON_ITEM,
+                self::STATE_CLOSED,
+                self::STATE_PROCESSED_CLOSED
             )
+        )
         ) {
-           return true;
+            return true;
         }
         return false;
     }

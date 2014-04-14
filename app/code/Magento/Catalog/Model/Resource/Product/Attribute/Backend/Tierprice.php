@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
 
+use Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice\AbstractGroupprice;
 
 /**
  * Catalog product tier price backend attribute model
@@ -16,14 +18,12 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
-
-class Tierprice
-    extends \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice\AbstractGroupprice
+class Tierprice extends AbstractGroupprice
 {
     /**
      * Initialize connection and define main table
      *
+     * @return void
      */
     protected function _construct()
     {

@@ -7,22 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reward\Model\Resource\Reward;
 
 /**
  * Reward collection
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model\Resource\Reward;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
-     * Internal construcotr
+     * Internal constructor
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,13 +29,15 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add filter by website id
      *
-     * @param integer|array $websiteId
-     * @return \Magento\Reward\Model\Resource\Reward\Collection
+     * @param int|array $websiteId
+     * @return $this
      */
     public function addWebsiteFilter($websiteId)
     {
-        $this->getSelect()
-            ->where(is_array($websiteId) ? 'main_table.website_id IN (?)' : 'main_table.website_id = ?', $websiteId);
+        $this->getSelect()->where(
+            is_array($websiteId) ? 'main_table.website_id IN (?)' : 'main_table.website_id = ?',
+            $websiteId
+        );
         return $this;
     }
 }

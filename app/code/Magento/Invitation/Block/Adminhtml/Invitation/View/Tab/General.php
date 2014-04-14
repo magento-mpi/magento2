@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
 
 /**
  * Invitation view general tab block
@@ -14,11 +15,11 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
-
-class General extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class General extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * @var string
+     */
     protected $_template = 'view/tab/general.phtml';
 
     /**
@@ -27,11 +28,11 @@ class General extends \Magento\Backend\Block\Template
      * @var \Magento\Invitation\Helper\Data
      */
     protected $_invitationData;
-    
+
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -52,7 +53,7 @@ class General extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Invitation\Helper\Data $invitationData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param array $data
@@ -60,7 +61,7 @@ class General extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Invitation\Helper\Data $invitationData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\GroupFactory $groupFactory,
         array $data = array()
@@ -95,7 +96,7 @@ class General extends \Magento\Backend\Block\Template
     /**
      * Check whether tab can be showed
      *
-     * @return bool
+     * @return true
      */
     public function canShowTab()
     {
@@ -105,7 +106,7 @@ class General extends \Magento\Backend\Block\Template
     /**
      * Check whether tab is hidden
      *
-     * @return bool
+     * @return false
      */
     public function isHidden()
     {
@@ -153,7 +154,7 @@ class General extends \Magento\Backend\Block\Template
     public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
-            $date = $this->_locale->date($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_localeDate->date($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatDate($date, $format, $showTime);
@@ -168,9 +169,7 @@ class General extends \Magento\Backend\Block\Template
     {
         if (!$this->hasData('referral')) {
             if ($this->getInvitation()->getReferralId()) {
-                $referral = $this->_customerFactory->create()->load(
-                    $this->getInvitation()->getReferralId()
-                );
+                $referral = $this->_customerFactory->create()->load($this->getInvitation()->getReferralId());
             } else {
                 $referral = false;
             }
@@ -190,9 +189,7 @@ class General extends \Magento\Backend\Block\Template
     {
         if (!$this->hasData('customer')) {
             if ($this->getInvitation()->getCustomerId()) {
-                $customer = $this->_customerFactory->create()->load(
-                    $this->getInvitation()->getCustomerId()
-                );
+                $customer = $this->_customerFactory->create()->load($this->getInvitation()->getCustomerId());
             } else {
                 $customer = false;
             }
@@ -211,9 +208,10 @@ class General extends \Magento\Backend\Block\Template
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_groups_collection')) {
-            $groups = $this->_groupFactory->create()->getCollection()
-                ->addFieldToFilter('customer_group_id', array('gt'=> 0))
-                ->load();
+            $groups = $this->_groupFactory->create()->getCollection()->addFieldToFilter(
+                'customer_group_id',
+                array('gt' => 0)
+            )->load();
             $this->setData('customer_groups_collection', $groups);
         }
 
@@ -250,8 +248,7 @@ class General extends \Magento\Backend\Block\Template
      */
     public function getWebsiteName()
     {
-        return $this->_storeManager->getStore($this->getInvitation()->getStoreId())
-            ->getWebsite()->getName();
+        return $this->_storeManager->getStore($this->getInvitation()->getStoreId())->getWebsite()->getName();
     }
 
     /**
@@ -261,8 +258,7 @@ class General extends \Magento\Backend\Block\Template
      */
     public function getStoreName()
     {
-        return $this->_storeManager->getStore($this->getInvitation()->getStoreId())
-            ->getName();
+        return $this->_storeManager->getStore($this->getInvitation()->getStoreId())->getName();
     }
 
     /**
@@ -273,8 +269,10 @@ class General extends \Magento\Backend\Block\Template
     public function getInvitationUrl()
     {
         if (!$this->getInvitation()->canBeAccepted(
-            $this->_storeManager->getStore($this->getInvitation()->getStoreId())->getWebsiteId())) {
-                return false;
+            $this->_storeManager->getStore($this->getInvitation()->getStoreId())->getWebsiteId()
+        )
+        ) {
+            return false;
         }
         return $this->_invitationData->getInvitationUrl($this->getInvitation());
     }
@@ -286,7 +284,7 @@ class General extends \Magento\Backend\Block\Template
      */
     public function isInvitedByAdmin()
     {
-        $invitedByAdmin = ($this->getInvitation()->getCustomerId() == null);
+        $invitedByAdmin = $this->getInvitation()->getCustomerId() == null;
         return $invitedByAdmin;
     }
 

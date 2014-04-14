@@ -11,6 +11,10 @@
  */
 namespace Magento\Logging\Model\Handler;
 
+use Magento\Model\AbstractModel;
+use Magento\Logging\Model\Event\Changes;
+use Magento\Logging\Model\Processor;
+
 class Models
 {
     /**
@@ -33,40 +37,41 @@ class Models
     /**
      * SaveAfter handler
      *
-     * @param object \Magento\Core\Model\AbstractModel $model
-     * @return object \Magento\Logging\Event\Changes or false if model wasn't modified
+     * @param AbstractModel $model
+     * @param Processor $processor
+     * @return bool|Changes false if model wasn't modified
      */
     public function modelSaveAfter($model, $processor)
     {
         $processor->collectId($model);
-        /** @var \Magento\Logging\Model\Event\Changes $changes */
+        /** @var Changes $changes */
         $changes = $this->_eventChangesFactory->create();
-        $changes->setOriginalData($model->getOrigData())
-            ->setResultData($model->getData());
+        $changes->setOriginalData($model->getOrigData())->setResultData($model->getData());
         return $changes;
     }
 
     /**
      * Delete after handler
      *
-     * @param object \Magento\Core\Model\AbstractModel $model
-     * @return object \Magento\Logging\Event\Changes
+     * @param AbstractModel $model
+     * @param Processor $processor
+     * @return Changes
      */
     public function modelDeleteAfter($model, $processor)
     {
         $processor->collectId($model);
-        /** @var \Magento\Logging\Model\Event\Changes $changes */
+        /** @var Changes $changes */
         $changes = $this->_eventChangesFactory->create();
-        $changes->setOriginalData($model->getOrigData())
-            ->setResultData(null);
+        $changes->setOriginalData($model->getOrigData())->setResultData(null);
         return $changes;
     }
 
     /**
      * MassUpdate after handler
      *
-     * @param object \Magento\Core\Model\AbstractModel $model
-     * @return object \Magento\Logging\Event\Changes
+     * @param AbstractModel $model
+     * @param Processor $processor
+     * @return bool|Changes
      */
     public function modelMassUpdateAfter($model, $processor)
     {
@@ -76,8 +81,9 @@ class Models
     /**
      * MassDelete after handler
      *
-     * @param object \Magento\Core\Model\AbstractModel $model
-     * @return object \Magento\Logging\Event\Changes
+     * @param AbstractModel $model
+     * @param Processor $processor
+     * @return bool|Changes
      */
     public function modelMassDeleteAfter($model, $processor)
     {
@@ -87,8 +93,9 @@ class Models
     /**
      * Load after handler
      *
-     * @param object \Magento\Core\Model\AbstractModel $model
-     * @return \Magento\Logging\Model\Event\Changes
+     * @param AbstractModel $model
+     * @param Processor $processor
+     * @return bool
      */
     public function modelViewAfter($model, $processor)
     {

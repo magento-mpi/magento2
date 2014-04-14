@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\System\Store\Edit\Form;
 
 /**
@@ -28,17 +27,18 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
         $registryData = array(
             'store_type' => 'group',
-            'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\Core\Model\Store\Group'),
+            'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\Store\Model\Store'
+            ),
             'store_action' => 'add'
         );
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         foreach ($registryData as $key => $value) {
-            $objectManager->get('Magento\Core\Model\Registry')->register($key, $value);
+            $objectManager->get('Magento\Registry')->register($key, $value);
         }
 
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = $objectManager->get('Magento\View\LayoutInterface');
 
         $this->_block = $layout->createBlock('Magento\Backend\Block\System\Store\Edit\Form\Group');
@@ -50,9 +50,9 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->unregister('store_type');
-        $objectManager->get('Magento\Core\Model\Registry')->unregister('store_data');
-        $objectManager->get('Magento\Core\Model\Registry')->unregister('store_action');
+        $objectManager->get('Magento\Registry')->unregister('store_type');
+        $objectManager->get('Magento\Registry')->unregister('store_data');
+        $objectManager->get('Magento\Registry')->unregister('store_action');
     }
 
     public function testPrepareForm()

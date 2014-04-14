@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset;
 
 /**
@@ -16,29 +15,39 @@ class Merged implements \Iterator
     /**
      * Sub path for merged files relative to public view cache directory
      */
-    const PUBLIC_MERGE_DIR  = '_merged';
+    const PUBLIC_MERGE_DIR = '_merged';
 
     /**
+     * ObjectManager
+     *
      * @var \Magento\ObjectManager
      */
     protected $objectManager;
 
     /**
+     * Logger
+     *
      * @var \Magento\Logger
      */
     protected $logger;
 
     /**
+     * MergeStrategyInterface
+     *
      * @var MergeStrategyInterface
      */
     protected $mergeStrategy;
 
     /**
+     * Assets
+     *
      * @var MergeableInterface[]
      */
     protected $assets;
 
     /**
+     * Content type
+     *
      * @var string
      */
     protected $contentType;
@@ -51,6 +60,8 @@ class Merged implements \Iterator
     protected $isInitialized = false;
 
     /**
+     * Constructor
+     *
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Logger $logger
      * @param MergeStrategyInterface $mergeStrategy
@@ -72,10 +83,8 @@ class Merged implements \Iterator
         }
         /** @var $asset MergeableInterface */
         foreach ($assets as $asset) {
-            if (!($asset instanceof MergeableInterface)) {
-                throw new \InvalidArgumentException(
-                    'Asset has to implement \Magento\View\Asset\MergeableInterface.'
-                );
+            if (!$asset instanceof MergeableInterface) {
+                throw new \InvalidArgumentException('Asset has to implement \Magento\View\Asset\MergeableInterface.');
             }
             if (!$this->contentType) {
                 $this->contentType = $asset->getContentType();
@@ -90,6 +99,8 @@ class Merged implements \Iterator
 
     /**
      * Attempt to merge assets, falling back to original non-merged ones, if merging fails
+     *
+     * @return void
      */
     protected function initialize()
     {
@@ -115,10 +126,10 @@ class Merged implements \Iterator
         $destinationFile = $this->getMergedFilePath($sourceFiles);
 
         $this->mergeStrategy->mergeFiles($sourceFiles, $destinationFile, $this->contentType);
-        return $this->objectManager->create('Magento\View\Asset\PublicFile', array(
-            'file' => $destinationFile,
-            'contentType' => $this->contentType,
-        ));
+        return $this->objectManager->create(
+            'Magento\View\Asset\PublicFile',
+            array('file' => $destinationFile, 'contentType' => $this->contentType)
+        );
     }
 
     /**
@@ -146,10 +157,10 @@ class Merged implements \Iterator
      */
     protected function getMergedFilePath(array $publicFiles)
     {
-        /** @var \Magento\Filesystem $filesystem */
-        $filesystem = $this->objectManager->get('Magento\Filesystem');
-        $jsDir = $filesystem->getPath(\Magento\Filesystem::PUB_LIB);
-        $publicDir = $filesystem->getPath(\Magento\Filesystem::STATIC_VIEW);
+        /** @var \Magento\App\Filesystem $filesystem */
+        $filesystem = $this->objectManager->get('Magento\App\Filesystem');
+        $jsDir = $filesystem->getPath(\Magento\App\Filesystem::PUB_LIB_DIR);
+        $publicDir = $filesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR);
 
         $prefixRemovals = array($jsDir, $publicDir);
 
@@ -158,8 +169,11 @@ class Merged implements \Iterator
             $relFileNames[] = ltrim(str_replace($prefixRemovals, '', $file), '/');
         }
 
-        $mergedDir = $filesystem->getDirectoryRead(\Magento\Filesystem::PUB_VIEW_CACHE)
-            ->getAbsolutePath(self::PUBLIC_MERGE_DIR);
+        $mergedDir = $filesystem->getDirectoryRead(
+            \Magento\App\Filesystem::PUB_VIEW_CACHE_DIR
+        )->getAbsolutePath(
+            self::PUBLIC_MERGE_DIR
+        );
         return $mergedDir . '/' . md5(implode('|', $relFileNames)) . '.' . $this->contentType;
     }
 

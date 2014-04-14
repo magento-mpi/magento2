@@ -105,7 +105,7 @@ GOTO :EOF
 REM get config file name
 set defaultconfigfile=config.yml
 if EXIST %workingDir%\%tufn%\%app%%browser%%phpunit%_%counter%\config\local.yml (
-   set defaultconfigfile=local.yml     
+   set defaultconfigfile=local.yml
 )
 REM get default app - last line from config
 for /f "tokens=* delims= " %%a in (%workingDir%\%tufn%\%app%%browser%%phpunit%_%counter%\config\%defaultconfigfile%) do (

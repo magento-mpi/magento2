@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftCard\Block\Adminhtml\Renderer;
+
+use Magento\Data\Form;
 
 /**
  * HTML select element block
@@ -15,8 +18,6 @@
  * @package    Magento_GiftCard
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCard\Block\Adminhtml\Renderer;
-
 class OpenAmount extends \Magento\Data\Form\Element\Select
 {
     /**
@@ -43,8 +44,8 @@ class OpenAmount extends \Magento\Data\Form\Element\Select
     /**
      * Set form to element
      *
-     * @param $form
-     * @return \Magento\Data\Form
+     * @param Form $form
+     * @return $this
      */
     public function setForm($form)
     {
@@ -59,10 +60,20 @@ class OpenAmount extends \Magento\Data\Form\Element\Select
      */
     public function getElementHtml()
     {
-        $this->_element->setId($this->getHtmlId())->setName($this->getData('name'))
-            ->setChecked($this->getValue())->setValue(\Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_ENABLED);
-        $hiddenField = '<input type="hidden" name="' . $this->getName()
-            . '" value="' . \Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_DISABLED . '"/>';
+        $this->_element->setId(
+            $this->getHtmlId()
+        )->setName(
+            $this->getData('name')
+        )->setChecked(
+            $this->getValue()
+        )->setValue(
+            \Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_ENABLED
+        );
+        $hiddenField = '<input type="hidden" name="' .
+            $this->getName() .
+            '" value="' .
+            \Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_DISABLED .
+            '"/>';
         return $hiddenField . $this->_element->getElementHtml();
     }
 }

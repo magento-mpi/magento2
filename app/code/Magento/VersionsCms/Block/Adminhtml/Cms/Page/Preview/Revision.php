@@ -7,18 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
 
 /**
  * Revision selector
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
-
 class Revision extends \Magento\Backend\Block\Template
 {
     /**
      * @var \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory
      */
-    protected $_revisionCollFactory;
+    protected $_revisionCollectionFactory;
 
     /**
      * @var \Magento\VersionsCms\Model\Config
@@ -32,19 +31,19 @@ class Revision extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollFactory
+     * @param \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollectionFactory
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollFactory,
+        \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollectionFactory,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         array $data = array()
     ) {
-        $this->_revisionCollFactory = $revisionCollFactory;
+        $this->_revisionCollectionFactory = $revisionCollectionFactory;
         $this->_cmsConfig = $cmsConfig;
         $this->_backendAuthSession = $backendAuthSession;
         parent::__construct($context, $data);
@@ -71,13 +70,11 @@ class Revision extends \Magento\Backend\Block\Template
     public function getRevisions()
     {
         /* var $collection \Magento\VersionsCms\Model\Resource\Page\Revision\Collection */
-        $collection = $this->_revisionCollFactory->create()
-            ->addPageFilter($this->getRequest()->getParam('page_id'))
-            ->joinVersions()
-            ->addNumberSort()
-            ->addVisibilityFilter(
-                $this->_backendAuthSession->getUser()->getId(),
-                $this->_cmsConfig->getAllowedAccessLevel()
+        $collection = $this->_revisionCollectionFactory->create()->addPageFilter(
+            $this->getRequest()->getParam('page_id')
+        )->joinVersions()->addNumberSort()->addVisibilityFilter(
+            $this->_backendAuthSession->getUser()->getId(),
+            $this->_cmsConfig->getAllowedAccessLevel()
         );
 
         $revisions = array();
@@ -88,7 +85,7 @@ class Revision extends \Magento\Backend\Block\Template
             } else {
                 $revisions[$item->getVersionId()] = array(
                     'revisions' => array($item),
-                    'label' => ($item->getLabel() ? $item->getLabel() : __('N/A'))
+                    'label' => $item->getLabel() ? $item->getLabel() : __('N/A')
                 );
             }
         }

@@ -5,21 +5,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authz\Service;
 
 use Magento\Acl\Builder as AclBuilder;
 use Magento\Acl;
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Logger;
-use Magento\Service\Exception as ServiceException;
-use Magento\Service\ResourceNotFoundException;
+use Magento\Webapi\ServiceException as ServiceException;
+use Magento\Webapi\ServiceResourceNotFoundException;
 use Magento\User\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
 use Magento\User\Model\Resource\Rules\CollectionFactory as RulesCollectionFactory;
 use Magento\User\Model\Role;
 use Magento\User\Model\RoleFactory;
 use Magento\User\Model\RulesFactory;
-use Magento\Core\Model\Acl\RootResource as RootAclResource;
+use Magento\Acl\RootResource as RootAclResource;
 
 /**
  * Authorization service.
@@ -29,28 +28,44 @@ use Magento\Core\Model\Acl\RootResource as RootAclResource;
  */
 class AuthorizationV1 implements AuthorizationV1Interface
 {
-    /** @var AclBuilder */
+    /**
+     * @var AclBuilder
+     */
     protected $_aclBuilder;
 
-    /** @var UserIdentifier */
+    /**
+     * @var UserIdentifier
+     */
     protected $_userIdentifier;
 
-    /** @var RoleFactory */
+    /**
+     * @var RoleFactory
+     */
     protected $_roleFactory;
 
-    /** @var RoleCollectionFactory */
+    /**
+     * @var RoleCollectionFactory
+     */
     protected $_roleCollectionFactory;
 
-    /** @var RulesFactory */
+    /**
+     * @var RulesFactory
+     */
     protected $_rulesFactory;
 
-    /** @var RulesCollectionFactory */
+    /**
+     * @var RulesCollectionFactory
+     */
     protected $_rulesCollectionFactory;
 
-    /** @var Logger */
+    /**
+     * @var Logger
+     */
     protected $_logger;
 
-    /** @var RootAclResource */
+    /**
+     * @var RootAclResource
+     */
     protected $_rootAclResource;
 
     /**
@@ -95,7 +110,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
         try {
             $role = $this->_getUserRole($userIdentifier);
             if (!$role) {
-                throw new ResourceNotFoundException(
+                throw new ServiceResourceNotFoundException(
                     __(
                         'Role for user with ID "%1" and user type "%2" cannot be found.',
                         $userIdentifier->getUserId(),
@@ -215,12 +230,17 @@ class AuthorizationV1 implements AuthorizationV1Interface
                 throw new \LogicException("Unknown user type: '{$userType}'.");
         }
         $role = $this->_roleFactory->create();
-        $role->setRoleName($roleName)
-            ->setUserType($userType)
-            ->setUserId($userId)
-            ->setRoleType($roleType)
-            ->setParentId($parentId)
-            ->save();
+        $role->setRoleName(
+            $roleName
+        )->setUserType(
+            $userType
+        )->setUserId(
+            $userId
+        )->setRoleType(
+            $roleType
+        )->setParentId(
+            $parentId
+        )->save();
         return $role;
     }
 
@@ -267,6 +287,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      *
      * @param Role $role
      * @param string[] $resources
+     * @return void
      */
     protected function _associateResourcesWithRole($role, array $resources)
     {

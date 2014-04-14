@@ -14,11 +14,9 @@ class Validator
     /**
      * The list of required params
      *
-     * @var array
+     * @var string[]
      */
-    protected $_required = array(
-        'id', 'title', 'resource'
-    );
+    protected $_required = array('id', 'title', 'resource');
 
     /**
      * List of created item ids
@@ -34,6 +32,9 @@ class Validator
      */
     protected $_validators = array();
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $idValidator = new \Zend_Validate();
@@ -63,10 +64,12 @@ class Validator
         $this->_validators['dependsOnConfig'] = $configDepValidator;
         $this->_validators['toolTip'] = $tooltipValidator;
     }
+
     /**
      * Validate menu item params
      *
-     * @param $data
+     * @param array $data
+     * @return void
      * @throws \InvalidArgumentException
      * @throws \BadMethodCallException
      */
@@ -79,17 +82,23 @@ class Validator
         }
 
         if (array_search($data['id'], $this->_ids) !== false) {
-            throw new \InvalidArgumentException('Item with id ' . $data ['id'] . ' already exists');
+            throw new \InvalidArgumentException('Item with id ' . $data['id'] . ' already exists');
         }
 
         foreach ($data as $param => $value) {
-            if (!is_null($data[$param])
-                && isset($this->_validators[$param])
-                && !$this->_validators[$param]->isValid($value)
+            if (!is_null(
+                $data[$param]
+            ) && isset(
+                $this->_validators[$param]
+            ) && !$this->_validators[$param]->isValid(
+                $value
+            )
             ) {
                 throw new \InvalidArgumentException(
-                    "Param " . $param . " doesn't pass validation: "
-                        . implode('; ', $this->_validators[$param]->getMessages())
+                    "Param " . $param . " doesn't pass validation: " . implode(
+                        '; ',
+                        $this->_validators[$param]->getMessages()
+                    )
                 );
             }
         }
@@ -101,6 +110,7 @@ class Validator
      *
      * @param string $param
      * @param mixed $value
+     * @return void
      * @throws \InvalidArgumentException
      */
     public function validateParam($param, $value)
@@ -111,8 +121,10 @@ class Validator
 
         if (!is_null($value) && isset($this->_validators[$param]) && !$this->_validators[$param]->isValid($value)) {
             throw new \InvalidArgumentException(
-                'Param ' . $param . ' doesn\'t pass validation: '
-                    . implode('; ', $this->_validators[$param]->getMessages())
+                'Param ' . $param . ' doesn\'t pass validation: ' . implode(
+                    '; ',
+                    $this->_validators[$param]->getMessages()
+                )
             );
         }
     }

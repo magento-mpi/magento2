@@ -7,19 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Review;
 
 /**
  * Adminhtml report review product blocks content block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Review;
-
 class Product extends \Magento\Backend\Block\Widget\Grid\Container
 {
-
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_blockGroup = 'Magento_Reports';
@@ -28,5 +27,4 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Container
         parent::_construct();
         $this->_removeButton('add');
     }
-
 }

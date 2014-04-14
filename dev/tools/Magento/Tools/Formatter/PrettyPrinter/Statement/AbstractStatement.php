@@ -20,6 +20,7 @@ abstract class AbstractStatement extends AbstractSyntax
      * This method resolves the current statement, presumably held in the passed in tree node, into
      * lines. Derived classes must replace the statement in the tree, or this method will repeat
      * comments.
+     *
      * @param TreeNode $treeNode Node containing the current statement.
      * @return TreeNode
      */
@@ -30,8 +31,10 @@ abstract class AbstractStatement extends AbstractSyntax
 
     /**
      * This method adds modifiers to the line based on the bit map passed in.
+     *
      * @param TreeNode $treeNode Node containing the current statement.
-     * @param mixed $modifiers Bit map containing the markers for the various modifiers.
+     * @param int $modifiers Bit map containing the markers for the various modifiers.
+     * @return void
      */
     protected function addModifier(TreeNode $treeNode, $modifiers)
     {

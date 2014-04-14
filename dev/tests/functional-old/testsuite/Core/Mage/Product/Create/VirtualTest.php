@@ -283,7 +283,6 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      * @dataProvider invalidNumericFieldDataProvider
      * @depends onlyRequiredFieldsInVirtual
      * @TestlinkId TL-MAGE-5344
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function invalidTierPriceInVirtual($invalidTierData)
     {

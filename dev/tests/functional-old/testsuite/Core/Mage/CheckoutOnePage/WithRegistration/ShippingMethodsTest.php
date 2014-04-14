@@ -126,13 +126,13 @@ class Core_Mage_CheckoutOnePage_WithRegistration_ShippingMethodsTest extends Mag
     public function shipmentDataProvider()
     {
         return array(
+            array('dhl', 'usa', 'france'),
+            array('usps', 'usa', 'usa'),
             array('flatrate', null, 'usa'),
             array('free', null, 'usa'),
             array('ups', 'usa', 'usa'),
             array('upsxml', 'usa', 'usa'),
-            array('usps', 'usa', 'usa'),
-            array('fedex', 'usa', 'usa'),
-            array('dhl', 'usa', 'france')
+            array('fedex', 'usa', 'usa')
         );
     }
 }

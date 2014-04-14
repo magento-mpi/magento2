@@ -112,8 +112,7 @@ class CurlClient
         $jsonData = $this->_jsonEncode($data);
 
         $curlOpts = array();
-        $curlOpts[CURLOPT_CUSTOMREQUEST] = $put
-            ? \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT : \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST;
+        $curlOpts[CURLOPT_CUSTOMREQUEST] = $put ? \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT : \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST;
         $headers[] = 'Content-Length: ' . strlen($jsonData);
         $curlOpts[CURLOPT_POSTFIELDS] = $jsonData;
 
@@ -173,7 +172,7 @@ class CurlClient
 
         $meta = $resp["meta"];
         if ($meta && $meta['http_code'] >= 400) {
-            throw new \Exception ($resp["body"], $meta['http_code']);
+            throw new \Exception($resp["body"], $meta['http_code']);
         }
 
         return $resp;
@@ -194,14 +193,14 @@ class CurlClient
             CURLOPT_SSL_VERIFYPEER => false, // stop cURL from verifying the peer's certificate
             CURLOPT_FOLLOWLOCATION => false, // follow redirects, Location: headers
             CURLOPT_MAXREDIRS => 10, // but don't redirect more than 10 times
-            CURLOPT_HTTPHEADER => array(
-                'Accept: application/json',
-                'Content-Type: application/json'
-            )
+            CURLOPT_HTTPHEADER => array('Accept: application/json', 'Content-Type: application/json')
         );
 
         // merge headers
         $headers = array_merge($curlOpts[CURLOPT_HTTPHEADER], $headers);
+        if (TESTS_XDEBUG_ENABLED) {
+            $headers[] = 'Cookie: XDEBUG_SESSION=1';
+        }
         $curlOpts[CURLOPT_HTTPHEADER] = $headers;
 
         // merge custom Curl Options & return

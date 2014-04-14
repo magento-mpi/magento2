@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftCard\Helper\Catalog\Product;
 
 /**
  * Helper for fetching properties by product configurational item
@@ -15,15 +16,13 @@
  * @package    Magento_GiftCard
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCard\Helper\Catalog\Product;
-
-class Configuration extends \Magento\App\Helper\AbstractHelper
-    implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
+class Configuration extends \Magento\App\Helper\AbstractHelper implements
+    \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
     /**
      * Catalog product configuration
      *
-     * @var \Magento\Catalog\Helper\Product\Configuration
+     * @var \Magento\Catalog\Helper\Product\Configuration|null
      */
     protected $_ctlgProdConfigur = null;
 
@@ -51,8 +50,8 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
      * Prepare custom option for display, returns false if there's no value
      *
      * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
-     * @param $code
-     * @return bool|mixed
+     * @param string $code
+     * @return string|false
      */
     public function prepareCustomOption(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item, $code)
     {
@@ -81,10 +80,7 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
             if ($email) {
                 $value = "{$value} &lt;{$email}&gt;";
             }
-            $result[] = array(
-                'label' => __('Gift Card Sender'),
-                'value' => $value
-            );
+            $result[] = array('label' => __('Gift Card Sender'), 'value' => $value);
         }
 
         $value = $this->prepareCustomOption($item, 'giftcard_recipient_name');
@@ -93,18 +89,12 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
             if ($email) {
                 $value = "{$value} &lt;{$email}&gt;";
             }
-            $result[] = array(
-                'label' => __('Gift Card Recipient'),
-                'value' => $value
-            );
+            $result[] = array('label' => __('Gift Card Recipient'), 'value' => $value);
         }
 
         $value = $this->prepareCustomOption($item, 'giftcard_message');
         if ($value) {
-            $result[] = array(
-                'label' => __('Gift Card Message'),
-                'value' => $value
-            );
+            $result[] = array('label' => __('Gift Card Message'), 'value' => $value);
         }
 
         return $result;
@@ -118,9 +108,6 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
      */
     public function getOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {
-        return array_merge(
-            $this->getGiftcardOptions($item),
-            $this->_ctlgProdConfigur->getCustomOptions($item)
-        );
+        return array_merge($this->getGiftcardOptions($item), $this->_ctlgProdConfigur->getCustomOptions($item));
     }
 }

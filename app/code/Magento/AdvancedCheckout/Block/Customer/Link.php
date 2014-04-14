@@ -35,6 +35,7 @@ class Link extends \Magento\View\Element\Html\Link\Current
     ) {
         parent::__construct($context, $defaultPath, $data);
         $this->_customerHelper = $customerHelper;
+        $this->_isScopePrivate = true;
     }
 
     /**

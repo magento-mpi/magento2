@@ -7,6 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CatalogSearch\Model;
+
+use Magento\App\Config\ScopeConfigInterface;
+use Magento\CatalogSearch\Helper\Data;
+use Magento\CatalogSearch\Model\Query;
+use Magento\Model\AbstractModel;
+use Magento\Model\Context;
+use Magento\Registry;
+use Magento\Model\Resource\AbstractResource;
+use Magento\Data\Collection\Db;
 
 /**
  * Catalog advanced search model
@@ -24,52 +34,56 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CatalogSearch\Model;
-
-class Fulltext extends \Magento\Core\Model\AbstractModel
+class Fulltext extends AbstractModel
 {
-    const SEARCH_TYPE_LIKE              = 1;
-    const SEARCH_TYPE_FULLTEXT          = 2;
-    const SEARCH_TYPE_COMBINE           = 3;
-    const XML_PATH_CATALOG_SEARCH_TYPE  = 'catalog/search/search_type';
+    const SEARCH_TYPE_LIKE = 1;
+
+    const SEARCH_TYPE_FULLTEXT = 2;
+
+    const SEARCH_TYPE_COMBINE = 3;
+
+    const XML_PATH_CATALOG_SEARCH_TYPE = 'catalog/search/search_type';
 
     /**
      * Catalog search data
      *
-     * @var \Magento\CatalogSearch\Helper\Data
+     * @var Data
      */
     protected $_catalogSearchData = null;
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param Context $context
+     * @param Registry $registry
+     * @param Data $catalogSearchData
+     * @param ScopeConfigInterface $scopeConfig
+     * @param AbstractResource $resource
+     * @param Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        Context $context,
+        Registry $registry,
+        Data $catalogSearchData,
+        ScopeConfigInterface $scopeConfig,
+        AbstractResource $resource = null,
+        Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogSearchData = $catalogSearchData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\CatalogSearch\Model\Resource\Fulltext');
@@ -87,7 +101,7 @@ class Fulltext extends \Magento\Core\Model\AbstractModel
      * @param int|null $storeId Store View Id
      * @param int|array|null $productIds Product Entity Id
      *
-     * @return \Magento\CatalogSearch\Model\Fulltext
+     * @return $this
      */
     public function rebuildIndex($storeId = null, $productIds = null)
     {
@@ -106,7 +120,7 @@ class Fulltext extends \Magento\Core\Model\AbstractModel
      *
      * @param int $storeId Store View Id
      * @param int $productId Product Entity Id
-     * @return \Magento\CatalogSearch\Model\Fulltext
+     * @return $this
      */
     public function cleanIndex($storeId = null, $productId = null)
     {
@@ -117,7 +131,7 @@ class Fulltext extends \Magento\Core\Model\AbstractModel
     /**
      * Reset search results cache
      *
-     * @return \Magento\CatalogSearch\Model\Fulltext
+     * @return $this
      */
     public function resetSearchResults()
     {
@@ -128,12 +142,12 @@ class Fulltext extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare results for query
      *
-     * @param \Magento\CatalogSearch\Model\Query $query
-     * @return \Magento\CatalogSearch\Model\Fulltext
+     * @param Query $query
+     * @return $this
      */
     public function prepareResult($query = null)
     {
-        if (!$query instanceof \Magento\CatalogSearch\Model\Query) {
+        if (!$query instanceof Query) {
             $query = $this->_catalogSearchData->getQuery();
         }
         $queryText = $this->_catalogSearchData->getQueryText();
@@ -152,12 +166,12 @@ class Fulltext extends \Magento\Core\Model\AbstractModel
      */
     public function getSearchType($storeId = null)
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_CATALOG_SEARCH_TYPE, $storeId);
+        return $this->_scopeConfig->getValue(
+            self::XML_PATH_CATALOG_SEARCH_TYPE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
-
-
-
-
 
     // Deprecated methods
 
@@ -167,7 +181,7 @@ class Fulltext extends \Magento\Core\Model\AbstractModel
      * @deprecated after 1.6.1.0
      *
      * @param bool $value
-     * @return \Magento\CatalogSearch\Model\Fulltext
+     * @return $this
      */
     public function setAllowTableChanges($value = true)
     {
@@ -183,7 +197,7 @@ class Fulltext extends \Magento\Core\Model\AbstractModel
      * @param array $productIds
      * @param array $categoryIds
      *
-     * @return \Magento\CatalogSearch\Model\Fulltext
+     * @return $this
      */
     public function updateCategoryIndex($productIds, $categoryIds)
     {

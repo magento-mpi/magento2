@@ -7,18 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\PricePermissions\Model\System\Config\Backend\Catalog\Product\Price;
 
 /**
  * Catalog Default Product Price Backend Model
  *
- * @category    Magento
- * @package     Magento_PricePermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\PricePermissions\Model\System\Config\Backend\Catalog\Product\Price;
-
-class DefaultPrice
-    extends \Magento\Core\Model\Config\Value
+class DefaultPrice extends \Magento\App\Config\Value
 {
     /**
      * Price permissions data
@@ -28,41 +24,37 @@ class DefaultPrice
     protected $_pricePermData = null;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Config $config,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\PricePermissions\Helper\Data $pricePermData,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_pricePermData = $pricePermData;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
      * Check permission to edit product prices before the value is saved
      *
-     * @return \Magento\PricePermissions\Model\System\Config\Backend\Catalog\Product\Price\DefaultPrice
+     * @return $this
      */
     protected function _beforeSave()
     {
         parent::_beforeSave();
         $defaultProductPriceValue = floatval($this->getValue());
-        if (!$this->_pricePermData->getCanAdminEditProductPrice()
-            || ($defaultProductPriceValue < 0)
-        ) {
+        if (!$this->_pricePermData->getCanAdminEditProductPrice() || $defaultProductPriceValue < 0) {
             $defaultProductPriceValue = floatval($this->getOldValue());
         }
         $this->setValue((string)$defaultProductPriceValue);
@@ -72,7 +64,7 @@ class DefaultPrice
     /**
      * Check permission to read product prices before the value is shown to user
      *
-     * @return \Magento\PricePermissions\Model\System\Config\Backend\Catalog\Product\Price\DefaultPrice
+     * @return $this
      */
     protected function _afterLoad()
     {

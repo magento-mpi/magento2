@@ -33,6 +33,7 @@ class Status implements \Magento\Log\Model\Shell\CommandInterface
      * Add output data
      *
      * @param string $output
+     * @return void
      */
     protected function _addOutput($output)
     {
@@ -78,9 +79,9 @@ class Status implements \Magento\Log\Model\Shell\CommandInterface
     {
         if ($number < 1024) {
             return sprintf('%d b', $number);
-        } else if ($number >= 1024 && $number < (1024 * 1024)) {
+        } elseif ($number >= 1024 && $number < (1024 * 1024)) {
             return sprintf('%.2fKb', $number / 1024);
-        } else if ($number >= (1024 * 1024) && $number < (1024 * 1024 * 1024)) {
+        } elseif ($number >= (1024 * 1024) && $number < (1024 * 1024 * 1024)) {
             return sprintf('%.2fMb', $number / (1024 * 1024));
         } else {
             return sprintf('%.2fGb', $number / (1024 * 1024 * 1024));
@@ -89,6 +90,8 @@ class Status implements \Magento\Log\Model\Shell\CommandInterface
 
     /**
      * Add row delimiter
+     *
+     * @return void
      */
     protected function _addRowDelimiter()
     {

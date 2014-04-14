@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Entity;
 
+use Magento\Eav\Exception;
 
 /**
  * EAV Entity attribute model
@@ -18,18 +20,17 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Entity;
-
-class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
+class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute implements
+    \Magento\Object\IdentityInterface
 {
     /**
      * Prefix of model events names
      *
      * @var string
      */
-    protected $_eventPrefix                         = 'eav_entity_attribute';
+    protected $_eventPrefix = 'eav_entity_attribute';
 
-    CONST ATTRIBUTE_CODE_MAX_LENGTH                 = 30;
+    const ATTRIBUTE_CODE_MAX_LENGTH = 30;
 
     /**
      * Parameter name in event
@@ -40,46 +41,57 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     protected $_eventObject = 'attribute';
 
-    const CACHE_TAG         = 'EAV_ATTRIBUTE';
-    protected $_cacheTag    = 'EAV_ATTRIBUTE';
+    const CACHE_TAG = 'EAV_ATTRIBUTE';
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var string
      */
-    protected $_locale;
+    protected $_cacheTag = 'EAV_ATTRIBUTE';
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_catalogProductFactory;
+    protected $_localeDate;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @var \Magento\Catalog\Model\Product\ReservedAttributeList
+     */
+    protected $reservedAttributeList;
+
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Catalog\Model\ProductFactory $catalogProductFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Catalog\Model\ProductFactory $catalogProductFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList,
+        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -96,8 +108,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
             $resourceCollection,
             $data
         );
-        $this->_locale = $locale;
-        $this->_catalogProductFactory = $catalogProductFactory;
+        $this->_localeDate = $localeDate;
+        $this->_localeResolver = $localeResolver;
+        $this->reservedAttributeList = $reservedAttributeList;
     }
 
     /**
@@ -160,15 +173,17 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     /**
      * Load entity_attribute_id into $this by $this->attribute_set_id
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     public function loadEntityAttributeIdBySet()
     {
         // load attributes collection filtered by attribute_id and attribute_set_id
-        $filteredAttributes = $this->getResourceCollection()
-            ->setAttributeSetFilter($this->getAttributeSetId())
-            ->addFieldToFilter('entity_attribute.attribute_id', $this->getId())
-            ->load();
+        $filteredAttributes = $this->getResourceCollection()->setAttributeSetFilter(
+            $this->getAttributeSetId()
+        )->addFieldToFilter(
+            'entity_attribute.attribute_id',
+            $this->getId()
+        )->load();
         if (count($filteredAttributes) > 0) {
             // getFirstItem() can be used as we can have one or zero records in the collection
             $this->setEntityAttributeId($filteredAttributes->getFirstItem()->getEntityAttributeId());
@@ -179,45 +194,56 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     /**
      * Prepare data for save
      *
-     * @return \Magento\Eav\Model\Entity\Attribute
+     * @return $this
+     * @throws Exception
      */
     protected function _beforeSave()
     {
         // prevent overriding product data
-        if (isset($this->_data['attribute_code'])
-            && $this->_catalogProductFactory->create()->isReservedAttribute($this)
-        ) {
-            throw new \Magento\Eav\Exception(__('The attribute code \'%1\' is reserved by system. Please try another attribute code', $this->_data['attribute_code']));
+        if (isset($this->_data['attribute_code']) && $this->reservedAttributeList->isReservedAttribute($this)) {
+            throw new Exception(
+                __(
+                    'The attribute code \'%1\' is reserved by system. Please try another attribute code',
+                    $this->_data['attribute_code']
+                )
+            );
         }
 
         /**
          * Check for maximum attribute_code length
          */
-        if(isset($this->_data['attribute_code']) &&
-           !\Zend_Validate::is($this->_data['attribute_code'],
-                              'StringLength',
-                              array('max' => self::ATTRIBUTE_CODE_MAX_LENGTH))
+        if (isset(
+            $this->_data['attribute_code']
+        ) && !\Zend_Validate::is(
+            $this->_data['attribute_code'],
+            'StringLength',
+            array('max' => self::ATTRIBUTE_CODE_MAX_LENGTH)
+        )
         ) {
-            throw new \Magento\Eav\Exception(__('Maximum length of attribute code must be less than %1 symbols', self::ATTRIBUTE_CODE_MAX_LENGTH));
+            throw new Exception(
+                __('Maximum length of attribute code must be less than %1 symbols', self::ATTRIBUTE_CODE_MAX_LENGTH)
+            );
         }
 
-        $defaultValue   = $this->getDefaultValue();
-        $hasDefaultValue = ((string)$defaultValue != '');
+        $defaultValue = $this->getDefaultValue();
+        $hasDefaultValue = (string)$defaultValue != '';
 
         if ($this->getBackendType() == 'decimal' && $hasDefaultValue) {
-            if (!\Zend_Locale_Format::isNumber($defaultValue,
-                                              array('locale' => $this->_locale->getLocaleCode()))
+            if (!\Zend_Locale_Format::isNumber(
+                $defaultValue,
+                array('locale' => $this->_localeResolver->getLocaleCode())
+            )
             ) {
-                throw new \Magento\Eav\Exception(__('Invalid default decimal value'));
+                throw new Exception(__('Invalid default decimal value'));
             }
 
             try {
                 $filter = new \Zend_Filter_LocalizedToNormalized(
-                    array('locale' => $this->_locale->getLocaleCode())
+                    array('locale' => $this->_localeResolver->getLocaleCode())
                 );
                 $this->setDefaultValue($filter->filter($defaultValue));
             } catch (\Exception $e) {
-                throw new \Magento\Eav\Exception(__('Invalid default decimal value'));
+                throw new Exception(__('Invalid default decimal value'));
             }
         }
 
@@ -232,12 +258,14 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
 
             // save default date value as timestamp
             if ($hasDefaultValue) {
-                $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+                $format = $this->_localeDate->getDateFormat(
+                    \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                );
                 try {
-                    $defaultValue = $this->_locale->date($defaultValue, $format, null, false)->toValue();
+                    $defaultValue = $this->_localeDate->date($defaultValue, $format, null, false)->toValue();
                     $this->setDefaultValue($defaultValue);
                 } catch (\Exception $e) {
-                    throw new \Magento\Eav\Exception(__('Invalid default date'));
+                    throw new Exception(__('Invalid default date'));
                 }
             }
         }
@@ -254,7 +282,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     /**
      * Save additional data
      *
-     * @return \Magento\Eav\Model\Entity\Attribute
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -357,7 +385,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     /**
      * Return array of labels of stores
      *
-     * @return array
+     * @return string[]
      */
     public function getStoreLabels()
     {
@@ -371,6 +399,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     /**
      * Return store label of attribute
      *
+     * @param int|null $storeId
      * @return string
      */
     public function getStoreLabel($storeId = null)
@@ -395,12 +424,22 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getSortWeight($setId)
     {
-        $groupSortWeight = isset($this->_data['attribute_set_info'][$setId]['group_sort'])
-            ? (float) $this->_data['attribute_set_info'][$setId]['group_sort'] * 1000
-            : 0.0;
-        $sortWeight = isset($this->_data['attribute_set_info'][$setId]['sort'])
-            ? (float)$this->_data['attribute_set_info'][$setId]['sort'] * 0.0001
-            : 0.0;
+        $groupSortWeight = isset(
+            $this->_data['attribute_set_info'][$setId]['group_sort']
+        ) ? (double)$this->_data['attribute_set_info'][$setId]['group_sort'] * 1000 : 0.0;
+        $sortWeight = isset(
+            $this->_data['attribute_set_info'][$setId]['sort']
+        ) ? (double)$this->_data['attribute_set_info'][$setId]['sort'] * 0.0001 : 0.0;
         return $groupSortWeight + $sortWeight;
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

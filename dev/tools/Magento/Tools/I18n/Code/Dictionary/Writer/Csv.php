@@ -5,11 +5,10 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code\Dictionary\Writer;
 
 use Magento\Tools\I18n\Code\Dictionary\WriterInterface;
-use \Magento\Tools\I18n\Code\Dictionary\Phrase;
+use Magento\Tools\I18n\Code\Dictionary\Phrase;
 
 /**
  * Csv writer
@@ -32,8 +31,9 @@ class Csv implements WriterInterface
     public function __construct($outputFilename)
     {
         if (false === ($fileHandler = @fopen($outputFilename, 'w'))) {
-            throw new \InvalidArgumentException(sprintf('Cannot open file for write dictionary: "%s"',
-                $outputFilename));
+            throw new \InvalidArgumentException(
+                sprintf('Cannot open file for write dictionary: "%s"', $outputFilename)
+            );
         }
         $this->_fileHandler = $fileHandler;
     }
@@ -44,6 +44,9 @@ class Csv implements WriterInterface
     public function write(Phrase $phrase)
     {
         $fields = array($phrase->getPhrase(), $phrase->getTranslation());
+        $encloseQuote = $phrase->getQuote() == Phrase::QUOTE_DOUBLE ? Phrase::QUOTE_DOUBLE : Phrase::QUOTE_SINGLE;
+        $fields[0] = $this->_compileString($fields[0], $encloseQuote);
+        $fields[1] = $this->_compileString($fields[1], $encloseQuote);
         if (($contextType = $phrase->getContextType()) && ($contextValue = $phrase->getContextValueAsString())) {
             $fields[] = $contextType;
             $fields[] = $contextValue;
@@ -53,7 +56,25 @@ class Csv implements WriterInterface
     }
 
     /**
+     * Compile PHP string based on quotes type it enclosed with
+     *
+     * @param string $string
+     * @param string $encloseQuote
+     * @return string
+     *
+     * @SuppressWarnings(PHPMD.EvalExpression)
+     */
+    protected function _compileString($string, $encloseQuote)
+    {
+        $evalString = 'return ' . $encloseQuote . $string . $encloseQuote . ';';
+        $result = @eval($evalString);
+        return is_string($result) ? $result : $string;
+    }
+
+    /**
      * Close file handler
+     *
+     * @return void
      */
     public function __destructor()
     {

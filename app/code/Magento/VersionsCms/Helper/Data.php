@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Helper;
 
 /**
  * Base helper
  */
-namespace Magento\VersionsCms\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -25,17 +24,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @var \Magento\User\Model\Resource\User\CollectionFactory
      */
-    protected $_userCollFactory;
+    protected $_userCollectionFactory;
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\User\Model\Resource\User\CollectionFactory $userCollFactory
+     * @param \Magento\User\Model\Resource\User\CollectionFactory $userCollectionFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\User\Model\Resource\User\CollectionFactory $userCollFactory
+        \Magento\User\Model\Resource\User\CollectionFactory $userCollectionFactory
     ) {
-        $this->_userCollFactory = $userCollFactory;
+        $this->_userCollectionFactory = $userCollectionFactory;
         parent::__construct($context);
     }
 
@@ -54,7 +53,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 $this->_usersHash[''] = '';
             }
 
-            foreach ($this->_userCollFactory->create() as $user) {
+            foreach ($this->_userCollectionFactory->create() as $user) {
                 $this->_usersHash[$user->getId()] = $user->getUsername();
             }
         }
@@ -84,6 +83,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Data\Form\AbstractForm $container
      * @param string $onChange
      * @param string|array $excludeTypes
+     * @return void
      */
     public function addOnChangeToFormElements($container, $onChange, $excludeTypes = array('hidden'))
     {
@@ -91,7 +91,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $excludeTypes = array($excludeTypes);
         }
 
-        foreach ($container->getElements()as $element) {
+        foreach ($container->getElements() as $element) {
             if ($element->getType() == 'fieldset') {
                 $this->addOnChangeToFormElements($element, $onChange, $excludeTypes);
             } else {

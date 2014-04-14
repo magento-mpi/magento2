@@ -20,17 +20,17 @@ namespace Magento\Core\Helper;
 class Url extends \Magento\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($context);
         $this->_storeManager = $storeManager;
@@ -46,6 +46,10 @@ class Url extends \Magento\App\Helper\AbstractHelper
         return $this->urlEncode($this->_urlBuilder->getCurrentUrl());
     }
 
+    /**
+     * @param string $url
+     * @return string
+     */
     public function getEncodedUrl($url = null)
     {
         if (!$url) {
@@ -64,6 +68,10 @@ class Url extends \Magento\App\Helper\AbstractHelper
         return $this->_storeManager->getStore()->getBaseUrl();
     }
 
+    /**
+     * @param string $string
+     * @return string
+     */
     protected function _prepareString($string)
     {
         $string = preg_replace('#[^0-9a-z]+#i', '-', $string);
@@ -76,16 +84,16 @@ class Url extends \Magento\App\Helper\AbstractHelper
     /**
      * Add request parameter into url
      *
-     * @param  $url string
-     * @param  $param array( 'key' => value )
+     * @param  string $url
+     * @param  array $param array( 'key' => value )
      * @return string
      */
     public function addRequestParam($url, $param)
     {
-        $startDelimiter = (false === strpos($url,'?'))? '?' : '&';
+        $startDelimiter = false === strpos($url, '?') ? '?' : '&';
 
         $arrQueryParams = array();
-        foreach($param as $key=>$value) {
+        foreach ($param as $key => $value) {
             if (is_numeric($key) || is_object($value)) {
                 continue;
             }

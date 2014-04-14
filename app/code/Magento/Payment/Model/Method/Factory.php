@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Model\Method;
 
 /**
  * Class \Magento\Payment\Model\Method\Factory
  */
-namespace Magento\Payment\Model\Method;
-
 class Factory
 {
     /**
@@ -35,15 +34,16 @@ class Factory
      *
      * @param string $className
      * @param array $data
-     * @return \Magento\Payment\Model\Method\AbstractMethod
-     * @throws \Magento\Core\Exception
+     * @return \Magento\Payment\Model\MethodInterface
+     * @throws \Magento\Model\Exception
      */
     public function create($className, $data = array())
     {
         $method = $this->_objectManager->create($className, $data);
-        if (!($method instanceof \Magento\Payment\Model\Method\AbstractMethod)) {
-            throw new \Magento\Core\Exception(sprintf("%s class doesn't extend \Magento\Payment\Model\Method\AbstractMethod",
-                $className));
+        if (!$method instanceof \Magento\Payment\Model\MethodInterface) {
+            throw new \Magento\Model\Exception(
+                sprintf("%s class doesn't implement \Magento\Payment\Model\MethodInterface", $className)
+            );
         }
         return $method;
     }

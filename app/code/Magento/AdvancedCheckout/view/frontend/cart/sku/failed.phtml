@@ -14,7 +14,7 @@
 ?>
 <div class="cart table failed">
     <h2 class="subtitle"><?php echo __('Products Requiring Attention') ?></h2>
-    <form action="<?php echo $this->getFormActionUrl() ?>" method="post" data-mage-init="{validation: {}}">
+    <form action="<?php echo $this->getFormActionUrl() ?>" method="post" data-mage-init='{"validation": {}}'>
             <table id="failed-products-table" class="cart items data failed">
             <?php $mergedCells = ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices() ? 2 : 1); ?>
                 <thead>
@@ -37,7 +37,7 @@
             <div class="cart secondary actions">
                 <button type="submit" title="<?php echo __('Add to Cart') ?>" class="action tocart"><span><?php echo __('Add to Cart') ?></span></button>
                 <button id="remove_all_failed_items" type="button" title="<?php echo __('Remove All') ?>" class="action clear"
-                        data-mage-init="{redirectUrl: {url: '<?php echo $this->getDeleteAllItemsUrl() ?>'}}">
+                        data-mage-init='{"redirectUrl":{"url":"<?php echo $this->getDeleteAllItemsUrl() ?>"}}'>
                     <span><?php echo __('Remove All') ?></span>
                 </button>
             </div>

@@ -1,12 +1,10 @@
 <?php
+
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 class Mage_Selenium_Uimap_FieldsetTest extends Unit_PHPUnit_TestCase
 {
@@ -16,8 +14,9 @@ class Mage_Selenium_Uimap_FieldsetTest extends Unit_PHPUnit_TestCase
     public function test__construct()
     {
         $fileHelper = new Mage_Selenium_Helper_File($this->_testConfig);
-        $dataArray = $fileHelper
-            ->loadYamlFile(SELENIUM_TESTS_BASEDIR . '/fixture/default/core/Mage/UnitTest/data/UimapTests.yml');
+        $dataArray = $fileHelper->loadYamlFile(
+            SELENIUM_TESTS_BASEDIR . '/fixture/default/core/Mage/UnitTest/data/UimapTests.yml'
+        );
         $fieldsetContainer = $dataArray['fieldset'];
         $instance = new Mage_Selenium_Uimap_Fieldset('fieldsetId', $fieldsetContainer);
         $this->assertInstanceOf('Mage_Selenium_Uimap_Fieldset', $instance);
@@ -30,8 +29,9 @@ class Mage_Selenium_Uimap_FieldsetTest extends Unit_PHPUnit_TestCase
     public function testGetFieldsetElements()
     {
         $fileHelper = new Mage_Selenium_Helper_File($this->_testConfig);
-        $dataArray = $fileHelper
-            ->loadYamlFile(SELENIUM_TESTS_BASEDIR . '/fixture/default/core/Mage/UnitTest/data/UimapTests.yml');
+        $dataArray = $fileHelper->loadYamlFile(
+            SELENIUM_TESTS_BASEDIR . '/fixture/default/core/Mage/UnitTest/data/UimapTests.yml'
+        );
         $fieldsetContainer = $dataArray['fieldset'];
         $instance = new Mage_Selenium_Uimap_Fieldset('fieldsetId', $fieldsetContainer);
         $elements = $instance->getFieldsetElements();

@@ -11,6 +11,7 @@ namespace Magento\Reward\Controller;
 
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
+use Magento\App\ResponseInterface;
 
 class Cart extends \Magento\App\Action\Action
 {
@@ -32,11 +33,16 @@ class Cart extends \Magento\App\Action\Action
     /**
      * Remove Reward Points payment from current quote
      *
+     * @return void|ResponseInterface
      */
     public function removeAction()
     {
-        if (!$this->_objectManager->get('Magento\Reward\Helper\Data')->isEnabledOnFront()
-            || !$this->_objectManager->get('Magento\Reward\Helper\Data')->getHasRates()) {
+        if (!$this->_objectManager->get(
+            'Magento\Reward\Helper\Data'
+        )->isEnabledOnFront() || !$this->_objectManager->get(
+            'Magento\Reward\Helper\Data'
+        )->getHasRates()
+        ) {
             return $this->_redirect('customer/account/');
         }
 

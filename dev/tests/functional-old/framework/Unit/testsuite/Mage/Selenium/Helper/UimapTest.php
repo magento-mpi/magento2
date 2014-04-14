@@ -1,16 +1,14 @@
 <?php
+
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 class Mage_Selenium_Helper_UimapTest extends Unit_PHPUnit_TestCase
 {
-    const ERROR_REQUIRED_FIELD_MESSAGE = "some-x-path/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]";
+    const ERROR_REQUIRED_FIELD_MESSAGE = "//*[@class='mage-error' and @for='some-id' and text()='This is a required field.']";
 
     /**
      * @covers Mage_Selenium_Helper_Uimap::__construct
@@ -27,8 +25,8 @@ class Mage_Selenium_Helper_UimapTest extends Unit_PHPUnit_TestCase
     public function testGetUimapPage()
     {
         $uimapHelper = $this->_testConfig->getHelper('uimap');
-        $uipage = $uimapHelper->getUimapPage('admin', 'create_customer');
-        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
+        $page = $uimapHelper->getUimapPage('admin', 'create_customer');
+        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $page);
     }
 
     /**
@@ -47,8 +45,8 @@ class Mage_Selenium_Helper_UimapTest extends Unit_PHPUnit_TestCase
     public function testGetUimapPageByMca()
     {
         $uimapHelper = $this->_testConfig->getHelper('uimap');
-        $uipage = $uimapHelper->getUimapPageByMca('admin', 'customer/new/');
-        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
+        $page = $uimapHelper->getUimapPageByMca('admin', 'customer/');
+        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $page);
     }
 
     /**
@@ -59,8 +57,11 @@ class Mage_Selenium_Helper_UimapTest extends Unit_PHPUnit_TestCase
     public function testGetUimapPageByMcaWithParamNegative()
     {
         $uimapHelper = $this->_testConfig->getHelper('uimap');
-        $uimapHelper->getUimapPageByMca('admin', 'catalog_product/new/set/9/type/simple/',
-            $this->_testConfig->getHelper('params'));
+        $uimapHelper->getUimapPageByMca(
+            'admin',
+            'catalog_product/new/set/9/type/simple/',
+            $this->_testConfig->getHelper('params')
+        );
     }
 
     /**
@@ -71,9 +72,12 @@ class Mage_Selenium_Helper_UimapTest extends Unit_PHPUnit_TestCase
         $this->_testConfig->getHelper('params')->setParameter('setId', 9);
         $this->_testConfig->getHelper('params')->setParameter('productType', 'simple');
         $uimapHelper = $this->_testConfig->getHelper('uimap');
-        $uipage = $uimapHelper->getUimapPageByMca('admin', 'catalog_product/new/set/9/type/simple/',
-            $this->_testConfig->getHelper('params'));
-        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
+        $page = $uimapHelper->getUimapPageByMca(
+            'admin',
+            'catalog/product/new/set/9/type/simple/',
+            $this->_testConfig->getHelper('params')
+        );
+        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $page);
     }
 
     /**
@@ -82,9 +86,10 @@ class Mage_Selenium_Helper_UimapTest extends Unit_PHPUnit_TestCase
     public function testGetUimapPageByMcaForPaypal()
     {
         $uimapHelper = $this->_testConfig->getHelper('uimap');
-        $uipage = $uimapHelper->getUimapPageByMca('paypal_developer',
-            'cgi-bin/devscr?__track=_home:login/main:_login-submit');
-        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
+        $params = $this->_testConfig->getHelper('params');
+        $params->setParameter('anyValue', 2);
+        $page = $uimapHelper->getUimapPageByMca('paypal_sandbox', 'cgi-bin/webscr?dispatch=2', $params);
+        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $page);
     }
 
     /**
@@ -103,7 +108,7 @@ class Mage_Selenium_Helper_UimapTest extends Unit_PHPUnit_TestCase
     public function testGetPageUrl()
     {
         $uimapHelper = $this->_testConfig->getHelper('uimap');
-        $this->assertStringEndsWith('/home', $uimapHelper->getPageUrl('frontend', 'home'));
+        $this->assertStringEndsWith('/home/', $uimapHelper->getPageUrl('frontend', 'home'));
         $this->assertStringEndsWith('/getMainButtons/', $uimapHelper->getPageUrl('frontend', 'get_main_buttons'));
     }
 
@@ -143,7 +148,7 @@ class Mage_Selenium_Helper_UimapTest extends Unit_PHPUnit_TestCase
     public function testGetPageMca()
     {
         $uimapHelper = $this->_testConfig->getHelper('uimap');
-        $this->assertEquals('home', $uimapHelper->getPageMca('frontend', 'home'));
+        $this->assertEquals('home/', $uimapHelper->getPageMca('frontend', 'home'));
         $this->assertEquals('getMainButtons/', $uimapHelper->getPageMca('frontend', 'get_main_buttons'));
     }
 
@@ -159,13 +164,13 @@ class Mage_Selenium_Helper_UimapTest extends Unit_PHPUnit_TestCase
         $this->assertNotNull($uimap);
         $this->assertInternalType('array', $uimap);
 
-        $uipage = $uimapHelper->getUimapPage('admin', 'create_customer');
-        $this->assertNotNull($uipage);
-        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
+        $page = $uimapHelper->getUimapPage('admin', 'create_customer');
+        $this->assertNotNull($page);
+        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $page);
 
-        $uipage = $uimapHelper->getUimapPageByMca('admin', 'customer/new/');
-        $this->assertNotNull($uipage);
-        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
+        $page = $uimapHelper->getUimapPageByMca('admin', 'customer/index/new/');
+        $this->assertNotNull($page);
+        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $page);
     }
 
     /**
@@ -173,19 +178,18 @@ class Mage_Selenium_Helper_UimapTest extends Unit_PHPUnit_TestCase
      */
     public function testUimapClasses()
     {
-        $uimapHelper = $this->_testConfig->getHelper('uimap');
-        ;
-        $uipage = $uimapHelper->getUimapPage('admin', 'create_customer');
-        $this->assertNotNull($uipage);
-        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
+        $uimapHelper = $this->_testConfig->getHelper('uimap');;
+        $page = $uimapHelper->getUimapPage('admin', 'create_customer');
+        $this->assertNotNull($page);
+        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $page);
 
-        $fieldsets = $uipage->getMainForm()->getAllFieldsets();
+        $fieldsets = $page->getMainForm()->getAllFieldsets();
         $this->assertNotNull($fieldsets);
         $this->assertInstanceOf('Mage_Selenium_Uimap_ElementsCollection', $fieldsets);
         $this->assertGreaterThanOrEqual(1, count($fieldsets));
         $this->assertEquals('fieldsets', $fieldsets->getType());
 
-        $buttons = $uipage->getMainForm()->getAllButtons();
+        $buttons = $page->getMainForm()->getAllButtons();
         $this->assertNotNull($buttons);
         $this->assertInstanceOf('Mage_Selenium_Uimap_ElementsCollection', $buttons);
         $this->assertGreaterThanOrEqual(1, count($buttons));
@@ -193,7 +197,7 @@ class Mage_Selenium_Helper_UimapTest extends Unit_PHPUnit_TestCase
             $this->assertNotEmpty($buttonXPath);
         }
 
-        $tabs = $uipage->getMainForm()->getTabs();
+        $tabs = $page->getMainForm()->getTabs();
         $this->assertNotNull($tabs);
         $this->assertInstanceOf('Mage_Selenium_Uimap_TabsCollection', $tabs);
         $this->assertGreaterThanOrEqual(1, count($tabs));
@@ -202,15 +206,15 @@ class Mage_Selenium_Helper_UimapTest extends Unit_PHPUnit_TestCase
         $this->assertNotNull($tabs);
         $this->assertInstanceOf('Mage_Selenium_Uimap_Tab', $tab);
 
-        $button = $uipage->getAllButtons()->get('save_customer');
+        $button = $page->getAllButtons()->get('save_customer');
         $this->assertNotNull($button);
         $this->assertInternalType('string', $button);
 
-        $field = $uipage->findField('first_name');
+        $field = $page->findField('first_name');
         $this->assertNotNull($field);
         $this->assertInternalType('string', $field);
 
-        $message = $uipage->findMessage('success_saved_customer');
+        $message = $page->findMessage('success_saved_customer');
         $this->assertNotNull($message);
         $this->assertInternalType('string', $message);
     }
@@ -223,24 +227,26 @@ class Mage_Selenium_Helper_UimapTest extends Unit_PHPUnit_TestCase
         $uimapHelper = $this->_testConfig->getHelper('uimap');
         $this->assertNotNull($uimapHelper);
 
-        $uipage = $uimapHelper->getUimapPage('admin', 'edit_admin_user');
-        $this->assertNotNull($uipage);
-        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
+        $page = $uimapHelper->getUimapPage('admin', 'edit_admin_user');
+        $this->assertNotNull($page);
+        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $page);
 
         $params = $this->_testConfig->getHelper('params');
         $params->setParameter('id', 100);
         $params->setParameter('elementTitle', 'Alex');
-        $params->setParameter('fieldXpath', 'some-x-path');
+        $params->setParameter('fieldId', 'some-id');
 
-        $uipage = $uimapHelper->getUimapPageByMca('admin', 'user/edit/user_id/100/', $params);
-        $this->assertNotNull($uipage);
-        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
+        $page = $uimapHelper->getUimapPageByMca('admin', 'user/edit/user_id/100/', $params);
+        $this->assertNotNull($page);
+        $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $page);
 
-        $this->assertEquals('user/edit/user_id/100/', $uipage->getMca($params));
-        $this->assertEquals('Alex / Users / Permissions / System / Magento Admin', $uipage->getTitle($params));
+        $this->assertEquals('user/edit/user_id/100/', $page->getMca($params));
+        $this->assertEquals('Alex / Users / Permissions / System / Magento Admin', $page->getTitle($params));
 
-        $this->assertEquals(self::ERROR_REQUIRED_FIELD_MESSAGE, $uipage->findMessage('empty_required_field', $params));
-        $this->assertEquals(self::ERROR_REQUIRED_FIELD_MESSAGE,
-            $uipage->getMessages()->get('empty_required_field', $params));
+        $this->assertEquals(self::ERROR_REQUIRED_FIELD_MESSAGE, $page->findMessage('empty_required_field', $params));
+        $this->assertEquals(
+            self::ERROR_REQUIRED_FIELD_MESSAGE,
+            $page->getMessages()->get('empty_required_field', $params)
+        );
     }
 }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\AdminNotification\Helper;
 
 /**
  * AdminNotification Data helper
@@ -16,11 +16,9 @@
  * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdminNotification\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
-    const XML_PATH_POPUP_URL    = 'system/adminnotification/popup_url';
+    const XML_PATH_POPUP_URL = 'system/adminnotification/popup_url';
 
     /**
      * Widget Popup Notification Object URL
@@ -44,29 +42,34 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_latestNotice;
 
     /**
-     * count of unread notes by type
+     * Count of unread notes by type
      *
      * @var array
      */
     protected $_unreadNoticeCounts;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\AdminNotification\Model\InboxFactory
      */
     protected $_inboxFactory;
 
+    /**
+     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
+     */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory
     ) {
         parent::__construct($context);
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_inboxFactory = $inboxFactory;
     }
 

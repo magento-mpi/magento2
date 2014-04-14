@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Centinel\Model;
 
 /**
@@ -18,11 +17,15 @@ class Service extends \Magento\Object
     /**
      * Cmpi public keys
      */
-    const CMPI_PARES    = 'centinel_authstatus';
+    const CMPI_PARES = 'centinel_authstatus';
+
     const CMPI_ENROLLED = 'centinel_mpivendor';
-    const CMPI_CAVV     = 'centinel_cavv';
-    const CMPI_ECI      = 'centinel_eci';
-    const CMPI_XID      = 'centinel_xid';
+
+    const CMPI_CAVV = 'centinel_cavv';
+
+    const CMPI_ECI = 'centinel_eci';
+
+    const CMPI_XID = 'centinel_xid';
 
     /**
      * State cmpi results to public map
@@ -30,27 +33,20 @@ class Service extends \Magento\Object
      * @var array
      */
     protected $_cmpiMap = array(
-        'lookup_enrolled'      => self::CMPI_ENROLLED,
-        'lookup_eci_flag'      => self::CMPI_ECI,
+        'lookup_enrolled' => self::CMPI_ENROLLED,
+        'lookup_eci_flag' => self::CMPI_ECI,
         'authenticate_pa_res_status' => self::CMPI_PARES,
-        'authenticate_cavv'          => self::CMPI_CAVV,
-        'authenticate_eci_flag'      => self::CMPI_ECI,
-        'authenticate_xid'           => self::CMPI_XID,
+        'authenticate_cavv' => self::CMPI_CAVV,
+        'authenticate_eci_flag' => self::CMPI_ECI,
+        'authenticate_xid' => self::CMPI_XID
     );
 
     /**
-     * Is API model configured
-     *
-     * @var bool
-     */
-    protected $_isConfigured = false;
-
-    /**
-     * Validation api model
+     * Validation api model factory
      *
      * @var \Magento\Centinel\Model\Api
      */
-    protected $_api;
+    protected $_apiFactory;
 
     /**
      * Config
@@ -88,6 +84,8 @@ class Service extends \Magento\Object
     protected $_validationState;
 
     /**
+     * Url prefix
+     *
      * @var string
      */
     protected $_urlPrefix;
@@ -96,10 +94,10 @@ class Service extends \Magento\Object
      * @var \Magento\Data\Form\FormKey
      */
     protected $formKey;
-    
+
     /**
      * @param \Magento\Centinel\Model\Config $config
-     * @param \Magento\Centinel\Model\Api $api
+     * @param \Magento\Centinel\Model\ApiFactory $apiFactory
      * @param \Magento\UrlInterface $url
      * @param \Magento\Session\SessionManagerInterface $centinelSession
      * @param \Magento\Centinel\Model\StateFactory $stateFactory
@@ -109,7 +107,7 @@ class Service extends \Magento\Object
      */
     public function __construct(
         \Magento\Centinel\Model\Config $config,
-        \Magento\Centinel\Model\Api $api,
+        \Magento\Centinel\Model\ApiFactory $apiFactory,
         \Magento\UrlInterface $url,
         \Magento\Session\SessionManagerInterface $centinelSession,
         \Magento\Centinel\Model\StateFactory $stateFactory,
@@ -118,7 +116,7 @@ class Service extends \Magento\Object
         array $data = array()
     ) {
         $this->_config = $config;
-        $this->_api = $api;
+        $this->_apiFactory = $apiFactory;
         $this->_url = $url;
         $this->_centinelSession = $centinelSession;
         $this->_stateFactory = $stateFactory;
@@ -149,8 +147,15 @@ class Service extends \Magento\Object
      * @param string $currencyCode
      * @return string
      */
-    protected function _generateChecksum($paymentMethodCode, $cardType, $cardNumber, $cardExpMonth, $cardExpYear, $amount, $currencyCode)
-    {
+    protected function _generateChecksum(
+        $paymentMethodCode,
+        $cardType,
+        $cardNumber,
+        $cardExpMonth,
+        $cardExpYear,
+        $amount,
+        $currencyCode
+    ) {
         return md5(implode(func_get_args(), '_'));
     }
 
@@ -164,7 +169,7 @@ class Service extends \Magento\Object
     protected function _getUrl($suffix, $current = false)
     {
         $params = array(
-            '_secure'  => true,
+            '_secure' => true,
             '_current' => $current,
             'form_key' => $this->formKey->getFormKey(),
             'isIframe' => true
@@ -179,20 +184,22 @@ class Service extends \Magento\Object
      */
     protected function _getApi()
     {
-        if ($this->_isConfigured) {
-            return $this->_api;
-        }
-
         $config = $this->_getConfig();
-        $this->_api
-           ->setProcessorId($config->getProcessorId())
-           ->setMerchantId($config->getMerchantId())
-           ->setTransactionPwd($config->getTransactionPwd())
-           ->setIsTestMode($config->getIsTestMode())
-           ->setDebugFlag($config->getDebugFlag())
-           ->setApiEndpointUrl($this->getCustomApiEndpointUrl());
-        $this->_isConfigured = true;
-        return $this->_api;
+        $api = $this->_apiFactory->create();
+        $api->setProcessorId(
+            $config->getProcessorId()
+        )->setMerchantId(
+            $config->getMerchantId()
+        )->setTransactionPwd(
+            $config->getTransactionPwd()
+        )->setIsTestMode(
+            $config->getIsTestMode()
+        )->setDebugFlag(
+            $config->getDebugFlag()
+        )->setApiEndpointUrl(
+            $this->getCustomApiEndpointUrl()
+        );
+        return $api;
     }
 
     /**
@@ -218,6 +225,7 @@ class Service extends \Magento\Object
     /**
      * Drop validation state model
      *
+     * @return void
      */
     protected function _resetValidationState()
     {
@@ -236,10 +244,15 @@ class Service extends \Magento\Object
     {
         $this->_resetValidationState();
         $state = $this->_stateFactory->createState($cardType);
-        $state->setDataStorage($this->_centinelSession)
-            ->setCardType($cardType)
-            ->setChecksum($dataChecksum)
-            ->setIsModeStrict($this->getIsModeStrict());
+        $state->setDataStorage(
+            $this->_centinelSession
+        )->setCardType(
+            $cardType
+        )->setChecksum(
+            $dataChecksum
+        )->setIsModeStrict(
+            $this->getIsModeStrict()
+        );
         return $this->_getValidationState();
     }
 
@@ -247,6 +260,7 @@ class Service extends \Magento\Object
      * Process lookup validation and init new validation state model
      *
      * @param \Magento\Object $data
+     * @return void
      */
     public function lookup($data)
     {
@@ -271,6 +285,8 @@ class Service extends \Magento\Object
      * Process authenticate validation
      *
      * @param \Magento\Object $data
+     * @return void
+     * @throws \Exception
      */
     public function authenticate($data)
     {
@@ -294,7 +310,8 @@ class Service extends \Magento\Object
      * Workflow state is stored validation state model
      *
      * @param \Magento\Object $data
-     * @throws \Magento\Core\Exception
+     * @return void
+     * @throws \Magento\Model\Exception
      */
     public function validate($data)
     {
@@ -317,12 +334,12 @@ class Service extends \Magento\Object
         // check whether is authenticated before placing order
         if ($this->getIsPlaceOrder()) {
             if ($validationState->getChecksum() != $newChecksum) {
-                throw new \Magento\Core\Exception(__('Payment information error. Please start over.'));
+                throw new \Magento\Model\Exception(__('Payment information error. Please start over.'));
             }
             if ($validationState->isAuthenticateSuccessful()) {
                 return;
             }
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Please verify the card with the issuer bank before placing the order.')
             );
         } else {
@@ -333,19 +350,18 @@ class Service extends \Magento\Object
             if ($validationState->isLookupSuccessful()) {
                 return;
             }
-            throw new \Magento\Core\Exception(__('This card has failed validation and cannot be used.'));
+            throw new \Magento\Model\Exception(__('This card has failed validation and cannot be used.'));
         }
     }
 
     /**
      * Reset validation state and drop api object
      *
-     * @return \Magento\Centinel\Model\Service
+     * @return $this
      */
     public function reset()
     {
         $this->_resetValidationState();
-        $this->_api = null;
         return $this;
     }
 
@@ -414,9 +430,9 @@ class Service extends \Magento\Object
     /**
      * Export cmpi lookups and authentication information stored in session into array
      *
-     * @param mixed $to
-     * @param array $map
-     * @return mixed
+     * @param array|object $to
+     * @param array|bool $map
+     * @return array|object
      */
     public function exportCmpiData($to, $map = false)
     {
@@ -429,4 +445,3 @@ class Service extends \Magento\Object
         return $to;
     }
 }
-

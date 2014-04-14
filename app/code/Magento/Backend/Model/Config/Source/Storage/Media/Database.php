@@ -13,34 +13,36 @@
  */
 namespace Magento\Backend\Model\Config\Source\Storage\Media;
 
-class Database implements \Magento\Core\Model\Option\ArrayInterface
+use Magento\App\Arguments;
+
+class Database implements \Magento\Option\ArrayInterface
 {
     /**
-     * @var \Magento\App\Config
+     * @var Arguments
      */
-    protected $_config;
+    protected $_arguments;
 
     /**
-     * @param \Magento\App\Config
+     * @param Arguments $arguments
      */
-    public function __construct(\Magento\App\Config $config)
+    public function __construct(Arguments $arguments)
     {
-        $this->_config = $config;
+        $this->_arguments = $arguments;
     }
 
     /**
-     * Options getter
+     * Returns list of available resources
      *
      * @return array
      */
     public function toOptionArray()
     {
-        $connectionOptions = array();
-        foreach (array_keys($this->_config->getConnections()) as $connectionName) {
-            $connectionOptions[] = array('value' => $connectionName, 'label' => $connectionName);
+        $resourceOptions = array();
+        foreach (array_keys($this->_arguments->getResources()) as $resourceName) {
+            $resourceOptions[] = array('value' => $resourceName, 'label' => $resourceName);
         }
-        sort($connectionOptions);
-        reset($connectionOptions);
-        return $connectionOptions;
+        sort($resourceOptions);
+        reset($resourceOptions);
+        return $resourceOptions;
     }
 }

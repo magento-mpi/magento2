@@ -9,13 +9,12 @@
  */
 namespace Magento\Index\Model\Indexer;
 
-class Config extends \Magento\Config\Data\Scoped
-    implements \Magento\Index\Model\Indexer\ConfigInterface
+class Config extends \Magento\Config\Data\Scoped implements \Magento\Index\Model\Indexer\ConfigInterface
 {
     /**
      * Scope priority loading scheme
      *
-     * @var array
+     * @var string[]
      */
     protected $_scopePriorityScheme = array('global');
 

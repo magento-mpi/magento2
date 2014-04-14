@@ -342,7 +342,7 @@ AddBySku.prototype = {
                 $notice[0].remove();
             }
             var $qty = productConfigure.getCurrentConfirmedQtyElement();
-            if ($qty) { // Grouped products do not have this
+            if ($qty) { // Product set does not have this
                 // Synchronize qtys between configure window and grid
                 productConfigure.skuObject.qtyElement.value = $qty.value;
             }

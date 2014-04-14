@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Layer\Filter;
 
 /**
  * Catalog Layer Attribute Filter Resource Model
@@ -16,13 +16,12 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Layer\Filter;
-
-class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Attribute extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table name
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -34,12 +33,12 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Catalog\Model\Layer\Filter\Attribute $filter
      * @param int $value
-     * @return \Magento\Catalog\Model\Resource\Layer\Filter\Attribute
+     * @return $this
      */
     public function applyFilterToCollection($filter, $value)
     {
         $collection = $filter->getLayer()->getProductCollection();
-        $attribute  = $filter->getAttributeModel();
+        $attribute = $filter->getAttributeModel();
         $connection = $this->_getReadAdapter();
         $tableAlias = $attribute->getAttributeCode() . '_idx';
         $conditions = array(
@@ -75,20 +74,21 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
         $select->reset(\Zend_Db_Select::LIMIT_OFFSET);
 
         $connection = $this->_getReadAdapter();
-        $attribute  = $filter->getAttributeModel();
+        $attribute = $filter->getAttributeModel();
         $tableAlias = sprintf('%s_idx', $attribute->getAttributeCode());
         $conditions = array(
             "{$tableAlias}.entity_id = e.entity_id",
             $connection->quoteInto("{$tableAlias}.attribute_id = ?", $attribute->getAttributeId()),
-            $connection->quoteInto("{$tableAlias}.store_id = ?", $filter->getStoreId()),
+            $connection->quoteInto("{$tableAlias}.store_id = ?", $filter->getStoreId())
         );
 
-        $select
-            ->join(
-                array($tableAlias => $this->getMainTable()),
-                join(' AND ', $conditions),
-                array('value', 'count' => new \Zend_Db_Expr("COUNT({$tableAlias}.entity_id)")))
-            ->group("{$tableAlias}.value");
+        $select->join(
+            array($tableAlias => $this->getMainTable()),
+            join(' AND ', $conditions),
+            array('value', 'count' => new \Zend_Db_Expr("COUNT({$tableAlias}.entity_id)"))
+        )->group(
+            "{$tableAlias}.value"
+        );
 
         return $connection->fetchPairs($select);
     }

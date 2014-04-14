@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Log\Model\Resource\Visitor;
 
 /**
  * Visitor log collection
@@ -16,10 +16,7 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Log\Model\Resource\Visitor;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Visitor data table name
@@ -91,39 +88,39 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected $_fieldMap = array(
         'customer_firstname' => 'customer_firstname_table.value',
-        'customer_lastname'  => 'customer_lastname_table.value',
-        'customer_email'     => 'customer_email_table.email',
-        'customer_id'        => 'customer_table.customer_id',
-        'url'                => 'url_info_table.url'
+        'customer_lastname' => 'customer_lastname_table.value',
+        'customer_email' => 'customer_email_table.email',
+        'customer_id' => 'customer_table.customer_id',
+        'url' => 'url_info_table.url'
     );
 
     /**
      * Collection resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
         $this->_init('Magento\Log\Model\Visitor', 'Magento\Log\Model\Resource\Visitor');
 
-        $this->_visitorTable     = $this->getTable('log_visitor');
+        $this->_visitorTable = $this->getTable('log_visitor');
         $this->_visitorInfoTable = $this->getTable('log_visitor_info');
-        $this->_urlTable         = $this->getTable('log_url');
-        $this->_urlInfoTable     = $this->getTable('log_url_info');
-        $this->_customerTable    = $this->getTable('log_customer');
-        $this->_summaryTable     = $this->getTable('log_summary');
+        $this->_urlTable = $this->getTable('log_url');
+        $this->_urlInfoTable = $this->getTable('log_url_info');
+        $this->_customerTable = $this->getTable('log_customer');
+        $this->_summaryTable = $this->getTable('log_summary');
         $this->_summaryTypeTable = $this->getTable('log_summary_type');
-        $this->_quoteTable       = $this->getTable('log_quote');
+        $this->_quoteTable = $this->getTable('log_quote');
     }
 
     /**
      * Filter for customers only
      *
-     * @return \Magento\Log\Model\Resource\Visitor\Collection
+     * @return $this
      */
     public function showCustomersOnly()
     {
-        $this->getSelect()
-            ->where('customer_table.customer_id > 0')
-            ->group('customer_table.customer_id');
+        $this->getSelect()->where('customer_table.customer_id > 0')->group('customer_table.customer_id');
         return $this;
     }
 
@@ -132,7 +129,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param string $fieldName
      * @param array $condition
-     * @return \Magento\Log\Model\Resource\Visitor\Collection
+     * @return $this
      */
     public function addFieldToFilter($fieldName, $condition = null)
     {
@@ -155,7 +152,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _getFieldMap($fieldName)
     {
-        if(isset($this->_fieldMap[$fieldName])) {
+        if (isset($this->_fieldMap[$fieldName])) {
             return $this->_fieldMap[$fieldName];
         } else {
             return 'main_table.' . $fieldName;
@@ -167,7 +164,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param boolean $printQuery
      * @param boolean $logQuery
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     public function load($printQuery = false, $logQuery = false)
     {
@@ -181,7 +178,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Return true if online filter used
      *
-     * @return boolean
+     * @return bool
      */
     public function getIsOnlineFilterUsed()
     {
@@ -191,7 +188,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Filter visitors by specified store ids
      *
-     * @param array|int $storeIds
+     * @param int[]|int $storeIds
+     * @return void
      */
     public function addVisitorStoreFilter($storeIds)
     {

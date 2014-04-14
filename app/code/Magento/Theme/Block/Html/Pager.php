@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 /**
@@ -41,11 +40,7 @@ class Pager extends \Magento\View\Element\Template
      *
      * @var array
      */
-    protected $_availableLimit = array(
-        10 => 10,
-        20 => 20,
-        50 => 50,
-    );
+    protected $_availableLimit = array(10 => 10, 20 => 20, 50 => 50);
 
     /**
      * @var int
@@ -58,7 +53,7 @@ class Pager extends \Magento\View\Element\Template
     protected $_showPerPage = true;
 
     /**
-     * @var null
+     * @var int
      */
     protected $_limit;
 
@@ -104,6 +99,8 @@ class Pager extends \Magento\View\Element\Template
 
     /**
      * Set pager data
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -122,7 +119,7 @@ class Pager extends \Magento\View\Element\Template
         if (is_object($this->_collection)) {
             return $this->_collection->getCurPage();
         }
-        return (int) $this->getRequest()->getParam($this->getPageVarName(), 1);
+        return (int)$this->getRequest()->getParam($this->getPageVarName(), 1);
     }
 
     /**
@@ -151,7 +148,7 @@ class Pager extends \Magento\View\Element\Template
      * Setter for limit items per page
      *
      * @param int $limit
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     public function setLimit($limit)
     {
@@ -163,13 +160,13 @@ class Pager extends \Magento\View\Element\Template
      * Set collection for pagination
      *
      * @param  \Magento\Data\Collection $collection
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     public function setCollection($collection)
     {
         $this->_collection = $collection->setCurPage($this->getCurrentPage());
         // If not int - then not limit
-        if ((int) $this->getLimit()) {
+        if ((int)$this->getLimit()) {
             $this->_collection->setPageSize($this->getLimit());
         }
 
@@ -188,7 +185,7 @@ class Pager extends \Magento\View\Element\Template
 
     /**
      * @param string $varName
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     public function setPageVarName($varName)
     {
@@ -206,7 +203,7 @@ class Pager extends \Magento\View\Element\Template
 
     /**
      * @param bool $varName
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     public function setShowPerPage($varName)
     {
@@ -229,7 +226,7 @@ class Pager extends \Magento\View\Element\Template
      * Set the name for pager limit data
      *
      * @param string $varName
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     public function setLimitVarName($varName)
     {
@@ -251,6 +248,7 @@ class Pager extends \Magento\View\Element\Template
      * Set pager limit
      *
      * @param array $limits
+     * @return void
      */
     public function setAvailableLimit(array $limits)
     {
@@ -353,17 +351,17 @@ class Pager extends \Magento\View\Element\Template
             return range(1, $collection->getLastPageNumber());
         } else {
             $half = ceil($this->_displayPages / 2);
-            if ($collection->getCurPage() >= $half
-                && $collection->getCurPage() <= $collection->getLastPageNumber() - $half
+            if ($collection->getCurPage() >= $half &&
+                $collection->getCurPage() <= $collection->getLastPageNumber() - $half
             ) {
-                $start  = ($collection->getCurPage() - $half) + 1;
-                $finish = ($start + $this->_displayPages) - 1;
+                $start = $collection->getCurPage() - $half + 1;
+                $finish = $start + $this->_displayPages - 1;
             } elseif ($collection->getCurPage() < $half) {
-                $start  = 1;
+                $start = 1;
                 $finish = $this->_displayPages;
-            } elseif ($collection->getCurPage() > ($collection->getLastPageNumber() - $half)) {
+            } elseif ($collection->getCurPage() > $collection->getLastPageNumber() - $half) {
                 $finish = $collection->getLastPageNumber();
-                $start  = $finish - $this->_displayPages + 1;
+                $start = $finish - $this->_displayPages + 1;
             }
             return range($start, $finish);
         }
@@ -481,7 +479,7 @@ class Pager extends \Magento\View\Element\Template
     /**
      * Return page number of Previous jump
      *
-     * @return int
+     * @return int|null
      */
     public function getPreviousJumpPage()
     {
@@ -510,7 +508,7 @@ class Pager extends \Magento\View\Element\Template
     /**
      * Return page number of Next jump
      *
-     * @return int
+     * @return int|null
      */
     public function getNextJumpPage()
     {
@@ -560,7 +558,7 @@ class Pager extends \Magento\View\Element\Template
      * Setter for $_frameLength
      *
      * @param int $frame
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     public function setFrameLength($frame)
     {
@@ -580,7 +578,7 @@ class Pager extends \Magento\View\Element\Template
      * Setter for $_jump
      *
      * @param int $jump
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     public function setJump($jump)
     {
@@ -636,7 +634,7 @@ class Pager extends \Magento\View\Element\Template
     /**
      * Initialize frame data, such as frame start, frame start etc.
      *
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     protected function _initFrame()
     {
@@ -650,17 +648,17 @@ class Pager extends \Magento\View\Element\Template
                 $end = $collection->getLastPageNumber();
             } else {
                 $half = ceil($this->getFrameLength() / 2);
-                if ($collection->getCurPage() >= $half
-                    && $collection->getCurPage() <= $collection->getLastPageNumber() - $half
+                if ($collection->getCurPage() >= $half &&
+                    $collection->getCurPage() <= $collection->getLastPageNumber() - $half
                 ) {
-                    $start  = ($collection->getCurPage() - $half) + 1;
-                    $end = ($start + $this->getFrameLength()) - 1;
+                    $start = $collection->getCurPage() - $half + 1;
+                    $end = $start + $this->getFrameLength() - 1;
                 } elseif ($collection->getCurPage() < $half) {
-                    $start  = 1;
+                    $start = 1;
                     $end = $this->getFrameLength();
-                } elseif ($collection->getCurPage() > ($collection->getLastPageNumber() - $half)) {
+                } elseif ($collection->getCurPage() > $collection->getLastPageNumber() - $half) {
                     $end = $collection->getLastPageNumber();
-                    $start  = $end - $this->getFrameLength() + 1;
+                    $start = $end - $this->getFrameLength() + 1;
                 }
             }
             $this->_frameStart = $start;
@@ -676,7 +674,7 @@ class Pager extends \Magento\View\Element\Template
      * Setter for flag _frameInitialized
      *
      * @param bool $flag
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     protected function _setFrameInitialized($flag)
     {
@@ -687,7 +685,7 @@ class Pager extends \Magento\View\Element\Template
     /**
      * Check if frame data was initialized
      *
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return bool
      */
     public function isFrameInitialized()
     {
@@ -701,7 +699,10 @@ class Pager extends \Magento\View\Element\Template
      */
     public function getAnchorTextForPrevious()
     {
-        return $this->_storeConfig->getConfig('design/pagination/anchor_text_for_previous');
+        return $this->_scopeConfig->getValue(
+            'design/pagination/anchor_text_for_previous',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -711,14 +712,17 @@ class Pager extends \Magento\View\Element\Template
      */
     public function getAnchorTextForNext()
     {
-        return $this->_storeConfig->getConfig('design/pagination/anchor_text_for_next');
+        return $this->_scopeConfig->getValue(
+            'design/pagination/anchor_text_for_next',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
      * Set whether output of the pager is mandatory
      *
      * @param bool $isRequired
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     public function setIsOutputRequired($isRequired)
     {

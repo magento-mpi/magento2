@@ -55,7 +55,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
 
@@ -110,7 +110,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
     public function emptyRequiredFieldsInShippingAddress($field, $message, $data)
     {
         if ($field == 'state') {
-            $this->markTestIncomplete('MAGETWO-8745');
+            //$this->markTestSkipped('\MAGETWO-8745');
         }
         //Data
         $override = array('general_name' => $data['sku'], 'shipping_' . $field => '');
@@ -185,27 +185,6 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
     }
 
     /**
-     * <p>Verifying "Use Billing Address" checkbox functionality</p>
-     *
-     * @param array $data
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-3198
-     */
-    public function frontShippingAddressUseBillingAddress($data)
-    {
-        //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_use_billing_in_shipping',
-            array('general_name' => $data['sku']));
-        //Steps
-        $this->customerHelper()->frontLoginCustomer($data['customer']);
-        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        //Verification
-        $this->assertMessagePresent('success', 'success_checkout');
-    }
-
-    /**
      * @param string $dataName
      * @param array $data
      *
@@ -230,5 +209,26 @@ class Core_Mage_CheckoutOnePage_LoggedIn_CheckingValidationTest extends Mage_Sel
             array('signedin_flatrate_checkmoney_long_address'),
             array('signedin_flatrate_checkmoney_special_address')
         );
+    }
+
+    /**
+     * <p>Verifying "Use Billing Address" checkbox functionality</p>
+     *
+     * @param array $data
+     *
+     * @test
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-3198
+     */
+    public function frontShippingAddressUseBillingAddress($data)
+    {
+        //Data
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_use_billing_in_shipping',
+            array('general_name' => $data['sku']));
+        //Steps
+        $this->customerHelper()->frontLoginCustomer($data['customer']);
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        //Verification
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 }

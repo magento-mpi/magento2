@@ -17,8 +17,7 @@
  */
 namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
 
-class Contents
-    extends \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\AbstractTab
+class Contents extends \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\AbstractTab
 {
     /**
      * Extension factory
@@ -29,7 +28,7 @@ class Contents
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Connect\Model\Session $session
      * @param \Magento\Connect\Model\ExtensionFactory $extensionFactory
@@ -37,7 +36,7 @@ class Contents
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Connect\Model\Session $session,
         \Magento\Connect\Model\ExtensionFactory $extensionFactory,

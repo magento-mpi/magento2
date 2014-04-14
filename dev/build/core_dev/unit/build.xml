@@ -37,6 +37,11 @@
             <arg line="--log-junit ${basedir}/unit_tests_performance_framework.xml"/>
         </exec>
     </target>
+    <target name="_unit_tests_performance_toolkit_framework" depends="_product_location" description="Unit Tests for performance toolkit framework">
+        <exec dir="${product_root_dir}/dev/tools/performance_toolkit/framework/tests/unit" executable="${phpunit}" failonerror="true">
+            <arg line="--log-junit ${basedir}/unit_tests_performance_toolkit_framework.xml"/>
+        </exec>
+    </target>
     <target name="_unit_tests_static_framework" depends="_product_location" description="Unit tests for static code analysis framework">
         <exec dir="${product_root_dir}/dev/tests/static/framework/tests/unit" executable="${phpunit}" failonerror="true">
             <arg line="--log-junit ${basedir}/unit_tests_static_framework.xml"/>
@@ -60,6 +65,7 @@
 
     <target name="unit_tests_ee" depends="_server_info,_enterprise_edition" description="Unit tests for EE">
         <antcall target="_unit_tests_all"/>
+        <antcall target="_unit_tests_performance_toolkit_framework"/>
     </target>
 
     <target name="unit_tests_ce" depends="_server_info,_community_edition" description="Unit tests for CE">
@@ -88,6 +94,24 @@
 
     <target name="unit_tests_ee_magento_code_coverage" depends="_product_location" description="Code Coverage All EE Unit Tests with Xdebug">
         <antcall target="_code_coverage_configuration">
+            <param name="configuration_file" value="${product_root_dir}/dev/tests/unit/phpunit.xml.dist"/>
+        </antcall>
+        <antcall target="unit_tests_ee">
+            <param name="phpunit" value="${basedir}/dev/build/bin/phpunit-with-xdebug.sh"/>
+        </antcall>
+    </target>
+
+    <target name="unit_tests_ce_magento_code_coverage_clover" depends="_product_location" description="Code Coverage All CE Unit Tests: clover xml report generation">
+        <antcall target="_code_coverage_configuration_clover_xml">
+            <param name="configuration_file" value="${product_root_dir}/dev/tests/unit/phpunit.xml.dist"/>
+        </antcall>
+        <antcall target="unit_tests_ce">
+            <param name="phpunit" value="${basedir}/dev/build/bin/phpunit-with-xdebug.sh"/>
+        </antcall>
+    </target>
+
+    <target name="unit_tests_ee_magento_code_coverage_clover" depends="_product_location" description="Code Coverage All EE Unit Tests: clover xml report generation">
+        <antcall target="_code_coverage_configuration_clover_xml">
             <param name="configuration_file" value="${product_root_dir}/dev/tests/unit/phpunit.xml.dist"/>
         </antcall>
         <antcall target="unit_tests_ee">

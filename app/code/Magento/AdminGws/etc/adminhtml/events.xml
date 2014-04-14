@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="admin_roles_load_after">
         <observer name="magento_admingws" instance="Magento\AdminGws\Model\Observer" method="addDataAfterRoleLoad" />
     </event>
@@ -19,6 +19,21 @@
     </event>
     <event name="controller_action_predispatch">
         <observer name="magento_admingws" instance="Magento\AdminGws\Model\Observer" method="adminControllerPredispatch" />
+    </event>
+    <event name="store_save_after">
+        <observer name="magento_admingws" instance="Magento\AdminGws\Model\Observer" method="refreshRolePermissions" />
+    </event>
+    <event name="store_delete_after">
+        <observer name="magento_admingws" instance="Magento\AdminGws\Model\Observer" method="refreshRolePermissions" />
+    </event>
+    <event name="store_group_delete_after">
+        <observer name="magento_admingws" instance="Magento\AdminGws\Model\Observer" method="refreshRolePermissions" />
+    </event>
+    <event name="website_save_after">
+        <observer name="magento_admingws" instance="Magento\AdminGws\Model\Observer" method="refreshRolePermissions" />
+    </event>
+    <event name="website_delete_after">
+        <observer name="magento_admingws" instance="Magento\AdminGws\Model\Observer" method="refreshRolePermissions" />
     </event>
     <event name="core_collection_abstract_load_before">
         <observer name="magento_admingws" instance="Magento\AdminGws\Model\Observer" method="limitCollection" />
@@ -55,6 +70,7 @@
     </event>
     <event name="store_group_save_after">
         <observer name="magento_admingws" instance="Magento\AdminGws\Model\Models" method="coreStoreGroupSaveAfter" />
+        <observer name="magento_admingws_role_permissions" instance="Magento\AdminGws\Model\Observer" method="refreshRolePermissions" />
     </event>
     <event name="adminhtml_catalog_product_grid_prepare_massaction">
         <observer name="magento_admingws" instance="Magento\AdminGws\Model\Observer" method="catalogProductPrepareMassAction" />
@@ -82,5 +98,8 @@
     </event>
     <event name="adminhtml_banner_edit_tab_content_before_prepare_form">
         <observer name="magento_admingws" instance="Magento\AdminGws\Model\Blocks" method="disableAllStoreViewsContentFeild" />
+    </event>
+    <event name="store_add">
+        <observer name="magento_admingws" instance="Magento\AdminGws\Model\Observer" method="updateRoleStores" />
     </event>
 </config>

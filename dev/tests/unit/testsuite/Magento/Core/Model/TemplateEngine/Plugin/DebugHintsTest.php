@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\TemplateEngine\Plugin;
 
 class DebugHintsTest extends \PHPUnit_Framework_TestCase
@@ -23,19 +22,25 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreData;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
+
     protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-        $this->_storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->_model = new DebugHints($this->_objectManager, $this->_storeConfig, $this->_coreData);
+        $this->subjectMock = $this->getMock('Magento\View\TemplateEngineFactory', array(), array(), '', false);
+        $this->_model = new DebugHints($this->_objectManager, $this->_scopeConfig, $this->_coreData);
     }
 
     /**
@@ -48,24 +53,22 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
         $this->_setupConfigFixture(true, $showBlockHints);
         $engine = $this->getMock('Magento\View\TemplateEngineInterface');
         $engineDecorated = $this->getMock('Magento\View\TemplateEngineInterface');
-        $this->_objectManager
-            ->expects($this->once())
-            ->method('create')
-            ->with(
-                'Magento\Core\Model\TemplateEngine\Decorator\DebugHints',
-                $this->identicalTo(array('subject' => $engine, 'showBlockHints' => $showBlockHints))
-            )
-            ->will($this->returnValue($engineDecorated))
-        ;
-        $this->assertEquals($engineDecorated, $this->_model->afterCreate($engine));
+        $this->_objectManager->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            'Magento\Core\Model\TemplateEngine\Decorator\DebugHints',
+            $this->identicalTo(array('subject' => $engine, 'showBlockHints' => $showBlockHints))
+        )->will(
+            $this->returnValue($engineDecorated)
+        );
+        $this->assertEquals($engineDecorated, $this->_model->afterCreate($this->subjectMock, $engine));
     }
 
     public function afterCreateActiveDataProvider()
     {
-        return array(
-            'block hints disabled'  => array(false),
-            'block hints enabled'   => array(true),
-        );
+        return array('block hints disabled' => array(false), 'block hints enabled' => array(true));
     }
 
     /**
@@ -78,16 +81,16 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
         $this->_coreData->expects($this->any())->method('isDevAllowed')->will($this->returnValue($isDevAllowed));
         $this->_setupConfigFixture($showTemplateHints, true);
         $this->_objectManager->expects($this->never())->method('create');
-        $engine = $this->getMock('Magento\View\TemplateEngineInterface');
-        $this->assertSame($engine, $this->_model->afterCreate($engine));
+        $engine = $this->getMock('Magento\View\TemplateEngineInterface', array(), array(), '', false);
+        $this->assertSame($engine, $this->_model->afterCreate($this->subjectMock, $engine));
     }
 
     public function afterCreateInactiveDataProvider()
     {
         return array(
             'dev disabled, template hints disabled' => array(false, false),
-            'dev disabled, template hints enabled'  => array(false, true),
-            'dev enabled, template hints disabled'  => array(true, false),
+            'dev disabled, template hints enabled' => array(false, true),
+            'dev enabled, template hints disabled' => array(true, false)
         );
     }
 
@@ -99,9 +102,27 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
      */
     protected function _setupConfigFixture($showTemplateHints, $showBlockHints)
     {
-        $this->_storeConfig->expects($this->atLeastOnce())->method('getConfig')->will($this->returnValueMap(array(
-            array(DebugHints::XML_PATH_DEBUG_TEMPLATE_HINTS, null, $showTemplateHints),
-            array(DebugHints::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS, null, $showBlockHints),
-        )));
+        $this->_scopeConfig->expects(
+            $this->atLeastOnce()
+        )->method(
+            'getValue'
+        )->will(
+            $this->returnValueMap(
+                array(
+                    array(
+                        DebugHints::XML_PATH_DEBUG_TEMPLATE_HINTS,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        null,
+                        $showTemplateHints
+                    ),
+                    array(
+                        DebugHints::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        null,
+                        $showBlockHints
+                    )
+                )
+            )
+        );
     }
 }

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Index\Model;
 
 /**
  * Shell model, used to work with indexers via command line
@@ -15,9 +16,7 @@
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Index\Model;
-
-class Shell extends \Magento\Core\Model\AbstractShell
+class Shell extends \Magento\App\AbstractShell
 {
     /**
      * Error status - whether errors have happened
@@ -32,15 +31,12 @@ class Shell extends \Magento\Core\Model\AbstractShell
     protected $_indexer;
 
     /**
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param string $entryPoint
      * @param Indexer $indexer
      */
-    public function __construct(
-        \Magento\Filesystem $filesystem,
-        $entryPoint,
-        \Magento\Index\Model\Indexer $indexer
-    ) {
+    public function __construct(\Magento\App\Filesystem $filesystem, $entryPoint, Indexer $indexer)
+    {
         $this->_indexer = $indexer;
         parent::__construct($filesystem, $entryPoint);
     }
@@ -48,7 +44,7 @@ class Shell extends \Magento\Core\Model\AbstractShell
     /**
      * Runs this model, assumed to be run by command-line
      *
-     * @return \Magento\Index\Model\Shell
+     * @return $this
      */
     public function run()
     {
@@ -73,7 +69,7 @@ class Shell extends \Magento\Core\Model\AbstractShell
     /**
      * Shows information about indexes
      *
-     * @return \Magento\Index\Model\Shell
+     * @return $this
      */
     protected function _runShowInfo()
     {
@@ -89,14 +85,14 @@ class Shell extends \Magento\Core\Model\AbstractShell
     /**
      * Shows information about statuses or modes
      *
-     * @return \Magento\Index\Model\Shell
+     * @return $this
      */
     protected function _runShowStatusOrMode()
     {
         if ($this->getArg('status')) {
-            $processes  = $this->_parseIndexerString($this->getArg('status'));
+            $processes = $this->_parseIndexerString($this->getArg('status'));
         } else {
-            $processes  = $this->_parseIndexerString($this->getArg('mode'));
+            $processes = $this->_parseIndexerString($this->getArg('mode'));
         }
         foreach ($processes as $process) {
             /* @var $process \Magento\Index\Model\Process */
@@ -128,7 +124,7 @@ class Shell extends \Magento\Core\Model\AbstractShell
                         break;
                 }
             }
-            echo sprintf('%-30s ', $process->getIndexer()->getName() . ':') . $status ."\n";
+            echo sprintf('%-30s ', $process->getIndexer()->getName() . ':') . $status . "\n";
         }
         return $this;
     }
@@ -136,23 +132,23 @@ class Shell extends \Magento\Core\Model\AbstractShell
     /**
      * Sets new mode for indexes
      *
-     * @return \Magento\Index\Model\Shell
+     * @return $this
      */
     protected function _runSetMode()
     {
         if ($this->getArg('mode-realtime')) {
-            $mode       = \Magento\Index\Model\Process::MODE_REAL_TIME;
-            $processes  = $this->_parseIndexerString($this->getArg('mode-realtime'));
+            $mode = \Magento\Index\Model\Process::MODE_REAL_TIME;
+            $processes = $this->_parseIndexerString($this->getArg('mode-realtime'));
         } else {
-            $mode       = \Magento\Index\Model\Process::MODE_MANUAL;
-            $processes  = $this->_parseIndexerString($this->getArg('mode-manual'));
+            $mode = \Magento\Index\Model\Process::MODE_MANUAL;
+            $processes = $this->_parseIndexerString($this->getArg('mode-manual'));
         }
         foreach ($processes as $process) {
             /* @var $process \Magento\Index\Model\Process */
             try {
                 $process->setMode($mode)->save();
                 echo $process->getIndexer()->getName() . " index was successfully changed index mode\n";
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 echo $e->getMessage() . "\n";
                 $this->_hasErrors = true;
             } catch (\Exception $e) {
@@ -167,7 +163,7 @@ class Shell extends \Magento\Core\Model\AbstractShell
     /**
      * Reindexes indexer(s)
      *
-     * @return \Magento\Index\Model\Shell
+     * @return void
      */
     protected function _runReindex()
     {
@@ -180,9 +176,12 @@ class Shell extends \Magento\Core\Model\AbstractShell
         foreach ($processes as $process) {
             /* @var $process \Magento\Index\Model\Process */
             try {
+                $startTime = microtime(true);
                 $process->reindexEverything();
-                echo $process->getIndexer()->getName() . " index was rebuilt successfully\n";
-            } catch (\Magento\Core\Exception $e) {
+                $resultTime = microtime(true) - $startTime;
+                echo $process->getIndexer()->getName()
+                    . " index was rebuilt successfully in " . gmdate('H:i:s', $resultTime) . "\n";
+            } catch (\Magento\Model\Exception $e) {
                 echo $e->getMessage() . "\n";
                 $this->_hasErrors = true;
             } catch (\Exception $e) {

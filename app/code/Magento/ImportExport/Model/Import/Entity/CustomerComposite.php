@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Model\Import\Entity;
 
 /**
@@ -15,8 +14,7 @@ namespace Magento\ImportExport\Model\Import\Entity;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class CustomerComposite
-    extends \Magento\ImportExport\Model\Import\AbstractEntity
+class CustomerComposite extends \Magento\ImportExport\Model\Import\AbstractEntity
 {
     /**#@+
      * Particular column names
@@ -24,23 +22,30 @@ class CustomerComposite
      * Names that begins with underscore is not an attribute. This name convention is for
      * to avoid interference with same attribute name.
      */
-    const COLUMN_ADDRESS_PREFIX   = '_address_';
-    const COLUMN_DEFAULT_BILLING  = '_address_default_billing_';
+    const COLUMN_ADDRESS_PREFIX = '_address_';
+
+    const COLUMN_DEFAULT_BILLING = '_address_default_billing_';
+
     const COLUMN_DEFAULT_SHIPPING = '_address_default_shipping_';
+
     /**#@-*/
 
     /**#@+
      * Data row scopes
      */
     const SCOPE_DEFAULT = 1;
+
     const SCOPE_ADDRESS = -1;
+
     /**#@-*/
 
     /**#@+
      * Component entity names
      */
     const COMPONENT_ENTITY_CUSTOMER = 'customer';
-    const COMPONENT_ENTITY_ADDRESS  = 'address';
+
+    const COMPONENT_ENTITY_ADDRESS = 'address';
+
     /**#@-*/
 
     /**
@@ -61,36 +66,36 @@ class CustomerComposite
     /**
      * Column names that holds values with particular meaning
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array(
         \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE,
         \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_STORE,
         self::COLUMN_DEFAULT_BILLING,
-        self::COLUMN_DEFAULT_SHIPPING,
+        self::COLUMN_DEFAULT_SHIPPING
     );
 
     /**
      * Permanent entity columns
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array(
         \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL,
-        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE,
+        \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE
     );
 
     /**
      * Customer attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_customerAttributes = array();
 
     /**
      * Address attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_addressAttributes = array();
 
@@ -125,7 +130,7 @@ class CustomerComposite
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\App\Resource $resource
@@ -139,7 +144,7 @@ class CustomerComposite
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Stdlib\String $string,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\App\Resource $resource,
@@ -148,11 +153,10 @@ class CustomerComposite
         \Magento\ImportExport\Model\Import\Entity\Eav\Customer\AddressFactory $addressFactory,
         array $data = array()
     ) {
-        parent::__construct(
-            $coreData, $string, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $data
-        );
+        parent::__construct($coreData, $string, $scopeConfig, $importFactory, $resourceHelper, $resource, $data);
 
-        $this->addMessageTemplate(self::ERROR_ROW_IS_ORPHAN,
+        $this->addMessageTemplate(
+            self::ERROR_ROW_IS_ORPHAN,
             __('Orphan rows that will be skipped due default row errors')
         );
 
@@ -166,7 +170,7 @@ class CustomerComposite
             $this->_dataSourceModels['customer'] = $data['customer_data_source_model'];
         } else {
             $arguments = array(
-                'entity_type' => \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COMPONENT_ENTITY_CUSTOMER,
+                'entity_type' => \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COMPONENT_ENTITY_CUSTOMER
             );
             $this->_dataSourceModels['customer'] = $dataFactory->create(array('arguments' => $arguments));
         }
@@ -209,7 +213,7 @@ class CustomerComposite
     /**
      * Collect customer attributes
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\CustomerComposite
+     * @return $this
      */
     protected function _initCustomerAttributes()
     {
@@ -224,7 +228,7 @@ class CustomerComposite
     /**
      * Collect address attributes
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\CustomerComposite
+     * @return $this
      */
     protected function _initAddressAttributes()
     {
@@ -239,7 +243,7 @@ class CustomerComposite
     /**
      * Import data rows
      *
-     * @return boolean
+     * @return bool
      */
     protected function _importData()
     {
@@ -266,15 +270,15 @@ class CustomerComposite
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return boolean
+     * @return bool
      */
     public function validateRow(array $rowData, $rowNumber)
     {
         $rowScope = $this->_getRowScope($rowData);
         if ($rowScope == self::SCOPE_DEFAULT) {
             if ($this->_customerEntity->validateRow($rowData, $rowNumber)) {
-                $this->_currentWebsiteCode
-                    = $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE];
+                $this->_currentWebsiteCode =
+                    $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE];
                 $this->_currentEmail = strtolower(
                     $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL]
                 );
@@ -282,11 +286,13 @@ class CustomerComposite
                 // Add new customer data into customer storage for address entity instance
                 $websiteId = $this->_customerEntity->getWebsiteId($this->_currentWebsiteCode);
                 if (!$this->_addressEntity->getCustomerStorage()->getCustomerId($this->_currentEmail, $websiteId)) {
-                    $customerData = new \Magento\Object(array(
-                        'id'         => $this->_nextCustomerId,
-                        'email'      => $this->_currentEmail,
-                        'website_id' => $websiteId
-                    ));
+                    $customerData = new \Magento\Object(
+                        array(
+                            'id' => $this->_nextCustomerId,
+                            'email' => $this->_currentEmail,
+                            'website_id' => $websiteId
+                        )
+                    );
                     $this->_addressEntity->getCustomerStorage()->addCustomer($customerData);
                     $this->_nextCustomerId++;
                 }
@@ -324,10 +330,10 @@ class CustomerComposite
         if (empty($rowData)) {
             return true;
         } else {
-            $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_WEBSITE]
-                = $this->_currentWebsiteCode;
-            $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_EMAIL]
-                = $this->_currentEmail;
+            $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_WEBSITE] =
+                $this->_currentWebsiteCode;
+            $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_EMAIL] =
+                $this->_currentEmail;
             $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID] = null;
 
             return $this->_addressEntity->validateRow($rowData, $rowNumber);
@@ -342,10 +348,7 @@ class CustomerComposite
      */
     protected function _prepareAddressRowData(array $rowData)
     {
-        $excludedAttributes = array(
-            self::COLUMN_DEFAULT_BILLING,
-            self::COLUMN_DEFAULT_SHIPPING
-        );
+        $excludedAttributes = array(self::COLUMN_DEFAULT_BILLING, self::COLUMN_DEFAULT_SHIPPING);
 
         unset(
             $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE],
@@ -376,15 +379,16 @@ class CustomerComposite
         if (!isset($rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL])) {
             return self::SCOPE_ADDRESS;
         }
-        return strlen(trim($rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL]))
-            ? self::SCOPE_DEFAULT : self::SCOPE_ADDRESS;
+        return strlen(
+            trim($rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL])
+        ) ? self::SCOPE_DEFAULT : self::SCOPE_ADDRESS;
     }
 
     /**
      * Set data from outside to change behavior
      *
      * @param array $parameters
-     * @return \Magento\ImportExport\Model\Import\Entity\CustomerComposite
+     * @return $this
      */
     public function setParameters(array $parameters)
     {
@@ -444,8 +448,9 @@ class CustomerComposite
      */
     public function getErrorsCount()
     {
-        return $this->_customerEntity->getErrorsCount() + $this->_addressEntity->getErrorsCount()
-            + parent::getErrorsCount();
+        return $this->_customerEntity->getErrorsCount() +
+            $this->_addressEntity->getErrorsCount() +
+            parent::getErrorsCount();
     }
 
     /**
@@ -455,8 +460,9 @@ class CustomerComposite
      */
     public function getInvalidRowsCount()
     {
-        return $this->_customerEntity->getInvalidRowsCount() + $this->_addressEntity->getInvalidRowsCount()
-            + parent::getInvalidRowsCount();
+        return $this->_customerEntity->getInvalidRowsCount() +
+            $this->_addressEntity->getInvalidRowsCount() +
+            parent::getInvalidRowsCount();
     }
 
     /**
@@ -466,7 +472,8 @@ class CustomerComposite
      */
     public function getProcessedEntitiesCount()
     {
-        return $this->_customerEntity->getProcessedEntitiesCount() + $this->_addressEntity->getProcessedEntitiesCount();
+        return $this->_customerEntity->getProcessedEntitiesCount() +
+            $this->_addressEntity->getProcessedEntitiesCount();
     }
 
     /**
@@ -493,8 +500,8 @@ class CustomerComposite
     protected function _prepareRowForDb(array $rowData)
     {
         $rowData['_scope'] = $this->_getRowScope($rowData);
-        $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_WEBSITE]
-            = $this->_currentWebsiteCode;
+        $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_WEBSITE] =
+            $this->_currentWebsiteCode;
         $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_EMAIL] = $this->_currentEmail;
         $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID] = null;
 

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Review\Helper;
 
 /**
@@ -27,34 +26,38 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
+     * Escaper
+     *
      * @var \Magento\Escaper
      */
     protected $_escaper;
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filter
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filter
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_escaper = $escaper;
         $this->filter = $filter;
         parent::__construct($context);
     }
 
     /**
+     * Get review detail
+     *
      * @param string $origDetail
      * @return string
      */
@@ -64,7 +67,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * getDetailHtml return short detail info in HTML
+     * Return short detail info in HTML
+     *
      * @param string $origDetail Full detail info
      * @return string
      */
@@ -74,11 +78,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
+     * Return an indicator of whether or not guest is allowed to write
+     *
      * @return bool
      */
     public function getIsGuestAllowToWrite()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_REVIEW_GUETS_ALLOW);
+        return $this->_scopeConfig->isSetFlag(self::XML_REVIEW_GUETS_ALLOW, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -89,9 +95,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getReviewStatuses()
     {
         return array(
-            \Magento\Review\Model\Review::STATUS_APPROVED     => __('Approved'),
-            \Magento\Review\Model\Review::STATUS_PENDING      => __('Pending'),
-            \Magento\Review\Model\Review::STATUS_NOT_APPROVED => __('Not Approved'),
+            \Magento\Review\Model\Review::STATUS_APPROVED => __('Approved'),
+            \Magento\Review\Model\Review::STATUS_PENDING => __('Pending'),
+            \Magento\Review\Model\Review::STATUS_NOT_APPROVED => __('Not Approved')
         );
     }
 

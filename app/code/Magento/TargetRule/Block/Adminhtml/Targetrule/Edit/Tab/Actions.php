@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
 
 /**
  * TargetRule Adminhtml Edit Tab Actions Block
@@ -15,12 +15,8 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
-
-class Actions
-    extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
-
+class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var \Magento\Backend\Block\Widget\Form\Renderer\Fieldset
@@ -34,7 +30,7 @@ class Actions
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\TargetRule\Block\Adminhtml\Actions\Conditions $conditions
      * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset
@@ -42,7 +38,7 @@ class Actions
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\TargetRule\Block\Adminhtml\Actions\Conditions $conditions,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset,
@@ -56,30 +52,29 @@ class Actions
     /**
      * Prepare target rule actions form before rendering HTML
      *
-     * @return \Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Actions
+     * @return $this
      */
     protected function _prepareForm()
     {
         /* @var $model \Magento\TargetRule\Model\Rule */
-        $model  = $this->_coreRegistry->registry('current_target_rule');
+        $model = $this->_coreRegistry->registry('current_target_rule');
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset   = $form->addFieldset('actions_fieldset', array(
-            'legend' => __('Product Result Conditions (leave blank for matching all products)'))
+        $fieldset = $form->addFieldset(
+            'actions_fieldset',
+            array('legend' => __('Product Result Conditions (leave blank for matching all products)'))
         );
-        $newCondUrl = $this->getUrl('adminhtml/targetrule/newActionsHtml/', array(
-            'form'  => $fieldset->getHtmlId()
-        ));
-        $renderer   = $this->_fieldset->setTemplate('Magento_TargetRule::edit/conditions/fieldset.phtml')
-            ->setNewChildUrl($newCondUrl);
+        $newCondUrl = $this->getUrl('adminhtml/targetrule/newActionsHtml/', array('form' => $fieldset->getHtmlId()));
+        $renderer = $this->_fieldset->setTemplate(
+            'Magento_TargetRule::edit/conditions/fieldset.phtml'
+        )->setNewChildUrl(
+            $newCondUrl
+        );
         $fieldset->setRenderer($renderer);
 
-        $element    = $fieldset->addField('actions', 'text', array(
-            'name'      => 'actions',
-            'required'  => true
-        ));
+        $element = $fieldset->addField('actions', 'text', array('name' => 'actions', 'required' => true));
         $element->setRule($model);
         $element->setRenderer($this->_conditions);
 

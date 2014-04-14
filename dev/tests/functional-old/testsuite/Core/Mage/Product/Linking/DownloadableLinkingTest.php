@@ -24,7 +24,6 @@ class Core_Mage_Product_Linking_DownloadableLinkingTest extends Mage_Selenium_Te
     {
         $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->runMassAction('Delete', 'all');
     }
 
     protected function assertPreconditions()

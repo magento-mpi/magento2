@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cms\Controller;
 
 /**
  * CMS Page controller
@@ -16,18 +16,16 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Controller;
-
 class Page extends \Magento\App\Action\Action
 {
     /**
      * View CMS page action
      *
+     * @return void
      */
     public function viewAction()
     {
-        $pageId = $this->getRequest()
-            ->getParam('page_id', $this->getRequest()->getParam('id', false));
+        $pageId = $this->getRequest()->getParam('page_id', $this->getRequest()->getParam('id', false));
         if (!$this->_objectManager->get('Magento\Cms\Helper\Page')->renderPage($this, $pageId)) {
             $this->_forward('noroute');
         }

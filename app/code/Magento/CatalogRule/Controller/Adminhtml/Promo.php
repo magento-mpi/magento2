@@ -17,9 +17,13 @@
  */
 namespace Magento\CatalogRule\Controller\Adminhtml;
 
-class Promo extends \Magento\Backend\App\Action
-{
+use Magento\Backend\App\Action;
 
+class Promo extends Action
+{
+    /**
+     * @return void
+     */
     public function indexAction()
     {
         $this->_view->loadLayout();
@@ -28,9 +32,11 @@ class Promo extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return bool
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_CatalogRule::promo');
     }
-
 }

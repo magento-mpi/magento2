@@ -7,14 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Theme;
+
+use Magento\Model\AbstractModel;
+use Magento\View\Design\Theme\FileInterface;
+use Magento\View\Design\Theme\Customization\FileInterface as CustomizationFileInterface;
 
 /**
  * Theme files model class
  */
-namespace Magento\Core\Model\Theme;
-
-class File extends \Magento\Core\Model\AbstractModel
-    implements \Magento\View\Design\Theme\FileInterface
+class File extends AbstractModel implements FileInterface
 {
     /**
      * {@inheritdoc}
@@ -41,7 +43,7 @@ class File extends \Magento\Core\Model\AbstractModel
     protected $_fileServiceFactory;
 
     /**
-     * @var \Magento\View\Design\Theme\Customization\FileInterface
+     * @var CustomizationFileInterface
      */
     protected $_fileService;
 
@@ -51,20 +53,20 @@ class File extends \Magento\Core\Model\AbstractModel
     protected $_themeFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
      * @param \Magento\View\Design\Theme\Customization\FileServiceFactory $fileServiceFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\View\Design\Theme\FlyweightFactory $themeFactory,
         \Magento\View\Design\Theme\Customization\FileServiceFactory $fileServiceFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -75,6 +77,8 @@ class File extends \Magento\Core\Model\AbstractModel
 
     /**
      * Theme files model initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -86,7 +90,7 @@ class File extends \Magento\Core\Model\AbstractModel
      *
      * @return $this
      */
-    public function setCustomizationService(\Magento\View\Design\Theme\Customization\FileInterface $fileService)
+    public function setCustomizationService(CustomizationFileInterface $fileService)
     {
         $this->_fileService = $fileService;
         return $this;
@@ -95,6 +99,7 @@ class File extends \Magento\Core\Model\AbstractModel
     /**
      * {@inheritdoc}
      *
+     * @return CustomizationFileInterface
      * @throws \UnexpectedValueException
      */
     public function getCustomizationService()
@@ -171,8 +176,8 @@ class File extends \Magento\Core\Model\AbstractModel
     public function getFileInfo()
     {
         return array(
-            'id'        => $this->getId(),
-            'name'      => $this->getFileName(),
+            'id' => $this->getId(),
+            'name' => $this->getFileName(),
             'temporary' => $this->getData('is_temporary') ? $this->getId() : 0
         );
     }

@@ -8,58 +8,17 @@
 # @license     {license_link}
 #
 ---
-#
-customer_account:
-    uimap: &customerAccount
-        form:
-            fieldsets:
-                -
-                    my_recent_tags:
-                        xpath: //div[@class='tags']
-                -
-                    my_recent_reviews:
-                        xpath: //div[@class='reviews']
-                -
-                    my_account_links:
-                        xpath: //div[@class="block-content"]
-                        links:
-                            sku_tab: //a[text()='Order by SKU']
-                            my_returns_tab: //a[text()='My Returns']
-
-customer_account_no_cache:
-    mca: customer/account/index/?no_cache=
-    title: My Account
-    uimap: *customerAccount
-
-product_review_details:
+my_credit_cards:
+    mca: magento_pbridge/payment_profile/
+    click_xpath: //div[div/strong='My Account']//a[text()='My Credit Cards']
     title: Magento Enterprise Edition
     uimap:
         form:
             fieldsets:
                 -
-                    review_details:
+                    general_elements:
                         pageelements:
-                            product_name: //h3[@class='product-name']
-                            review_details: //div[@class='details']/p[not(@class)]
-
-my_product_reviews_details:
-    uimap:
-        form:
-            fieldsets:
-                -
-                    review_details:
-                        pageelements:
-                            review_details: //div[@class='details']/p[not(@class)]
-
-view_order:
-    title: 'Order # %elementTitle%'
-    uimap:
-        form:
-            fieldsets:
-                -
-                    order:
-                        links:
-                            return: //a[text()='Return']
+                            account_title: //*[text()='My Credit Card profiles']
 
 order_by_sku:
     mca: customer_order/sku/
@@ -69,70 +28,11 @@ order_by_sku:
             fieldsets:
                 -
                     add_by_sku:
-                        xpath: //div[div/h1='Order by SKU']
                         fields:
-                            sku: //tr[%number%]//input[contains(@name,'[sku]')]
-                            qty: //tr[%number%]//input[contains(@name,'[qty]')]
                             sku_upload: //*[@id='customer_sku_csv']
-                        buttons:
-                            add_to_cart: //button[span='Add to Cart']
-                            add_row: //span[@title='Add Row']
-                            remove_row: //tr[%rowIndex%]//*[@class='btn-remove']
                         pageelements:
                             note_csv: //*[@class='note']
-                            table_lines: //table/tbody/tr
-        messages:
-            qty_sku_invalid_number: //div[@class='validation-advice' and contains(.,'Please enter a valid number in this field.')]
-            qty_sku_negative_number: //div[@class='validation-advice' and contains(.,'Please enter a number greater than 0 in this field.')]
-            qty_sku_outofrange_number: //div[@class='validation-advice' and contains(.,'The value is not within the specified range.')]
-
-create_new_return:
-   mca: rma/returns/create/order_id/%id%/
-   title: Create New Return
-   uimap:
-       form:
-           fieldsets:
-               -
-                   create_rma:
-                       xpath: //div[div/form/@id='rma_create_form']
-                       links:
-                           back: //p[@class='back-link a-left']/a
-                           add_item_to_return: //a[text()='Add Item To Return']
-                       fields:
-                           email: //*[@id='email']
-                           quantity: //*[@id='items:qty_requested%param%']
-                           comment: //*[@id='rma_comment']
-                       dropdowns:
-                           item: //*[@id='items:item%param%']
-                           resolution: //*[@id='items:resolution%param%']
-                           condition: //*[@id='items:condition%param%']
-                           reason: //*[@id='items:reason%param%']
-                       buttons:
-                           submit: //*[@id='submit.save']
-                       pageelements:
-                           custom_items_attribute: //*[@id='items:%attributeCode%%param%']
-       messages:
-           specify_product_quantity: //li[normalize-space(@class)='error-msg' and contains(.,'Quantity of %productName% is greater than you can return.')]
-
-my_returns:
-   mca: rma/returns/history/
-   title: My Returns
-   uimap:
-       form:
-       messages:
-           successfully_submitted_return: "//li[normalize-space(@class)='success-msg' and contains(.,'You submitted Return #')]"
-
-my_credit_cards:
-    mca: magento_pbridge/payment_profile/
-    title: Magento Enterprise Edition
-    uimap:
-        form:
-            fieldsets:
-                -
-                    general_elements:
-                        xpath: //div[div/h1='My Credit Card profiles']
-                        pageelements:
-                            account_title: //*[text()='My Credit Card profiles']
+                            table_lines: //fieldset/div
 
 my_invitations:
     mca: invitation/
@@ -142,9 +42,9 @@ my_invitations:
             fieldsets:
                 -
                     my_invitation:
-                        xpath: //div[@class="my-account"]
+                        xpath: //div[@class='invitations']
                         buttons:
-                            send_invitation: //a[@class='button' and contains(.,'Send Invitations')]
+                            send_invitation: //a[span='Send Invitations']
         messages:
             success_send: //li[normalize-space(@class)='success-msg' and contains(.,'You sent the invitation for %email%.')]
             failed_send: //li[normalize-space(@class)='error-msg' and contains(.,'Something went wrong sending an email to %email%.')]
@@ -157,9 +57,9 @@ my_invitations_send:
             fieldsets:
                 -
                     send_invitations:
-                        xpath: //div[@class="my-account"]
+                        xpath: //form[@id='invitationForm']
                         fields:
                             email: //input[@id='email_%num%']
                             message_textarea: //textarea[@id='message']
-        buttons:
-            send_invitation: //button[span='Send Invitations']
+                        buttons:
+                            send_invitation: //button[span='Send Invitations']

@@ -31,13 +31,15 @@ class Config
     private $_isDryRun;
 
     /**
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param array $cmdOptions
+     * @param array $allowedFiles Non-generated files delivered with the application,
+     *     so allowed to be present in the publication directory
      * @throws \Magento\Exception
      */
-    public function __construct(\Magento\Filesystem $filesystem, $cmdOptions)
+    public function __construct(\Magento\App\Filesystem $filesystem, array $cmdOptions, $allowedFiles = array())
     {
-        $rootDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+        $rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $sourceDir = isset($cmdOptions['source']) ? $cmdOptions['source'] : $rootDirectory->getAbsolutePath();
         if (!$rootDirectory->isDirectory($rootDirectory->getRelativePath($sourceDir))) {
             throw new \Magento\Exception('Source directory does not exist: ' . $sourceDir);
@@ -46,13 +48,16 @@ class Config
         if (isset($cmdOptions['destination'])) {
             $destinationDir = $cmdOptions['destination'];
         } else {
-            $destinationDir = $filesystem->getPath(\Magento\Filesystem::STATIC_VIEW);
+            $destinationDir = $filesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         }
         $destinationDirRelative = $rootDirectory->getRelativePath($destinationDir);
         if (!$rootDirectory->isDirectory($destinationDirRelative)) {
             throw new \Magento\Exception('Destination directory does not exist: ' . $destinationDir);
         }
-        if ($rootDirectory->read($destinationDirRelative)) {
+        foreach ($allowedFiles as $k => $allowedFile) {
+            $allowedFiles[$k] = $destinationDirRelative . '/' . $allowedFile;
+        }
+        if (array_diff($rootDirectory->read($destinationDirRelative), $allowedFiles)) {
             throw new \Magento\Exception("Destination directory must be empty: {$destinationDir}");
         }
 

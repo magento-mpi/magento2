@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Log\Model;
 
 /**
@@ -22,11 +21,13 @@ namespace Magento\Log\Model;
  * @method int getStoreId()
  * @method \Magento\Log\Model\Visitor setStoreId(int $value)
  */
-class Visitor extends \Magento\Core\Model\AbstractModel
+class Visitor extends \Magento\Model\AbstractModel
 {
     const DEFAULT_ONLINE_MINUTES_INTERVAL = 15;
+
     const VISITOR_TYPE_CUSTOMER = 'c';
-    const VISITOR_TYPE_VISITOR  = 'v';
+
+    const VISITOR_TYPE_VISITOR = 'v';
 
     /**
      * @var bool
@@ -34,19 +35,19 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_skipRequestLogging = false;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $_ignoredUserAgents;
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
 
@@ -57,8 +58,8 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      */
     protected $_ignores;
 
-    /*
-     * @var \Magento\Core\Model\StoreManagerInterface
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -71,11 +72,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
-
-    /**
-     * @var \Magento\Customer\Model\CustomerFactory
-     */
-    protected $_customerFactory;
 
     /**
      * @var \Magento\HTTP\Header
@@ -98,45 +94,44 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Session\SessionManagerInterface $session
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\HTTP\Header $httpHeader
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      * @param \Magento\HTTP\PhpEnvironment\ServerAddress $serverAddress
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Module\Manager $moduleManager
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $ignoredUserAgents
      * @param array $ignores
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Session\SessionManagerInterface $session,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\HTTP\Header $httpHeader,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         \Magento\HTTP\PhpEnvironment\ServerAddress $serverAddress,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Module\Manager $moduleManager,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $ignoredUserAgents = array(),
         array $ignores = array(),
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_customerFactory = $customerFactory;
+        $this->_scopeConfig = $scopeConfig;
         $this->_quoteFactory = $quoteFactory;
         $this->_session = $session;
         $this->_storeManager = $storeManager;
@@ -153,6 +148,8 @@ class Visitor extends \Magento\Core\Model\AbstractModel
 
     /**
      * Object initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -176,25 +173,38 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Skip request logging
+     *
+     * @param bool $skipRequestLogging
+     * @return void
+     */
+    public function setSkipRequestLogging($skipRequestLogging)
+    {
+        $this->_skipRequestLogging = (bool)$skipRequestLogging;
+    }
+
+    /**
      * Initialize visitor information from server data
      *
-     * @return \Magento\Log\Model\Visitor
+     * @return $this
      */
     public function initServerData()
     {
         $clean = true;
-        $this->addData(array(
-            'server_addr'           => $this->_serverAddress->getServerAddress(true),
-            'remote_addr'           => $this->_remoteAddress->getRemoteAddress(true),
-            'http_secure'           => $this->_storeManager->getStore()->isCurrentlySecure(),
-            'http_host'             => $this->_httpHeader->getHttpHost($clean),
-            'http_user_agent'       => $this->_httpHeader->getHttpUserAgent($clean),
-            'http_accept_language'  => $this->_httpHeader->getHttpAcceptLanguage($clean),
-            'http_accept_charset'   => $this->_httpHeader->getHttpAcceptCharset($clean),
-            'request_uri'           => $this->_httpHeader->getRequestUri($clean),
-            'session_id'            => $this->_getSession()->getSessionId(),
-            'http_referer'          => $this->_httpHeader->getHttpReferer($clean),
-        ));
+        $this->addData(
+            array(
+                'server_addr' => $this->_serverAddress->getServerAddress(true),
+                'remote_addr' => $this->_remoteAddress->getRemoteAddress(true),
+                'http_secure' => $this->_storeManager->getStore()->isCurrentlySecure(),
+                'http_host' => $this->_httpHeader->getHttpHost($clean),
+                'http_user_agent' => $this->_httpHeader->getHttpUserAgent($clean),
+                'http_accept_language' => $this->_httpHeader->getHttpAcceptLanguage($clean),
+                'http_accept_charset' => $this->_httpHeader->getHttpAcceptCharset($clean),
+                'request_uri' => $this->_httpHeader->getRequestUri($clean),
+                'session_id' => $this->_getSession()->getSessionId(),
+                'http_referer' => $this->_httpHeader->getHttpReferer($clean)
+            )
+        );
 
         return $this;
     }
@@ -206,10 +216,11 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      */
     public function getOnlineMinutesInterval()
     {
-        $configValue = $this->_coreStoreConfig->getConfig('customer/online_customers/online_minutes_interval');
-        return intval($configValue) > 0
-            ? intval($configValue)
-            : self::DEFAULT_ONLINE_MINUTES_INTERVAL;
+        $configValue = $this->_scopeConfig->getValue(
+            'customer/online_customers/online_minutes_interval',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        return intval($configValue) > 0 ? intval($configValue) : self::DEFAULT_ONLINE_MINUTES_INTERVAL;
     }
 
     /**
@@ -220,10 +231,15 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     public function getUrl()
     {
         $url = 'http' . ($this->getHttpSecure() ? 's' : '') . '://';
-        $url .= $this->getHttpHost().$this->getRequestUri();
+        $url .= $this->getHttpHost() . $this->getRequestUri();
         return $url;
     }
 
+    /**
+     * Return First Visit data in internal format.
+     *
+     * @return string
+     */
     public function getFirstVisitAt()
     {
         if (!$this->hasData('first_visit_at')) {
@@ -232,6 +248,11 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         return $this->getData('first_visit_at');
     }
 
+    /**
+     * Return Last Visit data in internal format.
+     *
+     * @return string
+     */
     public function getLastVisitAt()
     {
         if (!$this->hasData('last_visit_at')) {
@@ -300,11 +321,12 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      */
     public function bindCustomerLogin($observer)
     {
-        if (!$this->getCustomerId() && $customer = $observer->getEvent()->getCustomer()) {
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
+        $customer = $observer->getEvent()->getCustomer();
+        if (!$this->getCustomerId()) {
             $this->setDoCustomerLogin(true);
             $this->setCustomerId($customer->getId());
         }
-        return $this;
     }
 
     /**
@@ -317,14 +339,14 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      */
     public function bindCustomerLogout($observer)
     {
-        $customer = $observer->getEvent()->getCustomer();
-        if ($this->getCustomerId() && $customer) {
+        if ($this->getCustomerId()) {
             $this->setDoCustomerLogout(true);
         }
-        return $this;
     }
 
     /**
+     * Create binding of checkout quote
+     *
      * @param \Magento\Event\Observer $observer
      * @return $this
      */
@@ -341,6 +363,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Destroy binding of checkout quote
      * @param \Magento\Event\Observer $observer
      * @return $this
      */
@@ -355,6 +378,9 @@ class Visitor extends \Magento\Core\Model\AbstractModel
 
     /**
      * Methods for research (depends from customer online admin section)
+     *
+     * @param array $data
+     * @return $this
      */
     public function addIpData($data)
     {
@@ -364,26 +390,8 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @param object $data
-     * @return $this
-     */
-    public function addCustomerData($data)
-    {
-        $customerId = $data->getCustomerId();
-        if (intval($customerId) <= 0) {
-            return $this;
-        }
-        $customerData = $this->_customerFactory->create()->load($customerId);
-        $newCustomerData = array();
-        foreach ($customerData->getData() as $propName => $propValue) {
-            $newCustomerData['customer_' . $propName] = $propValue;
-        }
-
-        $data->addData($newCustomerData);
-        return $this;
-    }
-
-    /**
+     * Load quote data into $data
+     *
      * @param object $data
      * @return $this
      */
@@ -398,6 +406,8 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Returns true if the module is required
+     *
      * @param \Magento\Event\Observer $observer
      * @return bool
      */

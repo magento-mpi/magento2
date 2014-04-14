@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Helper;
 
 /**
  * Adminhtml Catalog helper
@@ -15,14 +16,12 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Helper;
-
 class Catalog extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Config path to valid file paths
      */
-    const XML_PATH_PUBLIC_FILES_VALID_PATHS     = 'general/file/public_files_valid_paths';
+    const XML_PATH_PUBLIC_FILES_VALID_PATHS = 'general/file/public_files_valid_paths';
 
     /**
      * Config path to sitemap valid paths
@@ -46,21 +45,21 @@ class Catalog extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
@@ -78,7 +77,7 @@ class Catalog extends \Magento\App\Helper\AbstractHelper
      * Set Custom Attribute Tab Block Name for Product Edit
      *
      * @param string $attributeTabBlock
-     * @return \Magento\Catalog\Helper\Catalog
+     * @return $this
      */
     public function setAttributeTabBlock($attributeTabBlock)
     {
@@ -100,7 +99,7 @@ class Catalog extends \Magento\App\Helper\AbstractHelper
      * Set Custom Attribute Tab Block Name for Category Edit
      *
      * @param string $attributeTabBlock
-     * @return \Magento\Catalog\Helper\Catalog
+     * @return $this
      */
     public function setCategoryAttributeTabBlock($attributeTabBlock)
     {
@@ -116,8 +115,8 @@ class Catalog extends \Magento\App\Helper\AbstractHelper
     public function getSitemapValidPaths()
     {
         return array_merge(
-            $this->_coreStoreConfig->getConfig(self::XML_PATH_SITEMAP_VALID_PATHS),
-            $this->_coreStoreConfig->getConfig(self::XML_PATH_PUBLIC_FILES_VALID_PATHS)
+            $this->_scopeConfig->getValue(self::XML_PATH_SITEMAP_VALID_PATHS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
+            $this->_scopeConfig->getValue(self::XML_PATH_PUBLIC_FILES_VALID_PATHS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
         );
     }
 }

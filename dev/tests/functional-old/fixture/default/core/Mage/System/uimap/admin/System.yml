@@ -17,8 +17,8 @@ notification:
 
 # Tools: Backups page
 system_backup:
-    mca: system_backup/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_backup/')]
+    mca: backup/
+    click_xpath: //ul[@id='nav']//a[span='Backups']
     title: Backups / Tools / System / Magento Admin
     uimap:
         form:
@@ -130,8 +130,8 @@ system_currencysymbol:
 
 #Transactional email
 system_email_template:
-    mca: system_email_template/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_email_template')]
+    mca: email_template/
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/email_template/')]
     title: Email Templates / Communications / Marketing / Magento Admin
     uimap:
         form:
@@ -164,7 +164,7 @@ system_email_template:
 
 #Add New transactional email
 new_email_template:
-    mca: system_email_template/new/
+    mca: email_template/new/
     title: New Template / Email Templates / Communications / Marketing / Magento Admin
     uimap:
         form:
@@ -205,7 +205,7 @@ new_email_template:
 
 #Edit transactional email
 edit_email_template:
-    mca: system_email_template/edit/id/%id%/
+    mca: email_template/edit/id/%id%/
     title: %elementTitle% / Email Templates / Communications / Marketing / Magento Admin
     uimap:
         form:
@@ -244,5 +244,5 @@ system_custom_variables:
  # 'Package Extensions' page
 system_package_extentions:
      mca: extension_custom/
-     click_xpath: //ul[@id='nav']//a[contains(@href, 'extension_custom/')]
-     title: Extension / Magento Connect / System / Magento Admin
+     click_xpath: //ul[@id='nav']//a[contains(@href, '/extension_custom/')]
+     title: Extension / Package Extensions / Magento Connect / System / Magento Admin

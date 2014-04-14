@@ -1,7 +1,5 @@
 <?php
 /**
- * Product option types mode source
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,14 +7,21 @@
  */
 namespace Magento\Catalog\Model\Config\Source\Product\Options;
 
-class Type implements \Magento\Core\Model\Option\ArrayInterface
+/**
+ * Product option types mode source
+ */
+class Type implements \Magento\Option\ArrayInterface
 {
     /**
+     * Product Option Config
+     *
      * @var \Magento\Catalog\Model\ProductOptions\ConfigInterface
      */
     protected $_productOptionConfig;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig
      */
     public function __construct(\Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig)
@@ -24,12 +29,12 @@ class Type implements \Magento\Core\Model\Option\ArrayInterface
         $this->_productOptionConfig = $productOptionConfig;
     }
 
-
+    /**
+     * {@inheritdoc}
+     */
     public function toOptionArray()
     {
-        $groups = array(
-            array('value' => '', 'label' => __('-- Please select --'))
-        );
+        $groups = array(array('value' => '', 'label' => __('-- Please select --')));
 
         foreach ($this->_productOptionConfig->getAll() as $option) {
             $types = array();
@@ -37,16 +42,10 @@ class Type implements \Magento\Core\Model\Option\ArrayInterface
                 if ($type['disabled']) {
                     continue;
                 }
-                $types[] = array(
-                    'label' => __($type['label']),
-                    'value' => $type['name']
-                );
+                $types[] = array('label' => __($type['label']), 'value' => $type['name']);
             }
             if (count($types)) {
-                $groups[] = array(
-                    'label' => __($option['label']),
-                    'value' => $types
-                );
+                $groups[] = array('label' => __($option['label']), 'value' => $types);
             }
         }
 

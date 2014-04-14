@@ -81,7 +81,9 @@ abstract class AbstractAction extends \Magento\Object
             return false;
         }
         $total = $this->getHistory()->getTotalQtyRewards(
-            $this->getAction(), $this->getReward()->getCustomerId(), $this->getReward()->getWebsiteId()
+            $this->getAction(),
+            $this->getReward()->getCustomerId(),
+            $this->getReward()->getWebsiteId()
         );
 
         if ($limit > $total) {
@@ -111,7 +113,9 @@ abstract class AbstractAction extends \Magento\Object
         $maxQty = (int)$this->getRewardLimit();
         if ($maxQty > 0) {
             $usedQty = (int)$this->getHistory()->getTotalQtyRewards(
-                $this->getAction(), $this->getReward()->getCustomerId(), $this->getReward()->getWebsiteId()
+                $this->getAction(),
+                $this->getReward()->getCustomerId(),
+                $this->getReward()->getWebsiteId()
             );
             return min(max($maxQty - $usedQty, 0), $maxQty);
         }
@@ -130,13 +134,14 @@ abstract class AbstractAction extends \Magento\Object
      * Setter for $_reward
      *
      * @param \Magento\Reward\Model\Reward $reward
-     * @return \Magento\Reward\Model\Action\AbstractAction
+     * @return $this
      */
     public function setReward($reward)
     {
         $this->_reward = $reward;
         return $this;
     }
+
     /**
      * Getter for $_reward
      *
@@ -151,13 +156,14 @@ abstract class AbstractAction extends \Magento\Object
      * Setter for $_history
      *
      * @param \Magento\Reward\Model\Reward\History $history
-     * @return \Magento\Reward\Model\Action\AbstractAction
+     * @return $this
      */
     public function setHistory($history)
     {
         $this->_history = $history;
         return $this;
     }
+
     /**
      * Getter for $_history
      *
@@ -172,7 +178,7 @@ abstract class AbstractAction extends \Magento\Object
      * Setter for $_entity and assign entity Id to history
      *
      * @param \Magento\Object $entity
-     * @return \Magento\Reward\Model\Action\AbstractAction
+     * @return $this
      */
     public function setEntity($entity)
     {
@@ -182,6 +188,7 @@ abstract class AbstractAction extends \Magento\Object
         }
         return $this;
     }
+
     /**
      * Description goes here...
      *

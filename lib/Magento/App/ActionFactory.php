@@ -9,6 +9,8 @@
  */
 namespace Magento\App;
 
+use Magento\App\Action\AbstractAction;
+
 class ActionFactory
 {
     /**
@@ -27,7 +29,7 @@ class ActionFactory
     /**
      * @param string $controllerName
      * @param array $arguments
-     * @return mixed
+     * @return AbstractAction
      */
     public function createController($controllerName, array $arguments = array())
     {

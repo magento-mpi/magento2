@@ -9,6 +9,10 @@
  */
 namespace Magento\Module\FrontController\Plugin;
 
+use Magento\Cache\FrontendInterface;
+use Magento\Module\UpdaterInterface;
+use Magento\App\State;
+
 class Install
 {
     /**
@@ -17,42 +21,45 @@ class Install
     protected $_appState;
 
     /**
-     * @var \Magento\Cache\FrontendInterface
+     * @var FrontendInterface
      */
     protected $_cache;
 
     /**
-     * @var \Magento\Module\UpdaterInterface
+     * @var UpdaterInterface
      */
     protected $_updater;
 
     /**
-     * @param \Magento\App\State $appState
-     * @param \Magento\Cache\FrontendInterface $cache
-     * @param \Magento\Module\UpdaterInterface $dbUpdater
+     * @param State $appState
+     * @param FrontendInterface $cache
+     * @param UpdaterInterface $dbUpdater
      */
-    public function __construct(
-        \Magento\App\State $appState,
-        \Magento\Cache\FrontendInterface $cache,
-        \Magento\Module\UpdaterInterface $dbUpdater
-    ) {
+    public function __construct(State $appState, FrontendInterface $cache, UpdaterInterface $dbUpdater)
+    {
         $this->_appState = $appState;
         $this->_cache = $cache;
         $this->_dbUpdater = $dbUpdater;
     }
 
     /**
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return mixed
+     * @param \Magento\App\FrontController $subject
+     * @param callable $proceed
+     * @param \Magento\App\RequestInterface $request
+     *
+     * @return \Magento\App\ResponseInterface
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundDispatch($arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
+    public function aroundDispatch(
+        \Magento\App\FrontController $subject,
+        \Closure $proceed,
+        \Magento\App\RequestInterface $request
+    ) {
         if ($this->_appState->isInstalled() && !$this->_cache->load('data_upgrade')) {
             $this->_dbUpdater->updateScheme();
             $this->_dbUpdater->updateData();
             $this->_cache->save('true', 'data_upgrade');
         }
-        return $invocationChain->proceed($arguments);
+        return $proceed($request);
     }
 }

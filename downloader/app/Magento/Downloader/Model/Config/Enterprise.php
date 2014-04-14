@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloader\Model\Config;
 
 /**
  * Class config
@@ -15,13 +16,13 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloader\Model\Config;
-
-class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig implements \Magento\Downloader\Model\Config\ConfigInterface
+class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig implements
+    \Magento\Downloader\Model\Config\ConfigInterface
 {
-
     /**
      * Initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -44,7 +45,7 @@ class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig impleme
      *
      * @param \Magento\Connect\Config $config
      * @param \Magento\Downloader\View $view
-     * @return null
+     * @return void
      */
     public function setInstallView($config, $view)
     {
@@ -59,7 +60,7 @@ class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig impleme
      * Set data for Settings View
      * @param mixed $session Session object
      * @param \Magento\Downloader\View $view
-     * @return null
+     * @return void
      */
     public function setSettingsView($session, $view)
     {
@@ -75,15 +76,12 @@ class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig impleme
      * Set session data for Settings
      * @param array $post post data
      * @param mixed $session Session object
-     * @return null
+     * @return void
      */
     public function setSettingsSession($post, $session)
     {
         if (isset($post['auth_username']) && isset($post['auth_password'])) {
-             $session->set('auth', array(
-                 'username' => $post['auth_username'],
-                 'password' => $post['auth_password']
-            ));
+            $session->set('auth', array('username' => $post['auth_username'], 'password' => $post['auth_password']));
         } else {
             $session->set('auth', array());
         }
@@ -94,7 +92,8 @@ class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig impleme
      *
      * @return string Root channel URI
      */
-    public function getRootChannelUri(){
+    public function getRootChannelUri()
+    {
         if (!$this->get('root_channel_uri')) {
             $this->set('root_channel_uri', 'connect20.magentocommerce.com/enterprise');
         }
@@ -106,16 +105,16 @@ class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig impleme
      *
      * @param \Magento\Connect\Config $config Config object
      * @param array $post post data
-     * @return null
+     * @return void
      */
     public function setPostData($config, &$post)
     {
         if (!empty($post['auth_username']) and isset($post['auth_password'])) {
-            $post['auth'] = $post['auth_username'] .'@'. $post['auth_password'];
+            $post['auth'] = $post['auth_username'] . '@' . $post['auth_password'];
         } else {
             $post['auth'] = '';
         }
-        if(!is_null($config)){
+        if (!is_null($config)) {
             $config->auth = $post['auth'];
             $config->root_channel_uri = $this->getRootChannelUri();
             $config->root_channel = $this->get('root_channel');
@@ -127,15 +126,12 @@ class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig impleme
      *
      * @param mixed $session Session object
      * @param array $options
-     * @return null
+     * @return void
      */
     public function setCommandOptions($session, &$options)
     {
         $auth = $this->_getAuth($session);
-        $options['auth'] = array(
-                'username' => $auth[0],
-                'password' => $auth[1],
-        );
+        $options['auth'] = array('username' => $auth[0], 'password' => $auth[1]);
     }
 
     /**
@@ -147,8 +143,7 @@ class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig impleme
     public function getChannelLabel($channel)
     {
         $channelLabel = '';
-        switch($channel)
-        {
+        switch ($channel) {
             case 'community':
                 $channelLabel = 'Magento Community Edition';
                 break;
@@ -162,4 +157,3 @@ class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig impleme
         return $channelLabel;
     }
 }
-?>

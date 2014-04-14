@@ -29,13 +29,15 @@ class Configure extends \Magento\View\Element\Template
         // Set custom submit url route for form - to submit updated options to cart
         $block = $this->getLayout()->getBlock('product.info');
         if ($block) {
-             $block->setSubmitRouteData(array(
-                'route' => 'checkout/cart/updateFailedItemOptions',
-                'params' => array(
-                    'id' => $this->getRequest()->getParam('id'),
-                    'sku' => $this->getRequest()->getParam('sku')
+            $block->setSubmitRouteData(
+                array(
+                    'route' => 'checkout/cart/updateFailedItemOptions',
+                    'params' => array(
+                        'id' => $this->getRequest()->getParam('id'),
+                        'sku' => $this->getRequest()->getParam('sku')
+                    )
                 )
-             ));
+            );
         }
 
         return parent::_prepareLayout();

@@ -10,8 +10,8 @@
 ---
 # 'Static Blocks' page
 manage_cms_static_blocks:
-    mca: cms_block/
-    click_xpath: //div[@class='submenu']//a[contains(@href, '/cms_block/')]
+    mca: cms/block/
+    click_xpath: //div[@class='submenu']//a[contains(@href, '/cms/block/')]
     title: Blocks / Elements / Content / Magento Admin
     uimap:
         form: &searchStaticBlocksGrid
@@ -46,7 +46,7 @@ manage_cms_static_blocks:
 
 # 'Edit Block %blockName%' page
 edit_cms_static_block:
-    mca: cms_block/edit/block_id/%id%/
+    mca: cms/block/edit/block_id/%id%/
     title: %elementTitle% / Blocks / Elements / Content / Magento Admin
     uimap:
         form: &editStaticBlockForm
@@ -90,7 +90,7 @@ edit_cms_static_block:
                         xpath: //iframe[@id='block_content_ifr']
                 -
                     widget_insertion:
-                        xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Insert Widget...']]
+                        xpath: //div[div/span[text()='Insert Widget...']]
                         dropdowns:
                             widget_type: //select[@name='widget_type']
                             template: //select[@name='parameters[template]']
@@ -111,7 +111,7 @@ edit_cms_static_block:
                             chosen_option_verify: //label[@class='widget-option-label' and normalize-space(text())='%elementName%']
                 -
                     select_page:
-                        xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Select Page...']]
+                        xpath: //div[div/span[text()='Select Page...']]
                         fields:
                             page: //input[@name='page']
                             filter_id: //input[@name='chooser_id']
@@ -129,7 +129,7 @@ edit_cms_static_block:
                             product_table_head: //table/thead/tr[@class='headings']
                 -
                     select_block:
-                        xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Select Block...']]
+                        xpath: //div[div/span[text()='Select Block...']]
                         fields:
                             page: //input[@name='page']
                             filter_id: //input[@name='chooser_id']
@@ -146,7 +146,7 @@ edit_cms_static_block:
                             product_table_head: //table/thead/tr[@class='headings']
                 -
                     select_category:
-                        xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Select Category...']]
+                        xpath: //div[div/span[text()='Select Category...']]
                         links:
                             select_category_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
                             select_category_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
@@ -159,7 +159,7 @@ edit_cms_static_block:
                             close_category_insertion: //a[@class='ui-dialog-titlebar-close ui-corner-all']
                 -
                     select_product:
-                        xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Select Product...']]
+                        xpath: //div[div/span[text()='Select Product...']]
                         fields:
                             page: //input[@name='page']
                             filter_id: //input[@name='entity_id']
@@ -182,7 +182,7 @@ edit_cms_static_block:
                             select_product_category_index_link: %categoryXpath%[%index%]/div/a
                 -
                     file_insertion:
-                        xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Insert File...']]
+                        xpath: //div[div/span[text()='Insert File...']]
                         buttons:
                             browse_files: #TODO flash
                             template: #TODO flash
@@ -195,7 +195,7 @@ edit_cms_static_block:
                             sub_storage: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
                 -
                     variable_insertion:
-                        xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Insert Variable...']]
+                        xpath: //div[div/span='Insert Variable...']
                         links:
                             variable: //a[text()='%variableName%']
                         buttons:
@@ -210,14 +210,14 @@ edit_cms_static_block:
 
 # Default edit page. Opens when an error happens during creating a new block.
 edit_cms_static_block_general:
-    mca: cms_block/edit/
+    mca: cms/block/edit/
     title: New Block / Blocks / Elements / Content / Magento Admin
     uimap:
         messages: *staticBlockMessages
 
 # 'New Block' page
 create_cms_static_block:
-    mca: cms_block/new/
+    mca: cms/block/new/
     title: New Block / Blocks / Elements / Content / Magento Admin
     uimap: &createStaticBlockUimap
         form: *editStaticBlockForm

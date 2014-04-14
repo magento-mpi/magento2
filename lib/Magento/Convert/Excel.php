@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Convert;
+
+use Magento\Filesystem\File\WriteInterface;
 
 /**
  * Convert the data to XML Excel
@@ -51,7 +52,7 @@ class Excel
      */
     public function __construct(\Iterator $iterator, $rowCallback = array())
     {
-        $this->_iterator    = $iterator;
+        $this->_iterator = $iterator;
         $this->_rowCallback = $rowCallback;
     }
 
@@ -65,30 +66,35 @@ class Excel
     protected function _getXmlHeader($sheetName = '')
     {
         if (empty($sheetName)) {
-             $sheetName = 'Sheet 1';
+            $sheetName = 'Sheet 1';
         }
 
         $sheetName = htmlspecialchars($sheetName);
 
-        $xmlHeader = '<'.'?xml version="1.0"?'.'><'.'?mso-application progid="Excel.Sheet"?'
-            . '><Workbook'
-            . ' xmlns="urn:schemas-microsoft-com:office:spreadsheet"'
-            . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
-            . ' xmlns:x="urn:schemas-microsoft-com:office:excel"'
-            . ' xmlns:x2="http://schemas.microsoft.com/office/excel/2003/xml"'
-            . ' xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"'
-            . ' xmlns:o="urn:schemas-microsoft-com:office:office"'
-            . ' xmlns:html="http://www.w3.org/TR/REC-html40"'
-            . ' xmlns:c="urn:schemas-microsoft-com:office:component:spreadsheet">'
-            . '<OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">'
-            . '</OfficeDocumentSettings>'
-            . '<ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">'
-            . '</ExcelWorkbook>'
-            . '<Worksheet ss:Name="' . $sheetName . '">'
-            . '<Table>';
+        $xmlHeader = '<' .
+            '?xml version="1.0"?' .
+            '><' .
+            '?mso-application progid="Excel.Sheet"?' .
+            '><Workbook' .
+            ' xmlns="urn:schemas-microsoft-com:office:spreadsheet"' .
+            ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' .
+            ' xmlns:x="urn:schemas-microsoft-com:office:excel"' .
+            ' xmlns:x2="http://schemas.microsoft.com/office/excel/2003/xml"' .
+            ' xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"' .
+            ' xmlns:o="urn:schemas-microsoft-com:office:office"' .
+            ' xmlns:html="http://www.w3.org/TR/REC-html40"' .
+            ' xmlns:c="urn:schemas-microsoft-com:office:component:spreadsheet">' .
+            '<OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">' .
+            '</OfficeDocumentSettings>' .
+            '<ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">' .
+            '</ExcelWorkbook>' .
+            '<Worksheet ss:Name="' .
+            $sheetName .
+            '">' .
+            '<Table>';
 
         if ($this->_dataHeader) {
-             $xmlHeader .= $this->_getXmlRow($this->_dataHeader, false);
+            $xmlHeader .= $this->_getXmlRow($this->_dataHeader, false);
         }
 
         return $xmlHeader;
@@ -105,7 +111,7 @@ class Excel
         $xmlFooter = '';
 
         if ($this->_dataFooter) {
-             $xmlFooter = $this->_getXmlRow($this->_dataFooter, false);
+            $xmlFooter = $this->_getXmlRow($this->_dataFooter, false);
         }
 
         $xmlFooter .= '</Table></Worksheet></Workbook>';
@@ -130,7 +136,7 @@ class Excel
 
         foreach ($row as $value) {
             $value = htmlspecialchars($value);
-            $dataType = (is_numeric($value)) ? 'Number' : 'String';
+            $dataType = is_numeric($value) ? 'Number' : 'String';
 
             $value = str_replace("\r\n", '&#10;', $value);
             $value = str_replace("\r", '&#10;', $value);
@@ -147,6 +153,7 @@ class Excel
      * Set Data Header
      *
      * @param array $data
+     * @return void
      */
     public function setDataHeader($data)
     {
@@ -157,6 +164,7 @@ class Excel
      * Set Data Footer
      *
      * @param array $data
+     * @return void
      */
     public function setDataFooter($data)
     {
@@ -184,10 +192,11 @@ class Excel
     /**
      * Write Converted XML Data to Temporary File
      *
-     * @param \Magento\Filesystem\File\WriteInterface $stream
+     * @param WriteInterface $stream
      * @param string $sheetName
+     * @return void
      */
-    public function write(\Magento\Filesystem\File\WriteInterface $stream, $sheetName = '')
+    public function write(WriteInterface $stream, $sheetName = '')
     {
         $stream->write($this->_getXmlHeader($sheetName));
 

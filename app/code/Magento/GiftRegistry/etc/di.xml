@@ -7,15 +7,27 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\Sales\Model\Convert\Quote">
         <plugin name="gift_registry_item_from_quote_item" type="Magento\GiftRegistry\Model\Plugin\QuoteItem"/>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <value>
-                <giftregistry_setup>Magento\GiftRegistry\Model\Resource\Setup</giftregistry_setup>
-            </value>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="giftregistry_setup" xsi:type="string">Magento\GiftRegistry\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\GiftRegistry\Model\Resource\Helper">
+        <arguments>
+            <argument name="modulePrefix" xsi:type="string">giftregistry</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Module\Setup\Migration">
+        <arguments>
+            <argument name="compositeModules" xsi:type="array">
+                <item name="magento_giftregistry" xsi:type="string">Magento_GiftRegistry</item>
+            </argument>
+        </arguments>
     </type>
 </config>

@@ -9,8 +9,8 @@
  */
 namespace Magento\GoogleOptimizer\Block\Adminhtml;
 
-abstract class AbstractTab
-    extends \Magento\Backend\Block\Widget\Form implements \Magento\Backend\Block\Widget\Tab\TabInterface
+abstract class AbstractTab extends \Magento\Backend\Block\Widget\Form implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var \Magento\GoogleOptimizer\Helper\Data
@@ -18,7 +18,7 @@ abstract class AbstractTab
     protected $_helperData;
 
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry;
 
@@ -35,7 +35,7 @@ abstract class AbstractTab
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\GoogleOptimizer\Helper\Data $helperData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\GoogleOptimizer\Helper\Code $codeHelper
      * @param \Magento\GoogleOptimizer\Helper\Form $formHelper
      * @param \Magento\Data\FormFactory $formFactory
@@ -44,7 +44,7 @@ abstract class AbstractTab
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\GoogleOptimizer\Helper\Data $helperData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,
         \Magento\GoogleOptimizer\Helper\Form $formHelper,
         \Magento\Data\FormFactory $formFactory,
@@ -89,12 +89,12 @@ abstract class AbstractTab
      *
      * @return \Magento\Catalog\Model\AbstractModel
      */
-    protected abstract function _getEntity();
+    abstract protected function _getEntity();
 
     /**
      * Can show tab in tabs
      *
-     * @return boolean
+     * @return bool
      */
     public function canShowTab()
     {
@@ -104,7 +104,7 @@ abstract class AbstractTab
     /**
      * Tab is hidden
      *
-     * @return boolean
+     * @return bool
      */
     public function isHidden()
     {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,13 +16,13 @@ class Profiler extends \Magento\Cache\Frontend\Decorator\Bare
     /**
      * Backend class prefixes to be striped from profiler tags
      *
-     * @var array
+     * @var string[]
      */
     private $_backendPrefixes = array();
 
     /**
      * @param \Magento\Cache\FrontendInterface $frontend
-     * @param array $backendPrefixes Backend class prefixes to be striped for profiling informativeness
+     * @param string[] $backendPrefixes Backend class prefixes to be striped for profiling informativeness
      */
     public function __construct(\Magento\Cache\FrontendInterface $frontend, $backendPrefixes = array())
     {
@@ -41,10 +39,10 @@ class Profiler extends \Magento\Cache\Frontend\Decorator\Bare
     protected function _getProfilerTags($operation)
     {
         return array(
-            'group'         => 'cache',
-            'operation'     => 'cache:' . $operation,
+            'group' => 'cache',
+            'operation' => 'cache:' . $operation,
             'frontend_type' => get_class($this->getLowLevelFrontend()),
-            'backend_type'  => $this->_getBackendType(),
+            'backend_type' => $this->_getBackendType()
         );
     }
 

@@ -27,13 +27,9 @@ interface ConfigInterface
      *
      * @param string $path
      * @param mixed $value
+     * @return void
      */
     public function setValue($path, $value);
-
-    /**
-     * Reinitialize config object
-     */
-    public function reinit();
 
     /**
      * Retrieve config flag
@@ -41,5 +37,5 @@ interface ConfigInterface
      * @param string $path
      * @return bool
      */
-    public function getFlag($path);
+    public function isSetFlag($path);
 }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftRegistry\Model\Resource;
 
 /**
  * Gift registry entity items resource model
@@ -16,9 +16,7 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model\Resource;
-
-class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Item extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime
@@ -37,6 +35,8 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Resource model initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -46,10 +46,10 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Add creation date to object
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @param \Magento\Model\AbstractModel $object
+     * @return \Magento\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         if (!$object->getAddedAt()) {
             $object->setAddedAt($this->dateTime->formatDate(true));
@@ -63,19 +63,19 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\GiftRegistry\Model\Item $object
      * @param int $registryId
      * @param int $productId
-     * @return \Magento\GiftRegistry\Model\Resource\Item
+     * @return $this
      */
     public function loadByProductRegistry($object, $registryId, $productId)
     {
         $adapter = $this->_getReadAdapter();
-        $select  = $adapter->select()
-            ->from($this->getMainTable())
-            ->where('entity_id = :entity_id')
-            ->where('product_id = :product_id');
-        $bind = array(
-            ':entity_id'  => (int)$registryId,
-            ':product_id' => (int)$productId
+        $select = $adapter->select()->from(
+            $this->getMainTable()
+        )->where(
+            'entity_id = :entity_id'
+        )->where(
+            'product_id = :product_id'
         );
+        $bind = array(':entity_id' => (int)$registryId, ':product_id' => (int)$productId);
         $data = $adapter->fetchRow($select, $bind);
         if ($data) {
             $object->setData($data);

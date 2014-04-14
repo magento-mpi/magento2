@@ -1,12 +1,10 @@
 <?php
+
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 class Mage_Selenium_Helper_ParamsTest extends Unit_PHPUnit_TestCase
 {
@@ -22,16 +20,16 @@ class Mage_Selenium_Helper_ParamsTest extends Unit_PHPUnit_TestCase
 
     /**
      * @param string $paramName
-     * @param string $paramvalue
+     * @param string $paramValue
      *
-     * @covers Mage_Selenium_Helper_Params::__construct
+     * @covers       Mage_Selenium_Helper_Params::__construct
      * @dataProvider test__constructWithParamsDataProvider
      */
-    public function test__constructWithParams($paramName, $paramvalue)
+    public function test__constructWithParams($paramName, $paramValue)
     {
-        $params = new Mage_Selenium_Helper_Params(array($paramName => $paramvalue));
+        $params = new Mage_Selenium_Helper_Params(array($paramName => $paramValue));
         $this->assertInstanceOf('Mage_Selenium_Helper_Params', $params);
-        $this->assertEquals($params->getParameter($paramName), $paramvalue);
+        $this->assertEquals($params->getParameter($paramName), $paramValue);
     }
 
     public function test__constructWithParamsDataProvider()
@@ -46,8 +44,8 @@ class Mage_Selenium_Helper_ParamsTest extends Unit_PHPUnit_TestCase
      * @param string $name
      * @param string $value
      *
-     * @covers Mage_Selenium_Helper_Params::getParameter
-     * @covers Mage_Selenium_Helper_Params::setParameter
+     * @covers       Mage_Selenium_Helper_Params::getParameter
+     * @covers       Mage_Selenium_Helper_Params::setParameter
      * @dataProvider testGetSetParameterDataProvider
      */
     public function testGetSetParameter($name, $value)
@@ -61,7 +59,7 @@ class Mage_Selenium_Helper_ParamsTest extends Unit_PHPUnit_TestCase
     {
         return array(
             array('', 'some value'),
-            array('somekey', ''),
+            array('someKey', ''),
             array('%', ''),
             array('user_id', 1)
         );
@@ -88,7 +86,7 @@ class Mage_Selenium_Helper_ParamsTest extends Unit_PHPUnit_TestCase
      * @param string|null $sourceToReplace
      * @param string|null $expected
      *
-     * @covers Mage_Selenium_Helper_Params::replaceParameter
+     * @covers       Mage_Selenium_Helper_Params::replaceParameter
      * @dataProvider testReplaceParametersDataProvider
      */
     public function testReplaceParameters($paramsArray, $sourceToReplace, $expected)
@@ -104,8 +102,14 @@ class Mage_Selenium_Helper_ParamsTest extends Unit_PHPUnit_TestCase
             array(null, 'id=%id%', 'id=%id%'),
             array(array('id' => 13), 'id=%id%', 'id=13'),
             array(array('id' => 13), 'id=%id%&name=%name%', 'id=13&name=%name%'),
-            array(array('id'   => 13,
-                        'name' => 'Chuck Norris'), 'id=%id%&name=%name%', 'id=13&name=Chuck Norris'),
+            array(
+                array(
+                    'id' => 13,
+                    'name' => 'Chuck Norris'
+                ),
+                'id=%id%&name=%name%',
+                'id=13&name=Chuck Norris'
+            ),
             array(array('id' => 13), '', ''),
             array(array('id' => 13), null, null)
         );
@@ -117,7 +121,7 @@ class Mage_Selenium_Helper_ParamsTest extends Unit_PHPUnit_TestCase
      * @param string $regexp
      * @param string $expected
      *
-     * @covers Mage_Selenium_Helper_Params::replaceParametersWithRegexp
+     * @covers       Mage_Selenium_Helper_Params::replaceParametersWithRegexp
      * @dataProvider testReplaceParametersWithRegexpDataProvider
      */
     public function testReplaceParametersWithRegexp($paramsArray, $sourceToReplace, $regexp, $expected)
@@ -132,8 +136,15 @@ class Mage_Selenium_Helper_ParamsTest extends Unit_PHPUnit_TestCase
         return array(
             array(array('id' => 13), 'id=%id%', 'REGEXP', 'id=REGEXP'),
             array(array('param?=conf' => 'yes'), 'mca/%param\?\=conf%', 'REGEXP', 'mca/REGEXP'),
-            array(array('id'   => 13,
-                        'name' => 'Chuck Norris'), 'id=%id%&name=%name%', 'REGEXP', 'id=REGEXP&name=REGEXP'),
+            array(
+                array(
+                    'id' => 13,
+                    'name' => 'Chuck Norris'
+                ),
+                'id=%id%&name=%name%',
+                'REGEXP',
+                'id=REGEXP&name=REGEXP'
+            ),
             array(null, 'id=%id%', 'REGEXP', 'id=%id%'),
             array(array('name' => 'Chuck Norris'), 'id=%id%', 'REGEXP', 'id=%id%')
         );

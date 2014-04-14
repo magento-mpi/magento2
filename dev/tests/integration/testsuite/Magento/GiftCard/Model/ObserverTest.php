@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Model;
 
 class ObserverTest extends \PHPUnit_Framework_TestCase
@@ -19,14 +18,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_blockInjections = array(
-        'Magento\Core\Model\Context',
-        'Magento\Core\Model\Registry',
-        'Magento\Filesystem',
+        'Magento\Model\Context',
+        'Magento\Registry',
+        'Magento\App\Filesystem',
         'Magento\View\Url',
         'Magento\View\FileSystem',
         'Magento\Core\Model\View\Design',
-        'Magento\Core\Model\Store\Config',
-        'Magento\Email\Model\Template\Config',
+        'Magento\App\Config\ScopeConfigInterface',
+        'Magento\Email\Model\Template\Config'
     );
 
     /**
@@ -36,47 +35,18 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerateGiftCardAccountsEmailSending()
     {
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\App')->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
-        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Order');
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');
         $this->_checkOrderItemProductOptions($order, true);
 
         $event = new \Magento\Event(array('order' => $order));
         $observer = new \Magento\Event\Observer(array('event' => $event));
 
-        $emailTemplateMock = $this->getMock(
-            'Magento\Email\Model\Template',
-            array('_getMail'),
-            array(
-                $objectManager->get('Magento\Core\Model\Context'),
-                $objectManager->get('Magento\View\DesignInterface'),
-                $objectManager->get('Magento\Core\Model\Registry'),
-                $objectManager->get('Magento\Core\Model\App\Emulation'),
-                $objectManager->get('Magento\Core\Model\StoreManager'),
-                $objectManager->get('Magento\Filesystem'),
-                $objectManager->get('Magento\View\Url'),
-                $objectManager->get('Magento\View\FileSystem'),
-                $objectManager->get('Magento\Core\Model\Store\Config'),
-                $objectManager->get('Magento\Core\Model\Config'),
-                $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
-                $objectManager->get('Magento\Email\Model\Template\Config'),
-            )
-        );
-        $emailTemplateMock->expects($this->once())
-            ->method('_getMail')
-            ->will($this->returnValue($this->getMock('Zend_Mail', array('send'), array('utf-8'))));
-
         /** @var $model \Magento\GiftCard\Model\Observer */
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\GiftCard\Model\Observer', array(
-                'data' => array('email_template_model' => $emailTemplateMock)
-            ));
-        $model->generateGiftCardAccounts($observer);
-        $this->assertEquals(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => 1),
-            $emailTemplateMock->getDesignConfig()->getData()
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\GiftCard\Model\Observer'
         );
+        $model->generateGiftCardAccounts($observer);
 
         $this->_checkOrderItemProductOptions($order, false);
     }
@@ -106,8 +76,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $arguments = array();
         foreach ($this->_blockInjections as $injectionClass) {
-            $arguments[] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create($injectionClass);
+            $arguments[] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($injectionClass);
         }
         return $arguments;
     }

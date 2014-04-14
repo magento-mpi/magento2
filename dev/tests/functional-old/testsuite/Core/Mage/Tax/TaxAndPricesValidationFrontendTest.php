@@ -20,7 +20,6 @@ class Core_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_Tes
 {
     public function setUpBeforeTests()
     {
-        $this->markTestIncomplete('MAGE-1987');
         $taxRule = $this->loadDataSet('Tax', 'new_tax_rule_required',
             array('tax_rate' => 'US-CA-*-Rate 1,US-NY-*-Rate 1'));
         $this->loginAdminUser();
@@ -70,7 +69,7 @@ class Core_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_Tes
         $categoryPath = $category['parent_category'] . '/' . $category['name'];
         $products = array();
         //Steps
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($user);
         $this->assertMessagePresent('success', 'success_registration');
         $this->logoutCustomer();
@@ -120,6 +119,7 @@ class Core_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_Tes
         //Preconditions
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Tax/' . $configName);
+        $this->flushCache();
         $this->customerHelper()->frontLoginCustomer($customer);
         //Verify and add products to shopping cart
         foreach ($products['name'] as $key => $productName) {
@@ -129,8 +129,10 @@ class Core_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_Tes
                 $configName . '_front_prices_in_category_simple_' . $key,
                 array('product_name' => $productName, 'category' => $category)
             );
-            $priceInProdDetails =
-                $this->loadDataSet('PriceReview', $configName . '_front_prices_in_product_simple_' . $key);
+            $priceInProdDetails = $this->loadDataSet(
+                'PriceReview',
+                $configName . '_front_prices_in_product_simple_' . $key
+            );
             $cartProductsData['product_' . $key]['product_name'] = $productName;
             $checkoutData['validate_prod_data']['product_' . $key]['product_name'] = $productName;
             $orderDetailsData['validate_prod_data']['product_' . $key]['product_name'] = $productName;
@@ -141,14 +143,18 @@ class Core_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_Tes
             $this->categoryHelper()->frontVerifyProductPrices($priceInProdDetails);
             $this->productHelper()->frontAddProductToCart();
         }
-        $this->shoppingCartHelper()
-            ->frontEstimateShipping('PriceReview/estimate_shipping', 'Shipping/shipping_flatrate');
+        $this->shoppingCartHelper()->frontEstimateShipping(
+            'PriceReview/estimate_shipping',
+            'Shipping/shipping_flatrate'
+        );
         $this->shoppingCartHelper()->verifyPricesDataOnPage($cartProductsData, $checkoutData['validate_total_data']);
-        $orderId = '# ' . $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        $this->addParameter('orderId', $orderId);
+        $orderId = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
+        $this->addParameter('elementTitle', $orderId);
         $this->clickControl('link', 'order_number');
-        $this->shoppingCartHelper()
-            ->verifyPricesDataOnPage($orderDetailsData['validate_prod_data'], $orderDetailsData['validate_total_data']);
+        $this->shoppingCartHelper()->verifyPricesDataOnPage(
+            $orderDetailsData['validate_prod_data'],
+            $orderDetailsData['validate_total_data']
+        );
     }
 
     public function validateTaxFrontendDataProvider()

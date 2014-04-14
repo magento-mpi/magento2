@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Model\Resource\Attribute;
 
 /**
  * GoogleShopping Attributes collection
@@ -15,9 +16,7 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Model\Resource\Attribute;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Whether to join attribute_set_id to attributes or not
@@ -26,6 +25,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected $_joinAttributeSetFlag = true;
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GoogleShopping\Model\Attribute', 'Magento\GoogleShopping\Model\Resource\Attribute');
@@ -36,7 +38,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param int $attributeSetId
      * @param string $targetCountry two words ISO format
-     * @return \Magento\GoogleShopping\Model\Resource\Attribute\Collection
+     * @return $this
      */
     public function addAttributeSetFilter($attributeSetId, $targetCountry)
     {
@@ -52,7 +54,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add type filter
      *
      * @param int $type_id
-     * @return \Magento\GoogleShopping\Model\Resource\Attribute\Collection
+     * @return $this
      */
     public function addTypeFilter($type_id)
     {
@@ -86,11 +88,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _joinAttributeSet()
     {
-        $this->getSelect()
-            ->joinInner(
-                array('types'=>$this->getTable('googleshopping_types')),
-                'main_table.type_id=types.type_id',
-                array('attribute_set_id' => 'types.attribute_set_id', 'target_country' => 'types.target_country'));
+        $this->getSelect()->joinInner(
+            array('types' => $this->getTable('googleshopping_types')),
+            'main_table.type_id=types.type_id',
+            array('attribute_set_id' => 'types.attribute_set_id', 'target_country' => 'types.target_country')
+        );
         return $this;
     }
 

@@ -7,63 +7,100 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
+namespace Magento\DB\Tree;
 
 /**
  * TODO implements iterators
  *
  */
-namespace Magento\DB\Tree;
-
 class NodeSet implements \Iterator
 {
+    /**
+     * @var Node[]
+     */
     private $_nodes = array();
+
+    /**
+     * @var int
+     */
     private $_currentNode = 0;
+
+    /**
+     * @var int
+     */
     private $_current = 0;
 
-
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
         $this->_nodes = array();
         $this->_current = 0;
         $this->_currentNode = 0;
         $this->count = 0;
     }
 
-
-
-    function addNode(\Magento\DB\Tree\Node $node) {
+    /**
+     * @param Node $node
+     * @return int
+     */
+    public function addNode(Node $node)
+    {
         $this->_nodes[$this->_currentNode] = $node;
         $this->count++;
         return ++$this->_currentNode;
     }
 
-    function count() {
+    /**
+     * @return int
+     */
+    public function count()
+    {
         return $this->count;
     }
 
-
-    function valid() {
-        return  isset($this->_nodes[$this->_current]);
+    /**
+     * @return bool
+     */
+    public function valid()
+    {
+        return isset($this->_nodes[$this->_current]);
     }
 
-    function next() {
+    /**
+     * @return false|int
+     */
+    public function next()
+    {
         if ($this->_current > $this->_currentNode) {
             return false;
         } else {
-            return  $this->_current++;
+            return $this->_current++;
         }
     }
 
-    function key() {
+    /**
+     * @return int
+     */
+    public function key()
+    {
         return $this->_current;
     }
 
-
-    function current() {
+    /**
+     * @return Node
+     */
+    public function current()
+    {
         return $this->_nodes[$this->_current];
     }
 
-    function rewind() {
+    /**
+     * @return void
+     */
+    public function rewind()
+    {
         $this->_current = 0;
     }
 }

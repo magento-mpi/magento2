@@ -63,7 +63,7 @@ class ItemQuery extends \Zend_Gdata_Query
      * Set language code
      *
      * @param string $language code
-     * @return \Magento\Gdata\Gshopping\ItemQuery
+     * @return $this
      */
     public function setLanguage($language)
     {
@@ -85,7 +85,7 @@ class ItemQuery extends \Zend_Gdata_Query
      * Set target country code
      *
      * @param string $targetCountry code
-     * @return \Magento\Gdata\Gshopping\ItemQuery
+     * @return $this
      */
     public function setTargetCountry($targetCountry)
     {
@@ -107,7 +107,7 @@ class ItemQuery extends \Zend_Gdata_Query
      * Set default feed's URI
      *
      * @param string $uri URI
-     * @return \Magento\Gdata\Gshopping\ItemQuery
+     * @return $this
      */
     public function setFeedUri($uri)
     {
@@ -125,7 +125,7 @@ class ItemQuery extends \Zend_Gdata_Query
         $uri = $this->_defaultFeedUri;
         $itemId = $this->_getItemId();
 
-        return ($itemId !== null) ? "$uri/$itemId" : $uri . $this->getQueryString();
+        return $itemId !== null ? "{$uri}/{$itemId}" : $uri . $this->getQueryString();
     }
 
     /**
@@ -135,8 +135,8 @@ class ItemQuery extends \Zend_Gdata_Query
      */
     protected function _getItemId()
     {
-        return ($this->_targetCountry !== null && $this->_language !== null && $this->_id !== null)
-            ? "online:$this->_language:$this->_targetCountry:$this->_id"
-            : null;
+        return $this->_targetCountry !== null &&
+            $this->_language !== null &&
+            $this->_id !== null ? "online:{$this->_language}:{$this->_targetCountry}:{$this->_id}" : null;
     }
 }

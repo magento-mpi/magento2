@@ -7,17 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Resource;
 
+use Magento\Model\AbstractModel;
+use Magento\Reminder\Model\Rule as ModelRule;
+use Magento\SalesRule\Model\Rule as SalesRule;
 
 /**
  * Reminder Rule resource model
- *
- * @category    Magento
- * @package     Magento_Reminder
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reminder\Model\Resource;
-
 class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 {
     /**
@@ -28,39 +26,39 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_associatedEntitiesMap = array(
         'website' => array(
             'associations_table' => 'magento_reminder_rule_website',
-            'rule_id_field'      => 'rule_id',
-            'entity_id_field'    => 'website_id'
+            'rule_id_field' => 'rule_id',
+            'entity_id_field' => 'website_id'
         )
     );
 
     /**
      * Rule websites table name
      *
-     * @deprecated after 1.11.2.0
-     *
      * @var string
+     *
+     * @deprecated after 1.11.2.0
      */
     protected $_websiteTable;
 
     /**
      * Core resource helper
      *
-     * @var \Magento\Reminder\Model\Resource\HelperFactory
+     * @var \Magento\DB\Helper
      */
-    protected $_resHelperFactory;
+    protected $_resourceHelper;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param HelperFactory $resHelperFactory
+     * @param \Magento\DB\Helper $resourceHelper
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory,
+        \Magento\DB\Helper $resourceHelper,
         \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
-        $this->_resHelperFactory = $resHelperFactory;
+        $this->_resourceHelper = $resourceHelper;
         $this->dateTime = $dateTime;
     }
 
@@ -78,11 +76,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Add website ids to rule data after load
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     *
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @param AbstractModel $object
+     * @return $this
      */
-    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterLoad(AbstractModel $object)
     {
         $object->setData('website_ids', (array)$this->getWebsiteIds($object->getId()));
 
@@ -91,13 +88,12 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     }
 
     /**
-     * Bind reminder rule to and website(s).
-     * Save store templates data.
+     * Bind reminder rule to and website(s).  Save store templates data.
      *
-     * @param \Magento\Core\Model\AbstractModel $rule
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @param AbstractModel $rule
+     * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $rule)
+    protected function _afterSave(AbstractModel $rule)
     {
         if ($rule->hasWebsiteIds()) {
             $websiteIds = $rule->getWebsiteIds();
@@ -118,18 +114,18 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Save store templates
      *
-     * @param \Magento\Reminder\Model\Rule $rule
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @param ModelRule $rule
+     * @return $this
      * @throws \Exception
      */
     protected function _saveStoreData($rule)
     {
-        $adapter       = $this->_getWriteAdapter();
+        $adapter = $this->_getWriteAdapter();
         $templateTable = $this->getTable('magento_reminder_template');
-        $labels        = (array)$rule->getStoreLabels();
-        $descriptions  = (array)$rule->getStoreDescriptions();
-        $templates     = (array)$rule->getStoreTemplates();
-        $ruleId        = $rule->getId();
+        $labels = (array)$rule->getStoreLabels();
+        $descriptions = (array)$rule->getStoreDescriptions();
+        $templates = (array)$rule->getStoreTemplates();
+        $ruleId = $rule->getId();
 
         $data = array();
         foreach ($templates as $storeId => $templateId) {
@@ -140,10 +136,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
                 $templateId = null;
             }
             $data[] = array(
-                'rule_id'     => $ruleId,
-                'store_id'    => $storeId,
+                'rule_id' => $ruleId,
+                'store_id' => $storeId,
                 'template_id' => $templateId,
-                'label'       => isset($labels[$storeId]) ? $labels[$storeId] : '',
+                'label' => isset($labels[$storeId]) ? $labels[$storeId] : '',
                 'description' => isset($descriptions[$storeId]) ? $descriptions[$storeId] : ''
             );
         }
@@ -166,7 +162,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Get store templates data assigned to reminder rule
      *
      * @param int $ruleId
-     *
      * @return array
      */
     public function getStoreData($ruleId)
@@ -174,19 +169,22 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $templateTable = $this->getTable('magento_reminder_template');
         $adapter = $this->_getReadAdapter();
 
-        $select = $adapter->select()
-            ->from($templateTable, array('store_id', 'template_id', 'label', 'description'))
-            ->where('rule_id = :rule_id');
+        $select = $adapter->select()->from(
+            $templateTable,
+            array('store_id', 'template_id', 'label', 'description')
+        )->where(
+            'rule_id = :rule_id'
+        );
         return $adapter->fetchAll($select, array('rule_id' => $ruleId));
     }
 
     /**
      * Get store templates data (labels and descriptions) assigned to reminder rule.
+     *
      * If labels and descriptions are not specified it will be replaced with default values.
      *
      * @param int $ruleId
      * @param int $storeId
-     *
      * @return array
      */
     public function getStoreTemplateData($ruleId, $storeId)
@@ -195,22 +193,22 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $ruleTable = $this->getTable('magento_reminder_rule');
         $adapter = $this->_getReadAdapter();
 
-        $select = $adapter->select()
-            ->from(
-                array('t' => $templateTable),
-                array(
-                    'template_id',
-                    'label' =>
-                        $adapter->getCheckSql('t.label IS NOT NULL', 't.label', 'r.default_label'),
-                    'description' =>
-                        $adapter->getCheckSql('t.description IS NOT NULL', 't.description', 'r.default_description')
+        $select = $adapter->select()->from(
+            array('t' => $templateTable),
+            array(
+                'template_id',
+                'label' => $adapter->getCheckSql('t.label IS NOT NULL', 't.label', 'r.default_label'),
+                'description' => $adapter->getCheckSql(
+                    't.description IS NOT NULL',
+                    't.description',
+                    'r.default_description'
                 )
             )
-            ->join(
-                array('r' => $ruleTable),
-                'r.rule_id = t.rule_id',
-                array()
-            );
+        )->join(
+            array('r' => $ruleTable),
+            'r.rule_id = t.rule_id',
+            array()
+        );
 
         $select->where('t.rule_id = :rule_id');
         $select->where('t.store_id = :store_id');
@@ -222,8 +220,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Deactivate already matched customers before new matching process
      *
      * @param int $ruleId
-     *
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @return $this
      */
     public function deactivateMatchedCustomers($ruleId)
     {
@@ -237,13 +234,14 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
     /**
      * Try to associate reminder rule with matched customers.
+     *
      * If customer was added earlier, update is_active column.
      *
-     * @param \Magento\Reminder\Model\Rule $rule
-     * @param \Magento\SalesRule\Model\Rule $salesRule
+     * @param ModelRule $rule
+     * @param SalesRule $salesRule
      * @param int $websiteId
      * @param int $threshold
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @return $this
      * @throws \Exception
      */
     public function saveMatchedCustomers($rule, $salesRule, $websiteId, $threshold = null)
@@ -275,21 +273,21 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             while (true == ($row = $stmt->fetch())) {
                 if (empty($row['coupon_id']) && $salesRule) {
                     $coupon = $salesRule->acquireCoupon();
-                    $couponId = ($coupon !== null) ? $coupon->getId() : null;
+                    $couponId = $coupon !== null ? $coupon->getId() : null;
                 } else {
                     $couponId = $row['coupon_id'];
                 }
 
                 $dataToInsert[] = array(
-                    'rule_id'       => $ruleId,
-                    'coupon_id'     => $couponId,
-                    'customer_id'   => $row['entity_id'],
+                    'rule_id' => $ruleId,
+                    'coupon_id' => $couponId,
+                    'customer_id' => $row['entity_id'],
                     'associated_at' => $currentDate,
-                    'is_active'     => '1'
+                    'is_active' => '1'
                 );
                 $i++;
 
-                if (($i % 1000) == 0) {
+                if ($i % 1000 == 0) {
                     $adapter->insertOnDuplicate($couponsTable, $dataToInsert, array('is_active'));
                     $dataToInsert = array();
                 }
@@ -307,36 +305,33 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
     /**
      * Retrieve list of customers for notification process.
+     *
      * This process can be initialized by system cron or by admin for particular rule
      *
      * @param int|null $limit
      * @param int|null $ruleId
-     *
      * @return array
      */
     public function getCustomersForNotification($limit = null, $ruleId = null)
     {
         $couponTable = $this->getTable('magento_reminder_rule_coupon');
-        $ruleTable   = $this->getTable('magento_reminder_rule');
-        $logTable    = $this->getTable('magento_reminder_rule_log');
-        $adapter     = $this->_getReadAdapter();
+        $ruleTable = $this->getTable('magento_reminder_rule');
+        $logTable = $this->getTable('magento_reminder_rule_log');
+        $adapter = $this->_getReadAdapter();
         $currentDate = $this->dateTime->formatDate(time());
 
-        $select = $adapter->select()
-            ->from(
-                array('c' => $couponTable),
-                array('customer_id', 'coupon_id', 'rule_id')
-            )
-            ->join(
-                array('r' => $ruleTable),
-                'c.rule_id = r.rule_id AND r.is_active = 1',
-                array('schedule' => 'schedule')
-            )
-            ->joinLeft(
-                array('l' => $logTable),
-                'c.rule_id = l.rule_id AND c.customer_id = l.customer_id',
-                array()
-            );
+        $select = $adapter->select()->from(
+            array('c' => $couponTable),
+            array('customer_id', 'coupon_id', 'rule_id')
+        )->join(
+            array('r' => $ruleTable),
+            'c.rule_id = r.rule_id AND r.is_active = 1',
+            array('schedule' => 'schedule')
+        )->joinLeft(
+            array('l' => $logTable),
+            'c.rule_id = l.rule_id AND c.customer_id = l.customer_id',
+            array()
+        );
 
         if ($ruleId) {
             $select->where('c.rule_id = ?', $ruleId);
@@ -344,18 +339,20 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
         $select->where('c.is_active = 1');
         $select->group(array('c.customer_id', 'c.rule_id'));
-        $select->columns(array(
-            'log_sent_at_max' => 'MAX(l.sent_at)',
-            'log_sent_at_min' => 'MIN(l.sent_at)'
-        ));
+        $select->columns(array('log_sent_at_max' => 'MAX(l.sent_at)', 'log_sent_at_min' => 'MIN(l.sent_at)'));
 
-        /** @var $helper \Magento\Core\Model\Resource\Helper */
-        $helper = $this->_resHelperFactory->create();
-        $findInSetSql = $adapter->prepareSqlCondition('schedule', array(
-            'finset' => $helper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate))
-        ));
-        $select->having('log_sent_at_max IS NULL OR (' . $findInSetSql . ' AND '
-            . $helper->getDateDiff('log_sent_at_max', $adapter->formatDate($currentDate)) . ' = 0)');
+        $findInSetSql = $adapter->prepareSqlCondition(
+            'schedule',
+            array(
+                'finset' => $this->_resourceHelper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate))
+            )
+        );
+        $select->having(
+            'log_sent_at_max IS NULL OR (' . $findInSetSql . ' AND ' . $this->_resourceHelper->getDateDiff(
+                'log_sent_at_max',
+                $adapter->formatDate($currentDate)
+            ) . ' = 0)'
+        );
 
         if ($limit) {
             $select->limit($limit);
@@ -368,15 +365,14 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @param int $ruleId
      * @param int $customerId
-     *
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @return $this
      */
     public function addNotificationLog($ruleId, $customerId)
     {
         $data = array(
-            'rule_id'     => $ruleId,
+            'rule_id' => $ruleId,
             'customer_id' => $customerId,
-            'sent_at'     => $this->dateTime->formatDate(time())
+            'sent_at' => $this->dateTime->formatDate(time())
         );
 
         $this->_getWriteAdapter()->insert($this->getTable('magento_reminder_rule_log'), $data);
@@ -389,14 +385,14 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @param int $ruleId
      * @param int $customerId
-     *
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @return $this
      */
     public function updateFailedEmailsCounter($ruleId, $customerId)
     {
-        $this->_getWriteAdapter()->update($this->getTable('magento_reminder_rule_coupon'),
+        $this->_getWriteAdapter()->update(
+            $this->getTable('magento_reminder_rule_coupon'),
             array('emails_failed' => new \Zend_Db_Expr('emails_failed + 1')),
-            array('rule_id = ?'   => $ruleId, 'customer_id = ?' => $customerId)
+            array('rule_id = ?' => $ruleId, 'customer_id = ?' => $customerId)
         );
         return $this;
     }
@@ -405,8 +401,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Retrieve count of reminder rules assigned to specified sales rule.
      *
      * @param int $salesRuleId
-     *
-     * @return int
+     * @return string
      */
     public function getAssignedRulesCount($salesRuleId)
     {
@@ -424,7 +419,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Detaches sales rule from all Email Remainder Rules that uses it
      *
      * @param int $salesRuleId
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @return $this
      */
     public function detachSalesRule($salesRuleId)
     {
@@ -441,9 +436,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Get comparison condition for rule condition operator which will be used in SQL query
      *
      * @param string $operator
-     *
      * @return string
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getSqlOperator($operator)
     {
@@ -464,7 +458,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             case '<=':
                 return $operator;
             default:
-                throw new \Magento\Core\Exception(__('Unknown operator specified.'));
+                throw new \Magento\Model\Exception(__('Unknown operator specified.'));
         }
     }
 
@@ -474,7 +468,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param string $field
      * @param string $operator
      * @param mixed $value
-     *
      * @return string
      */
     public function createConditionSql($field, $operator, $value)
@@ -488,16 +481,19 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             case '!{}':
                 if (is_array($value)) {
                     if (!empty($value)) {
-                        $sqlOperator = ($operator == '{}') ? 'IN' : 'NOT IN';
+                        $sqlOperator = $operator == '{}' ? 'IN' : 'NOT IN';
                         $condition = $adapter->quoteInto($field . ' ' . $sqlOperator . ' (?)', $value);
                     }
                 } else {
-                    $condition = $adapter->quoteInto($field. ' ' . $sqlOperator . ' ?', '%' . $value . '%');
+                    $condition = $adapter->quoteInto($field . ' ' . $sqlOperator . ' ?', '%' . $value . '%');
                 }
                 break;
             case 'between':
-                $condition = $field . ' ' . sprintf($sqlOperator,
-                    $adapter->quote($value['start']), $adapter->quote($value['end']));
+                $condition = $field . ' ' . sprintf(
+                    $sqlOperator,
+                    $adapter->quote($value['start']),
+                    $adapter->quote($value['end'])
+                );
                 break;
             default:
                 $condition = $adapter->quoteInto($field . ' ' . $sqlOperator . ' ?', $value);
@@ -507,18 +503,14 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         return $condition;
     }
 
-
-
-
-
     /**
      * Quote parameters into condition string
      *
-     * @deprecated since 1.10.0.0 - please use quoteInto of current adapter
-     *
      * @param string $string
-     * @param string | array $param
+     * @param string|array $param
      * @return string
+     *
+     * @deprecated since 1.10.0.0 - please use quoteInto of current adapter
      */
     public function quoteInto($string, $param)
     {
@@ -528,9 +520,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Save customer data by matched customer coupons
      *
-     * @deprecated after 1.11.2.0
-     *
      * @param array $data
+     * @return void
+     *
+     * @deprecated after 1.11.2.0
      */
     protected function _saveMatchedCustomerData($data)
     {
@@ -543,10 +536,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Save all website ids associated to rule
      *
-     * @deprecated after 1.11.2.0 use $this->bindRuleToEntity() instead
-     *
      * @param \Magento\Reminder\Model\Rule $rule
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @return $this
+     *
+     * @deprecated after 1.11.2.0 use $this->bindRuleToEntity() instead
      */
     protected function _saveWebsiteIds($rule)
     {
@@ -564,9 +557,9 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Get empty select object
      *
-     * @deprecated after 1.11.2.0
-     *
      * @return \Magento\DB\Select
+     *
+     * @deprecated after 1.11.2.0
      */
     public function createSelect()
     {

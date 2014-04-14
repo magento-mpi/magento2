@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Model\Resource\Page;
 
 /**
  * Cms page version resource model
@@ -16,12 +16,12 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\VersionsCms\Model\Resource\Page;
-
-class Version extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Version extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -31,23 +31,26 @@ class Version extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Checking if version id not last public for its page
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return bool
      */
-    public function isVersionLastPublic(\Magento\Core\Model\AbstractModel $object)
+    public function isVersionLastPublic(\Magento\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select();
-        $select->from($this->getMainTable(), 'COUNT(*)')
-            ->where(implode(' AND ', array(
-                'page_id      = :page_id',
-                'access_level = :access_level',
-                'version_id   = :version_id'
-            )));
+        $select->from(
+            $this->getMainTable(),
+            'COUNT(*)'
+        )->where(
+            implode(
+                ' AND ',
+                array('page_id      = :page_id', 'access_level = :access_level', 'version_id   = :version_id')
+            )
+        );
 
         $bind = array(
-            ':page_id'      => $object->getPageId(),
+            ':page_id' => $object->getPageId(),
             ':access_level' => \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC,
-            ':version_id'   => $object->getVersionId()
+            ':version_id' => $object->getVersionId()
         );
 
         return !$this->_getReadAdapter()->fetchOne($select, $bind);
@@ -56,18 +59,23 @@ class Version extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Checking if Version does not contain published revision
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return bool
      */
-    public function isVersionHasPublishedRevision(\Magento\Core\Model\AbstractModel $object)
+    public function isVersionHasPublishedRevision(\Magento\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select();
-        $select->from(array('p' => $this->getTable('cms_page')), array())
-            ->where('p.page_id = ?', (int)$object->getPageId())
-            ->join(
-                array('r' => $this->getTable('magento_versionscms_page_revision')),
-                'r.revision_id = p.published_revision_id',
-                'r.version_id');
+        $select->from(
+            array('p' => $this->getTable('cms_page')),
+            array()
+        )->where(
+            'p.page_id = ?',
+            (int)$object->getPageId()
+        )->join(
+            array('r' => $this->getTable('magento_versionscms_page_revision')),
+            'r.revision_id = p.published_revision_id',
+            'r.version_id'
+        );
 
         $result = $this->_getReadAdapter()->fetchOne($select);
 
@@ -110,7 +118,7 @@ class Version extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $userId
      * @param int|string $value
      * @param string|null $field
-     * @return \Magento\VersionsCms\Model\Resource\Page\Version
+     * @return $this
      */
     public function loadWithRestrictions($object, $accessLevel, $userId, $value, $field = null)
     {
@@ -122,7 +130,7 @@ class Version extends \Magento\Core\Model\Resource\Db\AbstractDb
         if ($value) {
             $select = $this->_getLoadSelect($field, $value, $object);
             $select = $this->_addAccessRestrictionsToSelect($select, $accessLevel, $userId);
-            $data   = $read->fetchRow($select);
+            $data = $read->fetchRow($select);
             if ($data) {
                 $object->setData($data);
             }

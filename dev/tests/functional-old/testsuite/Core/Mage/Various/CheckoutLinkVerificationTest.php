@@ -34,7 +34,7 @@ class Core_Mage_Various_CheckoutLinkVerificationTest extends Mage_Selenium_TestC
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
         $this->logoutCustomer();
@@ -61,14 +61,14 @@ class Core_Mage_Various_CheckoutLinkVerificationTest extends Mage_Selenium_TestC
         $this->customerHelper()->frontLoginCustomer($customer);
         $this->productHelper()->frontOpenProduct($product);
         $this->productHelper()->frontAddProductToCart();
-        $this->clickControl('link', 'checkout');
-        $this->validatePage('onepage_checkout');
+        $this->clickButton('proceed_to_checkout');
+        $this->assertTrue($this->checkCurrentPage('onepage_checkout'), $this->getParsedMessages());
         //Steps
         $this->logoutCustomer();
         $this->productHelper()->frontOpenProduct($product);
         $this->productHelper()->frontAddProductToCart();
         //Validation
-        $this->clickControl('link', 'checkout');
-        $this->validatePage('onepage_checkout');
+        $this->clickButton('proceed_to_checkout');
+        $this->assertTrue($this->checkCurrentPage('onepage_checkout'), $this->getParsedMessages());
     }
 }

@@ -34,10 +34,12 @@ class Core_Mage_Map_OnGestureTest extends Mage_Selenium_TestCase
     public function preconditionsForTests()
     {
         $category = $this->loadDataSet('Category', 'sub_category_required');
-        $catPath = $category['parent_category'] . '/' . $category['name'];
-        $productCat = array('general_categories' => $catPath);
-        $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
+        $simple = $this->loadDataSet('Product', 'simple_product_visible',
+            array('general_categories' => $category['parent_category'] . '/' . $category['name']));
+
         $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Map/enable_map_gesture');
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
@@ -48,28 +50,26 @@ class Core_Mage_Map_OnGestureTest extends Mage_Selenium_TestCase
         $this->reindexInvalidedData();
         $this->flushCache();
 
-        return $category['name'];
+        return array($category['name'], $simple['general_name']);
     }
 
     /**
      * <p>MAP is enabled "On Gesture" and link "Click for Price" is displayed on the Category page in Frontend. </p>
      *
-     * @param string $category
+     * @param string $testData
      *
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6056
      */
-    public function enableMinimumAdvertisedPriceOnGesture($category)
+    public function enableMinimumAdvertisedPriceOnGesture($testData)
     {
-        $this->markTestIncomplete('MAGETWO-11469');
+        list($category, $product) = $testData;
         //Steps
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('Map/enable_map_gesture');
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($category);
         //Verification
+        $this->addParameter('productName', $product);
         $this->assertTrue($this->controlIsVisible('link', 'click_for_price'));
     }
 }

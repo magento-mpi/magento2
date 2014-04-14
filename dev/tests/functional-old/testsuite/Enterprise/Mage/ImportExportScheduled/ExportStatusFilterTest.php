@@ -153,9 +153,7 @@ class Enterprise_Mage_ImportExportScheduled_ExportStatusFilterTest extends Mage_
      */
     protected function _preconditionScheduledExportSearchByFilter(
         &$exportProducts, &$exportAddresses, &$exportMain, &$exportFinances
-    )
-    {
-        $this->markTestIncomplete('BUG: behavior field is not editable');
+    ) {
         // Create product export
         $exportProducts = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
             'entity_type' => 'Products',

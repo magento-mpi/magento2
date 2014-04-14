@@ -63,6 +63,7 @@ class Additional extends \Magento\View\Element\Template
         $this->_rewardData = $rewardData;
         $this->_rewardFactory = $rewardFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -93,10 +94,11 @@ class Additional extends \Magento\View\Element\Template
     public function getReward()
     {
         if (!$this->getData('reward')) {
-            $reward = $this->_rewardFactory->create()
-                ->setCustomer($this->getCustomer())
-                ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
-                ->loadByCustomer();
+            $reward = $this->_rewardFactory->create()->setCustomer(
+                $this->getCustomer()
+            )->setWebsiteId(
+                $this->_storeManager->getStore()->getWebsiteId()
+            )->loadByCustomer();
             $this->setData('reward', $reward);
         }
         return $this->getData('reward');
@@ -105,7 +107,7 @@ class Additional extends \Magento\View\Element\Template
     /**
      * Return flag from quote to use reward points or not
      *
-     * @return boolean
+     * @return bool
      */
     public function useRewardPoints()
     {
@@ -127,8 +129,11 @@ class Additional extends \Magento\View\Element\Template
             return false;
         }
 
-        $minPointsToUse = $helper->getGeneralConfig('min_points_balance', (int)$this->_storeManager->getWebsite()->getId());
-        return (float)$this->getCurrencyAmount() > 0 && $this->getPointsBalance() >= $minPointsToUse;
+        $minPointsToUse = $helper->getGeneralConfig(
+            'min_points_balance',
+            (int)$this->_storeManager->getWebsite()->getId()
+        );
+        return (double)$this->getCurrencyAmount() > 0 && $this->getPointsBalance() >= $minPointsToUse;
     }
 
     /**

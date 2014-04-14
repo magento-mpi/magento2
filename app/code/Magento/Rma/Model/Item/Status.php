@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Model\Item;
 
 /**
  * RMA Item Status Manager
  */
-namespace Magento\Rma\Model\Item;
-
 class Status extends \Magento\Object
 {
     /**
@@ -33,6 +32,8 @@ class Status extends \Magento\Object
     protected $_isSpecialStatus = false;
 
     /**
+     * Rma item attribute source status
+     *
      * @var \Magento\Rma\Model\Item\Attribute\Source\Status
      */
     protected $_sourceStatus;
@@ -41,10 +42,8 @@ class Status extends \Magento\Object
      * @param \Magento\Rma\Model\Item\Attribute\Source\Status $sourceStatus
      * @param array $data
      */
-    public function __construct(
-        \Magento\Rma\Model\Item\Attribute\Source\Status $sourceStatus,
-        array $data = array()
-    ) {
+    public function __construct(\Magento\Rma\Model\Item\Attribute\Source\Status $sourceStatus, array $data = array())
+    {
         $this->_sourceStatus = $sourceStatus;
         parent::__construct($data);
     }
@@ -79,22 +78,16 @@ class Status extends \Magento\Object
             ),
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED => array(
                 \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED
-            ),
+            )
         );
-        $boundingArray = isset($statusesAllowed[$this->getStatus()])
-            ? $statusesAllowed[$this->getStatus()]
-            : array();
-        return
-            array_intersect_key(
-                $this->_sourceStatus->getAllOptionsForGrid(),
-                array_flip($boundingArray)
-            );
+        $boundingArray = isset($statusesAllowed[$this->getStatus()]) ? $statusesAllowed[$this->getStatus()] : array();
+        return array_intersect_key($this->_sourceStatus->getAllOptionsForGrid(), array_flip($boundingArray));
     }
 
     /**
      * Get item status sequence - linear order on item statuses set
      *
-     * @return array
+     * @return string[]
      */
     protected function _getStatusSequence()
     {
@@ -106,7 +99,7 @@ class Status extends \Magento\Object
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED,
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED,
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED,
-            self::STATUS_ORDER_IS_CLOSED,
+            self::STATUS_ORDER_IS_CLOSED
         );
     }
 
@@ -116,7 +109,7 @@ class Status extends \Magento\Object
      * For statuses, "less" than border status, attribute becomes uneditable
      * For statuses, "equal or greater" than border status, attribute becomes editable
      *
-     * @param  $attribute
+     * @param string  $attribute
      * @return string
      */
     public function getBorderStatus($attribute)
@@ -169,7 +162,7 @@ class Status extends \Magento\Object
             return false;
         }
 
-        if (array_search($this->getBorderStatus($attribute), $typeSequence) > $itemStateKey){
+        if (array_search($this->getBorderStatus($attribute), $typeSequence) > $itemStateKey) {
             return true;
         } else {
             return false;
@@ -184,7 +177,7 @@ class Status extends \Magento\Object
      */
     public function getAttributeIsDisabled($attribute)
     {
-        if($this->getSequenceStatus() == self::STATUS_ALL_ARE_EDITABLE) {
+        if ($this->getSequenceStatus() == self::STATUS_ALL_ARE_EDITABLE) {
             return false;
         }
 
@@ -203,7 +196,7 @@ class Status extends \Magento\Object
                 break;
         }
 
-        if ($enabledStatus == $this->getSequenceStatus()){
+        if ($enabledStatus == $this->getSequenceStatus()) {
             return false;
         } else {
             return true;
@@ -240,7 +233,7 @@ class Status extends \Magento\Object
     /**
      * Sets status to object but not for self::STATUS_ORDER_IS_CLOSED status
      *
-     * @param  $status
+     * @param string $status
      * @return \Magento\Rma\Model\Item\Status
      */
     public function setStatus($status)
@@ -250,5 +243,4 @@ class Status extends \Magento\Object
         }
         return parent::setStatus($status);
     }
-
 }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Category\Attribute\Source;
 
 /**
  * Catalog category landing page attribute source
@@ -16,10 +16,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Category\Attribute\Source;
-
-class Layout
-    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
+class Layout extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * @var array
@@ -43,12 +40,9 @@ class Layout
     {
         if (!$this->_options) {
             foreach ($this->_cmsLayouts as $layoutName => $layoutConfig) {
-                $this->_options[] = array(
-                   'value' => $layoutName,
-                   'label' => $layoutConfig
-                );
+                $this->_options[] = array('value' => $layoutName, 'label' => $layoutConfig);
             }
-            array_unshift($this->_options, array('value'=>'', 'label' => __('No layout updates')));
+            array_unshift($this->_options, array('value' => '', 'label' => __('No layout updates')));
         }
         return $this->_options;
     }

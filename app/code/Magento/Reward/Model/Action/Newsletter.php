@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reward\Model\Action;
 
 /**
  * Reward action for Newsletter Subscription
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model\Action;
-
 class Newsletter extends \Magento\Reward\Model\Action\AbstractAction
 {
     /**
@@ -27,6 +24,8 @@ class Newsletter extends \Magento\Reward\Model\Action\AbstractAction
     protected $_rewardData = null;
 
     /**
+     * Newsletter model resource subscriber collection
+     *
      * @var \Magento\Newsletter\Model\Resource\Subscriber\CollectionFactory
      */
     protected $_subscribersFactory;
@@ -79,9 +78,10 @@ class Newsletter extends \Magento\Reward\Model\Action\AbstractAction
         }
 
         /* @var $subscribers \Magento\Newsletter\Model\Resource\Subscriber\Collection */
-        $subscribers = $this->_subscribersFactory->create()
-            ->addFieldToFilter('customer_id', $subscriber->getCustomerId())
-            ->load();
+        $subscribers = $this->_subscribersFactory->create()->addFieldToFilter(
+            'customer_id',
+            $subscriber->getCustomerId()
+        )->load();
         // check for existing customer subscribtions
         $found = false;
         foreach ($subscribers as $item) {
@@ -110,14 +110,12 @@ class Newsletter extends \Magento\Reward\Model\Action\AbstractAction
      * Setter for $_entity and add some extra data to history
      *
      * @param \Magento\Object $entity
-     * @return \Magento\Reward\Model\Action\AbstractAction
+     * @return $this
      */
     public function setEntity($entity)
     {
         parent::setEntity($entity);
-        $this->getHistory()->addAdditionalData(array(
-            'email' => $this->getEntity()->getEmail()
-        ));
+        $this->getHistory()->addAdditionalData(array('email' => $this->getEntity()->getEmail()));
         return $this;
     }
 }

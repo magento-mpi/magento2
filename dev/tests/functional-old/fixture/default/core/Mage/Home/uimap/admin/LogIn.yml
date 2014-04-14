@@ -18,10 +18,10 @@ log_in_to_admin:
             fieldsets:
                 -
                     log_in:
-                        xpath: //div[@class='form-login form-inline']
+                        xpath: //form[@id='login-form']
                         buttons:
                             login: //button[@type='submit']
-                            captcha_reload: //*[@id='captcha-reload']
+                            captcha_reload: //img[@id='captcha-reload']
                         fields:
                             user_name: //input[@id='username']
                             password: //input[@id='login']
@@ -38,7 +38,7 @@ log_in_to_admin:
             incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA')]
             forgot_password_invalid_email: //div/label[@class='mage-error' and text()='Please enter a valid email address. For example johndoe@domain.com.']
             success_forgot_password: //li[normalize-space(@class)='success-msg' and contains(.,"Thanks for visiting our store. If you own an account associated with %adminEmail%, we'll send you an email with a link to reset your password.")]
-            retrieve_password: //li[normalize-space(@class)='success-msg' and contains(.,"If there is an account associated with %adminEmail% you will receive an email with a link to reset your password.")]
+            retrieve_password: //li[normalize-space(@class)='success-msg' and contains(.,'If there is an account associated with %adminEmail% you will receive an email with a link to reset your password.')]
 
 log_in_admin_page:
     mca: auth/login/
@@ -56,13 +56,13 @@ forgot_password:
                     forgot_password:
                         xpath: //form[@id='login-form']
                         buttons:
-                            retrieve_password: //button[span="Retrieve Password"]
-                            captcha_reload: //*[@id='captcha-reload']
+                            retrieve_password: //button[span='Retrieve Password']
+                            captcha_reload: //img[@id='captcha-reload']
                         fields:
                             email: //input[@id='email']
                             captcha_field: //input[@id='captcha']
                         links:
-                            back_to_login: //a[(@class='action-back')]
+                            back_to_login: //a[@class='action-back']
                         pageelements:
                             captcha: //*[@id='backend_forgotpassword']
         messages: *loginMessages

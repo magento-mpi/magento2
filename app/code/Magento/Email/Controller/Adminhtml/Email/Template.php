@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Email\Controller\Adminhtml\Email;
 
 /**
  * System Template admin controller
@@ -15,29 +16,30 @@
  * @package    Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Email\Controller\Adminhtml\Email;
-
 class Template extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
 
+    /**
+     * Index action
+     *
+     * @return void
+     */
     public function indexAction()
     {
         $this->_title->add(__('Email Templates'));
@@ -53,6 +55,11 @@ class Template extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * Grid action
+     *
+     * @return void
+     */
     public function gridAction()
     {
         $this->_view->loadLayout(false);
@@ -62,6 +69,7 @@ class Template extends \Magento\Backend\App\Action
     /**
      * New transactional email action
      *
+     * @return void
      */
     public function newAction()
     {
@@ -69,8 +77,9 @@ class Template extends \Magento\Backend\App\Action
     }
 
     /**
-     * Edit transactioanl email action
+     * Edit transactional email action
      *
+     * @return void
      */
     public function editAction()
     {
@@ -87,13 +96,22 @@ class Template extends \Magento\Backend\App\Action
 
         $this->_title->add($template->getId() ? $template->getTemplateCode() : __('New Template'));
 
-        $this->_addContent($this->_view->getLayout()
-            ->createBlock('Magento\Email\Block\Adminhtml\Template\Edit', 'template_edit')
-            ->setEditMode((bool)$this->getRequest()->getParam('id'))
+        $this->_addContent(
+            $this->_view->getLayout()->createBlock(
+                'Magento\Email\Block\Adminhtml\Template\Edit',
+                'template_edit'
+            )->setEditMode(
+                (bool)$this->getRequest()->getParam('id')
+            )
         );
         $this->_view->renderLayout();
     }
 
+    /**
+     * Save transactional email action
+     *
+     * @return void
+     */
     public function saveAction()
     {
         $request = $this->getRequest();
@@ -107,20 +125,28 @@ class Template extends \Magento\Backend\App\Action
         }
 
         try {
-            $template->setTemplateSubject($request->getParam('template_subject'))
-                ->setTemplateCode($request->getParam('template_code'))
-                ->setTemplateText($request->getParam('template_text'))
-                ->setTemplateStyles($request->getParam('template_styles'))
-                ->setModifiedAt($this->_objectManager->get('Magento\Core\Model\Date')->gmtDate())
-                ->setOrigTemplateCode($request->getParam('orig_template_code'))
-                ->setOrigTemplateVariables($request->getParam('orig_template_variables'));
+            $template->setTemplateSubject(
+                $request->getParam('template_subject')
+            )->setTemplateCode(
+                $request->getParam('template_code')
+            )->setTemplateText(
+                $request->getParam('template_text')
+            )->setTemplateStyles(
+                $request->getParam('template_styles')
+            )->setModifiedAt(
+                $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->gmtDate()
+            )->setOrigTemplateCode(
+                $request->getParam('orig_template_code')
+            )->setOrigTemplateVariables(
+                $request->getParam('orig_template_variables')
+            );
 
             if (!$template->getId()) {
                 $template->setTemplateType(\Magento\Email\Model\Template::TYPE_HTML);
             }
 
             if ($request->getParam('_change_type_flag')) {
-                $template->setTemplateType(\Magento\Email\Model\Template::TYPE_TEXT);
+                $template->setTemplateType(\Magento\App\TemplateTypesInterface::TYPE_TEXT);
                 $template->setTemplateStyles('');
             }
 
@@ -129,26 +155,34 @@ class Template extends \Magento\Backend\App\Action
             $this->messageManager->addSuccess(__('The email template has been saved.'));
             $this->_redirect('adminhtml/*');
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Backend\Model\Session')
-                ->setData('email_template_form_data', $request->getParams());
+            $this->_objectManager->get(
+                'Magento\Backend\Model\Session'
+            )->setData(
+                'email_template_form_data',
+                $request->getParams()
+            );
             $this->messageManager->addError($e->getMessage());
             $this->_forward('new');
         }
-
     }
 
+    /**
+     * Delete transactional email action
+     *
+     * @return void
+     */
     public function deleteAction()
     {
         $template = $this->_initTemplate('id');
         if ($template->getId()) {
             try {
                 $template->delete();
-                 // display success message
+                // display success message
                 $this->messageManager->addSuccess(__('The email template has been deleted.'));
                 // go to grid
                 $this->_redirect('adminhtml/*/');
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(
@@ -156,8 +190,11 @@ class Template extends \Magento\Backend\App\Action
                 );
                 $this->_objectManager->get('Magento\Logger')->logException($e);
                 // save data in session
-                $this->_objectManager->get('Magento\Backend\Model\Session')
-                    ->setFormData($this->getRequest()->getParams());
+                $this->_objectManager->get(
+                    'Magento\Backend\Model\Session'
+                )->setFormData(
+                    $this->getRequest()->getParams()
+                );
                 // redirect to edit form
                 $this->_redirect('adminhtml/*/edit', array('id' => $template->getId()));
                 return;
@@ -169,6 +206,11 @@ class Template extends \Magento\Backend\App\Action
         $this->_redirect('adminhtml/*/');
     }
 
+    /**
+     * Preview transactional email action
+     *
+     * @return void
+     */
     public function previewAction()
     {
         $this->_view->loadLayout('systemPreview');
@@ -178,6 +220,7 @@ class Template extends \Magento\Backend\App\Action
     /**
      * Set template data to retrieve it in template info form
      *
+     * @return void
      */
     public function defaultTemplateAction()
     {
@@ -223,6 +266,11 @@ class Template extends \Magento\Backend\App\Action
         return $model;
     }
 
+    /**
+     * Check if user has enough privileges
+     *
+     * @return bool
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Email::template');

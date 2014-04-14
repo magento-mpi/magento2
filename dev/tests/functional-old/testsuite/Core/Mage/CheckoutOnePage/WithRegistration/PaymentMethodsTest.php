@@ -18,8 +18,6 @@
  */
 class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
-    private static $_paypalAccount;
-
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -33,13 +31,8 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
 
     protected function tearDownAfterTestClass()
     {
-        $this->loginAdminUser();
-        $this->systemConfigurationHelper()->useHttps('frontend', 'no');
-        $this->paypalHelper()->paypalDeveloperLogin();
-        if (isset(self::$_paypalAccount)) {
-            $this->paypalHelper()->paypalDeveloperLogin();
-            $this->paypalHelper()->deleteAccount(self::$_paypalAccount);
-        }
+//        $this->loginAdminUser();
+//        $this->systemConfigurationHelper()->useHttps('frontend', 'no');
     }
 
     /**
@@ -64,7 +57,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
-        self::$_paypalAccount = $accountInfo['email'];
+
         return array(
             'sku' => $simple['general_name'],
             'api' => $api,
@@ -100,18 +93,21 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
      * @depends preconditionsForTests
      * @dataProvider differentPaymentMethodsWithout3DDataProvider
      * @TestlinkId TL-MAGE-3206
-     * @SuppressWarnings("unused")
      */
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {
+        if ($payment == 'paypaldirectuk') {
+            $this->markTestIncomplete('BUG: There is no "Website Payments Pro Payflow Edition" fiedset');
+        }
         //Data
+        $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa', array(
             'general_name' => $testData['sku'],
-            'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)
+            'payment_data' => $paymentData
         ));
         $configName = ($payment !== 'checkmoney') ? $payment . '_without_3Dsecure' : $payment;
         $paymentConfig = $this->loadDataSet('PaymentMethod', $configName);
-        if ($payment != 'payflowpro' && isset($paymentData['payment_info'])) {
+        if ($payment != 'purchaseorder' && $payment != 'payflowpro' && isset($paymentData['payment_info'])) {
             $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
         }
         if ($payment == 'paypaldirect') {
@@ -142,7 +138,8 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
             array('paypaldirectuk'),
             array('checkmoney'),
             array('payflowpro'),
-            array('authorizenet')
+            array('authorizenet'),
+            array('authorizenetdp')
         );
     }
 
@@ -178,6 +175,9 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
      */
     public function differentPaymentMethodsWith3D($payment, $testData)
     {
+        if ($payment == 'paypaldirectuk') {
+            $this->markTestIncomplete('BUG: There is no "Website Payments Pro Payflow Edition" fiedset');
+        }
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa', array(
             'general_name' => $testData['sku'],
@@ -186,7 +186,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');
         //Steps
         if ($payment == 'paypaldirect') {
-            $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
+//            $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
             $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure', $testData['api']);
         }
         $this->navigate('system_configuration');

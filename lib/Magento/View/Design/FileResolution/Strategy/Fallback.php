@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\FileResolution\Strategy;
 
-use Magento\Filesystem;
+use Magento\App\Filesystem;
 use Magento\View\Design\Fallback\Factory;
 use Magento\View\Design\Fallback\Rule\RuleInterface;
 use Magento\View\Design\ThemeInterface;
@@ -22,21 +21,29 @@ use Magento\Filesystem\Directory\Read;
 class Fallback implements FileInterface, LocaleInterface, ViewInterface
 {
     /**
+     * Fallback factory
+     *
      * @var Factory
      */
     protected $fallbackFactory;
 
     /**
+     * Rule file
+     *
      * @var RuleInterface
      */
     protected $ruleFile;
 
     /**
+     * Rule locale file
+     *
      * @var RuleInterface
      */
     protected $ruleLocaleFile;
 
     /**
+     * Rule view file
+     *
      * @var RuleInterface
      */
     protected $ruleViewFile;
@@ -49,12 +56,14 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
     protected $rootDirectory;
 
     /**
+     * Constructor
+     *
      * @param Filesystem $filesystem
      * @param Factory $fallbackFactory
      */
     public function __construct(Filesystem $filesystem, Factory $fallbackFactory)
     {
-        $this->rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT);
+        $this->rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT_DIR);
         $this->fallbackFactory = $fallbackFactory;
     }
 
@@ -104,7 +113,11 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
     public function getViewFile($area, ThemeInterface $themeModel, $locale, $file, $module = null)
     {
         $params = array(
-            'area' => $area, 'theme' => $themeModel, 'locale' => $locale, 'namespace' => null, 'module' => null
+            'area' => $area,
+            'theme' => $themeModel,
+            'locale' => $locale,
+            'namespace' => null,
+            'module' => null
         );
         if ($module) {
             list($params['namespace'], $params['module']) = explode('_', $module, 2);

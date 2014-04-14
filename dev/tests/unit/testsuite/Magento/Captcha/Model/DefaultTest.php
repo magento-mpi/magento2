@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Captcha\Model;
 
 class DefaultTest extends \PHPUnit_Framework_TestCase
@@ -29,16 +28,14 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
         'length' => '4-5',
         'symbols' => 'ABCDEFGHJKMnpqrstuvwxyz23456789',
         'case_sensitive' => '0',
-        'shown_to_logged_in_user' => array(
-            'contact_us' => 1,
-        ),
+        'shown_to_logged_in_user' => array('contact_us' => 1),
         'always_for' => array(
             'user_create',
             'user_forgotpassword',
             'guest_checkout',
             'register_during_checkout',
-            'contact_us',
-        ),
+            'contact_us'
+        )
     );
 
     /**
@@ -51,10 +48,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_fontPath = array(
-        'LinLibertine' => array(
-            'label' => 'LinLibertine',
-            'path' => 'lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf'
-        )
+        'LinLibertine' => array('label' => 'LinLibertine', 'path' => 'lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf')
     );
 
     /**
@@ -90,26 +84,51 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     {
         $this->session = $this->_getSessionStub();
 
-        $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManager', array('getStore'), array(), '', false);
-        $this->_storeManager->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($this->_getStoreStub()));
+        $this->_storeManager = $this->getMock(
+            'Magento\Store\Model\StoreManager',
+            array('getStore'),
+            array(),
+            '',
+            false
+        );
+        $this->_storeManager->expects(
+            $this->any()
+        )->method(
+            'getStore'
+        )->will(
+            $this->returnValue($this->_getStoreStub())
+        );
 
         // \Magento\Customer\Model\Session
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-        $this->_objectManager->expects($this->any())
-            ->method('get')
-            ->will($this->returnValueMap(array(
-                'Magento\Captcha\Helper\Data' => $this->_getHelperStub(),
-                'Magento\Customer\Model\Session' => $this->session,
-            )));
+        $this->_objectManager->expects(
+            $this->any()
+        )->method(
+            'get'
+        )->will(
+            $this->returnValueMap(
+                array(
+                    'Magento\Captcha\Helper\Data' => $this->_getHelperStub(),
+                    'Magento\Customer\Model\Session' => $this->session
+                )
+            )
+        );
 
 
-        $this->_resLogFactory = $this->getMock('Magento\Captcha\Model\Resource\LogFactory',
-            array('create'), array(), '', false);
-        $this->_resLogFactory->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_getResourceModelStub()));
+        $this->_resLogFactory = $this->getMock(
+            'Magento\Captcha\Model\Resource\LogFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $this->_resLogFactory->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_getResourceModelStub())
+        );
 
         $this->_object = new \Magento\Captcha\Model\DefaultModel(
             $this->session,
@@ -151,10 +170,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFont()
     {
-        $this->assertEquals(
-            $this->_object->getFont(),
-            $this->_fontPath['LinLibertine']['path']
-        );
+        $this->assertEquals($this->_object->getFont(), $this->_fontPath['LinLibertine']['path']);
     }
 
     /**
@@ -163,10 +179,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTimeout()
     {
-        $this->assertEquals(
-            $this->_object->getTimeout(),
-            self::$_defaultConfig['timeout'] * 60
-        );
+        $this->assertEquals($this->_object->getTimeout(), self::$_defaultConfig['timeout'] * 60);
     }
 
     /**
@@ -176,12 +189,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     {
         self::$_defaultConfig['case_sensitive'] = '1';
         $this->assertFalse($this->_object->isCorrect('abcdef5'));
-        $sessionData = array(
-            'user_create_word' => array(
-                'data' => 'AbCdEf5',
-                'expires' => time() + 600
-            )
-        );
+        $sessionData = array('user_create_word' => array('data' => 'AbCdEf5', 'expires' => time() + 600));
         $this->_object->getSession()->setData($sessionData);
         self::$_defaultConfig['case_sensitive'] = '0';
         $this->assertTrue($this->_object->isCorrect('abcdef5'));
@@ -222,12 +230,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($this->_object->getWord(), 'AbCdEf5');
         $this->_object->getSession()->setData(
-            array(
-                'user_create_word' => array(
-                    'data' => 'AbCdEf5',
-                    'expires' => time() - 360
-                )
-            )
+            array('user_create_word' => array('data' => 'AbCdEf5', 'expires' => time() - 360))
         );
         $this->assertNull($this->_object->getWord());
     }
@@ -240,23 +243,18 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     protected function _getSessionStub()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $sessionArgs = $helper->getConstructArguments('Magento\Customer\Model\Session', array(
-            'storage' => new \Magento\Session\Storage
-        ));
-        $session = $this->getMock('Magento\Customer\Model\Session',
-            array('isLoggedIn', 'getUserCreateWord'), $sessionArgs);
-        $session->expects($this->any())
-            ->method('isLoggedIn')
-            ->will($this->returnValue(false));
-
-        $session->setData(
-            array(
-                'user_create_word' => array(
-                    'data' => 'AbCdEf5',
-                    'expires' => time() + 600
-                )
-            )
+        $sessionArgs = $helper->getConstructArguments(
+            'Magento\Customer\Model\Session',
+            array('storage' => new \Magento\Session\Storage())
         );
+        $session = $this->getMock(
+            'Magento\Customer\Model\Session',
+            array('isLoggedIn', 'getUserCreateWord'),
+            $sessionArgs
+        );
+        $session->expects($this->any())->method('isLoggedIn')->will($this->returnValue(false));
+
+        $session->setData(array('user_create_word' => array('data' => 'AbCdEf5', 'expires' => time() + 600)));
         return $session;
     }
 
@@ -266,26 +264,31 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getHelperStub()
     {
-        $helper = $this->getMockBuilder('Magento\Captcha\Helper\Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getConfig', 'getFonts', '_getWebsiteCode', 'getImgUrl'))
-            ->getMock();
+        $helper = $this->getMockBuilder(
+            'Magento\Captcha\Helper\Data'
+        )->disableOriginalConstructor()->setMethods(
+            array('getConfig', 'getFonts', '_getWebsiteCode', 'getImgUrl')
+        )->getMock();
 
-        $helper->expects($this->any())
-            ->method('getConfig')
-            ->will($this->returnCallback('Magento\Captcha\Model\DefaultTest::getConfigNodeStub'));
+        $helper->expects(
+            $this->any()
+        )->method(
+            'getConfig'
+        )->will(
+            $this->returnCallback('Magento\Captcha\Model\DefaultTest::getConfigNodeStub')
+        );
 
-        $helper->expects($this->any())
-            ->method('getFonts')
-            ->will($this->returnValue($this->_fontPath));
+        $helper->expects($this->any())->method('getFonts')->will($this->returnValue($this->_fontPath));
 
-        $helper->expects($this->any())
-            ->method('_getWebsiteCode')
-            ->will($this->returnValue('base'));
+        $helper->expects($this->any())->method('_getWebsiteCode')->will($this->returnValue('base'));
 
-        $helper->expects($this->any())
-            ->method('getImgUrl')
-            ->will($this->returnValue('http://localhost/pub/media/captcha/base/'));
+        $helper->expects(
+            $this->any()
+        )->method(
+            'getImgUrl'
+        )->will(
+            $this->returnValue('http://localhost/pub/media/captcha/base/')
+        );
 
 
         return $helper;
@@ -305,16 +308,11 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $resourceModel->expects($this->any())
-            ->method('logAttempt');
+        $resourceModel->expects($this->any())->method('logAttempt');
 
-        $resourceModel->expects($this->any())
-            ->method('countAttemptsByRemoteAddress')
-            ->will($this->returnValue(0));
+        $resourceModel->expects($this->any())->method('countAttemptsByRemoteAddress')->will($this->returnValue(0));
 
-        $resourceModel->expects($this->any())
-            ->method('countAttemptsByUserLogin')
-            ->will($this->returnValue(3));
+        $resourceModel->expects($this->any())->method('countAttemptsByUserLogin')->will($this->returnValue(3));
         return $resourceModel;
     }
 
@@ -339,17 +337,13 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     /**
      * Create store stub
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getStoreStub()
     {
-        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
-        $store->expects($this->any())
-            ->method('getBaseUrl')
-            ->will($this->returnValue('http://localhost/pub/media/'));
-        $store->expects($this->any())
-            ->method('isAdmin')
-            ->will($this->returnValue(false));
+        $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $store->expects($this->any())->method('getBaseUrl')->will($this->returnValue('http://localhost/pub/media/'));
+        $store->expects($this->any())->method('isAdmin')->will($this->returnValue(false));
         return $store;
     }
 
@@ -375,7 +369,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
             array(true, 'contact_us'),
             array(false, 'user_create'),
             array(false, 'user_forgotpassword'),
-            array(false, 'guest_checkout'),
+            array(false, 'guest_checkout')
         );
     }
 }

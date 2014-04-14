@@ -1,15 +1,24 @@
-# Magento
 #
 # {license_notice}
 #
 # @category    Magento
-# @package     Magento
+# @package     Mage_Customer
 # @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
 #
 ---
-#'Login or Create an Account' page
+customer_account:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    my_account_links:
+                        links:
+                            order_by_sku: //li[normalize-space(a)='Order by SKU']/a
+                            my_returns: //li[normalize-space(a)='My Returns']/a
+
+# 'Login or Create an Account' page
 customer_login:
     uimap:
         form:
@@ -17,23 +26,9 @@ customer_login:
                 -
                     log_in_customer:
                         links:
-                            what_is_this: //li[@id='remember-me-box']//a[contains(., concat("What", "'s this?"))]
-        buttons:
-            close: //div[@class='popup-block block popup-remember-tip active']//button[span='Close']
-        pageelements:
-            checking: //div[@class='popup-block block popup-remember-tip active']
-
-#'Success LogOut page
-customer_logout:
-    title: Magento Enterprise Edition
-
-#forgot password page
-forgot_customer_password:
-    uimap:
-        form:
-            fieldsets:
+                            what_is_this: //div[@id='remember-me-box']/a
                 -
-                    forgot_password:
-                        xpath: //form[@id='form-validate']
-                        links:
-                            back_to_login: //a[text()='Go back']
+                    what_is_this:
+                        xpath: //div[div/strong='What is this?'][not(@style='display: none;')]
+                        buttons:
+                            close: //span[@class='action close']

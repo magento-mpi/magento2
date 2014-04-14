@@ -1,6 +1,6 @@
 <?php
 /**
- * Application. Performs user requested actions.
+ * Application interface
  *
  * {license_notice}
  *
@@ -12,7 +12,19 @@ namespace Magento;
 interface AppInterface
 {
     /**
-     * @return int
+     * Default application locale
      */
-    public function execute();
-} 
+    const DISTRO_LOCALE_CODE = 'en_US';
+
+    /**
+     * Magento version
+     */
+    const VERSION = '2.0.0.0-dev72';
+
+    /**
+     * Launch application
+     *
+     * @return \Magento\App\ResponseInterface
+     */
+    public function launch();
+}

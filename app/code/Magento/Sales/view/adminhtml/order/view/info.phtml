@@ -89,7 +89,7 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
                 <?php if($_order->getBaseCurrencyCode() != $_order->getOrderCurrencyCode()): ?>
                 <tr>
                     <th><?php echo __('%1 / %2 rate:', $_order->getOrderCurrencyCode(), $_order->getBaseCurrencyCode()) ?></th>
-                    <th><?php echo $_order->getBaseToOrderRate() ?></td>
+                    <th><?php echo $_order->getBaseToOrderRate() ?></th>
                 </tr>
                 <?php endif; ?>
             </table>
@@ -167,4 +167,11 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
 </div>
     <?php endif; ?>
 
-<?php /* closing div of this opening div are in app\code\Magento\Sales\view\adminhtml\order\invoice\view\form.phtml */?>
+<?php
+/*
+    closing div of this opening div are in
+    app\code\Magento\Sales\view\adminhtml\order\invoice\view\form.phtml
+    or
+    app\code\Magento\Sales\view\adminhtml\order\view\tab\info.phtml
+*/
+?>

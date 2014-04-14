@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
 
 /**
  * Form element renderer to display logo uploader element for VDE
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
-
-class ImageUploader
-    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Uploader
+class ImageUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Uploader
 {
     /**
      * Control type
@@ -22,12 +20,14 @@ class ImageUploader
     const CONTROL_TYPE = 'image-uploader';
 
     /**
-     * Default MIME types to accept
+     * @var string Default MIME types to accept
      */
     protected $_acceptTypesDefault = 'image/*';
 
     /**
      * Constructor helper
+     *
+     * @return void
      */
     public function _construct()
     {

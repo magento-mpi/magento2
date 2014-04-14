@@ -46,7 +46,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
         $this->loginAdminUser();
         $simple1 = $this->productHelper()->createSimpleProduct();
         $simple2 = $this->productHelper()->createSimpleProduct();
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
 
@@ -244,7 +244,6 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>Fill in only required fields. Use max long values for fields.</p>
      *
      * @param string $invalidQty
-     * @param string $message
      * @param array $testData
      *
      * @test
@@ -252,7 +251,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * @depends preconditionsForTests
      * @testlinkId TL-MAGE-5273
      */
-    public function selectInvalidProductQty($invalidQty, $message, $testData)
+    public function selectInvalidProductQty($invalidQty, $testData)
     {
         //Data
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
@@ -262,15 +261,15 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
         $this->frontend();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', 'Please enter a valid number.');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
     }
 
     public function selectAddressesPageInvalidQtyDataProvider()
     {
         return array(
-            array('-10', '"shopping_cart_is_empty" message(s) is on the page.'),
-            array($this->generate('string', 3, ':alpha:'), 'Please enter a valid number.')
+            array('-10'),
+            array($this->generate('string', 3, ':alpha:'))
         );
     }
 

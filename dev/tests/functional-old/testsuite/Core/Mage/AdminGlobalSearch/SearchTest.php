@@ -28,9 +28,8 @@ class Core_Mage_AdminGlobalSearch_SearchTest extends Mage_Selenium_TestCase
     public function preconditionsForTests()
     {
         //Data
-        $product = $this->loadDataSet('Product', 'virtual_product_required');
-        $orderData = $this->loadDataSet('SalesOrder', 'order_virtual',
-            array('filter_sku' => $product['general_sku'], 'customer_email' => $this->generate('email', 32, 'valid')));
+        $product = $this->loadDataSet('Product', 'virtual_product_visible');
+        $orderData = $this->loadDataSet('SalesOrder', 'order_virtual', array('filter_sku' => $product['general_sku']));
         //Create new product
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($product, 'virtual');

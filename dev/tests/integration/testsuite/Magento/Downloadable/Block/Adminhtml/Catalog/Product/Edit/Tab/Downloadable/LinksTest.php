@@ -8,19 +8,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable;
 
-class LinksTest
-    extends \PHPUnit_Framework_TestCase
+class LinksTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppArea adminhtml
      */
     public function testGetUploadButtonsHtml()
     {
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links'
+        );
         self::performUploadButtonTest($block);
     }
 
@@ -32,12 +33,16 @@ class LinksTest
     public static function performUploadButtonTest(\Magento\View\Element\AbstractBlock $block)
     {
         /** @var $layout \Magento\View\LayoutInterface */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\View\Layout');
         $layout->addBlock($block, 'links');
         $expected = uniqid();
-        $text = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\View\Element\Text', '', array('data' => array('text' => $expected)));
+        $text = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\View\Element\Text',
+            '',
+            array('data' => array('text' => $expected))
+        );
         $block->unsetChild('upload_button');
         $layout->addBlock($text, 'upload_button', 'links');
         self::assertEquals($expected, $block->getUploadButtonHtml());
@@ -51,10 +56,17 @@ class LinksTest
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')
-            ->register('product', new \Magento\Object(array('type_id' => 'simple')));
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links');
+        $objectManager->get(
+            'Magento\Registry'
+        )->register(
+            'product',
+            new \Magento\Object(array('type_id' => 'simple'))
+        );
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links'
+        );
         $this->assertEmpty($block->getLinkData());
     }
 
@@ -74,13 +86,17 @@ class LinksTest
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->register('product', new \Magento\Object(array(
-            'type_id' => $productType,
-            'id' => '1',
-            'links_title' => $linksTitle
-        )));
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links');
+        $objectManager->get(
+            'Magento\Registry'
+        )->register(
+            'product',
+            new \Magento\Object(array('type_id' => $productType, 'id' => '1', 'links_title' => $linksTitle))
+        );
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links'
+        );
         $this->assertEquals($expectedResult, $block->getLinksTitle());
     }
 
@@ -91,7 +107,7 @@ class LinksTest
      */
     public function productLinksTitleDataProvider()
     {
-        return array (
+        return array(
             array('simple', null, 'Links Title Test'),
             array('simple', 'Links Title', 'Links Title Test'),
             array('virtual', null, 'Links Title Test'),

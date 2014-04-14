@@ -7,11 +7,8 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../app/code/Magento/Catalog/etc/product_types_merged.xsd">
     <type label="some_label" name="some_name" modelInstance="model_name">
-        <allowProductTypes>
-            <type name="type_name"/>
-        </allowProductTypes>
         <allowedSelectionTypes>
             <type name="some_name" />
         </allowedSelectionTypes>
@@ -20,9 +17,6 @@
         <stockIndexerModel instance="instance_name"/>
     </type>
     <type label="some_label" name="some_name2" modelInstance="model_name">
-        <allowProductTypes>
-            <type name="type_name"/>
-        </allowProductTypes>
         <allowedSelectionTypes>
             <type name="some_name" />
         </allowedSelectionTypes>
@@ -30,4 +24,8 @@
         <indexerModel instance="instance_name" />
         <stockIndexerModel instance="instance_name"/>
     </type>
+    <composableTypes>
+        <type name="some_name"/>
+        <type name="some_name2"/>
+    </composableTypes>
 </config>

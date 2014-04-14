@@ -7,22 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sitemap\Model\Resource\Cms;
 
 /**
  * Sitemap cms page collection model
  *
- * @category    Magento
- * @package     Magento_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sitemap\Model\Resource\Cms;
-
-class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Page extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Init resource model (catalog/category)
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -39,17 +36,22 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $pages = array();
 
-        $select = $this->_getWriteAdapter()->select()
-            ->from(array('main_table' => $this->getMainTable()), array($this->getIdFieldName(),
-                'url' => 'identifier', 'updated_at' => 'update_time'))
-            ->join(
-                array('store_table' => $this->getTable('cms_page_store')),
-                'main_table.page_id = store_table.page_id',
-                array()
-            )
-            ->where('main_table.is_active = 1')
-            ->where('main_table.identifier != ?', \Magento\Cms\Model\Page::NOROUTE_PAGE_ID)
-            ->where('store_table.store_id IN(?)', array(0, $storeId));
+        $select = $this->_getWriteAdapter()->select()->from(
+            array('main_table' => $this->getMainTable()),
+            array($this->getIdFieldName(), 'url' => 'identifier', 'updated_at' => 'update_time')
+        )->join(
+            array('store_table' => $this->getTable('cms_page_store')),
+            'main_table.page_id = store_table.page_id',
+            array()
+        )->where(
+            'main_table.is_active = 1'
+        )->where(
+            'main_table.identifier != ?',
+            \Magento\Cms\Model\Page::NOROUTE_PAGE_ID
+        )->where(
+            'store_table.store_id IN(?)',
+            array(0, $storeId)
+        );
 
         $query = $this->_getWriteAdapter()->query($select);
         while ($row = $query->fetch()) {

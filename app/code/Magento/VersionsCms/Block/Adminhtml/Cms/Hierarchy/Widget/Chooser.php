@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget;
 
 /**
  * Cms Pages Hierarchy Grid Block
@@ -14,8 +15,6 @@
  * @method \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser setScope(string $value)
  * @method \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser setScopeId(int $value)
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget;
-
 class Chooser extends \Magento\Backend\Block\Template
 {
     /**
@@ -44,7 +43,7 @@ class Chooser extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
-        \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio $widgetRadio,
+        Radio $widgetRadio,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
@@ -64,12 +63,19 @@ class Chooser extends \Magento\Backend\Block\Template
         $uniqueId = $this->mathRandom->getUniqueHash($element->getId());
         $sourceUrl = $this->getUrl('adminhtml/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqueId));
 
-        $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
-            ->setElement($element)
-            ->setConfig($this->getConfig())
-            ->setFieldsetId($this->getFieldsetId())
-            ->setSourceUrl($sourceUrl)
-            ->setUniqId($uniqueId);
+        $chooser = $this->getLayout()->createBlock(
+            'Magento\Widget\Block\Adminhtml\Widget\Chooser'
+        )->setElement(
+            $element
+        )->setConfig(
+            $this->getConfig()
+        )->setFieldsetId(
+            $this->getFieldsetId()
+        )->setSourceUrl(
+            $sourceUrl
+        )->setUniqId(
+            $uniqueId
+        );
 
 
         if ($element->getValue()) {
@@ -95,19 +101,29 @@ class Chooser extends \Magento\Backend\Block\Template
     {
         $chooserJsObject = $this->getId();
         $html = '
-            <div id="tree' . $this->getId() . '" class="cms-tree tree x-tree"></div>
+            <div id="tree' .
+            $this->getId() .
+            '" class="cms-tree tree x-tree"></div>
             <script type="text/javascript">
 
             function clickNode(node) {
                 $("tree-container").insert({before: node.text});
-                $("' . $this->getId() . '").value = node.id;
+                $("' .
+            $this->getId() .
+            '").value = node.id;
                 treeRoot.collapse();
             }
 
-            var nodes = ' . $this->getNodesJson() . ';
+            var nodes = ' .
+            $this->getNodesJson() .
+            ';
 
             if (nodes.length > 0) {
-                var tree' . $this->getId() . ' = new Ext.tree.TreePanel("tree' . $this->getId() . '", {
+                var tree' .
+            $this->getId() .
+            ' = new Ext.tree.TreePanel("tree' .
+            $this->getId() .
+            '", {
                     animate: false,
                     enableDD: false,
                     containerScroll: true,
@@ -115,8 +131,14 @@ class Chooser extends \Magento\Backend\Block\Template
                     lines: true
                 });
 
-                var treeRoot' . $this->getId() . ' = new Ext.tree.AsyncTreeNode({
-                    text: "' . __("Root") . '",
+                var treeRoot' .
+            $this->getId() .
+            ' = new Ext.tree.AsyncTreeNode({
+                    text: "' .
+            __(
+                "Root"
+            ) .
+            '",
                     id: "root",
                     allowDrop: true,
                     allowDrag: false,
@@ -124,7 +146,11 @@ class Chooser extends \Magento\Backend\Block\Template
                     cls: "cms_node_root"
                 });
 
-                tree' . $this->getId() . '.setRootNode(treeRoot' . $this->getId() . ');
+                tree' .
+            $this->getId() .
+            '.setRootNode(treeRoot' .
+            $this->getId() .
+            ');
 
                 for (var i = 0; i < nodes.length; i++) {
                     var cls = nodes[i].page_id ? "cms_page" : "cms_node";
@@ -137,23 +163,44 @@ class Chooser extends \Magento\Backend\Block\Template
                         allowDrag: false,
                         page_id: nodes[i].page_id
                     });
-                    if (parentNode = tree' . $this->getId() . '.getNodeById(nodes[i].parent_node_id)) {
+                    if (parentNode = tree' .
+            $this->getId() .
+            '.getNodeById(nodes[i].parent_node_id)) {
                         parentNode.appendChild(node);
                     } else {
-                        treeRoot' . $this->getId() . '.appendChild(node);
+                        treeRoot' .
+            $this->getId() .
+            '.appendChild(node);
                     }
                 }
 
-                tree' . $this->getId() . '.addListener("click", function (node, event) {
-                    ' . $chooserJsObject . '.setElementValue(node.id);
-                    ' . $chooserJsObject . '.setElementLabel(node.text);
-                    ' . $chooserJsObject . '.close();
+                tree' .
+            $this->getId() .
+            '.addListener("click", function (node, event) {
+                    ' .
+            $chooserJsObject .
+            '.setElementValue(node.id);
+                    ' .
+            $chooserJsObject .
+            '.setElementLabel(node.text);
+                    ' .
+            $chooserJsObject .
+            '.close();
                 });
-                tree' . $this->getId() . '.render();
-                treeRoot' . $this->getId() . '.expand();
+                tree' .
+            $this->getId() .
+            '.render();
+                treeRoot' .
+            $this->getId() .
+            '.expand();
             }
             else {
-                $("tree' . $this->getId() . '").innerHTML = "' . __('No nodes are available.') . '";
+                $("tree' .
+            $this->getId() .
+            '").innerHTML = "' .
+            __(
+                'No nodes are available.'
+            ) . '";
             }
             </script>
         ';

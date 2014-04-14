@@ -26,8 +26,9 @@ class Core_Mage_Customer_ForgotPasswordTest extends Mage_Selenium_TestCase
     public function validateForgotPasswordPage()
     {
         //Steps
-        $this->frontend('home_page');
-        $this->frontend('forgot_customer_password');
+        $this->frontend();
+        $this->clickControl('link', 'log_in');
+        $this->clickControl('link', 'forgot_password');
         //Verification
         $this->assertTrue($this->controlIsVisible('field', 'email'));
         $this->assertTrue($this->controlIsVisible('button', 'submit'));
@@ -85,7 +86,7 @@ class Core_Mage_Customer_ForgotPasswordTest extends Mage_Selenium_TestCase
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $data = array('email' => $userData['email'], 'password' => $userData['password']);
         //Steps
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
         $this->logoutCustomer();

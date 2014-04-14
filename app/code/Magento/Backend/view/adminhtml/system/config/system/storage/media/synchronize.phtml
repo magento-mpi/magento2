@@ -16,10 +16,6 @@
     jQuery.mage.extend('validation', 'validation',
         '<?php echo $this->getViewFileUrl('Magento_Backend::system/validation-rules.js'); ?>');
 
-    defaultValues   = [];
-    defaultValues['system_media_storage_configuration_media_storage']   = $('system_media_storage_configuration_media_storage').value;
-    defaultValues['system_media_storage_configuration_media_database']  = $('system_media_storage_configuration_media_database').value;
-
     allowedStorages = [];
     addAllowedStorage(
         $('system_media_storage_configuration_media_storage').value,
@@ -28,6 +24,10 @@
 
     <?php $syncStorageParams = $this->getSyncStorageParams() ?>
     addAllowedStorage(<?php echo $syncStorageParams['storage_type'] ?>, '<?php echo $syncStorageParams['connection_name'] ?>');
+
+    defaultValues   = [];
+    defaultValues['system_media_storage_configuration_media_storage']   = $('system_media_storage_configuration_media_storage').value;
+    defaultValues['system_media_storage_configuration_media_database']  = $('system_media_storage_configuration_media_database').value;
 
     function getConnectionName(storageType, connection)
     {
@@ -47,6 +47,8 @@
         if (storage != '' && !allowedStorages.include(storage)) {
             allowedStorages.push(storage);
         }
+        $('system_media_storage_configuration_media_storage').value = storageType;
+        $('system_media_storage_configuration_media_database').value = connection;
     }
 
     function checkButtonState(event) {
@@ -61,7 +63,6 @@
             $('system_media_storage_configuration_media_storage').value,
             $('system_media_storage_configuration_media_database').value
         );
-
         if (defaultStorage != storage) {
             enableSyncButton();
         } else {
@@ -121,7 +122,10 @@
                         $('sync_span').addClassName('no-display');
 
                         if (response.state == '<?php echo \Magento\Core\Model\File\Storage\Flag::STATE_FINISHED ?>') {
-                            window.location.reload();
+                            addAllowedStorage(
+                                $('system_media_storage_configuration_media_storage').value,
+                                $('system_media_storage_configuration_media_database').value
+                            );
                         } else if (response.state == '<?php echo \Magento\Core\Model\File\Storage\Flag::STATE_NOTIFIED ?>') {
                             if (response.has_errors) {
                                 enableSyncButton();

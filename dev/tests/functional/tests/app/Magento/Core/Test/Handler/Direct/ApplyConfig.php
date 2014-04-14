@@ -12,7 +12,7 @@
 
 namespace Magento\Core\Test\Handler\Direct;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Direct;
 use Mtf\Factory\Factory;
 
@@ -27,10 +27,10 @@ class ApplyConfig extends Direct
     /**
      * Create Category
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return int
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $factory = new \Magento\App\ObjectManagerFactory();
         $objectManager = $factory->create(BP, $_SERVER);

@@ -7,10 +7,10 @@
  */
 namespace Magento\Directory\Model\Currency\Import\Source;
 
-class Service implements \Magento\Core\Model\Option\ArrayInterface
+class Service implements \Magento\Option\ArrayInterface
 {
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Directory\Model\Currency\Import\Config
      */
     private $_importConfig;
 
@@ -37,7 +37,7 @@ class Service implements \Magento\Core\Model\Option\ArrayInterface
             foreach ($this->_importConfig->getAvailableServices() as $serviceName) {
                 $this->_options[] = array(
                     'label' => $this->_importConfig->getServiceLabel($serviceName),
-                    'value' => $serviceName,
+                    'value' => $serviceName
                 );
             }
         }

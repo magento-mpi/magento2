@@ -30,7 +30,17 @@ class Options extends Block
      */
     public function getProductCustomOptions()
     {
-        return $this->getOptions('.fieldset', '.field');
+        return $this->getOptions('.fieldset > .field');
+    }
+
+    /**
+     * Get bundle custom options
+     *
+     * @return array
+     */
+    public function getBundleCustomOptions()
+    {
+        return $this->getOptions('#product-options-wrapper > .fieldset > .field');
     }
 
     /**
@@ -40,22 +50,19 @@ class Options extends Block
      */
     public function getBundleOptions()
     {
-        return $this->getOptions('.fieldset.bundle.options', '.field');
+        return $this->getOptions('.fieldset.bundle.options > .field');
     }
 
     /**
      * Get options from specified fieldset using specified fieldDiv selector
      *
-     * @param string $fieldsetSelector
-     * @param string $fieldDivSelector
+     * @param string $fieldSelector
      * @return array
      */
-    protected function getOptions($fieldsetSelector = '.fieldset.bundle.options', $fieldDivSelector = '.field')
-    {
-        $bundleOptionsFieldset = $this->_rootElement->find($fieldsetSelector);
+    protected function getOptions($fieldSelector = '.fieldset.bundle.options') {
         $index = 1;
         $options = array();
-        $field = $bundleOptionsFieldset->find($fieldDivSelector . ':nth-of-type(' . $index . ')');
+        $field = $this->_rootElement->find($fieldSelector . ':nth-of-type(' . $index . ')');
         while ($field->isVisible()) {
             $optionName = $field->find('label > span')->getText();
             $options[$optionName] = array();
@@ -67,7 +74,7 @@ class Options extends Block
                 $productOption = $field->find('select > option:nth-of-type(' . $productIndex . ')');
             }
             $index++;
-            $field = $bundleOptionsFieldset->find($fieldDivSelector . ':nth-of-type(' . $index . ')');
+            $field = $this->_rootElement->find($fieldSelector . ':nth-of-type(' . $index . ')');
         }
         return $options;
     }
@@ -81,7 +88,7 @@ class Options extends Block
     {
         foreach ($productOptions as $attributeLabel => $attributeValue) {
             $select = $this->_rootElement->find(
-                '//*[*[@class="product options configure"]//span[text()="' .
+                '//*[*[@class="product options wrapper"]//span[text()="' .
                 $attributeLabel .
                 '"]]//select',
                 Locator::SELECTOR_XPATH,
@@ -89,5 +96,20 @@ class Options extends Block
             );
             $select->setValue($attributeValue);
         }
+    }
+
+    /**
+     * Choose custom option in a drop down
+     *
+     * @param string $productOption
+     */
+    public function selectProductCustomOption($productOption)
+    {
+        $select = $this->_rootElement->find(
+            '//*[@class="product options wrapper"]//option[text()="' . $productOption . '"]/..',
+            Locator::SELECTOR_XPATH,
+            'select'
+        );
+        $select->setValue($productOption);
     }
 }

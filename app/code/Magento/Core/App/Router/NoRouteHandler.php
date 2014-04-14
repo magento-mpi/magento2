@@ -7,20 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\App\Router;
 
 class NoRouteHandler implements \Magento\App\Router\NoRouteHandlerInterface
 {
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
     /**
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      */
-    public function __construct(\Magento\Core\Model\Config $config)
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $config)
     {
         $this->_config = $config;
     }
@@ -42,13 +41,11 @@ class NoRouteHandler implements \Magento\App\Router\NoRouteHandlerInterface
             $noRoute = array();
         }
 
-        $moduleName     = isset($noRoute[0]) ? $noRoute[0] : 'core';
+        $moduleName = isset($noRoute[0]) ? $noRoute[0] : 'core';
         $controllerName = isset($noRoute[1]) ? $noRoute[1] : 'index';
-        $actionName     = isset($noRoute[2]) ? $noRoute[2] : 'index';
+        $actionName = isset($noRoute[2]) ? $noRoute[2] : 'index';
 
-        $request->setModuleName($moduleName)
-            ->setControllerName($controllerName)
-            ->setActionName($actionName);
+        $request->setModuleName($moduleName)->setControllerName($controllerName)->setActionName($actionName);
 
         return true;
     }

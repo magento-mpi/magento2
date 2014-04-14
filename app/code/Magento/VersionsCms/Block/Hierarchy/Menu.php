@@ -7,17 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Hierarchy;
 
 /**
  * Cms Hierarchy Context Menu
  */
-namespace Magento\VersionsCms\Block\Hierarchy;
-
 class Menu extends \Magento\View\Element\Template
 {
-    const TAG_UL    = 'ul';
-    const TAG_OL    = 'ol';
-    const TAG_LI    = 'li';
+    const TAG_UL = 'ul';
+
+    const TAG_OL = 'ol';
+
+    const TAG_LI = 'li';
 
     /**
      * Allowed attributes for UL/OL/LI tags
@@ -57,7 +58,7 @@ class Menu extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -68,13 +69,13 @@ class Menu extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         array $data = array()
     ) {
@@ -83,6 +84,9 @@ class Menu extends \Magento\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -95,45 +99,108 @@ class Menu extends \Magento\View\Element\Template
 
         $this->_loadNodeMenuParams();
 
-        $this->_allowedListAttributes = array('start', 'value', 'compact', // %attrs
-            'id', 'class', 'style', 'title', // %coreattrs
-            'lang', 'dir', // %i18n
-            'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmousemove',
-            'onmouseout', 'onkeypress', 'onkeydown', 'onkeyup' // %events
+        $this->_allowedListAttributes = array(
+            'start',
+            'value',
+            'compact',
+            // %attrs
+            'id',
+            'class',
+            'style',
+            'title',
+            // %coreattrs
+            'lang',
+            'dir',
+            // %i18n
+            'onclick',
+            'ondblclick',
+            'onmousedown',
+            'onmouseup',
+            'onmouseover',
+            'onmousemove',
+            'onmouseout',
+            'onkeypress',
+            'onkeydown',
+            'onkeyup'
+            // %events
         );
         $this->_allowedLinkAttributes = array(
-            'charset', 'type', 'name', 'hreflang', 'rel', 'rev', 'accesskey', 'shape',
-            'coords', 'tabindex', 'onfocus', 'onblur', // %attrs
-            'id', 'class', 'style', 'title', // %coreattrs
-            'lang', 'dir', // %i18n
-            'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmousemove',
-            'onmouseout', 'onkeypress', 'onkeydown', 'onkeyup' // %events
+            'charset',
+            'type',
+            'name',
+            'hreflang',
+            'rel',
+            'rev',
+            'accesskey',
+            'shape',
+            'coords',
+            'tabindex',
+            'onfocus',
+            'onblur',
+            // %attrs
+            'id',
+            'class',
+            'style',
+            'title',
+            // %coreattrs
+            'lang',
+            'dir',
+            // %i18n
+            'onclick',
+            'ondblclick',
+            'onmousedown',
+            'onmouseup',
+            'onmouseover',
+            'onmousemove',
+            'onmouseout',
+            'onkeypress',
+            'onkeydown',
+            'onkeyup'
+            // %events
         );
-        $this->_allowedSpanAttributes = array('id', 'class', 'style', 'title', // %coreattrs
-            'lang', 'dir', // %i18n
-            'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmousemove',
-            'onmouseout', 'onkeypress', 'onkeydown', 'onkeyup' // %events
+        $this->_allowedSpanAttributes = array(
+            'id',
+            'class',
+            'style',
+            'title',
+            // %coreattrs
+            'lang',
+            'dir',
+            // %i18n
+            'onclick',
+            'ondblclick',
+            'onmousedown',
+            'onmouseup',
+            'onmouseover',
+            'onmousemove',
+            'onmouseout',
+            'onkeypress',
+            'onkeydown',
+            'onkeyup'
+            // %events
         );
     }
 
     /**
      * Add context menu params to block data
      *
-     * @return \Magento\View\Element\Template
+     * @return void
      */
     protected function _loadNodeMenuParams()
     {
         $this->setMenuEnabled(false);
 
-        if ($this->_node instanceof \Magento\Core\Model\AbstractModel) {
+        if ($this->_node instanceof \Magento\Model\AbstractModel) {
             $params = $this->_node->getMetadataContextMenuParams();
             if ($params !== null && isset($params['menu_visibility']) && $params['menu_visibility'] == 1) {
-                $this->addData(array(
-                    'down'      => isset($params['menu_levels_down']) ? $params['menu_levels_down'] : 0,
-                    'ordered'   => isset($params['menu_ordered']) ? $params['menu_ordered'] : '0',
-                    'list_type' => isset($params['menu_list_type']) ? $params['menu_list_type'] : '',
-                    'menu_brief' => isset($params['menu_brief']) ? $params['menu_brief'] : '0',
-                ));
+                $this->addData(
+                    array(
+                        'down' => isset($params['menu_levels_down']) ? $params['menu_levels_down'] : 0,
+                        'ordered' => isset($params['menu_ordered']) ? $params['menu_ordered'] : '0',
+                        'list_type' => isset($params['menu_list_type']) ? $params['menu_list_type'] : '',
+                        'menu_brief' => isset($params['menu_brief']) ? $params['menu_brief'] : '0'
+                    )
+                );
 
                 $this->setMenuEnabled(true);
             }
@@ -174,7 +241,7 @@ class Menu extends \Magento\View\Element\Template
         if ($this->hasData('list_type')) {
             $type = $this->_getData('list_type');
             if ($this->getListContainer() == self::TAG_OL) {
-                if (in_array($type, array('1','A','a','I','i'))) {
+                if (in_array($type, array('1', 'A', 'a', 'I', 'i'))) {
                     return $type;
                 }
             } elseif ($this->getListContainer() == self::TAG_UL) {
@@ -194,11 +261,7 @@ class Menu extends \Magento\View\Element\Template
      */
     protected function _getNodeReplacePairs($node)
     {
-        return array(
-            '__ID__'    => $node->getId(),
-            '__LABEL__' => $node->getLabel(),
-            '__HREF__'  => $node->getUrl()
-        );
+        return array('__ID__' => $node->getId(), '__LABEL__' => $node->getLabel(), '__HREF__' => $node->getUrl());
     }
 
     /**
@@ -368,7 +431,7 @@ class Menu extends \Magento\View\Element\Template
     public function getTree()
     {
         if (!$this->hasData('_tree')) {
-            $up   = $this->_getData('up');
+            $up = $this->_getData('up');
             if (!abs(intval($up))) {
                 $up = 0;
             }
@@ -377,12 +440,18 @@ class Menu extends \Magento\View\Element\Template
                 $down = 0;
             }
 
-            $tree = $this->_node
-                ->setCollectActivePagesOnly(true)
-                ->setCollectIncludedPagesOnly(true)
-                ->setTreeMaxDepth($down)
-                ->setTreeIsBrief($this->isBrief())
-                ->getTreeSlice($up, 1);
+            $tree = $this->_node->setCollectActivePagesOnly(
+                true
+            )->setCollectIncludedPagesOnly(
+                true
+            )->setTreeMaxDepth(
+                $down
+            )->setTreeIsBrief(
+                $this->isBrief()
+            )->getTreeSlice(
+                $up,
+                1
+            );
 
             $this->setData('_tree', $tree);
         }
@@ -412,13 +481,13 @@ class Menu extends \Magento\View\Element\Template
             return '';
         }
 
-        $addStyles = ($parentNodeId == 0);
+        $addStyles = $parentNodeId == 0;
         $html = $this->_getListTagBegin($addStyles);
 
         foreach ($tree[$parentNodeId] as $nodeId => $node) {
             /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
             $nested = $this->drawMenu($tree, $nodeId);
-            $hasChilds = ($nested != '');
+            $hasChilds = $nested != '';
             $html .= $this->_getItemTagBegin($node, $hasChilds) . $this->_getNodeLabel($node);
             $html .= $nested;
             $html .= $this->_getItemTagEnd();
@@ -432,6 +501,8 @@ class Menu extends \Magento\View\Element\Template
     }
 
     /**
+     * To html
+     *
      * @return string
      */
     protected function _toHtml()

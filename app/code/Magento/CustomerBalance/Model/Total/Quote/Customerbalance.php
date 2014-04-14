@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\CustomerBalance\Model\Total\Quote;
 
 class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
@@ -21,7 +19,7 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
     protected $_customerBalanceData = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -31,12 +29,12 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
     protected $_balanceFactory;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData
     ) {
@@ -71,12 +69,13 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
         if ($quote->getCustomer()->getId()) {
             if ($quote->getUseCustomerBalance()) {
                 $store = $this->_storeManager->getStore($quote->getStoreId());
-                $baseBalance = $this->_balanceFactory->create()
-                    ->setCustomer($quote->getCustomer())
-                    ->setCustomerId($quote->getCustomer()->getId())
-                    ->setWebsiteId($store->getWebsiteId())
-                    ->loadByCustomer()
-                    ->getAmount();
+                $baseBalance = $this->_balanceFactory->create()->setCustomer(
+                    $quote->getCustomer()
+                )->setCustomerId(
+                    $quote->getCustomer()->getId()
+                )->setWebsiteId(
+                    $store->getWebsiteId()
+                )->loadByCustomer()->getAmount();
                 $balance = $quote->getStore()->convertPrice($baseBalance);
             }
         }
@@ -94,8 +93,8 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
             $baseUsed = $baseAmountLeft;
             $used = $amountLeft;
 
-            $address->setBaseGrandTotal($address->getBaseGrandTotal()-$baseAmountLeft);
-            $address->setGrandTotal($address->getGrandTotal()-$amountLeft);
+            $address->setBaseGrandTotal($address->getBaseGrandTotal() - $baseAmountLeft);
+            $address->setGrandTotal($address->getGrandTotal() - $amountLeft);
         }
 
         $baseTotalUsed = $quote->getBaseCustomerBalAmountUsed() + $baseUsed;
@@ -122,11 +121,13 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
             return $this;
         }
         if ($address->getCustomerBalanceAmount()) {
-            $address->addTotal(array(
-                'code'=>$this->getCode(),
-                'title'=>__('Store Credit'),
-                'value'=>-$address->getCustomerBalanceAmount(),
-            ));
+            $address->addTotal(
+                array(
+                    'code' => $this->getCode(),
+                    'title' => __('Store Credit'),
+                    'value' => -$address->getCustomerBalanceAmount()
+                )
+            );
         }
         return $this;
     }

@@ -333,8 +333,6 @@
                     'type': "hidden"
                 }).appendTo(regionControl);
 
-                regionField.addClass("required");
-
                 newInput = regionIdInput;
             }
             else {
@@ -353,8 +351,6 @@
                     'id': this.options.regionIdElement.attr("id")
                 }).appendTo(regionControl);
 
-                regionField.removeClass("required");
-
                 newInput = regionInput;
             }
 
@@ -367,7 +363,7 @@
             // bind region input change event
             newInput.on('change', $.proxy(this._triggerFormChange, this, newInput));
 
-            this._checkRegionRequired([regionInput, regionIdInput], newInput);
+            this._checkRegionRequired([regionInput, regionIdInput], newInput, regionField);
         },
 
         /**
@@ -381,9 +377,10 @@
          * This method updates the region input required/optional and validation classes.
          * @param {Array} elements Region elements
          * @param {Element} activeElement Active Region element
+         * @param {Element} regionField Region section element
          * @private
          */
-        _checkRegionRequired: function(elements, activeElement)
+        _checkRegionRequired: function(elements, activeElement, regionField)
         {
             var regionRequired = this.options.requiredStateForCountries.indexOf(this.options.countryElement.value) >= 0;
 
@@ -396,6 +393,9 @@
                 }
 
                 if (!regionRequired) {
+                    if (regionField.hasClass('required')) {
+                        regionField.removeClass('required');
+                    }
                     if (currentElement.hasClass('required-entry')) {
                         currentElement.removeClass('required-entry');
                     }
@@ -403,13 +403,18 @@
                         currentElement.hasClass('validate-select')) {
                         currentElement.removeClass('validate-select');
                     }
-                } else if (activeElement == currentElement) {
-                    if (!currentElement.hasClass('required-entry')) {
-                        currentElement.addClass('required-entry');
+                } else {
+                    if (regionField.hasClass('required') === false) {
+                        regionField.addClass('required');
                     }
-                    if ('select' == currentElement.prop("tagName").toLowerCase() &&
-                        !currentElement.hasClass('validate-select')) {
-                        currentElement.addClass('validate-select');
+                    if (activeElement == currentElement) {
+                        if (!currentElement.hasClass('required-entry')) {
+                            currentElement.addClass('required-entry');
+                        }
+                        if ('select' == currentElement.prop("tagName").toLowerCase() &&
+                            !currentElement.hasClass('validate-select')) {
+                            currentElement.addClass('validate-select');
+                        }
                     }
                 }
             });

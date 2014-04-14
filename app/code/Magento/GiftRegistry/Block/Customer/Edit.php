@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Customer;
 
 /**
  * Customer giftregistry list block
@@ -14,8 +15,6 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-namespace Magento\GiftRegistry\Block\Customer;
-
 class Edit extends \Magento\Directory\Block\Data
 {
     /**
@@ -38,7 +37,7 @@ class Edit extends \Magento\Directory\Block\Data
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry = null;
 
@@ -47,9 +46,9 @@ class Edit extends \Magento\Directory\Block\Data
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\App\Cache\Type\Config $configCacheType
-     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
-     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
+     * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param array $data
@@ -59,9 +58,9 @@ class Edit extends \Magento\Directory\Block\Data
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\App\Cache\Type\Config $configCacheType,
-        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
-        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
+        \Magento\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         array $data = array()
@@ -70,8 +69,15 @@ class Edit extends \Magento\Directory\Block\Data
         $this->customerSession = $customerSession;
         $this->typeFactory = $typeFactory;
         parent::__construct(
-            $context, $coreData, $jsonEncoder, $configCacheType, $regionCollFactory, $countryCollFactory, $data
+            $context,
+            $coreData,
+            $jsonEncoder,
+            $configCacheType,
+            $regionCollectionFactory,
+            $countryCollectionFactory,
+            $data
         );
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -128,11 +134,9 @@ class Edit extends \Magento\Directory\Block\Data
     public function getTypeList()
     {
         $storeId = $this->_storeManager->getStore()->getId();
-        $collection = $this->typeFactory->create()
-            ->getCollection()
-            ->addStoreData($storeId)
-            ->applyListedFilter()
-            ->applySortOrder();
+        $collection = $this->typeFactory->create()->getCollection()->addStoreData(
+            $storeId
+        )->applyListedFilter()->applySortOrder();
         $list = $collection->toOptionArray();
         return $list;
     }
@@ -192,11 +196,11 @@ class Edit extends \Magento\Directory\Block\Data
      *
      * @param string $type
      * @param string $template
-     * @return \Magento\GiftRegistry\Block\Customer\Edit
+     * @return $this
      */
     public function addInputTypeTemplate($type, $template)
     {
-        $params = array('_relative'=>true);
+        $params = array('_relative' => true);
         $area = $this->getArea();
         if ($area) {
             $params['area'] = $area;

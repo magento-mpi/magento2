@@ -7,25 +7,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Block\Account;
+
+use Magento\Model\Resource\Db\Collection\AbstractCollection;
 
 /**
  * Customer balance history block
  */
-namespace Magento\CustomerBalance\Block\Account;
-
 class History extends \Magento\View\Element\Template
 {
     /**
      * Balance history action names
      *
-     * @var array
+     * @var array|null
      */
     protected $_actionNames = null;
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
      */
-    protected $_customerSession;
+    protected $currentCustomer;
 
     /**
      * @var \Magento\CustomerBalance\Model\Balance\HistoryFactory
@@ -35,18 +36,19 @@ class History extends \Magento\View\Element\Template
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
-     * @param \Magento\Customer\Model\Session $custoomerSession
+     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
-        \Magento\Customer\Model\Session $custoomerSession,
+        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array()
     ) {
-        $this->_customerSession = $custoomerSession;
+        $this->currentCustomer = $currentCustomer;
         $this->_historyFactory = $historyFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -56,27 +58,34 @@ class History extends \Magento\View\Element\Template
      */
     public function canShow()
     {
-        return $this->_storeConfig->getConfigFlag('customer/magento_customerbalance/show_history');
+        return $this->_scopeConfig->isSetFlag('customer/magento_customerbalance/show_history', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
      * Retrieve history events collection
      *
-     * @return mixed
+     * @return AbstractCollection|false
      */
     public function getEvents()
     {
-        $customerId = $this->_customerSession->getCustomerId();
+        $customerId = $this->currentCustomer->getCustomerId();
         if (!$customerId) {
             return false;
         }
 
-        $collection = $this->_historyFactory->create()
-                ->getCollection()
-                ->addFieldToFilter('customer_id', $customerId)
-                ->addFieldToFilter('website_id', $this->_storeManager->getStore()->getWebsiteId())
-                ->addOrder('updated_at', 'DESC')
-                ->addOrder('history_id', 'DESC');
+        $collection = $this->_historyFactory->create()->getCollection()->addFieldToFilter(
+            'customer_id',
+            $customerId
+        )->addFieldToFilter(
+            'website_id',
+            $this->_storeManager->getStore()->getWebsiteId()
+        )->addOrder(
+            'updated_at',
+            'DESC'
+        )->addOrder(
+            'history_id',
+            'DESC'
+        );
 
         return $collection;
     }
@@ -97,7 +106,7 @@ class History extends \Magento\View\Element\Template
     /**
      * Retrieve action label
      *
-     * @param mixed $action
+     * @param string $action
      * @return string
      */
     public function getActionLabel($action)

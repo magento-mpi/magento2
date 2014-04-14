@@ -18,7 +18,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeConfigMock;
+    protected $_scopeConfigMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -32,17 +32,25 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeConfigMock = $this->getMock('Magento\Core\Model\Store\ConfigInterface');
-        $this->_googleAnalyticsHelperMock = $this->getMock('Magento\GoogleAnalytics\Helper\Data', array(), array(), '',
-            false);
+        $this->_scopeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_googleAnalyticsHelperMock = $this->getMock(
+            'Magento\GoogleAnalytics\Helper\Data',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $context = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
-        $this->_helper = $objectManagerHelper->getObject('Magento\GoogleOptimizer\Helper\Data', array(
-            'storeConfig' => $this->_storeConfigMock,
-            'analyticsHelper' => $this->_googleAnalyticsHelperMock,
-            'context' => $context
-        ));
+        $this->_helper = $objectManagerHelper->getObject(
+            'Magento\GoogleOptimizer\Helper\Data',
+            array(
+                'scopeConfig' => $this->_scopeConfigMock,
+                'analyticsHelper' => $this->_googleAnalyticsHelperMock,
+                'context' => $context
+            )
+        );
     }
 
     /**
@@ -52,9 +60,17 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGoogleExperimentIsEnabled($isExperimentsEnabled)
     {
         $store = 1;
-        $this->_storeConfigMock->expects($this->once())->method('getConfigFlag')
-            ->with(\Magento\GoogleOptimizer\Helper\Data::XML_PATH_ENABLED, $store)
-            ->will($this->returnValue($isExperimentsEnabled));
+        $this->_scopeConfigMock->expects(
+            $this->once()
+        )->method(
+            'isSetFlag'
+        )->with(
+            \Magento\GoogleOptimizer\Helper\Data::XML_PATH_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        )->will(
+            $this->returnValue($isExperimentsEnabled)
+        );
 
         $this->assertEquals($isExperimentsEnabled, $this->_helper->isGoogleExperimentEnabled($store));
     }
@@ -64,10 +80,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderBoolValues()
     {
-        return array(
-            array(true),
-            array(false),
-        );
+        return array(array(true), array(false));
     }
 
     /**
@@ -79,13 +92,27 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGoogleExperimentIsActive($isExperimentsEnabled, $isAnalyticsAvailable, $result)
     {
         $store = 1;
-        $this->_storeConfigMock->expects($this->once())->method('getConfigFlag')
-            ->with(\Magento\GoogleOptimizer\Helper\Data::XML_PATH_ENABLED, $store)
-            ->will($this->returnValue($isExperimentsEnabled));
+        $this->_scopeConfigMock->expects(
+            $this->once()
+        )->method(
+            'isSetFlag'
+        )->with(
+            \Magento\GoogleOptimizer\Helper\Data::XML_PATH_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        )->will(
+            $this->returnValue($isExperimentsEnabled)
+        );
 
-        $this->_googleAnalyticsHelperMock->expects($this->any())->method('isGoogleAnalyticsAvailable')
-            ->with($store)
-            ->will($this->returnValue($isAnalyticsAvailable));
+        $this->_googleAnalyticsHelperMock->expects(
+            $this->any()
+        )->method(
+            'isGoogleAnalyticsAvailable'
+        )->with(
+            $store
+        )->will(
+            $this->returnValue($isAnalyticsAvailable)
+        );
 
         $this->assertEquals($result, $this->_helper->isGoogleExperimentActive($store));
     }
@@ -99,7 +126,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             array(true, true, true),
             array(false, true, false),
             array(false, false, false),
-            array(true, false, false),
+            array(true, false, false)
         );
     }
 }

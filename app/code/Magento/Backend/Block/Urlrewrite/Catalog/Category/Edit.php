@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Urlrewrite\Catalog\Category;
 
 /**
  * Block for Catalog Category URL rewrites
@@ -19,10 +20,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Urlrewrite\Catalog\Category;
-
-class Edit
-    extends \Magento\Backend\Block\Urlrewrite\Edit
+class Edit extends \Magento\Backend\Block\Urlrewrite\Edit
 {
     /**
      * @var \Magento\Catalog\Model\CategoryFactory
@@ -31,14 +29,14 @@ class Edit
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
+     * @param \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
+        \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         array $data = array()
@@ -49,6 +47,8 @@ class Edit
 
     /**
      * Prepare layout for URL rewrite creating for category
+     *
+     * @return void
      */
     protected function _prepareLayoutFeatures()
     {
@@ -83,18 +83,26 @@ class Edit
 
     /**
      * Add child category link block
+     *
+     * @return void
      */
     private function _addCategoryLinkBlock()
     {
-        $this->addChild('category_link', 'Magento\Backend\Block\Urlrewrite\Link', array(
-            'item_url'  => $this->_adminhtmlData->getUrl('adminhtml/*/*') . 'category',
-            'item_name' => $this->_getCategory()->getName(),
-            'label'     => __('Category:')
-        ));
+        $this->addChild(
+            'category_link',
+            'Magento\Backend\Block\Urlrewrite\Link',
+            array(
+                'item_url' => $this->_adminhtmlData->getUrl('adminhtml/*/*') . 'category',
+                'item_name' => $this->_getCategory()->getName(),
+                'label' => __('Category:')
+            )
+        );
     }
 
     /**
      * Add child category tree block
+     *
+     * @return void
      */
     private function _addCategoryTreeBlock()
     {
@@ -108,11 +116,10 @@ class Edit
      */
     protected function _createEditFormBlock()
     {
-        return $this->getLayout()->createBlock('Magento\Backend\Block\Urlrewrite\Catalog\Edit\Form', '', array(
-            'data' => array(
-                'category'    => $this->_getCategory(),
-                'url_rewrite' => $this->_getUrlRewrite()
-            )
-        ));
+        return $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Urlrewrite\Catalog\Edit\Form',
+            '',
+            array('data' => array('category' => $this->_getCategory(), 'url_rewrite' => $this->_getUrlRewrite()))
+        );
     }
 }

@@ -7,22 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reward\Model\Action;
+
+use Magento\Sales\Model\Quote;
 
 /**
  * Reward action for converting spent money to points
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model\Action;
-
 class OrderExtra extends \Magento\Reward\Model\Action\AbstractAction
 {
     /**
      * Quote instance, required for estimating checkout reward (order subtotal - discount)
      *
-     * @var \Magento\Sales\Model\Quote
+     * @var Quote
      */
     protected $_quote = null;
 
@@ -42,10 +41,8 @@ class OrderExtra extends \Magento\Reward\Model\Action\AbstractAction
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param array $data
      */
-    public function __construct(
-        \Magento\Reward\Helper\Data $rewardData,
-        array $data = array()
-    ) {
+    public function __construct(\Magento\Reward\Helper\Data $rewardData, array $data = array())
+    {
         $this->_rewardData = $rewardData;
         parent::__construct($data);
     }
@@ -66,24 +63,22 @@ class OrderExtra extends \Magento\Reward\Model\Action\AbstractAction
      * Setter for $_entity and add some extra data to history
      *
      * @param \Magento\Object $entity
-     * @return \Magento\Reward\Model\Action\AbstractAction
+     * @return $this
      */
     public function setEntity($entity)
     {
         parent::setEntity($entity);
-        $this->getHistory()->addAdditionalData(array(
-            'increment_id' => $this->getEntity()->getIncrementId()
-        ));
+        $this->getHistory()->addAdditionalData(array('increment_id' => $this->getEntity()->getIncrementId()));
         return $this;
     }
 
     /**
      * Quote setter
      *
-     * @param \Magento\Sales\Model\Quote $quote
-     * @return \Magento\Reward\Model\Action\OrderExtra
+     * @param Quote $quote
+     * @return $this
      */
-    public function setQuote(\Magento\Sales\Model\Quote $quote)
+    public function setQuote(Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
@@ -105,16 +100,16 @@ class OrderExtra extends \Magento\Reward\Model\Action\AbstractAction
             // known issue: no support for multishipping quote
             $address = $quote->getIsVirtual() ? $quote->getBillingAddress() : $quote->getShippingAddress();
             // use only money customer spend - shipping & tax
-            $monetaryAmount = $quote->getBaseGrandTotal()
-                - $address->getBaseShippingAmount()
-                - $address->getBaseTaxAmount();
+            $monetaryAmount = $quote->getBaseGrandTotal() -
+                $address->getBaseShippingAmount() -
+                $address->getBaseTaxAmount();
             $monetaryAmount = $monetaryAmount < 0 ? 0 : $monetaryAmount;
         } else {
-            $monetaryAmount = $this->getEntity()->getBaseTotalPaid()
-                - $this->getEntity()->getBaseShippingAmount()
-                - $this->getEntity()->getBaseTaxAmount();
+            $monetaryAmount = $this->getEntity()->getBaseTotalPaid() -
+                $this->getEntity()->getBaseShippingAmount() -
+                $this->getEntity()->getBaseTaxAmount();
         }
-        $pointsDelta = $this->getReward()->getRateToPoints()->calculateToPoints((float)$monetaryAmount);
+        $pointsDelta = $this->getReward()->getRateToPoints()->calculateToPoints((double)$monetaryAmount);
         return $pointsDelta;
     }
 
@@ -123,11 +118,9 @@ class OrderExtra extends \Magento\Reward\Model\Action\AbstractAction
      * Checking for the history records is intentionaly omitted
      *
      * @return bool
-     *
      */
     public function canAddRewardPoints()
     {
-        return parent::canAddRewardPoints()
-            && $this->_rewardData->isOrderAllowed($this->getReward()->getWebsiteId());
+        return parent::canAddRewardPoints() && $this->_rewardData->isOrderAllowed($this->getReward()->getWebsiteId());
     }
 }

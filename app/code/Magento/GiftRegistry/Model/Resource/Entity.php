@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftRegistry\Model\Resource;
 
 /**
  * Gift registry entity resource model
@@ -16,9 +16,7 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model\Resource;
-
-class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Entity extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Event table name
@@ -30,6 +28,7 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Assigning eventTable
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -40,10 +39,10 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Converting some data to internal database format
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @param \Magento\Model\AbstractModel $object
+     * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         $customValues = $object->getCustomValues();
         $object->setCustomValues(serialize($customValues));
@@ -55,7 +54,7 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $field
      * @param mixed $value
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -82,10 +81,10 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform actions after object is loaded
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @param \Magento\Model\AbstractModel $object
+     * @return $this
      */
-    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterLoad(\Magento\Model\AbstractModel $object)
     {
         if ($object->getId()) {
             $object->setTypeById($object->getData('type_id'));
@@ -97,10 +96,10 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform action after object is saved - saving data to the eventTable
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @param \Magento\Model\AbstractModel $object
+     * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         $data = array();
         foreach ($object->getStaticTypeIds() as $code) {
@@ -125,9 +124,12 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getTypeIdByEntityId($entityId)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), 'type_id')
-            ->where($this->getIdFieldName() . ' = :entity_id');
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable(),
+            'type_id'
+        )->where(
+            $this->getIdFieldName() . ' = :entity_id'
+        );
         return $this->_getReadAdapter()->fetchOne($select, array(':entity_id' => $entityId));
     }
 
@@ -139,10 +141,13 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getWebsiteIdByEntityId($entityId)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), 'website_id')
-            ->where($this->getIdFieldName() . ' = :entity_id');
-        return $this->_getReadAdapter()->fetchOne($select,  array(':entity_id' => (int)$entityId));
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable(),
+            'website_id'
+        )->where(
+            $this->getIdFieldName() . ' = :entity_id'
+        );
+        return $this->_getReadAdapter()->fetchOne($select, array(':entity_id' => (int)$entityId));
     }
 
     /**
@@ -150,16 +155,18 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $customerId
      * @param int $entityId
-     * @return \Magento\GiftRegistry\Model\Resource\Entity
+     * @return $this
      */
     public function setActiveEntity($customerId, $entityId)
     {
         $adapter = $this->_getWriteAdapter();
-        $adapter->update($this->getMainTable(),
-            array('is_active'      => new \Zend_Db_Expr('0')),
+        $adapter->update(
+            $this->getMainTable(),
+            array('is_active' => new \Zend_Db_Expr('0')),
             array('customer_id =?' => (int)$customerId)
         );
-        $adapter->update($this->getMainTable(),
+        $adapter->update(
+            $this->getMainTable(),
             array('is_active' => new \Zend_Db_Expr('1')),
             array('customer_id =?' => (int)$customerId, 'entity_id = ?' => (int)$entityId)
         );
@@ -171,7 +178,7 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\GiftRegistry\Model\Entity $object
      * @param int $itemId
-     * @return \Magento\GiftRegistry\Model\Resource\Entity
+     * @return $this
      */
     public function loadByEntityItem($object, $itemId)
     {
@@ -196,14 +203,12 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\GiftRegistry\Model\Entity $object
      * @param string $urlKey
-     * @return \Magento\GiftRegistry\Model\Resource\Entity
+     * @return $this
      */
     public function loadByUrlKey($object, $urlKey)
     {
         $adapter = $this->_getReadAdapter();
-        $select  = $adapter->select()
-            ->from($this->getMainTable())
-            ->where('url_key = :url_key');
+        $select = $adapter->select()->from($this->getMainTable())->where('url_key = :url_key');
 
         $this->_joinEventData($select);
 

@@ -18,7 +18,9 @@
  */
 namespace Magento\Eav\Model\Resource\Form\Fieldset;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+use Magento\Eav\Model\Form\Type;
+
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store scope ID
@@ -28,7 +30,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_storeId;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -37,18 +39,18 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
@@ -57,6 +59,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Initialize collection model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -66,12 +69,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add Form Type filter to collection
      *
-     * @param \Magento\Eav\Model\Form\Type|int $type
-     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
+     * @param Type|int $type
+     * @return $this
      */
     public function addTypeFilter($type)
     {
-        if ($type instanceof \Magento\Eav\Model\Form\Type) {
+        if ($type instanceof Type) {
             $type = $type->getId();
         }
 
@@ -81,7 +84,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Set order by fieldset sort order
      *
-     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
+     * @return $this
      */
     public function setSortOrder()
     {
@@ -106,7 +109,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set store scope ID
      *
      * @param int $storeId
-     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
+     * @return $this
      */
     public function setStoreId($storeId)
     {
@@ -117,7 +120,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Initialize select object
      *
-     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
+     * @return $this
      */
     protected function _initSelect()
     {
@@ -126,16 +129,16 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $select->join(
             array('default_label' => $this->getTable('eav_form_fieldset_label')),
             'main_table.fieldset_id = default_label.fieldset_id AND default_label.store_id = 0',
-            array());
+            array()
+        );
         if ($this->getStoreId() == 0) {
             $select->columns('label', 'default_label');
         } else {
-            $labelExpr = $select->getAdapter()
-                ->getIfNullSql('store_label.label', 'default_label.label');
-            $joinCondition = $this->getConnection()
-                ->quoteInto(
-                    'main_table.fieldset_id = store_label.fieldset_id AND store_label.store_id = ?', 
-                    (int)$this->getStoreId());
+            $labelExpr = $select->getAdapter()->getIfNullSql('store_label.label', 'default_label.label');
+            $joinCondition = $this->getConnection()->quoteInto(
+                'main_table.fieldset_id = store_label.fieldset_id AND store_label.store_id = ?',
+                (int)$this->getStoreId()
+            );
             $select->joinLeft(
                 array('store_label' => $this->getTable('eav_form_fieldset_label')),
                 $joinCondition,

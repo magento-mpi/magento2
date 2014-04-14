@@ -84,8 +84,8 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
             'Edit button is not exists');
         $this->assertTrue($this->controlIsPresent('button', 'delete_theme_button'),
             'Delete button is not exists');
-//        $this->assertTrue($this->controlIsPresent('button', 'duplicate_theme'), //Commented due to bug MAGETWO-9692
-//            'Duplicate button is not exists');
+        $this->assertTrue($this->controlIsPresent('button', 'duplicate_theme'),
+            'Duplicate button is not exists');
 
         /**
          * Available theme list
@@ -219,7 +219,6 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      */
     public function duplicateAssignedTheme($newName = 'renamed_for_duplicate')
     {
-//        $this->markTestIncomplete('MAGETWO-9692');
         //Steps
         $this->navigate('design_editor_selector');
         $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
@@ -667,15 +666,15 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
     {
         return array(
             array('Mage_Catalog--widgets.css', 'mage_catalog_download'),
-//            array('Mage_Oauth--css_oauth-simple.css', 'mage_oauth_download'),
-//            array('mage_calendar.css', 'calendar_css_download'),
-//            array('css_print.css', 'css_print_download'),
-//            array('css_styles-ie.css', 'css_style_ie_download'),
-//            array('css_styles.css', 'css_style_download'),
-//            array('Mage_Cms--widgets.css', 'mage_cms_download'),
-//            array('Mage_Page__css_tabs.css', 'mage_page_download'),
-//            array('Mage_Reports__widgets.css', 'mage_reports_download'),
-//            array('Mage_Widget__widgets.css', 'mage_widget_download')
+            array('Mage_Oauth--css_oauth-simple.css', 'mage_oauth_download'),
+            array('mage_calendar.css', 'calendar_css_download'),
+            array('css_print.css', 'css_print_download'),
+            array('css_styles-ie.css', 'css_style_ie_download'),
+            array('css_styles.css', 'css_style_download'),
+            array('Mage_Cms--widgets.css', 'mage_cms_download'),
+            array('Mage_Page__css_tabs.css', 'mage_page_download'),
+            array('Mage_Reports__widgets.css', 'mage_reports_download'),
+            array('Mage_Widget__widgets.css', 'mage_widget_download')
         );
     }
 }

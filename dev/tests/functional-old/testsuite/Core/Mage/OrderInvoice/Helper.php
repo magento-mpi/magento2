@@ -44,20 +44,18 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_AbstractHelper
             $this->fillDropdown('amount', $captureType);
         }
         if (!$verify) {
-            $productCount = $this->getControlCount('fieldset', 'product_line_to_invoice');
-            for ($i = 1; $i <= $productCount; $i++) {
-                $this->addParameter('productNumber', $i);
-                $qtyXpath = $this->_getControlXpath('field', 'product_qty');
-                $prodSku = $this->getControlAttribute('field', 'product_sku', 'text');
-                $pointer = 'SKU: ';
-                $prodSku = substr($prodSku, strpos($prodSku, $pointer) + strlen($pointer));
-                $this->addParameter('tableLineXpath', $qtyXpath);
-                if ($this->controlIsPresent('pageelement', 'table_line_input')) {
-                    $prodQty = $this->getControlAttribute('pageelement', 'table_line_input', 'selectedValue');
-                } else {
-                    $prodQty = $this->getControlAttribute('field', 'product_qty', 'text');
+            /** $var $productElement PHPUnit_Extensions_Selenium2TestCase_Element*/
+            foreach ($this->getControlElements('fieldset', 'product_line_to_invoice') as $productElement) {
+                $prodSku = $this->getChildElement($productElement, "//*[strong='SKU:']")->text();
+                if ($options = $this->childElementIsPresent($productElement, '//td[@class="col-product"]/dl')) {
+                    $prodSku = str_replace($options->text(), '', $prodSku);
                 }
-                $verify[$prodSku] = $prodQty;
+                list(, $prodSku) = explode('SKU: ', $prodSku);
+                list($prodSku) = explode("\n", $prodSku);
+                $qtyElement = $this->getChildElement($productElement, '//td[4]');
+                $qtyInput = $this->childElementIsPresent($qtyElement, 'input');
+                $prodQty = $qtyInput ? $qtyInput->value() : $qtyElement->text();
+                $verify[trim($prodSku)] = trim($prodQty);
             }
         }
         $this->addParameter('elementXpath', $this->_getControlXpath('button', 'update_qty'));
@@ -65,11 +63,7 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_AbstractHelper
             $this->clickButton('update_qty', false);
             $this->pleaseWait();
         }
-        $this->clickButton('submit_invoice', false);
-        $this->waitForNewPage();
-        $this->validatePage();
-        //@TODO
-        //Remove workaround for getting fails, not skipping tests if payment methods are inaccessible
+        $this->clickButton('submit_invoice');
         $this->paypalHelper()->verifyMagentoPayPalErrors();
         $this->assertMessagePresent('success', 'success_creating_invoice');
         foreach ($verify as $productSku => $qty) {
@@ -87,6 +81,7 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_AbstractHelper
      * Opens invoice
      *
      * @param array|string $searchData
+     * @return string
      */
     public function openInvoice($searchData)
     {
@@ -99,11 +94,13 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_AbstractHelper
         $invoiceUrl = $invoiceRowElement->attribute('title');
         //Define and add parameters for new page
         $cellId = $this->getColumnIdByName('Invoice');
-        $cellElement = $this->getChildElement($invoiceRowElement, 'td[' . $cellId . ']');
-        $this->addParameter('elementTitle', '#' . trim($cellElement->text()));
+        $invoiceId = trim($this->getChildElement($invoiceRowElement, 'td[' . $cellId . ']')->text());
+        $this->addParameter('elementTitle', '#' . $invoiceId);
         $this->addParameter('id', $this->defineIdFromUrl($invoiceUrl));
         //Open Invoice
         $this->url($invoiceUrl);
         $this->validatePage('view_invoice');
+
+        return $invoiceId;
     }
 }

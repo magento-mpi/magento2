@@ -11,7 +11,9 @@ namespace Magento\Sales\Model\Order\Pdf;
 
 class Config
 {
-    /** @var \Magento\Config\DataInterface */
+    /**
+     * @var \Magento\Config\DataInterface
+     */
     protected $_dataStorage;
 
     /**
@@ -30,7 +32,7 @@ class Config
      */
     public function getRenderersPerProduct($pageType)
     {
-        return $this->_dataStorage->get("renderers/$pageType", array());
+        return $this->_dataStorage->get("renderers/{$pageType}", array());
     }
 
     /**

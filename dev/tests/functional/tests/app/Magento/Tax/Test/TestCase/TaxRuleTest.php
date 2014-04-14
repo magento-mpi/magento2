@@ -39,9 +39,9 @@ class TaxRuleTest extends Functional
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $taxGridPage->open();
-        $taxGridPage->getRuleGrid()->addNewRule();
-        $newTaxRulePage->getEditBlock()->fillTaxRuleData($fixture);
-        $newTaxRulePage->getEditBlock()->clickSaveAndContinue();
+        $taxGridPage->getActionsBlock()->addNew();
+        $newTaxRulePage->getEditBlock()->fill($fixture);
+        $newTaxRulePage->getPageActionsBlock()->saveAndContinue();
         //Verifying
         $newTaxRulePage->getMessagesBlock()->assertSuccessMessage();
         $this->_assertOnGrid($fixture);

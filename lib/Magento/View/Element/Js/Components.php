@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element\Js;
 
 use Magento\App\State;
@@ -14,6 +13,8 @@ use Magento\View\Element\Template;
 class Components extends Template
 {
     /**
+     * Developer mode
+     *
      * @return bool
      */
     public function isDeveloperMode()

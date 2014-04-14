@@ -32,29 +32,29 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_coreData = $coreData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
@@ -84,7 +84,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
-        $urlPart = "{$key}:{$model->$method()}:{$model->getProtectCode()}";
+        $urlPart = "{$key}:{$model->{$method}()}:{$model->getProtectCode()}";
         $param = array('hash' => $this->_coreData->urlEncode($urlPart));
 
         $storeModel = $this->_storeManager->getStore($model->getStoreId());
@@ -107,30 +107,5 @@ class Data extends \Magento\App\Helper\AbstractHelper
             return $this->_getTrackingUrl('track_id', $model, 'getEntityId');
         }
         return '';
-    }
-
-    /**
-     * Retrieve tracking ajax url
-     *
-     * @return string
-     */
-    public function getTrackingAjaxUrl()
-    {
-        return $this->_getUrl('shipping/tracking/ajax');
-    }
-
-    /**
-     * @param string $method
-     * @param mixed $storeId
-     * @return bool
-     */
-    public function isFreeMethod($method, $storeId = null)
-    {
-        $arr = explode('_', $method, 2);
-        if (!isset($arr[1])) {
-            return false;
-        }
-        $freeMethod = $this->_coreStoreConfig->getConfig('carriers/' . $arr[0] . '/free_method', $storeId);
-        return $freeMethod == $arr[1];
     }
 }

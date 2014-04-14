@@ -7,22 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reward\Model\Resource\Reward\Rate;
 
 /**
  * Reward rate collection
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model\Resource\Reward\Rate;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Internal constructor
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,8 +29,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add filter by website id
      *
-     * @param integer|array $websiteId
-     * @return \Magento\Reward\Model\Resource\Reward\Rate\Collection
+     * @param int|array $websiteId
+     * @return $this
      */
     public function addWebsiteFilter($websiteId)
     {

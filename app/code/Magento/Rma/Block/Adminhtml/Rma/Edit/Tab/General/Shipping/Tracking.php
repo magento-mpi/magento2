@@ -7,18 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
 /**
  * Shipment tracking
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
-
 class Tracking extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -30,33 +29,37 @@ class Tracking extends \Magento\Backend\Block\Template
     protected $_rmaData;
 
     /**
-     * @var \Magento\Shipping\Model\Config
+     * Shipping carrier factory
+     *
+     * @var \Magento\Shipping\Model\CarrierFactory
      */
-    protected $_shippingConfig;
+    protected $_carrierFactory;
 
     /**
+     * Rma shipping collection
+     *
      * @var \Magento\Rma\Model\Resource\Shipping\CollectionFactory
      */
-    protected $_shippingCollFactory;
+    protected $_shippingCollectionFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollFactory
-     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollectionFactory
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollFactory,
-        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollectionFactory,
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
-        $this->_shippingCollFactory = $shippingCollFactory;
-        $this->_shippingConfig = $shippingConfig;
+        $this->_shippingCollectionFactory = $shippingCollectionFactory;
+        $this->_carrierFactory = $carrierFactory;
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
         parent::__construct($context, $data);
@@ -89,30 +92,30 @@ class Tracking extends \Magento\Backend\Block\Template
      */
     public function getAllTracks()
     {
-        return $this->_shippingCollFactory->create()
-            ->addFieldToFilter('rma_entity_id', $this->getRma()->getId())
-            ->addFieldToFilter('is_admin', array("neq" => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL))
-        ;
+        return $this->_shippingCollectionFactory->create()->addFieldToFilter(
+            'rma_entity_id',
+            $this->getRma()->getId()
+        )->addFieldToFilter(
+            'is_admin',
+            array("neq" => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL)
+        );
     }
 
     /**
      * Prepares layout of block
      *
-     * @return string
+     * @return \Magento\View\Element\AbstractBlock|void
      */
     protected function _prepareLayout()
     {
-        $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
+        $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '" . $this->getSubmitUrl() . "')";
         $this->setChild(
             'save_button',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(
-                    array(
-                        'label'   => __('Add'),
-                        'class'   => 'save',
-                        'onclick' => $onclick
-                    )
-                )
+            $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Button'
+            )->setData(
+                array('label' => __('Add'), 'class' => 'save', 'onclick' => $onclick)
+            )
         );
     }
 
@@ -154,10 +157,10 @@ class Tracking extends \Magento\Backend\Block\Template
      */
     public function getRemoveUrl($track)
     {
-        return $this->getUrl('adminhtml/*/removeTrack/', array(
-            'id' => $this->getRma()->getId(),
-            'track_id' => $track->getId()
-        ));
+        return $this->getUrl(
+            'adminhtml/*/removeTrack/',
+            array('id' => $this->getRma()->getId(), 'track_id' => $track->getId())
+        );
     }
 
     /**
@@ -168,7 +171,7 @@ class Tracking extends \Magento\Backend\Block\Template
      */
     public function getCarrierTitle($code)
     {
-        $carrier = $this->_shippingConfig->getCarrierInstance($code);
+        $carrier = $this->_carrierFactory->create($code);
         return $carrier ? $carrier->getConfigData('title') : __('Custom Value');
     }
 }

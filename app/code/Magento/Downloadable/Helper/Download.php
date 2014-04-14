@@ -2,15 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Downloadable\Helper;
 
-use Magento\Filesystem;
+use Magento\App\Filesystem;
+use Magento\Model\Exception as CoreException;
 
 /**
  * Downloadable Products Download Helper
@@ -20,45 +18,45 @@ class Download extends \Magento\App\Helper\AbstractHelper
     /**
      * Link type url
      */
-    const LINK_TYPE_URL         = 'url';
+    const LINK_TYPE_URL = 'url';
 
     /**
      * Link type file
      */
-    const LINK_TYPE_FILE        = 'file';
+    const LINK_TYPE_FILE = 'file';
 
     /**
      * Config path to content disposition
      */
-    const XML_PATH_CONTENT_DISPOSITION  = 'catalog/downloadable/content_disposition';
+    const XML_PATH_CONTENT_DISPOSITION = 'catalog/downloadable/content_disposition';
 
     /**
      * Type of link
      *
      * @var string
      */
-    protected $_linkType        = self::LINK_TYPE_FILE;
+    protected $_linkType = self::LINK_TYPE_FILE;
 
     /**
      * Resource file
      *
      * @var string
      */
-    protected $_resourceFile    = null;
+    protected $_resourceFile = null;
 
     /**
      * Resource open handle
      *
-     * @var resource
+     * @var \Magento\Filesystem\File\ReadInterface
      */
-    protected $_handle          = null;
+    protected $_handle = null;
 
     /**
      * Remote server headers
      *
      * @var array
      */
-    protected $_urlHeaders      = array();
+    protected $_urlHeaders = array();
 
     /**
      * MIME Content-type for a file
@@ -98,22 +96,17 @@ class Download extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Core\Model\App
-     */
-    protected $_app;
-
-    /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * Working Directory (Could be MEDIA or HTTP).
+     * Working Directory (valid for LINK_TYPE_FILE only).
      * @var \Magento\Filesystem\Directory\Read
      */
     protected $_workingDirectory;
@@ -123,22 +116,21 @@ class Download extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Downloadable\Helper\File $downloadableFile,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->_coreData = $coreData;
         $this->_downloadableFile = $downloadableFile;
         $this->_coreFileStorageDb = $coreFileStorageDb;
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_app = $context->getApp();
+        $this->_scopeConfig = $scopeConfig;
         $this->_filesystem = $filesystem;
 
         parent::__construct($context);
@@ -148,28 +140,27 @@ class Download extends \Magento\App\Helper\AbstractHelper
      * Retrieve Resource file handle (socket, file pointer etc)
      *
      * @return \Magento\Filesystem\File\ReadInterface
-     * @throws \Magento\Core\Exception|\Exception
+     * @throws CoreException|\Exception
      */
     protected function _getHandle()
     {
         if (!$this->_resourceFile) {
-            throw new \Magento\Core\Exception(__('Please set resource file and link type.'));
+            throw new CoreException(__('Please set resource file and link type.'));
         }
 
         if (is_null($this->_handle)) {
             if ($this->_linkType == self::LINK_TYPE_URL) {
-                $this->_workingDirectory = $this->_filesystem->getDirectoryRead(Filesystem::HTTP);
-                $this->_handle = $this->_workingDirectory->openFile($this->_resourceFile);
+                $this->_handle = $this->_filesystem->getRemoteResource($this->_resourceFile);
             } elseif ($this->_linkType == self::LINK_TYPE_FILE) {
-                $this->_workingDirectory = $this->_filesystem->getDirectoryRead(Filesystem::MEDIA);
+                $this->_workingDirectory = $this->_filesystem->getDirectoryRead(Filesystem::MEDIA_DIR);
                 $fileExists = $this->_downloadableFile->ensureFileInFilesystem($this->_resourceFile);
                 if ($fileExists) {
-                    $this->_handle = $this->_workingDirectory->openFile($this->_resourceFile, '???');
+                    $this->_handle = $this->_workingDirectory->openFile($this->_resourceFile);
                 } else {
-                    throw new \Magento\Core\Exception(__('Invalid download link type.'));
+                    throw new CoreException(__('Invalid download link type.'));
                 }
             } else {
-                throw new \Magento\Core\Exception(__('Invalid download link type.'));
+                throw new CoreException(__('Invalid download link type.'));
             }
         }
         return $this->_handle;
@@ -177,31 +168,42 @@ class Download extends \Magento\App\Helper\AbstractHelper
 
     /**
      * Retrieve file size in bytes
+     *
+     * @return int
      */
-    public function getFilesize()
+    public function getFileSize()
     {
-        return $this->_workingDirectory->stat($this->_resourceFile)['size'];
+        return $this->_getHandle()->stat($this->_resourceFile)['size'];
     }
 
     /**
+     * Return MIME type of a file.
+     *
      * @return string
      */
     public function getContentType()
     {
         $this->_getHandle();
         if ($this->_linkType == self::LINK_TYPE_FILE) {
-            if (function_exists('mime_content_type') && ($contentType = mime_content_type($this->_resourceFile))) {
+            if (function_exists(
+                'mime_content_type'
+            ) && ($contentType = mime_content_type(
+                $this->_workingDirectory->getAbsolutePath($this->_resourceFile)
+            ))
+            ) {
                 return $contentType;
             } else {
                 return $this->_downloadableFile->getFileType($this->_resourceFile);
             }
         } elseif ($this->_linkType == self::LINK_TYPE_URL) {
-            return $this->_workingDirectory->stat($this->_resourceFile)['type'];
+            return $this->_handle->stat($this->_resourceFile)['type'];
         }
         return $this->_contentType;
     }
 
     /**
+     * Return name of the file
+     *
      * @return string
      */
     public function getFilename()
@@ -210,11 +212,16 @@ class Download extends \Magento\App\Helper\AbstractHelper
         if ($this->_linkType == self::LINK_TYPE_FILE) {
             return pathinfo($this->_resourceFile, PATHINFO_BASENAME);
         } elseif ($this->_linkType == self::LINK_TYPE_URL) {
-            $stat = $this->_workingDirectory->stat($this->_resourceFile);
+            $stat = $this->_handle->stat($this->_resourceFile);
             if (isset($stat['disposition'])) {
                 $contentDisposition = explode('; ', $stat['disposition']);
-                if (!empty($contentDisposition[1]) && strpos($contentDisposition[1], 'filename=') !== false) {
-                    return substr($contentDisposition[1], 9);
+                if (!empty($contentDisposition[1]) && preg_match(
+                    '/filename=([^ ]+)/',
+                    $contentDisposition[1],
+                    $matches
+                )
+                ) {
+                    return $matches[1];
                 }
             }
             $fileName = @pathinfo($this->_resourceFile, PATHINFO_BASENAME);
@@ -230,7 +237,8 @@ class Download extends \Magento\App\Helper\AbstractHelper
      *
      * @param string $resourceFile
      * @param string $linkType
-     * @return \Magento\Downloadable\Helper\Download
+     * @return $this
+     * @throws \InvalidArgumentException
      */
     public function setResource($resourceFile, $linkType = self::LINK_TYPE_FILE)
     {
@@ -243,23 +251,22 @@ class Download extends \Magento\App\Helper\AbstractHelper
             }
         }
 
-        $this->_resourceFile    = $resourceFile;
-        $this->_linkType        = $linkType;
+        $this->_resourceFile = $resourceFile;
+        $this->_linkType = $linkType;
 
         return $this;
     }
 
+    /**
+     * Output file contents
+     *
+     * @return void
+     */
     public function output()
     {
         $handle = $this->_getHandle();
-        if ($this->_linkType == self::LINK_TYPE_FILE) {
-            while (true == ($buffer = $handle->read(1024))) {
-                print $buffer;
-            }
-        } elseif ($this->_linkType == self::LINK_TYPE_URL) {
-            while (!$handle->eof()) {
-                print $handle->read(1024);
-            }
+        while (true == ($buffer = $handle->read(1024))) {
+            echo $buffer;
         }
     }
 
@@ -271,6 +278,6 @@ class Download extends \Magento\App\Helper\AbstractHelper
      */
     public function getContentDisposition($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_CONTENT_DISPOSITION, $store);
+        return $this->_scopeConfig->getValue(self::XML_PATH_CONTENT_DISPOSITION, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 }

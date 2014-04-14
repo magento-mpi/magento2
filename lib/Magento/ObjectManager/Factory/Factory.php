@@ -10,52 +10,60 @@ namespace Magento\ObjectManager\Factory;
 class Factory implements \Magento\ObjectManager\Factory
 {
     /**
-     * @var \Magento\ObjectManager\ObjectManager
+     * Object manager
+     *
+     * @var \Magento\ObjectManager
      */
-    protected $_objectManager;
+    protected $objectManager;
 
     /**
+     * Object manager config
+     *
      * @var \Magento\ObjectManager\Config
      */
-    protected $_config;
+    protected $config;
 
     /**
      * Definition list
      *
      * @var \Magento\ObjectManager\Definition
      */
-    protected $_definitions;
+    protected $definitions;
 
     /**
-     * List of classes being created
+     * Object creation stack
      *
      * @var array
      */
-    protected $_creationStack = array();
-
-    /**
-     * Application init arguments
-     *
-     * @var array
-     */
-    protected $_globalArguments = array();
+    protected $creationStack = array();
 
     /**
      * @param \Magento\ObjectManager\Config $config
-     * @param \Magento\ObjectManager\ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param \Magento\ObjectManager\Definition $definitions
      * @param array $globalArguments
      */
     public function __construct(
         \Magento\ObjectManager\Config $config,
-        \Magento\ObjectManager\ObjectManager $objectManager = null,
+        \Magento\ObjectManager $objectManager = null,
         \Magento\ObjectManager\Definition $definitions = null,
         $globalArguments = array()
     ) {
-        $this->_objectManager = $objectManager;
-        $this->_config = $config;
-        $this->_definitions = $definitions ? : new \Magento\ObjectManager\Definition\Runtime();
-        $this->_globalArguments = $globalArguments;
+        $this->config = $config;
+        $this->objectManager = $objectManager;
+        $this->definitions = $definitions ?: new \Magento\ObjectManager\Definition\Runtime();
+        $this->globalArguments = $globalArguments;
+    }
+
+    /**
+     * Set object manager
+     *
+     * @param \Magento\ObjectManager $objectManager
+     * @return void
+     */
+    public function setObjectManager(\Magento\ObjectManager $objectManager)
+    {
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -65,7 +73,7 @@ class Factory implements \Magento\ObjectManager\Factory
      * @param array $parameters
      * @param array $arguments
      * @return array
-     * @throws \LogicException
+     * @throws \UnexpectedValueException
      * @throws \BadMethodCallException
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -74,22 +82,21 @@ class Factory implements \Magento\ObjectManager\Factory
     protected function _resolveArguments($requestedType, array $parameters, array $arguments = array())
     {
         $resolvedArguments = array();
-        $arguments = $this->_config->getArguments($requestedType, $arguments);
+        $arguments = count($arguments)
+            ? array_replace($this->config->getArguments($requestedType), $arguments)
+            : $this->config->getArguments($requestedType);
         foreach ($parameters as $parameter) {
             list($paramName, $paramType, $paramRequired, $paramDefault) = $parameter;
             $argument = null;
             if (array_key_exists($paramName, $arguments)) {
                 $argument = $arguments[$paramName];
-            } elseif (array_key_exists('options', $arguments) && array_key_exists($paramName, $arguments['options'])) {
-                // The parameter name doesn't exist in the arguments, but it is contained in the 'options' argument.
-                $argument = $arguments['options'][$paramName];
-            } elseif ($paramRequired) {
+            } else if ($paramRequired) {
                 if ($paramType) {
                     $argument = array('instance' => $paramType);
                 } else {
-                    $this->_creationStack = array();
+                    $this->creationStack = array();
                     throw new \BadMethodCallException(
-                        'Missing required argument $' . $paramName . ' for ' . $requestedType . '.'
+                        'Missing required argument $' . $paramName . ' of ' . $requestedType . '.'
                     );
                 }
             } else {
@@ -97,28 +104,22 @@ class Factory implements \Magento\ObjectManager\Factory
             }
             if ($paramType && !is_object($argument) && $argument !== $paramDefault) {
                 if (!is_array($argument) || !isset($argument['instance'])) {
-                    $this->_creationStack = array();
-                    throw new \InvalidArgumentException(
-                        'Invalid parameter configuration provided for $' . $paramName . ' argument in ' . $requestedType
+                    throw new \UnexpectedValueException(
+                        'Invalid parameter configuration provided for $' . $paramName . ' argument of ' . $requestedType
                     );
                 }
                 $argumentType = $argument['instance'];
-                if (isset($this->_creationStack[$argumentType])) {
-                    $this->_creationStack = array();
-                    throw new \LogicException(
-                        'Circular dependency: ' . $argumentType . ' depends on ' . $requestedType . ' and viceversa.'
-                    );
-                }
-                $this->_creationStack[$requestedType] = 1;
-                $isShared = (!isset($argument['shared']) && $this->_config->isShared($argumentType))
-                    || (isset($argument['shared']) && $argument['shared']);
+                $isShared = (isset($argument['shared']) ? $argument['shared'] :$this->config->isShared($argumentType));
                 $argument = $isShared
-                    ? $this->_objectManager->get($argumentType)
-                    : $this->_objectManager->create($argumentType);
-                unset($this->_creationStack[$requestedType]);
-            } elseif (is_array($argument) && isset($argument['argument'])) {
-                $argKey = $argument['argument'];
-                $argument = isset($this->_globalArguments[$argKey]) ? $this->_globalArguments[$argKey] : $paramDefault;
+                    ? $this->objectManager->get($argumentType)
+                    : $this->objectManager->create($argumentType);
+            } else if (is_array($argument)) {
+                if (isset($argument['argument'])) {
+                    $argKey = $argument['argument'];
+                    $argument = isset($this->globalArguments[$argKey]) ? $this->globalArguments[$argKey] : $paramDefault;
+                } else if (!empty($argument)) {
+                    $this->parseArray($argument);
+                }
             }
             $resolvedArguments[] = $argument;
         }
@@ -126,13 +127,30 @@ class Factory implements \Magento\ObjectManager\Factory
     }
 
     /**
-     * Set object manager
+     * Parse array argument
      *
-     * @param \Magento\ObjectManager $objectManager
+     * @param array $array
+     * @return void
      */
-    public function setObjectManager(\Magento\ObjectManager $objectManager)
+    protected function parseArray(&$array)
     {
-        $this->_objectManager = $objectManager;
+        foreach ($array as $key => $item) {
+            if (is_array($item)) {
+                if (isset($item['instance'])) {
+                    $itemType = $item['instance'];
+                    $isShared = (isset($item['shared'])) ? $item['shared'] : $this->config->isShared($itemType);
+                    $array[$key] = $isShared
+                        ? $this->objectManager->get($itemType)
+                        : $this->objectManager->create($itemType);
+                } elseif (isset($item['argument'])) {
+                    $array[$key] = isset($this->globalArguments[$item['argument']])
+                        ? $this->globalArguments[$item['argument']]
+                        : null;
+                } else {
+                    $this->parseArray($item);
+                }
+            }
+        }
     }
 
     /**
@@ -141,19 +159,30 @@ class Factory implements \Magento\ObjectManager\Factory
      * @param string $requestedType
      * @param array $arguments
      * @return object
-     * @throws \LogicException
-     * @throws \BadMethodCallException
+     * @throws \Exception
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function create($requestedType, array $arguments = array())
     {
-        $type = $this->_config->getInstanceType($requestedType);
-        $parameters = $this->_definitions->getParameters($type);
+        $type = $this->config->getInstanceType($requestedType);
+        $parameters = $this->definitions->getParameters($type);
         if ($parameters == null) {
             return new $type();
         }
-        $args = $this->_resolveArguments($requestedType, $parameters, $arguments);
+        if (isset($this->creationStack[$requestedType])) {
+            $lastFound = end($this->creationStack);
+            $this->creationStack = array();
+            throw new \LogicException("Circular dependency: {$requestedType} depends on {$lastFound} and vice versa.");
+        }
+        $this->creationStack[$requestedType] = $requestedType;
+        try {
+            $args = $this->_resolveArguments($requestedType, $parameters, $arguments);
+            unset($this->creationStack[$requestedType]);
+        } catch (\Exception $e) {
+            unset($this->creationStack[$requestedType]);
+            throw $e;
+        }
         switch (count($args)) {
             case 1:
                 return new $type($args[0]);
@@ -178,12 +207,13 @@ class Factory implements \Magento\ObjectManager\Factory
     }
 
     /**
-     * Set application arguments
+     * Set global arguments
      *
      * @param array $arguments
+     * @return void
      */
     public function setArguments($arguments)
     {
-        $this->_globalArguments = $arguments;
+        $this->globalArguments = $arguments;
     }
 }

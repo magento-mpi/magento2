@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Model\Resource\Archive;
 
 /**
  * Archive resource factory
  */
-namespace Magento\SalesArchive\Model\Resource\Archive;
-
 class Factory
 {
     /**
@@ -32,7 +31,7 @@ class Factory
 
     /**
      * @param string $className
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return \Magento\Model\Resource\Db\AbstractDb
      * @throws \InvalidArgumentException
      */
     public function get($className)

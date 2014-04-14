@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Menu;
 
 /**
@@ -114,14 +113,14 @@ class Item
     protected $_menuFactory;
 
     /**
-     * @var \Magento\Backend\Model\Url
+     * @var \Magento\Backend\Model\UrlInterface
      */
     protected $_urlModel;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Backend\Model\Menu\Item\Validator
@@ -150,9 +149,9 @@ class Item
     /**
      * @param Item\Validator $validator
      * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Backend\Model\MenuFactory $menuFactory
-     * @param \Magento\Backend\Model\Url $urlModel
+     * @param \Magento\Backend\Model\UrlInterface $urlModel
      * @param \Magento\Module\ModuleListInterface $moduleList
      * @param \Magento\Module\Manager $moduleManager
      * @param array $data
@@ -160,9 +159,9 @@ class Item
     public function __construct(
         \Magento\Backend\Model\Menu\Item\Validator $validator,
         \Magento\AuthorizationInterface $authorization,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Backend\Model\MenuFactory $menuFactory,
-        \Magento\Backend\Model\Url $urlModel,
+        \Magento\Backend\Model\UrlInterface $urlModel,
         \Magento\Module\ModuleListInterface $moduleList,
         \Magento\Module\Manager $moduleManager,
         array $data = array()
@@ -172,7 +171,7 @@ class Item
 
         $this->_moduleManager = $moduleManager;
         $this->_acl = $authorization;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_menuFactory = $menuFactory;
         $this->_urlModel = $urlModel;
         $this->_moduleName = isset($data['module']) ? $data['module'] : 'Magento_Backend';
@@ -191,7 +190,7 @@ class Item
      * Retrieve argument element, or default value
      *
      * @param array $array
-     * @param mixed $key
+     * @param string $key
      * @param mixed $defaultValue
      * @return mixed
      */
@@ -217,7 +216,7 @@ class Item
      */
     public function hasChildren()
     {
-        return !is_null($this->_submenu) && (bool) $this->_submenu->count();
+        return !is_null($this->_submenu) && (bool)$this->_submenu->count();
     }
 
     /**
@@ -240,7 +239,7 @@ class Item
      */
     public function getUrl()
     {
-        if ((bool) $this->_action) {
+        if ((bool)$this->_action) {
             return $this->_urlModel->getUrl((string)$this->_action, array('_cache_secret_key' => true));
         }
         return '#';
@@ -260,7 +259,7 @@ class Item
      * Set Item action
      *
      * @param string $action
-     * @return \Magento\Backend\Model\Menu\Item
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function setAction($action)
@@ -307,7 +306,7 @@ class Item
      * Set Item title
      *
      * @param string $title
-     * @return \Magento\Backend\Model\Menu\Item
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function setTitle($title)
@@ -324,7 +323,7 @@ class Item
      */
     public function hasTooltip()
     {
-        return (bool) $this->_tooltip;
+        return (bool)$this->_tooltip;
     }
 
     /**
@@ -341,7 +340,7 @@ class Item
      * Set Item tooltip
      *
      * @param string $tooltip
-     * @return \Magento\Backend\Model\Menu\Item
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function setTooltip($tooltip)
@@ -355,7 +354,7 @@ class Item
      * Set Item module
      *
      * @param string $module
-     * @return \Magento\Backend\Model\Menu\Item
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function setModule($module)
@@ -369,7 +368,7 @@ class Item
      * Set Item module dependency
      *
      * @param string $moduleName
-     * @return \Magento\Backend\Model\Menu\Item
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function setModuleDependency($moduleName)
@@ -383,7 +382,7 @@ class Item
      * Set Item config dependency
      *
      * @param string $configPath
-     * @return \Magento\Backend\Model\Menu\Item
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function setConfigDependency($configPath)
@@ -400,9 +399,9 @@ class Item
      */
     public function isDisabled()
     {
-        return !$this->_moduleManager->isOutputEnabled($this->_moduleName)
-            || !$this->_isModuleDependenciesAvailable()
-            || !$this->_isConfigDependenciesAvailable();
+        return !$this->_moduleManager->isOutputEnabled(
+            $this->_moduleName
+        ) || !$this->_isModuleDependenciesAvailable() || !$this->_isConfigDependenciesAvailable();
     }
 
     /**
@@ -427,7 +426,7 @@ class Item
     protected function _isConfigDependenciesAvailable()
     {
         if ($this->_dependsOnConfig) {
-            return $this->_storeConfig->getConfigFlag((string)$this->_dependsOnConfig);
+            return $this->_scopeConfig->isSetFlag((string)$this->_dependsOnConfig, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         }
         return true;
     }
@@ -446,6 +445,9 @@ class Item
         }
     }
 
+    /**
+     * @return string[]
+     */
     public function __sleep()
     {
         if ($this->_submenu) {
@@ -467,15 +469,18 @@ class Item
         );
     }
 
+    /**
+     * @return void
+     */
     public function __wakeup()
     {
         $objectManager = \Magento\App\ObjectManager::getInstance();
         $this->_moduleManager = $objectManager->get('Magento\Module\Manager');
         $this->_validator = $objectManager->get('Magento\Backend\Model\Menu\Item\Validator');
         $this->_acl = $objectManager->get('Magento\AuthorizationInterface');
-        $this->_storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
+        $this->_scopeConfig = $objectManager->get('Magento\App\Config\ScopeConfigInterface');
         $this->_menuFactory = $objectManager->get('Magento\Backend\Model\MenuFactory');
-        $this->_urlModel = $objectManager->get('Magento\Backend\Model\Url');
+        $this->_urlModel = $objectManager->get('Magento\Backend\Model\UrlInterface');
         $this->_moduleList = $objectManager->get('Magento\Module\ModuleListInterface');
         if ($this->_serializedSubmenu) {
             $this->_submenu = $this->_menuFactory->create();

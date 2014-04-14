@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reports\Model\Product\Index;
 
 /**
  * Catalog Compared Product Index Model
@@ -26,8 +26,6 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Model\Product\Index;
-
 class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
 {
     /**
@@ -35,7 +33,7 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
      *
      * @var string
      */
-    protected $_countCacheKey   = 'product_index_compared_count';
+    protected $_countCacheKey = 'product_index_compared_count';
 
     /**
      * Catalog product compare
@@ -45,30 +43,30 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
     protected $_productCompare = null;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Log\Model\Visitor $logVisitor
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Session\Generic $reportSession
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Catalog\Helper\Product\Compare $productCompare
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Log\Model\Visitor $logVisitor,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Session\Generic $reportSession,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Catalog\Helper\Product\Compare $productCompare,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -90,6 +88,8 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -110,8 +110,8 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
             }
         }
 
-        if ($this->_coreRegistry->registry('current_product')) {
-            $productIds[] = $this->_coreRegistry->registry('current_product')->getId();
+        if ($this->_registry->registry('current_product')) {
+            $productIds[] = $this->_registry->registry('current_product')->getId();
         }
 
         return array_unique($productIds);

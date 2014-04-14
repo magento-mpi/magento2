@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cms\Model;
 
 /**
  * Cms Page Model
@@ -48,25 +48,27 @@
  * @method \Magento\Cms\Model\Page setCustomThemeFrom(string $value)
  * @method string getCustomThemeTo()
  * @method \Magento\Cms\Model\Page setCustomThemeTo(string $value)
- *
- * @category    Magento
- * @package     Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Model;
-
-class Page extends \Magento\Core\Model\AbstractModel
+class Page extends \Magento\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
+    /**
+     * No route page id
+     */
     const NOROUTE_PAGE_ID = 'no-route';
 
     /**
      * Page's Statuses
      */
     const STATUS_ENABLED = 1;
+
     const STATUS_DISABLED = 0;
 
-    const CACHE_TAG              = 'cms_page';
-    protected $_cacheTag         = 'cms_page';
+    const CACHE_TAG = 'cms_page';
+
+    /**
+     * @var string
+     */
+    protected $_cacheTag = 'cms_page';
 
     /**
      * Prefix of model events names
@@ -78,6 +80,7 @@ class Page extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -87,11 +90,11 @@ class Page extends \Magento\Core\Model\AbstractModel
     /**
      * Load object data
      *
-     * @param mixed $id
+     * @param int|null $id
      * @param string $field
-     * @return \Magento\Cms\Model\Page
+     * @return $this
      */
-    public function load($id, $field=null)
+    public function load($id, $field = null)
     {
         if (is_null($id)) {
             return $this->noRoutePage();
@@ -130,9 +133,16 @@ class Page extends \Magento\Core\Model\AbstractModel
      */
     public function getAvailableStatuses()
     {
-        return array(
-            self::STATUS_ENABLED => __('Enabled'),
-            self::STATUS_DISABLED => __('Disabled'),
-        );
+        return array(self::STATUS_ENABLED => __('Enabled'), self::STATUS_DISABLED => __('Disabled'));
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

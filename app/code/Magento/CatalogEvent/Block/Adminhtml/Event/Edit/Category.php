@@ -11,7 +11,17 @@
  */
 namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
 
-class Category extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
+use Magento\Backend\Block\Template\Context;
+use Magento\Catalog\Block\Adminhtml\Category\AbstractCategory;
+use Magento\Catalog\Model\CategoryFactory;
+use Magento\Catalog\Model\Resource\Category\Collection;
+use Magento\Catalog\Model\Resource\Category\Tree;
+use Magento\CatalogEvent\Helper\Adminhtml\Event;
+use Magento\Registry;
+use Magento\Data\Tree\Node;
+use Magento\Json\EncoderInterface;
+
+class Category extends AbstractCategory
 {
     /**
      * Template
@@ -23,36 +33,36 @@ class Category extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategor
     /**
      * Category model factory
      *
-     * @var \Magento\Catalog\Model\CategoryFactory
+     * @var CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
-     * @var \Magento\CatalogEvent\Helper\Adminhtml\Event
+     * @var Event
      */
     protected $_eventAdminhtml;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\CatalogEvent\Helper\Adminhtml\Event $eventAdminhtml
+     * @param Context $context
+     * @param Tree $categoryTree
+     * @param Registry $registry
+     * @param EncoderInterface $jsonEncoder
+     * @param CategoryFactory $categoryFactory
+     * @param Event $eventAdminhtml
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\CatalogEvent\Helper\Adminhtml\Event $eventAdminhtml,
+        Context $context,
+        Tree $categoryTree,
+        Registry $registry,
+        EncoderInterface $jsonEncoder,
+        CategoryFactory $categoryFactory,
+        Event $eventAdminhtml,
         array $data = array()
     ) {
         $this->_eventAdminhtml = $eventAdminhtml;
@@ -81,8 +91,7 @@ class Category extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategor
                     $result = $tree['children'];
                 }
             }
-        }
-        else {
+        } else {
             $result = $this->_getNodesArray($this->getRoot(null, $recursionLevel));
         }
         if ($asJson) {
@@ -94,16 +103,17 @@ class Category extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategor
     /**
      * Get categories collection
      *
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return Collection
      */
     public function getCategoryCollection()
     {
         $collection = $this->_getData('category_collection');
         if (is_null($collection)) {
-            $collection = $this->_categoryFactory->create()->getCollection()
-                ->addAttributeToSelect(array('name', 'is_active'))
-                ->setLoadProductCount(true)
-            ;
+            $collection = $this->_categoryFactory->create()->getCollection()->addAttributeToSelect(
+                array('name', 'is_active')
+            )->setLoadProductCount(
+                true
+            );
             $this->setData('category_collection', $collection);
         }
         return $collection;
@@ -112,23 +122,21 @@ class Category extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategor
     /**
      * Convert categories tree to array recursively
      *
+     * @param Node $node
      * @return array
      */
     protected function _getNodesArray($node)
     {
         $eventHelper = $this->_eventAdminhtml;
         $result = array(
-            'id'             => (int)$node->getId(),
-            'parent_id'      => (int)$node->getParentId(),
+            'id' => (int)$node->getId(),
+            'parent_id' => (int)$node->getParentId(),
             'children_count' => (int)$node->getChildrenCount(),
-            'is_active'      => (bool)$node->getIsActive(),
-            'disabled'       => ($node->getLevel() <= 1 || in_array(
-                                    $node->getId(),
-                                    $eventHelper->getInEventCategoryIds()
-                                )),
-            'name'           => $node->getName(),
-            'level'          => (int)$node->getLevel(),
-            'product_count'  => (int)$node->getProductCount(),
+            'is_active' => (bool)$node->getIsActive(),
+            'disabled' => $node->getLevel() <= 1 || in_array($node->getId(), $eventHelper->getInEventCategoryIds()),
+            'name' => $node->getName(),
+            'level' => (int)$node->getLevel(),
+            'product_count' => (int)$node->getProductCount()
         );
         if ($node->hasChildren()) {
             $result['children'] = array();

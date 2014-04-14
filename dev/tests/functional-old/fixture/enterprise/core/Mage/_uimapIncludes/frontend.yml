@@ -8,20 +8,24 @@
 # @license     {license_link}
 #
 ---
-enterprice_frontend_header:
+frontend_header:
     uimap:
         form:
             fieldsets:
                 -
-                    global_header:
-                        xpath: //div[@class='header-container']
-                        links:
-                            my_cart: //strong[@id='cartHeader']
-                            empty_my_cart: //strong[@id='cartHeader'][.='My Cart (0)']
-                            checkout: //a[@title='Checkout']
-                            log_in: //a[@title='Log In']
-                            log_out: //a[@title='Log Out']
-                            your_language: //ul[@id='popup-language-select']//a[text()='%storeView%']
+                    add_by_sku:
+                        xpath: //form[@class='form addbysku']
+                        fields:
+                            sku: //fieldset/div[%number%]//input[contains(@name,'[sku]')]
+                            qty: //fieldset/div[%number%]//input[contains(@name,'[qty]')]
+                        buttons:
+                            add_to_cart_by_sku: //button[span='Add to Cart']
+                            add_row: //button[span='Add Row']
+                            remove_row: //fieldset/div[%rowIndex%]//button[span='Remove Row']
                         pageelements:
-                            change_store_view: //div[@id='language-select']//span[text()='Change']
-                            selected_store_view: //div[@id='language-select']/strong[normalize-space(text())='%storeView%']
+                            table_lines: //fieldset/div
+                        links:
+                            sku_link: //a[contains(text(),'Load a list of')]
+        messages:
+#            enter_valid_number: //div[@class='validation-advice' and contains(.,'Please enter a valid number in this field.')]
+            enter_greater_than_zero: //div[@class='mage-error' and @for='%fieldId%' and contains(.,'Please enter a number greater than 0 in this field.')]

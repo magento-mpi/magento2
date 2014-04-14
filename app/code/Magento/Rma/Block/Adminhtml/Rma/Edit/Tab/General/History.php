@@ -7,35 +7,37 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
 
 /**
  * Comments History Block at RMA page
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
-
-class History
-    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
+class History extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {
     /**
+     * Rma config model
+     *
      * @var \Magento\Rma\Model\Config
      */
     protected $_rmaConfig;
 
     /**
+     * Rma status history collection
+     *
      * @var \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Rma\Model\Config $rmaConfig
      * @param \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Rma\Model\Config $rmaConfig,
         \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $collectionFactory,
         array $data = array()
@@ -48,17 +50,16 @@ class History
     /**
      * Prepare child blocks
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\History
+     * @return $this
      */
     protected function _prepareLayout()
     {
-        $onclick = "submitAndReloadArea($('rma-history-block').parentNode, '".$this->getSubmitUrl()."')";
-        $button = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-                'label'   => __('Submit Comment'),
-                'class'   => 'save',
-                'onclick' => $onclick
-            ));
+        $onclick = "submitAndReloadArea($('rma-history-block').parentNode, '" . $this->getSubmitUrl() . "')";
+        $button = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array('label' => __('Submit Comment'), 'class' => 'save', 'onclick' => $onclick)
+        );
         $this->setChild('submit_button', $button);
 
         return parent::_prepareLayout();
@@ -93,10 +94,12 @@ class History
      */
     public function getSubmitUrl()
     {
-        return $this->getUrl('adminhtml/*/addComment', array('id'=>$this->getRmaData('entity_id')));
+        return $this->getUrl('adminhtml/*/addComment', array('id' => $this->getRmaData('entity_id')));
     }
 
     /**
+     * Get comments
+     *
      * @return \Magento\Rma\Model\Resource\Rma\Status\History\Collection
      */
     public function getComments()

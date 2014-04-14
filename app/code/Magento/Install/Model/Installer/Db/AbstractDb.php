@@ -22,7 +22,7 @@ abstract class AbstractDb
     /**
      * Resource connection adapter factory
      *
-     * @var \Magento\Core\Model\Resource\Type\Db\Pdo\MysqlFactory
+     * @var \Magento\Model\Resource\Type\Db\Pdo\MysqlFactory
      */
     protected $_adapterFactory;
 
@@ -54,20 +54,26 @@ abstract class AbstractDb
      */
     protected $_configData;
 
+    /**
+     * Configuration arguments
+     *
+     * @var \Magento\App\Arguments
+     */
+    protected $_arguments;
 
     /**
-     * @param \Magento\Core\Model\Resource\Type\Db\Pdo\MysqlFactory $adapterFactory
-     * @param \Magento\App\Config $localConfig
+     * @param \Magento\Model\Resource\Type\Db\Pdo\MysqlFactory $adapterFactory
+     * @param \Magento\App\Arguments $arguments
      * @param array $dbExtensions
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Type\Db\Pdo\MysqlFactory $adapterFactory,
-        \Magento\App\Config $localConfig,
+        \Magento\Model\Resource\Type\Db\Pdo\MysqlFactory $adapterFactory,
+        \Magento\App\Arguments $arguments,
         array $dbExtensions = array()
     ) {
         $this->_adapterFactory = $adapterFactory;
         $this->_dbExtensions = $dbExtensions;
-        $this->_localConfig = $localConfig;
+        $this->_arguments = $arguments;
     }
 
     /**
@@ -79,7 +85,6 @@ abstract class AbstractDb
     {
         return $this->_configData['db_model'];
     }
-
 
     /**
      * Return the DB type from config
@@ -95,6 +100,7 @@ abstract class AbstractDb
      * Set configuration data
      *
      * @param array $config the connection configuration
+     * @return void
      */
     public function setConfig($config)
     {
@@ -118,7 +124,7 @@ abstract class AbstractDb
                     'pdoType' => $this->getPdoType()
                 );
             } else {
-                $default = $this->_localConfig->getConnection('default');
+                $default = $this->_arguments->getConnection('default');
                 $connectionData = array(
                     'host' => $default['host'],
                     'username' => $default['username'],

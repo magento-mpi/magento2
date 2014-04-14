@@ -8,19 +8,24 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\Core\Model\Resource\Setup */
+/* @var $installer \Magento\Module\Setup */
 $installer = $this;
 
 $installer->startSetup();
 $connection = $installer->getConnection();
 $table = $installer->getTable('widget_instance');
 
-$connection->changeColumn($table, 'package_theme', 'theme_id', array(
-    'type'     => \Magento\DB\Ddl\Table::TYPE_INTEGER,
-    'unsigned' => true,
-    'nullable' => false,
-    'comment'  => 'Theme id'
-));
+$connection->changeColumn(
+    $table,
+    'package_theme',
+    'theme_id',
+    array(
+        'type' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
+        'unsigned' => true,
+        'nullable' => false,
+        'comment' => 'Theme id'
+    )
+);
 
 $connection->addForeignKey(
     $installer->getFkName('widget_instance', 'theme_id', 'core_theme', 'theme_id'),

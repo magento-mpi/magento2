@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Customer;
 
 /**
  * Customer gift registry checkout abstract block
  */
-namespace Magento\GiftRegistry\Block\Customer;
-
 class Checkout extends \Magento\View\Element\Template
 {
     /**
@@ -33,15 +32,9 @@ class Checkout extends \Magento\View\Element\Template
     protected $customerSession;
 
     /**
-     * @var \Magento\Checkout\Model\Type\MultishippingFactory
-     */
-    protected $typeMultiShippingFactory;
-
-    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Checkout\Model\Session $customerSession
-     * @param \Magento\Checkout\Model\Type\MultishippingFactory $typeMultiShippingFactory
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param array $data
      */
@@ -49,16 +42,14 @@ class Checkout extends \Magento\View\Element\Template
         \Magento\View\Element\Template\Context $context,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Checkout\Model\Session $customerSession,
-        \Magento\Checkout\Model\Type\MultishippingFactory $typeMultiShippingFactory,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         $this->customerSession = $customerSession;
-        $this->typeMultiShippingFactory = $typeMultiShippingFactory;
         $this->entityFactory = $entityFactory;
-
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -78,7 +69,7 @@ class Checkout extends \Magento\View\Element\Template
      */
     public function getEnabled()
     {
-        return  $this->_giftRegistryData->isEnabled();
+        return $this->_giftRegistryData->isEnabled();
     }
 
     /**
@@ -98,25 +89,9 @@ class Checkout extends \Magento\View\Element\Template
                     $model->loadByEntityItem($registryItemId);
                     $item['entity_id'] = $model->getId();
                     $item['item_id'] = $registryItemId;
-                    $item['is_address'] = ($model->getShippingAddress()) ? 1 : 0;
+                    $item['is_address'] = $model->getShippingAddress() ? 1 : 0;
                     $items[$quoteItem->getId()] = $item;
                 }
-            }
-        }
-        return $items;
-    }
-
-   /**
-     * Get quote gift registry items for multishipping checkout
-     *
-     * @return array
-     */
-    public function getItems()
-    {
-        $items = array();
-        foreach ($this->_getGiftRegistryQuoteItems() as $quoteItemId => $item) {
-            if ($item['is_address']) {
-                $items[$quoteItemId] = $item;
             }
         }
         return $items;
@@ -150,24 +125,5 @@ class Checkout extends \Magento\View\Element\Template
     public function getAddressIdPrefix()
     {
         return $this->_giftRegistryData->getAddressIdPrefix();
-    }
-
-    /**
-     * Retrieve giftregistry selected addresses indexes
-     *
-     * @return array
-     */
-    public function getGiftregistrySelectedAddressesIndexes()
-    {
-        $result = array();
-        $registryQuoteItemIds = array_keys($this->getItems());
-        $quoteAddressItems = $this->typeMultiShippingFactory->create()->getQuoteShippingAddressesItems();
-        foreach ($quoteAddressItems as $index => $quoteAddressItem) {
-            $quoteItemId = $quoteAddressItem->getQuoteItem()->getId();
-            if (!$quoteAddressItem->getCustomerAddressId() && in_array($quoteItemId, $registryQuoteItemIds)) {
-                $result[] = $index;
-            }
-        }
-        return $result;
     }
 }

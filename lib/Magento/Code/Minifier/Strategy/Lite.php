@@ -14,8 +14,8 @@
  */
 namespace Magento\Code\Minifier\Strategy;
 
-use Magento\Filesystem\Directory\Read,
-    Magento\Filesystem\Directory\Write;
+use Magento\Filesystem\Directory\Read;
+use Magento\Filesystem\Directory\Write;
 
 class Lite implements \Magento\Code\Minifier\StrategyInterface
 {
@@ -36,15 +36,13 @@ class Lite implements \Magento\Code\Minifier\StrategyInterface
 
     /**
      * @param \Magento\Code\Minifier\AdapterInterface $adapter
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      */
-    public function __construct(
-        \Magento\Code\Minifier\AdapterInterface $adapter,
-        \Magento\Filesystem $filesystem
-    ) {
+    public function __construct(\Magento\Code\Minifier\AdapterInterface $adapter, \Magento\App\Filesystem $filesystem)
+    {
         $this->adapter = $adapter;
-        $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
-        $this->pubViewCacheDir = $filesystem->getDirectoryWrite(\Magento\Filesystem::PUB_VIEW_CACHE);
+        $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
+        $this->pubViewCacheDir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::PUB_VIEW_CACHE_DIR);
     }
 
     /**
@@ -52,6 +50,7 @@ class Lite implements \Magento\Code\Minifier\StrategyInterface
      *
      * @param string $originalFile path to original file relative to pub/view_cache
      * @param string $targetFile path relative to pub/view_cache
+     * @return void
      */
     public function minifyFile($originalFile, $targetFile)
     {

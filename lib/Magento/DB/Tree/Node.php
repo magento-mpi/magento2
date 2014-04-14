@@ -7,42 +7,78 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
-
 namespace Magento\DB\Tree;
 
+use Magento\DB\Tree\Node\NodeException;
 
-
-class Node {
-
+class Node
+{
+    /**
+     * @var int
+     */
     private $left;
+
+    /**
+     * @var int
+     */
     private $right;
+
+    /**
+     * @var string|int
+     */
     private $id;
+
+    /**
+     * @var string|int
+     */
     private $pid;
+
+    /**
+     * @var int
+     */
     private $level;
+
+    /**
+     * @var string
+     */
     private $title;
+
+    /**
+     * @var array
+     */
     private $data;
 
-
+    /**
+     * @var bool
+     */
     public $hasChild = false;
+
+    /**
+     * @var float|int
+     */
     public $numChild = 0;
 
-
-    function __construct($nodeData, $keys) {
+    /**
+     * @param array $nodeData
+     * @param array $keys
+     * @throws NodeException
+     */
+    public function __construct($nodeData, $keys)
+    {
         if (empty($nodeData)) {
-            throw new \Magento\DB\Tree\Node\NodeException('Empty array of node information');
+            throw new NodeException('Empty array of node information');
         }
         if (empty($keys)) {
-            throw new \Magento\DB\Tree\Node\NodeException('Empty keys array');
+            throw new NodeException('Empty keys array');
         }
 
-        $this->id    = $nodeData[$keys['id']];
-        $this->pid   = $nodeData[$keys['pid']];
-        $this->left  = $nodeData[$keys['left']];
+        $this->id = $nodeData[$keys['id']];
+        $this->pid = $nodeData[$keys['pid']];
+        $this->left = $nodeData[$keys['left']];
         $this->right = $nodeData[$keys['right']];
         $this->level = $nodeData[$keys['level']];
 
-        $this->data  = $nodeData;
+        $this->data = $nodeData;
         $a = $this->right - $this->left;
         if ($a > 1) {
             $this->hasChild = true;
@@ -51,7 +87,12 @@ class Node {
         return $this;
     }
 
-    function getData($name) {
+    /**
+     * @param string $name
+     * @return null|array
+     */
+    public function getData($name)
+    {
         if (isset($this->data[$name])) {
             return $this->data[$name];
         } else {
@@ -59,32 +100,53 @@ class Node {
         }
     }
 
-    function getLevel() {
+    /**
+     * @return int
+     */
+    public function getLevel()
+    {
         return $this->level;
     }
 
-    function getLeft() {
+    /**
+     * @return int
+     */
+    public function getLeft()
+    {
         return $this->left;
     }
 
-    function getRight() {
+    /**
+     * @return int
+     */
+    public function getRight()
+    {
         return $this->right;
     }
 
-    function getPid() {
+    /**
+     * @return string|int
+     */
+    public function getPid()
+    {
         return $this->pid;
     }
 
-    function getId() {
+    /**
+     * @return string|int
+     */
+    public function getId()
+    {
         return $this->id;
     }
-    
+
     /**
-     * Return true if node have chield
+     * Return true if node has child
      *
-     * @return boolean
+     * @return bool
      */
-    function isParent() {
+    public function isParent()
+    {
         if ($this->right - $this->left > 1) {
             return true;
         } else {

@@ -5,13 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CatalogEvent\Block\Event;
+
+use Magento\View\Element\Template;
 
 /**
  * Catalog Event Abstract event block
  */
-
-namespace Magento\CatalogEvent\Block\Event;
-
 abstract class AbstractEvent extends \Magento\View\Element\Template
 {
     /**
@@ -21,13 +21,35 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
      */
     protected $_statuses;
 
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
+     * @param Template\Context $context
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param array $data
+     */
+    public function __construct(
+        Template\Context $context,
+        \Magento\Locale\ResolverInterface $localeResolver,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_localeResolver = $localeResolver;
+    }
+
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->_statuses = array(
             \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING => __('Coming Soon'),
-            \Magento\CatalogEvent\Model\Event::STATUS_OPEN     => __('Sale Ends In'),
-            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED   => __('Closed'),
+            \Magento\CatalogEvent\Model\Event::STATUS_OPEN => __('Sale Ends In'),
+            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED => __('Closed')
         );
     }
 
@@ -57,7 +79,9 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
     public function getEventTime($type, $event, $format = null)
     {
         if ($format === null) {
-            $format = $this->_locale->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+            $format = $this->_localeDate->getTimeFormat(
+                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+            );
         }
 
         return $this->_getEventDate($type, $event, $format);
@@ -74,11 +98,12 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
     public function getEventDate($type, $event, $format = null)
     {
         if ($format === null) {
-            $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+            $format = $this->_localeDate->getDateFormat(
+                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+            );
         }
 
         return $this->_getEventDate($type, $event, $format);
-
     }
 
     /**
@@ -103,14 +128,14 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
      */
     protected function _getEventDate($type, $event, $format)
     {
-        $date = new \Zend_Date($this->_locale->getLocale());
+        $date = new \Magento\Stdlib\DateTime\Date($this->_localeResolver->getLocale());
         // changing timezone to UTC
-        $date->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE);
+        $date->setTimezone(\Magento\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE);
 
         $dateString = $event->getData('date_' . $type);
         $date->set($dateString, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
 
-        $timezone = $this->_storeConfig->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
+        $timezone = $this->_scopeConfig->getValue($this->_localeDate->getDefaultTimezonePath(), \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($timezone) {
             // changing timezone to default store timezone
             $date->setTimezone($timezone);

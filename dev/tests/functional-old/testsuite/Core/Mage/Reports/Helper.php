@@ -27,7 +27,7 @@ class Core_Mage_Reports_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return array
      */
-    public function searchDataInReport(array $data, $gridXpath = 'report_tag_grid')
+    public function searchDataInReport(array $data, $gridXpath)
     {
         $rowNumbers = array();
         $totalCount = $this->getTotalRecordsInTable('fieldset', $gridXpath);
@@ -47,10 +47,10 @@ class Core_Mage_Reports_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param array $data Data to look for in report
      * @param string $column Column that report is sorted by
-     *
+     * @param string $grid
      * @return void
      */
-    public function verifyReportSortingByColumn(array $data, $column)
+    public function verifyReportSortingByColumn(array $data, $column, $grid)
     {
         $sortedReport = $data;
 
@@ -68,7 +68,7 @@ class Core_Mage_Reports_Helper extends Mage_Selenium_AbstractHelper
         }
 
         for ($i = 0; $i < count($sortedReport); $i++) {
-            list($rowNumber) = $this->searchDataInReport($sortedReport[$i]);
+            list($rowNumber) = $this->searchDataInReport($sortedReport[$i], $grid);
             if ($i + 1 !== $rowNumber) {
                 $this->addVerificationMessage('Report sorting by ' . $column . ' is not correct. Line number must be '
                     . ($i + 1) . ' but now is ' . $rowNumber. ' Data: '. print_r($sortedReport[$i], true));

@@ -16,8 +16,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Sku;
 
-abstract class AbstractSku
-    extends \Magento\View\Element\Template
+abstract class AbstractSku extends \Magento\View\Element\Template
 {
     /**
      * Retrieve form action URL
@@ -53,6 +52,7 @@ abstract class AbstractSku
         $this->_checkoutData = $checkoutData;
         $this->mathRandom = $mathRandom;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -93,8 +93,7 @@ abstract class AbstractSku
             return '';
         }
 
-        return '<a href="' . $helper->getAccountSkuUrl() . '">'
-            . $this->escapeHtml($data['link_text']) . '</a>';
+        return '<a href="' . $helper->getAccountSkuUrl() . '">' . $this->escapeHtml($data['link_text']) . '</a>';
     }
 
     /**

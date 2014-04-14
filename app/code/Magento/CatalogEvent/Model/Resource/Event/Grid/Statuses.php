@@ -17,7 +17,7 @@
  */
 namespace Magento\CatalogEvent\Model\Resource\Event\Grid;
 
-class Statuses implements \Magento\Core\Model\Option\ArrayInterface
+class Statuses implements \Magento\Option\ArrayInterface
 {
     /**
      * Return statuses option array
@@ -28,8 +28,8 @@ class Statuses implements \Magento\Core\Model\Option\ArrayInterface
     {
         return array(
             \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING => __('Upcoming'),
-            \Magento\CatalogEvent\Model\Event::STATUS_OPEN 	  => __('Open'),
-            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED   => __('Closed'),
+            \Magento\CatalogEvent\Model\Event::STATUS_OPEN => __('Open'),
+            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED => __('Closed')
         );
     }
 }

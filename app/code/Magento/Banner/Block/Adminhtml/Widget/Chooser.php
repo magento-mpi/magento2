@@ -17,6 +17,8 @@
  */
 namespace Magento\Banner\Block\Adminhtml\Widget;
 
+use Magento\Backend\Block\Widget\Grid\Column;
+
 class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
 {
     /**
@@ -26,7 +28,6 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory
      * @param \Magento\Banner\Model\Config $bannerConfig
@@ -35,14 +36,13 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory,
         \Magento\Banner\Model\Config $bannerConfig,
         \Magento\Data\Form\Element\Factory $elementFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $urlModel, $backendHelper, $bannerColFactory, $bannerConfig, $data);
+        parent::__construct($context, $backendHelper, $bannerColFactory, $bannerConfig, $data);
         $this->_elementFactory = $elementFactory;
     }
 
@@ -64,12 +64,12 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     /**
      * Block construction, prepare grid params
      *
-     * @param array $arguments Object data
+     * @return void
      */
     public function _construct()
     {
         parent::_construct();
-        $this->setDefaultFilter(array('in_banners'=>1));
+        $this->setDefaultFilter(array('in_banners' => 1));
     }
 
     /**
@@ -105,8 +105,12 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
         function(grid, row){
             if(!grid.selBannersIds){
                 grid.selBannersIds = {};
-                if($(\'' . $this->_elementValueId . '\').value != \'\'){
-                    var elementValues = $(\'' . $this->_elementValueId . '\').value.split(\',\');
+                if($(\'' .
+            $this->_elementValueId .
+            '\').value != \'\'){
+                    var elementValues = $(\'' .
+            $this->_elementValueId .
+            '\').value.split(\',\');
                     for(var i = 0; i < elementValues.length; i++){
                         grid.selBannersIds[elementValues[i]] = i+1;
                     }
@@ -150,7 +154,9 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
                             }
                         }
                     }
-                    $(\'' . $this->_elementValueId . '\').value = banners.join(\',\');
+                    $(\'' .
+            $this->_elementValueId .
+            '\').value = banners.join(\',\');
                 }
             });
         }
@@ -203,7 +209,9 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
                         }
                     }
                 }
-                $(\'' . $this->_elementValueId . '\').value = banners.join(\',\');
+                $(\'' .
+            $this->_elementValueId .
+            '\').value = banners.join(\',\');
                 grid.reloadParams = {};
                 grid.reloadParams[\'selected_banners[]\'] = banners;
             }
@@ -256,7 +264,9 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
                             }
                         }
                     }
-                    $(\'' . $this->_elementValueId . '\').value = banners.join(\',\');
+                    $(\'' .
+            $this->_elementValueId .
+            '\').value = banners.join(\',\');
                     grid.reloadParams = {};
                     grid.reloadParams[\'selected_banners[]\'] = banners;
                 }';
@@ -265,39 +275,46 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     /**
      * Create grid columns
      *
-     * @return \Magento\Banner\Block\Adminhtml\Widget\Chooser
+     * @return $this
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('in_banners', array(
-            'header_css_class' => 'a-center',
-            'type'      => 'checkbox',
-            'name'      => 'in_banners',
-            'values'    => $this->getSelectedBanners(),
-            'align'     => 'center',
-            'index'     => 'banner_id',
-        ));
+        $this->addColumn(
+            'in_banners',
+            array(
+                'header_css_class' => 'a-center',
+                'type' => 'checkbox',
+                'name' => 'in_banners',
+                'values' => $this->getSelectedBanners(),
+                'align' => 'center',
+                'index' => 'banner_id'
+            )
+        );
 
-        $this->addColumn('position', array(
-            'header'         => __('Position'),
-            'name'           => 'position',
-            'type'           => 'number',
-            'validate_class' => 'validate-number',
-            'index'          => 'position',
-            'editable'       => true,
-            'filter'         => false,
-            'edit_only'      => true,
-            'sortable'       => false
-        ));
+        $this->addColumn(
+            'position',
+            array(
+                'header' => __('Position'),
+                'name' => 'position',
+                'type' => 'number',
+                'validate_class' => 'validate-number',
+                'index' => 'position',
+                'editable' => true,
+                'filter' => false,
+                'edit_only' => true,
+                'sortable' => false
+            )
+        );
         $this->addColumnsOrder('position', 'banner_is_enabled');
 
         return parent::_prepareColumns();
     }
 
-    /* Set custom filter for in banner flag
+    /**
+     * Set custom filter for in banner flag
      *
-     * @param string $column
-     * @return \Magento\Banner\Block\Adminhtml\Widget\Chooser
+     * @param Column $column
+     * @return $this
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -320,9 +337,9 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     }
 
     /**
-     * Disable massaction functioanality
+     * Disable mass action functionality
      *
-     * @return \Magento\Banner\Block\Adminhtml\Widget\Chooser
+     * @return $this
      */
     protected function _prepareMassaction()
     {
@@ -336,25 +353,28 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/banner_widget/chooser', array(
-            'banners_grid' => true,
-            '_current' => true,
-            'uniq_id' => $this->getId(),
-            'selected_banners' => join(',', $this->getSelectedBanners())
-        ));
+        return $this->getUrl(
+            'adminhtml/banner_widget/chooser',
+            array(
+                'banners_grid' => true,
+                '_current' => true,
+                'uniq_id' => $this->getId(),
+                'selected_banners' => join(',', $this->getSelectedBanners())
+            )
+        );
     }
 
     /**
      * Setter
      *
      * @param array $selectedBanners
-     * @return \Magento\Banner\Block\Adminhtml\Widget\Chooser
+     * @return $this
      */
     public function setSelectedBanners($selectedBanners)
     {
         if (is_string($selectedBanners)) {
             $selectedBanners = explode(',', $selectedBanners);
-        }        
+        }
         $this->_selectedBanners = $selectedBanners;
         return $this;
     }
@@ -362,12 +382,12 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     /**
      * Set banners' positions of saved banners
      *
-     * @return \Magento\Banner\Block\Adminhtml\Widget\Chooser
+     * @return $this
      */
     protected function _prepareCollection()
     {
         parent::_prepareCollection();
-        
+
         foreach ($this->getCollection() as $item) {
             foreach ($this->getSelectedBanners() as $pos => $banner) {
                 if ($banner == $item->getBannerId()) {

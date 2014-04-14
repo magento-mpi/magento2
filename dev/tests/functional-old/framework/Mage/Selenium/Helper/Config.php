@@ -116,8 +116,6 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         $this->_loadConfigBrowsers();
         $this->setApplication(self::DEFAULT_APPLICATION);
         $this->setArea(self::DEFAULT_AREA);
-        $areaConfig = $this->getAreaConfig();
-        $this->setCurrentPageId($areaConfig['base_page_uimap']);
     }
 
     /**
@@ -129,7 +127,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     {
         $files = array('local.yml', 'config.yml');
         foreach ($files as $file) {
-            $configDir = SELENIUM_TESTS_BASEDIR . '/config/' . $file;
+            $configDir = implode(DIRECTORY_SEPARATOR, array(SELENIUM_TESTS_BASEDIR, 'config', $file));
             $fileData = $this->getConfig()->getHelper('file')->loadYamlFile($configDir);
             if ($fileData) {
                 $this->_configData = $fileData;
@@ -219,9 +217,6 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         $config = $this->getConfigAreas();
         if (!isset($config[$name])) {
             throw new OutOfRangeException('Area with name "' . $name . '" is missing');
-        }
-        if ($this->_area != $name) {
-            $this->setCurrentPageId($config[$name]['base_page_uimap']);
         }
         $this->_areaConfig = $config[$name];
         $this->_area = $name;
@@ -564,7 +559,6 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         return $applicationConfig['design_theme'];
     }
 
-
     /**
      * Get path to theme files. Such as theme css and js files.
      *
@@ -576,8 +570,8 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     {
         $frameworkConfig = $this->getConfigFramework();
 
-        return $this->getConfig()->getInitialPath() . $frameworkConfig['fixture_base_path']
-            . '/_testFiles/' . $fileName;
+        return $this->getConfig()->getInitialPath() . $frameworkConfig['fixture_base_path'] . DIRECTORY_SEPARATOR
+            . '_testFiles' . DIRECTORY_SEPARATOR . $fileName;
     }
 
     /**

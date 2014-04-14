@@ -33,13 +33,13 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\App\Resource $coreResource
-     * @param \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $optionCollFactory
-     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory
+     * @param \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $optionCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Resource\ConfigFactory $catalogConfFactory
      * @param \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory
      * @param \Magento\Wishlist\Model\Resource\Item $resource
@@ -56,13 +56,13 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Date $date,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\App\Resource $coreResource,
-        \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $optionCollFactory,
-        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory,
+        \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $optionCollectionFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Resource\ConfigFactory $catalogConfFactory,
         \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory,
         \Magento\Wishlist\Model\Resource\Item $resource,
@@ -83,8 +83,8 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
             $wishlistConfig,
             $productVisibility,
             $coreResource,
-            $optionCollFactory,
-            $productCollFactory,
+            $optionCollectionFactory,
+            $productCollectionFactory,
             $catalogConfFactory,
             $catalogAttrFactory,
             $resource,
@@ -97,7 +97,7 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
      * Add filtration by customer id
      *
      * @param int $customerId
-     * @return \Magento\MultipleWishlist\Model\Resource\Item\Collection
+     * @return $this
      */
     public function addCustomerIdFilter($customerId)
     {
@@ -110,7 +110,8 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
         );
 
         $this->addFilterToMap(
-            'wishlist_name', $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName))
+            'wishlist_name',
+            $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName))
         );
         return $this;
     }

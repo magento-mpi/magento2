@@ -170,7 +170,6 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest
      */
     public function editCustomer($userData)
     {
-        $this->markTestIncomplete('BUG: Fatal error on customer wishlist tab');
         //Preconditions
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
@@ -179,7 +178,7 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest
         $storeCreditGrid = $this->getTableHeadRowNames($this->_getControlXpath('fieldset', 'store_credit_balance'));
         $this->assertFalse(in_array('Website', $storeCreditGrid), "Store Credit table contain 'Website' column");
         $salesGrid = $this->getTableHeadRowNames($this->_getControlXpath('fieldset', 'sales_statistics'));
-        $this->assertFalse(in_array('Website', $salesGrid), "Sales Statistics table contain 'Website' column");
+        $this->assertFalse(in_array('Web Site', $salesGrid), "Sales Statistics table contain 'Website' column");
         $this->openTab('account_information');
         $this->assertFalse($this->controlIsPresent('dropdown', 'associate_to_website'),
             "Dropdown associate_to_website is present on page");

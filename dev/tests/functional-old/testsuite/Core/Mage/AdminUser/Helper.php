@@ -46,8 +46,8 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
         $userRowElement = $this->getElement($userLocator);
         $userUrl = $userRowElement->attribute('title');
         //Define and add parameters for new page
-        $cellId1 = $this->getColumnIdByName('First Name');
-        $cellId2 = $this->getColumnIdByName('Last Name');
+        $cellId1 = 3;//$this->getColumnIdByName('First Name');
+        $cellId2 = 4;//$this->getColumnIdByName('Last Name');
         $cellElement1 = trim($this->getChildElement($userRowElement, 'td[' . $cellId1 . ']')->text());
         $cellElement2 = trim($this->getChildElement($userRowElement, 'td[' . $cellId2 . ']')->text());
         $this->addParameter('elementTitle', $cellElement1 . ' ' . $cellElement2);
@@ -93,7 +93,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
             $this->clickControl('link', 'account_avatar', false);
             $this->clickControl('link', 'account_settings');
         }
-        $this->assertTrue($this->checkCurrentPage('my_account'), $this->getParsedMessages('verification'));
+        $this->assertTrue($this->checkCurrentPage('my_account'), $this->getParsedMessages());
     }
 
     /**

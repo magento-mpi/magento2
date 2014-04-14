@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Logging\Model\Resource;
 
 /**
  * Logging event resource model
  */
-namespace Magento\Logging\Model\Resource;
-
-class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Event extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Filesystem\Directory\Write
@@ -34,25 +33,26 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Class constructor
      *
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Logging\Model\ArchiveFactory $archiveFactory,
         \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_archiveFactory = $archiveFactory;
-        $this->directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+        $this->directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
         $this->dateTime = $dateTime;
     }
 
     /**
      * Initialize resource
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -62,10 +62,10 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Convert data before save ip
      *
-     * @param \Magento\Core\Model\AbstractModel $event
-     * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
+     * @param \Magento\Model\AbstractModel $event
+     * @return $this|\Magento\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $event)
+    protected function _beforeSave(\Magento\Model\AbstractModel $event)
     {
         $event->setData('ip', ip2long($event->getIp()));
         $event->setTime($this->dateTime->formatDate($event->getTime()));
@@ -76,20 +76,27 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Rotate logs - get from database and pump to CSV-file
      *
      * @param int $lifetime
+     * @return void
      */
     public function rotate($lifetime)
     {
-        $readAdapter  = $this->_getReadAdapter();
+        $readAdapter = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();
 
         // get the latest log entry required to the moment
         $clearBefore = $this->dateTime->formatDate(time() - $lifetime);
 
-        $select = $readAdapter->select()
-            ->from($this->getMainTable(), 'log_id')
-            ->where('time < ?', $clearBefore)
-            ->order('log_id DESC')
-            ->limit(1);
+        $select = $readAdapter->select()->from(
+            $this->getMainTable(),
+            'log_id'
+        )->where(
+            'time < ?',
+            $clearBefore
+        )->order(
+            'log_id DESC'
+        )->limit(
+            1
+        );
         $latestLogEntry = $readAdapter->fetchOne($select);
         if ($latestLogEntry) {
             // make sure folder for dump file will exist
@@ -98,10 +105,14 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
             $archive->createNew();
 
             $expr = new \Zend_Db_Expr('INET_NTOA(' . $this->_getReadAdapter()->quoteIdentifier('ip') . ')');
-            $select = $readAdapter->select()
-                ->from($this->getMainTable())
-                ->where('log_id <= ?', $latestLogEntry)
-                ->columns($expr);
+            $select = $readAdapter->select()->from(
+                $this->getMainTable()
+            )->where(
+                'log_id <= ?',
+                $latestLogEntry
+            )->columns(
+                $expr
+            );
 
             $rows = $readAdapter->fetchAll($select);
 
@@ -127,9 +138,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getAllFieldValues($field, $order = true)
     {
         $adapter = $this->_getReadAdapter();
-        $select  = $adapter->select()
-            ->distinct(true)
-            ->from($this->getMainTable(), $field);
+        $select = $adapter->select()->distinct(true)->from($this->getMainTable(), $field);
         if (!is_null($order)) {
             $select->order($field . ($order ? '' : ' DESC'));
         }
@@ -145,13 +154,13 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getUserNames()
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->distinct()
-            ->from(array('admins' => $this->getTable('admin_user')), 'username')
-            ->joinInner(
-                array('events' => $this->getTable('magento_logging_event')),
-                'admins.username = events.' . $adapter->quoteIdentifier('user'),
-                array()
+        $select = $adapter->select()->distinct()->from(
+            array('admins' => $this->getTable('admin_user')),
+            'username'
+        )->joinInner(
+            array('events' => $this->getTable('magento_logging_event')),
+            'admins.username = events.' . $adapter->quoteIdentifier('user'),
+            array()
         );
         return $adapter->fetchCol($select);
     }
@@ -165,9 +174,13 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getEventChangeIds($eventId)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->getTable('magento_logging_event_changes'), array('id'))
-            ->where('event_id = ?', $eventId);
+        $select = $adapter->select()->from(
+            $this->getTable('magento_logging_event_changes'),
+            array('id')
+        )->where(
+            'event_id = ?',
+            $eventId
+        );
         return $adapter->fetchCol($select);
     }
 }

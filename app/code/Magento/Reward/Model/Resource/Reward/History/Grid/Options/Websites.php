@@ -8,8 +8,9 @@
  */
 namespace Magento\Reward\Model\Resource\Reward\History\Grid\Options;
 
-class Websites
-    implements \Magento\Core\Model\Option\ArrayInterface
+use Magento\Reward\Model\Source\Website;
+
+class Websites implements \Magento\Option\ArrayInterface
 {
     /**
      * System Store Model
@@ -19,9 +20,9 @@ class Websites
     protected $_systemStore;
 
     /**
-     * @param \Magento\Reward\Model\Source\Website
+     * @param Website $systemStore
      */
-    public function __construct(\Magento\Reward\Model\Source\Website $systemStore)
+    public function __construct(Website $systemStore)
     {
         $this->_systemStore = $systemStore;
     }

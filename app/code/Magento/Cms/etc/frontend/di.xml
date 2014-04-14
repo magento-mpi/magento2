@@ -7,16 +7,16 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\App\RouterList">
-        <param name="routerList">
-            <value>
-                <cms>
-                    <instance>Magento\Cms\Controller\Router</instance>
-                    <disable type="bool">false</disable>
-                    <sortOrder>60</sortOrder>
-                </cms>
-            </value>
-        </param>
+        <arguments>
+            <argument name="routerList" xsi:type="array">
+                <item name="cms" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Cms\Controller\Router</item>
+                    <item name="disable" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="string">60</item>
+                </item>
+            </argument>
+        </arguments>
     </type>
 </config>

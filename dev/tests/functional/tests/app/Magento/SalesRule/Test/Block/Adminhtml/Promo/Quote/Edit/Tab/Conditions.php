@@ -11,7 +11,7 @@ use Magento\SalesRule\Test\Fixture\SalesRule;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Tab;
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Factory\Factory;
 
 /**
@@ -75,22 +75,24 @@ class Conditions extends Tab
      *
      * @param array $fields
      * @param Element $element
+     *
+     * @return $this
      */
     public function fillFormTab(array $fields, Element $element)
     {
         foreach ($fields as $key => $value) {
-            $this->_mapping[$key] = self::FIELD_PREFIX . $key;
+            $this->mapping[$key] = self::FIELD_PREFIX . $key;
         }
-        parent::fillFormTab($fields, $element);
+        return parent::fillFormTab($fields, $element);
     }
 
     /**
      * Add a customer segment condition
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @param int $customerSegmentId
      */
-    public function addCustomerSegmentCondition(Fixture $fixture, $customerSegmentId)
+    public function addCustomerSegmentCondition(FixtureInterface $fixture, $customerSegmentId)
     {
         if ($fixture instanceof SalesRule) {
             // Add new condition

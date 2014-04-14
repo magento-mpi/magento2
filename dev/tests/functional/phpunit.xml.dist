@@ -3,9 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,8 +13,8 @@
          backupGlobals="false"
          verbose="true">
     <testsuites>
-        <testsuite name="PHPUnit">
-            <directory suffix=".php">testsuites/Mtf/TestSuite</directory>
+        <testsuite name="All Tests">
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
 
@@ -37,6 +34,7 @@
         <env name="server_config_path" value="config/server.yml.dist"/>
         <env name="isolation_config_path" value="config/isolation.yml.dist"/>
         <env name="handlers_config_path" value="config/handler.yml.dist"/>
+        <env name="configuration:Magento/Mtf/TestSuite/MtfTests" value="basic"/>
     </php>
 
 </phpunit>

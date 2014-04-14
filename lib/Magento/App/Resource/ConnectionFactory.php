@@ -17,15 +17,15 @@ class ConnectionFactory
     protected $_objectManager;
 
     /**
-     * @var \Magento\App\Config
+     * @var \Magento\App\Arguments
      */
     protected $_localConfig;
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\App\Config $localConfig
+     * @param \Magento\App\Arguments $localConfig
      */
-    public function __construct(\Magento\ObjectManager $objectManager, \Magento\App\Config $localConfig)
+    public function __construct(\Magento\ObjectManager $objectManager, \Magento\App\Arguments $localConfig)
     {
         $this->_objectManager = $objectManager;
         $this->_localConfig = $localConfig;
@@ -51,7 +51,7 @@ class ConnectionFactory
 
         $adapterInstance = $this->_objectManager->create($connectionConfig['adapter'], $connectionConfig);
 
-        if (!($adapterInstance instanceof ConnectionAdapterInterface)) {
+        if (!$adapterInstance instanceof ConnectionAdapterInterface) {
             throw new \InvalidArgumentException('Trying to create wrong connection adapter');
         }
 

@@ -7,14 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Model;
+
+use Magento\Store\Model\Store;
+use Magento\Payment\Model\Method\AbstractMethod;
 
 /**
  * Payment configuration model
  *
  * Used for retrieving configuration data by payment models
  */
-namespace Magento\Payment\Model;
-
 class Config
 {
     /**
@@ -25,9 +27,9 @@ class Config
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Config\DataInterface
@@ -37,9 +39,9 @@ class Config
     /**
      * Locale model
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\ListsInterface
      */
-    protected $_locale;
+    protected $_localeLists;
 
     /**
      * Payment method factory
@@ -51,38 +53,43 @@ class Config
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\ListsInterface $localeLists
      * @param \Magento\Config\DataInterface $dataStorage
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\ListsInterface $localeLists,
         \Magento\Config\DataInterface $dataStorage
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_dataStorage = $dataStorage;
         $this->_coreConfig = $coreConfig;
         $this->_methodFactory = $paymentMethodFactory;
-        $this->_locale = $locale;
+        $this->_localeLists = $localeLists;
     }
 
     /**
      * Retrieve active system payments
      *
-     * @param   mixed $store
-     * @return  array
+     * @param null|string|bool|int|Store $store
+     * @return array
      */
-    public function getActiveMethods($store=null)
+    public function getActiveMethods($store = null)
     {
         $methods = array();
-        $config = $this->_coreStoreConfig->getConfig('payment', $store);
+        $config = $this->_scopeConfig->getValue('payment', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
         foreach ($config as $code => $methodConfig) {
-            if ($this->_coreStoreConfig->getConfigFlag('payment/'.$code.'/active', $store)) {
+            if ($this->_scopeConfig->isSetFlag(
+                'payment/' . $code . '/active',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $store
+            )
+            ) {
                 if (array_key_exists('model', $methodConfig)) {
                     $methodModel = $this->_methodFactory->create($methodConfig['model']);
                     if ($methodModel && $methodModel->getConfigData('active', $store)) {
@@ -97,13 +104,13 @@ class Config
     /**
      * Retrieve all system payments
      *
-     * @param mixed $store
+     * @param null|string|bool|int|Store $store
      * @return array
      */
-    public function getAllMethods($store=null)
+    public function getAllMethods($store = null)
     {
         $methods = array();
-        $config = $this->_coreStoreConfig->getConfig('payment', $store);
+        $config = $this->_scopeConfig->getValue('payment', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
         foreach ($config as $code => $methodConfig) {
             $data = $this->_getMethod($code, $methodConfig);
             if (false !== $data) {
@@ -116,8 +123,8 @@ class Config
     /**
      * @param string $code
      * @param string $config
-     * @param mixed $store
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @param null|string|bool|int|Store $store
+     * @return \Magento\Payment\Model\MethodInterface
      */
     protected function _getMethod($code, $config, $store = null)
     {
@@ -133,7 +140,7 @@ class Config
             return false;
         }
 
-        /** @var \Magento\Payment\Model\Method\AbstractMethod $method */
+        /** @var AbstractMethod $method */
         $method = $this->_methodFactory->create($modelName);
         $method->setId($code)->setStore($store);
         $this->_methods[$code] = $method;
@@ -148,6 +155,16 @@ class Config
     public function getCcTypes()
     {
         return $this->_dataStorage->get('credit_cards');
+    }
+
+    /**
+     * Retrieve array of payment methods information
+     *
+     * @return array
+     */
+    public function getMethodsInfo()
+    {
+        return $this->_dataStorage->get('methods');
     }
 
     /**
@@ -172,9 +189,9 @@ class Config
      */
     public function getMonths()
     {
-        $data = $this->_locale->getTranslationList('month');
+        $data = $this->_localeLists->getTranslationList('month');
         foreach ($data as $key => $value) {
-            $monthNum = ($key < 10) ? '0'.$key : $key;
+            $monthNum = $key < 10 ? '0' . $key : $key;
             $data[$key] = $monthNum . ' - ' . $value;
         }
         return $data;
@@ -190,7 +207,7 @@ class Config
         $years = array();
         $first = date("Y");
 
-        for ($index=0; $index <= 10; $index++) {
+        for ($index = 0; $index <= 10; $index++) {
             $year = $first + $index;
             $years[$year] = $year;
         }

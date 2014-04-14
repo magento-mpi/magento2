@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Config\Backend;
 
 /**
  * Config category field backend
@@ -15,9 +16,7 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Config\Backend;
-
-class Category extends \Magento\Core\Model\Config\Value
+class Category extends \Magento\App\Config\Value
 {
     /**
      * Catalog category
@@ -27,52 +26,51 @@ class Category extends \Magento\Core\Model\Config\Value
     protected $_catalogCategory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Config $config
+     * Constructor
+     *
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Catalog\Model\Category $catalogCategory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Config $config,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Catalog\Model\Category $catalogCategory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogCategory = $catalogCategory;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _afterSave()
     {
         if ($this->getScope() == 'stores') {
-            $rootId     = $this->getValue();
-            $storeId    = $this->getScopeId();
+            $rootId = $this->getValue();
+            $storeId = $this->getScopeId();
 
-            $tree       = $this->_catalogCategory->getTreeModel();
+            $tree = $this->_catalogCategory->getTreeModel();
 
             // Create copy of categories attributes for choosed store
             $tree->load();
             $root = $tree->getNodeById($rootId);
 
             // Save root
-            $this->_catalogCategory->setStoreId(0)
-               ->load($root->getId());
-            $this->_catalogCategory->setStoreId($storeId)
-                ->save();
+            $this->_catalogCategory->setStoreId(0)->load($root->getId());
+            $this->_catalogCategory->setStoreId($storeId)->save();
 
             foreach ($root->getAllChildNodes() as $node) {
-                $this->_catalogCategory->setStoreId(0)
-                   ->load($node->getId());
-                $this->_catalogCategory->setStoreId($storeId)
-                    ->save();
+                $this->_catalogCategory->setStoreId(0)->load($node->getId());
+                $this->_catalogCategory->setStoreId($storeId)->save();
             }
         }
         return $this;

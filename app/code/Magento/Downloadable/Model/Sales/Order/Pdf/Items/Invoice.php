@@ -7,19 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Downloadable\Model\Sales\Order\Pdf\Items;
 
 /**
  * Order Invoice Downloadable Pdf Items renderer
- *
- * @category   Magento
- * @package    Magento_Downloadable
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Model\Sales\Order\Pdf\Items;
-
-class Invoice
-    extends \Magento\Downloadable\Model\Sales\Order\Pdf\Items\AbstractItems
+class Invoice extends \Magento\Downloadable\Model\Sales\Order\Pdf\Items\AbstractItems
 {
     /**
      * @var \Magento\Stdlib\String
@@ -27,28 +20,30 @@ class Invoice
     protected $string;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
      * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Filesystem $filesystem,
+        \Magento\Filter\FilterManager $filterManager,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
         \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
         \Magento\Stdlib\String $string,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -58,7 +53,8 @@ class Invoice
             $registry,
             $taxData,
             $filesystem,
-            $coreStoreConfig,
+            $filterManager,
+            $scopeConfig,
             $purchasedFactory,
             $itemsFactory,
             $resource,
@@ -70,34 +66,28 @@ class Invoice
     /**
      * Draw item line
      *
+     * @return void
      */
     public function draw()
     {
-        $order  = $this->getOrder();
-        $item   = $this->getItem();
-        $pdf    = $this->getPdf();
-        $page   = $this->getPage();
-        $lines  = array();
+        $order = $this->getOrder();
+        $item = $this->getItem();
+        $pdf = $this->getPdf();
+        $page = $this->getPage();
+        $lines = array();
 
         // draw Product name
-        $lines[0] = array(array(
-            'text' => $this->string->split($item->getName(), 35, true, true),
-            'feed' => 35,
-        ));
+        $lines[0] = array(array('text' => $this->string->split($item->getName(), 35, true, true), 'feed' => 35));
 
         // draw SKU
         $lines[0][] = array(
-            'text'  => $this->string->split($this->getSku($item), 17),
-            'feed'  => 290,
+            'text' => $this->string->split($this->getSku($item), 17),
+            'feed' => 290,
             'align' => 'right'
         );
 
         // draw QTY
-        $lines[0][] = array(
-            'text'  => $item->getQty() * 1,
-            'feed'  => 435,
-            'align' => 'right'
-        );
+        $lines[0][] = array('text' => $item->getQty() * 1, 'feed' => 435, 'align' => 'right');
 
         // draw item Prices
         $i = 0;
@@ -107,31 +97,23 @@ class Invoice
         foreach ($prices as $priceData) {
             if (isset($priceData['label'])) {
                 // draw Price label
-                $lines[$i][] = array(
-                    'text'  => $priceData['label'],
-                    'feed'  => $feedPrice,
-                    'align' => 'right'
-                );
+                $lines[$i][] = array('text' => $priceData['label'], 'feed' => $feedPrice, 'align' => 'right');
                 // draw Subtotal label
-                $lines[$i][] = array(
-                    'text'  => $priceData['label'],
-                    'feed'  => $feedSubtotal,
-                    'align' => 'right'
-                );
+                $lines[$i][] = array('text' => $priceData['label'], 'feed' => $feedSubtotal, 'align' => 'right');
                 $i++;
             }
             // draw Price
             $lines[$i][] = array(
-                'text'  => $priceData['price'],
-                'feed'  => $feedPrice,
-                'font'  => 'bold',
+                'text' => $priceData['price'],
+                'feed' => $feedPrice,
+                'font' => 'bold',
                 'align' => 'right'
             );
             // draw Subtotal
             $lines[$i][] = array(
-                'text'  => $priceData['subtotal'],
-                'feed'  => $feedSubtotal,
-                'font'  => 'bold',
+                'text' => $priceData['subtotal'],
+                'feed' => $feedSubtotal,
+                'font' => 'bold',
                 'align' => 'right'
             );
             $i++;
@@ -139,9 +121,9 @@ class Invoice
 
         // draw Tax
         $lines[0][] = array(
-            'text'  => $order->formatPriceTxt($item->getTaxAmount()),
-            'feed'  => 495,
-            'font'  => 'bold',
+            'text' => $order->formatPriceTxt($item->getTaxAmount()),
+            'feed' => 495,
+            'font' => 'bold',
             'align' => 'right'
         );
 
@@ -151,30 +133,27 @@ class Invoice
             foreach ($options as $option) {
                 // draw options label
                 $lines[][] = array(
-                    'text' => $this->string->split(strip_tags($option['label']), 40, true, true),
+                    'text' => $this->string->split($this->filterManager->stripTags($option['label']), 40, true, true),
                     'font' => 'italic',
                     'feed' => 35
                 );
 
                 if ($option['value']) {
                     if (isset($option['print_value'])) {
-                        $_printValue = $option['print_value'];
+                        $printValue = $option['print_value'];
                     } else {
-                        $_printValue = strip_tags($option['value']);
+                        $printValue = $this->filterManager->stripTags($option['value']);
                     }
-                    $values = explode(', ', $_printValue);
+                    $values = explode(', ', $printValue);
                     foreach ($values as $value) {
-                        $lines[][] = array(
-                            'text' => $this->string->split($value, 30, true, true),
-                            'feed' => 40
-                        );
+                        $lines[][] = array('text' => $this->string->split($value, 30, true, true), 'feed' => 40);
                     }
                 }
             }
         }
 
         // downloadable Items
-        $_purchasedItems = $this->getLinks()->getPurchasedItems();
+        $purchasedItems = $this->getLinks()->getPurchasedItems();
 
         // draw Links title
         $lines[][] = array(
@@ -184,17 +163,11 @@ class Invoice
         );
 
         // draw Links
-        foreach ($_purchasedItems as $_link) {
-            $lines[][] = array(
-                'text' => $this->string->split($_link->getLinkTitle(), 50, true, true),
-                'feed' => 40
-            );
+        foreach ($purchasedItems as $link) {
+            $lines[][] = array('text' => $this->string->split($link->getLinkTitle(), 50, true, true), 'feed' => 40);
         }
 
-        $lineBlock = array(
-            'lines'  => $lines,
-            'height' => 20
-        );
+        $lineBlock = array('lines' => $lines, 'height' => 20);
 
         $page = $pdf->drawLineBlocks($page, array($lineBlock), array('table_header' => true));
         $this->setPage($page);

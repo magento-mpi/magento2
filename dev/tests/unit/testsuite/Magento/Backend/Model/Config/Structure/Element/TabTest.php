@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Element;
 
 class TabTest extends \PHPUnit_Framework_TestCase
@@ -21,7 +20,7 @@ class TabTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_applicationMock;
+    protected $_storeManagerMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -31,12 +30,17 @@ class TabTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_iteratorMock = $this->getMock(
-            'Magento\Backend\Model\Config\Structure\Element\Iterator\Field', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Element\Iterator\Field',
+            array(),
+            array(),
+            '',
+            false
         );
-        $this->_applicationMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
 
         $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Tab(
-            $this->_applicationMock, $this->_iteratorMock
+            $this->_storeManagerMock,
+            $this->_iteratorMock
         );
     }
 
@@ -44,7 +48,7 @@ class TabTest extends \PHPUnit_Framework_TestCase
     {
         unset($this->_model);
         unset($this->_iteratorMock);
-        unset($this->_applicationMock);
+        unset($this->_storeManagerMock);
     }
 
     public function testIsVisibleOnlyChecksPresenceOfChildren()

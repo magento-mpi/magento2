@@ -27,7 +27,6 @@ class Core_Mage_Grid_CreateOrderGridsTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        //Steps
         $this->navigate('manage_sales_orders');
         $this->clickButton('create_new_order');
     }

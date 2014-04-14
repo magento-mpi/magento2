@@ -11,12 +11,23 @@ namespace Magento\Catalog\Block\Adminhtml\Category\Tab;
 
 class Design extends \Magento\Catalog\Block\Adminhtml\Form
 {
+    /**
+     * @var array|null
+     */
+    protected $_category;
+
+    /**
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
         $this->setShowGlobalIcon(true);
     }
 
+    /**
+     * @return array|null
+     */
     public function getCategory()
     {
         if (!$this->_category) {
@@ -25,6 +36,9 @@ class Design extends \Magento\Catalog\Block\Adminhtml\Form
         return $this->_category;
     }
 
+    /**
+     * @return void
+     */
     public function _prepareLayout()
     {
         parent::_prepareLayout();
@@ -32,7 +46,7 @@ class Design extends \Magento\Catalog\Block\Adminhtml\Form
         $form = $this->_formFactory->create();
         $form->setDataObject($this->getCategory());
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Custom Design')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Custom Design')));
 
 
         $this->_setFieldset($this->getCategory()->getDesignAttributes(), $fieldset);
@@ -41,5 +55,4 @@ class Design extends \Magento\Catalog\Block\Adminhtml\Form
         $form->setFieldNameSuffix('general');
         $this->setForm($form);
     }
-
 }

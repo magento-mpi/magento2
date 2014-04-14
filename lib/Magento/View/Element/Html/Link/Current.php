@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element\Html\Link;
 
 /**
@@ -28,6 +27,8 @@ class Current extends \Magento\View\Element\Template
     protected $_defaultPath;
 
     /**
+     * Constructor
+     *
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\App\DefaultPathInterface $defaultPath
      * @param array $data
@@ -41,8 +42,9 @@ class Current extends \Magento\View\Element\Template
         $this->_defaultPath = $defaultPath;
     }
 
-
     /**
+     * Get href URL
+     *
      * @return string
      */
     public function getHref()
@@ -60,12 +62,12 @@ class Current extends \Magento\View\Element\Template
         $routeParts = array(
             'module' => $this->_request->getModuleName(),
             'controller' => $this->_request->getControllerName(),
-            'action' => $this->_request->getActionName(),
+            'action' => $this->_request->getActionName()
         );
 
         $parts = array();
         foreach ($routeParts as $key => $value) {
-            if (!empty($value) && ($value != $this->_defaultPath->getPart($key))) {
+            if (!empty($value) && $value != $this->_defaultPath->getPart($key)) {
                 $parts[] = $value;
             }
         }
@@ -79,8 +81,7 @@ class Current extends \Magento\View\Element\Template
      */
     public function isCurrent()
     {
-        return $this->getCurrent()
-            || $this->getUrl($this->getPath()) == $this->getUrl($this->getMca());
+        return $this->getCurrent() || $this->getUrl($this->getPath()) == $this->getUrl($this->getMca());
     }
 
     /**
@@ -105,8 +106,8 @@ class Current extends \Magento\View\Element\Template
             $html .= '<strong>' . $this->escapeHtml(__($this->getLabel())) . '</strong>';
             $html .= '</li>';
         } else {
-            $html = '<li class="nav item' . $highlight . '"><a href="'. $this->escapeHtml($this->getHref()) . '"';
-            $html .= ($this->getTitle()?' title="' . $this->escapeHtml(__($this->getTitle())) . '"':'');
+            $html = '<li class="nav item' . $highlight . '"><a href="' . $this->escapeHtml($this->getHref()) . '"';
+            $html .= $this->getTitle() ? ' title="' . $this->escapeHtml(__($this->getTitle())) . '"' : '';
             $html .= '>' . $this->escapeHtml(__($this->getLabel())) . '</a></li>';
         }
 

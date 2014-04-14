@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Filesystem\File;
 
 use Magento\Filesystem\DriverInterface;
@@ -42,7 +41,7 @@ class Read implements ReadInterface
     /**
      * Constructor
      *
-     * @param $path
+     * @param string $path
      * @param DriverInterface $driver
      */
     public function __construct($path, DriverInterface $driver)
@@ -57,7 +56,6 @@ class Read implements ReadInterface
     /**
      * Open file
      *
-     * @throws FilesystemException
      * @return $this
      */
     protected function open()
@@ -101,7 +99,7 @@ class Read implements ReadInterface
      */
     public function readAll($flag = null, $context = null)
     {
-       return $this->driver->fileGetContents($this->path, $flag, $context);
+        return $this->driver->fileGetContents($this->path, $flag, $context);
     }
 
     /**
@@ -170,5 +168,15 @@ class Read implements ReadInterface
     public function close()
     {
         return $this->driver->fileClose($this->resource);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return array
+     */
+    public function stat()
+    {
+        return $this->driver->stat($this->path);
     }
 }

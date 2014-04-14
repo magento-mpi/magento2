@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento;
 
 class MemoryUsageTest extends \PHPUnit_Framework_TestCase
@@ -25,7 +24,9 @@ class MemoryUsageTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = new \Magento\TestFramework\Helper\Memory(new \Magento\Shell);
+        $this->_helper = new \Magento\TestFramework\Helper\Memory(
+            new \Magento\Shell(new \Magento\Shell\CommandRenderer())
+        );
     }
 
     /**
@@ -43,11 +44,15 @@ class MemoryUsageTest extends \PHPUnit_Framework_TestCase
             $this->_deallocateUnusedMemory();
         }
         $actualMemoryUsage = $this->_helper->getRealMemoryUsage() - $actualMemoryUsage;
-        $this->assertLessThanOrEqual($this->_getAllowedMemoryUsage(), $actualMemoryUsage, sprintf(
-            "Application reinitialization causes the memory leak of %u bytes per %u iterations.",
+        $this->assertLessThanOrEqual(
+            $this->_getAllowedMemoryUsage(),
             $actualMemoryUsage,
-            self::APP_REINITIALIZATION_LOOPS
-        ));
+            sprintf(
+                "Application reinitialization causes the memory leak of %u bytes per %u iterations.",
+                $actualMemoryUsage,
+                self::APP_REINITIALIZATION_LOOPS
+            )
+        );
     }
 
     /**

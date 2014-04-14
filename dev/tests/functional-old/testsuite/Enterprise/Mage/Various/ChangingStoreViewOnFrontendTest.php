@@ -40,7 +40,7 @@ class Enterprise_Mage_Various_ChangingStoreViewOnFrontendTest extends Mage_Selen
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('general_design');
         $this->systemConfigurationHelper()->expandFieldSet('design_themes');
-        $this->fillDropdown('design_theme', 'Magento Fixed Width');
+        $this->fillDropdown('design_theme', 'Magento Plushe');
         $this->clickButton('save_config');
         $this->assertMessagePresent('success', 'success_saved_config');
         $this->navigate('manage_stores');
@@ -53,10 +53,7 @@ class Enterprise_Mage_Various_ChangingStoreViewOnFrontendTest extends Mage_Selen
         $this->reindexInvalidedData();
         $this->flushCache();
         $this->frontend();
-        $this->addParameter('storeViewCode', $secondStoreView['store_view_code']);
-        $this->addParameter('store', $storeData['store_name']);
-        $this->clickControl('link', 'select_store');
+        $this->selectFrontendStore($storeData['store_name']);
         $this->selectFrontStoreView($secondStoreView['store_view_name']);
-        $this->validatePage();
     }
 }

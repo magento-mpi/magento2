@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Fallback\Rule;
 
 /**
@@ -16,23 +15,27 @@ namespace Magento\View\Design\Fallback\Rule;
 class ModularSwitch implements RuleInterface
 {
     /**
+     * Rule non-modular
+     *
      * @var RuleInterface
      */
     protected $ruleNonModular;
 
     /**
+     * Rule modular
+     *
      * @var RuleInterface
      */
     protected $ruleModular;
 
     /**
+     * Constructor
+     *
      * @param RuleInterface $ruleNonModular
      * @param RuleInterface $ruleModular
      */
-    public function __construct(
-        RuleInterface $ruleNonModular,
-        RuleInterface $ruleModular
-    ) {
+    public function __construct(RuleInterface $ruleNonModular, RuleInterface $ruleModular)
+    {
         $this->ruleNonModular = $ruleNonModular;
         $this->ruleModular = $ruleModular;
     }

@@ -84,7 +84,6 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     public function withCodeThatAlreadyExists(array $storeViewData)
     {
         //Steps
-        $this->markTestIncomplete('BUG: There is no "store_view_code_exist" message on the page');
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         //Verifying
         $this->assertMessagePresent('error', 'store_view_code_exist');

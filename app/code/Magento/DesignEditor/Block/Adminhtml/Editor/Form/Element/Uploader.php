@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
 
 /**
  * Form element renderer to display file element for VDE
@@ -14,8 +15,6 @@
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Uploader setAccept($accept)
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Uploader setMultiple(bool $isMultiple)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
-
 class Uploader extends \Magento\Data\Form\Element\File
 {
     //const CONTROL_TYPE = 'uploader';
@@ -23,14 +22,14 @@ class Uploader extends \Magento\Data\Form\Element\File
     /**
      * Additional html attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_htmlAttributes = array('accept', 'multiple');
 
     /**
      * Html attributes
      *
-     * @return array
+     * @return string[]
      */
     public function getHtmlAttributes()
     {

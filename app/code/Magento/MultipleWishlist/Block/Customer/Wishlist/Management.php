@@ -13,6 +13,8 @@
  */
 namespace Magento\MultipleWishlist\Block\Customer\Wishlist;
 
+use Magento\Wishlist\Model\Resource\Wishlist\Collection;
+
 class Management extends \Magento\View\Element\Template
 {
     /**
@@ -25,7 +27,7 @@ class Management extends \Magento\View\Element\Template
     /**
      * Wishlist Collection
      *
-     * @var \Magento\Wishlist\Model\Resource\Wishlist\Collection
+     * @var Collection
      */
     protected $_collection;
 
@@ -42,27 +44,26 @@ class Management extends \Magento\View\Element\Template
     protected $_wishlistData = null;
 
     /**
-     * Customer session
-     *
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
      */
-    protected $_customerSession;
+    protected $currentCustomer;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\MultipleWishlist\Helper\Data $wishlistData,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
-        $this->_customerSession = $customerSession;
+        $this->currentCustomer = $currentCustomer;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -86,7 +87,7 @@ class Management extends \Magento\View\Element\Template
     protected function _getCustomerId()
     {
         if (is_null($this->_customerId)) {
-            $this->_customerId = $this->_customerSession->getCustomerId();
+            $this->_customerId = $this->currentCustomer->getCustomerId();
         }
         return $this->_customerId;
     }
@@ -94,7 +95,7 @@ class Management extends \Magento\View\Element\Template
     /**
      * Retrieve wishlist collection
      *
-     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
+     * @return Collection
      */
     public function getWishlists()
     {
@@ -220,7 +221,7 @@ class Management extends \Magento\View\Element\Template
     /**
      * Check whether user multiple wishlist limit reached
      *
-     * @param $wishlists
+     * @param Collection $wishlists
      * @return bool
      */
     public function canCreateWishlists($wishlists)

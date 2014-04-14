@@ -11,7 +11,7 @@
  */
 namespace Magento\Banner\Model\Resource\Salesrule;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var string
@@ -25,6 +25,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Define collection item type and corresponding table
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -35,19 +37,18 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Filter out disabled banners
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return $this
      */
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->getSelect()
-            ->join(
-                array('banner' => $this->getTable('magento_banner')),
-                'banner.banner_id = main_table.banner_id AND banner.is_enabled = 1',
-                array()
-            )
-            ->group('main_table.banner_id')
-        ;
+        $this->getSelect()->join(
+            array('banner' => $this->getTable('magento_banner')),
+            'banner.banner_id = main_table.banner_id AND banner.is_enabled = 1',
+            array()
+        )->group(
+            'main_table.banner_id'
+        );
         return $this;
     }
 
@@ -55,7 +56,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add sales rule ids filter to the collection
      *
      * @param array $ruleIds
-     * @return \Magento\Banner\Model\Resource\Salesrule\Collection
+     * @return $this
      */
     public function addRuleIdsFilter(array $ruleIds)
     {

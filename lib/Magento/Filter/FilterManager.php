@@ -7,11 +7,27 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Filter;
 
 /**
  * Magento Filter Manager
+ *
+ * @method string email(string $value)
+ * @method string money(string $value, $params = array())
+ * @method string simple(string $value, $params = array())
+ * @method string object(string $value, $params = array())
+ * @method string sprintf(string $value, $params = array())
+ * @method string template(string $value, $params = array())
+ * @method string arrayFilter(string $value)
+ * @method string removeAccents(string $value, $params = array())
+ * @method string splitWords(string $value, $params = array())
+ * @method string removeTags(string $value, $params = array())
+ * @method string stripTags(string $value, $params = array())
+ * @method string truncate(string $value, $params = array())
+ * @method string encrypt(string $value, $params = array())
+ * @method string decrypt(string $value, $params = array())
+ * @method string translit(string $value)
+ * @method string translitUrl(string $value)
  */
 class FilterManager
 {
@@ -21,17 +37,12 @@ class FilterManager
     protected $objectManager;
 
     /**
-     * @var array
-     */
-    protected $filterInstances = array();
-
-    /**
      * @var FilterManager\Config
      */
     protected $config;
 
     /**
-     * @var array
+     * @var FactoryInterface[]
      */
     protected $factoryInstances;
 
@@ -39,10 +50,8 @@ class FilterManager
      * @param \Magento\ObjectManager $objectManger
      * @param FilterManager\Config $config
      */
-    public function __construct(
-        \Magento\ObjectManager $objectManger,
-        FilterManager\Config $config
-    ) {
+    public function __construct(\Magento\ObjectManager $objectManger, FilterManager\Config $config)
+    {
         $this->objectManager = $objectManger;
         $this->config = $config;
     }
@@ -59,8 +68,9 @@ class FilterManager
     {
         $filter = $this->createFilterInstance($filterAlias, $arguments);
         if (!$filter instanceof \Zend_Filter_Interface) {
-            throw new \UnexpectedValueException('Filter object must implement Zend_Filter_Interface interface, '
-                . get_class($filter) . ' was given.');
+            throw new \UnexpectedValueException(
+                'Filter object must implement Zend_Filter_Interface interface, ' . get_class($filter) . ' was given.'
+            );
         }
         return $filter;
     }
@@ -97,8 +107,9 @@ class FilterManager
                 $factory = $this->objectManager->create($class);
                 if (!$factory instanceof FactoryInterface) {
                     throw new \UnexpectedValueException(
-                        'Filter factory must implement FilterFactoryInterface interface, '
-                            . get_class($factory) . ' was given.'
+                        'Filter factory must implement FilterFactoryInterface interface, ' . get_class(
+                            $factory
+                        ) . ' was given.'
                     );
                 }
                 $this->factoryInstances[] = $factory;
@@ -112,7 +123,7 @@ class FilterManager
      *
      * @param string $filterAlias
      * @param array $arguments
-     * @return mixed
+     * @return \Zend_Filter_Interface
      */
     public function __call($filterAlias, array $arguments = array())
     {

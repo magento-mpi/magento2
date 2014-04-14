@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\DB\Statement;
 
 /**
  * Magento DB Statement Parameter
@@ -21,12 +21,12 @@
  * @package     Magento_DB
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\DB\Statement;
-
 class Parameter
 {
     /**
      * Actual parameter value
+     *
+     * @var mixed
      */
     protected $_value = null;
 
@@ -36,26 +36,31 @@ class Parameter
      * A shortcut setting to notify DB adapter, that value must be bound in a default way, as adapter binds
      * BLOB data to query placeholders. If FALSE, then specific settings from $_dataType, $_length,
      * $_driverOptions will be used.
+     * @var bool
      */
     protected $_isBlob = false;
 
     /*
      * Data type to set to DB driver during parameter bind
+     * @var mixed
      */
     protected $_dataType = null;
 
     /*
      * Length to set to DB driver during parameter bind
+     * @var mixed
      */
     protected $_length = null;
 
     /*
      * Specific driver options to set to DB driver during parameter bind
+     * @var mixed
      */
     protected $_driverOptions = null;
 
     /*
      * Additional information to be used by DB adapter internally
+     * @var \Magento\Object
      */
     protected $_additional = null;
 
@@ -63,7 +68,6 @@ class Parameter
      * Inits instance
      *
      * @param mixed $value
-     * @return \Magento\DB\Statement\Parameter
      */
     public function __construct($value)
     {
@@ -76,7 +80,7 @@ class Parameter
      * Sets parameter value.
      *
      * @param mixed $value
-     * @return \Magento\DB\Statement\Parameter
+     * @return $this
      */
     public function setValue($value)
     {
@@ -102,7 +106,7 @@ class Parameter
      * as a BLOB value.
      *
      * @param bool $isBlob
-     * @return \Magento\DB\Statement\Parameter
+     * @return $this
      */
     public function setIsBlob($isBlob)
     {
@@ -127,7 +131,7 @@ class Parameter
      * Sets data type option to be used during binding parameter value.
      *
      * @param mixed $dataType
-     * @return \Magento\DB\Statement\Parameter
+     * @return $this
      */
     public function setDataType($dataType)
     {
@@ -149,7 +153,7 @@ class Parameter
      * Sets length option to be used during binding parameter value.
      *
      * @param mixed $length
-     * @return \Magento\DB\Statement\Parameter
+     * @return $this
      */
     public function setLength($length)
     {
@@ -171,7 +175,7 @@ class Parameter
      * Sets specific driver options to be used during binding parameter value.
      *
      * @param mixed $driverOptions
-     * @return \Magento\DB\Statement\Parameter
+     * @return $this
      */
     public function setDriverOptions($driverOptions)
     {
@@ -194,7 +198,7 @@ class Parameter
      * Set there any data you want to pass along with query parameter.
      *
      * @param \Magento\Object $additional
-     * @return \Magento\DB\Statement\Parameter
+     * @return $this
      */
     public function setAdditional($additional)
     {
@@ -219,7 +223,7 @@ class Parameter
      */
     public function __toString()
     {
-        return (string) $this->_value;
+        return (string)$this->_value;
     }
 
     /**

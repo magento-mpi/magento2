@@ -7,24 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Backup\Model;
 
 /**
  * Database backup model
  *
- * @category    Magento
- * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backup\Model;
-
 class Db implements \Magento\Backup\Db\BackupDbInterface
 {
-
     /**
      * Buffer length for multi rows
      * default 100 Kb
-     *
      */
     const BUFFER_LENGTH = 102400;
 
@@ -57,9 +51,7 @@ class Db implements \Magento\Backup\Db\BackupDbInterface
      *
      * @var array
      */
-    protected $_ignoreDataTablesList = array(
-        'importexport/importdata'
-    );
+    protected $_ignoreDataTablesList = array('importexport/importdata');
 
     /**
      * Retrieve resource model
@@ -71,31 +63,52 @@ class Db implements \Magento\Backup\Db\BackupDbInterface
         return $this->_resourceDb;
     }
 
+    /**
+     * @return array
+     */
     public function getTables()
     {
         return $this->getResource()->getTables();
     }
 
-    public function getTableCreateScript($tableName, $addDropIfExists=false)
+    /**
+     * @param string $tableName
+     * @param bool $addDropIfExists
+     * @return string
+     */
+    public function getTableCreateScript($tableName, $addDropIfExists = false)
     {
         return $this->getResource()->getTableCreateScript($tableName, $addDropIfExists);
     }
 
+    /**
+     * @param string $tableName
+     * @return string
+     */
     public function getTableDataDump($tableName)
     {
         return $this->getResource()->getTableDataDump($tableName);
     }
 
+    /**
+     * @return string
+     */
     public function getHeader()
     {
         return $this->getResource()->getHeader();
     }
 
+    /**
+     * @return string
+     */
     public function getFooter()
     {
         return $this->getResource()->getFooter();
     }
 
+    /**
+     * @return string
+     */
     public function renderSql()
     {
         ini_set('max_execution_time', 0);
@@ -103,11 +116,11 @@ class Db implements \Magento\Backup\Db\BackupDbInterface
 
         $tables = $this->getTables();
         foreach ($tables as $tableName) {
-            $sql.= $this->getTableCreateScript($tableName, true);
-            $sql.= $this->getTableDataDump($tableName);
+            $sql .= $this->getTableCreateScript($tableName, true);
+            $sql .= $this->getTableDataDump($tableName);
         }
 
-        $sql.= $this->getFooter();
+        $sql .= $this->getFooter();
         return $sql;
     }
 
@@ -115,7 +128,7 @@ class Db implements \Magento\Backup\Db\BackupDbInterface
      * Create backup and stream write to adapter
      *
      * @param \Magento\Backup\Db\BackupInterface $backup
-     * @return \Magento\Backup\Model\Db
+     * @return $this
      */
     public function createBackup(\Magento\Backup\Db\BackupInterface $backup)
     {
@@ -130,8 +143,9 @@ class Db implements \Magento\Backup\Db\BackupDbInterface
         $ignoreDataTablesList = $this->getIgnoreDataTablesList();
 
         foreach ($tables as $table) {
-            $backup->write($this->getResource()->getTableHeader($table)
-                . $this->getResource()->getTableDropSql($table) . "\n");
+            $backup->write(
+                $this->getResource()->getTableHeader($table) . $this->getResource()->getTableDropSql($table) . "\n"
+            );
             $backup->write($this->getResource()->getTableCreateSql($table, false) . "\n");
 
             $tableStatus = $this->getResource()->getTableStatus($table);
@@ -143,19 +157,17 @@ class Db implements \Magento\Backup\Db\BackupDbInterface
                     if ($tableStatus->getAvgRowLength() < self::BUFFER_LENGTH) {
                         $limit = floor(self::BUFFER_LENGTH / $tableStatus->getAvgRowLength());
                         $multiRowsLength = ceil($tableStatus->getRows() / $limit);
-                    }
-                    else {
+                    } else {
                         $limit = 1;
                         $multiRowsLength = $tableStatus->getRows();
                     }
-                }
-                else {
+                } else {
                     $limit = $tableStatus->getRows();
                     $multiRowsLength = 1;
                 }
 
-                for ($i = 0; $i < $multiRowsLength; $i ++) {
-                    $backup->write($this->getResource()->getTableDataSql($table, $limit, $i*$limit));
+                for ($i = 0; $i < $multiRowsLength; $i++) {
+                    $backup->write($this->getResource()->getTableDataSql($table, $limit, $i * $limit));
                 }
 
                 $backup->write($this->getResource()->getTableDataAfterSql($table));
@@ -171,10 +183,10 @@ class Db implements \Magento\Backup\Db\BackupDbInterface
         return $this;
     }
 
-    /**.
+    /**
      * Returns the list of tables which data should not be backed up
      *
-     * @return array
+     * @return string[]
      */
     public function getIgnoreDataTablesList()
     {

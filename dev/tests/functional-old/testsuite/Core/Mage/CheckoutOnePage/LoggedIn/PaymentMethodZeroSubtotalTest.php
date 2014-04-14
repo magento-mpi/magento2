@@ -84,7 +84,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodZeroSubtotalTest extends M
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('PaymentMethod/zerosubtotal_enable');
         $this->logoutCustomer();
-        $this->navigate('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_registration');
@@ -119,7 +119,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodZeroSubtotalTest extends M
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($paymentConfig);
         $this->logoutCustomer();
-        $this->navigate('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_registration');

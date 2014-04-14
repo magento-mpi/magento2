@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Data;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
@@ -45,10 +44,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function setItemObjectClassDataProvider()
     {
-        return array(
-            array('Magento\Core\Model\Url'),
-            array('Magento\Object'),
-        );
+        return array(array('Magento\Url'), array('Magento\Object'));
     }
 
     /**

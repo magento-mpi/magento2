@@ -60,19 +60,19 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
      */
     protected function _applyConfig()
     {
-        if (empty($this->_config)) {
-            return $this;
-        }
-
         // apply additional options to cURL
         foreach ($this->_options as $option => $value) {
             curl_setopt($this->_getResource(), $option, $value);
         }
 
-        $verifyPeer = isset($this->_config['verifypeer']) ? $this->_config['verifypeer'] : 0;
+        if (empty($this->_config)) {
+            return $this;
+        }
+
+        $verifyPeer = isset($this->_config['verifypeer']) ? $this->_config['verifypeer'] : true;
         curl_setopt($this->_getResource(), CURLOPT_SSL_VERIFYPEER, $verifyPeer);
 
-        $verifyHost = isset($this->_config['verifyhost']) ? $this->_config['verifyhost'] : 0;
+        $verifyHost = isset($this->_config['verifyhost']) ? $this->_config['verifyhost'] : 2;
         curl_setopt($this->_getResource(), CURLOPT_SSL_VERIFYHOST, $verifyHost);
 
         foreach ($this->_config as $param => $curlOption) {
@@ -87,7 +87,7 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
      * Set array of additional cURL options
      *
      * @param array $options
-     * @return \Magento\HTTP\Adapter\Curl
+     * @return $this
      */
     public function setOptions(array $options = array())
     {
@@ -100,7 +100,7 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
      *
      * @param  int $option      the CURLOPT_* constants
      * @param  mixed $value
-     * @return \Magento\HTTP\Adapter\Curl
+     * @return $this
      */
     public function addOption($option, $value)
     {
@@ -112,7 +112,7 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
      * Set the configuration array for the adapter
      *
      * @param array $config
-     * @return \Magento\HTTP\Adapter\Curl
+     * @return $this
      */
     public function setConfig($config = array())
     {
@@ -123,11 +123,12 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
     /**
      * Connect to the remote server
      *
-     * @deprecated since 1.4.0.0-rc1
      * @param string  $host
      * @param int     $port
      * @param boolean $secure
-     * @return \Magento\HTTP\Adapter\Curl
+     * @return $this
+     *
+     * @deprecated since 1.4.0.0-rc1
      */
     public function connect($host, $port = 80, $secure = false)
     {
@@ -157,8 +158,7 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
         if ($method == \Zend_Http_Client::POST) {
             curl_setopt($this->_getResource(), CURLOPT_POST, true);
             curl_setopt($this->_getResource(), CURLOPT_POSTFIELDS, $body);
-        }
-        elseif ($method == \Zend_Http_Client::GET) {
+        } elseif ($method == \Zend_Http_Client::GET) {
             curl_setopt($this->_getResource(), CURLOPT_HTTPGET, true);
         }
 
@@ -199,7 +199,7 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
     /**
      * Close the connection to the server
      *
-     * @return \Magento\HTTP\Adapter\Curl
+     * @return $this
      */
     public function close()
     {
@@ -262,14 +262,14 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
     public function multiRequest($urls, $options = array())
     {
         $handles = array();
-        $result  = array();
+        $result = array();
 
         $multihandle = curl_multi_init();
 
         foreach ($urls as $key => $url) {
             $handles[$key] = curl_init();
-            curl_setopt($handles[$key], CURLOPT_URL,            $url);
-            curl_setopt($handles[$key], CURLOPT_HEADER,         0);
+            curl_setopt($handles[$key], CURLOPT_URL, $url);
+            curl_setopt($handles[$key], CURLOPT_HEADER, 0);
             curl_setopt($handles[$key], CURLOPT_RETURNTRANSFER, 1);
             if (!empty($options)) {
                 curl_setopt_array($handles[$key], $options);
@@ -280,7 +280,7 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
         do {
             curl_multi_exec($multihandle, $process);
             usleep(100);
-        } while ($process>0);
+        } while ($process > 0);
 
         foreach ($handles as $key => $handle) {
             $result[$key] = curl_multi_getcontent($handle);

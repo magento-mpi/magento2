@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/system_file.xsd">
     <system>
         <section id="sales">
             <group id="magento_rma" translate="label" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -179,32 +179,6 @@
                 <field id="copy_method" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Send RMA Email Copy Method</label>
                     <source_model>Magento\Backend\Model\Config\Source\Email\Method</source_model>
-                </field>
-            </group>
-        </section>
-        <section id="carriers">
-            <group id="dhl">
-                <field id="active_rma" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Enabled for RMA</label>
-                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
-                </field>
-            </group>
-            <group id="fedex">
-                <field id="active_rma" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Enabled for RMA</label>
-                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
-                </field>
-            </group>
-            <group id="ups">
-                <field id="active_rma" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Enabled for RMA</label>
-                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
-                </field>
-            </group>
-            <group id="usps">
-                <field id="active_rma" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Enabled for RMA</label>
-                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
         </section>

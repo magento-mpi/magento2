@@ -17,8 +17,7 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\View;
 
-class Info
-    extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
+class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
 {
     /**
      * @var \Magento\GiftWrapping\Model\WrappingFactory
@@ -28,8 +27,8 @@ class Info
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
+     * @param \Magento\Registry $registry
+     * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory
      * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
      * @param array $data
@@ -37,14 +36,14 @@ class Info
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
+        \Magento\Registry $registry,
+        \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
         \Magento\Sales\Helper\Admin $adminHelper,
         \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory,
         array $data = array()
     ) {
         $this->_wrappingFactory = $wrappingFactory;
-        parent::__construct($context, $giftWrappingData, $registry, $wrappingCollFactory, $adminHelper, $data);
+        parent::__construct($context, $giftWrappingData, $registry, $wrappingCollectionFactory, $adminHelper, $data);
     }
 
     /**
@@ -58,12 +57,12 @@ class Info
         $order = $this->getOrder();
         if ($order && $order->getGwId()) {
             if ($this->getDisplayWrappingBothPrices()) {
-                 $data['price_excl_tax'] = $this->_preparePrices($order->getGwBasePrice(), $order->getGwPrice());
-                 $data['price_incl_tax'] = $this->_preparePrices(
+                $data['price_excl_tax'] = $this->_preparePrices($order->getGwBasePrice(), $order->getGwPrice());
+                $data['price_incl_tax'] = $this->_preparePrices(
                     $order->getGwBasePrice() + $order->getGwBaseTaxAmount(),
                     $order->getGwPrice() + $order->getGwTaxAmount()
-                 );
-            } else if ($this->getDisplayWrappingPriceInclTax()) {
+                );
+            } elseif ($this->getDisplayWrappingPriceInclTax()) {
                 $data['price'] = $this->_preparePrices(
                     $order->getGwBasePrice() + $order->getGwBaseTaxAmount(),
                     $order->getGwPrice() + $order->getGwTaxAmount()
@@ -103,10 +102,7 @@ class Info
                     $order->getGwCardPrice() + $order->getGwCardTaxAmount()
                 );
             } else {
-                $data['price'] = $this->_preparePrices(
-                    $order->getGwCardBasePrice(),
-                    $order->getGwCardPrice()
-                );
+                $data['price'] = $this->_preparePrices($order->getGwCardBasePrice(), $order->getGwCardPrice());
             }
         }
         return new \Magento\Object($data);

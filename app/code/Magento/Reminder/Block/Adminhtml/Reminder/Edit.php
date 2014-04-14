@@ -7,19 +7,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Block\Adminhtml\Reminder;
+
+use Magento\Registry;
 
 /**
  * Reminder rule edit form block
  */
-namespace Magento\Reminder\Block\Adminhtml\Reminder;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
+     *
+     * @var Registry|null
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Reminder data
      *
@@ -28,15 +31,17 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected $_reminderData = null;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Reminder\Helper\Data $reminderData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Reminder\Helper\Data $reminderData,
-        \Magento\Core\Model\Registry $registry,
+        Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -46,9 +51,12 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
     /**
      * Initialize form
+     *
      * Add standard buttons
      * Add "Run Now" button
      * Add "Save and Continue" button
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -63,23 +71,32 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         if ($rule && $rule->getId()) {
             $confirm = __('Are you sure you want to match this rule now?');
             if ($limit = $this->_reminderData->getOneRunLimit()) {
-                $confirm .= ' ' . __('No more than %1 customers may receive the reminder email after this action.', $limit);
+                $confirm .= ' ' . __(
+                    'No more than %1 customers may receive the reminder email after this action.',
+                    $limit
+                );
             }
-            $this->_addButton('run_now', array(
-                'label'   => __('Run Now'),
-                'onclick' => "confirmSetLocation('{$confirm}', '{$this->getRunUrl()}')"
-            ), -1);
+            $this->_addButton(
+                'run_now',
+                array(
+                    'label' => __('Run Now'),
+                    'onclick' => "confirmSetLocation('{$confirm}', '{$this->getRunUrl()}')"
+                ),
+                -1
+            );
         }
 
-        $this->_addButton('save_and_continue_edit', array(
-            'class'   => 'save',
-            'label'   => __('Save and Continue Edit'),
-            'data_attribute'  => array(
-                'mage-init' => array(
-                    'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
-                ),
+        $this->_addButton(
+            'save_and_continue_edit',
+            array(
+                'class' => 'save',
+                'label' => __('Save and Continue Edit'),
+                'data_attribute' => array(
+                    'mage-init' => array('button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'))
+                )
             ),
-        ), 3);
+            3
+        );
     }
 
     /**

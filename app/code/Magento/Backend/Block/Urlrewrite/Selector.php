@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Urlrewrite;
 
 /**
  * Modes selector for URL rewrites modes
@@ -15,8 +16,6 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Urlrewrite;
-
 class Selector extends \Magento\View\Element\Template
 {
     /**
@@ -27,11 +26,15 @@ class Selector extends \Magento\View\Element\Template
      */
     protected $_modes;
 
+    /**
+     * @var string
+     */
     protected $_template = 'urlrewrite/selector.phtml';
 
     /**
      * Set block template and get available modes
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -39,7 +42,7 @@ class Selector extends \Magento\View\Element\Template
             'category' => __('For category'),
             'product' => __('For product'),
             'cms_page' => __('For CMS page'),
-            'id' => __('Custom'),
+            'id' => __('Custom')
         );
     }
 

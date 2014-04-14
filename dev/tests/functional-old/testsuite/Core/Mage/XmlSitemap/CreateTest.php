@@ -136,7 +136,6 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      */
     public function withRequiredFieldsPushRobots()
     {
-        $this->markTestIncomplete('MAGETWO-9802');
         $fieldData = $this->loadDataSet('XmlSitemap', 'admin_xml_sitemap/tab_1/configuration/search_engine_robots');
         //Enable push to robots.txt option
         $this->navigate('system_configuration');
@@ -166,7 +165,6 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      */
     public function withRequiredFieldsSaveNotPush()
     {
-        $this->markTestIncomplete('MAGETWO-9802');
         $productData = $this->loadDataSet('XmlSitemap', 'new_xml_sitemap');
         //Steps
         $this->navigate('system_configuration');
@@ -207,7 +205,6 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      */
     public function withRequiredFieldsEmptyReset()
     {
-        $this->markTestIncomplete('MAGETWO-9802');
         //Enable push to robots.txt option
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('XmlSitemap/admin_enable_push_to_robots');

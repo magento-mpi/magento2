@@ -15,8 +15,10 @@ namespace Magento\CatalogInventory\Helper;
 
 class Data extends \Magento\App\Helper\AbstractHelper
 {
-    const XML_PATH_SHOW_OUT_OF_STOCK    = 'cataloginventory/options/show_out_of_stock';
-    const XML_PATH_ITEM_AUTO_RETURN     = 'cataloginventory/item_options/auto_return';
+    const XML_PATH_SHOW_OUT_OF_STOCK = 'cataloginventory/options/show_out_of_stock';
+
+    const XML_PATH_ITEM_AUTO_RETURN = 'cataloginventory/item_options/auto_return';
+
     /**
      * Path to configuration option 'Display product stock status'
      */
@@ -25,8 +27,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Error codes, that Catalog Inventory module can set to quote or quote items
      */
-    const ERROR_QTY =               1;
-    const ERROR_QTY_INCREMENTS =    2;
+    const ERROR_QTY = 1;
+
+    const ERROR_QTY_INCREMENTS = 2;
 
     /**
      * All product types registry in scope of quantity availability
@@ -43,22 +46,22 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
     ) {
         $this->_config = $config;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
@@ -107,7 +110,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve inventory item options (used in config)
      *
-     * @return array
+     * @return string[]
      */
     public function getConfigItemOptions()
     {
@@ -120,7 +123,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             'manage_stock',
             'enable_qty_increments',
             'qty_increments',
-            'is_decimal_divided',
+            'is_decimal_divided'
         );
     }
 
@@ -131,16 +134,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isShowOutOfStock()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_SHOW_OUT_OF_STOCK);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_SHOW_OUT_OF_STOCK, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
      * Check if creditmemo items auto return option is enabled
+     *
      * @return bool
      */
     public function isAutoReturnEnabled()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ITEM_AUTO_RETURN);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_ITEM_AUTO_RETURN, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -151,6 +155,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isDisplayProductStockStatus()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_DISPLAY_PRODUCT_STOCK_STATUS);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_DISPLAY_PRODUCT_STOCK_STATUS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

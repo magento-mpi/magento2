@@ -28,8 +28,9 @@ class Reward extends \Magento\Backend\App\Action
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
-        if (!$this->_objectManager->get('Magento\Reward\Helper\Data')->isEnabled()
-            && $request->getActionName() != 'noroute'
+        if (!$this->_objectManager->get(
+            'Magento\Reward\Helper\Data'
+        )->isEnabled() && $request->getActionName() != 'noroute'
         ) {
             $this->_forward('noroute');
         }
@@ -38,6 +39,8 @@ class Reward extends \Magento\Backend\App\Action
 
     /**
      * History Ajax Action
+     *
+     * @return void
      */
     public function historyAction()
     {
@@ -48,6 +51,8 @@ class Reward extends \Magento\Backend\App\Action
     /**
      * History Grid Ajax Action
      *
+     * @return void
+     *
      */
     public function historyGridAction()
     {
@@ -57,14 +62,19 @@ class Reward extends \Magento\Backend\App\Action
 
     /**
      *  Delete orphan points Action
+     *
+     * @return void
      */
     public function deleteOrphanPointsAction()
     {
         $customerId = $this->getRequest()->getParam('id', 0);
         if ($customerId) {
             try {
-                $this->_objectManager->create('Magento\Reward\Model\Reward')
-                    ->deleteOrphanPointsByCustomer($customerId);
+                $this->_objectManager->create(
+                    'Magento\Reward\Model\Reward'
+                )->deleteOrphanPointsByCustomer(
+                    $customerId
+                );
                 $this->messageManager->addSuccess(__('You removed the orphan points.'));
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
@@ -76,7 +86,7 @@ class Reward extends \Magento\Backend\App\Action
     /**
      * Acl check for admin
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

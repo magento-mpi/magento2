@@ -6,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App\Response\Http;
 
 class FileFactory
@@ -17,18 +16,16 @@ class FileFactory
     protected $_response;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
     /**
      * @param \Magento\App\ResponseInterface $response
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      */
-    public function __construct(
-        \Magento\App\ResponseInterface $response,
-        \Magento\Filesystem $filesystem
-    ) {
+    public function __construct(\Magento\App\ResponseInterface $response, \Magento\App\Filesystem $filesystem)
+    {
         $this->_response = $response;
         $this->_filesystem = $filesystem;
     }
@@ -39,6 +36,7 @@ class FileFactory
      * @param string $fileName
      * @param string|array $content set to null to avoid starting output, $contentLength should be set explicitly in
      *                              that case
+     * @param string $baseDir
      * @param string $contentType
      * @param int $contentLength explicit content length, if strlen($content) isn't applicable
      * @throws \Exception
@@ -49,9 +47,14 @@ class FileFactory
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.ExitExpression)
      */
-    public function create($fileName, $content, $contentType = 'application/octet-stream', $contentLength = null)
-    {
-        $dir = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+    public function create(
+        $fileName,
+        $content,
+        $baseDir = \Magento\App\Filesystem::ROOT_DIR,
+        $contentType = 'application/octet-stream',
+        $contentLength = null
+    ) {
+        $dir = $this->_filesystem->getDirectoryWrite($baseDir);
         $isFile = false;
         $file = null;
         if (is_array($content)) {
@@ -65,13 +68,33 @@ class FileFactory
             }
         }
 
-        $this->_response->setHttpResponseCode(200)
-            ->setHeader('Pragma', 'public', true)
-            ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
-            ->setHeader('Content-type', $contentType, true)
-            ->setHeader('Content-Length', is_null($contentLength) ? strlen($content) : $contentLength, true)
-            ->setHeader('Content-Disposition', 'attachment; filename="' . $fileName . '"', true)
-            ->setHeader('Last-Modified', date('r'), true);
+        $this->_response->setHttpResponseCode(
+            200
+        )->setHeader(
+            'Pragma',
+            'public',
+            true
+        )->setHeader(
+            'Cache-Control',
+            'must-revalidate, post-check=0, pre-check=0',
+            true
+        )->setHeader(
+            'Content-type',
+            $contentType,
+            true
+        )->setHeader(
+            'Content-Length',
+            is_null($contentLength) ? strlen($content) : $contentLength,
+            true
+        )->setHeader(
+            'Content-Disposition',
+            'attachment; filename="' . $fileName . '"',
+            true
+        )->setHeader(
+            'Last-Modified',
+            date('r'),
+            true
+        );
 
         if (!is_null($content)) {
             if ($isFile) {

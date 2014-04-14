@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\TargetRule\Model\Actions\Condition\Product;
 
 /**
  * TargetRule Action Special Product Attributes Condition Model
@@ -15,10 +15,7 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-namespace Magento\TargetRule\Model\Actions\Condition\Product;
-
-class Special
-    extends \Magento\Rule\Model\Condition\Product\AbstractProduct
+class Special extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
@@ -27,6 +24,7 @@ class Special
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param array $data
      */
     public function __construct(
@@ -36,9 +34,19 @@ class Special
         \Magento\Catalog\Model\Product $product,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
+        \Magento\Locale\FormatInterface $localeFormat,
         array $data = array()
     ) {
-        parent::__construct($context, $backendData, $config, $product, $productResource, $attrSetCollection, $data);
+        parent::__construct(
+            $context,
+            $backendData,
+            $config,
+            $product,
+            $productResource,
+            $attrSetCollection,
+            $localeFormat,
+            $data
+        );
         $this->setType('Magento\TargetRule\Model\Actions\Condition\Product\Special');
         $this->setValue(null);
     }
@@ -57,9 +65,6 @@ class Special
             )
         );
 
-        return array(
-            'value' => $conditions,
-            'label' => __('Product Special')
-        );
+        return array('value' => $conditions, 'label' => __('Product Special'));
     }
 }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\AdminNotification\Model;
 
 /**
  * AdminNotification observer
@@ -16,8 +16,6 @@
  * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdminNotification\Model;
-
 class Observer
 {
     /**
@@ -46,11 +44,12 @@ class Observer
      * Predispath admin action controller
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function preDispatch(\Magento\Event\Observer $observer)
     {
         if ($this->_backendAuthSession->isLoggedIn()) {
-            $feedModel  = $this->_feedFactory->create();
+            $feedModel = $this->_feedFactory->create();
             /* @var $feedModel \Magento\AdminNotification\Model\Feed */
             $feedModel->checkUpdate();
         }

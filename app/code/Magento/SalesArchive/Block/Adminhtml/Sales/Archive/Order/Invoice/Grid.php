@@ -7,16 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice;
 
 /**
  * Archive invoices grid block
- *
  */
-
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice;
-
-class Grid
-    extends \Magento\Sales\Block\Adminhtml\Invoice\Grid
+class Grid extends \Magento\Sales\Block\Adminhtml\Invoice\Grid
 {
     /**
      * Core url
@@ -27,7 +23,6 @@ class Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Grid\CollectionFactory $collectionFactory
@@ -36,7 +31,6 @@ class Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
         \Magento\Sales\Model\Resource\Order\Invoice\Grid\CollectionFactory $collectionFactory,
@@ -44,9 +38,12 @@ class Grid
         array $data = array()
     ) {
         $this->_coreUrl = $coreUrl;
-        parent::__construct($context, $urlModel, $backendHelper, $invoiceFactory, $collectionFactory, $data);
+        parent::__construct($context, $backendHelper, $invoiceFactory, $collectionFactory, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -70,7 +67,7 @@ class Grid
      */
     public function getGridUrl()
     {
-         return $this->getUrl('adminhtml/*/invoicesgrid', array('_current' => true));
+        return $this->getUrl('adminhtml/*/invoicesgrid', array('_current' => true));
     }
 
     /**

@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Encryption;
 
 /**
@@ -19,6 +16,11 @@ class Encryptor implements EncryptorInterface
      * Crypt key
      */
     const PARAM_CRYPT_KEY = 'crypt.key';
+
+    /**
+     * Default length of salt in bytes
+     */
+    const DEFAULT_SALT_LENGTH = 32;
 
     /**
      * @var \Magento\Math\Random
@@ -61,20 +63,27 @@ class Encryptor implements EncryptorInterface
      * Generate a [salted] hash.
      *
      * $salt can be:
-     * false - a random will be generated
-     * integer - a random with specified length will be generated
-     * string
+     * false - salt is not used
+     * true - random salt of the default length will be generated
+     * integer - random salt of specified length will be generated
+     * string - actual salt value to be used
      *
      * @param string $password
-     * @param mixed $salt
+     * @param bool|int|string $salt
      * @return string
      */
     public function getHash($password, $salt = false)
     {
+        if ($salt === false) {
+            return $this->hash($password);
+        }
+        if ($salt === true) {
+            $salt = self::DEFAULT_SALT_LENGTH;
+        }
         if (is_integer($salt)) {
             $salt = $this->_randomGenerator->getRandomString($salt);
         }
-        return $salt === false ? $this->hash($password) : $this->hash($salt . $password) . ':' . $salt;
+        return $this->hash($salt . $password) . ':' . $salt;
     }
 
     /**
@@ -142,7 +151,7 @@ class Encryptor implements EncryptorInterface
     /**
      * Return crypt model, instantiate if it is empty
      *
-     * @param string $key
+     * @param string|null $key NULL value means usage of the default key specified on constructor
      * @return \Magento\Encryption\Crypt
      */
     public function validateKey($key)
@@ -153,7 +162,7 @@ class Encryptor implements EncryptorInterface
     /**
      * Instantiate crypt model
      *
-     * @param string $key
+     * @param string|null $key NULL value means usage of the default key specified on constructor
      * @return \Magento\Encryption\Crypt
      */
     protected function _getCrypt($key = null)

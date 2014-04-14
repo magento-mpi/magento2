@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Banner\Model\Resource;
 
 /**
  * Banner Catalogrule Resource Model
@@ -16,13 +16,12 @@
  * @package     Magento_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Banner\Model\Resource;
-
-class Catalogrule extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Catalogrule extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize banner catalog rule resource model
      *
+     * @return void
      */
     protected function _construct()
     {

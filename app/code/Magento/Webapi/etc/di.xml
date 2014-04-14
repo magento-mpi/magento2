@@ -7,18 +7,18 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\App\AreaList">
-        <param name="areas">
-            <value>
-                <webapi_rest>
-                    <frontName>rest</frontName>
-                </webapi_rest>
-                <webapi_soap>
-                    <frontName>soap</frontName>
-                </webapi_soap>
-            </value>
-        </param>
+        <arguments>
+            <argument name="areas" xsi:type="array">
+                <item name="webapi_rest" xsi:type="array">
+                    <item name="frontName" xsi:type="string">rest</item>
+                </item>
+                <item name="webapi_soap" xsi:type="array">
+                    <item name="frontName" xsi:type="string">soap</item>
+                </item>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\Xml\Generator" shared="false" />
     <type name="Magento\Xml\Parser" shared="false" />

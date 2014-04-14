@@ -19,8 +19,8 @@ class Core_Mage_Installation_Helper extends Mage_Selenium_AbstractHelper
     public function removeInstallData()
     {
         $basePath = $this->getConfigHelper()->getBaseUrl();
-        $localXml = rtrim($basePath, '/') . '/app/etc/local.xml';
-        $cacheDir = rtrim($basePath, '/') . '/var/cache';
+        $localXml = rtrim($basePath, '\\/') . '/app/etc/local.xml';
+        $cacheDir = rtrim($basePath, '\\/') . '/var/cache';
         if (file_exists($localXml)) {
             unlink($localXml);
         }

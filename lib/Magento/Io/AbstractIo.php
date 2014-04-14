@@ -18,7 +18,7 @@
  */
 namespace Magento\Io;
 
-abstract class AbstractIo implements \Magento\Io\IoInterface
+abstract class AbstractIo implements IoInterface
 {
     /**
      * If this variable is set to true, our library will be able to automaticaly
@@ -32,7 +32,7 @@ abstract class AbstractIo implements \Magento\Io\IoInterface
      * Allow automaticaly create non-existant directories
      *
      * @param bool $flag
-     * @return \Magento\Io\AbstractIo
+     * @return $this
      */
     public function setAllowCreateFolders($flag)
     {
@@ -43,19 +43,26 @@ abstract class AbstractIo implements \Magento\Io\IoInterface
     /**
      * Open a connection
      *
-     * @param array $config
-     * @return bool
+     * @param array $args
+     * @return false
      */
     public function open(array $args = array())
     {
         return false;
     }
 
+    /**
+     * @return string
+     */
     public function dirsep()
     {
         return '/';
     }
 
+    /**
+     * @param string $path
+     * @return string
+     */
     public function getCleanPath($path)
     {
         if (empty($path)) {
@@ -64,7 +71,8 @@ abstract class AbstractIo implements \Magento\Io\IoInterface
 
         $path = trim(preg_replace("/\\\\/", "/", (string)$path));
 
-        if (!preg_match("/(\.\w{1,4})$/", $path) && !preg_match("/\?[^\\/]+$/", $path) && !preg_match("/\\/$/", $path)) {
+        if (!preg_match("/(\.\w{1,4})$/", $path) && !preg_match("/\?[^\\/]+$/", $path) && !preg_match("/\\/$/", $path)
+        ) {
             $path .= '/';
         }
 
@@ -80,12 +88,11 @@ abstract class AbstractIo implements \Magento\Io\IoInterface
         $pathParts = explode("/", $pathTokP);
         $realPathParts = array();
 
-        for ($i = 0, $realPathParts = array(); $i < count($pathParts); $i++) {
+        for ($i = 0,$realPathParts = array(); $i < count($pathParts); $i++) {
             if ($pathParts[$i] == '.') {
                 continue;
-            }
-            elseif ($pathParts[$i] == '..') {
-                if ((isset($realPathParts[0])  &&  $realPathParts[0] != '..') || ($pathTokR != "")) {
+            } elseif ($pathParts[$i] == '..') {
+                if (isset($realPathParts[0]) && $realPathParts[0] != '..' || $pathTokR != "") {
                     array_pop($realPathParts);
                     continue;
                 }
@@ -97,6 +104,11 @@ abstract class AbstractIo implements \Magento\Io\IoInterface
         return $pathTokR . implode('/', $realPathParts);
     }
 
+    /**
+     * @param string $haystackPath
+     * @param string $needlePath
+     * @return bool
+     */
     public function allowedPath($haystackPath, $needlePath)
     {
         return strpos($this->getCleanPath($haystackPath), $this->getCleanPath($needlePath)) === 0;

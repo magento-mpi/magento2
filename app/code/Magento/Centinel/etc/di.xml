@@ -7,15 +7,15 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\Centinel\Model\StateFactory">
-        <param name="stateClassMap">
-            <value>
-                <VI>Magento\Centinel\Model\State\Visa</VI>
-                <MC>Magento\Centinel\Model\State\Mastercard</MC>
-                <JCB>Magento\Centinel\Model\State\Jcb</JCB>
-                <SM>Magento\Centinel\Model\State\Mastercard</SM>
-            </value>
-        </param>
+        <arguments>
+            <argument name="stateClassMap" xsi:type="array">
+                <item name="VI" xsi:type="string">Magento\Centinel\Model\State\Visa</item>
+                <item name="MC" xsi:type="string">Magento\Centinel\Model\State\Mastercard</item>
+                <item name="JCB" xsi:type="string">Magento\Centinel\Model\State\Jcb</item>
+                <item name="SM" xsi:type="string">Magento\Centinel\Model\State\Mastercard</item>
+            </argument>
+        </arguments>
     </type>
 </config>

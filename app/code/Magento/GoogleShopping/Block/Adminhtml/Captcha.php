@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GoogleShopping\Block\Adminhtml;
 
 /**
  * Adminhtml Google Content Captcha challenge
@@ -16,11 +16,11 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Block\Adminhtml;
-
 class Captcha extends \Magento\Backend\Block\Template
 {
-
+    /**
+     * @var string
+     */
     protected $_template = 'captcha.phtml';
 
     /**
@@ -30,15 +30,22 @@ class Captcha extends \Magento\Backend\Block\Template
      */
     public function getConfirmButtonHtml()
     {
-        $confirmButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-                'label'     => __('Confirm'),
-                'onclick'   => "if($('user_confirm').value != '')
+        $confirmButton = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array(
+                'label' => __('Confirm'),
+                'onclick' => "if($('user_confirm').value != '')
                                 {
-                                    setLocation('".$this->getUrl('adminhtml/*/confirmCaptcha', array('_current'=>true))."' + 'user_confirm/' + $('user_confirm').value + '/');
+                                    setLocation('" .
+                $this->getUrl(
+                    'adminhtml/*/confirmCaptcha',
+                    array('_current' => true)
+                ) . "' + 'user_confirm/' + $('user_confirm').value + '/');
                                 }",
-                'class'     => 'task'
-            ));
+                'class' => 'task'
+            )
+        );
         return $confirmButton->toHtml();
     }
 }

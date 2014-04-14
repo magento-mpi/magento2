@@ -14,17 +14,20 @@
  */
 namespace Magento\DesignEditor\Model\Editor\QuickStyles\Renderer;
 
-class DefaultTest
-    extends \PHPUnit_Framework_TestCase
+class DefaultTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\DefaultRenderer::toCss
+     * @covers \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\DefaultRenderer::toCss
      * @dataProvider colorPickerData
      */
     public function testToCss($expectedResult, $data)
     {
         $rendererModel = $this->getMock(
-            'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\DefaultRenderer', null, array(), '', false
+            'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\DefaultRenderer',
+            null,
+            array(),
+            '',
+            false
         );
 
         $this->assertEquals($expectedResult, $rendererModel->toCss($data));
@@ -32,15 +35,17 @@ class DefaultTest
 
     public function colorPickerData()
     {
-        return array(array(
-            'expected_result' => ".menu { color: red; }",
-            'data'            => array(
-                'type'      => 'color-picker',
-                'default'   => '#f8f8f8',
-                'selector'  => '.menu',
-                'attribute' => 'color',
-                'value'     => 'red',
-            ),
-        ));
+        return array(
+            array(
+                'expected_result' => ".menu { color: red; }",
+                'data' => array(
+                    'type' => 'color-picker',
+                    'default' => '#f8f8f8',
+                    'selector' => '.menu',
+                    'attribute' => 'color',
+                    'value' => 'red'
+                )
+            )
+        );
     }
 }

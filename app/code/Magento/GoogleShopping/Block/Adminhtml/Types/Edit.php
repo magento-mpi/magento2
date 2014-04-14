@@ -7,36 +7,37 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Block\Adminhtml\Types;
 
 /**
  * Adminhtml Google Content Types Mapping form block
  */
-
-namespace Magento\GoogleShopping\Block\Adminhtml\Types;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -60,9 +61,11 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getFormInitScripts()
     {
-        return $this->getLayout()->createBlock('Magento\View\Element\Template')
-            ->setTemplate('Magento_GoogleShopping::types/edit.phtml')
-            ->toHtml();
+        return $this->getLayout()->createBlock(
+            'Magento\View\Element\Template'
+        )->setTemplate(
+            'Magento_GoogleShopping::types/edit.phtml'
+        )->toHtml();
     }
 
     /**

@@ -33,9 +33,14 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false, false);
-        $this->_blockMock = $this->getMock('Magento\View\Element\Template', array('setColumn', 'getHtml'), array(), '',
-            false, false
+        $this->_layoutMock = $this->getMock('Magento\View\Layout', array(), array(), '', false, false);
+        $this->_blockMock = $this->getMock(
+            'Magento\View\Element\Template',
+            array('setColumn', 'getHtml'),
+            array(),
+            '',
+            false,
+            false
         );
 
         $arguments = array(
@@ -64,10 +69,15 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFilterWhenFilterIsNotSet()
     {
-        $this->_layoutMock->expects($this->once())
-            ->method('createBlock')
-            ->with('Magento\Backend\Block\Widget\Grid\Column\Filter\Text')
-            ->will($this->returnValue($this->_blockMock));
+        $this->_layoutMock->expects(
+            $this->once()
+        )->method(
+            'createBlock'
+        )->with(
+            'Magento\Backend\Block\Widget\Grid\Column\Filter\Text'
+        )->will(
+            $this->returnValue($this->_blockMock)
+        );
 
         $this->_block->getFilter();
     }
@@ -88,11 +98,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
 
     public function getSortableDataProvider()
     {
-        return array(
-            'zero' =>  array('0'),
-            'false' =>  array(false),
-            'null' =>  array(null),
-        );
+        return array('zero' => array('0'), 'false' => array(false), 'null' => array(null));
     }
 
     /**
@@ -113,10 +119,15 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     {
         $this->_block->setData('type', 'invalid_filter_type');
 
-        $this->_layoutMock->expects($this->once())
-            ->method('createBlock')
-            ->with('Magento\Backend\Block\Widget\Grid\Column\Filter\Text')
-            ->will($this->returnValue($this->_blockMock));
+        $this->_layoutMock->expects(
+            $this->once()
+        )->method(
+            'createBlock'
+        )->with(
+            'Magento\Backend\Block\Widget\Grid\Column\Filter\Text'
+        )->will(
+            $this->returnValue($this->_blockMock)
+        );
 
         $this->_block->getFilter();
     }
@@ -129,10 +140,15 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
         $this->_block->setData('type', 'custom_type');
         $this->_block->setFilterType('custom_type', 'StdClass');
 
-        $this->_layoutMock->expects($this->once())
-            ->method('createBlock')
-            ->with('StdClass')
-            ->will($this->returnValue($this->_blockMock));
+        $this->_layoutMock->expects(
+            $this->once()
+        )->method(
+            'createBlock'
+        )->with(
+            'StdClass'
+        )->will(
+            $this->returnValue($this->_blockMock)
+        );
 
         $this->_block->getFilter();
     }
@@ -143,10 +159,15 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFilterWhenFilterWasSetPreviously()
     {
-        $this->_layoutMock->expects($this->once())
-            ->method('createBlock')
-            ->with('StdClass')
-            ->will($this->returnValue($this->_blockMock));
+        $this->_layoutMock->expects(
+            $this->once()
+        )->method(
+            'createBlock'
+        )->with(
+            'StdClass'
+        )->will(
+            $this->returnValue($this->_blockMock)
+        );
 
         $this->_block->setFilter('StdClass');
         $this->assertNotEmpty($this->_block->getFilter());
@@ -154,14 +175,17 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFilterHtmlWhenFilterExist()
     {
-        $this->_blockMock->expects($this->once())
-            ->method('getHtml')
-            ->will($this->returnValue('test'));
+        $this->_blockMock->expects($this->once())->method('getHtml')->will($this->returnValue('test'));
 
-        $this->_layoutMock->expects($this->once())
-            ->method('createBlock')
-            ->with('StdClass')
-            ->will($this->returnValue($this->_blockMock));
+        $this->_layoutMock->expects(
+            $this->once()
+        )->method(
+            'createBlock'
+        )->with(
+            'StdClass'
+        )->will(
+            $this->returnValue($this->_blockMock)
+        );
 
         $this->_block->setFilter('StdClass');
         $this->assertEquals('test', $this->_block->getFilterHtml());
@@ -178,14 +202,17 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     {
         $this->_block->setData('renderer', 'StdClass');
 
-        $this->_blockMock->expects($this->once())
-            ->method('setColumn')
-            ->will($this->returnSelf());
+        $this->_blockMock->expects($this->once())->method('setColumn')->will($this->returnSelf());
 
-        $this->_layoutMock->expects($this->once())
-            ->method('createBlock')
-            ->with('StdClass')
-            ->will($this->returnValue($this->_blockMock));
+        $this->_layoutMock->expects(
+            $this->once()
+        )->method(
+            'createBlock'
+        )->with(
+            'StdClass'
+        )->will(
+            $this->returnValue($this->_blockMock)
+        );
 
         $this->assertNotEmpty($this->_block->getRenderer());
     }
@@ -197,14 +224,17 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     {
         $this->_block->setData('renderer', false);
 
-        $this->_blockMock->expects($this->once())
-            ->method('setColumn')
-            ->will($this->returnSelf());
+        $this->_blockMock->expects($this->once())->method('setColumn')->will($this->returnSelf());
 
-        $this->_layoutMock->expects($this->once())
-            ->method('createBlock')
-            ->with('Magento\Backend\Block\Widget\Grid\Column\Renderer\Text')
-            ->will($this->returnValue($this->_blockMock));
+        $this->_layoutMock->expects(
+            $this->once()
+        )->method(
+            'createBlock'
+        )->with(
+            'Magento\Backend\Block\Widget\Grid\Column\Renderer\Text'
+        )->will(
+            $this->returnValue($this->_blockMock)
+        );
 
         $this->assertEquals($this->_blockMock, $this->_block->getRenderer());
     }
@@ -218,14 +248,17 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
         $this->_block->setData('type', 'custom_type');
         $this->_block->setRendererType('custom_type', 'StdClass');
 
-        $this->_blockMock->expects($this->once())
-            ->method('setColumn')
-            ->will($this->returnSelf());
+        $this->_blockMock->expects($this->once())->method('setColumn')->will($this->returnSelf());
 
-        $this->_layoutMock->expects($this->once())
-            ->method('createBlock')
-            ->with('StdClass')
-            ->will($this->returnValue($this->_blockMock));
+        $this->_layoutMock->expects(
+            $this->once()
+        )->method(
+            'createBlock'
+        )->with(
+            'StdClass'
+        )->will(
+            $this->returnValue($this->_blockMock)
+        );
 
         $this->assertEquals($this->_blockMock, $this->_block->getRenderer());
     }
@@ -316,10 +349,15 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
         /**
          * Check that getFilter will be executed
          */
-        $this->_layoutMock->expects($this->once())
-            ->method('createBlock')
-            ->with('StdClass')
-            ->will($this->returnValue($this->_blockMock));
+        $this->_layoutMock->expects(
+            $this->once()
+        )->method(
+            'createBlock'
+        )->with(
+            'StdClass'
+        )->will(
+            $this->returnValue($this->_blockMock)
+        );
 
         $this->_block->setFilter('StdClass');
 
@@ -348,19 +386,6 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
 
     public function columnGroupedDataProvider()
     {
-        return array(
-            array(
-                array(),
-                false
-            ),
-            array(
-                array('grouped' => 0),
-                false
-            ),
-            array(
-                array('grouped' => 1),
-                true
-            )
-        );
+        return array(array(array(), false), array(array('grouped' => 0), false), array(array('grouped' => 1), true));
     }
 }

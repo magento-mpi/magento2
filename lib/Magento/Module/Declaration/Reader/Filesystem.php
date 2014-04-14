@@ -9,8 +9,19 @@
  */
 namespace Magento\Module\Declaration\Reader;
 
+use Magento\Module\Declaration\FileResolver;
+use Magento\Module\Declaration\Converter\Dom;
+use Magento\Module\Declaration\SchemaLocator;
+use Magento\Module\DependencyManagerInterface;
+use Magento\Config\ValidationStateInterface;
+use Magento\App\State;
+
 class Filesystem extends \Magento\Config\Reader\Filesystem
 {
+    /**
+     * Allowed modules
+     */
+    const PARAM_ALLOWED_MODULES = 'allowed_modules';
     /**
      * The list of allowed modules
      *
@@ -19,20 +30,32 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
     protected $_allowedModules;
 
     /**
-     * {@inheritdoc}
+     * @var \Magento\App\State
+     */
+    protected $appState;
+
+    /**
+     * @var \Magento\Module\DependencyManagerInterface
+     */
+    protected $dependencyManager;
+
+    /**
+     * @var array
      */
     protected $_idAttributes = array(
         '/config/module' => 'name',
         '/config/module/depends/extension' => 'name',
         '/config/module/depends/choice/extension' => 'name',
-        '/config/module/sequence/module' => 'name',
+        '/config/module/sequence/module' => 'name'
     );
 
     /**
-     * @param \Magento\Module\Declaration\FileResolver $fileResolver
-     * @param \Magento\Module\Declaration\Converter\Dom $converter
-     * @param \Magento\Module\Declaration\SchemaLocator $schemaLocator
-     * @param \Magento\Config\ValidationStateInterface $validationState
+     * @param FileResolver $fileResolver
+     * @param Dom $converter
+     * @param SchemaLocator $schemaLocator
+     * @param ValidationStateInterface $validationState
+     * @param State $appState
+     * @param DependencyManagerInterface $dependencyManager
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
@@ -40,10 +63,12 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
      * @param array $allowedModules
      */
     public function __construct(
-        \Magento\Module\Declaration\FileResolver $fileResolver,
-        \Magento\Module\Declaration\Converter\Dom $converter,
-        \Magento\Module\Declaration\SchemaLocator $schemaLocator,
-        \Magento\Config\ValidationStateInterface $validationState,
+        FileResolver $fileResolver,
+        Dom $converter,
+        SchemaLocator $schemaLocator,
+        ValidationStateInterface $validationState,
+        State $appState,
+        DependencyManagerInterface $dependencyManager,
         $fileName = 'module.xml',
         $idAttributes = array(),
         $domDocumentClass = 'Magento\Config\Dom',
@@ -61,6 +86,8 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
             $defaultScope
         );
         $this->_allowedModules = $allowedModules;
+        $this->appState = $appState;
+        $this->dependencyManager = $dependencyManager;
     }
 
     /**
@@ -69,8 +96,11 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
     public function read($scope = null)
     {
         $activeModules = $this->_filterActiveModules(parent::read($scope));
-        foreach ($activeModules as $moduleConfig) {
-            $this->_checkModuleDependencies($moduleConfig, $activeModules);
+
+        if ($this->appState->isInstalled()) {
+            foreach ($activeModules as $moduleConfig) {
+                $this->dependencyManager->checkModuleDependencies($moduleConfig, $activeModules);
+            }
         }
         return $this->_sortModules($activeModules);
     }
@@ -85,91 +115,15 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
     {
         $activeModules = array();
         foreach ($modules as $moduleName => $moduleConfig) {
-            if ($moduleConfig['active']
-                && (empty($this->_allowedModules) || in_array($moduleConfig['name'], $this->_allowedModules))
+            if ($moduleConfig['active'] && (empty($this->_allowedModules) || in_array(
+                $moduleConfig['name'],
+                $this->_allowedModules
+            ))
             ) {
                 $activeModules[$moduleName] = $moduleConfig;
             }
         }
         return $activeModules;
-    }
-
-    /**
-     * Check dependencies of the given module
-     *
-     * @param array $moduleConfig
-     * @param array $activeModules
-     * @throws \Exception
-     */
-    protected function _checkModuleDependencies(array $moduleConfig, array $activeModules)
-    {
-        // Check that required modules are active
-        foreach ($moduleConfig['dependencies']['modules'] as $moduleName) {
-            if (!isset($activeModules[$moduleName])) {
-                throw new \Exception(
-                    "Module '{$moduleConfig['name']}' depends on '{$moduleName}' that is missing or not active."
-                );
-            }
-        }
-        // Check that required extensions are loaded
-        foreach ($moduleConfig['dependencies']['extensions']['strict'] as $extensionData) {
-            $extensionName = $extensionData['name'];
-            $minVersion = isset($extensionData['minVersion']) ? $extensionData['minVersion'] : null;
-            if (!$this->_isPhpExtensionLoaded($extensionName, $minVersion)) {
-                throw new \Exception(
-                    "Module '{$moduleConfig['name']}' depends on '{$extensionName}' PHP extension that is not loaded."
-                );
-            }
-        }
-        foreach ($moduleConfig['dependencies']['extensions']['alternatives'] as $altExtensions) {
-            $this->_checkAlternativeExtensions($moduleConfig['name'], $altExtensions);
-        }
-    }
-
-    /**
-     * Check if at least one of the extensions is loaded
-     *
-     * @param string $moduleName
-     * @param array $altExtensions
-     * @throws \Exception
-     */
-    protected function _checkAlternativeExtensions($moduleName, array $altExtensions)
-    {
-        $extensionNames = array();
-        foreach ($altExtensions as $extensionData) {
-            $extensionName = $extensionData['name'];
-            $minVersion = isset($extensionData['minVersion']) ? $extensionData['minVersion'] : null;
-            if ($this->_isPhpExtensionLoaded($extensionName, $minVersion)) {
-                return;
-            }
-            $extensionNames[] = $extensionName;
-        }
-        if (!empty($extensionNames)) {
-            throw new \Exception(
-                "Module '{$moduleName}' depends on at least one of the following PHP extensions: "
-                    . implode(',', $extensionNames) . '.'
-            );
-        }
-        return;
-    }
-
-    /**
-     * Check if required version of PHP extension is loaded
-     *
-     * @param string $extensionName
-     * @param string|null $minVersion
-     * @return boolean
-     */
-    protected function _isPhpExtensionLoaded($extensionName, $minVersion = null)
-    {
-        if (extension_loaded($extensionName)) {
-            if (is_null($minVersion)) {
-                return true;
-            } elseif (version_compare($minVersion, phpversion($extensionName), '<=')) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -190,7 +144,7 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
         foreach ($modules as $moduleName => $value) {
             $moduleDependencyMap[] = array(
                 'moduleName' => $moduleName,
-                'dependencies' => $this->_getExtendedModuleDependencies($moduleName, $modules),
+                'dependencies' => $this->dependencyManager->getExtendedModuleDependencies($moduleName, $modules)
             );
         }
 
@@ -212,33 +166,5 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
         }
 
         return $sortedModules;
-    }
-
-    /**
-     * Recursively identify all module dependencies and detect circular ones
-     *
-     * @param string $moduleName
-     * @param array $modules
-     * @param array $usedModules
-     * @return array
-     * @throws \Exception
-     */
-    protected function _getExtendedModuleDependencies($moduleName,  array $modules, array $usedModules = array())
-    {
-        $usedModules[] = $moduleName;
-        $dependencyList = $modules[$moduleName]['dependencies']['modules'];
-        foreach ($dependencyList as $relatedModuleName) {
-            if (in_array($relatedModuleName, $usedModules)) {
-                throw new \Exception(
-                    "Module '$moduleName' cannot depend on '$relatedModuleName' since it creates circular dependency."
-                );
-            }
-            if (empty($modules[$relatedModuleName])) {
-                continue;
-            }
-            $relatedDependencies = $this->_getExtendedModuleDependencies($relatedModuleName, $modules, $usedModules);
-            $dependencyList = array_unique(array_merge($dependencyList, $relatedDependencies));
-        }
-        return $dependencyList;
     }
 }

@@ -7,18 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Controller\Adminhtml\Paypal;
 
 /**
  * PayPal Settlement Reports Controller
  */
-namespace Magento\Paypal\Controller\Adminhtml\Paypal;
-
 class Reports extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -39,14 +38,14 @@ class Reports extends \Magento\Backend\App\Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Paypal\Model\Report\Settlement\RowFactory $rowFactory
      * @param \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory
      * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Paypal\Model\Report\Settlement\RowFactory $rowFactory,
         \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory,
         \Magento\Logger $logger
@@ -60,6 +59,8 @@ class Reports extends \Magento\Backend\App\Action
 
     /**
      * Grid action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -69,6 +70,8 @@ class Reports extends \Magento\Backend\App\Action
 
     /**
      * Ajax callback for grid actions
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -78,6 +81,8 @@ class Reports extends \Magento\Backend\App\Action
 
     /**
      * View transaction details action
+     *
+     * @return void
      */
     public function detailsAction()
     {
@@ -91,8 +96,10 @@ class Reports extends \Magento\Backend\App\Action
         $this->_initAction();
         $this->_title->add(__('View Transaction'));
         $this->_addContent(
-            $this->_view->getLayout()
-                ->createBlock('Magento\Paypal\Block\Adminhtml\Settlement\Details', 'settlementDetails')
+            $this->_view->getLayout()->createBlock(
+                'Magento\Paypal\Block\Adminhtml\Settlement\Details',
+                'settlementDetails'
+            )
         );
         $this->_view->renderLayout();
     }
@@ -100,7 +107,8 @@ class Reports extends \Magento\Backend\App\Action
     /**
      * Forced fetch reports action
      *
-     * @throws \Magento\Core\Exception
+     * @return void
+     * @throws \Magento\Model\Exception
      */
     public function fetchAction()
     {
@@ -109,7 +117,7 @@ class Reports extends \Magento\Backend\App\Action
             /* @var $reports \Magento\Paypal\Model\Report\Settlement */
             $credentials = $reports->getSftpCredentials();
             if (empty($credentials)) {
-                throw new \Magento\Core\Exception(__('We found nothing to fetch because of an empty configuration.'));
+                throw new \Magento\Model\Exception(__('We found nothing to fetch because of an empty configuration.'));
             }
             foreach ($credentials as $config) {
                 try {
@@ -117,8 +125,12 @@ class Reports extends \Magento\Backend\App\Action
                         \Magento\Paypal\Model\Report\Settlement::createConnection($config)
                     );
                     $this->messageManager->addSuccess(
-                        __("We fetched %1 report rows from '%2@%3'.", $fetched,
-                            $config['username'], $config['hostname'])
+                        __(
+                            "We fetched %1 report rows from '%2@%3'.",
+                            $fetched,
+                            $config['username'],
+                            $config['hostname']
+                        )
                     );
                 } catch (\Exception $e) {
                     $this->messageManager->addError(
@@ -127,7 +139,7 @@ class Reports extends \Magento\Backend\App\Action
                     $this->_logger->logException($e);
                 }
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_logger->logException($e);
@@ -137,21 +149,31 @@ class Reports extends \Magento\Backend\App\Action
 
     /**
      * Initialize titles, navigation
-     * @return \Magento\Paypal\Controller\Adminhtml\Paypal\Reports
+     *
+     * @return $this
      */
     protected function _initAction()
     {
         $this->_title->add(__('PayPal Settlement Reports'));
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Paypal::report_salesroot_paypal_settlement_reports')
-            ->_addBreadcrumb(__('Reports'), __('Reports'))
-            ->_addBreadcrumb(__('Sales'), __('Sales'))
-            ->_addBreadcrumb(__('PayPal Settlement Reports'), __('PayPal Settlement Reports'));
+        $this->_setActiveMenu(
+            'Magento_Paypal::report_salesroot_paypal_settlement_reports'
+        )->_addBreadcrumb(
+            __('Reports'),
+            __('Reports')
+        )->_addBreadcrumb(
+            __('Sales'),
+            __('Sales')
+        )->_addBreadcrumb(
+            __('PayPal Settlement Reports'),
+            __('PayPal Settlement Reports')
+        );
         return $this;
     }
 
     /**
      * ACL check
+     *
      * @return bool
      */
     protected function _isAllowed()

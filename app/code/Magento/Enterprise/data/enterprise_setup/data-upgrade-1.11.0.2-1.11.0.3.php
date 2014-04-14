@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\Module\Setup */
 $installer = $this;
 $installer->startSetup();
 
@@ -17,9 +17,7 @@ $tableName = $installer->getTable('admin_rule');
 if ($tableName) {
     /** @var \Magento\DB\Adapter\AdapterInterface $connection */
     $connection = $installer->getConnection();
-    $remove = array(
-        'Magento_Rma::rma_manage',
-    );
+    $remove = array('Magento_Rma::rma_manage');
     $connection->delete($tableName, array('resource_id IN (?)' => $remove));
 }
 

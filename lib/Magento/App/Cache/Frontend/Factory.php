@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,6 +17,10 @@ class Factory
      * Default cache entry lifetime
      */
     const DEFAULT_LIFETIME = 7200;
+    /**
+     * Caching params, that applied for all cache frontends regardless of type
+     */
+    const PARAM_CACHE_FORCED_OPTIONS = 'cache_options';
 
     /**
      * @var \Magento\ObjectManager
@@ -26,7 +28,7 @@ class Factory
     private $_objectManager;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     private $_filesystem;
 
@@ -53,7 +55,7 @@ class Factory
      *
      * @var string
      */
-    protected $_defaultBackend = 'File';
+    protected $_defaultBackend = 'Cm_Cache_Backend_File';
 
     /**
      * Options for default backend
@@ -61,9 +63,9 @@ class Factory
      * @var array
      */
     protected $_backendOptions = array(
-        'hashed_directory_level'    => 1,
-        'hashed_directory_umask'    => 0777,
-        'file_name_prefix'          => 'mage',
+        'hashed_directory_level' => 1,
+        'hashed_directory_umask' => 0777,
+        'file_name_prefix' => 'mage'
     );
 
     /**
@@ -75,14 +77,14 @@ class Factory
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\App\Resource $resource
      * @param array $enforcedOptions
      * @param array $decorators
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\App\Resource $resource,
         array $enforcedOptions = array(),
         array $decorators = array()
@@ -106,20 +108,20 @@ class Factory
 
         foreach (array('backend_options', 'slow_backend_options') as $section) {
             if (!empty($options[$section]['cache_dir'])) {
-                $directory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+                $directory = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
                 $directory->create($options[$section]['cache_dir']);
                 $options[$section]['cache_dir'] = $directory->getAbsolutePath($options[$section]['cache_dir']);
             }
         }
 
-        $this->_backendOptions['cache_dir'] = $this->_filesystem->getPath(\Magento\Filesystem::CACHE);
+        $this->_backendOptions['cache_dir'] = $this->_filesystem->getPath(\Magento\App\Filesystem::CACHE_DIR);
 
         $idPrefix = isset($options['id_prefix']) ? $options['id_prefix'] : '';
         if (!$idPrefix && isset($options['prefix'])) {
             $idPrefix = $options['prefix'];
         }
         if (empty($idPrefix)) {
-            $idPrefix = substr(md5($this->_filesystem->getPath(\Magento\Filesystem::CONFIG)), 0, 3) . '_';
+            $idPrefix = substr(md5($this->_filesystem->getPath(\Magento\App\Filesystem::CONFIG_DIR)), 0, 3) . '_';
         }
         $options['frontend_options']['cache_id_prefix'] = $idPrefix;
 
@@ -128,19 +130,28 @@ class Factory
 
         // Start profiling
         $profilerTags = array(
-            'group'         => 'cache',
-            'operation'     => 'cache:create',
+            'group' => 'cache',
+            'operation' => 'cache:create',
             'frontend_type' => $frontend['type'],
-            'backend_type'  => $backend['type'],
+            'backend_type' => $backend['type']
         );
         \Magento\Profiler::start('cache_frontend_create', $profilerTags);
 
         /** @var $result \Magento\Cache\Frontend\Adapter\Zend */
-        $result = $this->_objectManager->create('Magento\Cache\Frontend\Adapter\Zend', array(
-            'frontend' => \Zend_Cache::factory(
-                $frontend['type'], $backend['type'], $frontend, $backend['options'], true, true, true
-            ),
-        ));
+        $result = $this->_objectManager->create(
+            'Magento\Cache\Frontend\Adapter\Zend',
+            array(
+                'frontend' => \Zend_Cache::factory(
+                    $frontend['type'],
+                    $backend['type'],
+                    $frontend,
+                    $backend['options'],
+                    true,
+                    true,
+                    true
+                )
+            )
+        );
         $result = $this->_applyDecorators($result);
 
         // stop profiling
@@ -175,9 +186,10 @@ class Factory
             }
             $decoratorClass = $decoratorConfig['class'];
             $decoratorParams = isset($decoratorConfig['parameters']) ? $decoratorConfig['parameters'] : array();
-            $decoratorParams['frontend'] = $frontend; // conventionally, 'frontend' argument is a decoration subject
+            $decoratorParams['frontend'] = $frontend;
+            // conventionally, 'frontend' argument is a decoration subject
             $frontend = $this->_objectManager->create($decoratorClass, $decoratorParams);
-            if (!($frontend instanceof \Magento\Cache\FrontendInterface)) {
+            if (!$frontend instanceof \Magento\Cache\FrontendInterface) {
                 throw new \UnexpectedValueException('Decorator has to implement the cache frontend interface.');
             }
         }
@@ -260,13 +272,12 @@ class Factory
                     }
                 }
         }
-
         if (!$backendType) {
             $backendType = $this->_defaultBackend;
-            foreach ($this->_backendOptions as $option => $value) {
-                if (!array_key_exists($option, $options)) {
-                    $options[$option] = $value;
-                }
+        }
+        foreach ($this->_backendOptions as $option => $value) {
+            if (!array_key_exists($option, $options)) {
+                $options[$option] = $value;
             }
         }
 
@@ -306,12 +317,12 @@ class Factory
     protected function _getTwoLevelsBackendOptions($fastOptions, $cacheOptions)
     {
         $options = array();
-        $options['fast_backend']                = $fastOptions['type'];
-        $options['fast_backend_options']        = $fastOptions['options'];
-        $options['fast_backend_custom_naming']  = true;
-        $options['fast_backend_autoload']       = true;
-        $options['slow_backend_custom_naming']  = true;
-        $options['slow_backend_autoload']       = true;
+        $options['fast_backend'] = $fastOptions['type'];
+        $options['fast_backend_options'] = $fastOptions['options'];
+        $options['fast_backend_custom_naming'] = true;
+        $options['fast_backend_autoload'] = true;
+        $options['slow_backend_custom_naming'] = true;
+        $options['slow_backend_autoload'] = true;
 
         if (isset($cacheOptions['auto_refresh_fast_cache'])) {
             $options['auto_refresh_fast_cache'] = (bool)$cacheOptions['auto_refresh_fast_cache'];
@@ -338,10 +349,7 @@ class Factory
             }
         }
 
-        $backend = array(
-            'type'      => 'TwoLevels',
-            'options'   => $options
-        );
+        $backend = array('type' => 'TwoLevels', 'options' => $options);
         return $backend;
     }
 
@@ -359,8 +367,9 @@ class Factory
             $options['caching'] = true;
         }
         if (!array_key_exists('lifetime', $options)) {
-            $options['lifetime'] = isset($cacheOptions['lifetime']) ? $cacheOptions['lifetime']
-                : self::DEFAULT_LIFETIME;
+            $options['lifetime'] = isset(
+                $cacheOptions['lifetime']
+            ) ? $cacheOptions['lifetime'] : self::DEFAULT_LIFETIME;
         }
         if (!array_key_exists('automatic_cleaning_factor', $options)) {
             $options['automatic_cleaning_factor'] = 0;

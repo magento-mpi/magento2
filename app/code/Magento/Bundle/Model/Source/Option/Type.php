@@ -9,7 +9,7 @@
  */
 namespace Magento\Bundle\Model\Source\Option;
 
-class Type implements \Magento\Core\Model\Option\ArrayInterface
+class Type implements \Magento\Option\ArrayInterface
 {
     /**
      * @var array
@@ -33,10 +33,7 @@ class Type implements \Magento\Core\Model\Option\ArrayInterface
     {
         $types = array();
         foreach ($this->_options as $value => $label) {
-            $types[] = array(
-                'label' => $label,
-                'value' => $value
-            );
+            $types[] = array('label' => $label, 'value' => $value);
         }
         return $types;
     }

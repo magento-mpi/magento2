@@ -22,23 +22,26 @@ class CheckoutOnepageTest extends \Magento\Checkout\Test\TestCase\Guest\PaypalEx
     /**
      * Registered checkout using PayPal Express Checkout method and offline shipping method
      *
+     * @dataProvider dataProviderPaymentMethod
      * @ZephyrId MAGETWO-12996
      */
-    public function testOnepageCheckout()
+    public function testOnepageCheckout(Checkout $fixture)
     {
         $customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customer->persist();
         $address = $customer->getDefaultBillingAddress();
         $address->persist();
-        $checkout = Factory::getFixtureFactory()->getMagentoCheckoutRegisteredPaypalExpress();
-        $checkout->persist();
+
+        $fixture->persist();
+
         //Steps
-        $this->_addProducts($checkout);
-        $this->_magentoCheckoutProcess($checkout);
-        $this->_processPaypal($checkout);
+        $this->_addProducts($fixture);
+        $this->_magentoCheckoutProcess($fixture);
+        $this->_processPaypal($fixture);
         $this->_reviewOrder();
+
         //Verifying
-        $this->_verifyOrder($checkout);
+        $this->_verifyOrder($fixture);
     }
 
     /**
@@ -48,5 +51,12 @@ class CheckoutOnepageTest extends \Magento\Checkout\Test\TestCase\Guest\PaypalEx
      */
     protected function _checkoutMethod(Checkout $fixture)
     {
+    }
+
+    public function dataProviderPaymentMethod()
+    {
+        return array(
+            array(Factory::getFixtureFactory()->getMagentoCheckoutRegisteredPaypalExpress())
+        );
     }
 }

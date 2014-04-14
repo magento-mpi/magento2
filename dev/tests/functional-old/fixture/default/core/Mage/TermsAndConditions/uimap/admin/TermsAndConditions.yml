@@ -10,8 +10,8 @@
 ---
 #Sales Terms and Conditions page
 manage_sales_checkout_terms_conditions:
-    mca: checkout_agreement/
-    click_xpath: //div[@class='submenu']//a[contains(@href, 'checkout_agreement/')]
+    mca: checkout/agreement/
+    click_xpath: //div[@class='submenu']//a[contains(@href, '/checkout/agreement/')]
     title: Terms and Conditions / Settings / Stores / Magento Admin
     uimap:
         form: &salesCheckoutTermsConditions
@@ -35,15 +35,16 @@ manage_sales_checkout_terms_conditions:
                             select_terms_in_grid: //table[@id='agreementGrid_table']//td[%columnId%]
         buttons:
             create_new_terms_and_conditions: //button[span='Add New Condition']
-            save_condition: //button[@data-ui-id='checkout-agreement-edit-save-button']
+            save_condition: //button[@title='Save Condition']
         messages: &conditionMessages
             condition_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The condition has been saved.')]
             condition_deleted: //li[normalize-space(@class)='success-msg' and contains(.,'The condition has been deleted')]
             confirmation_for_delete: Are you sure you want to do this?
-            content_height: //label[@class='mage-error' and @for='content_height' and contains(.,'Please enter a number greater than 0 in this field')]
+            wrong_content_height: //label[@class='mage-error' and @for='content_height' and contains(.,'Please input a valid CSS-length. For example 100px or 77pt or 20em or .5ex or 50%.')]
+
 # Create new condition agreement
 create_condition:
-    mca: checkout_agreement/new/
+    mca: checkout/agreement/new/
     title: New Condition / Terms and Conditions / Settings / Stores / Magento Admin
     uimap:
         form: &salesNewCondition
@@ -65,11 +66,11 @@ create_condition:
         buttons:
             back: //div[@class='page-actions']//button[span='Back']
             reset: //div[@class='page-actions']//button[span='Reset']
-            save_condition: //button[@data-ui-id='checkout-agreement-edit-save-button']
+            save_condition: //button[@title='Save Condition']
         messages: *conditionMessages
 
 edit_condition:
-    mca: checkout_agreement/edit/id/%id%/
+    mca: checkout/agreement/edit/id/%id%/
     title: %elementTitle% / Terms and Conditions / Settings / Stores / Magento Admin
     uimap:
         form: *salesNewCondition
@@ -77,5 +78,5 @@ edit_condition:
             back: //div[@class='page-actions']//button[span='Back']
             reset: //div[@class='page-actions']//button[span='Reset']
             delete_condition: //button[@id='delete']
-            save_condition: //button[@data-ui-id='checkout-agreement-edit-save-button']
+            save_condition: //button[@title='Save Condition']
         messages: *conditionMessages

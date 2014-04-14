@@ -7,44 +7,42 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab;
 
 /**
  * RMA Item Attributes Edit Form
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab;
-
-class Main
-    extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Rma eav
      *
-     * @var \Magento\CustomAttribute\Helper\Data
+     * @var \Magento\CustomAttributeManagement\Helper\Data
      */
     protected $_attributeHelper = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Eav\Helper\Data $eavData
      * @param \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory
      * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
-     * @param \Magento\CustomAttribute\Helper\Data $attributeHelper
+     * @param \Magento\CustomAttributeManagement\Helper\Data $attributeHelper
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Eav\Helper\Data $eavData,
         \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory,
         \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory,
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
-        \Magento\CustomAttribute\Helper\Data $attributeHelper,
+        \Magento\CustomAttributeManagement\Helper\Data $attributeHelper,
         \Magento\Rma\Helper\Eav $rmaEav,
         array $data = array()
     ) {
@@ -81,128 +79,187 @@ class Main
     /**
      * Adding customer form elements for edit form
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab\Main
+     * @return $this
      */
     protected function _prepareForm()
     {
         parent::_prepareForm();
 
-        $attribute  = $this->getAttributeObject();
-        $form       = $this->getForm();
-        $fieldset   = $form->getElement('base_fieldset');
+        $attribute = $this->getAttributeObject();
+        $form = $this->getForm();
+        $fieldset = $form->getElement('base_fieldset');
 
         $fieldset->removeField('frontend_class');
         $fieldset->removeField('is_unique');
 
         // update Input Types
-        $element    = $form->getElement('frontend_input');
+        $element = $form->getElement('frontend_input');
         $element->setValues($this->_attributeHelper->getFrontendInputOptions());
         $element->setLabel(__('Input Type'));
         $element->setRequired(true);
 
         // add limitation to attribute code
         // customer attribute code can have prefix "rma_item_" and its length must be max length minus prefix length
-        $element      = $form->getElement('attribute_code');
+        $element = $form->getElement('attribute_code');
         $element->setNote(
-            __('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols', \Magento\Eav\Model\Entity\Attribute::ATTRIBUTE_CODE_MAX_LENGTH)
+            __(
+                'For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols',
+                \Magento\Eav\Model\Entity\Attribute::ATTRIBUTE_CODE_MAX_LENGTH
+            )
         );
 
-        $fieldset->addField('multiline_count', 'text', array(
-            'name'      => 'multiline_count',
-            'label'     => __('Lines Count'),
-            'title'     => __('Lines Count'),
-            'required'  => true,
-            'class'     => 'validate-digits-range digits-range-2-20',
-            'note'      => __('Valid range 2-20')
-        ), 'frontend_input');
+        $fieldset->addField(
+            'multiline_count',
+            'text',
+            array(
+                'name' => 'multiline_count',
+                'label' => __('Lines Count'),
+                'title' => __('Lines Count'),
+                'required' => true,
+                'class' => 'validate-digits-range digits-range-2-20',
+                'note' => __('Valid range 2-20')
+            ),
+            'frontend_input'
+        );
 
-        $fieldset->addField('input_validation', 'select', array(
-            'name'      => 'input_validation',
-            'label'     => __('Input Validation'),
-            'title'     => __('Input Validation'),
-            'values'    => array('' => __('None'))
-        ), 'default_value_textarea');
+        $fieldset->addField(
+            'input_validation',
+            'select',
+            array(
+                'name' => 'input_validation',
+                'label' => __('Input Validation'),
+                'title' => __('Input Validation'),
+                'values' => array('' => __('None'))
+            ),
+            'default_value_textarea'
+        );
 
-        $fieldset->addField('min_text_length', 'text', array(
-            'name'      => 'min_text_length',
-            'label'     => __('Minimum Text Length'),
-            'title'     => __('Minimum Text Length'),
-            'class'     => 'validate-digits',
-        ), 'input_validation');
+        $fieldset->addField(
+            'min_text_length',
+            'text',
+            array(
+                'name' => 'min_text_length',
+                'label' => __('Minimum Text Length'),
+                'title' => __('Minimum Text Length'),
+                'class' => 'validate-digits'
+            ),
+            'input_validation'
+        );
 
-        $fieldset->addField('max_text_length', 'text', array(
-            'name'      => 'max_text_length',
-            'label'     => __('Maximum Text Length'),
-            'title'     => __('Maximum Text Length'),
-            'class'     => 'validate-digits',
-        ), 'min_text_length');
+        $fieldset->addField(
+            'max_text_length',
+            'text',
+            array(
+                'name' => 'max_text_length',
+                'label' => __('Maximum Text Length'),
+                'title' => __('Maximum Text Length'),
+                'class' => 'validate-digits'
+            ),
+            'min_text_length'
+        );
 
-        $fieldset->addField('max_file_size', 'text', array(
-            'name'      => 'max_file_size',
-            'label'     => __('Maximum File Size (bytes)'),
-            'title'     => __('Maximum File Size (bytes)'),
-            'class'     => 'validate-digits',
-        ), 'max_text_length');
+        $fieldset->addField(
+            'max_file_size',
+            'text',
+            array(
+                'name' => 'max_file_size',
+                'label' => __('Maximum File Size (bytes)'),
+                'title' => __('Maximum File Size (bytes)'),
+                'class' => 'validate-digits'
+            ),
+            'max_text_length'
+        );
 
-        $fieldset->addField('file_extensions', 'text', array(
-            'name'      => 'file_extensions',
-            'label'     => __('File Extensions'),
-            'title'     => __('File Extensions'),
-            'note'      => __('Comma separated'),
-        ), 'max_file_size');
+        $fieldset->addField(
+            'file_extensions',
+            'text',
+            array(
+                'name' => 'file_extensions',
+                'label' => __('File Extensions'),
+                'title' => __('File Extensions'),
+                'note' => __('Comma separated')
+            ),
+            'max_file_size'
+        );
 
-        $fieldset->addField('max_image_width', 'text', array(
-            'name'      => 'max_image_width',
-            'label'     => __('Maximum Image Width (px)'),
-            'title'     => __('Maximum Image Width (px)'),
-            'class'     => 'validate-digits',
-        ), 'file_extensions');
+        $fieldset->addField(
+            'max_image_width',
+            'text',
+            array(
+                'name' => 'max_image_width',
+                'label' => __('Maximum Image Width (px)'),
+                'title' => __('Maximum Image Width (px)'),
+                'class' => 'validate-digits'
+            ),
+            'file_extensions'
+        );
 
-        $fieldset->addField('max_image_heght', 'text', array(
-            'name'      => 'max_image_heght',
-            'label'     => __('Maximum Image Height (px)'),
-            'title'     => __('Maximum Image Height (px)'),
-            'class'     => 'validate-digits',
-        ), 'max_image_width');
+        $fieldset->addField(
+            'max_image_heght',
+            'text',
+            array(
+                'name' => 'max_image_heght',
+                'label' => __('Maximum Image Height (px)'),
+                'title' => __('Maximum Image Height (px)'),
+                'class' => 'validate-digits'
+            ),
+            'max_image_width'
+        );
 
-        $fieldset->addField('input_filter', 'select', array(
-            'name'      => 'input_filter',
-            'label'     => __('Input/Output Filter'),
-            'title'     => __('Input/Output Filter'),
-            'values'    => array('' => __('None')),
-        ));
+        $fieldset->addField(
+            'input_filter',
+            'select',
+            array(
+                'name' => 'input_filter',
+                'label' => __('Input/Output Filter'),
+                'title' => __('Input/Output Filter'),
+                'values' => array('' => __('None'))
+            )
+        );
 
         /** @var $config \Magento\Backend\Model\Config\Source\Yesno */
         $config = $this->_yesnoFactory->create();
         $yesnoSource = $config->toOptionArray();
 
-        $fieldset = $form->addFieldset('front_fieldset', array(
-            'legend'    => __('Frontend Properties')
-        ));
+        $fieldset = $form->addFieldset('front_fieldset', array('legend' => __('Frontend Properties')));
 
-        $fieldset->addField('is_visible', 'select', array(
-            'name'      => 'is_visible',
-            'label'     => __('Show on Frontend'),
-            'title'     => __('Show on Frontend'),
-            'values'    => $yesnoSource,
-        ));
+        $fieldset->addField(
+            'is_visible',
+            'select',
+            array(
+                'name' => 'is_visible',
+                'label' => __('Show on Frontend'),
+                'title' => __('Show on Frontend'),
+                'values' => $yesnoSource
+            )
+        );
 
-        $fieldset->addField('sort_order', 'text', array(
-            'name'      => 'sort_order',
-            'label'     => __('Sort Order'),
-            'title'     => __('Sort Order'),
-            'required'  => true,
-            'class'     => 'validate-digits'
-        ));
+        $fieldset->addField(
+            'sort_order',
+            'text',
+            array(
+                'name' => 'sort_order',
+                'label' => __('Sort Order'),
+                'title' => __('Sort Order'),
+                'required' => true,
+                'class' => 'validate-digits'
+            )
+        );
 
-        $fieldset->addField('used_in_forms', 'multiselect', array(
-            'name'         => 'used_in_forms',
-            'label'        => __('Forms to Use In'),
-            'title'        => __('Forms to Use In'),
-            'values'       => $this->_attributeHelper->getAttributeFormOptions(),
-            'value'        => $attribute->getUsedInForms(),
-            'can_be_empty' => true,
-        ))->setSize(5);
+        $fieldset->addField(
+            'used_in_forms',
+            'multiselect',
+            array(
+                'name' => 'used_in_forms',
+                'label' => __('Forms to Use In'),
+                'title' => __('Forms to Use In'),
+                'values' => $this->_attributeHelper->getAttributeFormOptions(),
+                'value' => $attribute->getUsedInForms(),
+                'can_be_empty' => true
+            )
+        )->setSize(
+            5
+        );
 
         if ($attribute->getId()) {
             $elements = array();
@@ -301,7 +358,7 @@ class Main
     /**
      * Can show tab in tabs
      *
-     * @return boolean
+     * @return bool
      */
     public function canShowTab()
     {
@@ -311,7 +368,7 @@ class Main
     /**
      * Tab is hidden
      *
-     * @return boolean
+     * @return bool
      */
     public function isHidden()
     {

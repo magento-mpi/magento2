@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Theme\Image;
 
 /**
@@ -18,30 +17,38 @@ class Uploader
      *
      * @var array
      */
-    protected  $_allowedExtensions = array('jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp');
+    protected $_allowedExtensions = array('jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp');
 
     /**
-     * @var \Magento\Filesystem
+     * File system
+     *
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
     /**
+     * Transfer adapter
+     *
      * @var \Zend_File_Transfer_Adapter_Http
      */
     protected $_transferAdapter;
 
     /**
+     * Uploader factory
+     *
      * @var \Magento\File\UploaderFactory
      */
     protected $_uploaderFactory;
 
     /**
-     * @param \Magento\Filesystem $filesystem
+     * Constructor
+     *
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\HTTP\Adapter\FileTransferFactory $adapterFactory
      * @param \Magento\File\UploaderFactory $uploaderFactory
      */
     public function __construct(
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\HTTP\Adapter\FileTransferFactory $adapterFactory,
         \Magento\File\UploaderFactory $uploaderFactory
     ) {

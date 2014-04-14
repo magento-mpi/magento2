@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model;
 
 /**
  * CustomerSegment observer
  */
-namespace Magento\CustomerSegment\Model;
-
 class Observer
 {
     /**
@@ -23,7 +22,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -45,25 +44,25 @@ class Observer
     /**
      * Store list manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\CustomerSegment\Model\Customer $customer
      * @param \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno
      * @param \Magento\CustomerSegment\Helper\Data $segmentHelper
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\CustomerSegment\Model\Customer $customer,
         \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno,
         \Magento\CustomerSegment\Helper\Data $segmentHelper,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
@@ -77,6 +76,7 @@ class Observer
      * Add Customer Segment condition to the salesrule management
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function addSegmentsToSalesRuleCombine(\Magento\Event\Observer $observer)
     {
@@ -84,23 +84,28 @@ class Observer
             return;
         }
         $additional = $observer->getEvent()->getAdditional();
-        $additional->setConditions(array(array(
-            'label' => __('Customer Segment'),
-            'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Segment'
-        )));
+        $additional->setConditions(
+            array(
+                array(
+                    'label' => __('Customer Segment'),
+                    'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Segment'
+                )
+            )
+        );
     }
 
     /**
      * Process customer related data changing. Method can process just events with customer object
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function processCustomerEvent(\Magento\Event\Observer $observer)
     {
-        $customer  = $observer->getEvent()->getCustomer();
-        $dataObject= $observer->getEvent()->getDataObject();
+        $customer = $observer->getEvent()->getCustomer();
+        $dataObject = $observer->getEvent()->getDataObject();
 
-        $customerId= false;
+        $customerId = false;
         if ($customer) {
             $customerId = $customer->getId();
         }
@@ -117,6 +122,7 @@ class Observer
      * Can be used for processing just frontend events
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function processEvent(\Magento\Event\Observer $observer)
     {
@@ -127,8 +133,11 @@ class Observer
             $customer = $this->_customerSession->getCustomer();
         }
 
-        $this->_customer->processEvent($observer->getEvent()->getName(), $customer,
-            $this->_storeManager->getStore()->getWebsite());
+        $this->_customer->processEvent(
+            $observer->getEvent()->getName(),
+            $customer,
+            $this->_storeManager->getStore()->getWebsite()
+        );
     }
 
     /**
@@ -152,17 +161,22 @@ class Observer
      * Add field "Use in Customer Segment" for Customer and Customer Address attribute edit form
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function enterpiseCustomerAttributeEditPrepareForm(\Magento\Event\Observer $observer)
     {
-        $form       = $observer->getEvent()->getForm();
-        $fieldset   = $form->getElement('base_fieldset');
-        $fieldset->addField('is_used_for_customer_segment', 'select', array(
-            'name'      => 'is_used_for_customer_segment',
-            'label'     => __('Use in Customer Segment'),
-            'title'     => __('Use in Customer Segment'),
-            'values'    => $this->_configSourceYesno->toOptionArray(),
-        ));
+        $form = $observer->getEvent()->getForm();
+        $fieldset = $form->getElement('base_fieldset');
+        $fieldset->addField(
+            'is_used_for_customer_segment',
+            'select',
+            array(
+                'name' => 'is_used_for_customer_segment',
+                'label' => __('Use in Customer Segment'),
+                'title' => __('Use in Customer Segment'),
+                'values' => $this->_configSourceYesno->toOptionArray()
+            )
+        );
     }
 
     /**
@@ -171,6 +185,7 @@ class Observer
      * Observe  targetrule_edit_tab_main_after_prepare_form event
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function addFieldsToTargetRuleForm(\Magento\Event\Observer $observer)
     {

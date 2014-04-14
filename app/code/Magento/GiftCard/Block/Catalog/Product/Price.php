@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Block\Catalog\Product;
 
 class Price extends \Magento\Catalog\Block\Product\Price
@@ -41,8 +40,8 @@ class Price extends \Magento\Catalog\Block\Product\Price
     }
 
     /**
-     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
-     * @return bool|\Magento\Core\Model\Website
+     * @param null|string|bool|int|\Magento\Store\Model\Store $storeId
+     * @return bool|\Magento\Store\Model\Website
      */
     public function getWebsite($storeId)
     {

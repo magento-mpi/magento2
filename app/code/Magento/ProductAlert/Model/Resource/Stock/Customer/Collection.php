@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\ProductAlert\Model\Resource\Stock\Customer;
 
 /**
  * ProductAlert Stock Customer collection
@@ -16,17 +16,14 @@
  * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ProductAlert\Model\Resource\Stock\Customer;
-
-class Collection
-    extends \Magento\Customer\Model\Resource\Customer\Collection
+class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**
      * join productalert stock data to customer collection
      *
      * @param int $productId
      * @param int $websiteId
-     * @return \Magento\ProductAlert\Model\Resource\Stock\Customer\Collection
+     * @return $this
      */
     public function join($productId, $websiteId)
     {

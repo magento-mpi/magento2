@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reward\Controller\Adminhtml\Reward;
 
+use Magento\App\ResponseInterface;
 
 /**
  * Reward admin rate controller
@@ -16,25 +18,21 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Controller\Adminhtml\Reward;
-
 class Rate extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -43,12 +41,13 @@ class Rate extends \Magento\Backend\App\Action
      * Check if module functionality enabled
      *
      * @param \Magento\App\RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return ResponseInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
-        if (!$this->_objectManager->get('Magento\Reward\Helper\Data')->isEnabled()
-            && $request->getActionName() != 'noroute'
+        if (!$this->_objectManager->get(
+            'Magento\Reward\Helper\Data'
+        )->isEnabled() && $request->getActionName() != 'noroute'
         ) {
             $this->_forward('noroute');
         }
@@ -58,16 +57,20 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Initialize layout, breadcrumbs
      *
-     * @return \Magento\Reward\Controller\Adminhtml\Reward\Rate
+     * @return $this
      */
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Reward::customer_reward')
-            ->_addBreadcrumb(__('Customers'),
-                __('Customers'))
-            ->_addBreadcrumb(__('Manage Reward Exchange Rates'),
-                __('Manage Reward Exchange Rates'));
+        $this->_setActiveMenu(
+            'Magento_Reward::customer_reward'
+        )->_addBreadcrumb(
+            __('Customers'),
+            __('Customers')
+        )->_addBreadcrumb(
+            __('Manage Reward Exchange Rates'),
+            __('Manage Reward Exchange Rates')
+        );
         return $this;
     }
 
@@ -91,6 +94,8 @@ class Rate extends \Magento\Backend\App\Action
 
     /**
      * Index Action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -103,6 +108,8 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * New Action.
      * Forward to Edit Action
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -111,6 +118,8 @@ class Rate extends \Magento\Backend\App\Action
 
     /**
      * Edit Action
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -124,6 +133,8 @@ class Rate extends \Magento\Backend\App\Action
 
     /**
      * Save Action
+     *
+     * @return ResponseInterface
      */
     public function saveAction()
     {
@@ -132,7 +143,7 @@ class Rate extends \Magento\Backend\App\Action
         if ($data) {
             $rate = $this->_initRate();
 
-            if ($this->getRequest()->getParam('rate_id') && ! $rate->getId()) {
+            if ($this->getRequest()->getParam('rate_id') && !$rate->getId()) {
                 return $this->_redirect('adminhtml/*/');
             }
 
@@ -153,6 +164,8 @@ class Rate extends \Magento\Backend\App\Action
 
     /**
      * Delete Action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -174,40 +187,52 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Validate Action
      *
+     * @return void
      */
     public function validateAction()
     {
         $response = new \Magento\Object(array('error' => false));
-        $post     = $this->getRequest()->getParam('rate');
-        $message  = null;
-        /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */
-        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface');
+        $post = $this->getRequest()->getParam('rate');
+        $message = null;
+        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
+        $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
         if ($storeManager->isSingleStoreMode()) {
             $post['website_id'] = $storeManager->getStore(true)->getWebsiteId();
         }
 
-        if (!isset($post['customer_group_id'])
-            || !isset($post['website_id'])
-            || !isset($post['direction'])
-            || !isset($post['value'])
-            || !isset($post['equal_value'])) {
+        if (!isset(
+            $post['customer_group_id']
+        ) || !isset(
+            $post['website_id']
+        ) || !isset(
+            $post['direction']
+        ) || !isset(
+            $post['value']
+        ) || !isset(
+            $post['equal_value']
+        )
+        ) {
             $message = __('Please enter all Rate information.');
-        } elseif ($post['direction'] == \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
-                  && ((int) $post['value'] <= 0 || (float) $post['equal_value'] <= 0)) {
-              if ((int) $post['value'] <= 0) {
-                  $message = __('Please enter a positive integer number in the left rate field.');
-              } else {
-                  $message = __('Please enter a positive number in the right rate field.');
-              }
-        } elseif ($post['direction'] == \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS
-                  && ((float) $post['value'] <= 0 || (int) $post['equal_value'] <= 0)) {
-              if ((int) $post['equal_value'] <= 0) {
-                  $message = __('Please enter a positive integer number in the right rate field.');
-              } else {
-                  $message = __('Please enter a positive number in the left rate field.');
-              }
+        } elseif ($post['direction'] == \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY &&
+            ((int)$post['value'] <= 0 ||
+            (double)$post['equal_value'] <= 0)
+        ) {
+            if ((int)$post['value'] <= 0) {
+                $message = __('Please enter a positive integer number in the left rate field.');
+            } else {
+                $message = __('Please enter a positive number in the right rate field.');
+            }
+        } elseif ($post['direction'] == \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS &&
+            ((double)$post['value'] <= 0 ||
+            (int)$post['equal_value'] <= 0)
+        ) {
+            if ((int)$post['equal_value'] <= 0) {
+                $message = __('Please enter a positive integer number in the right rate field.');
+            } else {
+                $message = __('Please enter a positive number in the left rate field.');
+            }
         } else {
-            $rate       = $this->_initRate();
+            $rate = $this->_initRate();
             $isRateUnique = $rate->getIsRateUniqueToCurrent(
                 $post['website_id'],
                 $post['customer_group_id'],
@@ -215,7 +240,9 @@ class Rate extends \Magento\Backend\App\Action
             );
 
             if (!$isRateUnique) {
-                $message = __('Sorry, but a rate with the same website, customer group and direction or covering rate already exists.');
+                $message = __(
+                    'Sorry, but a rate with the same website, customer group and direction or covering rate already exists.'
+                );
             }
         }
 
@@ -232,7 +259,7 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Acl check for admin
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

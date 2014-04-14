@@ -21,62 +21,48 @@ namespace Magento\Wishlist\Block\Customer;
 class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**
+     * List of product options rendering configurations by product type
+     *
+     * @var array
+     */
+    protected $_optionsCfg = array();
+
+    /**
      * @var \Magento\Catalog\Helper\Product\ConfigurationPool
      */
     protected $_helperPool;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
-     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
-     * @param \Magento\Theme\Helper\Layout $layoutHelper
-     * @param \Magento\Catalog\Helper\Image $imageHelper
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @var \Magento\Data\Form\FormKey
+     */
+    protected $_formKey;
+
+    /**
+     * @param \Magento\Catalog\Block\Product\Context $context
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
+     * @param \Magento\Data\Form\FormKey $formKey
      * @param array $data
-     * 
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @param array $priceBlockTypes
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Block\Product\Context $context,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
-        array $data = array()
+        \Magento\Data\Form\FormKey $formKey,
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
+        $this->_formKey = $formKey;
         $this->_helperPool = $helperPool;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
-            $customerSession,
+            $httpContext,
             $productFactory,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 
@@ -84,7 +70,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      * Add wishlist conditions to collection
      *
      * @param  \Magento\Wishlist\Model\Resource\Item\Collection $collection
-     * @return \Magento\Wishlist\Block\Customer\Wishlist
+     * @return $this
      */
     protected function _prepareCollection($collection)
     {
@@ -95,7 +81,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     /**
      * Preparing global layout
      *
-     * @return \Magento\Wishlist\Block\Customer\Wishlist
+     * @return void
      */
     protected function _prepareLayout()
     {
@@ -119,9 +105,10 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     /**
      * Sets all options render configurations
      *
-     * @deprecated after 1.6.2.0
      * @param null|array $optionCfg
-     * @return \Magento\Wishlist\Block\Customer\Wishlist
+     * @return $this
+     *
+     * @deprecated after 1.6.2.0
      */
     public function setOptionsRenderCfgs($optionCfg)
     {
@@ -140,14 +127,15 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         return $this->_optionsCfg;
     }
 
-    /*
+    /**
      * Adds config for rendering product type options
      *
-     * @deprecated after 1.6.2.0
      * @param string $productType
      * @param string $helperName
      * @param null|string $template
-     * @return \Magento\Wishlist\Block\Customer\Wishlist
+     * @return $this
+     *
+     * @deprecated after 1.6.2.0
      */
     public function addOptionsRenderCfg($productType, $helperName, $template = null)
     {
@@ -158,9 +146,10 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     /**
      * Returns html for showing item options
      *
-     * @deprecated after 1.6.2.0
      * @param string $productType
      * @return array|null
+     *
+     * @deprecated after 1.6.2.0
      */
     public function getOptionsRenderCfg($productType)
     {
@@ -176,9 +165,10 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     /**
      * Returns html for showing item options
      *
-     * @deprecated after 1.6.2.0
      * @param \Magento\Wishlist\Model\Item $item
      * @return string
+     *
+     * @deprecated after 1.6.2.0
      */
     public function getDetailsHtml(\Magento\Wishlist\Model\Item $item)
     {
@@ -187,7 +177,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
             return '';
         }
 
-        $block  = $this->getChildBlock('item_options');
+        $block = $this->getChildBlock('item_options');
         if (!$block) {
             return '';
         }
@@ -202,21 +192,34 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
             $template = $cfgDefault['template'];
         }
 
-        return $block->setTemplate($template)
-            ->setOptionList($this->_helperPool($cfg['helper'])->getOptions($item))
-            ->toHtml();
+        $block->setTemplate($template);
+        $block->setOptionList($this->_helperPool->get($cfg['helper'])->getOptions($item));
+        return $block->toHtml();
     }
 
     /**
      * Returns qty to show visually to user
      *
-     * @deprecated after 1.6.2.0
      * @param \Magento\Wishlist\Model\Item $item
      * @return float
+     *
+     * @deprecated after 1.6.2.0
      */
     public function getAddToCartQty(\Magento\Wishlist\Model\Item $item)
     {
         $qty = $this->getQty($item);
         return $qty ? $qty : 1;
+    }
+
+    /**
+     * Get add all to cart url
+     * @return string
+     */
+    public function getAddAllToCartUrl()
+    {
+        return $this->getUrl(
+            '*/*/allcart',
+            array('wishlist_id' => $this->getWishlistInstance()->getId(), 'form_key' => $this->_formKey->getFormKey())
+        );
     }
 }

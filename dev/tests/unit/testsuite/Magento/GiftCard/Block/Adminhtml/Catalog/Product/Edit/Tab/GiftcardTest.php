@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
 class GiftcardTest extends \PHPUnit_Framework_TestCase
@@ -22,18 +21,21 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     public function testGetScopeValue($isSingleStore, $scope, $expectedResult)
     {
 
-        $storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $storeManagerMock->expects($this->any())
-            ->method('isSingleStoreMode')
-            ->will($this->returnValue($isSingleStore));
+        $storeManagerMock = $this->getMockBuilder(
+            'Magento\Store\Model\StoreManager'
+        )->disableOriginalConstructor()->getMock();
+        $storeManagerMock->expects(
+            $this->any()
+        )->method(
+            'isSingleStoreMode'
+        )->will(
+            $this->returnValue($isSingleStore)
+        );
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $block = $objectManagerHelper->getObject(
             'Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab\Giftcard',
-            array(
-                'storeManager' => $storeManagerMock)
+            array('storeManager' => $storeManagerMock)
         );
 
 
@@ -45,9 +47,6 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
      */
     public function getScopeValueDataProvider()
     {
-        return array(
-            array(true, 'test', ''),
-            array(false, 'test', 'value-scope="test"'),
-        );
+        return array(array(true, 'test', ''), array(false, 'test', 'value-scope="test"'));
     }
 }

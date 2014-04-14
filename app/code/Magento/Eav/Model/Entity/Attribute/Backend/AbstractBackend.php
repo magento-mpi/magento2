@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model\Entity\Attribute\Backend;
 
 /**
  * Entity/Attribute/Model - attribute backend abstract
@@ -16,10 +16,7 @@
  * @package    Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Entity\Attribute\Backend;
-
-abstract class AbstractBackend
-    implements \Magento\Eav\Model\Entity\Attribute\Backend\BackendInterface
+abstract class AbstractBackend implements \Magento\Eav\Model\Entity\Attribute\Backend\BackendInterface
 {
     /**
      * Reference to the attribute instance
@@ -80,7 +77,7 @@ abstract class AbstractBackend
      * Set attribute instance
      *
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @return $this
      */
     public function setAttribute($attribute)
     {
@@ -111,7 +108,7 @@ abstract class AbstractBackend
     /**
      * Check whether the attribute is a real field in the entity table
      *
-     * @return boolean
+     * @return bool
      */
     public function isStatic()
     {
@@ -162,7 +159,7 @@ abstract class AbstractBackend
      * Set value id
      *
      * @param int $valueId
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @return $this
      */
     public function setValueId($valueId)
     {
@@ -175,7 +172,7 @@ abstract class AbstractBackend
      *
      * @param \Magento\Object $entity
      * @param int $valueId
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @return $this
      */
     public function setEntityValueId($entity, $valueId)
     {
@@ -235,7 +232,7 @@ abstract class AbstractBackend
      *
      * @param \Magento\Object $object
      * @throws \Magento\Eav\Exception
-     * @return boolean
+     * @return bool
      */
     public function validate($object)
     {
@@ -245,19 +242,18 @@ abstract class AbstractBackend
             return false;
         }
 
-        if ($this->getAttribute()->getIsUnique()
-            && !$this->getAttribute()->getIsRequired()
-            && ($value == '' || $this->getAttribute()->isValueEmpty($value)))
-        {
+        if ($this->getAttribute()->getIsUnique() && !$this->getAttribute()->getIsRequired() && ($value == '' ||
+            $this->getAttribute()->isValueEmpty(
+                $value
+            ))
+        ) {
             return true;
         }
 
         if ($this->getAttribute()->getIsUnique()) {
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
-                throw new \Magento\Eav\Exception(
-                    __('The value of attribute "%1" must be unique', $label)
-                );
+                throw new \Magento\Eav\Exception(__('The value of attribute "%1" must be unique', $label));
             }
         }
 
@@ -268,7 +264,7 @@ abstract class AbstractBackend
      * After load method
      *
      * @param \Magento\Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @return $this
      */
     public function afterLoad($object)
     {
@@ -279,7 +275,7 @@ abstract class AbstractBackend
      * Before save method
      *
      * @param \Magento\Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @return $this
      */
     public function beforeSave($object)
     {
@@ -295,7 +291,7 @@ abstract class AbstractBackend
      * After save method
      *
      * @param \Magento\Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @return $this
      */
     public function afterSave($object)
     {
@@ -306,7 +302,7 @@ abstract class AbstractBackend
      * Before delete method
      *
      * @param \Magento\Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @return $this
      */
     public function beforeDelete($object)
     {
@@ -317,7 +313,7 @@ abstract class AbstractBackend
      * After delete method
      *
      * @param \Magento\Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @return $this
      */
     public function afterDelete($object)
     {
@@ -335,7 +331,7 @@ abstract class AbstractBackend
         $data = array();
         $data[$this->getTable()][] = array(
             'attribute_id' => $this->getAttribute()->getAttributeId(),
-            'value_id' => $this->getEntityValueId($object),
+            'value_id' => $this->getEntityValueId($object)
         );
         return $data;
     }

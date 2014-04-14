@@ -203,4 +203,4 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_DropDownTest ex
         //Verifying
         $this->attributesHelper()->verifyAttribute($attrData);
     }
-} 
+}

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Quote\Address;
 
 /**
  * Quote addresses collection
@@ -16,27 +16,26 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Quote\Address;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Event prefix
      *
      * @var string
      */
-    protected $_eventPrefix    = 'sales_quote_address_collection';
+    protected $_eventPrefix = 'sales_quote_address_collection';
 
     /**
      * Event object name
      *
      * @var string
      */
-    protected $_eventObject    = 'quote_address_collection';
+    protected $_eventObject = 'quote_address_collection';
 
     /**
      * Resource initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -48,7 +47,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * we should exclude loading junk data from DB
      *
      * @param int $quoteId
-     * @return \Magento\Sales\Model\Resource\Quote\Address\Collection
+     * @return $this
      */
     public function setQuoteFilter($quoteId)
     {
@@ -59,17 +58,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Redeclare after load method for dispatch event
      *
-     * @return \Magento\Sales\Model\Resource\Quote\Address\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
         parent::_afterLoad();
 
-        $this->_eventManager->dispatch($this->_eventPrefix.'_load_after', array(
-            $this->_eventObject => $this
-        ));
+        $this->_eventManager->dispatch($this->_eventPrefix . '_load_after', array($this->_eventObject => $this));
 
         return $this;
     }
 }
-

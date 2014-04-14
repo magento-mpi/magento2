@@ -18,19 +18,22 @@
  */
 namespace Magento\Reward\Model\Total\Creditmemo;
 
+use Magento\Sales\Model\Order\Creditmemo;
+
 class Reward extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
 {
     /**
      * Collect reward totals for credit memo
      *
-     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
-     * @return \Magento\Reward\Model\Total\Creditmemo\Reward
+     * @param Creditmemo $creditmemo
+     * @return $this
      */
-    public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
+    public function collect(Creditmemo $creditmemo)
     {
         $order = $creditmemo->getOrder();
         $rewardCurrecnyAmountLeft = $order->getRwrdCurrencyAmountInvoiced() - $order->getRwrdCrrncyAmntRefunded();
-        $baseRewardCurrecnyAmountLeft = $order->getBaseRwrdCrrncyAmtInvoiced() - $order->getBaseRwrdCrrncyAmntRefnded();
+        $baseRewardCurrecnyAmountLeft = $order->getBaseRwrdCrrncyAmtInvoiced() -
+            $order->getBaseRwrdCrrncyAmntRefnded();
         if ($order->getBaseRewardCurrencyAmount() && $baseRewardCurrecnyAmountLeft > 0) {
             if ($baseRewardCurrecnyAmountLeft >= $creditmemo->getBaseGrandTotal()) {
                 $rewardCurrecnyAmountLeft = $creditmemo->getGrandTotal();
@@ -43,7 +46,7 @@ class Reward extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
                 $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal() - $baseRewardCurrecnyAmountLeft);
             }
             $pointValue = $order->getRewardPointsBalance() / $order->getBaseRewardCurrencyAmount();
-            $rewardPointsBalance = $baseRewardCurrecnyAmountLeft*ceil($pointValue);
+            $rewardPointsBalance = $baseRewardCurrecnyAmountLeft * ceil($pointValue);
             $rewardPointsBalanceLeft = $order->getRewardPointsBalance() - $order->getRewardPointsBalanceRefunded();
             if ($rewardPointsBalance > $rewardPointsBalanceLeft) {
                 $rewardPointsBalance = $rewardPointsBalanceLeft;

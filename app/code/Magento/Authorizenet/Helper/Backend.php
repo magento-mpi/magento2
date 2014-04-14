@@ -7,14 +7,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authorizenet\Helper;
 
 /**
- * Authorizenet Backend Data Helper
+ * Authorize.net Backend Data Helper
  */
 class Backend extends Data
 {
+    /**
+     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Backend\Model\UrlInterface $backendUrl
+     */
+    public function __construct(
+        \Magento\App\Helper\Context $context,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Backend\Model\UrlInterface $backendUrl
+    ) {
+        parent::__construct($context, $storeManager, $orderFactory);
+        $this->_urlBuilder = $backendUrl;
+    }
+
     /**
      * Return URL for admin area
      *
@@ -34,13 +49,13 @@ class Backend extends Data
      */
     public function getPlaceOrderAdminUrl()
     {
-        return $this->_getUrl('*/authorizenet_directpost_payment/place', array());
+        return $this->_getUrl('adminhtml/authorizenet_directpost_payment/place', array());
     }
 
     /**
      * Retrieve place order url
      *
-     * @param array params
+     * @param array $params
      * @return  string
      */
     public function getSuccessOrderUrl($params)
@@ -53,13 +68,26 @@ class Backend extends Data
     }
 
     /**
-     * Retrieve redirect ifrmae url
+     * Retrieve redirect iframe url
      *
-     * @param array params
+     * @param array $params
      * @return string
      */
     public function getRedirectIframeUrl($params)
     {
         return $this->_getUrl('adminhtml/authorizenet_directpost_payment/redirect', $params);
+    }
+
+    /**
+     * Get direct post rely url
+     *
+     * @param null|int|string $storeId
+     * @return string
+     */
+    public function getRelyUrl($storeId = null)
+    {
+        return $this->_storeManager->getDefaultStoreView()->getBaseUrl(
+            \Magento\UrlInterface::URL_TYPE_LINK
+        ) . 'authorizenet/directpost_payment/backendResponse';
     }
 }

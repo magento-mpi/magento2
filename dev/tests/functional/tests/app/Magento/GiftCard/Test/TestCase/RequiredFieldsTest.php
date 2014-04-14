@@ -20,7 +20,7 @@ use Magento\GiftCard\Test\Fixture\GiftCard;
  *
  * @package Magento\GiftCard\Test\TestCase
  */
-class testCreate extends Functional
+class RequiredFieldsTest extends Functional
 {
     /**
      * Login into backend area before test

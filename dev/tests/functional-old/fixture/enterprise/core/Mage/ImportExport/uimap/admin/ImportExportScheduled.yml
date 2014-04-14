@@ -13,7 +13,7 @@
 
 scheduled_import_export:
     mca: scheduled_operation/
-    click_xpath: //*[@class='navigation']//a[contains(@href, '/scheduled_operation/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/scheduled_operation/')]
     title: Scheduled Imports/Exports / Data Transfer / System / Magento Admin
     uimap: &scheduledImportExport
         form:
@@ -52,7 +52,7 @@ scheduled_import_export:
             success_delete_export: //li[normalize-space(@class)='success-msg' and contains(.,'We deleted the scheduled export.')]
             success_delete_import: //li[normalize-space(@class)='success-msg' and contains(.,'We deleted the scheduled import.')]
             success_run: //li[normalize-space(@class)='success-msg' and contains(.,'The operation ran.')]
-            error_run: //li[normalize-space(@class)='error-msg' and contains(.,'We couldn’t run the operation.')]
+            error_run: //li[normalize-space(@class)='error-msg' and contains(.,'Unable to run operation')]
             delete_confirmation_export: Are you sure you want to delete this scheduled export?
             delete_confirmation_import: Are you sure you want to delete this scheduled import?
             success_delete_records: //li[normalize-space(@class)='success-msg' and contains(.,'We deleted a total of %qtyDeletedRecords% record(s).')]

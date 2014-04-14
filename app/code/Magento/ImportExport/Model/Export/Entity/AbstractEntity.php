@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Export\Entity;
+
+use Magento\ImportExport\Model\Export\Adapter\AbstractAdapter;
 
 /**
  * Export entity abstract model
@@ -15,8 +18,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Export\Entity;
-
 abstract class AbstractEntity
 {
     /**
@@ -25,7 +26,6 @@ abstract class AbstractEntity
      * @var array
      */
     protected $_attributeValues = array();
-
 
     /**
      * Attribute code to its values. Only attributes with options and only default store values used.
@@ -44,7 +44,7 @@ abstract class AbstractEntity
     /**
      * Array of attributes codes which are disabled for export.
      *
-     * @var array
+     * @var string[]
      */
     protected $_disabledAttrs = array();
 
@@ -86,7 +86,7 @@ abstract class AbstractEntity
     /**
      * Attributes with index (not label) value.
      *
-     * @var array
+     * @var string[]
      */
     protected $_indexValueAttributes = array();
 
@@ -107,14 +107,14 @@ abstract class AbstractEntity
     /**
      * Column names that holds values with particular meaning.
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array();
 
     /**
      * Permanent entity columns.
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array();
 
@@ -135,50 +135,51 @@ abstract class AbstractEntity
     /**
      * Source model.
      *
-     * @var \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
+     * @var AbstractAdapter
      */
     protected $_writer;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Eav\Model\Config $config,
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_storeManager = $storeManager;
         $entityCode = $this->getEntityTypeCode();
         $this->_entityTypeId = $config->getEntityType($entityCode)->getEntityTypeId();
-        $this->_connection   = $resource->getConnection('write');
+        $this->_connection = $resource->getConnection('write');
     }
 
     /**
      * Initialize stores hash.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEntity
+     * @return $this
      */
     protected function _initStores()
     {
         foreach ($this->_storeManager->getStores(true) as $store) {
             $this->_storeIdToCode[$store->getId()] = $store->getCode();
         }
-        ksort($this->_storeIdToCode); // to ensure that 'admin' store (ID is zero) goes first
+        ksort($this->_storeIdToCode);
+        // to ensure that 'admin' store (ID is zero) goes first
 
         return $this;
     }
@@ -186,7 +187,7 @@ abstract class AbstractEntity
     /**
      * Get header columns
      *
-     * @return array
+     * @return string[]
      */
     abstract protected function _getHeaderColumns();
 
@@ -205,8 +206,10 @@ abstract class AbstractEntity
     protected function _getExportAttrCodes()
     {
         if (null === self::$attrCodes) {
-            if (!empty($this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP])
-                    && is_array($this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP])) {
+            if (!empty($this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP]) && is_array(
+                $this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP]
+            )
+            ) {
                 $skipAttr = array_flip($this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP]);
             } else {
                 $skipAttr = array();
@@ -214,8 +217,13 @@ abstract class AbstractEntity
             $attrCodes = array();
 
             foreach ($this->filterAttributeCollection($this->getAttributeCollection()) as $attribute) {
-                if (!isset($skipAttr[$attribute->getAttributeId()])
-                        || in_array($attribute->getAttributeCode(), $this->_permanentAttributes)) {
+                if (!isset(
+                    $skipAttr[$attribute->getAttributeId()]
+                ) || in_array(
+                    $attribute->getAttributeCode(),
+                    $this->_permanentAttributes
+                )
+                ) {
                     $attrCodes[] = $attribute->getAttributeCode();
                 }
             }
@@ -227,7 +235,7 @@ abstract class AbstractEntity
     /**
      * Initialize attribute option values.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEntity
+     * @return $this
      */
     protected function _initAttrValues()
     {
@@ -245,8 +253,12 @@ abstract class AbstractEntity
      */
     protected function _prepareEntityCollection(\Magento\Eav\Model\Entity\Collection\AbstractCollection $collection)
     {
-        if (!isset($this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP])
-            || !is_array($this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP])) {
+        if (!isset(
+            $this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP]
+        ) || !is_array(
+            $this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP]
+        )
+        ) {
             $exportFilter = array();
         } else {
             $exportFilter = $this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP];
@@ -271,21 +283,21 @@ abstract class AbstractEntity
                 } elseif (\Magento\ImportExport\Model\Export::FILTER_TYPE_DATE == $attrFilterType) {
                     if (is_array($exportFilter[$attrCode]) && count($exportFilter[$attrCode]) == 2) {
                         $from = array_shift($exportFilter[$attrCode]);
-                        $to   = array_shift($exportFilter[$attrCode]);
+                        $to = array_shift($exportFilter[$attrCode]);
 
                         if (is_scalar($from) && !empty($from)) {
-                            $date = $this->_locale->date($from,null,null,false)->toString('MM/dd/YYYY');
+                            $date = $this->_localeDate->date($from, null, null, false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attrCode, array('from' => $date, 'date' => true));
                         }
                         if (is_scalar($to) && !empty($to)) {
-                            $date = $this->_locale->date($to,null,null,false)->toString('MM/dd/YYYY');
+                            $date = $this->_localeDate->date($to, null, null, false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attrCode, array('to' => $date, 'date' => true));
                         }
                     }
                 } elseif (\Magento\ImportExport\Model\Export::FILTER_TYPE_NUMBER == $attrFilterType) {
                     if (is_array($exportFilter[$attrCode]) && count($exportFilter[$attrCode]) == 2) {
                         $from = array_shift($exportFilter[$attrCode]);
-                        $to   = array_shift($exportFilter[$attrCode]);
+                        $to = array_shift($exportFilter[$attrCode]);
 
                         if (is_numeric($from)) {
                             $collection->addAttributeToFilter($attrCode, array('from' => $from));
@@ -313,9 +325,10 @@ abstract class AbstractEntity
     public function addRowError($errorCode, $errorRowNum)
     {
         $errorCode = (string)$errorCode;
-        $this->_errors[$errorCode][] = $errorRowNum + 1; // one added for human readability
+        $this->_errors[$errorCode][] = $errorRowNum + 1;
+        // one added for human readability
         $this->_invalidRows[$errorRowNum] = true;
-        $this->_errorsCount ++;
+        $this->_errorsCount++;
 
         return $this;
     }
@@ -381,12 +394,13 @@ abstract class AbstractEntity
             $index = in_array($attribute->getAttributeCode(), $this->_indexValueAttributes) ? 'value' : 'label';
 
             // only default (admin) store values used
-            $attribute->setStoreId(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
+            $attribute->setStoreId(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
             try {
                 foreach ($attribute->getSource()->getAllOptions(false) as $option) {
                     foreach (is_array($option['value']) ? $option['value'] : array($option) as $innerOption) {
-                        if (strlen($innerOption['value'])) { // skip ' -- Please Select -- ' option
+                        if (strlen($innerOption['value'])) {
+                            // skip ' -- Please Select -- ' option
                             $options[$innerOption['value']] = $innerOption[$index];
                         }
                     }
@@ -425,9 +439,14 @@ abstract class AbstractEntity
     {
         $messages = array();
         foreach ($this->_errors as $errorCode => $errorRows) {
-            $message = isset($this->_messageTemplates[$errorCode])
-                ? __($this->_messageTemplates[$errorCode])
-                : __("Please correct the value for '%1' column", $errorCode);
+            $message = isset(
+                $this->_messageTemplates[$errorCode]
+            ) ? __(
+                $this->_messageTemplates[$errorCode]
+            ) : __(
+                "Please correct the value for '%1' column",
+                $errorCode
+            );
             $messages[$message] = $errorRows;
         }
         return $messages;
@@ -476,13 +495,13 @@ abstract class AbstractEntity
     /**
      * Inner writer object getter.
      *
-     * @throws \Exception
-     * @return \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
+     * @return AbstractAdapter
+     * @throws \Magento\Model\Exception
      */
     public function getWriter()
     {
         if (!$this->_writer) {
-            throw new \Magento\Core\Exception(__('Please specify writer.'));
+            throw new \Magento\Model\Exception(__('Please specify writer.'));
         }
         return $this->_writer;
     }
@@ -491,7 +510,7 @@ abstract class AbstractEntity
      * Set parameters.
      *
      * @param array $parameters
-     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEntity
+     * @return $this
      */
     public function setParameters(array $parameters)
     {
@@ -503,10 +522,10 @@ abstract class AbstractEntity
     /**
      * Writer model setter.
      *
-     * @param \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter $writer
-     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEntity
+     * @param AbstractAdapter $writer
+     * @return $this
      */
-    public function setWriter(\Magento\ImportExport\Model\Export\Adapter\AbstractAdapter $writer)
+    public function setWriter(AbstractAdapter $writer)
     {
         $this->_writer = $writer;
 

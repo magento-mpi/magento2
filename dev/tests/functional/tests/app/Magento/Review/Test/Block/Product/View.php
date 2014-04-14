@@ -13,8 +13,6 @@
 namespace Magento\Review\Test\Block\Product;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element;
 
 /**
@@ -25,25 +23,11 @@ use Mtf\Client\Element;
 class View extends Block
 {
     /**
-     * Review form selector
-     *
-     * @var string
-     */
-    protected $formSelector = 'review-form';
-
-    /**
      * Review item selector
      *
      * @var string
      */
     protected $itemSelector = '.reviews.items .item.review';
-
-    /**
-     * Legend selector
-     *
-     * @var string
-     */
-    protected $legendSelector = 'legend';
 
     /**
      * Nickname selector
@@ -86,27 +70,6 @@ class View extends Block
         );
     }
 
-    /**
-     * Get review form
-     *
-     * @return \Magento\Review\Test\Block\Form
-     */
-    public function getReviewForm()
-    {
-        return Factory::getBlockFactory()->getMagentoReviewForm(
-            $this->_rootElement->find($this->formSelector, Locator::SELECTOR_ID)
-        );
-    }
-
-    /**
-     * Get legend
-     *
-     * @return Element
-     */
-    public function getLegend()
-    {
-        return $this->_rootElement->find($this->legendSelector);
-    }
     /**
      * Get first review item
      *

@@ -36,7 +36,7 @@ class Core_Mage_Vde_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('pageType', $pageType);
         if (!$this->controlIsVisible('field', 'page_type_selector')) {
             $this->clickControl('dropdown','page_selector', false);
-            $this->waitForElementVisible($this->_getControlXpath('field', 'page_type_selector'));
+            $this->waitForControlVisible('field', 'page_type_selector');
         }
         $this->clickControl('field','page_type_selector', false);
         $this->waitForPageToLoad();

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
 /**
  * Backend grid item renderer number
@@ -15,11 +16,11 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
-
-class Number
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Number extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
+    /**
+     * @var int
+     */
     protected $_defaultWidth = 100;
 
     /**
@@ -33,11 +34,12 @@ class Number
         $data = parent::_getValue($row);
         if (!is_null($data)) {
             $value = $data * 1;
-            $sign = (bool)(int)$this->getColumn()->getShowNumberSign() && ($value > 0) ? '+' : '';
+            $sign = (bool)(int)$this->getColumn()->getShowNumberSign() && $value > 0 ? '+' : '';
             if ($sign) {
                 $value = $sign . $value;
             }
-            return $value ? $value : '0'; // fixed for showing zero in grid
+            // fixed for showing zero in grid
+            return $value ? $value : '0';
         }
         return $this->getColumn()->getDefault();
     }
@@ -51,5 +53,4 @@ class Number
     {
         return parent::renderCss() . ' col-number';
     }
-
 }

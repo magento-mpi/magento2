@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\TargetRule\Model;
 
 /**
  * TargetRule observer
  *
  */
-namespace Magento\TargetRule\Model;
-
 class Observer
 {
     /**
@@ -29,11 +28,11 @@ class Observer
         $this->_indexer = $indexer;
     }
 
-
     /**
      * Prepare target rule data
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function prepareTargetRuleSave(\Magento\Event\Observer $observer)
     {
@@ -43,7 +42,7 @@ class Observer
             foreach ($_vars as $var) {
                 foreach ($_varPrefix as $pref) {
                     $v = $pref . $var;
-                    if ($product->getData($v.'_default') == 1) {
+                    if ($product->getData($v . '_default') == 1) {
                         $product->setData($v, null);
                     }
                 }
@@ -56,7 +55,7 @@ class Observer
      * and refresh cache index
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\TargetRule\Model\Observer
+     * @return $this
      */
     public function catalogProductAfterSave(\Magento\Event\Observer $observer)
     {
@@ -64,13 +63,15 @@ class Observer
         $product = $observer->getEvent()->getProduct();
 
         $this->_indexer->logEvent(
-            new \Magento\Object(array(
-                'id' => $product->getId(),
-                'store_id' => $product->getStoreId(),
-                'rule' => $product->getData('rule'),
-                'from_date' => $product->getData('from_date'),
-                'to_date' => $product->getData('to_date')
-            )),
+            new \Magento\Object(
+                array(
+                    'id' => $product->getId(),
+                    'store_id' => $product->getStoreId(),
+                    'rule' => $product->getData('rule'),
+                    'from_date' => $product->getData('from_date'),
+                    'to_date' => $product->getData('to_date')
+                )
+            ),
             \Magento\TargetRule\Model\Index::ENTITY_PRODUCT,
             \Magento\TargetRule\Model\Index::EVENT_TYPE_REINDEX_PRODUCTS
         );
@@ -81,6 +82,7 @@ class Observer
      * Process event on 'save_commit_after' event
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function catalogProductSaveCommitAfter(\Magento\Event\Observer $observer)
     {
@@ -94,12 +96,13 @@ class Observer
      * Clear customer segment indexer if customer segment is on|off on backend
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\TargetRule\Model\Observer
+     * @return $this
      */
     public function coreConfigSaveCommitAfter(\Magento\Event\Observer $observer)
     {
-        if ($observer->getDataObject()->getPath() == 'customer/magento_customersegment/is_enabled'
-            && $observer->getDataObject()->isValueChanged()) {
+        if ($observer->getDataObject()->getPath() == 'customer/magento_customersegment/is_enabled' &&
+            $observer->getDataObject()->isValueChanged()
+        ) {
             $this->_indexer->logEvent(
                 new \Magento\Object(array('type_id' => null, 'store' => null)),
                 \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,

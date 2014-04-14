@@ -12,8 +12,8 @@
 
 # Sales Invoices page
 manage_sales_invoices:
-    mca: sales_invoice/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_invoice/')]
+    mca: sales/invoice/
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/sales/invoice/')]
     title: Invoices / Operations / Sales / Magento Admin
     uimap:
         form: &salesInvoices
@@ -48,9 +48,10 @@ manage_sales_invoices:
         messages: &invoiceMessage
             confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you want to continue?
             failure: //li[normalize-space(@class)='error-msg' and contains(.,'PayPal gateway rejected the request.')]
+            success_creating_invoice: //li[normalize-space(@class)='success-msg' and contains(.,'The invoice has been created.')]
 
 create_invoice:
-    mca: sales_order_invoice/new/order_id/%id%/
+    mca: sales/order_invoice/new/order_id/%id%/
     title: New Invoice / Invoices / Operations / Sales / Magento Admin
     uimap: &create_invoice-uimap
         form: &orderInvoice
@@ -116,7 +117,7 @@ create_invoice:
         messages: *invoiceMessage
 
 view_invoice:
-    mca: sales_invoice/view/invoice_id/%id%/
+    mca: sales/invoice/view/invoice_id/%id%/
     title: %elementTitle% / Invoices / Operations / Sales / Magento Admin
     uimap:
         form: &viewInvoice
@@ -167,5 +168,5 @@ view_invoice:
         messages: *invoiceMessage
 
 create_invoice_denied:
-    mca: sales_order_invoice/start/order_id/%id%/
+    mca: sales/order_invoice/start/order_id/%id%/
     title: Magento Admin

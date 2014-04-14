@@ -30,20 +30,20 @@ class Configure extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Wishlist\Helper\Data $wishlistData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Wishlist\Helper\Data $wishlistData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
@@ -62,6 +62,16 @@ class Configure extends \Magento\View\Element\Template
     }
 
     /**
+     * Get update params for http post
+     *
+     * @return bool|string
+     */
+    public function getUpdateParams()
+    {
+        return $this->_wishlistData->getUpdateParams($this->getWishlistItem());
+    }
+
+    /**
      * Returns wishlist item being configured
      *
      * @return \Magento\Catalog\Model\Product|\Magento\Wishlist\Model\Item
@@ -74,7 +84,7 @@ class Configure extends \Magento\View\Element\Template
     /**
      * Configure product view blocks
      *
-     * @return \Magento\Wishlist\Block\Item\Configure
+     * @return $this
      */
     protected function _prepareLayout()
     {

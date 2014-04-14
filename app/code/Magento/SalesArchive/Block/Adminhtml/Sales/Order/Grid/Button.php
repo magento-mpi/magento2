@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid;
 
 /**
  *  Add sales archiving to order's grid view massaction
- *
  */
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid;
-
 class Button extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
@@ -23,14 +21,14 @@ class Button extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
         \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection,
         array $data = array()
@@ -39,21 +37,30 @@ class Button extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         parent::__construct($context, $registry, $adminHelper, $data);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $ordersCount = $this->_orderCollection->getSize();
         $parent = $this->getLayout()->getBlock('sales_order.grid.container');
         if ($parent && $ordersCount) {
             $url = $this->getUrl('adminhtml/sales_archive/orders');
-            $parent->addButton('go_to_archive',  array(
-                'label'     => __('Go to Archive (%1 orders)', $ordersCount),
-                'onclick'   => 'setLocation(\'' . $url . '\')',
-                'class'     => 'go'
-            ));
+            $parent->addButton(
+                'go_to_archive',
+                array(
+                    'label' => __('Go to Archive (%1 orders)', $ordersCount),
+                    'onclick' => 'setLocation(\'' . $url . '\')',
+                    'class' => 'go'
+                )
+            );
         }
         return $this;
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         return '';

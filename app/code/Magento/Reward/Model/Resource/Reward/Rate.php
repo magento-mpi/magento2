@@ -7,22 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reward\Model\Resource\Reward;
 
+use Magento\Reward\Model\Reward\Rate as RewardRate;
 
 /**
  * Reward rate resource model
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model\Resource\Reward;
-
-class Rate extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Rate extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,27 +31,34 @@ class Rate extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Fetch rate customer group and website
      *
-     * @param \Magento\Reward\Model\Reward\Rate $rate
+     * @param RewardRate $rate
      * @param int $customerGroupId
      * @param int $websiteId
      * @param int $direction
-     * @return \Magento\Reward\Model\Resource\Reward\Rate
+     * @return $this
      */
-    public function fetch(\Magento\Reward\Model\Reward\Rate $rate, $customerGroupId, $websiteId, $direction)
+    public function fetch(RewardRate $rate, $customerGroupId, $websiteId, $direction)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where('website_id IN (:website_id, 0)')
-            ->where('customer_group_id IN (:customer_group_id, 0)')
-            ->where('direction = :direction')
-            ->order('customer_group_id DESC')
-            ->order('website_id DESC')
-            ->limit(1);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable()
+        )->where(
+            'website_id IN (:website_id, 0)'
+        )->where(
+            'customer_group_id IN (:customer_group_id, 0)'
+        )->where(
+            'direction = :direction'
+        )->order(
+            'customer_group_id DESC'
+        )->order(
+            'website_id DESC'
+        )->limit(
+            1
+        );
 
         $bind = array(
-            ':website_id'        => (int)$websiteId,
+            ':website_id' => (int)$websiteId,
             ':customer_group_id' => (int)$customerGroupId,
-            ':direction'         => $direction
+            ':direction' => $direction
         );
 
         $row = $this->_getReadAdapter()->fetchRow($select, $bind);
@@ -67,22 +73,26 @@ class Rate extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve rate data bu given params or empty array if rate with such params does not exists
      *
-     * @param integer $websiteId
-     * @param integer $customerGroupId
-     * @param integer $direction
+     * @param int $websiteId
+     * @param int $customerGroupId
+     * @param int $direction
      * @return array
      */
     public function getRateData($websiteId, $customerGroupId, $direction)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where('website_id = :website_id')
-            ->where('customer_group_id = :customer_group_id')
-            ->where('direction = :direction');
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable()
+        )->where(
+            'website_id = :website_id'
+        )->where(
+            'customer_group_id = :customer_group_id'
+        )->where(
+            'direction = :direction'
+        );
         $bind = array(
-            ':website_id'        => (int)$websiteId,
+            ':website_id' => (int)$websiteId,
             ':customer_group_id' => (int)$customerGroupId,
-            ':direction'         => $direction
+            ':direction' => $direction
         );
         $data = $this->_getReadAdapter()->fetchRow($select, $bind);
         if ($data) {

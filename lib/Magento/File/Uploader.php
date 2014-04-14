@@ -7,6 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\File;
 
 /**
  * File upload class
@@ -18,9 +19,6 @@
  * @package    Magento_File
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\File;
-
 class Uploader
 {
     /**
@@ -112,7 +110,7 @@ class Uploader
     protected $_fileExists = false;
 
     /**
-     * @var null|array
+     * @var null|string[]
      */
     protected $_allowedExtensions = null;
 
@@ -128,7 +126,9 @@ class Uploader
      * File upload type (multiple or single)
      */
     const SINGLE_STYLE = 0;
+
     const MULTIPLE_STYLE = 1;
+
     /**#@-*/
 
     /**
@@ -175,7 +175,7 @@ class Uploader
      * After save logic
      *
      * @param  array $result
-     * @return \Magento\File\Uploader
+     * @return $this
      */
     protected function _afterSave($result)
     {
@@ -188,7 +188,7 @@ class Uploader
      *
      * @param string $destinationFolder
      * @param string $newFileName
-     * @return bool
+     * @return array
      * @throws \Exception
      */
     public function save($destinationFolder, $newFileName = null)
@@ -212,7 +212,7 @@ class Uploader
             $fileName = $this->correctFileNameCase($fileName);
             $this->setAllowCreateFolders(true);
             $this->_dispretionPath = self::getDispretionPath($fileName);
-            $destinationFile.= $this->_dispretionPath;
+            $destinationFile .= $this->_dispretionPath;
             $this->_createDestinationFolder($destinationFile);
         }
 
@@ -227,8 +227,7 @@ class Uploader
         if ($this->_result) {
             chmod($destinationFile, 0777);
             if ($this->_enableFilesDispersion) {
-                $fileName = str_replace('\\', '/',
-                    self::_addDirSeparator($this->_dispretionPath)) . $fileName;
+                $fileName = str_replace('\\', '/', self::_addDirSeparator($this->_dispretionPath)) . $fileName;
             }
             $this->_uploadedFileName = $fileName;
             $this->_uploadedFileDir = $destinationFolder;
@@ -247,7 +246,7 @@ class Uploader
      *
      * @param string $tmpPath
      * @param string $destPath
-     * @return bool
+     * @return bool|void
      */
     protected function _moveFile($tmpPath, $destPath)
     {
@@ -261,6 +260,7 @@ class Uploader
     /**
      * Validate file before save
      *
+     * @return void
      * @throws \Exception
      */
     protected function _validateFile()
@@ -276,7 +276,7 @@ class Uploader
         //run validate callbacks
         foreach ($this->_validateCallbacks as $params) {
             if (is_object($params['object']) && method_exists($params['object'], $params['method'])) {
-                $params['object']->$params['method']($this->_file['tmp_name']);
+                $params['object']->{$params['method']}($this->_file['tmp_name']);
             }
         }
     }
@@ -302,10 +302,7 @@ class Uploader
      */
     public function addValidateCallback($callbackName, $callbackObject, $callbackMethod)
     {
-        $this->_validateCallbacks[$callbackName] = array(
-           'object' => $callbackObject,
-           'method' => $callbackMethod
-        );
+        $this->_validateCallbacks[$callbackName] = array('object' => $callbackObject, 'method' => $callbackMethod);
         return $this;
     }
 
@@ -330,7 +327,7 @@ class Uploader
      * @param string $fileName
      * @return string
      */
-    static public function getCorrectFileName($fileName)
+    public static function getCorrectFileName($fileName)
     {
         $fileName = preg_replace('/[^a-z0-9_\\-\\.]+/i', '_', $fileName);
         $fileInfo = pathinfo($fileName);
@@ -344,7 +341,7 @@ class Uploader
     /**
      * Convert filename to lowercase in case of case-insensitive file names
      *
-     * @param string
+     * @param string $fileName
      * @return string
      */
     public function correctFileNameCase($fileName)
@@ -361,7 +358,7 @@ class Uploader
      * @param string $dir
      * @return string
      */
-    static protected function _addDirSeparator($dir)
+    protected static function _addDirSeparator($dir)
     {
         if (substr($dir, -1) != '/') {
             $dir .= '/';
@@ -372,7 +369,7 @@ class Uploader
     /**
      * Used to check if uploaded file mime type is valid or not
      *
-     * @param array $validTypes
+     * @param string[] $validTypes
      * @access public
      * @return bool
      */
@@ -400,9 +397,9 @@ class Uploader
     /**
      * Used to set {@link _allowCreateFolders} value
      *
-     * @param mixed $flag
+     * @param bool $flag
      * @access public
-     * @return \Magento\File\Uploader
+     * @return $this
      */
     public function setAllowCreateFolders($flag)
     {
@@ -413,9 +410,9 @@ class Uploader
     /**
      * Used to set {@link _allowRenameFiles} value
      *
-     * @param mixed $flag
+     * @param bool $flag
      * @access public
-     * @return \Magento\File\Uploader
+     * @return $this
      */
     public function setAllowRenameFiles($flag)
     {
@@ -426,9 +423,9 @@ class Uploader
     /**
      * Used to set {@link _enableFilesDispersion} value
      *
-     * @param mixed $flag
+     * @param bool $flag
      * @access public
-     * @return \Magento\File\Uploader
+     * @return $this
      */
     public function setFilesDispersion($flag)
     {
@@ -439,8 +436,8 @@ class Uploader
     /**
      * File names Case-sensitivity setter
      *
-     * @param mixed $flag
-     * @return \Magento\File\Uploader
+     * @param bool $flag
+     * @return $this
      */
     public function setFilenamesCaseSensitivity($flag)
     {
@@ -451,8 +448,8 @@ class Uploader
     /**
      * Set allowed extensions
      *
-     * @param array $extensions
-     * @return \Magento\File\Uploader
+     * @param string[] $extensions
+     * @return $this
      */
     public function setAllowedExtensions($extensions = array())
     {
@@ -477,6 +474,11 @@ class Uploader
         return in_array(strtolower($extension), $this->_allowedExtensions);
     }
 
+    /**
+     * Return file mime type
+     *
+     * @return string
+     */
     private function _getMimeType()
     {
         return $this->_file['type'];
@@ -486,6 +488,7 @@ class Uploader
      * Set upload field id
      *
      * @param string $fileId
+     * @return void
      * @throws \Exception
      */
     private function _setUploadFileId($fileId)
@@ -500,7 +503,7 @@ class Uploader
 
             preg_match("/^(.*?)\[(.*?)\]$/", $fileId, $file);
 
-            if (count($file) > 0 && (count($file[0]) > 0) && (count($file[1]) > 0)) {
+            if (count($file) > 0 && count($file[0]) > 0 && count($file[1]) > 0) {
                 array_shift($file);
                 $this->_uploadType = self::MULTIPLE_STYLE;
 
@@ -551,7 +554,7 @@ class Uploader
      * @param string $destinationFile
      * @return string
      */
-    static public function getNewFileName($destinationFile)
+    public static function getNewFileName($destinationFile)
     {
         $fileInfo = pathinfo($destinationFile);
         if (file_exists($destinationFile)) {
@@ -575,19 +578,19 @@ class Uploader
      * @param string $fileName
      * @return string
      */
-    static public function getDispretionPath($fileName)
+    public static function getDispretionPath($fileName)
     {
         $char = 0;
         $dispertionPath = '';
-        while (($char < 2) && ($char < strlen($fileName))) {
+        while ($char < 2 && $char < strlen($fileName)) {
             if (empty($dispertionPath)) {
-                $dispertionPath = '/'
-                    . ('.' == $fileName[$char] ? '_' : $fileName[$char]);
+                $dispertionPath = '/' . ('.' == $fileName[$char] ? '_' : $fileName[$char]);
             } else {
-                $dispertionPath = self::_addDirSeparator($dispertionPath)
-                      . ('.' == $fileName[$char] ? '_' : $fileName[$char]);
+                $dispertionPath = self::_addDirSeparator(
+                    $dispertionPath
+                ) . ('.' == $fileName[$char] ? '_' : $fileName[$char]);
             }
-            $char ++;
+            $char++;
         }
         return $dispertionPath;
     }

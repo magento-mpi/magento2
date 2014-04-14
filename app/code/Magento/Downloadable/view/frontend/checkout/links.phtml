@@ -1,0 +1,16 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if ($links = $this->getLinks()): ?>
+    <dl class="cart item options">
+        <dt><?php echo $this->getLinksTitle() ?></dt>
+        <?php foreach ($links as $link): ?>
+            <dd><?php echo $this->escapeHtml($link->getTitle()) ?></dd>
+        <?php endforeach; ?>
+    </dl>
+<?php endif; ?>

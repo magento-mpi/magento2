@@ -83,6 +83,13 @@ class SalesOrder extends Page
     protected $orderReturnsBlock = 'order_rma';
 
     /**
+     * Credit Memos grid
+     *
+     * @var string
+     */
+    protected $creditMemosGrid = '#order_creditmemos';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -129,11 +136,11 @@ class SalesOrder extends Page
     /**
      * Get Order view tabs block
      *
-     * @return \Magento\Backend\Test\Block\Widget\FormTabs
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\View\Tabs
      */
     public function getFormTabsBlock()
     {
-        return Factory::getBlockFactory()->getMagentoBackendWidgetFormTabs(
+        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderViewTabs(
             $this->_browser->find($this->formTabsBlock, Locator::SELECTOR_CSS)
         );
     }
@@ -183,6 +190,18 @@ class SalesOrder extends Page
     {
         return Factory::getBlockFactory()->getMagentoRmaAdminhtmlOrderViewTabRma(
             $this->_browser->find($this->orderReturnsBlock, Locator::SELECTOR_ID)
+        );
+    }
+
+    /**
+     * Get credit memos grid
+     *
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Grid
+     */
+    public function getCreditMemosGrid()
+    {
+        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderCreditmemoGrid(
+            $this->_browser->find($this->creditMemosGrid)
         );
     }
 }

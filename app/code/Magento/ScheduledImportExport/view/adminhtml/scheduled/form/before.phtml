@@ -38,7 +38,7 @@
          * @param {string} elementId
          */
         activateRow: function(elementId) {
-            $(elementId).up('tr').show();
+            $(elementId).up('div.field-' + elementId).show();
             $(elementId).enable();
             $(elementId).addClassName('required-entry');
         },
@@ -48,7 +48,7 @@
          * @param {string} elementId
          */
         deactivateRow: function(elementId) {
-            $(elementId).up('tr').hide();
+            $(elementId).up('div.field-' + elementId).hide();
             $(elementId).selectedIndex = 0;
             $(elementId).disable();
             $(elementId).removeClassName('required-entry');

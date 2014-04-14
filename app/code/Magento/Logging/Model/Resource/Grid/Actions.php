@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Logging\Model\Resource\Grid;
 
-class Actions implements \Magento\Core\Model\Option\ArrayInterface
+class Actions implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Logging\Helper\Data
@@ -26,13 +25,19 @@ class Actions implements \Magento\Core\Model\Option\ArrayInterface
      * @param \Magento\Logging\Helper\Data $loggingHelper
      * @param \Magento\Logging\Model\Resource\Event $resource
      */
-    public function __construct(\Magento\Logging\Helper\Data $loggingHelper,
-                                \Magento\Logging\Model\Resource\Event $resource)
-    {
+    public function __construct(
+        \Magento\Logging\Helper\Data $loggingHelper,
+        \Magento\Logging\Model\Resource\Event $resource
+    ) {
         $this->_helper = $loggingHelper;
         $this->_resource = $resource;
     }
 
+    /**
+     * Get options as array
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         $actions = array();

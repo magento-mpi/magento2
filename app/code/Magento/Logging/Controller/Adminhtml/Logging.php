@@ -11,6 +11,7 @@
  */
 namespace Magento\Logging\Controller\Adminhtml;
 
+use Magento\App\ResponseInterface;
 use Magento\Backend\App\Action;
 
 class Logging extends \Magento\Backend\App\Action
@@ -18,7 +19,7 @@ class Logging extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -45,14 +46,14 @@ class Logging extends \Magento\Backend\App\Action
      * Construct
      *
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Logging\Model\EventFactory $eventFactory
      * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Logging\Model\EventFactory $eventFactory,
         \Magento\Logging\Model\ArchiveFactory $archiveFactory,
         \Magento\App\Response\Http\FileFactory $fileFactory
@@ -66,6 +67,8 @@ class Logging extends \Magento\Backend\App\Action
 
     /**
      * Log page
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -78,6 +81,8 @@ class Logging extends \Magento\Backend\App\Action
 
     /**
      * Log grid ajax action
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -87,13 +92,14 @@ class Logging extends \Magento\Backend\App\Action
 
     /**
      * View logging details
+     *
+     * @return void
      */
     public function detailsAction()
     {
         $eventId = $this->getRequest()->getParam('event_id');
         /** @var \Magento\Logging\Model\Event $model */
-        $model = $this->_eventFactory->create()
-            ->load($eventId);
+        $model = $this->_eventFactory->create()->load($eventId);
         if (!$model->getId()) {
             $this->_redirect('adminhtml/*/');
             return;
@@ -109,6 +115,8 @@ class Logging extends \Magento\Backend\App\Action
 
     /**
      * Export log to CSV
+     *
+     * @return ResponseInterface
      */
     public function exportCsvAction()
     {
@@ -116,11 +124,17 @@ class Logging extends \Magento\Backend\App\Action
         $fileName = 'log.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('logging.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile($fileName));
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getCsvFile($fileName),
+            \Magento\App\Filesystem::VAR_DIR
+        );
     }
 
     /**
      * Export log to MSXML
+     *
+     * @return ResponseInterface
      */
     public function exportXmlAction()
     {
@@ -128,11 +142,17 @@ class Logging extends \Magento\Backend\App\Action
         $fileName = 'log.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('logging.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getExcelFile($fileName),
+            \Magento\App\Filesystem::VAR_DIR
+        );
     }
 
     /**
      * Archive page
+     *
+     * @return void
      */
     public function archiveAction()
     {
@@ -145,6 +165,8 @@ class Logging extends \Magento\Backend\App\Action
 
     /**
      * Archive grid ajax action
+     *
+     * @return void
      */
     public function archiveGridAction()
     {
@@ -154,16 +176,17 @@ class Logging extends \Magento\Backend\App\Action
 
     /**
      * Download archive file
+     *
+     * @return ResponseInterface
      */
     public function downloadAction()
     {
-        $archive = $this->_archiveFactory->create()->loadByBaseName(
-            $this->getRequest()->getParam('basename')
-        );
+        $archive = $this->_archiveFactory->create()->loadByBaseName($this->getRequest()->getParam('basename'));
         if ($archive->getFilename()) {
             return $this->_fileFactory->create(
                 $archive->getBaseName(),
                 $archive->getContents(),
+                \Magento\App\Filesystem::VAR_DIR,
                 $archive->getMimeType()
             );
         }
@@ -171,6 +194,8 @@ class Logging extends \Magento\Backend\App\Action
 
     /**
      * permissions checker
+     *
+     * @return bool
      */
     protected function _isAllowed()
     {

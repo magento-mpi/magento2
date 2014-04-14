@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
 
 /**
@@ -19,8 +18,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class LogoUploader
-    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\ImageUploader
+class LogoUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\ImageUploader
 {
     /**
      * @var \Magento\DesignEditor\Model\Theme\Context
@@ -37,11 +35,11 @@ class LogoUploader
      *
      * Upper is rendered first and is inserted into next using <?php echo $this->getHtml() ?>
      *
-     * @var array
+     * @var string[]
      */
     protected $_templates = array(
         'Magento_DesignEditor::editor/form/renderer/element/input.phtml',
-        'Magento_DesignEditor::editor/form/renderer/logo-uploader.phtml',
+        'Magento_DesignEditor::editor/form/renderer/logo-uploader.phtml'
     );
 
     /**
@@ -64,12 +62,13 @@ class LogoUploader
     /**
      * Get logo upload url
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return string
      */
     public function getLogoUploadUrl($store)
     {
-        return $this->getUrl('adminhtml/system_design_editor_tools/uploadStoreLogo',
+        return $this->getUrl(
+            'adminhtml/system_design_editor_tools/uploadStoreLogo',
             array('theme_id' => $this->_themeContext->getEditableTheme()->getId(), 'store_id' => $store->getId())
         );
     }
@@ -77,12 +76,13 @@ class LogoUploader
     /**
      * Get logo upload url
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return string
      */
     public function getLogoRemoveUrl($store)
     {
-        return $this->getUrl('adminhtml/system_design_editor_tools/removeStoreLogo',
+        return $this->getUrl(
+            'adminhtml/system_design_editor_tools/removeStoreLogo',
             array('theme_id' => $this->_themeContext->getEditableTheme()->getId(), 'store_id' => $store->getId())
         );
     }
@@ -90,14 +90,14 @@ class LogoUploader
     /**
      * Get logo image
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return string|null
      */
     public function getLogoImage($store)
     {
         $image = null;
         if (null !== $store) {
-            $image = basename($this->_storeConfig->getConfig('design/header/logo_src', $store->getId()));
+            $image = basename($this->_scopeConfig->getValue('design/header/logo_src', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store->getId()));
         }
         return $image;
     }
@@ -105,13 +105,13 @@ class LogoUploader
     /**
      * Get stores list
      *
-     * @return \Magento\Core\Model\Store|null
+     * @return \Magento\Store\Model\Store|null
      */
     public function getStoresList()
     {
         $stores = $this->_customization->getStoresByThemes();
-        return isset($stores[$this->_themeContext->getEditableTheme()->getId()])
-            ? $stores[$this->_themeContext->getEditableTheme()->getId()]
-            : null;
+        return isset(
+            $stores[$this->_themeContext->getEditableTheme()->getId()]
+        ) ? $stores[$this->_themeContext->getEditableTheme()->getId()] : null;
     }
 }

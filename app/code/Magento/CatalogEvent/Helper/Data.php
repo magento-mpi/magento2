@@ -17,34 +17,37 @@
  */
 namespace Magento\CatalogEvent\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+use Magento\App\Helper\AbstractHelper;
+use Magento\App\Helper\Context;
+use Magento\CatalogEvent\Model\Event;
+use Magento\App\Config\ScopeConfigInterface;
+
+class Data extends AbstractHelper
 {
     const XML_PATH_ENABLED = 'catalog/magento_catalogevent/enabled';
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param Context $context
+     * @param ScopeConfigInterface $scopeConfig
      */
-    public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
-    ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+    public function __construct(Context $context, ScopeConfigInterface $scopeConfig)
+    {
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
     /**
      * Retrieve event image url
      *
-     * @param \Magento\CatalogEvent\Model\Event
-     * @return string|boolean
+     * @param Event $event
+     * @return string|false
      */
     public function getEventImageUrl($event)
     {
@@ -58,10 +61,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve configuration value for enabled of catalog event
      *
-     * @return boolean
+     * @return bool
      */
     public function isEnabled()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLED);
+        return $this->_scopeConfig->isSetFlag(
+            self::XML_PATH_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 }

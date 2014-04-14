@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View;
 
 /**
@@ -19,40 +18,50 @@ class Service
     const SCOPE_SEPARATOR = '::';
 
     /**
+     * Application state
+     *
      * @var \Magento\App\State
      */
     protected $_appState;
 
     /**
+     * Design
+     *
      * @var \Magento\View\DesignInterface
      */
     private $_design;
 
     /**
+     * Theme factory
+     *
      * @var \Magento\View\Design\Theme\FlyweightFactory
      */
     protected $themeFactory;
 
     /**
+     * Pub directory
+     *
      * @var string
      */
     protected $_pubDirectory;
 
     /**
+     * Constructor
+     *
      * @param \Magento\App\State $appState
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\App\State $appState,
         \Magento\View\DesignInterface $design,
         \Magento\View\Design\Theme\FlyweightFactory $themeFactory,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->_appState = $appState;
         $this->_design = $design;
-        $this->_pubDirectory = $filesystem->getPath(\Magento\Filesystem::STATIC_VIEW);
+        $this->_pubDirectory = $filesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $this->themeFactory = $themeFactory;
     }
 
@@ -118,7 +127,7 @@ class Service
     /**
      * Update required parameters with default values if custom not specified
      *
-     * @param array $params
+     * @param array &$params
      * @return $this
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)

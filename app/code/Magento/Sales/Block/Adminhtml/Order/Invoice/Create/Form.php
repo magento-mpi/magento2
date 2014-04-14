@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Invoice\Create;
 
 /**
  * Adminhtml invoice create form
@@ -15,8 +16,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Invoice\Create;
-
 class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
@@ -49,18 +48,21 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         return $this->_coreRegistry->registry('current_invoice');
     }
 
-    protected function _prepareLayout()
-    {
-        $trackingBlock = $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\Invoice\Create\Tracking');
-        $this->setChild('tracking', $trackingBlock);
-        return parent::_prepareLayout();
-    }
-
+    /**
+     * Get save url
+     *
+     * @return string
+     */
     public function getSaveUrl()
     {
         return $this->getUrl('sales/*/save', array('order_id' => $this->getInvoice()->getOrderId()));
     }
 
+    /**
+     * Check shipment availability for current invoice
+     *
+     * @return bool
+     */
     public function canCreateShipment()
     {
         foreach ($this->getInvoice()->getAllItems() as $item) {
@@ -71,6 +73,11 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         return false;
     }
 
+    /**
+     * Check invoice shipment type mismatch
+     *
+     * @return bool
+     */
     public function hasInvoiceShipmentTypeMismatch()
     {
         foreach ($this->getInvoice()->getAllItems() as $item) {
@@ -81,6 +88,11 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         return false;
     }
 
+    /**
+     * Check shipment availability for partially item
+     *
+     * @return bool
+     */
     public function canShipPartiallyItem()
     {
         $value = $this->getOrder()->getCanShipPartiallyItem();
@@ -93,7 +105,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
     /**
      * Return forced creating of shipment flag
      *
-     * @return integer
+     * @return int
      */
     public function getForcedShipmentCreate()
     {

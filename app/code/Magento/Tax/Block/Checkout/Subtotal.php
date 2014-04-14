@@ -2,17 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Tax\Block\Checkout;
 
 /**
  * Subtotal Total Row Renderer
  */
-namespace Magento\Tax\Block\Checkout;
-
 class Subtotal extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     /**
@@ -47,6 +44,7 @@ class Subtotal extends \Magento\Checkout\Block\Total\DefaultTotal
     ) {
         $this->_taxConfig = $taxConfig;
         parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $salesConfig, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

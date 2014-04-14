@@ -9,8 +9,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid\ColumnSet;
 
-class SkuErrors
-    extends \Magento\Backend\Block\Widget\Grid\ColumnSet
+class SkuErrors extends \Magento\Backend\Block\Widget\Grid\ColumnSet
 {
     /**
      * Retrieve row css class for specified item

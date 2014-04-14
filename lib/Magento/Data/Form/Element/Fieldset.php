@@ -7,6 +7,10 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Data\Form\Element;
+
+use Magento\Data\Form;
+use Magento\Escaper;
 
 /**
  * Form fieldset
@@ -15,24 +19,22 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Data\Form\Element;
-
-class Fieldset extends \Magento\Data\Form\Element\AbstractElement
+class Fieldset extends AbstractElement
 {
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param Factory $factoryElement
+     * @param CollectionFactory $factoryCollection
+     * @param Escaper $escaper
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        Factory $factoryElement,
+        CollectionFactory $factoryCollection,
+        Escaper $escaper,
         $data = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
-        $this->_renderer = \Magento\Data\Form::getFieldsetRenderer();
+        $this->_renderer = Form::getFieldsetRenderer();
         $this->setType('fieldset');
         if (isset($data['advancedSection'])) {
             $this->setAdvancedLabel($data['advancedSection']);
@@ -46,21 +48,22 @@ class Fieldset extends \Magento\Data\Form\Element\AbstractElement
      */
     public function getElementHtml()
     {
-        $html = '<fieldset id="' . $this->getHtmlId() . '"' . $this->serialize(array('class'))
-            . $this->_getUiId() . '>' . "\n";
+        $html = '<fieldset id="' . $this->getHtmlId() . '"' . $this->serialize(
+            array('class')
+        ) . $this->_getUiId() . '>' . "\n";
         if ($this->getLegend()) {
-            $html.= '<legend ' . $this->_getUiId('legend') . '>' . $this->getLegend() . '</legend>' . "\n";
+            $html .= '<legend ' . $this->_getUiId('legend') . '>' . $this->getLegend() . '</legend>' . "\n";
         }
-        $html.= $this->getChildrenHtml();
-        $html.= '</fieldset>' . "\n";
-        $html.= $this->getAfterElementHtml();
+        $html .= $this->getChildrenHtml();
+        $html .= '</fieldset>' . "\n";
+        $html .= $this->getAfterElementHtml();
         return $html;
     }
 
     /**
      * Get Children element's array
      *
-     * @return array
+     * @return AbstractElement[]
      */
     public function getChildren()
     {
@@ -86,7 +89,7 @@ class Fieldset extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Get Basic elements' array
      *
-     * @return array
+     * @return AbstractElement[]
      */
     public function getBasicChildren()
     {
@@ -110,7 +113,7 @@ class Fieldset extends \Magento\Data\Form\Element\AbstractElement
     }
 
     /**
-     * Get Number of Bacic Children
+     * Get Number of Basic Children
      *
      * @return int
      */
@@ -122,7 +125,7 @@ class Fieldset extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Get Advanced elements'
      *
-     * @return string
+     * @return array
      */
     public function getAdvancedChildren()
     {
@@ -163,7 +166,7 @@ class Fieldset extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Get SubFieldset
      *
-     * @return array
+     * @return AbstractElement[]
      */
     public function getSubFieldset()
     {
@@ -194,8 +197,8 @@ class Fieldset extends \Magento\Data\Form\Element\AbstractElement
     public function getDefaultHtml()
     {
         $html = '<div><h4 class="icon-head head-edit-form fieldset-legend">' . $this->getLegend() . '</h4>' . "\n";
-        $html.= $this->getElementHtml();
-        $html.= '</div>';
+        $html .= $this->getElementHtml();
+        $html .= '</div>';
         return $html;
     }
 
@@ -205,13 +208,14 @@ class Fieldset extends \Magento\Data\Form\Element\AbstractElement
      * @param string $elementId
      * @param string $type
      * @param array $config
-     * @param boolean $after
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @param bool $after
+     * @param bool $isAdvanced
+     * @return AbstractElement
      */
     public function addField($elementId, $type, $config, $after = false, $isAdvanced = false)
     {
         $element = parent::addField($elementId, $type, $config, $after);
-        if ($renderer = \Magento\Data\Form::getFieldsetElementRenderer()) {
+        if ($renderer = Form::getFieldsetElementRenderer()) {
             $element->setRenderer($renderer);
         }
         $element->setAdvanced($isAdvanced);
@@ -221,7 +225,7 @@ class Fieldset extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Return elements as html string
      *
-     * @param array $elements
+     * @param AbstractElement[] $elements
      * @return string
      */
     protected function _elementsToHtml($elements)

@@ -7,23 +7,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Tax\Model\System\Config\Source\Tax;
 
 class Country extends \Magento\Directory\Model\Config\Source\Country
 {
+    /**
+     * @var array
+     */
     protected $_options;
 
-    public function toOptionArray($noEmpty=false)
+    /**
+     * @param bool $noEmpty
+     * @return array
+     */
+    public function toOptionArray($noEmpty = false)
     {
         $options = parent::toOptionArray($noEmpty);
 
-        if(!$noEmpty) {
+        if (!$noEmpty) {
             if ($options) {
                 $options[0]['label'] = __('None');
             } else {
-                $options = array(array('value'=>'', 'label'=>__('None')));
+                $options = array(array('value' => '', 'label' => __('None')));
             }
         }
 

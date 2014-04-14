@@ -395,7 +395,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      */
     public function emptyExpirationMonthFieldInSavedCC($simpleSku)
     {
-        $this->markTestIncomplete('MAGETWO-9026');
+        //$this->markTestSkipped('\MAGETWO-9026');
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_savedcc');
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',

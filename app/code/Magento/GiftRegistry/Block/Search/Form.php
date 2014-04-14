@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Search;
 
 /**
  * Gift registry search form
@@ -14,10 +15,11 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-namespace Magento\GiftRegistry\Block\Search;
-
 class Form extends \Magento\View\Element\Template
 {
+    /**
+     * @var mixed
+     */
     protected $_formData = null;
 
     /**
@@ -45,6 +47,7 @@ class Form extends \Magento\View\Element\Template
         parent::__construct($context, $data);
         $this->customerSession = $customerSession;
         $this->typeFactory = $typeFactory;
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -61,7 +64,7 @@ class Form extends \Magento\View\Element\Template
      * Retrieve by key saved in session form data
      *
      * @param string $key
-     * @return mixed
+     * @return string|null
      */
     public function getFormData($key)
     {
@@ -81,24 +84,25 @@ class Form extends \Magento\View\Element\Template
      */
     public function getTypesCollection()
     {
-        return $this->typeFactory->create()->getCollection()
-            ->addStoreData($this->_storeManager->getStore()->getId());
+        return $this->typeFactory->create()->getCollection()->addStoreData($this->_storeManager->getStore()->getId());
     }
 
     /**
      * Select element for choosing registry type
      *
-     * @return array
+     * @return string
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setData(array(
-                'id'    => 'params-type-id',
-                'class' => 'select'
-            ))
-            ->setName('params[type_id]')
-            ->setOptions($this->getTypesCollection()->toOptionArray(true));
+        $select = $this->getLayout()->createBlock(
+            'Magento\View\Element\Html\Select'
+        )->setData(
+            array('id' => 'params-type-id', 'class' => 'select')
+        )->setName(
+            'params[type_id]'
+        )->setOptions(
+            $this->getTypesCollection()->toOptionArray(true)
+        );
         return $select->getHtml();
     }
 

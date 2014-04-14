@@ -63,13 +63,6 @@ class Review extends Form
     protected $shippingBlock = '#shipping-address';
 
     /**
-     * {@inheritdoc}
-     */
-    protected $_mapping = array(
-        'telephone' => '[id="shipping:telephone"]'
-    );
-
-    /**
      * Get billing address block
      *
      * @return \Magento\Paypal\Test\Block\Express\Review\Billing

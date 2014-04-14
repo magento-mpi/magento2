@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files;
 
 class TreeTest extends \PHPUnit_Framework_TestCase
@@ -37,27 +36,37 @@ class TreeTest extends \PHPUnit_Framework_TestCase
 
         $this->_filesTree = $objectManagerHelper->getObject(
             'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Tree',
-            array('urlBuilder'    => $this->_urlBuilder, 'storageHelper' => $this->_helperStorage)
+            array('urlBuilder' => $this->_urlBuilder, 'storageHelper' => $this->_helperStorage)
         );
     }
 
     public function testGetTreeLoaderUrl()
     {
         $requestParams = array(
-            \Magento\Theme\Helper\Storage::PARAM_THEME_ID     => 1,
+            \Magento\Theme\Helper\Storage::PARAM_THEME_ID => 1,
             \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE,
-            \Magento\Theme\Helper\Storage::PARAM_NODE         => 'root'
+            \Magento\Theme\Helper\Storage::PARAM_NODE => 'root'
         );
         $expectedUrl = 'some_url';
 
-        $this->_helperStorage->expects($this->once())
-            ->method('getRequestParams')
-            ->will($this->returnValue($requestParams));
+        $this->_helperStorage->expects(
+            $this->once()
+        )->method(
+            'getRequestParams'
+        )->will(
+            $this->returnValue($requestParams)
+        );
 
-        $this->_urlBuilder->expects($this->once())
-            ->method('getUrl')
-            ->with('adminhtml/*/treeJson', $requestParams)
-            ->will($this->returnValue($expectedUrl));
+        $this->_urlBuilder->expects(
+            $this->once()
+        )->method(
+            'getUrl'
+        )->with(
+            'adminhtml/*/treeJson',
+            $requestParams
+        )->will(
+            $this->returnValue($expectedUrl)
+        );
 
         $this->assertEquals($expectedUrl, $this->_filesTree->getTreeLoaderUrl());
     }

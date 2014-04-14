@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Integrity\Modular;
 
 class SystemConfigFilesTest extends \PHPUnit_Framework_TestCase
@@ -22,28 +21,33 @@ class SystemConfigFilesTest extends \PHPUnit_Framework_TestCase
         $cacheState = $objectManager->get('Magento\App\Cache\StateInterface');
         $cacheState->setEnabled(\Magento\App\Cache\Type\Config::TYPE_IDENTIFIER, false);
 
-        $modulesDir = $objectManager->get('Magento\Filesystem')->getPath(\Magento\Filesystem::MODULES);
+        $modulesDir = $objectManager->get('Magento\App\Filesystem')->getPath(\Magento\App\Filesystem::MODULES_DIR);
 
         $fileList = glob($modulesDir . '/*/*/etc/adminhtml/system.xml');
 
         $configMock = $this->getMock(
-            'Magento\Module\Dir\Reader', array('getConfigurationFiles', 'getModuleDir'),
-            array(), '', false
+            'Magento\Module\Dir\Reader',
+            array('getConfigurationFiles', 'getModuleDir'),
+            array(),
+            '',
+            false
         );
-        $configMock->expects($this->any())
-            ->method('getConfigurationFiles')
-            ->will($this->returnValue($fileList))
-        ;
-        $configMock->expects($this->any())
-            ->method('getModuleDir')
-            ->with('etc', 'Magento_Backend')
-            ->will($this->returnValue($modulesDir . '/Magento/Backend/etc'))
-        ;
+        $configMock->expects($this->any())->method('getConfigurationFiles')->will($this->returnValue($fileList));
+        $configMock->expects(
+            $this->any()
+        )->method(
+            'getModuleDir'
+        )->with(
+            'etc',
+            'Magento_Backend'
+        )->will(
+            $this->returnValue($modulesDir . '/Magento/Backend/etc')
+        );
         try {
-            $objectManager->create('Magento\Backend\Model\Config\Structure\Reader', array(
-                'moduleReader' => $configMock,
-                'runtimeValidation' => true,
-            ));
+            $objectManager->create(
+                'Magento\Backend\Model\Config\Structure\Reader',
+                array('moduleReader' => $configMock, 'runtimeValidation' => true)
+            );
         } catch (\Magento\Exception $exp) {
             $this->fail($exp->getMessage());
         }

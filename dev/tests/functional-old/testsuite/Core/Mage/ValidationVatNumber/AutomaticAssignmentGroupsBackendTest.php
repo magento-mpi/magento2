@@ -18,16 +18,13 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsBackendTest extends
 {
     public function setUpBeforeTests()
     {
-        $this->markTestIncomplete(
-            'BUG: An error occurred while saving the customer in automaticAssignmentGroupsBackendTest'
-        );
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('VatID/store_information_data');
         $this->clickControl('button', 'validate_vat_number', false);
         $this->pleaseWait();
         //Verification
-        if (!$this->controlIsVisible('pageelement', 'vat_number_is_valid')){
+        if (!$this->controlIsVisible('message', 'vat_number_is_valid')){
             $this->skipTestWithScreenshot('VAT Number is not valid');
         }
     }

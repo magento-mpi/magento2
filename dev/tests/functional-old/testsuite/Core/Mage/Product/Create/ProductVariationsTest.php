@@ -630,6 +630,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->_setVariationPriceRule($attributeData['attribute1']['attribute_properties']['attribute_label'],
             $ruleOption, $ruleType, '50');
         $this->clickButton('generate_product_variations', false);
+        $this->pleaseWait();
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
@@ -686,11 +687,11 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
      */
     public function moveAttributeBlock($attributeData)
     {
-        $this->markTestIncomplete('MAGETWO-11411');
+        //$this->markTestSkipped('\MAGETWO-11411');
         //Data
         $verifyData = array(
-            $attributeData['attribute2']['store_view_titles']['Default Store View'],
-            $attributeData['attribute1']['store_view_titles']['Default Store View']
+            $attributeData['attribute2']['attribute_properties']['attribute_label'],
+            $attributeData['attribute1']['attribute_properties']['attribute_label']
         );
         $productData = $this->loadDataSet('Product', 'configurable_product_visible', array('attribute_position' => 2),
             array(
@@ -750,7 +751,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->frontOpenProduct($productData['general_name']);
         $this->addParameter('title', $attributeData['attribute1']['attribute_properties']['attribute_label']);
-        $this->assertFalse($this->controlIsVisible('fieldset', 'product_custom_option_head'));
+        $this->assertFalse($this->controlIsVisible('fieldset', 'product_custom_option'));
     }
 
     /**
@@ -777,13 +778,16 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->addParameter('attributeTitle', $attributeData['attribute1']['attribute_properties']['attribute_label']);
+        if (!$this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute')) {
+            $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed_variation_attribute', false);
+        }
         $this->fillField('frontend_label', $value);
         $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->frontOpenProduct($productData['general_name']);
         $this->addParameter('title', $value);
-        $this->assertTrue($this->controlIsVisible('fieldset', 'product_custom_option_head'),
+        $this->assertTrue($this->controlIsVisible('fieldset', 'product_custom_option'),
             "Attribute with $value is not displayed on this page");
     }
 
@@ -830,8 +834,8 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->frontOpenProduct($productData['general_name']);
-        $this->addParameter('title', $attributeData['attribute1']['store_view_titles']['Default Store View']);
-        $this->assertTrue($this->controlIsVisible('fieldset', 'product_custom_option_head'));
+        $this->addParameter('title', $attributeData['attribute1']['attribute_properties']['attribute_label']);
+        $this->assertTrue($this->controlIsVisible('fieldset', 'product_custom_option'));
     }
 
     /**

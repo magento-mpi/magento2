@@ -7,8 +7,10 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <job name="persistent_clear_expired" instance="Magento\Persistent\Model\Observer" method="clearExpiredCronJob">
-        <schedule>0 0 * * *</schedule>
-    </job>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Cron/etc/crontab.xsd">
+    <group id="default">
+        <job name="persistent_clear_expired" instance="Magento\Persistent\Model\Observer" method="clearExpiredCronJob">
+            <schedule>0 0 * * *</schedule>
+        </job>
+    </group>
 </config>

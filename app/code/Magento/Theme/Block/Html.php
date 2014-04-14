@@ -5,14 +5,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block;
+
+use Magento\View\Element\Template;
 
 /**
  * Html page block
  */
 class Html extends \Magento\View\Element\Template
 {
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
     /**
      * The list of available URLs
      *
@@ -26,22 +32,37 @@ class Html extends \Magento\View\Element\Template
     protected $_title = '';
 
     /**
+     * @param Template\Context $context
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param array $data
+     */
+    public function __construct(
+        Template\Context $context,
+        \Magento\Locale\ResolverInterface $localeResolver,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_localeResolver = $localeResolver;
+    }
+
+    /**
      * Add block data
+     * @return void
      */
     protected function _construct()
     {
         parent::_construct();
 
         $this->_urls = array(
-            'base'      => $this->_storeManager->getStore()->getBaseUrl('web'),
-            'baseSecure'=> $this->_storeManager->getStore()->getBaseUrl('web', true),
-            'current'   => $this->_request->getRequestUri()
+            'base' => $this->_storeManager->getStore()->getBaseUrl('web'),
+            'baseSecure' => $this->_storeManager->getStore()->getBaseUrl('web', true),
+            'current' => $this->_request->getRequestUri()
         );
 
         $this->addBodyClass($this->_request->getFullActionName('-'));
 
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
-            $this->_app->setUseSessionVar(true);
+            $this->_sidResolver->setUseSessionVar(true);
         }
     }
 
@@ -83,14 +104,20 @@ class Html extends \Magento\View\Element\Template
     public function getPrintLogoUrl()
     {
         // load html logo
-        $logo = $this->_storeConfig->getConfig('sales/identity/logo_html');
+        $logo = $this->_scopeConfig->getValue(
+            'sales/identity/logo_html',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if (!empty($logo)) {
             $logo = 'sales/store/logo_html/' . $logo;
         }
 
         // load default logo
         if (empty($logo)) {
-            $logo = $this->_storeConfig->getConfig('sales/identity/logo');
+            $logo = $this->_scopeConfig->getValue(
+                'sales/identity/logo',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
             if (!empty($logo)) {
                 // prevent tiff format displaying in html
                 if (strtolower(substr($logo, -5)) === '.tiff' || strtolower(substr($logo, -4)) === '.tif') {
@@ -103,7 +130,7 @@ class Html extends \Magento\View\Element\Template
 
         // buld url
         if (!empty($logo)) {
-            $logo = $this->_urlBuilder->getBaseUrl(array('_type' => \Magento\Core\Model\Store::URL_TYPE_MEDIA)) . $logo;
+            $logo = $this->_urlBuilder->getBaseUrl(array('_type' => \Magento\UrlInterface::URL_TYPE_MEDIA)) . $logo;
         } else {
             $logo = '';
         }
@@ -118,14 +145,17 @@ class Html extends \Magento\View\Element\Template
      */
     public function getPrintLogoText()
     {
-        return $this->_storeConfig->getConfig('sales/identity/address');
+        return $this->_scopeConfig->getValue(
+            'sales/identity/address',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
      * Set header title
      *
      * @param string $title
-     * @return \Magento\Theme\Block\Html
+     * @return $this
      */
     public function setHeaderTitle($title)
     {
@@ -147,7 +177,7 @@ class Html extends \Magento\View\Element\Template
      * Add CSS class to page body tag
      *
      * @param string $className
-     * @return \Magento\Theme\Block\Html
+     * @return $this
      */
     public function addBodyClass($className)
     {
@@ -164,7 +194,7 @@ class Html extends \Magento\View\Element\Template
     public function getLang()
     {
         if (!$this->hasData('lang')) {
-            $this->setData('lang', substr($this->_locale->getLocaleCode(), 0, 2));
+            $this->setData('lang', substr($this->_localeResolver->getLocaleCode(), 0, 2));
         }
         return $this->getData('lang');
     }
@@ -186,7 +216,10 @@ class Html extends \Magento\View\Element\Template
      */
     public function getAbsoluteFooter()
     {
-        return $this->_storeConfig->getConfig('design/footer/absolute_footer');
+        return $this->_scopeConfig->getValue(
+            'design/footer/absolute_footer',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -198,7 +231,7 @@ class Html extends \Magento\View\Element\Template
     protected function _afterToHtml($html)
     {
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
-            $this->_app->setUseSessionVar(false);
+            $this->_sidResolver->setUseSessionVar(false);
             \Magento\Profiler::start('CACHE_URL');
             $html = $this->_urlBuilder->sessionUrlVar($html);
             \Magento\Profiler::stop('CACHE_URL');

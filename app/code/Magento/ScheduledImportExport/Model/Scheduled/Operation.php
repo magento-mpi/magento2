@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Model\Scheduled;
 
 /**
  * Operation model
@@ -30,9 +31,7 @@
  * @method \Magento\ScheduledImportExport\Model\Scheduled\Operation setLastRunDate() setLastRunDate(int $value)
  * @method int getLastRunDate() getLastRunDate()
  */
-namespace Magento\ScheduledImportExport\Model\Scheduled;
-
-class Operation extends \Magento\Core\Model\AbstractModel
+class Operation extends \Magento\Model\AbstractModel
 {
     /**
      * Log directory
@@ -54,7 +53,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Cron config template
      */
-    const CRON_STRING_PATH = 'crontab/jobs/scheduled_operation_%d/%s';
+    const CRON_STRING_PATH = 'crontab/default/jobs/scheduled_operation_%d/%s';
 
     /**
      * Cron callback config
@@ -69,31 +68,21 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Date model
      *
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_dateModel;
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Email\Model\Template\Mailer
-     */
-    protected $_templateMailer;
-
-    /**
-     * @var \Magento\Core\Model\Config\ValueFactory
+     * @var \Magento\App\Config\ValueFactory
      */
     protected $_configValueFactory;
-
-    /**
-     * @var \Magento\Email\Model\InfoFactory
-     */
-    protected $_emailInfoFactory;
 
     /**
      * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory
@@ -106,7 +95,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     protected $_schedOperFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -118,54 +107,56 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Filesystem instance
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Filesystem $filesystem,
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @var \Magento\Mail\Template\TransportBuilder
+     */
+    protected $_transportBuilder;
+
+    /**
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
-     * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
-     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
-     * @param \Magento\Email\Model\Template\Mailer $templateMailer
-     * @param \Magento\Core\Model\Date $dateModel
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ValueFactory $configValueFactory
+     * @param \Magento\Stdlib\DateTime\DateTime $dateModel
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\App\Filesystem $filesystem,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
-        \Magento\Email\Model\InfoFactory $emailInfoFactory,
-        \Magento\Core\Model\Config\ValueFactory $configValueFactory,
-        \Magento\Email\Model\Template\Mailer $templateMailer,
-        \Magento\Core\Model\Date $dateModel,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ValueFactory $configValueFactory,
+        \Magento\Stdlib\DateTime\DateTime $dateModel,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\String $string,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_dateModel = $dateModel;
-        $this->_templateMailer = $templateMailer;
         $this->_configValueFactory = $configValueFactory;
-        $this->_emailInfoFactory = $emailInfoFactory;
         $this->_operationFactory = $operationFactory;
         $this->_schedOperFactory = $schedOperFactory;
         $this->_storeManager = $storeManager;
         $this->filesystem = $filesystem;
         $this->string = $string;
+        $this->_transportBuilder = $transportBuilder;
 
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_init('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation');
@@ -174,7 +165,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Date model getter
      *
-     * @return \Magento\Core\Model\Date
+     * @return \Magento\Stdlib\DateTime\DateTime
      */
     public function getDateModel()
     {
@@ -185,7 +176,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Send email notification
      *
      * @param array $vars
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     public function sendEmailNotification($vars = array())
     {
@@ -193,51 +184,64 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $copyTo = explode(',', $this->getEmailCopy());
         $copyMethod = $this->getEmailCopyMethod();
 
-        /** @var \Magento\Email\Model\Info $emailInfo */
-        $emailInfo = $this->_emailInfoFactory->create();
-
-        $receiverEmail = $this->_coreStoreConfig->getConfig(
+        $receiverEmail = $this->_scopeConfig->getValue(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/email',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );
-        $receiverName  = $this->_coreStoreConfig->getConfig(
+        $receiverName = $this->_scopeConfig->getValue(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/name',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );
 
-        $emailInfo->addTo($receiverEmail, $receiverName);
-
+        // Set all required params and send emails
+        $this->_transportBuilder->setTemplateIdentifier(
+            $this->getEmailTemplate()
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+        )->setTemplateVars(
+            $vars
+        )->setFrom(
+            $this->getEmailSender()
+        )->addTo(
+            $receiverEmail,
+            $receiverName
+        );
         if ($copyTo && $copyMethod == 'bcc') {
             // Add bcc to customer email
             foreach ($copyTo as $email) {
-                $emailInfo->addBcc($email);
+                $this->_transportBuilder->addBcc($email);
             }
         }
-        $this->_templateMailer->addEmailInfo($emailInfo);
+        /** @var \Magento\Mail\TransportInterface $transport */
+        $transport = $this->_transportBuilder->getTransport();
+        $transport->sendMessage();
 
         // Email copies are sent as separated emails if their copy method is 'copy'
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                /** @var \Magento\Email\Model\Info $emailInfo */
-                $emailInfo = $this->_emailInfoFactory->create();
-                $emailInfo->addTo($email);
-                $this->_templateMailer->addEmailInfo($emailInfo);
+                $this->_transportBuilder->setTemplateIdentifier(
+                    $this->getEmailTemplate()
+                )->setTemplateOptions(
+                    array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                )->setTemplateVars(
+                    $vars
+                )->setFrom(
+                    $this->getEmailSender()
+                )->addTo(
+                    $email
+                )->getTransport()->sendMessage();
             }
         }
 
-        // Set all required params and send emails
-        $this->_templateMailer->setSender($this->getEmailSender());
-        $this->_templateMailer->setStoreId($storeId);
-        $this->_templateMailer->setTemplateId($this->getEmailTemplate());
-        $this->_templateMailer->setTemplateParams($vars);
-        $this->_templateMailer->send();
         return $this;
     }
 
     /**
      * Unserialize file_info and entity_attributes after load
      *
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -257,7 +261,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Serialize file_info and entity_attributes arrays before save
      *
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -277,7 +281,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Add task to cron after save
      *
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -292,7 +296,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Delete cron task
      *
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
      */
     protected function _afterDelete()
     {
@@ -303,8 +307,8 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Add operation to cron
      *
-     * @throws \Magento\Core\Exception
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @throws \Magento\Model\Exception
+     * @return $this
      */
     protected function _addCronTask()
     {
@@ -316,28 +320,34 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $cronExprArray = array(
             intval($time[1]),
             intval($time[0]),
-            ($frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY) ? '1' : '*',
+            $frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY ? '1' : '*',
             '*',
-            ($frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY) ? '1' : '*'
+            $frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY ? '1' : '*'
         );
 
         $cronExprString = join(' ', $cronExprArray);
-        $exprPath  = $this->getExprConfigPath();
+        $exprPath = $this->getExprConfigPath();
         $modelPath = $this->getModelConfigPath();
         try {
-            $this->_configValueFactory->create()
-                ->load($exprPath, 'path')
-                ->setValue($cronExprString)
-                ->setPath($exprPath)
-                ->save();
+            $this->_configValueFactory->create()->load(
+                $exprPath,
+                'path'
+            )->setValue(
+                $cronExprString
+            )->setPath(
+                $exprPath
+            )->save();
 
-            $this->_configValueFactory->create()
-                ->load($modelPath, 'path')
-                ->setValue(self::CRON_MODEL)
-                ->setPath($modelPath)
-                ->save();
+            $this->_configValueFactory->create()->load(
+                $modelPath,
+                'path'
+            )->setValue(
+                self::CRON_MODEL
+            )->setPath(
+                $modelPath
+            )->save();
         } catch (\Exception $e) {
-            throw new \Magento\Core\Exception(__('We were unable to save the cron expression.'));
+            throw new \Magento\Model\Exception(__('We were unable to save the cron expression.'));
             $this->_logger->logException($e);
         }
         return $this;
@@ -346,20 +356,16 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Remove cron task
      *
-     * @throws \Magento\Core\Exception
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @throws \Magento\Model\Exception
+     * @return $this
      */
     protected function _dropCronTask()
     {
         try {
-            $this->_configValueFactory->create()
-                ->load($this->getExprConfigPath(), 'path')
-                ->delete();
-            $this->_configValueFactory->create()
-                ->load($this->getModelConfigPath(), 'path')
-                ->delete();
+            $this->_configValueFactory->create()->load($this->getExprConfigPath(), 'path')->delete();
+            $this->_configValueFactory->create()->load($this->getModelConfigPath(), 'path')->delete();
         } catch (\Exception $e) {
-            throw new \Magento\Core\Exception(__('Unable to delete the cron task.'));
+            throw new \Magento\Model\Exception(__('Unable to delete the cron task.'));
             $this->_logger->logException($e);
         }
         return $this;
@@ -389,9 +395,9 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Load operation by cron job code.
      * Operation id must present in job code.
      *
-     * @throws \Magento\Core\Exception
      * @param string $jobCode
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
+     * @throws \Magento\Model\Exception
      */
     public function loadByJobCode($jobCode)
     {
@@ -400,7 +406,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
             $operationId = (int)substr($jobCode, $idPos + 1);
         }
         if (!isset($operationId) || !$operationId) {
-            throw new \Magento\Core\Exception(__('Please correct the cron job task'));
+            throw new \Magento\Model\Exception(__('Please correct the cron job task'));
         }
 
         return $this->load($operationId);
@@ -428,7 +434,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
             $operation->addLogComment($e->getMessage());
         }
 
-        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::LOG);
+        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::LOG_DIR);
         $filePath = $this->getHistoryFilePath();
 
         if ($logDirectory->isExist($logDirectory->getRelativePath($filePath))) {
@@ -436,16 +442,16 @@ class Operation extends \Magento\Core\Model\AbstractModel
         }
 
         if (!$result || isset($e) && is_object($e)) {
-            $operation->addLogComment(
-                __('Something went wrong and the operation failed.')
+            $operation->addLogComment(__('Something went wrong and the operation failed.'));
+            $this->sendEmailNotification(
+                array(
+                    'operationName' => $this->getName(),
+                    'trace' => nl2br($operation->getFormatedLogTrace()),
+                    'entity' => $this->getEntityType(),
+                    'dateAndTime' => $runDate,
+                    'fileName' => $filePath
+                )
             );
-            $this->sendEmailNotification(array(
-                'operationName'  => $this->getName(),
-                'trace'          => nl2br($operation->getFormatedLogTrace()),
-                'entity'         => $this->getEntityType(),
-                'dateAndTime'    => $runDate,
-                'fileName'       => $filePath
-            ));
         }
 
         $this->setIsSuccess($result);
@@ -458,23 +464,24 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Get file based on "file_info" from server (ftp, local) and put to tmp directory
      *
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return string full file path
      */
-    public function getFileSource(\Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation)
-    {
+    public function getFileSource(
+        \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation
+    ) {
         $fileInfo = $this->getFileInfo();
         if (empty($fileInfo['file_name'])) {
-            throw new \Magento\Core\Exception(__("We couldn't read the file source because the file name is empty."));
+            throw new \Magento\Model\Exception(__("We couldn't read the file source because the file name is empty."));
         }
         $operation->addLogComment(__('Connecting to server'));
         $operation->addLogComment(__('Reading import file'));
 
         $extension = pathinfo($fileInfo['file_name'], PATHINFO_EXTENSION);
-        $filePath  = $fileInfo['file_name'];
+        $filePath = $fileInfo['file_name'];
 
-        $varDirectory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::VAR_DIR);
-        $tmpDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
+        $varDirectory = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::VAR_DIR);
+        $tmpDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR);
         $tmpFile = uniqid(time(), true) . '.' . $extension;
         $tmpFilePath = $tmpDirectory->getAbsolutePath($tmpFile);
 
@@ -482,7 +489,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
             $contents = $varDirectory->readFile($varDirectory->getRelativePath($filePath));
             $tmpDirectory->writeFile($tmpFile, $contents);
         } catch (\Magento\Filesystem\FilesystemException $e) {
-            throw new \Magento\Core\Exception(__("We couldn't read the import file."));
+            throw new \Magento\Model\Exception(__("We couldn't read the import file."));
         }
         $operation->addLogComment(__('Save history file content "%1"', $this->getHistoryFilePath()));
         $this->_saveOperationHistory($tmpFilePath);
@@ -492,10 +499,10 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Save/upload file to server (ftp, local)
      *
-     * @throws \Magento\Core\Exception
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation
      * @param string $fileContent
      * @return bool
+     * @throws \Magento\Model\Exception
      */
     public function saveFileSource(
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation,
@@ -507,14 +514,17 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $fileInfo = $this->getFileInfo();
         $fileName = $operation->getScheduledFileName() . '.' . $fileInfo['file_format'];
         try {
-            $varDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+            $varDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
             $varDirectory->writeFile($fileInfo['file_path'] . '/' . $fileName, $fileContent);
         } catch (\Magento\Filesystem\FilesystemException $e) {
-            throw new \Magento\Core\Exception(__(
+            throw new \Magento\Model\Exception(
+                __(
                     'We couldn\'t write file "%1" to "%2" with the "%3" driver.',
-                    $fileName, $fileInfo['file_path'],
+                    $fileName,
+                    $fileInfo['file_path'],
                     $fileInfo['server_type']
-                ));
+                )
+            );
         }
         $operation->addLogComment(__('Save file content'));
 
@@ -525,15 +535,14 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Get operation instance by operation type and set specific data to it
      * Supported import, export
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
      */
     public function getInstance()
     {
         /** @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation */
         $operation = $this->_schedOperFactory->create(
-            'Magento\ScheduledImportExport\Model\\'
-                . $this->string->upperCaseWords($this->getOperationType())
+            'Magento\ScheduledImportExport\Model\\' . $this->string->upperCaseWords($this->getOperationType())
         );
 
         $operation->initialize($this);
@@ -544,7 +553,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Prepare data for server io driver initialization
      *
      * @param array $fileInfo
-     * @return array prepared configuration
+     * @return array Prepared configuration
      */
     protected function _prepareIoConfiguration($fileInfo)
     {
@@ -570,19 +579,19 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Save operation file history.
      *
-     * @throws \Magento\Core\Exception
      * @param string $source
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
+     * @return $this
+     * @throws \Magento\Model\Exception
      */
     protected function _saveOperationHistory($source)
     {
-        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::LOG);
+        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::LOG_DIR);
         $filePath = $logDirectory->getRelativePath($this->getHistoryFilePath());
 
         try {
             $logDirectory->writeFile($filePath, $source);
         } catch (\Magento\Filesystem\FilesystemException $e) {
-            throw new \Magento\Core\Exception(__("We couldn't save the file history file."));
+            throw new \Magento\Model\Exception(__("We couldn't save the file history file."));
         }
         return $this;
     }
@@ -590,20 +599,16 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Get file path of history operation files
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return string
      */
     public function getHistoryFilePath()
     {
-        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::LOG);
+        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::LOG_DIR);
         $dirPath = self::LOG_DIRECTORY . date('Y/m/d') . '/' . self::FILE_HISTORY_DIRECTORY;
         $logDirectory->create($dirPath);
 
-        $fileName = join('_', array(
-            $this->_getRunTime(),
-            $this->getOperationType(),
-            $this->getEntityType()
-        ));
+        $fileName = join('_', array($this->_getRunTime(), $this->getOperationType(), $this->getEntityType()));
 
         $fileInfo = $this->getFileInfo();
         if (isset($fileInfo['file_format'])) {
@@ -611,7 +616,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         } elseif (isset($fileInfo['file_name'])) {
             $extension = pathinfo($fileInfo['file_name'], PATHINFO_EXTENSION);
         } else {
-            throw new \Magento\Core\Exception(__('Unknown file format'));
+            throw new \Magento\Model\Exception(__('Unknown file format'));
         }
 
         return $logDirectory->getAbsolutePath($dirPath . $fileName . '.' . $extension);

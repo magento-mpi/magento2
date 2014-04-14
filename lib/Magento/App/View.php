@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App;
 
 class View implements ViewInterface
@@ -26,22 +25,22 @@ class View implements ViewInterface
     protected $_eventManager;
 
     /**
-     * @var \Magento\TranslateInterface
+     * @var \Magento\Translate\InlineInterface
      */
-    protected $_translator;
+    protected $_translateInline;
 
     /**
-     * @var \Magento\App\ActionFlag
+     * @var ActionFlag
      */
     protected $_actionFlag;
 
     /**
-     * @var \Magento\App\ResponseInterface
+     * @var ResponseInterface
      */
     protected $_response;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var RequestInterface
      */
     protected $_request;
 
@@ -52,28 +51,28 @@ class View implements ViewInterface
 
     /**
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\App\RequestInterface $request
-     * @param \Magento\App\ResponseInterface $response
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
      * @param \Magento\Config\ScopeInterface $configScope
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\TranslateInterface $translator
-     * @param \Magento\App\ActionFlag $actionFlag
+     * @param \Magento\Translate\InlineInterface $translateInline
+     * @param ActionFlag $actionFlag
      */
     public function __construct(
         \Magento\View\LayoutInterface $layout,
-        \Magento\App\RequestInterface $request,
-        \Magento\App\ResponseInterface $response,
+        RequestInterface $request,
+        ResponseInterface $response,
         \Magento\Config\ScopeInterface $configScope,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\TranslateInterface $translator,
-        \Magento\App\ActionFlag $actionFlag
+        \Magento\Translate\InlineInterface $translateInline,
+        ActionFlag $actionFlag
     ) {
         $this->_layout = $layout;
         $this->_request = $request;
         $this->_response = $response;
         $this->_configScope = $configScope;
         $this->_eventManager = $eventManager;
-        $this->_translator = $translator;
+        $this->_translateInline = $translateInline;
         $this->_actionFlag = $actionFlag;
     }
 
@@ -84,7 +83,6 @@ class View implements ViewInterface
      */
     public function getLayout()
     {
-        $this->_layout->setArea($this->_configScope->getCurrentScope());
         return $this->_layout;
     }
 
@@ -139,7 +137,7 @@ class View implements ViewInterface
     /**
      * Add layout handle by full controller action name
      *
-     * @return \Magento\App\ActionInterface
+     * @return $this
      */
     public function addActionLayoutHandles()
     {
@@ -152,12 +150,13 @@ class View implements ViewInterface
     /**
      * Add layout updates handles associated with the action page
      *
-     * @param array $parameters page parameters
+     * @param array|null $parameters page parameters
+     * @param string|null $defaultHandle
      * @return bool
      */
-    public function addPageLayoutHandles(array $parameters = array())
+    public function addPageLayoutHandles(array $parameters = array(), $defaultHandle = null)
     {
-        $handle = $this->getDefaultLayoutHandle();
+        $handle = $defaultHandle ? $defaultHandle : $this->getDefaultLayoutHandle();
         $pageHandles = array($handle);
         foreach ($parameters as $key => $value) {
             $pageHandles[] = $handle . '_' . $key . '_' . $value;
@@ -169,7 +168,7 @@ class View implements ViewInterface
     /**
      * Load layout updates
      *
-     * @return \Magento\App\View
+     * @return $this
      */
     public function loadLayoutUpdates()
     {
@@ -193,7 +192,7 @@ class View implements ViewInterface
     /**
      * Generate layout xml
      *
-     * @return \Magento\App\View
+     * @return $this
      */
     public function generateLayoutXml()
     {
@@ -210,7 +209,7 @@ class View implements ViewInterface
     /**
      * Generate layout blocks
      *
-     * @return \Magento\App\View
+     * @return $this
      */
     public function generateLayoutBlocks()
     {
@@ -244,7 +243,7 @@ class View implements ViewInterface
      * Rendering layout
      *
      * @param   string $output
-     * @return  \Magento\App\View
+     * @return  $this
      */
     public function renderLayout($output = '')
     {
@@ -266,7 +265,7 @@ class View implements ViewInterface
         );
 
         $output = $this->getLayout()->getOutput();
-        $this->_translator->processResponseBody($output);
+        $this->_translateInline->processResponseBody($output);
         $this->_response->appendBody($output);
         \Magento\Profiler::stop('layout_render');
 
@@ -278,9 +277,20 @@ class View implements ViewInterface
      * Set isLayoutLoaded flag
      *
      * @param bool $value
+     * @return void
      */
     public function setIsLayoutLoaded($value)
     {
         $this->_isLayoutLoaded = $value;
+    }
+
+    /**
+     * Returns is layout loaded
+     *
+     * @return bool
+     */
+    public function isLayoutLoaded()
+    {
+        return $this->_isLayoutLoaded;
     }
 }

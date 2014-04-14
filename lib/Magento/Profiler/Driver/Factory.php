@@ -9,6 +9,8 @@
  */
 namespace Magento\Profiler\Driver;
 
+use Magento\Profiler\DriverInterface;
+
 class Factory
 {
     /**
@@ -41,7 +43,7 @@ class Factory
      * Create instance of profiler driver
      *
      * @param array $config|null
-     * @return \Magento\Profiler\DriverInterface
+     * @return DriverInterface
      * @throws \InvalidArgumentException
      */
     public function create(array $config = null)
@@ -53,15 +55,15 @@ class Factory
             $class = $this->_defaultDriverPrefix . ucfirst($type);
             if (!class_exists($class)) {
                 throw new \InvalidArgumentException(
-                    sprintf("Cannot create profiler driver, class \"%s\" doesn't exist.", $class
-                ));
+                    sprintf("Cannot create profiler driver, class \"%s\" doesn't exist.", $class)
+                );
             }
         }
         $driver = new $class($config);
-        if (!$driver instanceof \Magento\Profiler\DriverInterface) {
-            throw new \InvalidArgumentException(sprintf(
-                "Driver class \"%s\" must implement \Magento\Profiler\DriverInterface.", get_class($driver)
-            ));
+        if (!$driver instanceof DriverInterface) {
+            throw new \InvalidArgumentException(
+                sprintf("Driver class \"%s\" must implement \Magento\Profiler\DriverInterface.", get_class($driver))
+            );
         }
         return $driver;
     }

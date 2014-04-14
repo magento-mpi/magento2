@@ -28,11 +28,11 @@ class ClassReader
                 try {
                     $result[] = array(
                         $parameter->getName(),
-                        ($parameter->getClass() !== null) ? $parameter->getClass()->getName() : null,
+                        $parameter->getClass() !== null ? $parameter->getClass()->getName() : null,
                         !$parameter->isOptional(),
-                        $parameter->isOptional() ?
-                            $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null :
-                            null
+                        $parameter->isOptional() ? $parameter
+                            ->isDefaultValueAvailable() ? $parameter
+                            ->getDefaultValue() : null : null
                     );
                 } catch (\ReflectionException $e) {
                     $message = $e->getMessage();
@@ -54,7 +54,7 @@ class ClassReader
      * )
      *
      * @param string $className
-     * @return array
+     * @return string[]
      */
     public function getParents($className)
     {

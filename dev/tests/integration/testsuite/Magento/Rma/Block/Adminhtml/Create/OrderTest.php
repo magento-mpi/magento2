@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Create;
 
 /**
@@ -18,7 +17,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtml()
     {
-        $utility = new \Magento\Core\Utility\Layout($this);
+        $utility = new \Magento\View\Utility\Layout($this);
         $layoutArguments = array_merge($utility->getLayoutDependencies(), array('area' => 'adminhtml'));
         $layout = $utility->getLayoutFromFixture(
             __DIR__ . '/../../../_files/adminhtml_rma_chooseorder.xml',
@@ -27,8 +26,11 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $layout->getUpdate()->addHandle('adminhtml_rma_chooseorder')->load();
         $layout->generateXml()->generateElements();
         $layout->addOutputElement('rma_create_order');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
-            ->setArea('adminhtml');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\DesignInterface'
+        )->setArea(
+            'adminhtml'
+        );
         $this->assertContains('<div id="magento_rma_rma_create_order_grid">', $layout->getOutput());
     }
 }

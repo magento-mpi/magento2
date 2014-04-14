@@ -16,15 +16,17 @@
     <div class="comparison wrapper">
         <div class="comparison container">
             <table class="data-table data table comparison" id="product-comparison">
+                <caption><?php echo __('Compare Products') ?></caption>
                 <thead>
                 <tr>
                     <?php $_i=0 ?>
                     <?php foreach($this->getItems() as $_item): ?>
                         <?php if($_i++==0): ?>
-                            <th class="cell label remove">&nbsp;</th>
+                            <th scope="row" class="cell label remove"><?php echo __('Remove Product') ?></th>
                         <?php endif; ?>
                         <td class="cell remove product">
-                            <a href="<?php echo $this->helper('Magento\Catalog\Helper\Product\Compare')->getRemoveUrl($_item) ?>"
+                            <?php $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');?>
+                            <a href="#" data-post='<?php echo $compareHelper->getPostDataRemove($_item); ?>'
                                class="action delete" title="<?php echo __('Remove Product') ?>">
                                 <span><?php echo __('Remove Product') ?></span>
                             </a>
@@ -38,7 +40,7 @@
                     <?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
                     <?php foreach($this->getItems() as $_item): ?>
                         <?php if($_i++==0): ?>
-                            <th class="cell label product">&nbsp;</th>
+                            <th scope="row" class="cell label product"><?php echo __('Product') ?></th>
                         <?php endif; ?>
                         <td class="cell product info">
                             <a class="product photo" href="<?php echo $this->getProductUrl($_item) ?>" title="<?php echo $this->stripTags($_item->getName(), null, true) ?>">
@@ -68,8 +70,8 @@
                                     <?php endif; ?>
                                 </div>
                                 <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow()) : ?>
-                                    <div class="secondary addto links">
-                                        <a href="<?php echo $this->helper('Magento\Catalog\Helper\Product\Compare')->getAddToWishlistUrl($_item) ?>" class="action towishlist" data-action="add-to-wishlist">
+                                    <div class="secondary addto links" data-role="add-to-links">
+                                        <a href="#" data-post='<?php echo $this->getAddToWishlistParams($_item); ?>' class="action towishlist" data-action="add-to-wishlist">
                                             <span><?php echo __('Add to Wishlist') ?></span>
                                         </a>
                                     </div>
@@ -85,7 +87,7 @@
                         <?php $_i = 0 ?>
                         <?php foreach($this->getItems() as $_item): ?>
                             <?php if($_i++==0): ?>
-                                <th class="cell label">
+                                <th scope="row" class="cell label">
                                     <span class="attribute label">
                                         <?php echo $_attribute->getStoreLabel() ? $_attribute->getStoreLabel() : __($_attribute->getFrontendLabel()) ?>
                                     </span>

@@ -14,7 +14,26 @@
  */
 namespace Magento\CatalogSearch\Model\Indexer;
 
-class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
+use Magento\App\Config\ValueInterface;
+use Magento\Catalog\Model\Category;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\ProductFactory;
+use Magento\Catalog\Model\Resource\Eav\Attribute;
+use Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory;
+use Magento\CatalogSearch\Model\Fulltext as ModelFulltext;
+use Magento\CatalogSearch\Model\Resource\Indexer\Fulltext as IndexerFulltext;
+use Magento\Model\Context;
+use Magento\Registry;
+use Magento\Model\Resource\AbstractResource;
+use Magento\Store\Model\Store;
+use Magento\Store\Model\Group;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Data\Collection\Db;
+use Magento\Index\Model\Event;
+use Magento\Index\Model\Indexer\AbstractIndexer;
+use Magento\Index\Model\Process;
+
+class Fulltext extends AbstractIndexer
 {
     /**
      * Data key for matching result to be saved in
@@ -31,62 +50,62 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Product factory
      *
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var ProductFactory
      */
     protected $_productFactory;
 
     /**
      * Catalog search fulltext
      *
-     * @var \Magento\CatalogSearch\Model\Fulltext
+     * @var ModelFulltext
      */
     protected $_catalogSearchFulltext;
 
     /**
      * Attribute collection factory
      *
-     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
+     * @var CollectionFactory
      */
     protected $_attributeCollectionFactory;
 
     /**
      * Catalog search indexer fulltext
      *
-     * @var \Magento\CatalogSearch\Model\Resource\Indexer\Fulltext
+     * @var IndexerFulltext
      */
     protected $_catalogSearchIndexerFulltext;
 
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\CatalogSearch\Model\Resource\Indexer\Fulltext $catalogSearchIndexerFulltext
-     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
-     * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param Context $context
+     * @param Registry $registry
+     * @param IndexerFulltext $catalogSearchIndexerFulltext
+     * @param CollectionFactory $attributeCollectionFactory
+     * @param ModelFulltext $catalogSearchFulltext
+     * @param ProductFactory $productFactory
+     * @param StoreManagerInterface $storeManager
+     * @param AbstractResource $resource
+     * @param Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\CatalogSearch\Model\Resource\Indexer\Fulltext $catalogSearchIndexerFulltext,
-        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        Context $context,
+        Registry $registry,
+        IndexerFulltext $catalogSearchIndexerFulltext,
+        CollectionFactory $attributeCollectionFactory,
+        ModelFulltext $catalogSearchFulltext,
+        ProductFactory $productFactory,
+        StoreManagerInterface $storeManager,
+        AbstractResource $resource = null,
+        Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogSearchIndexerFulltext = $catalogSearchIndexerFulltext;
@@ -100,7 +119,7 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Retrieve resource instance
      *
-     * @return \Magento\CatalogSearch\Model\Resource\Indexer\Fulltext
+     * @return IndexerFulltext
      */
     protected function _getResource()
     {
@@ -113,43 +132,25 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @var array
      */
     protected $_matchedEntities = array(
-        \Magento\Catalog\Model\Product::ENTITY => array(
-            \Magento\Index\Model\Event::TYPE_SAVE,
-            \Magento\Index\Model\Event::TYPE_MASS_ACTION,
-            \Magento\Index\Model\Event::TYPE_DELETE
-        ),
-        \Magento\Catalog\Model\Resource\Eav\Attribute::ENTITY => array(
-            \Magento\Index\Model\Event::TYPE_SAVE,
-            \Magento\Index\Model\Event::TYPE_DELETE,
-        ),
-        \Magento\Core\Model\Store::ENTITY => array(
-            \Magento\Index\Model\Event::TYPE_SAVE,
-            \Magento\Index\Model\Event::TYPE_DELETE
-        ),
-        \Magento\Core\Model\Store\Group::ENTITY => array(
-            \Magento\Index\Model\Event::TYPE_SAVE
-        ),
-        \Magento\Core\Model\Config\Value::ENTITY => array(
-            \Magento\Index\Model\Event::TYPE_SAVE
-        ),
-        \Magento\Catalog\Model\Category::ENTITY => array(
-            \Magento\Index\Model\Event::TYPE_SAVE
-        )
+        Product::ENTITY => array(Event::TYPE_SAVE, Event::TYPE_MASS_ACTION, Event::TYPE_DELETE),
+        Attribute::ENTITY => array(Event::TYPE_SAVE, Event::TYPE_DELETE),
+        Store::ENTITY => array(Event::TYPE_SAVE, Event::TYPE_DELETE),
+        Group::ENTITY => array(Event::TYPE_SAVE),
+        ValueInterface::ENTITY => array(Event::TYPE_SAVE),
+        Category::ENTITY => array(Event::TYPE_SAVE)
     );
 
     /**
      * Related Configuration Settings for match
      *
-     * @var array
+     * @var string[]
      */
-    protected $_relatedConfigSettings = array(
-        \Magento\CatalogSearch\Model\Fulltext::XML_PATH_CATALOG_SEARCH_TYPE
-    );
+    protected $_relatedConfigSettings = array(ModelFulltext::XML_PATH_CATALOG_SEARCH_TYPE);
 
     /**
      * Retrieve Fulltext Search instance
      *
-     * @return \Magento\CatalogSearch\Model\Fulltext
+     * @return ModelFulltext
      */
     protected function _getIndexer()
     {
@@ -181,59 +182,65 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Overwrote for check is flat catalog product is enabled and specific save
      * attribute, store, store_group
      *
-     * @param \Magento\Index\Model\Event $event
+     * @param Event $event
      * @return bool
      */
-    public function matchEvent(\Magento\Index\Model\Event $event)
+    public function matchEvent(Event $event)
     {
-        $data       = $event->getNewData();
+        $data = $event->getNewData();
         if (isset($data[self::EVENT_MATCH_RESULT_KEY])) {
             return $data[self::EVENT_MATCH_RESULT_KEY];
         }
 
         $entity = $event->getEntity();
-        if ($entity == \Magento\Catalog\Model\Resource\Eav\Attribute::ENTITY) {
-            /* @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-            $attribute      = $event->getDataObject();
+        if ($entity == Attribute::ENTITY) {
+            /* @var $attribute Attribute */
+            $attribute = $event->getDataObject();
 
             if (!$attribute) {
                 $result = false;
-            } elseif ($event->getType() == \Magento\Index\Model\Event::TYPE_SAVE) {
+            } elseif ($event->getType() == Event::TYPE_SAVE) {
                 $result = $attribute->dataHasChangedFor('is_searchable');
-            } elseif ($event->getType() == \Magento\Index\Model\Event::TYPE_DELETE) {
+            } elseif ($event->getType() == Event::TYPE_DELETE) {
                 $result = $attribute->getIsSearchable();
             } else {
                 $result = false;
             }
-        } else if ($entity == \Magento\Core\Model\Store::ENTITY) {
-            if ($event->getType() == \Magento\Index\Model\Event::TYPE_DELETE) {
-                $result = true;
-            } else {
-                /* @var $store \Magento\Core\Model\Store */
-                $store = $event->getDataObject();
-                if ($store && $store->isObjectNew()) {
+        } else {
+            if ($entity == Store::ENTITY) {
+                if ($event->getType() == Event::TYPE_DELETE) {
                     $result = true;
                 } else {
-                    $result = false;
+                    /* @var $store Store */
+                    $store = $event->getDataObject();
+                    if ($store && $store->isObjectNew()) {
+                        $result = true;
+                    } else {
+                        $result = false;
+                    }
+                }
+            } else {
+                if ($entity == Group::ENTITY) {
+                    /* @var $storeGroup Group */
+                    $storeGroup = $event->getDataObject();
+                    if ($storeGroup && $storeGroup->dataHasChangedFor('website_id')) {
+                        $result = true;
+                    } else {
+                        $result = false;
+                    }
+                } else {
+                    if ($entity == ValueInterface::ENTITY) {
+                        $data = $event->getDataObject();
+                        if ($data && in_array($data->getPath(), $this->_relatedConfigSettings)) {
+                            $result = $data->isValueChanged();
+                        } else {
+                            $result = false;
+                        }
+                    } else {
+                        $result = parent::matchEvent($event);
+                    }
                 }
             }
-        } else if ($entity == \Magento\Core\Model\Store\Group::ENTITY) {
-            /* @var $storeGroup \Magento\Core\Model\Store\Group */
-            $storeGroup = $event->getDataObject();
-            if ($storeGroup && $storeGroup->dataHasChangedFor('website_id')) {
-                $result = true;
-            } else {
-                $result = false;
-            }
-        } else if ($entity == \Magento\Core\Model\Config\Value::ENTITY) {
-            $data = $event->getDataObject();
-            if ($data && in_array($data->getPath(), $this->_relatedConfigSettings)) {
-                $result = $data->isValueChanged();
-            } else {
-                $result = false;
-            }
-        } else {
-            $result = parent::matchEvent($event);
         }
 
         $event->addNewData(self::EVENT_MATCH_RESULT_KEY, $result);
@@ -244,25 +251,26 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Register data required by process in event object
      *
-     * @param \Magento\Index\Model\Event $event
+     * @param Event $event
+     * @return void
      */
-    protected function _registerEvent(\Magento\Index\Model\Event $event)
+    protected function _registerEvent(Event $event)
     {
         $event->addNewData(self::EVENT_MATCH_RESULT_KEY, true);
         switch ($event->getEntity()) {
-            case \Magento\Catalog\Model\Product::ENTITY:
+            case Product::ENTITY:
                 $this->_registerCatalogProductEvent($event);
                 break;
 
-            case \Magento\Core\Model\Config\Value::ENTITY:
-            case \Magento\Core\Model\Store::ENTITY:
-            case \Magento\Catalog\Model\Resource\Eav\Attribute::ENTITY:
-            case \Magento\Core\Model\Store\Group::ENTITY:
+            case ValueInterface::ENTITY:
+            case Store::ENTITY:
+            case Attribute::ENTITY:
+            case Group::ENTITY:
                 $event->addNewData('catalogsearch_fulltext_skip_call_event_handler', true);
                 $process = $event->getProcess();
-                $process->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
+                $process->changeStatus(Process::STATUS_REQUIRE_REINDEX);
                 break;
-            case \Magento\Catalog\Model\Category::ENTITY:
+            case Category::ENTITY:
                 $this->_registerCatalogCategoryEvent($event);
                 break;
             default:
@@ -273,15 +281,15 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Get data required for category'es products reindex
      *
-     * @param \Magento\Index\Model\Event $event
-     * @return \Magento\CatalogSearch\Model\Indexer\Fulltext
+     * @param Event $event
+     * @return $this
      */
-    protected function _registerCatalogCategoryEvent(\Magento\Index\Model\Event $event)
+    protected function _registerCatalogCategoryEvent(Event $event)
     {
         switch ($event->getType()) {
-            case \Magento\Index\Model\Event::TYPE_SAVE:
-                /* @var $category \Magento\Catalog\Model\Category */
-                $category   = $event->getDataObject();
+            case Event::TYPE_SAVE:
+                /* @var $category Category */
+                $category = $event->getDataObject();
                 $productIds = $category->getAffectedProductIds();
                 if ($productIds) {
                     $event->addNewData('catalogsearch_category_update_product_ids', $productIds);
@@ -304,29 +312,29 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Register data required by catatalog product process in event object
      *
-     * @param \Magento\Index\Model\Event $event
-     * @return \Magento\CatalogSearch\Model\Indexer\Fulltext
+     * @param Event $event
+     * @return $this
      */
-    protected function _registerCatalogProductEvent(\Magento\Index\Model\Event $event)
+    protected function _registerCatalogProductEvent(Event $event)
     {
         switch ($event->getType()) {
-            case \Magento\Index\Model\Event::TYPE_SAVE:
-                /* @var $product \Magento\Catalog\Model\Product */
+            case Event::TYPE_SAVE:
+                /* @var $product Product */
                 $product = $event->getDataObject();
 
                 $event->addNewData('catalogsearch_update_product_id', $product->getId());
                 break;
-            case \Magento\Index\Model\Event::TYPE_DELETE:
-                /* @var $product \Magento\Catalog\Model\Product */
+            case Event::TYPE_DELETE:
+                /* @var $product Product */
                 $product = $event->getDataObject();
 
                 $event->addNewData('catalogsearch_delete_product_id', $product->getId());
                 break;
-            case \Magento\Index\Model\Event::TYPE_MASS_ACTION:
+            case Event::TYPE_MASS_ACTION:
                 /* @var $actionObject \Magento\Object */
                 $actionObject = $event->getDataObject();
 
-                $reindexData  = array();
+                $reindexData = array();
                 $rebuildIndex = false;
 
                 // check if status changed
@@ -403,87 +411,104 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Process event
      *
-     * @param \Magento\Index\Model\Event $event
+     * @param Event $event
+     * @return void
      */
-    protected function _processEvent(\Magento\Index\Model\Event $event)
+    protected function _processEvent(Event $event)
     {
         $data = $event->getNewData();
 
         if (!empty($data['catalogsearch_fulltext_reindex_all'])) {
             $this->reindexAll();
-        } else if (!empty($data['catalogsearch_delete_product_id'])) {
-            $productId = $data['catalogsearch_delete_product_id'];
+        } else {
+            if (!empty($data['catalogsearch_delete_product_id'])) {
+                $productId = $data['catalogsearch_delete_product_id'];
 
-            if (!$this->_isProductComposite($productId)) {
-                $parentIds = $this->_getResource()->getRelationsByChild($productId);
-                if (!empty($parentIds)) {
-                    $this->_getIndexer()->rebuildIndex(null, $parentIds);
+                if (!$this->_isProductComposite($productId)) {
+                    $parentIds = $this->_getResource()->getRelationsByChild($productId);
+                    if (!empty($parentIds)) {
+                        $this->_getIndexer()->rebuildIndex(null, $parentIds);
+                    }
                 }
-            }
 
-            $this->_getIndexer()->cleanIndex(null, $productId)
-                ->getResource()->resetSearchResults(null, $productId);
-        } else if (!empty($data['catalogsearch_update_product_id'])) {
-            $productId = $data['catalogsearch_update_product_id'];
-            $productIds = array($productId);
+                $this->_getIndexer()->cleanIndex(
+                    null,
+                    $productId
+                )->getResource()->resetSearchResults(
+                    null,
+                    $productId
+                );
+            } elseif (!empty($data['catalogsearch_update_product_id'])) {
+                $productId = $data['catalogsearch_update_product_id'];
+                $productIds = array($productId);
 
-            if (!$this->_isProductComposite($productId)) {
-                $parentIds = $this->_getResource()->getRelationsByChild($productId);
-                if (!empty($parentIds)) {
-                    $productIds = array_merge($productIds, $parentIds);
+                if (!$this->_isProductComposite($productId)) {
+                    $parentIds = $this->_getResource()->getRelationsByChild($productId);
+                    if (!empty($parentIds)) {
+                        $productIds = array_merge($productIds, $parentIds);
+                    }
                 }
-            }
 
-            $this->_getIndexer()->rebuildIndex(null, $productIds);
-        } else if (!empty($data['catalogsearch_product_ids'])) {
-            // mass action
-            $productIds = $data['catalogsearch_product_ids'];
+                $this->_getIndexer()->rebuildIndex(null, $productIds);
+            } else {
+                if (!empty($data['catalogsearch_product_ids'])) {
+                    // mass action
+                    $productIds = $data['catalogsearch_product_ids'];
 
-            if (!empty($data['catalogsearch_website_ids'])) {
-                $websiteIds = $data['catalogsearch_website_ids'];
-                $actionType = $data['catalogsearch_action_type'];
+                    if (!empty($data['catalogsearch_website_ids'])) {
+                        $websiteIds = $data['catalogsearch_website_ids'];
+                        $actionType = $data['catalogsearch_action_type'];
 
-                foreach ($websiteIds as $websiteId) {
-                    foreach ($this->_storeManager->getWebsite($websiteId)->getStoreIds() as $storeId) {
-                        if ($actionType == 'remove') {
-                            $this->_getIndexer()
-                                ->cleanIndex($storeId, $productIds)
-                                ->getResource()->resetSearchResults($storeId, $productIds);
-                        } else if ($actionType == 'add') {
-                            $this->_getIndexer()
-                                ->rebuildIndex($storeId, $productIds);
+                        foreach ($websiteIds as $websiteId) {
+                            foreach ($this->_storeManager->getWebsite($websiteId)->getStoreIds() as $storeId) {
+                                if ($actionType == 'remove') {
+                                    $this->_getIndexer()->cleanIndex(
+                                        $storeId,
+                                        $productIds
+                                    )->getResource()->resetSearchResults(
+                                        $storeId,
+                                        $productIds
+                                    );
+                                } elseif ($actionType == 'add') {
+                                    $this->_getIndexer()->rebuildIndex($storeId, $productIds);
+                                }
+                            }
                         }
+                    }
+                    if (isset($data['catalogsearch_status'])) {
+                        $status = $data['catalogsearch_status'];
+                        if ($status == \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED) {
+                            $this->_getIndexer()->rebuildIndex(null, $productIds);
+                        } else {
+                            $this->_getIndexer()->cleanIndex(
+                                null,
+                                $productIds
+                            )->getResource()->resetSearchResults(
+                                null,
+                                $productIds
+                            );
+                        }
+                    }
+                    if (isset($data['catalogsearch_force_reindex'])) {
+                        $this->_getIndexer()->rebuildIndex(null, $productIds)->resetSearchResults();
+                    }
+                } else {
+                    if (isset($data['catalogsearch_category_update_product_ids'])) {
+                        $productIds = $data['catalogsearch_category_update_product_ids'];
+                        $categoryIds = $data['catalogsearch_category_update_category_ids'];
+
+                        $this->_getIndexer()->updateCategoryIndex($productIds, $categoryIds);
                     }
                 }
             }
-            if (isset($data['catalogsearch_status'])) {
-                $status = $data['catalogsearch_status'];
-                if ($status == \Magento\Catalog\Model\Product\Status::STATUS_ENABLED) {
-                    $this->_getIndexer()
-                        ->rebuildIndex(null, $productIds);
-                } else {
-                    $this->_getIndexer()
-                        ->cleanIndex(null, $productIds)
-                        ->getResource()->resetSearchResults(null, $productIds);
-                }
-            }
-            if (isset($data['catalogsearch_force_reindex'])) {
-                $this->_getIndexer()
-                    ->rebuildIndex(null, $productIds)
-                    ->resetSearchResults();
-            }
-        } else if (isset($data['catalogsearch_category_update_product_ids'])) {
-            $productIds = $data['catalogsearch_category_update_product_ids'];
-            $categoryIds = $data['catalogsearch_category_update_category_ids'];
-
-            $this->_getIndexer()
-                ->updateCategoryIndex($productIds, $categoryIds);
         }
     }
 
     /**
      * Rebuild all index data
      *
+     * @return void
+     * @throws \Exception
      */
     public function reindexAll()
     {

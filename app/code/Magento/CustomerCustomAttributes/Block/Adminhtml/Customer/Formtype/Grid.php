@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
 
 /**
  * Form Types Grid Block
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
-
-class Grid
-    extends \Magento\Backend\Block\Widget\Grid\Extended
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\Eav\Model\Resource\Form\Type\CollectionFactory
@@ -28,7 +26,6 @@ class Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Eav\Model\Resource\Form\Type\CollectionFactory $formTypesFactory
      * @param \Magento\View\Design\Theme\LabelFactory $themeLabelFactory
@@ -36,7 +33,6 @@ class Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Eav\Model\Resource\Form\Type\CollectionFactory $formTypesFactory,
         \Magento\View\Design\Theme\LabelFactory $themeLabelFactory,
@@ -44,12 +40,13 @@ class Grid
     ) {
         $this->_formTypesFactory = $formTypesFactory;
         $this->_themeLabelFactory = $themeLabelFactory;
-        parent::__construct($context, $urlModel, $backendHelper, $data);
+        parent::__construct($context, $backendHelper, $data);
     }
 
     /**
      * Initialize Grid Block
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -62,7 +59,7 @@ class Grid
     /**
      * Prepare grid collection object
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -75,51 +72,41 @@ class Grid
     /**
      * Prepare Grid columns
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('code', array(
-            'header'    => __('Type Code'),
-            'index'     => 'code',
-        ));
+        $this->addColumn('code', array('header' => __('Type Code'), 'index' => 'code'));
 
-        $this->addColumn('label', array(
-            'header'    => __('Label'),
-            'index'     => 'label',
-        ));
+        $this->addColumn('label', array('header' => __('Label'), 'index' => 'label'));
 
-        $this->addColumn('store_id', array(
-            'header'    => __('Store View'),
-            'index'     => 'store_id',
-            'type'      => 'store'
-        ));
+        $this->addColumn('store_id', array('header' => __('Store View'), 'index' => 'store_id', 'type' => 'store'));
 
         /** @var $label \Magento\View\Design\Theme\Label */
         $label = $this->_themeLabelFactory->create();
         $design = $label->getLabelsCollection();
-        array_unshift($design, array(
-            'value' => 'all',
-            'label' => __('All Themes')
-        ));
-        $this->addColumn('theme', array(
-            'header'     => __('Theme'),
-            'type'       => 'theme',
-            'index'      => 'theme',
-            'options'    => $design,
-            'with_empty' => true,
-            'default'    => __('All Themes')
-        ));
-
-        $this->addColumn('is_system', array(
-            'header'    => __('System'),
-            'index'     => 'is_system',
-            'type'      => 'options',
-            'options'   => array(
-                0 => __('No'),
-                1 => __('Yes'),
+        array_unshift($design, array('value' => 'all', 'label' => __('All Themes')));
+        $this->addColumn(
+            'theme',
+            array(
+                'header' => __('Theme'),
+                'type' => 'theme',
+                'index' => 'theme',
+                'options' => $design,
+                'with_empty' => true,
+                'default' => __('All Themes')
             )
-        ));
+        );
+
+        $this->addColumn(
+            'is_system',
+            array(
+                'header' => __('System'),
+                'index' => 'is_system',
+                'type' => 'options',
+                'options' => array(0 => __('No'), 1 => __('Yes'))
+            )
+        );
 
         return parent::_prepareColumns();
     }

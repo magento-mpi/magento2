@@ -39,7 +39,7 @@ class Export extends \Magento\Backend\App\Action
     /**
      * Initialize layout.
      *
-     * @return \Magento\ImportExport\Controller\Adminhtml\Export
+     * @return $this
      */
     protected function _initAction()
     {
@@ -63,7 +63,7 @@ class Export extends \Magento\Backend\App\Action
     /**
      * Load data with filter applying and create file for download.
      *
-     * @return \Magento\ImportExport\Controller\Adminhtml\Export
+     * @return $this
      */
     public function exportAction()
     {
@@ -76,9 +76,10 @@ class Export extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     $model->getFileName(),
                     $model->export(),
+                    \Magento\App\Filesystem::VAR_DIR,
                     $model->getContentType()
                 );
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -123,9 +124,7 @@ class Export extends \Magento\Backend\App\Action
                 $export->setData($data);
 
                 $export->filterAttributeCollection(
-                    $attrFilterBlock->prepareCollection(
-                        $export->getEntityAttributeCollection()
-                    )
+                    $attrFilterBlock->prepareCollection($export->getEntityAttributeCollection())
                 );
                 $this->_view->renderLayout();
                 return;

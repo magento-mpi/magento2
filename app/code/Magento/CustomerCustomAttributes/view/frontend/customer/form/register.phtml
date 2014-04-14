@@ -55,8 +55,8 @@
 
         <?php $customerAttributes = $this->getChildBlock('customer_form_user_attributes');?>
         <?php if ($customerAttributes): ?>
-            <?php $customerAttributes->setShowContainer(false);?>
-            <?php $this->restoreSessionData($customerAttributes->getForm());?>
+            <?php $customerAttributes->setEntityType('customer')->setShowContainer(false);?>
+            <?php $this->restoreSessionData($customerAttributes->getMetadataForm());?>
             <?php echo $customerAttributes->toHtml()?>
         <?php endif;?>
 
@@ -72,7 +72,7 @@
                 <input type="text" name="company" id="company" value="<?php echo $this->escapeHtml($this->getFormData()->getCompany()) ?>" title="<?php echo __('Company') ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('company') ?>"/>
             </div>
         </div>
-        <div class="field telephone">
+        <div class="field telephone required">
             <label for="telephone" class="label"><span><?php echo __('Telephone') ?></span></label>
             <div class="control">
                 <input type="text" name="telephone" id="telephone" value="<?php echo $this->escapeHtml($this->getFormData()->getTelephone()) ?>" title="<?php echo __('Telephone') ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('telephone') ?>"/>
@@ -130,9 +130,9 @@
         </div>
             <?php $addressAttributes = $this->getChildBlock('customer_form_address_user_attributes');?>
             <?php if ($addressAttributes): ?>
-                <?php $addressAttributes->setEntity($this->getAddress());?>
+                <?php $addressAttributes->setEntityType('customer_address'); ?>
                 <?php $addressAttributes->setFieldIdFormat('address:%1$s')->setFieldNameFormat('address[%1$s]');?>
-                <?php $this->restoreSessionData($addressAttributes->getForm(), 'address');?>
+                <?php $this->restoreSessionData($addressAttributes->getMetadataForm(), 'address');?>
                 <?php echo $addressAttributes->setShowContainer(false)->toHtml()?>
             <?php endif;?>
         <input type="hidden" name="default_billing" value="1"/>
@@ -157,9 +157,9 @@
         </div>
         <?php echo $this->getChildHtml('form_additional_info'); ?>
     </fieldset>
-    <div class="actions">
+    <div class="actions toolbar">
         <div class="primary">
-            <button type="submit" class="action submit" title="<?php echo __('Submit') ?>"><span><?php echo __('Submit') ?></span></button>
+            <button type="submit" class="action submit" title="<?php echo __('Create account') ?>"><span><?php echo __('Create account') ?></span></button>
         </div>
         <div class="secondary">
             <a class="action back" href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><span><?php echo __('Back') ?></span></a>

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Persistent\Controller;
 
 /**
  * Persistent front controller
  */
-namespace Magento\Persistent\Controller;
-
 class Index extends \Magento\App\Action\Action
 {
     /**
@@ -67,7 +66,7 @@ class Index extends \Magento\App\Action\Action
      * Set whether clear checkout session when logout
      *
      * @param bool $clear
-     * @return \Magento\Persistent\Controller\Index
+     * @return $this
      */
     public function setClearCheckoutSession($clear = true)
     {
@@ -87,6 +86,8 @@ class Index extends \Magento\App\Action\Action
 
     /**
      * Unset persistent cookie action
+     *
+     * @return void
      */
     public function unsetCookieAction()
     {
@@ -100,14 +101,12 @@ class Index extends \Magento\App\Action\Action
     /**
      * Revert all persistent data
      *
-     * @return \Magento\Persistent\Controller\Index
+     * @return $this
      */
     protected function _cleanup()
     {
         $this->_eventManager->dispatch('persistent_session_expired');
-        $this->_customerSession
-            ->setCustomerId(null)
-            ->setCustomerGroupId(null);
+        $this->_customerSession->setCustomerId(null)->setCustomerGroupId(null);
         if ($this->_clearCheckoutSession) {
             $this->_checkoutSession->clearStorage();
         }
@@ -117,14 +116,15 @@ class Index extends \Magento\App\Action\Action
 
     /**
      * Save onepage checkout method to be register
+     *
+     * @return void
      */
     public function saveMethodAction()
     {
         if ($this->_getHelper()->isPersistent()) {
             $this->_getHelper()->getSession()->removePersistentCookie();
             if (!$this->_customerSession->isLoggedIn()) {
-                $this->_customerSession->setCustomerId(null)
-                    ->setCustomerGroupId(null);
+                $this->_customerSession->setCustomerId(null)->setCustomerGroupId(null);
             }
 
             $this->_persistentObserver->setQuoteGuest();
@@ -136,7 +136,8 @@ class Index extends \Magento\App\Action\Action
 
     /**
      * Add appropriate session message and redirect to shopping cart
-     * used for google checkout and paypal express checkout
+     *
+     * @return void
      */
     public function expressCheckoutAction()
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Grid\Renderer;
 
 /**
  * Adminhtml customers wishlist grid item action renderer for few action controls in one cell
@@ -15,10 +16,7 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Grid\Renderer;
-
-class Multiaction
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
+class Multiaction extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
 {
     /**
      * Renders column
@@ -55,7 +53,7 @@ class Multiaction
      *
      * @param  array $action
      * @param  \Magento\Object $row
-     * @return string
+     * @return string|false
      */
     protected function _toLinkHtml($action, \Magento\Object $row)
     {
@@ -65,12 +63,10 @@ class Multiaction
             if ($product->canConfigure()) {
                 $style = '';
                 $onClick = sprintf('onclick="return %s.configureItem(%s)"', $action['control_object'], $row->getId());
+                return sprintf('<a href="%s" %s %s>%s</a>', $action['url'], $style, $onClick, $action['caption']);
             } else {
-                $style = 'style="color: #CCC;"';
-                $onClick = '';
+                return false;
             }
-
-            return sprintf('<a href="%s" %s %s>%s</a>', $action['url'], $style, $onClick, $action['caption']);
         } else {
             return parent::_toLinkHtml($action, $row);
         }

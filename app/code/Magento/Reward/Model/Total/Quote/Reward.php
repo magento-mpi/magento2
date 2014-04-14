@@ -7,17 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reward\Model\Total\Quote;
 
+use Magento\Sales\Model\Quote\Address;
 
 /**
  * Reward sales quote total model
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model\Total\Quote;
-
 class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
@@ -28,6 +26,8 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     protected $_rewardData = null;
 
     /**
+     * Reward factory
+     *
      * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_rewardFactory;
@@ -48,10 +48,10 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Collect reward totals
      *
-     * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Reward\Model\Total\Quote\Reward
+     * @param Address $address
+     * @return $this
      */
-    public function collect(\Magento\Sales\Model\Quote\Address $address)
+    public function collect(Address $address)
     {
         /* @var $quote \Magento\Sales\Model\Quote */
         $quote = $address->getQuote();
@@ -60,12 +60,8 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
         }
 
         if (!$quote->getRewardPointsTotalReseted() && $address->getBaseGrandTotal() > 0) {
-            $quote->setRewardPointsBalance(0)
-                ->setRewardCurrencyAmount(0)
-                ->setBaseRewardCurrencyAmount(0);
-            $address->setRewardPointsBalance(0)
-                ->setRewardCurrencyAmount(0)
-                ->setBaseRewardCurrencyAmount(0);
+            $quote->setRewardPointsBalance(0)->setRewardCurrencyAmount(0)->setBaseRewardCurrencyAmount(0);
+            $address->setRewardPointsBalance(0)->setRewardCurrencyAmount(0)->setBaseRewardCurrencyAmount(0);
             $quote->setRewardPointsTotalReseted(true);
         }
 
@@ -73,14 +69,18 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             /* @var $reward \Magento\Reward\Model\Reward */
             $reward = $quote->getRewardInstance();
             if (!$reward || !$reward->getId()) {
-                $reward = $this->_rewardFactory->create()
-                    ->setCustomer($quote->getCustomer())
-                    ->setCustomerId($quote->getCustomer()->getId())
-                    ->setWebsiteId($quote->getStore()->getWebsiteId())
-                    ->loadByCustomer();
+                $reward = $this->_rewardFactory->create()->setCustomer(
+                    $quote->getCustomer()
+                )->setCustomerId(
+                    $quote->getCustomer()->getId()
+                )->setWebsiteId(
+                    $quote->getStore()->getWebsiteId()
+                )->loadByCustomer();
             }
             $pointsLeft = $reward->getPointsBalance() - $quote->getRewardPointsBalance();
-            $rewardCurrencyAmountLeft = ($quote->getStore()->convertPrice($reward->getCurrencyAmount())) - $quote->getRewardCurrencyAmount();
+            $rewardCurrencyAmountLeft = $quote->getStore()->convertPrice(
+                $reward->getCurrencyAmount()
+            ) - $quote->getRewardCurrencyAmount();
             $baseRewardCurrencyAmountLeft = $reward->getCurrencyAmount() - $quote->getBaseRewardCurrencyAmount();
             if ($baseRewardCurrencyAmountLeft >= $address->getBaseGrandTotal()) {
                 $pointsBalanceUsed = $reward->getPointsEquivalent($address->getBaseGrandTotal());
@@ -114,21 +114,23 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Retrieve reward total data and set it to quote address
      *
-     * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Reward\Model\Total\Quote\Reward
+     * @param Address $address
+     * @return $this
      */
-    public function fetch(\Magento\Sales\Model\Quote\Address $address)
+    public function fetch(Address $address)
     {
         $websiteId = $address->getQuote()->getStore()->getWebsiteId();
         if (!$this->_rewardData->isEnabledOnFront($websiteId)) {
             return $this;
         }
         if ($address->getRewardCurrencyAmount()) {
-            $address->addTotal(array(
-                'code'  => $this->getCode(),
-                'title' => $this->_rewardData->formatReward($address->getRewardPointsBalance()),
-                'value' => -$address->getRewardCurrencyAmount()
-            ));
+            $address->addTotal(
+                array(
+                    'code' => $this->getCode(),
+                    'title' => $this->_rewardData->formatReward($address->getRewardPointsBalance()),
+                    'value' => -$address->getRewardCurrencyAmount()
+                )
+            );
         }
         return $this;
     }

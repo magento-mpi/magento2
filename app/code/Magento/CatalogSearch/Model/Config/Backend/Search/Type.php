@@ -18,49 +18,55 @@
  */
 namespace Magento\CatalogSearch\Model\Config\Backend\Search;
 
-class Type extends \Magento\Core\Model\Config\Value
+use Magento\App\Config\ScopeConfigInterface;
+use Magento\CatalogSearch\Model\Fulltext;
+use Magento\App\Config\Value;
+use Magento\Model\Context;
+use Magento\Registry;
+use Magento\Model\Resource\AbstractResource;
+use Magento\Data\Collection\Db;
+
+class Type extends Value
 {
     /**
      * Catalog search fulltext
      *
-     * @var \Magento\CatalogSearch\Model\Fulltext
+     * @var Fulltext
      */
     protected $_catalogSearchFulltext;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param Context $context
+     * @param Registry $registry
+     * @param ScopeConfigInterface $config
+     * @param Fulltext $catalogSearchFulltext
+     * @param AbstractResource $resource
+     * @param Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Config $config,
-        \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        Context $context,
+        Registry $registry,
+        ScopeConfigInterface $config,
+        Fulltext $catalogSearchFulltext,
+        AbstractResource $resource = null,
+        Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogSearchFulltext = $catalogSearchFulltext;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
      * After change Catalog Search Type process
      *
-     * @return \Magento\CatalogSearch\Model\Config\Backend\Search\Type|\Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _afterSave()
     {
         $newValue = $this->getValue();
         $oldValue = $this->_config->getValue(
-            \Magento\CatalogSearch\Model\Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
+            Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
             $this->getScope(),
             $this->getScopeId()
         );

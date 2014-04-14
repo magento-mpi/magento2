@@ -79,13 +79,45 @@ class Copy
         }
 
         $eventName = sprintf('core_copy_fieldset_%s_%s', $fieldset, $aspect);
-        $this->_eventManager->dispatch($eventName, array(
-            'target' => $target,
-            'source' => $source,
-            'root'   => $root
-        ));
+        $this->_eventManager->dispatch($eventName, array('target' => $target, 'source' => $source, 'root' => $root));
 
         return $target;
+    }
+
+    /**
+     * Get data from object|array to object|array containing fields
+     * from fieldset matching an aspect.
+     *
+     * @param string $fieldset
+     * @param string $aspect a field name
+     * @param array|\Magento\Object $source
+     * @param string $root
+     * @return array $data
+     */
+    public function getDataFromFieldset($fieldset, $aspect, $source, $root = 'global')
+    {
+        if (!(is_array($source) || $source instanceof \Magento\Object)) {
+            return null;
+        }
+        $fields = $this->_fieldsetConfig->getFieldset($fieldset, $root);
+        if (is_null($fields)) {
+            return null;
+        }
+
+        $data = array();
+        foreach ($fields as $code => $node) {
+            if (empty($node[$aspect])) {
+                continue;
+            }
+
+            $value = $this->_getFieldsetFieldValue($source, $code);
+
+            $targetCode = (string)$node[$aspect];
+            $targetCode = $targetCode == '*' ? $code : $targetCode;
+            $data[$targetCode] = $value;
+        }
+
+        return $data;
     }
 
     /**
@@ -97,8 +129,11 @@ class Copy
      */
     protected function _isFieldsetInputValid($source, $target)
     {
-        return (is_array($source) || $source instanceof \Magento\Object)
-        && (is_array($target) || $target instanceof \Magento\Object);
+        return (is_array(
+            $source
+        ) || $source instanceof \Magento\Object) && (is_array(
+            $target
+        ) || $target instanceof \Magento\Object);
     }
 
     /**

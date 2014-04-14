@@ -42,16 +42,11 @@
         <property name="remote_host" value="${env.webnode_login}:${env.webnode_password}@${env.webnode_initial}"/>
 
         <scp file="${remote_host}:${env.magento_dir}/dev/build/core_dev/performance/benchmark/etc/local.xml.template" todir="${basedir}" trust="yes"/>
-        <scp file="${remote_host}:${env.magento_dir}/dev/build/core_dev/performance/benchmark/etc/enterprise/di.xml" todir="${basedir}" trust="yes"/>
         <scp file="${remote_host}:${env.magento_dir}/dev/build/core_dev/performance/benchmark/dev/tests/performance/config.php" todir="${basedir}" trust="yes"/>
 
         <fail unless="env.memcache_host" message="Environment variable 'memcache_host' must be defined"/>
         <fail unless="env.memcache_port" message="Environment variable 'memcache_port' must be defined"/>
         <replace file="local.xml.template">
-            <replacefilter token="{{memcache_host}}" value="${env.memcache_host}"/>
-            <replacefilter token="{{memcache_port}}" value="${env.memcache_port}"/>
-        </replace>
-        <replace file="di.xml">
             <replacefilter token="{{memcache_host}}" value="${env.memcache_host}"/>
             <replacefilter token="{{memcache_port}}" value="${env.memcache_port}"/>
         </replace>
@@ -65,11 +60,9 @@
         </replace>
 
         <scp file="${basedir}/local.xml.template" todir="${remote_host}:${env.magento_dir}/app/etc/local.xml.template" trust="yes"/>
-        <scp file="${basedir}/di.xml" todir="${remote_host}:${env.magento_dir}/app/etc/enterprise/di.xml" trust="yes"/>
         <scp file="${basedir}/config.php" todir="${remote_host}:${env.magento_dir}/dev/tests/performance/config.php" trust="yes"/>
 
         <delete file="${basedir}/local.xml.template"/>
-        <delete file="${basedir}/di.xml"/>
         <delete file="${basedir}/config.php"/>
     </target>
 
@@ -160,7 +153,6 @@
         <property name="tmp_dir" value="${basedir}/tmp"/>
         <mkdir dir="${tmp_dir}/media"/>
         <scp file="${remote_host}:${env.magento_dir}/app/etc/local.xml" todir="${tmp_dir}" trust="yes"/>
-        <scp file="${remote_host}:${env.magento_dir}/app/etc/enterprise/di.xml" todir="${tmp_dir}" trust="yes"/>
         <scp file="${remote_host}:${env.magento_dir}/app/etc/enterprise/module.xml" todir="${tmp_dir}" trust="yes"/>
         <scp file="${remote_host}:${env.magento_dir}/pub/media/*" todir="${tmp_dir}/media" trust="yes"/>
 
@@ -177,7 +169,6 @@
                     <else>
                         <echo message="Copy files from ${env.webnode_initial} to ${host}" />
                         <scp file="${tmp_dir}/local.xml" todir="${env.webnode_login}:${env.webnode_password}@${host}:${env.magento_dir}/app/etc/local.xml" trust="yes"/>
-                        <scp file="${tmp_dir}/di.xml" todir="${env.webnode_login}:${env.webnode_password}@${host}:${env.magento_dir}/app/etc/enterprise/di.xml" trust="yes"/>
                         <scp file="${tmp_dir}/module.xml" todir="${env.webnode_login}:${env.webnode_password}@${host}:${env.magento_dir}/app/etc/enterprise/module.xml" trust="yes"/>
                         <scp todir="${env.webnode_login}:${env.webnode_password}@${host}:${env.magento_dir}/pub/media" trust="yes">
                             <fileset dir="${tmp_dir}/media"/>

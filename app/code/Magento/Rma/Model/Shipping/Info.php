@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Model\Shipping;
 
 /**
  * RMA Shipping Info Model
  */
-namespace Magento\Rma\Model\Shipping;
-
 class Info extends \Magento\Object
 {
     /**
@@ -30,11 +29,15 @@ class Info extends \Magento\Object
     protected $_rmaData;
 
     /**
+     * Rma factory
+     *
      * @var \Magento\Rma\Model\RmaFactory
      */
     protected $_rmaFactory;
 
     /**
+     * Rma shipping factory
+     *
      * @var \Magento\Rma\Model\ShippingFactory
      */
     protected $_shippingFactory;
@@ -76,7 +79,7 @@ class Info extends \Magento\Object
             $this->setData($data['key'], $data['id']);
             $this->setProtectCode($data['hash']);
 
-            if ($this->getRmaId()>0) {
+            if ($this->getRmaId() > 0) {
                 $this->getTrackingInfoByRma();
             } else {
                 $this->getTrackingInfoByTrackId();
@@ -141,15 +144,14 @@ class Info extends \Magento\Object
         $shipTrack = array();
         $rma = $this->_initRma();
         if ($rma) {
-            $increment_id   = $rma->getIncrementId();
-            $tracks         = $rma->getTrackingNumbers();
-            $trackingInfos  = array();
+            $increment_id = $rma->getIncrementId();
+            $tracks = $rma->getTrackingNumbers();
+            $trackingInfos = array();
 
-            foreach ($tracks as $track){
+            foreach ($tracks as $track) {
                 $trackingInfos[] = $track->getNumberDetail();
             }
             $shipTrack[$increment_id] = $trackingInfos;
-
         }
         $this->_trackingInfo = $shipTrack;
         return $this->_trackingInfo;

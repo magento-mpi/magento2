@@ -7,33 +7,32 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
 
 /**
  * Renderer for PayPal banner in System Configuration
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
-
-class Hint
-    extends \Magento\Backend\Block\Template
-    implements \Magento\Data\Form\Element\Renderer\RendererInterface
+class Hint extends \Magento\Backend\Block\Template implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_Paypal::system/config/fieldset/hint.phtml';
 
     /**
-     * @var \Magento\Backend\Helper\Js
+     * @var \Magento\View\Helper\Js
      */
     protected $_jsHelper;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Backend\Helper\Js $jsHelper
+     * @param \Magento\View\Helper\Js $jsHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Backend\Helper\Js $jsHelper,
+        \Magento\View\Helper\Js $jsHelper,
         array $data = array()
     ) {
         $this->_jsHelper = $jsHelper;

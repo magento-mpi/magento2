@@ -16,7 +16,7 @@ class Window extends \Magento\Backend\Block\Template
     /**
      * XML path of Severity icons url
      */
-    const XML_SEVERITY_ICONS_URL_PATH  = 'system/adminnotification/severity_icons_url';
+    const XML_SEVERITY_ICONS_URL_PATH = 'system/adminnotification/severity_icons_url';
 
     /**
      * Severity icons url
@@ -45,6 +45,14 @@ class Window extends \Magento\Backend\Block\Template
     protected $_latestItem;
 
     /**
+     * The property is used to define content-scope of block. Can be private or public.
+     * If it isn't defined then application considers it as false.
+     *
+     * @var bool
+     */
+    protected $_isScopePrivate;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\AdminNotification\Model\Resource\Inbox\Collection\Critical $criticalCollection
@@ -59,6 +67,7 @@ class Window extends \Magento\Backend\Block\Template
         parent::__construct($context, $data);
         $this->_authSession = $authSession;
         $this->_criticalCollection = $criticalCollection;
+        $this->_isScopePrivate = true;
     }
 
     /**

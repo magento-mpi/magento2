@@ -129,7 +129,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
             $skipFields[] = 'visible_in';
         }
         $ratings = (isset($reviewData['product_rating'])) ? $reviewData['product_rating'] : array();
-        $this->verifyForm($reviewData, '', $skipFields);
+        $this->verifyForm($reviewData, null, $skipFields);
         foreach ($ratings as $ratingData) {
             $this->addParameter('ratingName', $ratingData['rating_name']);
             $this->addParameter('stars', $ratingData['stars']);
@@ -146,17 +146,18 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
      * <p>Create Review</p>
      *
      * @param array|string $reviewData
-     * @param bool $validateRating      In case $validateRating == TRUE - rating filling will be mandatory
+     * @param bool $validateRating In case $validateRating == TRUE - rating filling will be mandatory
      */
     public function frontendAddReview($reviewData, $validateRating = true)
     {
         $reviewData = $this->fixtureDataToArray($reviewData);
-        $linkName = ($this->controlIsPresent('link', 'add_your_review')) ? 'add_your_review' : 'first_review';
-        $this->defineCorrectParam($linkName);
-        $this->clickControl('link', $linkName);
-        $this->fillForm($reviewData);
-        if (isset($reviewData['ratings'])) {
-            $this->frontendAddRating($reviewData['ratings'], $validateRating);
+        $linkName = ($this->controlIsVisible('link', 'add_your_review')) ? 'add_your_review' : 'first_review';
+        $this->clickControl('link', $linkName, false);
+        $this->waitForControlVisible('fieldset', 'add_customer_review');
+        $this->waitForControlStopsMoving('fieldset', 'add_customer_review');
+        $this->fillFieldset($reviewData, 'add_customer_review');
+        if (isset($reviewData['product_rating'])) {
+            $this->frontendAddRating($reviewData['product_rating'], $validateRating);
         }
         $this->saveForm('submit_review');
     }
@@ -173,11 +174,12 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
         foreach ($ratingData as $value) {
             $this->addParameter('rateName', $value['rating_name']);
             $this->addParameter('rateId', $value['stars']);
-            if ($this->controlIsPresent('radiobutton', 'select_rate')) {
-                $this->fillRadiobutton('select_rate', 'Yes');
-            } else {
+            if (!$this->controlIsVisible('pageelement', 'select_rate')) {
                 $this->addVerificationMessage('Rating with name ' . $value['rating_name'] . ' is not on the page');
+                continue;
             }
+            $this->moveto($this->getControlElement('pageelement', 'select_rate'));
+            $this->click();
         }
         if ($validateRating) {
             $this->assertEmptyVerificationErrors();
@@ -189,59 +191,54 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
      * (@TODO doesn't work for several reviews posted by one nickname)
      *
      * @param array $verifyData
-     * @param string $productName
      */
-    public function frontVerifyReviewDisplaying(array $verifyData, $productName)
+    public function frontVerifyReviewDisplaying(array $verifyData)
     {
-        $this->addParameter('productName', $productName);
-        $review = (isset($verifyData['review'])) ? $verifyData['review'] : '';
+        //$this->addParameter('productName', $productName);
         $nickname = (isset($verifyData['nickname'])) ? $verifyData['nickname'] : '';
-        $summary = (isset($verifyData['summary_of_review'])) ? $verifyData['summary_of_review'] : '';
-        $rating = (isset($verifyData['product_rating'])) ? $verifyData['product_rating'] : array();
-        $ratingNames = array();
-        $actualRatings = array();
-        foreach ($rating as $value) {
-            $ratingNames[] = $value['rating_name'];
-        }
+        $expectedReview = (isset($verifyData['review'])) ? $verifyData['review'] : '';
+        $expectedSummary = (isset($verifyData['summary_of_review'])) ? $verifyData['summary_of_review'] : '';
+        $expectedRatings = (isset($verifyData['product_rating'])) ? $verifyData['product_rating'] : array();
+
         $this->assertTrue($this->controlIsVisible('link', 'reviews'), 'Product does not have approved review(s)');
-        //Open reviews
-        $this->defineCorrectParam('reviews');
-        $this->clickControl('link', 'reviews');
+        $this->clickControl('link', 'reviews', false);
+        $this->waitForControlVisible('fieldset', 'add_customer_review');
+        $this->waitForControlStopsMoving('fieldset', 'add_customer_review');
+
         $this->addParameter('reviewerName', $nickname);
-        $this->assertTrue($this->controlIsVisible('pageelement', 'review_reviewer_name'),
-            'Customer with nickname \'' . $nickname . '\' does not added approved review');
-        //Define actual review summary
-        $actualSummary = $this->getControlAttribute('link', 'review_summary', 'text');
-        //Define actual review text and rating names
-        $text = preg_quote($this->getControlAttribute('pageelement', 'review_post_date', 'text'));
-        $actualReview = $this->getControlAttribute('pageelement', 'review_details', 'text');
-        $actualReview = trim(preg_replace('#' . $text . '#', '', $actualReview));
-        if ($this->controlIsVisible('pageelement', 'review_details_ratings')) {
-            $text = preg_quote($this->getControlAttribute('pageelement', 'review_details_ratings', 'text'));
-            $actualReview = trim(preg_replace('#' . $text . '#', '', $actualReview), " \t\n\r\0\x0B");
-            $elements = $this->getControlElements('pageelement', 'review_details_ratings');
-            /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
-            foreach ($elements as $element) {
-                if (count($this->getChildElements($element, '//tr[1]', false)) == 0) { //@TODO
-                    continue;
-                }
-                $actualRatings[] = trim($this->getChildElement($element, '//tr[1]')->text());
+        $this->assertTrue(
+            $this->controlIsVisible('fieldset', 'customer_review'),
+            'Customer with nickname "' . $nickname . '" does not added approved review'
+        );
+        //Define actual review data
+        $actualRatings = array();
+        $actualSummary = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'review_summary', 'text');
+        $actualReview = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'review_details', 'text');
+        if ($this->controlIsVisible('pageelement', 'review_ratings_name')) {
+            $values = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, 'review_ratings_value');
+            $names = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, 'review_ratings_name');
+            /** @var  $element PHPUnit_Extensions_Selenium2TestCase_Element */
+            foreach ($names as $key => $element) {
+                $index = $key + 1;
+                $actualRatings['rating_' . $index]['rating_name'] = trim($element->text());
+                $actualRatings['rating_' . $index]['stars'] = (5 * trim($values[$key]->text())) / 100;
             }
         }
         //Verification on product page
-        $this->assertEquals($summary, $actualSummary,
-            'Review Summary is not equal to specified: (' . $summary . ' != ' . $actualSummary . ')');
-        $this->assertEquals($review, $actualReview,
-            'Review Text is not equal to specified: (' . $review . ' != ' . $actualReview . ')');
-        $this->assertEquals($ratingNames, $actualRatings, 'Review Rating names is not equal to specified');
-        //Verification on Review Details page
-        $this->clickControl('link', 'review_summary');
-        $actualProductName = $this->getControlAttribute('pageelement', 'product_name', 'text');
-        $actualReview = $this->getControlAttribute('pageelement', 'review_details', 'text');
-        $this->assertSame($productName, $actualProductName,
-            "'$productName' product not display on Review Details page");
-        $this->assertSame($review, $actualReview, "'$review' review text not display on Review Details page");
-        $this->assertEmptyVerificationErrors();
+        $this->assertSame($expectedSummary, $actualSummary,
+            'Review Summary is not equal to specified: (' . $expectedSummary . ' != ' . $actualSummary . ')');
+        $this->assertSame($expectedReview, $actualReview,
+            'Review Text is not equal to specified: (' . $expectedReview . ' != ' . $actualReview . ')');
+        $this->assertEquals($expectedRatings, $actualRatings, 'Review Rating is not equal to specified');
+        //Verification on Review Details page @TODO
+//        $this->clickControl('link', 'review_summary');
+//        $actualProductName = $this->getControlAttribute('pageelement', 'product_name', 'text');
+//        $actualReview = $this->getControlAttribute('pageelement', 'review_details', 'text');
+//        $this->assertSame($productName, $actualProductName,
+//            "'$productName' product not display on Review Details page");
+//        $this->assertSame($expectedReview, $actualReview,
+//            "'$expectedReview' review text not display on Review Details page");
+//        $this->assertEmptyVerificationErrors();
     }
 
     /**
@@ -256,27 +253,19 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
         //Verification in "My Account"
         $this->navigate('customer_account');
         $this->addParameter('productName', $productName);
-        $this->assertTrue($this->controlIsPresent('link', 'product_name'),
-            "Can not find product with name: $productName in My Recent Reviews block");
+        $this->assertTrue(
+            $this->controlIsPresent('link', 'product_name'),
+            "Can not find product with name: $productName in My Recent Reviews block"
+        );
         $this->clickControl('link', 'product_name');
         $actualReview = $this->getControlAttribute('pageelement', 'review_details', 'text');
-        $expectedReview = $reviewData['review'];
-        $this->assertSame($expectedReview, $actualReview,
-            "'$expectedReview' review text not display on Review Details page");
+        $this->assertSame($reviewData['review'], $actualReview,
+            "'{$reviewData['review']}' review text not display on Review Details page");
         //Verification in "My Account -> My Product Reviews"
         $this->navigate('my_product_reviews');
-        $this->assertTrue($this->controlIsPresent('link', 'product_name'),
-            "Can not find product with name: $productName in My Product Reviews block");
-    }
-
-    /**
-     * Add parameter ReviewId
-     *
-     * @param string $linkName
-     */
-    public function defineCorrectParam($linkName)
-    {
-        $url = $this->getControlAttribute('link', $linkName, 'href');
-        $this->addParameter('categoryId', $this->defineParameterFromUrl('category', $url));
+        $this->assertTrue(
+            $this->controlIsPresent('link', 'product_name'),
+            "Can not find product with name: $productName in My Product Reviews block"
+        );
     }
 }

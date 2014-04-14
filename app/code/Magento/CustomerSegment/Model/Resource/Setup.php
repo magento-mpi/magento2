@@ -1,67 +1,48 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_CustomerSegment
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-
-/**
  * CustomerSegment resource setup
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
- * @author      Magento Core Team <core@magentocommerce.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 namespace Magento\CustomerSegment\Model\Resource;
 
 class Setup extends \Magento\Eav\Model\Entity\Setup
 {
     /**
-     * @var \Magento\Enterprise\Model\Resource\Setup\MigrationFactory
-     */
-    protected $_migrationFactory;
-
-    /**
      * @var \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Eav\Model\Entity\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
-     * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Eav\Model\Entity\Setup\Context $context,
         $resourceName,
         \Magento\App\CacheInterface $cache,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
-        \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
         \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
         $moduleName = 'Magento_CustomerSegment',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
-        parent::__construct($context, $resourceName, $cache, $attrGrCollFactory, $moduleName, $connectionName);
-        $this->_migrationFactory = $migrationFactory;
+        parent::__construct(
+            $context,
+            $resourceName,
+            $cache,
+            $attrGroupCollectionFactory,
+            $moduleName,
+            $connectionName
+        );
         $this->_collectionFactory = $collectionFactory;
-    }
-
-    /**
-     * @param array $data
-     * @return \Magento\Enterprise\Model\Resource\Setup\Migration
-     */
-    public function createSetupMigration(array $data = array())
-    {
-        return $this->_migrationFactory->create($data);
     }
 
     /**

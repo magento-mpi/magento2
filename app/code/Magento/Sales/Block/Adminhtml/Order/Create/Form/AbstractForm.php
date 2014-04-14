@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
 /**
  * Sales Order Create Form Abstract Block
@@ -16,12 +16,11 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
-
-abstract class AbstractForm
-    extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
+abstract class AbstractForm extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
+     * Form factory
+     *
      * @var \Magento\Data\FormFactory
      */
     protected $_formFactory;
@@ -55,7 +54,7 @@ abstract class AbstractForm
      * Prepare global layout
      * Add renderers to \Magento\Data\Form
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -100,7 +99,7 @@ abstract class AbstractForm
     /**
      * Prepare Form and add elements to form
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm
+     * @return $this
      */
     abstract protected function _prepareForm();
 
@@ -112,9 +111,9 @@ abstract class AbstractForm
     protected function _getAdditionalFormElementTypes()
     {
         return array(
-            'file'      => 'Magento\Customer\Block\Adminhtml\Form\Element\File',
-            'image'     => 'Magento\Customer\Block\Adminhtml\Form\Element\Image',
-            'boolean'   => 'Magento\Customer\Block\Adminhtml\Form\Element\Boolean',
+            'file' => 'Magento\Customer\Block\Adminhtml\Form\Element\File',
+            'image' => 'Magento\Customer\Block\Adminhtml\Form\Element\Image',
+            'boolean' => 'Magento\Customer\Block\Adminhtml\Form\Element\Boolean'
         );
     }
 
@@ -126,7 +125,7 @@ abstract class AbstractForm
     protected function _getAdditionalFormElementRenderers()
     {
         return array(
-            'region'    => $this->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Edit\Renderer\Region'),
+            'region' => $this->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Edit\Renderer\Region')
         );
     }
 
@@ -134,7 +133,7 @@ abstract class AbstractForm
      * Add additional data to form element
      *
      * @param \Magento\Data\Form\Element\AbstractElement $element
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm
+     * @return $this
      */
     protected function _addAdditionalFormElementData(\Magento\Data\Form\Element\AbstractElement $element)
     {
@@ -144,9 +143,9 @@ abstract class AbstractForm
     /**
      * Add rendering EAV attributes to Form element
      *
-     * @param array|\Magento\Data\Collection $attributes
+     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[] $attributes
      * @param \Magento\Data\Form\AbstractForm $form
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm
+     * @return $this
      */
     protected function _addAttributesToForm($attributes, \Magento\Data\Form\AbstractForm $form)
     {
@@ -158,17 +157,19 @@ abstract class AbstractForm
         $renderers = $this->_getAdditionalFormElementRenderers();
 
         foreach ($attributes as $attribute) {
-            /** @var $attribute \Magento\Customer\Model\Attribute */
-            $attribute->setStoreId($this->_sessionQuote->getStoreId());
-            $inputType = $attribute->getFrontend()->getInputType();
+            $inputType = $attribute->getFrontendInput();
 
             if ($inputType) {
-                $element = $form->addField($attribute->getAttributeCode(), $inputType, array(
-                    'name'      => $attribute->getAttributeCode(),
-                    'label'     => __($attribute->getStoreLabel()),
-                    'class'     => $attribute->getFrontend()->getClass(),
-                    'required'  => $attribute->getIsRequired(),
-                ));
+                $element = $form->addField(
+                    $attribute->getAttributeCode(),
+                    $inputType,
+                    array(
+                        'name' => $attribute->getAttributeCode(),
+                        'label' => __($attribute->getStoreLabel()),
+                        'class' => $attribute->getFrontendClass(),
+                        'required' => $attribute->isRequired()
+                    )
+                );
                 if ($inputType == 'multiline') {
                     $element->setLineCount($attribute->getMultilineCount());
                 }
@@ -180,9 +181,15 @@ abstract class AbstractForm
                 }
 
                 if ($inputType == 'select' || $inputType == 'multiselect') {
-                    $element->setValues($attribute->getFrontend()->getSelectOptions());
-                } else if ($inputType == 'date') {
-                    $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+                    $options = array();
+                    foreach ($attribute->getOptions() as $optionData) {
+                        $options[] = \Magento\Service\DataObjectConverter::toFlatArray($optionData);
+                    }
+                    $element->setValues($options);
+                } elseif ($inputType == 'date') {
+                    $format = $this->_localeDate->getDateFormat(
+                        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                    );
                     $element->setImage($this->getViewFileUrl('images/grid-cal.gif'));
                     $element->setDateFormat($format);
                 }

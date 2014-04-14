@@ -7,13 +7,12 @@
  */
 namespace Magento\Downloadable\Test\Fixture;
 
-use Mtf\System\Config;
 use Mtf\Factory\Factory;
 use Magento\Catalog\Test\Fixture\Product;
 
 class DownloadableProduct extends Product
 {
-    const GROUP = 'product_info_tabs_downloadable_items_content';
+    const GROUP = 'downloadable_information';
 
     const LINK_IS_SHAREABLE_NO_VALUE = 0;
     const LINK_IS_SHAREABLE_YES_VALUE = 1;
@@ -36,7 +35,7 @@ class DownloadableProduct extends Product
         );
 
         $data = array(
-            'is_virtual' => ['value' => ''], // needed for CURL handler
+            'is_virtual' => ['value' => '', 'group' => null], // needed for CURL handler
             'price' => [
                 'value' => '1',
                 'group' => static::GROUP_PRODUCT_DETAILS

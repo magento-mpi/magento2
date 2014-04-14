@@ -16,9 +16,10 @@
  */
 namespace Magento\Gdata\Gshopping;
 
+use Magento\Gdata\Gshopping\Extension\Attribute;
+
 class Entry extends \Zend_Gdata_Entry
 {
-
     /**
      * Name of the base class for Google Shopping entries
      *
@@ -29,7 +30,7 @@ class Entry extends \Zend_Gdata_Entry
     /**
      * Google Shopping attribute elements in the 'sc' and 'scp' namespaces
      *
-     * @var array
+     * @var string[]
      */
     protected $_contentAttributes = array();
 
@@ -42,6 +43,7 @@ class Entry extends \Zend_Gdata_Entry
 
     /**
      * Constructs a new \Magento\Gdata\Gshopping\Entry object.
+     *
      * @param \DOMElement $element The \DOMElement on which to base this object.
      */
     public function __construct($element = null)
@@ -56,6 +58,8 @@ class Entry extends \Zend_Gdata_Entry
      * and eventually XML text for application storage/persistence.
      *
      * @param \DOMDocument $doc The \DOMDocument used to construct \DOMElements
+     * @param int $majorVersion
+     * @param int $minorVersion
      * @return \DOMElement The \DOMElement representing this element and all
      *          child properties.
      */
@@ -74,12 +78,12 @@ class Entry extends \Zend_Gdata_Entry
         return $element;
     }
 
-
     /**
      * Creates individual Entry objects of the appropriate type and
      * stores them as members of this entry based upon DOM data.
      *
      * @param \DOMNode $child The \DOMNode to process
+     * @return void
      */
     protected function takeChildFromDOM($child)
     {
@@ -91,20 +95,20 @@ class Entry extends \Zend_Gdata_Entry
         }
 
         switch ($id) {
-            case "$sc:id":
-            case "$sc:image_link":
-            case "$sc:content_language":
-            case "$sc:target_country":
-            case "$sc:expiration_date":
-            case "$sc:adult":
-            case "$sc:attribute":
-                $contentAttribute = new \Magento\Gdata\Gshopping\Extension\Attribute();
+            case "{$sc}:id":
+            case "{$sc}:image_link":
+            case "{$sc}:content_language":
+            case "{$sc}:target_country":
+            case "{$sc}:expiration_date":
+            case "{$sc}:adult":
+            case "{$sc}:attribute":
+                $contentAttribute = new Attribute();
                 $contentAttribute->transferFromDOM($child);
                 $this->_contentAttributes[] = $contentAttribute;
                 break;
 
-            case "$sc:group:tax":
-            case "$scp:tax":
+            case "{$sc}:group:tax":
+            case "{$scp}:tax":
                 $tax = new \Magento\Gdata\Gshopping\Extension\Tax();
                 $tax->transferFromDOM($child);
                 $this->_tax[] = $tax;
@@ -128,23 +132,23 @@ class Entry extends \Zend_Gdata_Entry
      * </sc:attribute>
      *
      * @param string $name The name of the attribute
-     * @param string $value The text value of the attribute
+     * @param string $text The text value of the attribute
      * @param string $type (optional) The type of the attribute.
      *          e.g.: 'text', 'number', 'float'
      * @param string $unit Currecnty for price
-     * @return \Magento\Gdata\Gshopping\Entry Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function addContentAttribute($name, $text, $type = null, $unit = null)
     {
-        $this->_contentAttributes[] = new \Magento\Gdata\Gshopping\Extension\Attribute($name, $text, $type, $unit);
+        $this->_contentAttributes[] = new Attribute($name, $text, $type, $unit);
         return $this;
     }
 
     /**
      * Removes a Content attribute from the current list of Base attributes
      *
-     * @param \Zend_Gdata_Gbase_Extension_BaseAttribute $baseAttribute The attribute to be removed
-     * @return \Zend_Gdata_Gbase_Entry Provides a fluent interface
+     * @param string $name The attribute to be removed
+     * @return $this Provides a fluent interface
      */
     public function removeContentAttribute($name)
     {
@@ -169,7 +173,7 @@ class Entry extends \Zend_Gdata_Entry
      * @param array $extraHeaders Extra headers to add to the request, as an
      *        array of string-based key/value pairs.
      * @return \Zend_Gdata_App_Entry The updated entry
-     * @throws \Zend_Gdata_App_Exception
+     * @throws \Zend_Gdata_App_InvalidArgumentException
      */
     public function save($dryRun = false, $uri = null, $className = null, $extraHeaders = array())
     {
@@ -192,7 +196,7 @@ class Entry extends \Zend_Gdata_Entry
      *
      * @param boolean $dryRun Whether the transaction is dry run or not
      * @return void
-     * @throws \Zend_Gdata_App_Exception
+     * @throws \Zend_Gdata_App_InvalidArgumentException
      */
     public function delete($dryRun = false)
     {
@@ -213,7 +217,7 @@ class Entry extends \Zend_Gdata_Entry
 
     /**
      * Return all the Content attributes
-     * @return array
+     * @return string[]
      */
     public function getContentAttributes()
     {
@@ -224,7 +228,7 @@ class Entry extends \Zend_Gdata_Entry
      * Return an array of Content attributes that match the given attribute name
      *
      * @param string $name The name of the Content attribute to look for
-     * @return array $matches Array of \Magento\Gdata\Gshopping\Extension\Attribute
+     * @return string[] $matches Array of Attribute
      */
     public function getContentAttributesByName($name)
     {
@@ -243,7 +247,7 @@ class Entry extends \Zend_Gdata_Entry
      * return null otherwise
      *
      * @param string $name The name of the Content attribute to look for
-     * @return null|\Magento\Gdata\Gshopping\Extension\Attribute
+     * @return null|Attribute
      */
     public function getContentAttributeByName($name)
     {
@@ -262,7 +266,7 @@ class Entry extends \Zend_Gdata_Entry
      * @param  array $modes Array with destination names and their statuses.
      *            format: array(name => \Magento\Gdata\Gshopping\Extension\Control::DEST_MODE_*),
      *            for instance: array('ProductSearch' => 2)
-     * @return \Magento\Gdata\Gshopping\Entry
+     * @return $this
      */
     public function setDestinationsMode(array $modes)
     {
@@ -278,9 +282,8 @@ class Entry extends \Zend_Gdata_Entry
     public function getDestinationsMode()
     {
         $control = $this->getControl();
-        return ($control instanceof \Magento\Gdata\Gshopping\Extension\Control)
-            ? $control->getDestinationsMode()
-            : array();
+        return $control instanceof
+            \Magento\Gdata\Gshopping\Extension\Control ? $control->getDestinationsMode() : array();
     }
 
     /**
@@ -288,6 +291,7 @@ class Entry extends \Zend_Gdata_Entry
      *
      * @param array $taxInfo Array with tax's information,
      *           it may contains fields: tax_rate, tax_country, tax_region.
+     * @return $this
      */
     public function addTax(array $taxInfo)
     {
@@ -308,7 +312,7 @@ class Entry extends \Zend_Gdata_Entry
     /**
      * Clean taxes information.
      *
-     * @return \Magento\Gdata\Gshopping\Entry
+     * @return $this
      */
     public function cleanTaxes()
     {

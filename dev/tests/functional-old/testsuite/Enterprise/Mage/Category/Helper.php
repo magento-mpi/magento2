@@ -23,7 +23,6 @@ class Enterprise_Mage_Category_Helper extends Core_Mage_Category_Helper
      * Fill in Category information
      *
      * @param array $categoryData
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function fillCategoryInfo(array $categoryData)
     {

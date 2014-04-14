@@ -270,7 +270,6 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
      */
     public function withEmptyOption()
     {
-        $this->markTestIncomplete('Bug MAGETWO-8067');
         //Data
         $option = $this->loadDataSet('GiftRegistry', 'attributes_select_empty_option');
         $giftRegistryData = $this->loadDataSet('GiftRegistry', 'new_gift_registry', array('attribute_one' => $option));
@@ -300,7 +299,6 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_gift_registry');
     }
-
 
     /**
      * <p>Create Gift Registry (all fields are filled).</p>

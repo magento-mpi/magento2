@@ -29,7 +29,7 @@ class Snapshot extends \Magento\Backup\Filesystem
     /**
      * Filesystem instance
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -39,13 +39,11 @@ class Snapshot extends \Magento\Backup\Filesystem
     protected $_backupFactory;
 
     /**
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param Factory $backupFactory
      */
-    public function __construct(
-        \Magento\Filesystem $filesystem,
-        \Magento\Backup\Factory $backupFactory
-    ) {
+    public function __construct(\Magento\App\Filesystem $filesystem, \Magento\Backup\Factory $backupFactory)
+    {
         $this->_filesystem = $filesystem;
         $this->_backupFactory = $backupFactory;
     }
@@ -117,11 +115,17 @@ class Snapshot extends \Magento\Backup\Filesystem
      */
     protected function _createDbBackupInstance()
     {
-        return $this->_backupFactory->create(\Magento\Backup\Factory::TYPE_DB)
-            ->setBackupExtension('gz')
-            ->setTime($this->getTime())
-            ->setBackupsDir($this->_filesystem->getPath(\Magento\Filesystem::VAR_DIR))
-            ->setResourceModel($this->getResourceModel());
+        return $this->_backupFactory->create(
+            \Magento\Backup\Factory::TYPE_DB
+        )->setBackupExtension(
+            'gz'
+        )->setTime(
+            $this->getTime()
+        )->setBackupsDir(
+            $this->_filesystem->getPath(\Magento\App\Filesystem::VAR_DIR)
+        )->setResourceModel(
+            $this->getResourceModel()
+        );
     }
 
     /**

@@ -10,8 +10,8 @@
 ---
 #Sales Billing agreements page
 manage_sales_billing_agreements:
-    mca: sales_billing_agreement/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_billing_agreement/')]
+    mca: sales/billing_agreement/
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/sales/billing_agreement/')]
     title: Billing Agreements / Operations / Sales / Magento Admin
     uimap:
         form: &salesBillingAgreements
@@ -37,4 +37,3 @@ manage_sales_billing_agreements:
                             filter_created_to: //input[@name='created_at[to]']
                             filter_updated_from: //input[@name='updated_at[from]']
                             filter_updated_to: //input[@name='updated_at[to]']
-

@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Config\Source\Storage\Media;
 
-class Storage implements \Magento\Core\Model\Option\ArrayInterface
+class Storage implements \Magento\Option\ArrayInterface
 {
     /**
      * Options getter
@@ -27,11 +27,7 @@ class Storage implements \Magento\Core\Model\Option\ArrayInterface
                 'value' => \Magento\Core\Model\File\Storage::STORAGE_MEDIA_FILE_SYSTEM,
                 'label' => __('File System')
             ),
-            array(
-                'value' => \Magento\Core\Model\File\Storage::STORAGE_MEDIA_DATABASE,
-                'label' => __('Database')
-            )
+            array('value' => \Magento\Core\Model\File\Storage::STORAGE_MEDIA_DATABASE, 'label' => __('Database'))
         );
     }
-
 }

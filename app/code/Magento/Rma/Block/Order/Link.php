@@ -5,20 +5,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Order;
 
 /**
  * "Returns" link
  */
-namespace Magento\Rma\Block\Order;
-
 class Link extends \Magento\Sales\Block\Order\Link
 {
     /**
+     * Rma data
+     *
      * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaHelper;
 
     /**
+     * Rma grid collection
+     *
      * @var \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory
      */
     protected $_collectionFactory;
@@ -26,7 +29,7 @@ class Link extends \Magento\Sales\Block\Order\Link
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\App\DefaultPathInterface $defaultPath
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Rma\Helper\Data $rmaHelper
      * @param array $data
@@ -34,7 +37,7 @@ class Link extends \Magento\Sales\Block\Order\Link
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\App\DefaultPathInterface $defaultPath,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Rma\Helper\Data $rmaHelper,
         array $data = array()
@@ -45,7 +48,8 @@ class Link extends \Magento\Sales\Block\Order\Link
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @return string
      */
     protected function _toHtml()
@@ -58,6 +62,7 @@ class Link extends \Magento\Sales\Block\Order\Link
 
     /**
      * Get is link aviable
+     *
      * @return bool
      */
     protected function _isRmaAviable()
@@ -65,9 +70,12 @@ class Link extends \Magento\Sales\Block\Order\Link
         if ($this->_rmaHelper->isEnabled()) {
             /** @var $collection \Magento\Rma\Model\Resource\Rma\Grid\Collection */
             $collection = $this->_collectionFactory->create();
-            $returns = $collection->addFieldToSelect('*')
-                ->addFieldToFilter('order_id', $this->_registry->registry('current_order')->getId())
-                ->count();
+            $returns = $collection->addFieldToSelect(
+                '*'
+            )->addFieldToFilter(
+                'order_id',
+                $this->_registry->registry('current_order')->getId()
+            )->count();
 
             return $returns > 0;
         } else {

@@ -29,7 +29,7 @@ class OnepageTest extends Functional
      * @param Checkout $fixture
      * @dataProvider dataProviderOnepageCheckout
      *
-     * @ZephyrId MAGETWO-12832, MAGETWO-12968
+     * @ZephyrId MAGETWO-12832, MAGETWO-12968, MAGETWO-12994
      */
     public function testOnepageCheckout(Checkout $fixture)
     {
@@ -75,11 +75,12 @@ class OnepageTest extends Functional
     /**
      * @return array
      */
-    public static function dataProviderOnepageCheckout()
+    public function dataProviderOnepageCheckout()
     {
         return array(
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect()),
+            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflowPro()),
         );
     }
 

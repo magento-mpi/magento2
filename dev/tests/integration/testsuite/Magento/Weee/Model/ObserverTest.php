@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Weee\Model;
 
 class ObserverTest extends \PHPUnit_Framework_TestCase
@@ -20,32 +19,39 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Weee\Model\Observer');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Weee\Model\Observer'
+        );
     }
 
     /**
      * @magentoConfigFixture current_store tax/weee/enable 1
      * @magentoDataFixture Magento/Weee/_files/product_with_fpt.php
      */
-    public function testUpdateConfigurableProductOptions()
+    public function testUpdateProductOptions()
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->unregister('current_product');
+        $objectManager->get('Magento\Registry')->unregister('current_product');
         $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
-        $this->_model->updateConfigurableProductOptions($eventObserver);
+        $this->_model->updateProductOptions($eventObserver);
         $this->assertEquals(array(), $eventObserver->getEvent()->getResponseObject()->getAdditionalOptions());
 
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
-        $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product->load(1));
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
+        $objectManager->get('Magento\Registry')->register('current_product', $product->load(1));
 
         foreach (array(\Magento\Weee\Model\Tax::DISPLAY_INCL, \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR) as $mode) {
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-                ->getStore()->setConfig('tax/weee/display', $mode);
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\App\Config\MutableScopeConfigInterface'
+            )->setValue(
+                'tax/weee/display',
+                $mode,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
             $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
-            $this->_model->updateConfigurableProductOptions($eventObserver);
+            $this->_model->updateProductOptions($eventObserver);
             $this->assertEquals(
                 array('oldPlusDisposition' => 0.07, 'plusDisposition' => 0.07),
                 $eventObserver->getEvent()->getResponseObject()->getAdditionalOptions()
@@ -53,11 +59,18 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         }
 
         foreach (array(
-                \Magento\Weee\Model\Tax::DISPLAY_EXCL, \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL) as $mode) {
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-                ->getStore()->setConfig('tax/weee/display', $mode);
+            \Magento\Weee\Model\Tax::DISPLAY_EXCL,
+            \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL
+        ) as $mode) {
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\App\Config\MutableScopeConfigInterface'
+            )->setValue(
+                'tax/weee/display',
+                $mode,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
             $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
-            $this->_model->updateConfigurableProductOptions($eventObserver);
+            $this->_model->updateProductOptions($eventObserver);
             $this->assertEquals(
                 array('oldPlusDisposition' => 0.07, 'plusDisposition' => 0.07, 'exclDisposition' => true),
                 $eventObserver->getEvent()->getResponseObject()->getAdditionalOptions()

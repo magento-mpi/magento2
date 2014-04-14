@@ -24,17 +24,22 @@ use Magento\Checkout\Test\Fixture\Checkout;
 abstract class AbstractCentinelPaymentsTest extends Functional
 {
     /**
+     * Ensure shopping cart is empty
+     */
+    protected function clearShoppingCart()
+    {
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage->open();
+        $checkoutCartPage->getCartBlock()->clearShoppingCart();
+    }
+
+    /**
      * Add products to cart
      *
      * @param Checkout $fixture
      */
     protected function _addProducts(Checkout $fixture)
     {
-        //Ensure shopping cart is empty
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-        $checkoutCartPage->open();
-        $checkoutCartPage->getCartBlock()->clearShoppingCart();
-
         $products = $fixture->getProducts();
         foreach ($products as $product) {
             $productPage = Factory::getPageFactory()->getCatalogProductView();
@@ -184,8 +189,6 @@ abstract class AbstractCentinelPaymentsTest extends Functional
         $addressEditPage->getEditForm()->editCustomerAddress($customer->getAddressData());
 
         //Log Out
-        $customerMenu = $homePage->getCustomerMenuBlock();
-        $customerMenu->toggle();
-        $customerMenu->openLink('Log Out');
+        $homePage->getLinksBlock()->openLink('Log Out');
     }
 }

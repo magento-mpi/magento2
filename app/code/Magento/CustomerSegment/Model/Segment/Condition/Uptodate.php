@@ -7,15 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition;
+
+use Zend_Db_Expr;
 
 /**
  * Period "Last N Days" condition class
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition;
-
-class Uptodate
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Uptodate extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
+    /**
+     * @var string
+     */
     protected $_inputType = 'numeric';
 
     /**
@@ -35,6 +38,7 @@ class Uptodate
 
     /**
      * Customize default operator input by type mapper for some types
+     *
      * @return array
      */
     public function getDefaultOperatorInputByType()
@@ -59,10 +63,10 @@ class Uptodate
     {
         if (null === $this->_defaultOperatorOptions) {
             $this->_defaultOperatorOptions = array(
-                '<='  => __('equals or greater than'),
-                '>='  => __('equals or less than'),
-                '<'   => __('greater than'),
-                '>'   => __('less than')
+                '<=' => __('equals or greater than'),
+                '>=' => __('equals or less than'),
+                '<' => __('greater than'),
+                '>' => __('less than')
             );
         }
         return $this->_defaultOperatorOptions;
@@ -75,10 +79,7 @@ class Uptodate
      */
     public function getNewChildSelectOptions()
     {
-        return array(
-            'value' => $this->getType(),
-            'label' => __('Up To Date'),
-        );
+        return array('value' => $this->getType(), 'label' => __('Up To Date'));
     }
 
     /**
@@ -98,9 +99,11 @@ class Uptodate
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Period %1 %2 Days Up To Date', $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Period %1 %2 Days Up To Date',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -118,7 +121,7 @@ class Uptodate
      *
      * @param string $fieldName base query field name
      * @param bool $requireValid strict validation flag
-     * @param $website
+     * @param int|Zend_Db_Expr $website
      * @return string
      */
     public function getSubfilterSql($fieldName, $requireValid, $website)

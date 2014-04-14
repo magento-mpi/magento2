@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
 
 /**
  * Fieldset renderer for PayPal solution
  */
-namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
-
-class Payment
-    extends \Magento\Backend\Block\System\Config\Form\Fieldset
+class Payment extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
      * @var \Magento\Backend\Model\Config
@@ -24,14 +22,14 @@ class Payment
     /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Core\Helper\Js $jsHelper
+     * @param \Magento\View\Helper\Js $jsHelper
      * @param \Magento\Backend\Model\Config $backendConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Core\Helper\Js $jsHelper,
+        \Magento\View\Helper\Js $jsHelper,
         \Magento\Backend\Model\Config $backendConfig,
         array $data = array()
     ) {
@@ -93,25 +91,36 @@ class Payment
         $disabledAttributeString = $this->_isPaymentEnabled($element) ? '' : ' disabled="disabled"';
         $disabledClassString = $this->_isPaymentEnabled($element) ? '' : ' disabled';
         $htmlId = $element->getHtmlId();
-        $html .= '<div class="button-container"><button type="button"' . $disabledAttributeString
-            . ' class="button action-configure'
-            . (empty($groupConfig['paypal_ec_separate']) ? '' : ' paypal-ec-separate')
-            . $disabledClassString . '" id="' . $htmlId
-            . '-head" onclick="paypalToggleSolution.call(this, \'' . $htmlId . "', '"
-            . $this->getUrl('adminhtml/*/state') . '\'); return false;"><span class="state-closed">'
-            . __('Configure') . '</span><span class="state-opened">'
-            . __('Close') . '</span></button>';
+        $html .= '<div class="button-container"><button type="button"' .
+            $disabledAttributeString .
+            ' class="button action-configure' .
+            (empty($groupConfig['paypal_ec_separate']) ? '' : ' paypal-ec-separate') .
+            $disabledClassString .
+            '" id="' .
+            $htmlId .
+            '-head" onclick="paypalToggleSolution.call(this, \'' .
+            $htmlId .
+            "', '" .
+            $this->getUrl(
+                'adminhtml/*/state'
+            ) . '\'); return false;"><span class="state-closed">' . __(
+                'Configure'
+            ) . '</span><span class="state-opened">' . __(
+                'Close'
+            ) . '</span></button>';
 
         if (!empty($groupConfig['more_url'])) {
-            $html .= '<a class="link-more" href="' . $groupConfig['more_url'] . '" target="_blank">'
-                . __('Learn More') . '</a>';
+            $html .= '<a class="link-more" href="' . $groupConfig['more_url'] . '" target="_blank">' . __(
+                'Learn More'
+            ) . '</a>';
         }
         if (!empty($groupConfig['demo_url'])) {
-            $html .= '<a class="link-demo" href="' . $groupConfig['demo_url'] . '" target="_blank">'
-                . __('View Demo') . '</a>';
+            $html .= '<a class="link-demo" href="' . $groupConfig['demo_url'] . '" target="_blank">' . __(
+                'View Demo'
+            ) . '</a>';
         }
 
-            $html .= '</div></div>';
+        $html .= '</div></div>';
 
         return $html;
     }
@@ -131,7 +140,7 @@ class Payment
      * Get collapsed state on-load
      *
      * @param \Magento\Data\Form\Element\AbstractElement $element
-     * @return bool
+     * @return false
      */
     protected function _isCollapseState($element)
     {

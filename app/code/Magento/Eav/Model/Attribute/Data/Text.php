@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Attribute\Data;
 
+use Magento\App\RequestInterface;
 
 /**
  * EAV Entity Attribute Text Data Model
@@ -16,36 +18,36 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Attribute\Data;
-
 class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
 {
     /**
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\String
      */
     protected $_string;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Logger $logger
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Stdlib\String $stringHelper
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Logger $logger,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Stdlib\String $stringHelper
     ) {
-        parent::__construct($locale, $logger);
+        parent::__construct($localeDate, $logger, $localeResolver);
         $this->_string = $stringHelper;
     }
 
     /**
      * Extract data from request and return value
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param RequestInterface $request
      * @return array|string
      */
-    public function extractValue(\Magento\App\RequestInterface $request)
+    public function extractValue(RequestInterface $request)
     {
         $value = $this->_getRequestValue($request);
         return $this->_applyInputFilter($value);
@@ -56,13 +58,13 @@ class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
      * Return true or array of errors
      *
      * @param array|string $value
-     * @return boolean|array
+     * @return bool|array
      */
     public function validateValue($value)
     {
-        $errors     = array();
-        $attribute  = $this->getAttribute();
-        $label      = __($attribute->getStoreLabel());
+        $errors = array();
+        $attribute = $this->getAttribute();
+        $label = __($attribute->getStoreLabel());
 
         if ($value === false) {
             // try to load original value and validate it
@@ -105,7 +107,7 @@ class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
      * Export attribute value to entity model
      *
      * @param array|string $value
-     * @return \Magento\Eav\Model\Attribute\Data\Text
+     * @return $this
      */
     public function compactValue($value)
     {
@@ -119,7 +121,7 @@ class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
      * Restore attribute value from SESSION to entity model
      *
      * @param array|string $value
-     * @return \Magento\Eav\Model\Attribute\Data\Text
+     * @return $this
      */
     public function restoreValue($value)
     {

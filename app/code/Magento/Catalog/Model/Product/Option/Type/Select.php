@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\Option\Type;
+
+use Magento\Model\Exception;
 
 /**
  * Catalog product option select type
@@ -16,7 +17,7 @@ namespace Magento\Catalog\Model\Product\Option\Type;
 class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 {
     /**
-     * @var mixed
+     * @var string|array
      */
     protected $_formattedOptionValue;
 
@@ -34,29 +35,29 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
     /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Escaper $escaper
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\String $string,
         \Magento\Escaper $escaper,
         array $data = array()
     ) {
         $this->string = $string;
         $this->_escaper = $escaper;
-        parent::__construct($checkoutSession, $coreStoreConfig, $data);
+        parent::__construct($checkoutSession, $scopeConfig, $data);
     }
 
     /**
      * Validate user input for option
      *
-     * @throws \Magento\Core\Exception
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
-     * @return \Magento\Catalog\Model\Product\Option\Type\DefaultType
+     * @return $this
+     * @throws Exception
      */
     public function validateUserValue($values)
     {
@@ -67,14 +68,13 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
         if (empty($value) && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
-            throw new \Magento\Core\Exception(__('Please specify the product required option(s).'));
+            throw new Exception(__('Please specify the product\'s required option(s).'));
         }
         if (!$this->_isSingleSelection()) {
-            $valuesCollection = $option->getOptionValuesByOptionId($value, $this->getProduct()->getStoreId())
-                ->load();
+            $valuesCollection = $option->getOptionValuesByOptionId($value, $this->getProduct()->getStoreId())->load();
             if ($valuesCollection->count() != count($value)) {
                 $this->setIsValid(false);
-                throw new \Magento\Core\Exception(__('Please specify the product required option(s).'));
+                throw new Exception(__('Please specify the product\'s required option(s).'));
             }
         }
         return $this;
@@ -83,8 +83,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     /**
      * Prepare option value for cart
      *
-     * @throws \Magento\Core\Exception
-     * @return mixed Prepared option value
+     * @return string|null Prepared option value
      */
     public function prepareForCart()
     {
@@ -104,9 +103,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     public function getFormattedOptionValue($optionValue)
     {
         if ($this->_formattedOptionValue === null) {
-            $this->_formattedOptionValue = $this->_escaper->escapeHtml(
-                $this->getEditableOptionValue($optionValue)
-            );
+            $this->_formattedOptionValue = $this->_escaper->escapeHtml($this->getEditableOptionValue($optionValue));
         }
         return $this->_formattedOptionValue;
     }
@@ -149,9 +146,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                     $result .= $_result->getTitle() . ', ';
                 } else {
                     if ($this->getListener()) {
-                        $this->getListener()->setHasError(true)->setMessage(
-                            $this->_getWrongConfigurationMessage()
-                        );
+                        $this->getListener()->setHasError(true)->setMessage($this->_getWrongConfigurationMessage());
                         $result = '';
                         break;
                     }
@@ -164,9 +159,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                 $result = $_result->getTitle();
             } else {
                 if ($this->getListener()) {
-                    $this->getListener()->setHasError(true)->setMessage(
-                        $this->_getWrongConfigurationMessage()
-                    );
+                    $this->getListener()->setHasError(true)->setMessage($this->_getWrongConfigurationMessage());
                 }
                 $result = '';
             }
@@ -207,7 +200,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * Prepare option value for info buy request
      *
      * @param string $optionValue
-     * @return mixed
+     * @return string
      */
     public function prepareOptionValueForRequest($optionValue)
     {
@@ -230,7 +223,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         $result = 0;
 
         if (!$this->_isSingleSelection()) {
-            foreach(explode(',', $optionValue) as $value) {
+            foreach (explode(',', $optionValue) as $value) {
                 $_result = $option->getValueById($value);
                 if ($_result) {
                     $result += $this->_getChargableOptionPrice(
@@ -240,11 +233,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                     );
                 } else {
                     if ($this->getListener()) {
-                        $this->getListener()
-                                ->setHasError(true)
-                                ->setMessage(
-                                    $this->_getWrongConfigurationMessage()
-                                );
+                        $this->getListener()->setHasError(true)->setMessage($this->_getWrongConfigurationMessage());
                         break;
                     }
                 }
@@ -259,9 +248,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                 );
             } else {
                 if ($this->getListener()) {
-                    $this->getListener()->setHasError(true)->setMessage(
-                        $this->_getWrongConfigurationMessage()
-                    );
+                    $this->getListener()->setHasError(true)->setMessage($this->_getWrongConfigurationMessage());
                 }
             }
         }
@@ -282,15 +269,13 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
         if (!$this->_isSingleSelection()) {
             $skus = array();
-            foreach(explode(',', $optionValue) as $value) {
+            foreach (explode(',', $optionValue) as $value) {
                 $optionSku = $option->getValueById($value);
                 if ($optionSku) {
                     $skus[] = $optionSku->getSku();
                 } else {
                     if ($this->getListener()) {
-                        $this->getListener()->setHasError(true)->setMessage(
-                            $this->_getWrongConfigurationMessage()
-                        );
+                        $this->getListener()->setHasError(true)->setMessage($this->_getWrongConfigurationMessage());
                         break;
                     }
                 }
@@ -302,9 +287,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                 return $result->getSku();
             } else {
                 if ($this->getListener()) {
-                    $this->getListener()->setHasError(true)->setMessage(
-                        $this->_getWrongConfigurationMessage()
-                    );
+                    $this->getListener()->setHasError(true)->setMessage($this->_getWrongConfigurationMessage());
                 }
                 return '';
             }

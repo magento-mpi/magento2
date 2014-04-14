@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Config;
 
 /**
  * Configuration class for ordered items
@@ -15,9 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Config;
-
-abstract class Ordered extends \Magento\Core\Model\Config\Base
+abstract class Ordered extends \Magento\App\Config\Base
 {
     /**
      * Cache key for collectors
@@ -97,7 +96,7 @@ abstract class Ordered extends \Magento\Core\Model\Config\Base
     /**
      * Initialize total models configuration and objects
      *
-     * @return \Magento\Sales\Model\Config\Ordered
+     * @return $this
      */
     protected function _initModels()
     {
@@ -114,11 +113,11 @@ abstract class Ordered extends \Magento\Core\Model\Config\Base
     /**
      * Init model class by configuration
      *
-     * @abstract
      * @param string $class
      * @param string $totalCode
      * @param array $totalConfig
      * @return mixed
+     * @abstract
      */
     abstract protected function _initModelInstance($class, $totalCode, $totalConfig);
 
@@ -126,7 +125,7 @@ abstract class Ordered extends \Magento\Core\Model\Config\Base
      * Prepare configuration array for total model
      *
      * @param   string $code
-     * @param   \Magento\Core\Model\Config\Element $totalConfig
+     * @param   \Magento\App\Config\Element $totalConfig
      * @return  array
      */
     protected function _prepareConfigArray($code, $totalConfig)
@@ -138,17 +137,38 @@ abstract class Ordered extends \Magento\Core\Model\Config\Base
 
     /**
      * Aggregate before/after information from all items and sort totals based on this data
+     * Invoke simple sorting if the first element contains the "sort_order" key
      *
      * @param array $config
      * @return array
      */
-    protected function _getSortedCollectorCodes(array $config)
+    private function _getSortedCollectorCodes(array $config)
     {
-        // invoke simple sorting if the first element contains the "sort_order" key
         reset($config);
         $element = current($config);
         if (isset($element['sort_order'])) {
-            uasort($config, array($this, '_compareSortOrder'));
+            uasort(
+                $config,
+                // @codingStandardsIgnoreStart
+                /**
+                 * @param array $a
+                 * @param array $b
+                 * @return int
+                 */
+                // @codingStandardsIgnoreEnd
+                function ($a, $b) {
+                    if (!isset($a['sort_order']) || !isset($b['sort_order'])) {
+                        return 0;
+                    }
+                    if ($a['sort_order'] > $b['sort_order']) {
+                        return 1;
+                    } elseif ($a['sort_order'] < $b['sort_order']) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                }
+            );
         }
         $result = array_keys($config);
         return $result;
@@ -158,7 +178,7 @@ abstract class Ordered extends \Magento\Core\Model\Config\Base
      * Initialize collectors array.
      * Collectors array is array of total models ordered based on configuration settings
      *
-     * @return  \Magento\Sales\Model\Config\Ordered
+     * @return $this
      */
     protected function _initCollectors()
     {
@@ -176,27 +196,5 @@ abstract class Ordered extends \Magento\Core\Model\Config\Base
         }
 
         return $this;
-    }
-
-    /**
-     * Callback that uses sort_order for comparison
-     *
-     * @param array $a
-     * @param array $b
-     * @return int
-     */
-    protected function _compareSortOrder($a, $b)
-    {
-        if (!isset($a['sort_order']) || !isset($b['sort_order'])) {
-            return 0;
-        }
-        if ($a['sort_order'] > $b['sort_order']) {
-            $res = 1;
-        } elseif ($a['sort_order'] < $b['sort_order']) {
-            $res = -1;
-        } else {
-            $res = 0;
-        }
-        return $res;
     }
 }

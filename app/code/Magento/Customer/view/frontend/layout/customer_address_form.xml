@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <update handle="customer_account"/>
     <referenceBlock name="customer-account-navigation-address-link">
         <arguments>
@@ -15,6 +15,6 @@
         </arguments>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\Customer\Block\Address\Edit" name="customer_address_edit" template="address/edit.phtml"/>
+        <block class="Magento\Customer\Block\Address\Edit" name="customer_address_edit" template="address/edit.phtml" cacheable="false"/>
     </referenceContainer>
 </layout>

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Encryption;
 
 /**
  * Class encapsulates cryptographic algorithm
  */
-namespace Magento\Encryption;
-
 class Crypt
 {
     /**
@@ -47,7 +46,7 @@ class Crypt
      * @param  string|bool $initVector Initial vector to fill algorithm blocks.
      *                                 TRUE generates a random initial vector.
      *                                 FALSE fills initial vector with zero bytes to not use it.
-     * @throws \Magento\Exception
+     * @throws \Exception
      */
     public function __construct($key, $cipher = MCRYPT_BLOWFISH, $mode = MCRYPT_MODE_ECB, $initVector = false)
     {
@@ -65,7 +64,7 @@ class Crypt
                 $abc = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
                 $initVector = '';
                 for ($i = 0; $i < $initVectorSize; $i++) {
-                    $initVector .= $abc{rand(0, strlen($abc) - 1)};
+                    $initVector .= $abc[rand(0, strlen($abc) - 1)];
                 }
             } else if (false === $initVector) {
                 /* Set vector to zero bytes to not use it */
@@ -83,6 +82,8 @@ class Crypt
 
     /**
      * Destructor frees allocated resources
+     *
+     * @return void
      */
     public function __destruct()
     {

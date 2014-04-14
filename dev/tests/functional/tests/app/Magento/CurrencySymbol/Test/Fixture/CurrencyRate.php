@@ -19,7 +19,7 @@ use Mtf\Fixture\DataFixture;
  * Class CurrencyRate
  * Magento currency rates
  *
- * @package Magento\Core\Test\Fixture
+ * @package Magento\CurrencySymbol\Test\Fixture
  */
 class CurrencyRate extends DataFixture
 {

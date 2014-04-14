@@ -7,8 +7,7 @@
  */
 namespace Magento\CustomerSegment\Model\Resource\Segment\Report\Detail\Group;
 
-class Option
-    implements \Magento\Core\Model\Option\ArrayInterface
+class Option implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Customer\Model\Resource\Group\Collection
@@ -28,9 +27,9 @@ class Option
      */
     public function toOptionArray()
     {
-        return $this->_resourceCollection
-            ->addFieldToFilter('customer_group_id', array('gt'=> 0))
-            ->load()
-            ->toOptionHash();
+        return $this->_resourceCollection->addFieldToFilter(
+            'customer_group_id',
+            array('gt' => 0)
+        )->load()->toOptionHash();
     }
 }

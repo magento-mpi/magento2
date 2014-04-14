@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Model;
 
 /**
  * CMS block model
@@ -25,18 +26,18 @@
  * @method \Magento\Cms\Model\Block setUpdateTime(string $value)
  * @method int getIsActive()
  * @method \Magento\Cms\Model\Block setIsActive(int $value)
- *
- * @category    Magento
- * @package     Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Cms\Model;
-
-class Block extends \Magento\Core\Model\AbstractModel
+class Block extends \Magento\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
-    const CACHE_TAG     = 'cms_block';
-    protected $_cacheTag= 'cms_block';
+    /**
+     * CMS block cache tag
+     */
+    const CACHE_TAG = 'cms_block';
+
+    /**
+     * @var string
+     */
+    protected $_cacheTag = 'cms_block';
 
     /**
      * Prefix of model events names
@@ -45,6 +46,9 @@ class Block extends \Magento\Core\Model\AbstractModel
      */
     protected $_eventPrefix = 'cms_block';
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Cms\Model\Resource\Block');
@@ -53,8 +57,8 @@ class Block extends \Magento\Core\Model\AbstractModel
     /**
      * Prevent blocks recursion
      *
-     * @return \Magento\Core\Model\AbstractModel
-     * @throws \Magento\Core\Exception
+     * @return \Magento\Model\AbstractModel
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave()
     {
@@ -62,8 +66,18 @@ class Block extends \Magento\Core\Model\AbstractModel
         if (false == strstr($this->getContent(), $needle)) {
             return parent::_beforeSave();
         }
-        throw new \Magento\Core\Exception(
+        throw new \Magento\Model\Exception(
             __('Make sure that static block content does not reference the block itself.')
         );
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

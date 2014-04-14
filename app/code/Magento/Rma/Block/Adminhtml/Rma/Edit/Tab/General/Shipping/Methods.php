@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
 class Methods extends \Magento\View\Element\Template
@@ -22,11 +21,13 @@ class Methods extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
+     * Json encoder interface
+     *
      * @var \Magento\Json\EncoderInterface
      */
     protected $_jsonEncoder;
@@ -35,14 +36,14 @@ class Methods extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
@@ -51,6 +52,11 @@ class Methods extends \Magento\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
@@ -59,28 +65,37 @@ class Methods extends \Magento\View\Element\Template
         }
     }
 
+    /**
+     * Get shipping price
+     *
+     * @param float $price
+     * @return float
+     */
     public function getShippingPrice($price)
     {
-        return $this->_coreRegistry->registry('current_rma')
-            ->getStore()
-            ->convertPrice(
-                $this->_taxData->getShippingPrice(
-                    $price
-                ),
-                true,
-                false
-            )
-        ;
+        return $this->_coreRegistry->registry(
+            'current_rma'
+        )->getStore()->convertPrice(
+            $this->_taxData->getShippingPrice($price),
+            true,
+            false
+        );
     }
 
+    /**
+     * Get rma shipping data in json format
+     *
+     * @param array $method
+     * @return string
+     */
     public function jsonData($method)
     {
         $data = array();
-        $data['CarrierTitle']   = $method->getCarrierTitle();
-        $data['MethodTitle']    = $method->getMethodTitle();
-        $data['Price']          = $this->getShippingPrice($method->getPrice());
-        $data['PriceOriginal']  = $method->getPrice();
-        $data['Code']           = $method->getCode();
+        $data['CarrierTitle'] = $method->getCarrierTitle();
+        $data['MethodTitle'] = $method->getMethodTitle();
+        $data['Price'] = $this->getShippingPrice($method->getPrice());
+        $data['PriceOriginal'] = $method->getPrice();
+        $data['Code'] = $method->getCode();
 
         return $this->_jsonEncoder->encode($data);
     }

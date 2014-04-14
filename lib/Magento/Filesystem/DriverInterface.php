@@ -98,24 +98,54 @@ interface DriverInterface
     public function createDirectory($path, $permissions);
 
     /**
+     * Read directory
+     *
+     * @param string $path
+     * @return array
+     * @throws FilesystemException
+     */
+    public function readDirectory($path);
+
+    /**
+     * Read directory recursively
+     *
+     * @param string|null $path
+     * @return array
+     * @throws \Magento\Filesystem\FilesystemException
+     */
+    public function readDirectoryRecursively($path = null);
+
+    /**
+     * Search paths by given regex
+     *
+     * @param string $pattern
+     * @param string $path
+     * @return array
+     * @throws FilesystemException
+     */
+    public function search($pattern, $path);
+
+    /**
      * Renames a file or directory
      *
      * @param string $oldPath
      * @param string $newPath
+     * @param DriverInterface|null $targetDriver
      * @return bool
      * @throws FilesystemException
      */
-    public function rename($oldPath, $newPath);
+    public function rename($oldPath, $newPath, DriverInterface $targetDriver = null);
 
     /**
      * Copy source into destination
      *
      * @param string $source
      * @param string $destination
+     * @param DriverInterface|null $targetDriver
      * @return bool
      * @throws FilesystemException
      */
-    public function copy($source, $destination);
+    public function copy($source, $destination, DriverInterface $targetDriver = null);
 
     /**
      * Delete file
@@ -281,7 +311,7 @@ interface DriverInterface
     /**
      * Lock file in selected mode
      *
-     * @param $resource
+     * @param resource $resource
      * @param int $lockMode
      * @return bool
      * @throws FilesystemException
@@ -291,7 +321,7 @@ interface DriverInterface
     /**
      * Unlock file
      *
-     * @param $resource
+     * @param resource $resource
      * @return bool
      * @throws FilesystemException
      */
@@ -306,16 +336,15 @@ interface DriverInterface
     public function getAbsolutePath($basePath, $path, $scheme = null);
 
     /**
+     * @param string $path
+     * @return mixed
+     */
+    public function getRealPath($path);
+
+    /**
      * @param string $basePath
      * @param null $path
      * @return mixed
      */
     public function getRelativePath($basePath, $path = null);
-
-    /**
-     * @param $path
-     * @param $directory
-     * @return mixed
-     */
-    public function isPathInDirectory($path, $directory);
 }

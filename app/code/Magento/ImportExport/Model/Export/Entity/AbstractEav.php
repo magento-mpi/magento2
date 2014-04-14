@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Export\Entity;
 
 /**
  * Export EAV entity abstract model
@@ -15,10 +16,7 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Export\Entity;
-
-abstract class AbstractEav
-    extends \Magento\ImportExport\Model\Export\AbstractEntity
+abstract class AbstractEav extends \Magento\ImportExport\Model\Export\AbstractEntity
 {
     /**
      * Attribute code to its values. Only attributes with options and only default store values used
@@ -44,42 +42,42 @@ abstract class AbstractEav
     /**
      * Attributes with index (not label) value
      *
-     * @var array
+     * @var string[]
      */
     protected $_indexValueAttributes = array();
 
     /**
      * Permanent entity columns
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array();
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\App $app,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Eav\Model\Config $eavConfig,
         array $data = array()
     ) {
-        $this->_locale = $locale;
-        parent::__construct($coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $data);
+        $this->_localeDate = $localeDate;
+        parent::__construct($scopeConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
 
         if (isset($data['entity_type_id'])) {
             $this->_entityTypeId = $data['entity_type_id'];
@@ -96,8 +94,10 @@ abstract class AbstractEav
     protected function _getExportAttributeCodes()
     {
         if (null === $this->_attributeCodes) {
-            if (!empty($this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP])
-                && is_array($this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP])) {
+            if (!empty($this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP]) && is_array(
+                $this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP]
+            )
+            ) {
                 $skippedAttributes = array_flip(
                     $this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP]
                 );
@@ -108,8 +108,13 @@ abstract class AbstractEav
 
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
             foreach ($this->filterAttributeCollection($this->getAttributeCollection()) as $attribute) {
-                if (!isset($skippedAttributes[$attribute->getAttributeId()])
-                    || in_array($attribute->getAttributeCode(), $this->_permanentAttributes)) {
+                if (!isset(
+                    $skippedAttributes[$attribute->getAttributeId()]
+                ) || in_array(
+                    $attribute->getAttributeCode(),
+                    $this->_permanentAttributes
+                )
+                ) {
                     $attributeCodes[] = $attribute->getAttributeCode();
                 }
             }
@@ -121,7 +126,7 @@ abstract class AbstractEav
     /**
      * Initialize attribute option values
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEav
+     * @return $this
      */
     protected function _initAttributeValues()
     {
@@ -153,8 +158,12 @@ abstract class AbstractEav
      */
     public function filterEntityCollection(\Magento\Eav\Model\Entity\Collection\AbstractCollection $collection)
     {
-        if (!isset($this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP])
-            || !is_array($this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP])) {
+        if (!isset(
+            $this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP]
+        ) || !is_array(
+            $this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP]
+        )
+        ) {
             $exportFilter = array();
         } else {
             $exportFilter = $this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP];
@@ -170,32 +179,36 @@ abstract class AbstractEav
 
                 if (\Magento\ImportExport\Model\Export::FILTER_TYPE_SELECT == $attributeFilterType) {
                     if (is_scalar($exportFilter[$attributeCode]) && trim($exportFilter[$attributeCode])) {
-                        $collection->addAttributeToFilter($attributeCode, array('eq' => $exportFilter[$attributeCode]));
+                        $collection->addAttributeToFilter(
+                            $attributeCode,
+                            array('eq' => $exportFilter[$attributeCode])
+                        );
                     }
                 } elseif (\Magento\ImportExport\Model\Export::FILTER_TYPE_INPUT == $attributeFilterType) {
                     if (is_scalar($exportFilter[$attributeCode]) && trim($exportFilter[$attributeCode])) {
-                        $collection->addAttributeToFilter($attributeCode,
+                        $collection->addAttributeToFilter(
+                            $attributeCode,
                             array('like' => "%{$exportFilter[$attributeCode]}%")
                         );
                     }
                 } elseif (\Magento\ImportExport\Model\Export::FILTER_TYPE_DATE == $attributeFilterType) {
                     if (is_array($exportFilter[$attributeCode]) && count($exportFilter[$attributeCode]) == 2) {
                         $from = array_shift($exportFilter[$attributeCode]);
-                        $to   = array_shift($exportFilter[$attributeCode]);
+                        $to = array_shift($exportFilter[$attributeCode]);
 
                         if (is_scalar($from) && !empty($from)) {
-                            $date = $this->_locale->date($from, null, null, false)->toString('MM/dd/YYYY');
+                            $date = $this->_localeDate->date($from, null, null, false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attributeCode, array('from' => $date, 'date' => true));
                         }
                         if (is_scalar($to) && !empty($to)) {
-                            $date = $this->_locale->date($to, null, null, false)->toString('MM/dd/YYYY');
+                            $date = $this->_localeDate->date($to, null, null, false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attributeCode, array('to' => $date, 'date' => true));
                         }
                     }
                 } elseif (\Magento\ImportExport\Model\Export::FILTER_TYPE_NUMBER == $attributeFilterType) {
                     if (is_array($exportFilter[$attributeCode]) && count($exportFilter[$attributeCode]) == 2) {
                         $from = array_shift($exportFilter[$attributeCode]);
-                        $to   = array_shift($exportFilter[$attributeCode]);
+                        $to = array_shift($exportFilter[$attributeCode]);
 
                         if (is_numeric($from)) {
                             $collection->addAttributeToFilter($attributeCode, array('from' => $from));
@@ -238,13 +251,14 @@ abstract class AbstractEav
             $index = in_array($attribute->getAttributeCode(), $this->_indexValueAttributes) ? 'value' : 'label';
 
             // only default (admin) store values used
-            $attribute->setStoreId(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
+            $attribute->setStoreId(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
             try {
                 foreach ($attribute->getSource()->getAllOptions(false) as $option) {
                     $optionValues = is_array($option['value']) ? $option['value'] : array($option);
                     foreach ($optionValues as $innerOption) {
-                        if (strlen($innerOption['value'])) { // skip ' -- Please Select -- ' option
+                        if (strlen($innerOption['value'])) {
+                            // skip ' -- Please Select -- ' option
                             $options[$innerOption['value']] = $innerOption[$index];
                         }
                     }
@@ -269,19 +283,22 @@ abstract class AbstractEav
     /**
      * Fill row with attributes values
      *
-     * @param \Magento\Core\Model\AbstractModel $item export entity
+     * @param \Magento\Model\AbstractModel $item export entity
      * @param array $row data row
      * @return array
      */
-    protected function _addAttributeValuesToRow(\Magento\Core\Model\AbstractModel $item, array $row = array())
+    protected function _addAttributeValuesToRow(\Magento\Model\AbstractModel $item, array $row = array())
     {
         $validAttributeCodes = $this->_getExportAttributeCodes();
         // go through all valid attribute codes
         foreach ($validAttributeCodes as $attributeCode) {
             $attributeValue = $item->getData($attributeCode);
 
-            if (isset($this->_attributeValues[$attributeCode])
-                && isset($this->_attributeValues[$attributeCode][$attributeValue])
+            if (isset(
+                $this->_attributeValues[$attributeCode]
+            ) && isset(
+                $this->_attributeValues[$attributeCode][$attributeValue]
+            )
             ) {
                 $attributeValue = $this->_attributeValues[$attributeCode][$attributeValue];
             }

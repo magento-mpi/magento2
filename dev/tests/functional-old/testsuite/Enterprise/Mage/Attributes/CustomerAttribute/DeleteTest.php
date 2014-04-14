@@ -80,7 +80,6 @@ class Enterprise_Mage_Attributes_CustomerAttribute_DeleteTest extends Mage_Selen
      */
     public function deletedSystemAttribute($attributeName)
     {
-        $this->markTestIncomplete('MAGETWO-8975');
         //Data
         $searchData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_search_data',
             array('attribute_code'  => $attributeName));

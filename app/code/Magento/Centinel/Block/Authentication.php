@@ -25,15 +25,15 @@ class Authentication extends \Magento\View\Element\Template
     /**
      * Strage for identifiers of related blocks
      *
-     * @var array
+     * @var string[]
      */
     protected $_relatedBlocks = array();
 
     /**
      * Flag - authentication start mode
-     * @see self::setAuthenticationStartMode
      *
      * @var bool
+     * @see self::setAuthenticationStartMode
      */
     protected $_authenticationStartMode = false;
 
@@ -49,13 +49,14 @@ class Authentication extends \Magento\View\Element\Template
     ) {
         $this->_checkoutSession = $checkoutSession;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
      * Add identifier of related block
      *
      * @param string $blockId
-     * @return \Magento\Centinel\Block\Authentication
+     * @return $this
      */
     public function addRelatedBlock($blockId)
     {
@@ -66,7 +67,7 @@ class Authentication extends \Magento\View\Element\Template
     /**
      * Return identifiers of related blocks
      *
-     * @return array
+     * @return string[]
      */
     public function getRelatedBlocks()
     {

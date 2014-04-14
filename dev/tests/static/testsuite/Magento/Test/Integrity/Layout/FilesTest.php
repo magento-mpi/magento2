@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Integrity\Layout;
 
 class FilesTest extends \PHPUnit_Framework_TestCase
@@ -21,7 +20,9 @@ class FilesTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_schemaFile = \Magento\TestFramework\Utility\Files::init()->getModuleFile(
-            'Magento', 'Core', 'etc/layout_single.xsd'
+            'Magento',
+            'Core',
+            'etc/layout_single.xsd'
         );
     }
 

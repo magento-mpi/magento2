@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block;
 
 /**
  * "Checkout" link
  */
-namespace Magento\Checkout\Block;
-
 class Link extends \Magento\View\Element\Html\Link
 {
     /**
@@ -55,8 +54,9 @@ class Link extends \Magento\View\Element\Html\Link
      */
     protected function _toHtml()
     {
-        if (!$this->_checkoutHelper->canOnepageCheckout()
-            || !$this->_moduleManager->isOutputEnabled('Magento_Checkout')
+        if (!$this->_checkoutHelper->canOnepageCheckout() || !$this->_moduleManager->isOutputEnabled(
+            'Magento_Checkout'
+        )
         ) {
             return '';
         }

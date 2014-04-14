@@ -2,13 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Customer;
+
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
  * Customer giftregistry list block
@@ -31,25 +31,44 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $typeFactory;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     */
+    protected $currentCustomer;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
+     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        CustomerAccountServiceInterface $customerAccountService,
+        CustomerAddressServiceInterface $addressService,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
+        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array()
     ) {
         $this->customerSession = $customerSession;
         $this->entityFactory = $entityFactory;
         $this->typeFactory = $typeFactory;
-        parent::__construct($context, $customerSession, $subscriberFactory, $data);
+        parent::__construct(
+            $context,
+            $customerSession,
+            $subscriberFactory,
+            $customerAccountService,
+            $addressService,
+            $data
+        );
+        $this->currentCustomer = $currentCustomer;
     }
 
     /**
@@ -64,23 +83,27 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function truncateString($value, $length = 80, $etc = '...', &$remainder = '', $breakWords = true)
     {
-        return $this->filterManager->truncate($value, array(
-            'length' => $length,
-            'etc' => $etc,
-            'remainder' => $remainder,
-            'breakWords' => $breakWords
-        ));
+        return $this->filterManager->truncate(
+            $value,
+            array('length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords)
+        );
     }
 
     /**
      * Instantiate pagination
      *
-     * @return \Magento\GiftRegistry\Block\Customer\ListCustomer
+     * @return $this
      */
     protected function _prepareLayout()
     {
-        $pager = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager', 'giftregistry.list.pager')
-            ->setCollection($this->getEntityCollection())->setIsOutputRequired(false);
+        $pager = $this->getLayout()->createBlock(
+            'Magento\Theme\Block\Html\Pager',
+            'giftregistry.list.pager'
+        )->setCollection(
+            $this->getEntityCollection()
+        )->setIsOutputRequired(
+            false
+        );
         $this->setChild('pager', $pager);
         return parent::_prepareLayout();
     }
@@ -93,8 +116,10 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     public function getEntityCollection()
     {
         if (!$this->hasEntityCollection()) {
-            $this->setData('entity_collection', $this->entityFactory->create()->getCollection()
-                ->filterByCustomerId($this->customerSession->getCustomerId())
+            $this->setData(
+                'entity_collection',
+                $this->entityFactory->create()->getCollection()
+                ->filterByCustomerId($this->currentCustomer->getCustomerId())
             );
         }
         return $this->_getData('entity_collection');
@@ -107,7 +132,8 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function canAddNewEntity()
     {
-        $collection = $this->typeFactory->create()->getCollection()
+        $collection = $this->typeFactory->create()
+            ->getCollection()
             ->addStoreData($this->_storeManager->getStore()->getId())
             ->applyListedFilter();
 
@@ -127,6 +153,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Return view entity items url
      *
+     * @param \Magento\GiftRegistry\Model\Entity $item
      * @return string
      */
     public function getItemsUrl($item)
@@ -137,6 +164,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Return share entity url
      *
+     * @param \Magento\GiftRegistry\Model\Entity $item
      * @return string
      */
     public function getShareUrl($item)
@@ -147,16 +175,18 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Return edit entity url
      *
+     * @param \Magento\GiftRegistry\Model\Entity $item
      * @return string
      */
     public function getEditUrl($item)
     {
-        return  $this->getUrl('giftregistry/index/edit', array('entity_id' => $item->getEntityId()));
+        return $this->getUrl('giftregistry/index/edit', array('entity_id' => $item->getEntityId()));
     }
 
     /**
      * Return delete entity url
      *
+     * @param \Magento\GiftRegistry\Model\Entity $item
      * @return string
      */
     public function getDeleteUrl($item)
@@ -176,14 +206,17 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     }
 
     /**
-     * Retrieve item formated date
+     * Retrieve item formatted date
      *
      * @param \Magento\GiftRegistry\Model\Entity $item
      * @return string
      */
     public function getFormattedDate($item)
     {
-        return $this->formatDate($item->getCreatedAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate(
+            $item->getCreatedAt(),
+            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+        );
     }
 
     /**

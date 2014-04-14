@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Menu\Item;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
@@ -46,7 +45,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeConfigMock;
+    protected $_scopeConfigMock;
 
     /**
      * Data to be validated
@@ -60,7 +59,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         'resource' => 'Magento_Backend::system_config',
         'dependsOnModule' => 'Magento_Backend',
         'dependsOnConfig' => 'system/config/isEnabled',
-        'toolTip' => 'Item tooltip',
+        'toolTip' => 'Item tooltip'
     );
 
     protected function setUp()
@@ -87,11 +86,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function requiredParamsProvider()
     {
-        return array(
-            array('id'),
-            array('title'),
-            array('resource'),
-        );
+        return array(array('id'), array('title'), array('resource'));
     }
 
     /**
@@ -128,7 +123,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             array('dependsOnConfig', '1a'),
             array('dependsOnConfig', '12b|'),
             array('toolTip', 'a'),
-            array('toolTip', '123456789012345678901234567890123456789012345678901'),
+            array('toolTip', '123456789012345678901234567890123456789012345678901')
         );
     }
 
@@ -216,7 +211,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateParamWithNullForNonRequiredParamDoesntValidate()
     {
-        try{
+        try {
             $this->_model->validateParam('toolTip', null);
         } catch (\Exception $e) {
             $this->fail("Non required null values should not be validated");
@@ -239,4 +234,3 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->_model->validateParam('resource', 'TheCompoundNamespace_TheCompoundModule::resource');
     }
 }
-

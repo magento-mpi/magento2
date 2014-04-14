@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit;
 
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
@@ -15,7 +14,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -29,7 +28,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -37,7 +36,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_segmentFactory = $segmentFactory;
@@ -65,40 +64,47 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      */
     protected function _beforeToHtml()
     {
-        $generalSectionContent = $this->getLayout()
-            ->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab\General')
-            ->toHtml();
+        $generalSectionContent = $this->getLayout()->createBlock(
+            'Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab\General'
+        )->toHtml();
 
-        $this->addTab('general_section', array(
-            'label'   => __('General Properties'),
-            'title'   => __('General Properties'),
-            'content' => $generalSectionContent,
-            'active'  => true
-        ));
+        $this->addTab(
+            'general_section',
+            array(
+                'label' => __('General Properties'),
+                'title' => __('General Properties'),
+                'content' => $generalSectionContent,
+                'active' => true
+            )
+        );
 
         $segment = $this->_coreRegistry->registry('current_customer_segment');
 
         if ($segment && $segment->getId()) {
-            $conditionsSectionContent = $this->getLayout()
-                ->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab\Conditions')
-                ->toHtml();
+            $conditionsSectionContent = $this->getLayout()->createBlock(
+                'Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab\Conditions'
+            )->toHtml();
 
-            $this->addTab('conditions_section', array(
-                'label'   => __('Conditions'),
-                'title'   => __('Conditions'),
-                'content' => $conditionsSectionContent,
-            ));
+            $this->addTab(
+                'conditions_section',
+                array('label' => __('Conditions'), 'title' => __('Conditions'), 'content' => $conditionsSectionContent)
+            );
 
             if ($segment->getApplyTo() != \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS) {
-                $customersQty = $this->_segmentFactory->create()
-                    ->getResource()
-                    ->getSegmentCustomersQty($segment->getId());
-                $this->addTab('customers_tab', array(
-                    'label' => __('Matched Customers (%1)', $customersQty),
-                    'url'   => $this->getUrl('customersegment/report_customer_customersegment/customerGrid',
-                        array('segment_id' => $segment->getId())),
-                    'class' => 'ajax',
-                ));
+                $customersQty = $this->_segmentFactory->create()->getResource()->getSegmentCustomersQty(
+                    $segment->getId()
+                );
+                $this->addTab(
+                    'customers_tab',
+                    array(
+                        'label' => __('Matched Customers (%1)', $customersQty),
+                        'url' => $this->getUrl(
+                            'customersegment/report_customer_customersegment/customerGrid',
+                            array('segment_id' => $segment->getId())
+                        ),
+                        'class' => 'ajax'
+                    )
+                );
             }
         }
 

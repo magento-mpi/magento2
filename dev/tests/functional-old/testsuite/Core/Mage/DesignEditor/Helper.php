@@ -1,23 +1,25 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Mage_DesignEditor
-     * @subpackage  functional_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_DesignEditor
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-    /**
-     * Helper class
-     *
-     * @package     selenium
-     * @subpackage  tests
-     * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-     */
+/**
+ * Helper class
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Core_Mage_DesignEditor_Helper extends Mage_Selenium_AbstractHelper
 {
+    protected $_windowId;
+
     /**
      * Move mouse over Tile
      *
@@ -27,9 +29,7 @@ class Core_Mage_DesignEditor_Helper extends Mage_Selenium_AbstractHelper
     public function mouseOver($tile)
     {
         $tileXpath = $this->_getControlXpath('pageelement', $tile);
-        /**
-         * @var PHPUnit_Extensions_Selenium2TestCase_Element $tileElement
-         */
+        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $tileElement */
         $tileElement = $this->getElement($tileXpath);
         $this->moveto($tileElement);
         return $tileElement;

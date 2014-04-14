@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku;
+
+use Magento\View\Element\Template;
 
 /**
  * Admin Checkout main form container
@@ -20,10 +23,6 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku;
-
-use Magento\View\Element\Template;
-
 abstract class AbstractSku extends \Magento\Backend\Block\Template
 {
     /**
@@ -31,6 +30,9 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
      */
     const LIST_TYPE = 'add_by_sku';
 
+    /**
+     * @var string
+     */
     protected $_template = 'sku/add.phtml';
 
     /**
@@ -52,9 +54,10 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
         parent::__construct($context, $data);
     }
 
-
     /**
      * Initialize SKU container
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -68,7 +71,7 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
     /**
      * Define ADD and DEL buttons
      *
-     * @return \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -79,23 +82,21 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
             $headBlock->addChild(
                 'magento-checkout-addbysku-js',
                 'Magento\Theme\Block\Html\Head\Script',
-                array(
-                    'file' => 'Magento_AdvancedCheckout::addbysku.js'
-                )
+                array('file' => 'Magento_AdvancedCheckout::addbysku.js')
             );
         }
 
-        $this->addChild('deleteButton', 'Magento\Backend\Block\Widget\Button', array(
-            'label'   => '',
-            'onclick' => 'addBySku.del(this)',
-            'class'   => 'delete'
-        ));
+        $this->addChild(
+            'deleteButton',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => '', 'onclick' => 'addBySku.del(this)', 'class' => 'delete')
+        );
 
-        $this->addChild('addButton', 'Magento\Backend\Block\Widget\Button', array(
-            'label'   => 'Add',
-            'onclick' => 'addBySku.add()',
-            'class'   => 'add'
-        ));
+        $this->addChild(
+            'addButton',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => 'Add', 'onclick' => 'addBySku.add()', 'class' => 'add')
+        );
 
         return $this;
     }
@@ -136,14 +137,14 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
     public function getAddBySkuDataJson()
     {
         $data = array(
-            'dataContainerId'  => $this->getDataContainerId(),
+            'dataContainerId' => $this->getDataContainerId(),
             'deleteButtonHtml' => $this->getDeleteButtonHtml(),
-            'fileUploaded'     => \Magento\AdvancedCheckout\Helper\Data::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG,
+            'fileUploaded' => \Magento\AdvancedCheckout\Helper\Data::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG,
             // All functions requiring listType affects error grid only
-            'listType'         => \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors::LIST_TYPE,
-            'errorGridId'      => $this->getErrorGridId(),
-            'fileFieldName'    => \Magento\AdvancedCheckout\Model\Import::FIELD_NAME_SOURCE_FILE,
-            'fileUploadUrl'    => $this->getFileUploadUrl(),
+            'listType' => \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors::LIST_TYPE,
+            'errorGridId' => $this->getErrorGridId(),
+            'fileFieldName' => \Magento\AdvancedCheckout\Model\Import::FIELD_NAME_SOURCE_FILE,
+            'fileUploadUrl' => $this->getFileUploadUrl()
         );
 
         $json = $this->_jsonEncoder->encode($data);

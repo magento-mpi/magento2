@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authz\Model\UserLocator;
 
 use Magento\Authz\Model\UserLocatorInterface;
@@ -17,7 +16,9 @@ use Magento\Backend\Model\Auth\Session as AdminSession;
  */
 class Admin implements UserLocatorInterface
 {
-    /** @var AdminSession */
+    /**
+     * @var AdminSession
+     */
     protected $_adminSession;
 
     /**

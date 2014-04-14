@@ -7,9 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App;
-
 
 class FrontClass
 {

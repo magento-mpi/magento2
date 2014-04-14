@@ -24,7 +24,7 @@ manage_rma_items_attribute:
         form:
             fieldsets:
                 -
-                    rma_item_atribute_grid:
+                    attributes_grid:
                         xpath: //*[@id='rmaItemAttributeGrid']
                         buttons:
                             reset_filter: //button[span='Reset Filter']

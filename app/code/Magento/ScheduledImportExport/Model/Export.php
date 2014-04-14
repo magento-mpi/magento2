@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Model;
 
 /**
  * Export model
@@ -21,36 +22,34 @@
  * @method \Magento\ScheduledImportExport\Model\Export setEntity() setEntity(string $value)
  * @method \Magento\ScheduledImportExport\Model\Export setOperationType() setOperationType(string $value)
  */
-namespace Magento\ScheduledImportExport\Model;
-
-class Export extends \Magento\ImportExport\Model\Export
-    implements \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
+class Export extends \Magento\ImportExport\Model\Export implements
+    \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
 {
     /**
      * Date model instance
      *
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_dateModel;
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
+     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Logger\AdapterFactory $adapterFactory
      * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
      * @param \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory
      * @param \Magento\ImportExport\Model\Export\Adapter\Factory $exportAdapterFac
-     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      * @param array $data
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Log\AdapterFactory $adapterFactory,
+        \Magento\App\Filesystem $filesystem,
+        \Magento\Logger\AdapterFactory $adapterFactory,
         \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
         \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory,
         \Magento\ImportExport\Model\Export\Adapter\Factory $exportAdapterFac,
-        \Magento\Core\Model\Date $coreDate,
+        \Magento\Stdlib\DateTime\DateTime $coreDate,
         array $data = array()
     ) {
         $this->_dateModel = $coreDate;
@@ -68,7 +67,7 @@ class Export extends \Magento\ImportExport\Model\Export
     /**
      * Date model instance getter
      *
-     * @return \Magento\Core\Model\Date
+     * @return \Magento\Stdlib\DateTime\DateTime
      */
     public function getDateModel()
     {
@@ -93,18 +92,18 @@ class Export extends \Magento\ImportExport\Model\Export
      * Initialize export instance from scheduled operation
      *
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
-     * @return \Magento\ScheduledImportExport\Model\Export
+     * @return $this
      */
     public function initialize(\Magento\ScheduledImportExport\Model\Scheduled\Operation $operation)
     {
-        $fileInfo  = $operation->getFileInfo();
+        $fileInfo = $operation->getFileInfo();
         $attributes = $operation->getEntityAttributes();
         $data = array(
-            'entity'                 => $operation->getEntityType(),
-            'file_format'            => $fileInfo['file_format'],
-            'export_filter'          => $attributes['export_filter'],
-            'operation_type'         => $operation->getOperationType(),
-            'run_at'                 => $operation->getStartTime(),
+            'entity' => $operation->getEntityType(),
+            'file_format' => $fileInfo['file_format'],
+            'export_filter' => $attributes['export_filter'],
+            'operation_type' => $operation->getOperationType(),
+            'run_at' => $operation->getStartTime(),
             'scheduled_operation_id' => $operation->getId()
         );
         if (isset($attributes['skip_attr'])) {
@@ -122,7 +121,9 @@ class Export extends \Magento\ImportExport\Model\Export
     public function getScheduledFileName()
     {
         $runDate = $this->getRunDate() ? $this->getRunDate() : null;
-        return $this->getDateModel()->date('Y-m-d_H-i-s', $runDate) . '_' . $this->getOperationType() . '_'
-            . $this->getEntity();
+        return $this->getDateModel()->date(
+            'Y-m-d_H-i-s',
+            $runDate
+        ) . '_' . $this->getOperationType() . '_' . $this->getEntity();
     }
 }

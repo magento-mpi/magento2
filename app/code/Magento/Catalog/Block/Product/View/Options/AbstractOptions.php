@@ -107,13 +107,18 @@ abstract class AbstractOptions extends \Magento\View\Element\Template
         return $this->_option;
     }
 
+    /**
+     * @return string
+     */
     public function getFormatedPrice()
     {
         if ($option = $this->getOption()) {
-            return $this->_formatPrice(array(
-                'is_percent'    => ($option->getPriceType() == 'percent'),
-                'pricing_value' => $option->getPrice($option->getPriceType() == 'percent')
-            ));
+            return $this->_formatPrice(
+                array(
+                    'is_percent' => $option->getPriceType() == 'percent',
+                    'pricing_value' => $option->getPrice($option->getPriceType() == 'percent')
+                )
+            );
         }
         return '';
     }
@@ -122,9 +127,10 @@ abstract class AbstractOptions extends \Magento\View\Element\Template
      * Return formated price
      *
      * @param array $value
+     * @param bool $flag
      * @return string
      */
-    protected function _formatPrice($value, $flag=true)
+    protected function _formatPrice($value, $flag = true)
     {
         if ($value['pricing_value'] == 0) {
             return '';
@@ -148,13 +154,19 @@ abstract class AbstractOptions extends \Magento\View\Element\Template
         } elseif ($this->_taxData->displayBothPrices()) {
             $priceStr .= $this->_coreHelper->currencyByStore($_priceExclTax, $store, true, $flag);
             if ($_priceInclTax != $_priceExclTax) {
-                $priceStr .= ' ('.$sign.$this->_coreHelper
-                    ->currencyByStore($_priceInclTax, $store, true, $flag).' '.__('Incl. Tax').')';
+                $priceStr .= ' (' . $sign . $this->_coreHelper->currencyByStore(
+                    $_priceInclTax,
+                    $store,
+                    true,
+                    $flag
+                ) . ' ' . __(
+                    'Incl. Tax'
+                ) . ')';
             }
         }
 
         if ($flag) {
-            $priceStr = '<span class="price-notice">'.$priceStr.'</span>';
+            $priceStr = '<span class="price-notice">' . $priceStr . '</span>';
         }
 
         return $priceStr;
@@ -163,9 +175,9 @@ abstract class AbstractOptions extends \Magento\View\Element\Template
     /**
      * Get price with including/excluding tax
      *
-     * @param decimal $price
+     * @param float $price
      * @param bool $includingTax
-     * @return decimal
+     * @return float
      */
     public function getPrice($price, $includingTax = null)
     {

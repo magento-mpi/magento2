@@ -18,11 +18,12 @@
  */
 namespace Magento\Banner\Model\Resource\Banner;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize banner resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -33,7 +34,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add stores column
      *
-     * @return \Magento\Banner\Model\Resource\Banner\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -41,14 +42,15 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         if ($this->getFlag('add_stores_column')) {
             $this->_addStoresVisibility();
         }
-        $this->walk('getTypes'); // fetch banner types from comma-separated
+        $this->walk('getTypes');
+        // fetch banner types from comma-separated
         return $this;
     }
 
     /**
      * Set add stores column flag
      *
-     * @return \Magento\Banner\Model\Resource\Banner\Collection
+     * @return $this
      */
     public function addStoresVisibility()
     {
@@ -60,7 +62,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Collect and set stores ids to each collection item
      * Used in banners grid as Visible in column info
      *
-     * @return \Magento\Banner\Model\Resource\Banner\Collection
+     * @return $this
      */
     protected function _addStoresVisibility()
     {
@@ -68,9 +70,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $bannersStores = array();
         if (sizeof($bannerIds) > 0) {
             $adapter = $this->getConnection();
-            $select = $adapter->select()
-                ->from($this->getTable('magento_banner_content'), array('store_id', 'banner_id'))
-                ->where('banner_id IN(?)', $bannerIds);
+            $select = $adapter->select()->from(
+                $this->getTable('magento_banner_content'),
+                array('store_id', 'banner_id')
+            )->where(
+                'banner_id IN(?)',
+                $bannerIds
+            );
             $bannersRaw = $adapter->fetchAll($select);
 
             foreach ($bannersRaw as $banner) {
@@ -97,7 +103,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param int|array $storeIds
      * @param bool $withAdmin
-     * @return \Magento\Banner\Model\Resource\Banner\Collection
+     * @return $this
      */
     public function addStoreFilter($storeIds, $withAdmin = true)
     {
@@ -110,9 +116,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                 array('store_table' => $this->getTable('magento_banner_content')),
                 'main_table.banner_id = store_table.banner_id',
                 array()
-            )
-            ->where('store_table.store_id IN (?)', $storeIds)
-            ->group('main_table.banner_id');
+            )->where(
+                'store_table.store_id IN (?)',
+                $storeIds
+            )->group(
+                'main_table.banner_id'
+            );
 
             $this->setFlag('store_filter', true);
         }
@@ -124,11 +133,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param array $bannerIds
      * @param bool $exclude
-     * @return \Magento\Banner\Model\Resource\Banner\Collection
+     * @return $this
      */
     public function addBannerIdsFilter($bannerIds, $exclude = false)
     {
-        $this->addFieldToFilter('main_table.banner_id', array(($exclude ? 'nin' : 'in') => $bannerIds));
+        $this->addFieldToFilter('main_table.banner_id', array($exclude ? 'nin' : 'in' => $bannerIds));
         return $this;
     }
 }

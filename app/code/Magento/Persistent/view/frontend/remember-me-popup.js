@@ -69,6 +69,7 @@
         _showPopUp: function() {
             this.windowOverlay.show();
             this.popupBlock.show();
+            return false;
         },
 
         /**

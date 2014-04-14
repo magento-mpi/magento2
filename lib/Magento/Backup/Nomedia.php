@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backup;
 
 /**
  * Class to work system backup that excludes media folder
@@ -15,15 +16,13 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backup;
-
 class Nomedia extends \Magento\Backup\Media
 {
     /**
      * Overlap getType
      *
      * @return string
-     * @see \Magento\Backup\BackupInterface::getType()
+     * @see BackupInterface::getType()
      */
     public function getType()
     {
@@ -33,15 +32,12 @@ class Nomedia extends \Magento\Backup\Media
     /**
      * Add media folder to ignore list
      *
-     * @return \Magento\Backup\Media
+     * @return $this
      */
     protected function _prepareIgnoreList()
     {
         $rootDir = $this->getRootDir();
-        $this->addIgnorePaths(array(
-            $rootDir . '/media',
-            $rootDir . '/pub/media',
-        ));
+        $this->addIgnorePaths(array($rootDir . '/media', $rootDir . '/pub/media'));
         return $this;
     }
 }

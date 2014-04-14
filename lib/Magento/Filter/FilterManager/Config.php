@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Filter\FilterManager;
 
 /**
@@ -16,15 +15,12 @@ namespace Magento\Filter\FilterManager;
 class Config implements ConfigInterface
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected $factories = array(
-        'Magento\Filter\Factory',
-        'Magento\Filter\ZendFactory'
-    );
+    protected $factories = array('Magento\Filter\Factory', 'Magento\Filter\ZendFactory');
 
     /**
-     * @param array $factories
+     * @param string[] $factories
      */
     public function __construct(array $factories = array())
     {

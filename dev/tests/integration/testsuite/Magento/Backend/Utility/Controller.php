@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Utility;
 
 /**
@@ -32,22 +31,33 @@ class Controller extends \Magento\TestFramework\TestCase\AbstractController
     {
         parent::setUp();
 
-        $this->_objectManager->get('Magento\Backend\Model\Url')->turnOffSecretKey();
+        $this->_objectManager->get('Magento\Backend\Model\UrlInterface')->turnOffSecretKey();
 
         $this->_auth = $this->_objectManager->get('Magento\Backend\Model\Auth');
         $this->_session = $this->_auth->getAuthStorage();
-        $this->_auth->login(
-            \Magento\TestFramework\Bootstrap::ADMIN_NAME,
-            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+        $credentials = $this->_getAdminCredentials();
+        $this->_auth->login($credentials['user'], $credentials['password']);
+    }
+
+    /**
+     * Get credentials to login admin user
+     *
+     * @return array
+     */
+    protected function _getAdminCredentials()
+    {
+        return array(
+            'user' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
         );
     }
 
     protected function tearDown()
     {
-        $this->_auth->logout();
+        $this->_auth->getAuthStorage()->destroy(['send_expire_cookie' => false]);
         $this->_auth = null;
         $this->_session = null;
-        $this->_objectManager->get('Magento\Backend\Model\Url')->turnOnSecretKey();
+        $this->_objectManager->get('Magento\Backend\Model\UrlInterface')->turnOnSecretKey();
         parent::tearDown();
     }
 
@@ -56,11 +66,13 @@ class Controller extends \Magento\TestFramework\TestCase\AbstractController
      *
      * @param \PHPUnit_Framework_Constraint $constraint
      * @param string|null $messageType
-     * @param string $messageManager
+     * @param string $messageManagerClass
      */
     public function assertSessionMessages(
-        \PHPUnit_Framework_Constraint $constraint, $messageType = null, $messageManager = 'Magento\Message\Manager'
+        \PHPUnit_Framework_Constraint $constraint,
+        $messageType = null,
+        $messageManagerClass = 'Magento\Message\Manager'
     ) {
-        parent::assertSessionMessages($constraint, $messageType, $messageManager);
+        parent::assertSessionMessages($constraint, $messageType, $messageManagerClass);
     }
 }

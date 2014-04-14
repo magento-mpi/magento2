@@ -18,16 +18,17 @@
  */
 namespace Magento\CatalogInventory\Block\Stockqty\Type;
 
+use Magento\Catalog\Model\Product;
+
 class Grouped extends \Magento\CatalogInventory\Block\Stockqty\Composite
 {
     /**
      * Retrieve child products
      *
-     * @return array
+     * @return Product[]
      */
     protected function _getChildProducts()
     {
-        return $this->getProduct()->getTypeInstance()
-            ->getAssociatedProducts($this->getProduct());
+        return $this->getProduct()->getTypeInstance()->getAssociatedProducts($this->getProduct());
     }
 }

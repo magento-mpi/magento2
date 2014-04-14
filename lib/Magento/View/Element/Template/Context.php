@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\View\Element\Template;
 
 /**
@@ -27,27 +26,35 @@ class Context extends \Magento\View\Element\Context
     /**
      * Filesystem instance
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
     /**
+     * View file system
+     *
      * @var \Magento\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
+     * Template engine pool
+     *
      * @var \Magento\View\TemplateEnginePool
      */
     protected $enginePool;
 
     /**
+     * Application state
+     *
      * @var \Magento\App\State
      */
     protected $_appState;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * Store manager
+     *
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -61,23 +68,21 @@ class Context extends \Magento\View\Element\Context
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\App\FrontController $frontController
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\App $app
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\View\TemplateEnginePool $enginePool
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param array $data
-     * 
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -90,22 +95,20 @@ class Context extends \Magento\View\Element\Context
         \Magento\View\DesignInterface $design,
         \Magento\Session\SessionManagerInterface $session,
         \Magento\Session\SidResolverInterface $sidResolver,
-        \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\App\FrontController $frontController,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
         \Magento\Logger $logger,
-        \Magento\Core\Model\App $app,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Filesystem $filesystem,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\App\Filesystem $filesystem,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\TemplateEnginePool $enginePool,
         \Magento\App\State $appState,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        array $data = array()
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct(
             $request,
@@ -117,17 +120,15 @@ class Context extends \Magento\View\Element\Context
             $design,
             $session,
             $sidResolver,
-            $storeConfig,
-            $frontController,
+            $scopeConfig,
             $viewUrl,
             $viewConfig,
             $cacheState,
             $logger,
-            $app,
             $escaper,
             $filterManager,
-            $locale,
-            $data
+            $localeDate,
+            $inlineTranslation
         );
 
         $this->_storeManager = $storeManager;
@@ -141,7 +142,7 @@ class Context extends \Magento\View\Element\Context
     /**
      * Get filesystem instance
      *
-     * @return \Magento\Filesystem
+     * @return \Magento\App\Filesystem
      */
     public function getFilesystem()
     {
@@ -191,7 +192,7 @@ class Context extends \Magento\View\Element\Context
     /**
      * Get store manager
      *
-     * @return \Magento\Core\Model\StoreManagerInterface
+     * @return \Magento\Store\Model\StoreManagerInterface
      */
     public function getStoreManager()
     {

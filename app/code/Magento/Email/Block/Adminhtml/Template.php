@@ -15,12 +15,15 @@
  * @package    Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Email\Block\Adminhtml;
 
 class Template extends \Magento\Backend\Block\Template
 {
-
+    /**
+     * Template list
+     *
+     * @var string
+     */
     protected $_template = 'template/list.phtml';
 
     /**
@@ -30,11 +33,15 @@ class Template extends \Magento\Backend\Block\Template
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label'     => __('Add New Template'),
-            'onclick'   => "window.location='" . $this->getCreateUrl() . "'",
-            'class'     => 'add'
-        ));
+        $this->getToolbar()->addChild(
+            'add_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Add New Template'),
+                'onclick' => "window.location='" . $this->getCreateUrl() . "'",
+                'class' => 'add primary add-template'
+            )
+        );
 
         return parent::_prepareLayout();
     }

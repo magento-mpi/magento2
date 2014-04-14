@@ -7,24 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Block\Adminhtml;
 
 class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover \Magento\DesignEditor\Block\Adminhtml\Theme::addButton
-     * @cover \Magento\DesignEditor\Block\Adminhtml\Theme::clearButtons
-     * @cover \Magento\DesignEditor\Block\Adminhtml\Theme::getButtonsHtml
+     * @covers \Magento\DesignEditor\Block\Adminhtml\Theme::addButton
+     * @covers \Magento\DesignEditor\Block\Adminhtml\Theme::clearButtons
+     * @covers \Magento\DesignEditor\Block\Adminhtml\Theme::getButtonsHtml
      */
     public function testButtons()
     {
-        $themeMock  =  $this->getMock('Magento\DesignEditor\Block\Adminhtml\Theme', null, array(), '', false);
+        $themeMock = $this->getMock('Magento\DesignEditor\Block\Adminhtml\Theme', null, array(), '', false);
         $buttonMock = $this->getMock('StdClass', array('toHtml'));
 
-        $buttonMock->expects($this->once())
-            ->method('toHtml')
-            ->will($this->returnValue('Block html data'));
+        $buttonMock->expects($this->once())->method('toHtml')->will($this->returnValue('Block html data'));
 
         $themeMock->addButton($buttonMock);
         $this->assertEquals('Block html data', $themeMock->getButtonsHtml());

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block;
 
 /**
@@ -21,11 +20,6 @@ class Template extends \Magento\View\Element\Template
      * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
-
-    /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
 
     /**
      * @var \Magento\Math\Random
@@ -43,18 +37,22 @@ class Template extends \Magento\View\Element\Template
     protected $formKey;
 
     /**
+     * @var \Magento\Code\NameBuilder
+     */
+    protected $nameBuilder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
-    public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        array $data = array()
-    ) {
-        $this->_locale = $context->getLocale();
+    public function __construct(\Magento\Backend\Block\Template\Context $context, array $data = array())
+    {
+        $this->_localeDate = $context->getLocaleDate();
         $this->_authorization = $context->getAuthorization();
         $this->mathRandom = $context->getMathRandom();
         $this->_backendSession = $context->getBackendSession();
         $this->formKey = $context->getFormKey();
+        $this->nameBuilder = $context->getNameBuilder();
         parent::__construct($context, $data);
     }
 
@@ -82,15 +80,19 @@ class Template extends \Magento\View\Element\Template
         if ($moduleName === null) {
             $moduleName = $this->getModuleName();
         }
-        return !$this->_storeConfig->getConfigFlag('advanced/modules_disable_output/' . $moduleName);
+
+        return !$this->_scopeConfig->isSetFlag(
+            'advanced/modules_disable_output/' . $moduleName,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
-    
+
     /**
      * Make this public so that templates can use it properly with template engine
-     * 
+     *
      * @return \Magento\AuthorizationInterface
      */
-    public function getAuthorization() 
+    public function getAuthorization()
     {
         return $this->_authorization;
     }
@@ -104,5 +106,15 @@ class Template extends \Magento\View\Element\Template
     {
         $this->_eventManager->dispatch('adminhtml_block_html_before', array('block' => $this));
         return parent::_toHtml();
+    }
+
+    /**
+     * Return toolbar block instance
+     *
+     * @return bool|\Magento\View\Element\BlockInterface
+     */
+    public function getToolbar()
+    {
+        return $this->getLayout()->getBlock('page.actions.toolbar');
     }
 }

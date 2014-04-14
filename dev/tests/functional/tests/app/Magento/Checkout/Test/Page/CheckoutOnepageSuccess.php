@@ -33,7 +33,7 @@ class CheckoutOnepageSuccess extends Page
      *
      * @var string
      */
-    protected $successBlock = '//div[contains(@class, "column main")]';
+    protected $successBlock = '//div[contains(@class, "checkout success")]';
 
     /**
      * Page title block
@@ -60,6 +60,18 @@ class CheckoutOnepageSuccess extends Page
         return Factory::getBlockFactory()->getMagentoCheckoutOnepageSuccess(
             $this->_browser->find($this->successBlock, Locator::SELECTOR_XPATH)
         );
+    }
+
+    /**
+     * Check if one page success block is visible
+     *
+     * @return boolean
+     */
+    public function isSuccessBlockVisible()
+    {
+        return Factory::getBlockFactory()->getMagentoCheckoutOnepageSuccess(
+            $this->_browser->find($this->successBlock, Locator::SELECTOR_XPATH)
+        )->isVisible();
     }
 
     /**

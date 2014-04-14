@@ -44,7 +44,7 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
 
@@ -58,38 +58,45 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
      * <p>Valid values for QTY field according SRS</p>
      *
      * @param string $qty
+     * @param string $message
+     * @param string $messageType
      * @param array $data
      *
      * @test
      * @dataProvider qtyListDataProvider
-     * @depends      preconditionsForTests
+     * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3933, TL-MAGE-3889
      */
-    public function qtyValidation($qty, $data)
+    public function qtyValidation($qty, $message, $messageType, $data)
     {
-        //Preconditions:    
+        //Preconditions:
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         //Steps:
         $this->navigate('order_by_sku');
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array(
-            array('sku' => $data['simple']['sku'], 'qty' => $qty)
-        ));
-        $this->saveForm('add_to_cart');
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows(
+            array(array('sku' => $data['simple']['sku'], 'qty' => $qty))
+        );
+        $this->saveForm('add_to_cart_by_sku');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('pageelement', 'requiring_attention_title'));
-        $this->assertMessagePresent('error', 'required_attention_product');
-        $this->assertMessagePresent('validation', 'enter_valid_qty');
+        if ($messageType == 'validation') {
+            $this->addFieldIdToMessage('field', 'qty');
+            $this->assertMessagePresent('validation', $message);
+        } else {
+            $this->assertTrue($this->controlIsVisible('fieldset', 'products_requiring_attention'));
+            $this->assertMessagePresent('error', 'required_attention_product');
+            $this->assertMessagePresent('error', $message);
+        }
     }
 
     public function qtyListDataProvider()
     {
         return array(
-            array('non-num'),
-            array('-5'),
-            array('0'),
-            array('0.00001'),
-            array('999999999.9999'),
-            array('')
+            array('non-num', 'enter_greater_than_zero', 'validation'),
+            array('-5', 'enter_greater_than_zero', 'validation'),
+            array('0', 'enter_greater_than_zero', 'validation'),
+            array('', 'empty_required_field', 'validation'),
+            array('0.00001', 'enter_valid_qty', 'error'),
+            array('99999999.9999', 'max_allowed_qty', 'error')
         );
     }
 
@@ -106,9 +113,10 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         //Steps:
         $this->navigate('order_by_sku');
-        $this->clickButton('add_to_cart');
+        $this->clickButton('add_to_cart_by_sku');
         //Verifying
-        $this->assertMessagePresent('error', 'no_product_added_by_sku');
+        $this->addFieldIdToMessage('field', 'sku');
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     /**
@@ -122,16 +130,16 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
      */
     public function addSimpleProductWithEmptyRow($data)
     {
-        $this->markTestIncomplete('BUG: Add Row link does not work');
         //Preconditions:
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         //Steps:
         $this->navigate('order_by_sku');
         $this->clickButton('add_row', false);
+        $this->addFieldIdToMessage('field', 'sku');
         $this->addBySkuHelper()->frontFulfillSkuQtyRows(array($data['simple']));
-        $this->clickButton('add_to_cart');
+        $this->clickButton('add_to_cart_by_sku');
         //Verifying
-        $this->assertMessagePresent('success', 'product_added_to_cart_by_sku');
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     /**
@@ -151,12 +159,13 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
         //Steps:
         $this->navigate('order_by_sku');
         $this->addBySkuHelper()->frontFulfillSkuQtyRows(array(
-            array('sku' => $data['simple']['sku'], 'qty' => '#$%'),
-            $data['simple']
+            $data['simple'],
+            array('sku' => $data['simple']['sku'], 'qty' => '-15')
         ));
-        $this->saveForm('add_to_cart');
+        $this->saveForm('add_to_cart_by_sku');
         //Verifying
-        $this->assertMessagePresent('error', 'sku_invalid_number');
+        $this->addFieldIdToMessage('field', 'qty');
+        $this->assertMessagePresent('validation', 'enter_greater_than_zero');
     }
 
     /**
@@ -178,7 +187,7 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->navigate('customer_account');
         //Verifying
-        $this->assertFalse($this->controlIsPresent('link', 'sku_tab'), 'There is "Order by SKU" tab on the page. ');
+        $this->assertFalse($this->controlIsPresent('link', 'order_by_sku'), 'There is "Order by SKU" tab on the page.');
     }
 
     /**
@@ -200,6 +209,6 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         $this->navigate('customer_account');
         //Verifying
-        $this->assertFalse($this->controlIsPresent('link', 'sku_tab'), 'There is "Order by SKU" tab on the page. ');
+        $this->assertFalse($this->controlIsPresent('link', 'order_by_sku'), 'There is "Order by SKU" tab on the page.');
     }
 }

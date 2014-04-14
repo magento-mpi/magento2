@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Filesystem;
 
 class DriverFactory
@@ -18,11 +17,14 @@ class DriverFactory
     protected $drivers = array();
 
     /**
-     * @var \Magento\Filesystem\DirectoryList
+     * @var DirectoryList
      */
     protected $directoryList;
 
-    public function __construct(\Magento\Filesystem\DirectoryList $directoryList)
+    /**
+     * @param DirectoryList $directoryList
+     */
+    public function __construct(DirectoryList $directoryList)
     {
         $this->directoryList = $directoryList;
     }
@@ -43,8 +45,8 @@ class DriverFactory
         }
         if (!isset($this->drivers[$driverClass])) {
             $this->drivers[$driverClass] = new $driverClass($driver);
-            if (!$this->drivers[$driverClass] instanceof \Magento\Filesystem\DriverInterface) {
-                throw new \Magento\Filesystem\FilesystemException("Invalid filesystem driver class: " . $driverClass);
+            if (!$this->drivers[$driverClass] instanceof DriverInterface) {
+                throw new FilesystemException("Invalid filesystem driver class: " . $driverClass);
             }
         }
         return $this->drivers[$driverClass];

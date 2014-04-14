@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Core\Model\Resource\Config\Data;
 
 /**
  * Config data collection
@@ -16,17 +16,16 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Resource\Config\Data;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define resource model
      *
+     * @return void
      */
     protected function _construct()
     {
-        $this->_init('Magento\Core\Model\Config\Value', 'Magento\Core\Model\Resource\Config\Data');
+        $this->_init('Magento\App\Config\Value', 'Magento\Core\Model\Resource\Config\Data');
     }
 
     /**
@@ -35,7 +34,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param string $scope
      * @param int $scopeId
      * @param string $section
-     * @return \Magento\Core\Model\Resource\Config\Data\Collection
+     * @return $this
      */
     public function addScopeFilter($scope, $scopeId, $section)
     {
@@ -49,7 +48,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *  Add path filter
      *
      * @param string $section
-     * @return \Magento\Core\Model\Resource\Config\Data\Collection
+     * @return $this
      */
     public function addPathFilter($section)
     {
@@ -61,7 +60,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add value filter
      *
      * @param int|string $value
-     * @return \Magento\Core\Model\Resource\Config\Data\Collection
+     * @return $this
      */
     public function addValueFilter($value)
     {

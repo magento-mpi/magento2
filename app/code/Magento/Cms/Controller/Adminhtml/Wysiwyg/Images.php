@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Controller\Adminhtml\Wysiwyg;
 
 /**
  * Images manage controller for Cms WYSIWYG editor
@@ -15,25 +16,21 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Controller\Adminhtml\Wysiwyg;
-
 class Images extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -41,7 +38,7 @@ class Images extends \Magento\Backend\App\Action
     /**
      * Init storage
      *
-     * @return \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
+     * @return $this
      */
     protected function _initAction()
     {
@@ -49,6 +46,11 @@ class Images extends \Magento\Backend\App\Action
         return $this;
     }
 
+    /**
+     * Index action
+     *
+     * @return void
+     */
     public function indexAction()
     {
         $storeId = (int)$this->getRequest()->getParam('store');
@@ -67,13 +69,19 @@ class Images extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * Tree json action
+     *
+     * @return void
+     */
     public function treeJsonAction()
     {
         try {
             $this->_initAction();
             $this->getResponse()->setBody(
-                $this->_view->getLayout()->createBlock('Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Tree')
-                    ->getTreeJson()
+                $this->_view->getLayout()->createBlock(
+                    'Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Tree'
+                )->getTreeJson()
             );
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
@@ -81,6 +89,11 @@ class Images extends \Magento\Backend\App\Action
         }
     }
 
+    /**
+     * Contents action
+     *
+     * @return void
+     */
     public function contentsAction()
     {
         try {
@@ -93,6 +106,11 @@ class Images extends \Magento\Backend\App\Action
         }
     }
 
+    /**
+     * New folder action
+     *
+     * @return void
+     */
     public function newFolderAction()
     {
         try {
@@ -106,10 +124,15 @@ class Images extends \Magento\Backend\App\Action
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
+    /**
+     * Delete folder action
+     *
+     * @return void
+     */
     public function deleteFolderAction()
     {
         try {
-            $path = $this->getStorage()->getSession()->getCurrentPath();
+            $path = $this->getStorage()->getCmsWysiwygImages()->getCurrentPath();
             $this->getStorage()->deleteDirectory($path);
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
@@ -126,7 +149,7 @@ class Images extends \Magento\Backend\App\Action
     {
         try {
             if (!$this->getRequest()->isPost()) {
-                throw new \Exception ('Wrong request.');
+                throw new \Exception('Wrong request.');
             }
             $files = $this->getRequest()->getParam('files');
 
@@ -135,13 +158,13 @@ class Images extends \Magento\Backend\App\Action
             $path = $this->getStorage()->getSession()->getCurrentPath();
             foreach ($files as $file) {
                 $file = $helper->idDecode($file);
-                /** @var \Magento\Filesystem $filesystem */
-                $filesystem = $this->_objectManager->get('Magento\Filesystem');
-                $dir = $filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
+                /** @var \Magento\App\Filesystem $filesystem */
+                $filesystem = $this->_objectManager->get('Magento\App\Filesystem');
+                $dir = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
                 $filePath = $path . '/' . $file;
                 if ($dir->isFile($dir->getRelativePath($filePath))) {
                     $this->getStorage()->deleteFile($filePath);
-                } 
+                }
             }
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
@@ -151,6 +174,8 @@ class Images extends \Magento\Backend\App\Action
 
     /**
      * Files upload processing
+     *
+     * @return void
      */
     public function uploadAction()
     {
@@ -162,11 +187,12 @@ class Images extends \Magento\Backend\App\Action
             $result = array('error' => $e->getMessage(), 'errorcode' => $e->getCode());
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
-
     }
 
     /**
      * Fire when select image
+     *
+     * @return void
      */
     public function onInsertAction()
     {
@@ -186,6 +212,8 @@ class Images extends \Magento\Backend\App\Action
 
     /**
      * Generate image thumbnail on the fly
+     *
+     * @return void
      */
     public function thumbnailAction()
     {
@@ -198,7 +226,7 @@ class Images extends \Magento\Backend\App\Action
             $image->open($thumb);
             $this->getResponse()->setHeader('Content-Type', $image->getMimeType())->setBody($image->getImage());
         } else {
-            // todo: genearte some placeholder
+            // todo: generate some placeholder
         }
     }
 
@@ -219,13 +247,13 @@ class Images extends \Magento\Backend\App\Action
     /**
      * Save current path in session
      *
-     * @return \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
+     * @return $this
      */
     protected function _saveSessionCurrentPath()
     {
-        $this->getStorage()
-            ->getSession()
-            ->setCurrentPath($this->_objectManager->get('Magento\Cms\Helper\Wysiwyg\Images')->getCurrentPath());
+        $this->getStorage()->getSession()->setCurrentPath(
+            $this->_objectManager->get('Magento\Cms\Helper\Wysiwyg\Images')->getCurrentPath()
+        );
         return $this;
     }
 

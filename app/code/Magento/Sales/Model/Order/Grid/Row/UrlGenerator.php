@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Grid\Row;
 
 /**
  * Sales orders grid row url generator
  */
-namespace Magento\Sales\Model\Order\Grid\Row;
-
 class UrlGenerator extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
 {
     /**
@@ -21,18 +20,17 @@ class UrlGenerator extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
     protected $_authorization;
 
     /**
-     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\AuthorizationInterface $authorization
      * @param array $args
      */
     public function __construct(
-        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\AuthorizationInterface $authorization,
         array $args = array()
     ) {
         $this->_authorization = $authorization;
         parent::__construct($backendUrl, $args);
-
     }
 
     /**

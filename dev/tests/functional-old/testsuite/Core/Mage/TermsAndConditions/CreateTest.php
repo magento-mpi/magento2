@@ -130,7 +130,8 @@ class Core_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestCase
             array('condition_name', 'field'),
             array('store_view', 'multiselect'),
             array('checkbox_text', 'field'),
-            array('content', 'field'));
+            array('content', 'field')
+        );
     }
 
     /**
@@ -158,14 +159,13 @@ class Core_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestCase
      */
     public function withContentHeight()
     {
-        $this->markTestIncomplete('MAGETWO-7803');
         //Data
         $termsData = $this->loadDataSet('TermsAndConditions', 'generic_terms_required',
-            array('content_height' => $this->generate('string', 25, ':alnum:')));
+            array('content_height' => $this->generate('string', 25, ':punct:')));
         //Steps
         $this->termsAndConditionsHelper()->createTermsAndConditions($termsData);
         //Verifying
-        $this->assertMessagePresent('error', 'content_height');
+        $this->assertMessagePresent('validation', 'wrong_content_height');
     }
 
     /**
@@ -177,10 +177,11 @@ class Core_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestCase
     public function longValuesInRequiredFields()
     {
         //Data
-        $termsData = $this->loadDataSet('TermsAndConditions', 'generic_terms_all',
-            array('condition_name' => $this->generate('string', 255, ':alnum:'),
-                'checkbox_text'  => $this->generate('string', 255, ':alnum:'),
-                'content'        => $this->generate('string', 255, ':alnum:')));
+        $termsData = $this->loadDataSet('TermsAndConditions', 'generic_terms_all', array(
+            'condition_name' => $this->generate('string', 255, ':alnum:'),
+            'checkbox_text'  => $this->generate('string', 255, ':alnum:'),
+            'content'        => $this->generate('string', 255, ':alnum:')
+        ));
         $termsToOpen = $this->loadDataSet('TermsAndConditions', 'search_terms_and_conditions',
             array('filter_condition_name' => $termsData['condition_name']));
         //Steps
@@ -202,10 +203,11 @@ class Core_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestCase
     public function specialCharactersInRequiredFields()
     {
         //Data
-        $termsData = $this->loadDataSet('TermsAndConditions', 'generic_terms_all',
-            array('condition_name' => $this->generate('string', 32, ':punct:'),
-                'checkbox_text'  => $this->generate('string', 32, ':punct:'),
-                'content'        => $this->generate('string', 32, ':punct:')));
+        $termsData = $this->loadDataSet('TermsAndConditions', 'generic_terms_all',array(
+            'condition_name' => $this->generate('string', 32, ':punct:'),
+            'checkbox_text'  => $this->generate('string', 32, ':punct:'),
+            'content'        => $this->generate('string', 32, ':punct:')
+        ));
         $termsToOpen = $this->loadDataSet('TermsAndConditions', 'search_terms_and_conditions',
             array('filter_condition_name' => $termsData['condition_name']));
         //Steps

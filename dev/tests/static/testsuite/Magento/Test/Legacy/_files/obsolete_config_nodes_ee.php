@@ -15,13 +15,9 @@ return array(
     '/config/adminhtml/enterprise/websiterestriction' => 'This configuration moved to websiterestrictions.xml file',
     '/config/global/enterprise_cms' => 'This configuration moved to menu_hierarchy.xml file',
     '/config/global/enterprise/banner' => 'This configuration moved to Di configuration of \Magento\Banner\Model\Config',
-    '/config/global/enterprise/giftcardaccount' =>
-        'This configuration moved to Di configuration of \Magento\GiftCardAccountModelPool',
+    '/config/global/enterprise/giftcardaccount' => 'This configuration moved to Di configuration of \Magento\GiftCardAccountModelPool',
     '/config/global/skip_process_modules_updates' => 'Was replaced using di',
-    'config/frontend/cache/requests' =>
-        'This configuration moved to Di configuration for \Magento\FullPageCache\Model\Processor model and'
-        . ' \Magento\PageCache\Model\Observer model',
     '/config/global/magento_search/supported_languages' =>
     'This configuration moved to Di configuration for \Magento\Search\Helper\Data class',
-
+    '/config/system/page_cache' => 'Module is eliminated. Use PageCache module instead',
 );

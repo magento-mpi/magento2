@@ -874,7 +874,7 @@
             function(value, element, params) {
                 if ($.isNumeric($(params).val()) && $.isNumeric(value)) {
                     this.lteToVal = $(params).val();
-                    return value <= $(params).val();
+                    return parseFloat(value) <= parseFloat($(params).val());
                 }
                 return true;
             },
@@ -886,7 +886,7 @@
             function(value, element, params) {
                 if ($.isNumeric($(params).val()) && $.isNumeric(value)) {
                     this.gteToVal = $(params).val();
-                    return value >= $(params).val();
+                    return parseFloat(value) >= parseFloat($(params).val());
                 }
                 return true;
             },
@@ -1029,8 +1029,8 @@
                 });
                 return result;
             }, function() {
-                return $.mage.__("Maximum length of this field must be equal or less than %s symbols.")
-                    .replace('%s', this.attrLength);
+                return $.mage.__("Maximum length of this field must be equal or less than %1 symbols.")
+                    .replace('%1', this.attrLength);
             }
         ],
         'required-entry': [

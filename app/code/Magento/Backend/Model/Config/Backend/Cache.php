@@ -14,7 +14,7 @@
  */
 namespace Magento\Backend\Model\Config\Backend;
 
-class Cache extends \Magento\Core\Model\Config\Value
+class Cache extends \Magento\App\Config\Value
 {
     /**
      * Cache tags to clean
@@ -26,6 +26,7 @@ class Cache extends \Magento\Core\Model\Config\Value
     /**
      * Clean cache, value was changed
      *
+     * @return void
      */
     protected function _afterSave()
     {

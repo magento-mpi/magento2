@@ -25,7 +25,7 @@ class Footer extends Block
      *
      * @var string
      */
-    protected $linkSelector = '//*[@class="links"]//a[contains(text(), "%s")]';
+    protected $linkSelector = '//*[contains(@class, "links")]//a[contains(text(), "%s")]';
 
     /**
      * Click on link by name

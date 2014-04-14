@@ -7,16 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Resource\Theme\Customization;
 
 /**
  * Theme customization link resource model
  */
-namespace Magento\Core\Model\Resource\Theme\Customization;
-
-class Update extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Update extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

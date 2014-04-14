@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Stdlib;
 
 /**
@@ -20,22 +19,35 @@ class DateTime
      * Date format, used as default. Compatible with \Zend_Date
      */
     const DATETIME_INTERNAL_FORMAT = 'yyyy-MM-dd HH:mm:ss';
-    const DATE_INTERNAL_FORMAT     = 'yyyy-MM-dd';
 
-    const DATETIME_PHP_FORMAT       = 'Y-m-d H:i:s';
-    const DATE_PHP_FORMAT           = 'Y-m-d';
+    const DATE_INTERNAL_FORMAT = 'yyyy-MM-dd';
+
+    const DATETIME_PHP_FORMAT = 'Y-m-d H:i:s';
+
+    const DATE_PHP_FORMAT = 'Y-m-d';
+
     /**#@-*/
+
+    /**
+     * Minimum allowed year value
+     */
+    const YEAR_MIN_VALUE = -10000;
+
+    /**
+     * Maximum allowed year value
+     */
+    const YEAR_MAX_VALUE = 10000;
 
     /**
      * Convert date to UNIX timestamp
      * Returns current UNIX timestamp if date is true
      *
-     * @param \Zend_Date|bool $date
+     * @param \Magento\Stdlib\DateTime\DateInterface|bool $date
      * @return int
      */
     public function toTimestamp($date)
     {
-        if ($date instanceof \Zend_Date) {
+        if ($date instanceof \Magento\Stdlib\DateTime\DateInterface) {
             return $date->getTimestamp();
         }
 
@@ -71,7 +83,7 @@ class DateTime
             return $this->now(!$includeTime);
         }
 
-        if ($date instanceof \Zend_Date) {
+        if ($date instanceof \Magento\Stdlib\DateTime\DateInterface) {
             if ($includeTime) {
                 return $date->toString(self::DATETIME_INTERNAL_FORMAT);
             } else {

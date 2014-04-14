@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Helper;
 
+use Magento\App\Action\Action;
 
 /**
  * CMS Page Helper
@@ -16,13 +18,13 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Helper;
-
 class Page extends \Magento\App\Helper\AbstractHelper
 {
-    const XML_PATH_NO_ROUTE_PAGE        = 'web/default/cms_no_route';
-    const XML_PATH_NO_COOKIES_PAGE      = 'web/default/cms_no_cookies';
-    const XML_PATH_HOME_PAGE            = 'web/default/cms_home_page';
+    const XML_PATH_NO_ROUTE_PAGE = 'web/default/cms_no_route';
+
+    const XML_PATH_NO_COOKIES_PAGE = 'web/default/cms_no_cookies';
+
+    const XML_PATH_HOME_PAGE = 'web/default/cms_home_page';
 
     /**
      * Catalog product
@@ -49,16 +51,14 @@ class Page extends \Magento\App\Helper\AbstractHelper
     protected $messageManager;
 
     /**
-     * Locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -86,8 +86,8 @@ class Page extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Theme\Helper\Layout $pageLayout
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Escaper $escaper
      * @param \Magento\App\ViewInterface $view
      */
@@ -98,8 +98,8 @@ class Page extends \Magento\App\Helper\AbstractHelper
         \Magento\Theme\Helper\Layout $pageLayout,
         \Magento\View\DesignInterface $design,
         \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Escaper $escaper,
         \Magento\App\ViewInterface $view
     ) {
@@ -110,7 +110,8 @@ class Page extends \Magento\App\Helper\AbstractHelper
         $this->_design = $design;
         $this->_pageFactory = $pageFactory;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
+        $this->_localeDate = $localeDate;
         $this->_escaper = $escaper;
         parent::__construct($context);
     }
@@ -120,11 +121,11 @@ class Page extends \Magento\App\Helper\AbstractHelper
      *
      * Call from controller action
      *
-     * @param \Magento\App\Action\Action $action
-     * @param integer $pageId
-     * @return boolean
+     * @param Action $action
+     * @param int $pageId
+     * @return bool
      */
-    public function renderPage(\Magento\App\Action\Action $action, $pageId = null)
+    public function renderPage(Action $action, $pageId = null)
     {
         return $this->_renderPage($action, $pageId);
     }
@@ -132,14 +133,14 @@ class Page extends \Magento\App\Helper\AbstractHelper
     /**
      * Renders CMS page
      *
-     * @param \Magento\App\Action\Action|\Magento\App\Action\Action $action
-     * @param integer $pageId
+     * @param Action $action
+     * @param int $pageId
      * @param bool $renderLayout
-     * @return boolean
+     * @return bool
      */
-    protected function _renderPage(\Magento\App\Action\Action  $action, $pageId = null, $renderLayout = true)
+    protected function _renderPage(Action $action, $pageId = null, $renderLayout = true)
     {
-        if (!is_null($pageId) && $pageId!==$this->_page->getId()) {
+        if (!is_null($pageId) && $pageId !== $this->_page->getId()) {
             $delimiterPosition = strrpos($pageId, '|');
             if ($delimiterPosition) {
                 $pageId = substr($pageId, 0, $delimiterPosition);
@@ -155,8 +156,11 @@ class Page extends \Magento\App\Helper\AbstractHelper
             return false;
         }
 
-        $inRange = $this->_locale->isStoreDateInInterval(null, $this->_page->getCustomThemeFrom(),
-            $this->_page->getCustomThemeTo());
+        $inRange = $this->_localeDate->isScopeDateInInterval(
+            null,
+            $this->_page->getCustomThemeFrom(),
+            $this->_page->getCustomThemeTo()
+        );
 
         if ($this->_page->getCustomTheme()) {
             if ($inRange) {
@@ -168,9 +172,9 @@ class Page extends \Magento\App\Helper\AbstractHelper
 
         $this->_view->addActionLayoutHandles();
         if ($this->_page->getRootTemplate()) {
-            $handle = ($this->_page->getCustomRootTemplate()
-                        && $this->_page->getCustomRootTemplate() != 'empty'
-                        && $inRange) ? $this->_page->getCustomRootTemplate() : $this->_page->getRootTemplate();
+            $handle = $this->_page->getCustomRootTemplate() &&
+                $this->_page->getCustomRootTemplate() != 'empty' &&
+                $inRange ? $this->_page->getCustomRootTemplate() : $this->_page->getRootTemplate();
             $this->_pageLayout->applyHandle($handle);
         }
 
@@ -180,8 +184,8 @@ class Page extends \Magento\App\Helper\AbstractHelper
         );
 
         $this->_view->loadLayoutUpdates();
-        $layoutUpdate = ($this->_page->getCustomLayoutUpdateXml() && $inRange)
-            ? $this->_page->getCustomLayoutUpdateXml() : $this->_page->getLayoutUpdateXml();
+        $layoutUpdate = $this->_page->getCustomLayoutUpdateXml() &&
+            $inRange ? $this->_page->getCustomLayoutUpdateXml() : $this->_page->getLayoutUpdateXml();
         if (!empty($layoutUpdate)) {
             $this->_view->getLayout()->getUpdate()->addUpdate($layoutUpdate);
         }
@@ -200,9 +204,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
         /* @TODO: Move catalog and checkout storage types to appropriate modules */
         $messageBlock = $this->_view->getLayout()->getMessagesBlock();
         $messageBlock->addStorageType($this->messageManager->getDefaultGroup());
-        $messageBlock->addMessages(
-            $this->messageManager->getMessages(true)
-        );
+        $messageBlock->addMessages($this->messageManager->getMessages(true));
 
         if ($renderLayout) {
             $this->_view->renderLayout();
@@ -216,12 +218,12 @@ class Page extends \Magento\App\Helper\AbstractHelper
      * Allows to use also backend action as first parameter.
      * Also takes third parameter which allows not run renderLayout method.
      *
-     * @param \Magento\App\Action\Action $action
-     * @param $pageId
-     * @param $renderLayout
+     * @param Action $action
+     * @param int $pageId
+     * @param bool $renderLayout
      * @return bool
      */
-    public function renderPageExtended(\Magento\App\Action\Action $action, $pageId = null, $renderLayout = true)
+    public function renderPageExtended(Action $action, $pageId = null, $renderLayout = true)
     {
         return $this->_renderPage($action, $pageId, $renderLayout);
     }

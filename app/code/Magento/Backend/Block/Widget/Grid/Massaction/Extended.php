@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid\Massaction;
 
 /**
  * Grid widget massaction block
@@ -18,8 +19,6 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @deprecated support Magento 1.x grid massaction implementation
  */
-namespace Magento\Backend\Block\Widget\Grid\Massaction;
-
 class Extended extends \Magento\Backend\Block\Widget
 {
     /**
@@ -67,6 +66,8 @@ class Extended extends \Magento\Backend\Block\Widget
 
     /**
      * Sets Massaction template
+     *
+     * @return void
      */
     public function _construct()
     {
@@ -77,6 +78,7 @@ class Extended extends \Magento\Backend\Block\Widget
     /**
      * Add new massaction item
      *
+     * The item array should look like:
      * $item = array(
      *      'label'    => string,
      *      'complete' => string, // Only for ajax enabled grid (optional)
@@ -87,14 +89,19 @@ class Extended extends \Magento\Backend\Block\Widget
      *
      * @param string $itemId
      * @param array $item
-     * @return \Magento\Backend\Block\Widget\Grid\Massaction\Extended
+     * @return $this
      */
     public function addItem($itemId, array $item)
     {
-        $this->_items[$itemId] =  $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid\Massaction\Item')
-            ->setData($item)
-            ->setMassaction($this)
-            ->setId($itemId);
+        $this->_items[$itemId] = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Grid\Massaction\Item'
+        )->setData(
+            $item
+        )->setMassaction(
+            $this
+        )->setId(
+            $itemId
+        );
 
         if ($this->_items[$itemId]->getAdditional()) {
             $this->_items[$itemId]->setAdditionalActionBlock($this->_items[$itemId]->getAdditional());
@@ -108,7 +115,7 @@ class Extended extends \Magento\Backend\Block\Widget
      * Retrieve massaction item with id $itemId
      *
      * @param string $itemId
-     * @return \Magento\Backend\Block\Widget\Grid\Massaction\Item
+     * @return \Magento\Backend\Block\Widget\Grid\Massaction\Item|null
      */
     public function getItem($itemId)
     {
@@ -137,7 +144,7 @@ class Extended extends \Magento\Backend\Block\Widget
     public function getItemsJson()
     {
         $result = array();
-        foreach ($this->getItems() as $itemId=>$item) {
+        foreach ($this->getItems() as $itemId => $item) {
             $result[$itemId] = $item->toArray();
         }
 
@@ -171,7 +178,7 @@ class Extended extends \Magento\Backend\Block\Widget
      */
     public function getFormFieldName()
     {
-        return ($this->getData('form_field_name') ? $this->getData('form_field_name') : 'massaction');
+        return $this->getData('form_field_name') ? $this->getData('form_field_name') : 'massaction';
     }
 
     /**
@@ -181,7 +188,7 @@ class Extended extends \Magento\Backend\Block\Widget
      */
     public function getFormFieldNameInternal()
     {
-        return  'internal_' . $this->getFormFieldName();
+        return 'internal_' . $this->getFormFieldName();
     }
 
     /**
@@ -222,7 +229,7 @@ class Extended extends \Magento\Backend\Block\Widget
     /**
      * Retrieve array of selected checkboxes
      *
-     * @return array
+     * @return string[]
      */
     public function getSelected()
     {
@@ -244,18 +251,24 @@ class Extended extends \Magento\Backend\Block\Widget
         return $this->getButtonHtml(__('Submit'), $this->getJsObjectName() . ".apply()");
     }
 
+    /**
+     * @return string
+     */
     public function getJavaScript()
     {
-        return " var {$this->getJsObjectName()} = new varienGridMassaction('{$this->getHtmlId()}', "
-            . "{$this->getGridJsObjectName()}, '{$this->getSelectedJson()}'"
-            . ", '{$this->getFormFieldNameInternal()}', '{$this->getFormFieldName()}');"
-            . "{$this->getJsObjectName()}.setItems({$this->getItemsJson()}); "
-            . "{$this->getJsObjectName()}.setGridIds('{$this->getGridIdsJson()}');"
-            . ($this->getUseAjax() ? "{$this->getJsObjectName()}.setUseAjax(true);" : '')
-            . ($this->getUseSelectAll() ? "{$this->getJsObjectName()}.setUseSelectAll(true);" : '')
-            . "{$this->getJsObjectName()}.errorText = '{$this->getErrorText()}';";
+        return " var {$this->getJsObjectName()} = new varienGridMassaction('{$this->getHtmlId()}', " .
+            "{$this->getGridJsObjectName()}, '{$this->getSelectedJson()}'" .
+            ", '{$this->getFormFieldNameInternal()}', '{$this->getFormFieldName()}');" .
+            "{$this->getJsObjectName()}.setItems({$this->getItemsJson()}); " .
+            "{$this->getJsObjectName()}.setGridIds('{$this->getGridIdsJson()}');" .
+            ($this->getUseAjax() ? "{$this->getJsObjectName()}.setUseAjax(true);" : '') .
+            ($this->getUseSelectAll() ? "{$this->getJsObjectName()}.setUseSelectAll(true);" : '') .
+            "{$this->getJsObjectName()}.errorText = '{$this->getErrorText()}';";
     }
 
+    /**
+     * @return string
+     */
     public function getGridIdsJson()
     {
         if (!$this->getUseSelectAll()) {
@@ -270,6 +283,9 @@ class Extended extends \Magento\Backend\Block\Widget
         return '';
     }
 
+    /**
+     * @return string
+     */
     public function getHtmlId()
     {
         return $this->getParentBlock()->getHtmlId() . '_massaction';
@@ -279,7 +295,7 @@ class Extended extends \Magento\Backend\Block\Widget
      * Remove existing massaction item by its id
      *
      * @param string $itemId
-     * @return \Magento\Backend\Block\Widget\Grid\Massaction\Extended
+     * @return $this
      */
     public function removeItem($itemId)
     {
@@ -304,11 +320,11 @@ class Extended extends \Magento\Backend\Block\Widget
      * Retrieve select all functionality flag check
      *
      * @param boolean $flag
-     * @return \Magento\Backend\Block\Widget\Grid\Massaction\Extended
+     * @return $this
      */
     public function setUseSelectAll($flag)
     {
-        $this->setData('use_select_all', (bool) $flag);
+        $this->setData('use_select_all', (bool)$flag);
         return $this;
     }
 }

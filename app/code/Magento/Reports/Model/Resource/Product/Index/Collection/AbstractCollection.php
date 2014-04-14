@@ -18,8 +18,7 @@
  */
 namespace Magento\Reports\Model\Resource\Product\Index\Collection;
 
-abstract class AbstractCollection
-    extends \Magento\Catalog\Model\Resource\Product\Collection
+abstract class AbstractCollection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Customer id
@@ -43,13 +42,13 @@ abstract class AbstractCollection
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Log\Model\Visitor $logVisitor
@@ -67,13 +66,13 @@ abstract class AbstractCollection
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Log\Model\Visitor $logVisitor,
@@ -91,11 +90,11 @@ abstract class AbstractCollection
             $universalFactory,
             $storeManager,
             $catalogData,
-            $catalogProductFlat,
-            $coreStoreConfig,
+            $catalogProductFlatState,
+            $scopeConfig,
             $productOptionFactory,
             $catalogUrl,
-            $locale,
+            $localeDate,
             $customerSession,
             $dateTime,
             $connection
@@ -106,13 +105,14 @@ abstract class AbstractCollection
     /**
      * Retrieve Product Index table name
      *
+     * @return string
      */
     abstract protected function _getTableName();
 
     /**
      * Join index table
      *
-     * @return \Magento\Reports\Model\Resource\Product\Index\Collection\AbstractCollection
+     * @return $this
      */
     protected function _joinIdxTable()
     {
@@ -120,11 +120,7 @@ abstract class AbstractCollection
             $this->joinTable(
                 array('idx_table' => $this->_getTableName()),
                 'product_id=entity_id',
-                array(
-                    'product_id'    => 'product_id',
-                    'item_store_id' => 'store_id',
-                    'added_at'      => 'added_at'
-                ),
+                array('product_id' => 'product_id', 'item_store_id' => 'store_id', 'added_at' => 'added_at'),
                 $this->_getWhereCondition()
             );
             $this->setFlag('is_idx_table_joined', true);
@@ -135,7 +131,7 @@ abstract class AbstractCollection
     /**
      * Add Viewed Products Index to Collection
      *
-     * @return \Magento\Reports\Model\Resource\Product\Index\Collection\AbstractCollection
+     * @return $this
      */
     public function addIndexFilter()
     {
@@ -150,7 +146,7 @@ abstract class AbstractCollection
      * Add filter by product ids
      *
      * @param array $ids
-     * @return \Magento\Reports\Model\Resource\Product\Index\Collection\AbstractCollection
+     * @return $this
      */
     public function addFilterByIds($ids)
     {
@@ -186,7 +182,7 @@ abstract class AbstractCollection
      * Set customer id, that will be used in 'whereCondition'
      *
      * @param int $id
-     * @return \Magento\Reports\Model\Resource\Product\Index\Collection\AbstractCollection
+     * @return $this
      */
     public function setCustomerId($id)
     {
@@ -198,7 +194,7 @@ abstract class AbstractCollection
      * Add order by "added at"
      *
      * @param string $dir
-     * @return \Magento\Reports\Model\Resource\Product\Index\Collection\AbstractCollection
+     * @return $this
      */
     public function setAddedAtOrder($dir = self::SORT_ORDER_DESC)
     {
@@ -212,7 +208,7 @@ abstract class AbstractCollection
      * Add exclude Product Ids
      *
      * @param int|array $productIds
-     * @return \Magento\Reports\Model\Resource\Product\Index\Collection\AbstractCollection
+     * @return $this
      */
     public function excludeProductIds($productIds)
     {

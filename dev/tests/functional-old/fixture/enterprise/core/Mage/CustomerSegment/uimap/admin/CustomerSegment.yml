@@ -15,7 +15,7 @@ manage_customer_segments:
     click_xpath: //ul[@id='nav']//a[contains(@href, 'customersegment/')]
     title: Customer Segments / Customers / Magento Admin
     uimap:
-        form: &searchCustomerSegmentGrid
+        form:
             fieldsets:
                 -
                     customer_segment_grid:
@@ -43,13 +43,13 @@ manage_customer_segments:
 
 # Add New Customer Segment page
 new_customer_segment:
-    mca: customersegment/new/
+    mca: customersegment/index/new/
     title: New Segment / Customer Segments / Customers / Magento Admin
     uimap:
-        form: &newCustomerSegmentForm
+        form: &new_customer_segment-form
             tabs:
                 -
-                    general_properties: &customerSegmentProperties
+                    general_properties:
                         xpath: //a[@id='magento_customersegment_segment_tabs_general_section']
                         fieldsets:
                             -
@@ -73,13 +73,10 @@ new_customer_segment:
 
 # Edit Customer Segment page
 edit_customer_segment:
-    mca: customersegment/edit/id/%id%/
+    mca: customersegment/index/edit/id/%id%/
     title: %elementTitle% / Customer Segments / Customers / Magento Admin
     uimap:
-        form: &editCustomerSegmentForm
-            tabs:
-                -
-                    general_properties: *customerSegmentProperties
+        form: *new_customer_segment-form
         buttons:
             back: //button[@id='back']
             reset: //button[@id='reset'

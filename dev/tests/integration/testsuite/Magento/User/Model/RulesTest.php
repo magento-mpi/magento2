@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model;
 
 /**
@@ -23,8 +22,9 @@ class RulesTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\User\Model\Rules');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\User\Model\Rules'
+        );
     }
 
     /**
@@ -32,12 +32,19 @@ class RulesTest extends \PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        $this->_model->setRoleType('G')
-            ->setResourceId('Magento_Adminhtml::all')
-            ->setPrivileges("")
-            ->setAssertId(0)
-            ->setRoleId(1)
-            ->setPermission('allow');
+        $this->_model->setRoleType(
+            'G'
+        )->setResourceId(
+            'Magento_Adminhtml::all'
+        )->setPrivileges(
+            ""
+        )->setAssertId(
+            0
+        )->setRoleId(
+            1
+        )->setPermission(
+            'allow'
+        );
 
         $crud = new \Magento\TestFramework\Entity($this->_model, array('permission' => 'deny'));
         $crud->testCrud();
@@ -49,8 +56,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     public function testInitialUserPermissions()
     {
         $adapter = $this->_model->getResource()->getReadConnection();
-        $ruleSelect = $adapter->select()
-            ->from($this->_model->getResource()->getMainTable());
+        $ruleSelect = $adapter->select()->from($this->_model->getResource()->getMainTable());
 
         $rules = $ruleSelect->query()->fetchAll();
         $this->assertEquals(1, count($rules));
@@ -66,14 +72,11 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     public function testSetAllowForAllResources()
     {
         $adapter = $this->_model->getResource()->getReadConnection();
-        $ruleSelect = $adapter->select()
-            ->from($this->_model->getResource()->getMainTable());
+        $ruleSelect = $adapter->select()->from($this->_model->getResource()->getMainTable());
 
         $resources = array('Magento_Adminhtml::all');
 
-        $this->_model->setRoleId(1)
-            ->setResources($resources)
-            ->saveRel();
+        $this->_model->setRoleId(1)->setResources($resources)->saveRel();
 
         $rules = $ruleSelect->query()->fetchAll();
         $this->assertEquals(1, count($rules));
@@ -82,4 +85,3 @@ class RulesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('allow', $rules[0]['permission']);
     }
 }
-

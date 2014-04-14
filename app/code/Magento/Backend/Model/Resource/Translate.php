@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Resource;
 
 /**
  * Backend translate resource model
  */
-class Translate extends \Magento\Core\Model\Resource\Translate
+class Translate extends \Magento\Translation\Model\Resource\Translate
 {
     /**
      * Get current store id
@@ -23,6 +22,6 @@ class Translate extends \Magento\Core\Model\Resource\Translate
      */
     protected function _getStoreId()
     {
-        return \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+        return \Magento\Store\Model\Store::DEFAULT_STORE_ID;
     }
 }

@@ -16,14 +16,17 @@
  */
 namespace Magento\Sitemap\Model\Source\Product\Image;
 
-class IncludeImage implements \Magento\Core\Model\Option\ArrayInterface
+class IncludeImage implements \Magento\Option\ArrayInterface
 {
     /**#@+
      * Add Images into Sitemap possible values
      */
     const INCLUDE_NONE = 'none';
+
     const INCLUDE_BASE = 'base';
-    const INCLUDE_ALL  = 'all';
+
+    const INCLUDE_ALL = 'all';
+
     /**#@-*/
 
     /**
@@ -36,7 +39,7 @@ class IncludeImage implements \Magento\Core\Model\Option\ArrayInterface
         return array(
             self::INCLUDE_NONE => __('None'),
             self::INCLUDE_BASE => __('Base Only'),
-            self::INCLUDE_ALL  => __('All'),
+            self::INCLUDE_ALL => __('All')
         );
     }
 }

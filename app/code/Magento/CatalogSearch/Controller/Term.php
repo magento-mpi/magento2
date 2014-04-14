@@ -7,30 +7,33 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\CatalogSearch\Controller;
 
+use Magento\App\Action\Action;
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
+use Magento\App\ResponseInterface;
 
-class Term extends \Magento\App\Action\Action
+class Term extends Action
 {
     /**
      * Dispatch request
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
-        if (!$this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('catalog/seo/search_terms')) {
+        if (!$this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')->getValue('catalog/seo/search_terms', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             $this->_redirect('noroute');
             $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
         }
         return parent::dispatch($request);
     }
 
+    /**
+     * @return void
+     */
     public function popularAction()
     {
         $this->_view->loadLayout();

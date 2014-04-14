@@ -21,9 +21,7 @@ namespace Magento\Backend\Block\System\Config\Form;
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Field
-    extends \Magento\Backend\Block\Template
-    implements \Magento\Data\Form\Element\Renderer\RendererInterface
+class Field extends \Magento\Backend\Block\Template implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Retrieve element HTML markup
@@ -51,8 +49,11 @@ class Field
             $element->setDisabled(true);
         }
 
-        $html = '<td class="label"><label for="' . $element->getHtmlId() . '">'
-            . $element->getLabel() . '</label></td>';
+        $html = '<td class="label"><label for="' .
+            $element->getHtmlId() .
+            '">' .
+            $element->getLabel() .
+            '</label></td>';
         $html .= $this->_renderValue($element);
 
         if ($isCheckboxRequired) {
@@ -99,14 +100,20 @@ class Field
     {
         $htmlId = $element->getHtmlId();
         $namePrefix = preg_replace('#\[value\](\[\])?$#', '', $element->getName());
-        $checkedHtml = ($element->getInherit() == 1) ? 'checked="checked"' : '';
+        $checkedHtml = $element->getInherit() == 1 ? 'checked="checked"' : '';
 
         $html = '<td class="use-default">';
-        $html .= '<input id="' . $htmlId . '_inherit" name="' . $namePrefix . '[inherit]" type="checkbox" value="1"'
-            . ' class="checkbox config-inherit" ' . $checkedHtml
-            . ' onclick="toggleValueElements(this, Element.previous(this.parentNode))" /> ';
-        $html .= '<label for="' . $htmlId . '_inherit" class="inherit">' . $this->_getInheritCheckboxLabel($element)
-            . '</label>';
+        $html .= '<input id="' .
+            $htmlId .
+            '_inherit" name="' .
+            $namePrefix .
+            '[inherit]" type="checkbox" value="1"' .
+            ' class="checkbox config-inherit" ' .
+            $checkedHtml .
+            ' onclick="toggleValueElements(this, Element.previous(this.parentNode))" /> ';
+        $html .= '<label for="' . $htmlId . '_inherit" class="inherit">' . $this->_getInheritCheckboxLabel(
+            $element
+        ) . '</label>';
         $html .= '</td>';
 
         return $html;
@@ -133,7 +140,7 @@ class Field
     {
         $checkboxLabel = __('Use Default');
         if ($element->getCanUseWebsiteValue()) {
-            $checkboxLabel =  __('Use Website');
+            $checkboxLabel = __('Use Website');
         }
         return $checkboxLabel;
     }
@@ -147,7 +154,7 @@ class Field
     protected function _renderScopeLabel(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = '<td class="scope-label">';
-        if ($element->getScope() && false == $this->_app->isSingleStoreMode()) {
+        if ($element->getScope() && false == $this->_storeManager->isSingleStoreMode()) {
             $html .= $element->getScopeLabel();
         }
         $html .= '</td>';

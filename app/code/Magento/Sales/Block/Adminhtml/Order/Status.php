@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order;
 
 /**
  * Adminhtml sales order's status management block
@@ -15,23 +16,26 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order;
-
 class Status extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Class constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
         $this->_controller = 'adminhtml_order_status';
         $this->_headerText = __('Order Statuses');
         $this->_addButtonLabel = __('Create New Status');
-        $this->_addButton('assign', array(
-            'label'     => __('Assign Status to State'),
-            'onclick'   => 'setLocation(\'' . $this->getAssignUrl() .'\')',
-            'class'     => 'add',
-        ));
+        $this->_addButton(
+            'assign',
+            array(
+                'label' => __('Assign Status to State'),
+                'onclick' => 'setLocation(\'' . $this->getAssignUrl() . '\')',
+                'class' => 'add'
+            )
+        );
         parent::_construct();
     }
 

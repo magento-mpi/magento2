@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model;
 
 class View extends \Magento\App\View
 {
     /**
-     * @var \Magento\Core\Model\Layout\Filter\Acl
+     * @var Layout\Filter\Acl
      */
     protected $_aclFilter;
 
@@ -21,9 +20,9 @@ class View extends \Magento\App\View
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\Config\ScopeInterface $configScope
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Translate $translator
+     * @param \Magento\Translate\InlineInterface $translateInline
      * @param \Magento\App\ActionFlag $actionFlag
-     * @param \Magento\Core\Model\Layout\Filter\Acl $aclFilter
+     * @param Layout\Filter\Acl $aclFilter
      */
     public function __construct(
         \Magento\View\LayoutInterface $layout,
@@ -31,14 +30,13 @@ class View extends \Magento\App\View
         \Magento\App\ResponseInterface $response,
         \Magento\Config\ScopeInterface $configScope,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Translate $translator,
+        \Magento\Translate\InlineInterface $translateInline,
         \Magento\App\ActionFlag $actionFlag,
-        \Magento\Core\Model\Layout\Filter\Acl $aclFilter
+        Layout\Filter\Acl $aclFilter
     ) {
         $this->_aclFilter = $aclFilter;
-        parent::__construct($layout, $request, $response, $configScope, $eventManager, $translator, $actionFlag);
+        parent::__construct($layout, $request, $response, $configScope, $eventManager, $translateInline, $actionFlag);
     }
-
 
     /**
      * {@inheritdoc}
@@ -55,4 +53,13 @@ class View extends \Magento\App\View
         return $this;
     }
 
-} 
+    /**
+     * Returns is layout loaded
+     *
+     * @return bool
+     */
+    public function isLayoutLoaded()
+    {
+        return $this->_isLayoutLoaded;
+    }
+}

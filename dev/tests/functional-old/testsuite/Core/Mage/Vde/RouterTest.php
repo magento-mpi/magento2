@@ -82,7 +82,8 @@ class Core_Mage_Vde_RouterTest extends Mage_Selenium_TestCase
      */
     public function cmsRouterTest()
     {
-        $this->frontend('about_us');
+        $this->frontend();
+        $this->clickControl('link', 'about_us');
         $this->assertTrue($this->vdeHelper()->isVdeRouter($this->url()));
     }
 }

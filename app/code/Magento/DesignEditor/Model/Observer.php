@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model;
+
+use Magento\Event\Observer as EventObserver;
 
 /**
  * Observer for design editor module
  */
-namespace Magento\DesignEditor\Model;
-
 class Observer
 {
     /**
@@ -29,21 +30,20 @@ class Observer
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\DesignEditor\Helper\Data $helper
      */
-    public function __construct(
-        \Magento\ObjectManager $objectManager,
-        \Magento\DesignEditor\Helper\Data $helper
-    ) {
+    public function __construct(\Magento\ObjectManager $objectManager, \Magento\DesignEditor\Helper\Data $helper)
+    {
         $this->_objectManager = $objectManager;
-        $this->_helper        = $helper;
+        $this->_helper = $helper;
     }
 
     /**
      * Remove non-VDE JavaScript assets in design mode
      * Applicable in combination with enabled 'vde_design_mode' flag for 'head' block
      *
-     * @param \Magento\Event\Observer $event
+     * @param EventObserver $event
+     * @return void
      */
-    public function clearJs(\Magento\Event\Observer $event)
+    public function clearJs(EventObserver $event)
     {
         /** @var $layout \Magento\View\LayoutInterface */
         $layout = $event->getEvent()->getLayout();
@@ -75,7 +75,8 @@ class Observer
     /**
      * Save quick styles
      *
-     * @param \Magento\Event\Observer $event
+     * @param EventObserver $event
+     * @return void
      */
     public function saveQuickStyles($event)
     {
@@ -92,8 +93,10 @@ class Observer
                 'Magento\DesignEditor\Model\Theme\Customization\File\QuickStyleCss'
             );
             /** @var $singleFile \Magento\Theme\Model\Theme\SingleFile */
-            $singleFile = $this->_objectManager->create('Magento\Theme\Model\Theme\SingleFile',
-                array('fileService' => $cssService));
+            $singleFile = $this->_objectManager->create(
+                'Magento\Theme\Model\Theme\SingleFile',
+                array('fileService' => $cssService)
+            );
             $singleFile->update($theme, $content);
         }
     }
@@ -101,7 +104,8 @@ class Observer
     /**
      * Save time stamp of last change
      *
-     * @param \Magento\Event\Observer $event
+     * @param EventObserver $event
+     * @return void
      */
     public function saveChangeTime($event)
     {
@@ -114,20 +118,5 @@ class Observer
             $change->setThemeId($theme->getId())->setChangeTime(null);
             $change->save();
         }
-    }
-
-    /**
-     * Determine if the vde specific translation class should be used.
-     *
-     * @param  \Magento\Event\Observer $observer
-     * @return \Magento\DesignEditor\Model\Observer
-     */
-    public function initializeTranslation(\Magento\Event\Observer $observer)
-    {
-        if ($this->_helper->isVdeRequest()) {
-            // Request is for vde.  Override the translation class.
-            $observer->getResult()->setInlineType('Magento\DesignEditor\Model\Translate\InlineVde');
-        }
-        return $this;
     }
 }

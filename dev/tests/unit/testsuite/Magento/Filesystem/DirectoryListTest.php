@@ -8,6 +8,7 @@
 namespace Magento\Filesystem;
 
 use Magento\Filesystem;
+use Magento\App\Filesystem as AppFilesystem;
 
 class DirectoryListTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,6 +31,16 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \Magento\Filesystem\FilesystemException
+     */
+    public function testAddDefinedDirectory()
+    {
+        $directories = array(AppFilesystem::PUB_LIB_DIR => array('path' => ''));
+        $directoryList = new DirectoryList(__DIR__, $directories);
+        $directoryList->addDirectory(AppFilesystem::PUB_LIB_DIR, array('path' => ''));
+    }
+
+    /**
      * Data provider for testAddDirectoryGetConfig
      */
     public function providerConfig()
@@ -37,11 +48,9 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
         return array(
             'pub_lib' => array(
                 __DIR__,
+                array('custom1_' . AppFilesystem::PUB_LIB_DIR => array('path' => 'pub/lib_basic')),
                 array(
-                    Filesystem::PUB_LIB => array('path' => 'pub/lib_basic')
-                ),
-                array(
-                    Filesystem::PUB_LIB => array(
+                    'custom2_' . AppFilesystem::PUB_LIB_DIR => array(
                         'path' => 'pub/lib',
                         'uri' => 'pub/lib',
                         'permissions' => 0777,
@@ -50,18 +59,17 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
                     )
                 ),
                 array(
-                    Filesystem::PUB_LIB => array(
+                    'custom2_' . AppFilesystem::PUB_LIB_DIR => array(
                         'path' => str_replace('\\', '/', __DIR__ . '/pub/lib'),
                         'uri' => 'pub/lib',
                         'permissions' => 0777,
                         'read_only' => true,
                         'allow_create_dirs' => true
                     )
-                ),
+                )
             )
         );
     }
-
 
     /**
      * Test for creating DirectoryList with invalid URI
@@ -84,15 +92,15 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
     public function invalidUriDataProvider()
     {
         return array(
-            array(Filesystem::MEDIA, '/'),
-            array(Filesystem::MEDIA, '//'),
-            array(Filesystem::MEDIA, '/value'),
-            array(Filesystem::MEDIA, 'value/'),
-            array(Filesystem::MEDIA, '/value/'),
-            array(Filesystem::MEDIA, 'one\\two'),
-            array(Filesystem::MEDIA, '../dir'),
-            array(Filesystem::MEDIA, './dir'),
-            array(Filesystem::MEDIA, 'one/../two'),
+            array(AppFilesystem::MEDIA_DIR, '/'),
+            array(AppFilesystem::MEDIA_DIR, '//'),
+            array(AppFilesystem::MEDIA_DIR, '/value'),
+            array(AppFilesystem::MEDIA_DIR, 'value/'),
+            array(AppFilesystem::MEDIA_DIR, '/value/'),
+            array(AppFilesystem::MEDIA_DIR, 'one\\two'),
+            array(AppFilesystem::MEDIA_DIR, '../dir'),
+            array(AppFilesystem::MEDIA_DIR, './dir'),
+            array(AppFilesystem::MEDIA_DIR, 'one/../two')
         );
     }
 
@@ -101,15 +109,18 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUri()
     {
-        $dir = new DirectoryList(__DIR__, array(
-            Filesystem::PUB   => array('uri' => ''),
-            Filesystem::MEDIA => array('uri' => 'test'),
-            'custom' => array('uri' => 'test2')
-        ));
+        $dir = new DirectoryList(
+            __DIR__,
+            array(
+                AppFilesystem::PUB_DIR => array('uri' => ''),
+                AppFilesystem::MEDIA_DIR => array('uri' => 'test'),
+                'custom' => array('uri' => 'test2')
+            )
+        );
 
         $this->assertEquals('test2', $dir->getConfig('custom')['uri']);
-        $this->assertEquals('', $dir->getConfig(Filesystem::PUB)['uri']);
-        $this->assertEquals('test', $dir->getConfig(Filesystem::MEDIA)['uri']);
+        $this->assertEquals('', $dir->getConfig(AppFilesystem::PUB_DIR)['uri']);
+        $this->assertEquals('test', $dir->getConfig(AppFilesystem::MEDIA_DIR)['uri']);
     }
 
     /**
@@ -119,30 +130,25 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
     {
         $newRoot = __DIR__ . '/root';
         $newMedia = __DIR__ . '/media';
-        $dir = new DirectoryList(__DIR__, array(
-            Filesystem::ROOT => array('path' => $newRoot),
-            Filesystem::MEDIA => array('path' => $newMedia),
-            'custom' => array('path' => 'test2')
-        ));
+        $dir = new DirectoryList(
+            __DIR__,
+            array(
+                AppFilesystem::ROOT_DIR => array('path' => $newRoot),
+                AppFilesystem::MEDIA_DIR => array('path' => $newMedia),
+                'custom' => array('path' => 'test2')
+            )
+        );
 
         $this->assertEquals('test2', $dir->getDir('custom'));
-        $this->assertEquals(str_replace('\\', '/', $newRoot), $dir->getConfig(Filesystem::ROOT)['path']);
-        $this->assertEquals(str_replace('\\', '/', $newMedia), $dir->getConfig(Filesystem::MEDIA)['path']);
+        $this->assertEquals(str_replace('\\', '/', $newRoot), $dir->getConfig(AppFilesystem::ROOT_DIR)['path']);
+        $this->assertEquals(str_replace('\\', '/', $newMedia), $dir->getConfig(AppFilesystem::MEDIA_DIR)['path']);
     }
 
-    /**
-     * Test that dirs are not affected by custom URIs
-     */
-    public function testGetDirIndependentOfUris()
+    public function testIsConfigured()
     {
-        $fixtureUris = array(
-            Filesystem::PUB   => array('uri' => ''),
-            Filesystem::MEDIA => array('uri' => 'test')
-        );
-        $default = new DirectoryList(__DIR__);
-        $custom = new DirectoryList(__DIR__, $fixtureUris);
-        foreach (array_keys($fixtureUris) as $dirCode ) {
-            $this->assertEquals($default->getConfig($dirCode)['path'], $custom->getConfig($dirCode)['path']);
-        }
+        $dir = new DirectoryList(__DIR__, array(AppFilesystem::PUB_DIR => array('uri' => '')));
+
+        $this->assertTrue($dir->isConfigured(AppFilesystem::PUB_DIR));
+        $this->assertFalse($dir->isConfigured(AppFilesystem::MEDIA_DIR));
     }
 }

@@ -9,14 +9,15 @@
  */
 namespace Magento\Module;
 
-use Magento\Filesystem;
+use Magento\App\Filesystem;
+use Magento\Filesystem\Directory\ReadInterface;
 
 class Dir
 {
     /**
      * Modules root directory
      *
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var ReadInterface
      */
     protected $_modulesDirectory;
 
@@ -26,12 +27,12 @@ class Dir
     protected $_string;
 
     /**
-     * @param \Magento\Filesystem $filesystem
+     * @param Filesystem $filesystem
      * @param \Magento\Stdlib\String $string
      */
     public function __construct(Filesystem $filesystem, \Magento\Stdlib\String $string)
     {
-        $this->_modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES);
+        $this->_modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES_DIR);
         $this->_string = $string;
     }
 
@@ -48,7 +49,7 @@ class Dir
         $path = $this->_string->upperCaseWords($moduleName, '_', '/');
         if ($type) {
             if (!in_array($type, array('etc', 'sql', 'data', 'i18n', 'view'))) {
-                throw new \InvalidArgumentException("Directory type '$type' is not recognized.");
+                throw new \InvalidArgumentException("Directory type '{$type}' is not recognized.");
             }
             $path .= '/' . $type;
         }

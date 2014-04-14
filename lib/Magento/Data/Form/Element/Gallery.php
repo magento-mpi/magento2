@@ -17,24 +17,29 @@
  */
 namespace Magento\Data\Form\Element;
 
-class Gallery extends \Magento\Data\Form\Element\AbstractElement
+use Magento\Escaper;
+
+class Gallery extends AbstractElement
 {
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param Factory $factoryElement
+     * @param CollectionFactory $factoryCollection
+     * @param Escaper $escaper
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        Factory $factoryElement,
+        CollectionFactory $factoryCollection,
+        Escaper $escaper,
         $data = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('file');
     }
 
+    /**
+     * @return string
+     */
     public function getElementHtml()
     {
         $gallery = $this->getValue();
@@ -42,17 +47,15 @@ class Gallery extends \Magento\Data\Form\Element\AbstractElement
         $html = '<table id="gallery" class="gallery" border="0" cellspacing="3" cellpadding="0">';
         $html .= '<thead id="gallery_thead" class="gallery"><tr class="gallery"><td class="gallery" valign="middle" align="center">Big Image</td><td class="gallery" valign="middle" align="center">Thumbnail</td><td class="gallery" valign="middle" align="center">Small Thumb</td><td class="gallery" valign="middle" align="center">Sort Order</td><td class="gallery" valign="middle" align="center">Delete</td></tr></thead>';
         $widgetButton = $this->getForm()->getParent()->getLayout();
-        $buttonHtml = $widgetButton->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(
-                    array(
-					    'label'     => 'Add New Image',
-                        'onclick'   => 'addNewImg()',
-                        'class'     => 'add'))
-                ->toHtml();
+        $buttonHtml = $widgetButton->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array('label' => 'Add New Image', 'onclick' => 'addNewImg()', 'class' => 'add')
+        )->toHtml();
 
         $html .= '<tfoot class="gallery">';
         $html .= '<tr class="gallery">';
-        $html .= '<td class="gallery" valign="middle" align="left" colspan="5">'.$buttonHtml.'</td>';
+        $html .= '<td class="gallery" valign="middle" align="left" colspan="5">' . $buttonHtml . '</td>';
         $html .= '</tr>';
         $html .= '</tfoot>';
 
@@ -66,16 +69,73 @@ class Gallery extends \Magento\Data\Form\Element\AbstractElement
                 foreach ($this->getValue()->getAttributeBackend()->getImageTypes() as $type) {
                     $url = $image->setType($type)->getSourceUrl();
                     $html .= '<td class="gallery" align="center" style="vertical-align:bottom;">';
-                    $html .= '<a href="'.$url.'" target="_blank" onclick="imagePreview(\''.$this->getHtmlId().'_image_'.$type.'_'.$image->getValueId().'\');return false;" ' . $this->_getUiId('image-' . $image->getValueId()) . '>
-                    <img id="'.$this->getHtmlId().'_image_'.$type.'_'.$image->getValueId().'" src="'.$url.'" alt="'.$image->getValue().'" height="25" align="absmiddle" class="small-image-preview"></a><br/>';
-                    $html .= '<input type="file" name="'.$this->getName().'_'.$type.'['.$image->getValueId().']" size="1"' . $this->_getUiId('file') . ' ></td>';
+                    $html .= '<a href="' .
+                        $url .
+                        '" target="_blank" onclick="imagePreview(\'' .
+                        $this->getHtmlId() .
+                        '_image_' .
+                        $type .
+                        '_' .
+                        $image->getValueId() .
+                        '\');return false;" ' .
+                        $this->_getUiId(
+                            'image-' . $image->getValueId()
+                        ) .
+                        '>
+                    <img id="' .
+                        $this->getHtmlId() .
+                        '_image_' .
+                        $type .
+                        '_' .
+                        $image->getValueId() .
+                        '" src="' .
+                        $url .
+                        '" alt="' .
+                        $image->getValue() .
+                        '" height="25" align="absmiddle" class="small-image-preview"></a><br/>';
+                    $html .= '<input type="file" name="' .
+                        $this->getName() .
+                        '_' .
+                        $type .
+                        '[' .
+                        $image->getValueId() .
+                        ']" size="1"' .
+                        $this->_getUiId(
+                            'file'
+                        ) . ' ></td>';
                 }
-                $html .= '<td class="gallery" align="center" style="vertical-align:bottom;"><input type="input" name="'.parent::getName().'[position]['.$image->getValueId().']" value="'.$image->getPosition().'" id="'.$this->getHtmlId().'_position_'.$image->getValueId().'" size="3" ' . $this->_getUiId('position-' . $image->getValueId()) . '/></td>';
-                $html .= '<td class="gallery" align="center" style="vertical-align:bottom;"><input type="checkbox" name="'.parent::getName().'[delete]['.$image->getValueId().']" value="'.$image->getValueId().'" id="'.$this->getHtmlId().'_delete_'.$image->getValueId().'" ' . $this->_getUiId('delete-button-' . $image->getValueId()) . '/></td>';
+                $html .= '<td class="gallery" align="center" style="vertical-align:bottom;"><input type="input" name="' .
+                    parent::getName() .
+                    '[position][' .
+                    $image->getValueId() .
+                    ']" value="' .
+                    $image->getPosition() .
+                    '" id="' .
+                    $this->getHtmlId() .
+                    '_position_' .
+                    $image->getValueId() .
+                    '" size="3" ' .
+                    $this->_getUiId(
+                        'position-' . $image->getValueId()
+                    ) . '/></td>';
+                $html .= '<td class="gallery" align="center" style="vertical-align:bottom;"><input type="checkbox" name="' .
+                    parent::getName() .
+                    '[delete][' .
+                    $image->getValueId() .
+                    ']" value="' .
+                    $image->getValueId() .
+                    '" id="' .
+                    $this->getHtmlId() .
+                    '_delete_' .
+                    $image->getValueId() .
+                    '" ' .
+                    $this->_getUiId(
+                        'delete-button-' . $image->getValueId()
+                    ) . '/></td>';
                 $html .= '</tr>';
             }
         }
-        if ($i==0) {
+        if ($i == 0) {
             $html .= '<script type="text/javascript">document.getElementById("gallery_thead").style.visibility="hidden";</script>';
         }
 
@@ -153,15 +213,21 @@ class Gallery extends \Magento\Data\Form\Element\AbstractElement
         </script>
 
 EndSCRIPT;
-        $html.= $this->getAfterElementHtml();
+        $html .= $this->getAfterElementHtml();
         return $html;
     }
 
+    /**
+     * @return mixed
+     */
     public function getName()
     {
         return $this->getData('name');
     }
 
+    /**
+     * @return mixed
+     */
     public function getParentName()
     {
         return parent::getName();

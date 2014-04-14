@@ -20,7 +20,7 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
 {
     public function setUpBeforeTests()
     {
-        $this->markTestIncomplete('MAGE-1987');
+        $this->markTestIncomplete('BUG: Total data without incl/excl tax');
         $taxRule = $this->loadDataSet('Tax', 'new_tax_rule_required',
             array('tax_rate' => 'US-CA-*-Rate 1,US-NY-*-Rate 1'));
         $this->loginAdminUser();
@@ -41,13 +41,6 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
         $this->loginAdminUser();
     }
 
-    protected function tearDownAfterTest()
-    {
-        $this->frontend();
-        $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->logoutCustomer();
-    }
-
     protected function tearDownAfterTestClass()
     {
         $this->loginAdminUser();
@@ -66,11 +59,9 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
         $user = $this->loadDataSet('Customers', 'customer_account_register');
         $searchData = $this->loadDataSet('Customers', 'search_customer', array('email' => $user['email']));
         $address = $this->loadDataSet('PriceReview', 'customer_account_address_for_prices_validation');
-        $category = $this->loadDataSet('Category', 'sub_category_required');
-        $categoryPath = $category['parent_category'] . '/' . $category['name'];
         $products = array();
         //Steps
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($user);
         $this->assertMessagePresent('success', 'success_registration');
         $this->logoutCustomer();
@@ -82,22 +73,15 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
         $this->saveForm('save_customer');
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        $this->navigate('manage_categories', false);
-        $this->categoryHelper()->checkCategoriesPage();
-        $this->categoryHelper()->createCategory($category);
-        $this->assertMessagePresent('success', 'success_saved_category');
-        $this->categoryHelper()->checkCategoriesPage();
-
         $this->navigate('manage_products');
         for ($i = 1; $i <= 3; $i++) {
-            $simple = $this->loadDataSet('PriceReview', 'simple_product_for_prices_validation_' . $i,
-                array('general_categories' => $categoryPath));
+            $simple = $this->loadDataSet('PriceReview', 'simple_product_for_prices_validation_' . $i);
             $this->productHelper()->createProduct($simple);
             $this->assertMessagePresent('success', 'success_saved_product');
             $products['sku'][$i] = $simple['general_sku'];
             $products['name'][$i] = $simple['general_name'];
         }
-        return array($user['email'], $products, $category['name']);
+        return array($user['email'], $products);
     }
 
     /**
@@ -159,9 +143,7 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
         }
         //Create Order and validate prices during order creation
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($order);
-        //Define Order Id to work with
-        $orderId = $this->orderHelper()->defineOrderId();
+        $orderId = $this->orderHelper()->createOrder($order);
         //Verify prices on order review page after order creation
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftOrd, $totAftOrd);
         //Verify prices before creating Invoice

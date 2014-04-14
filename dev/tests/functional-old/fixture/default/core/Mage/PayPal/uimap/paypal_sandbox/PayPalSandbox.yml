@@ -25,10 +25,9 @@ paypal_sandbox:
                             button_agree: //input[@value='I Agree']
                             button_continue: //input[@id='continue']
                             button_logout: //a[text()='Log Out']
-                -
-                    paypal_sandbox_credit_card_info:
-                        fields:
-                            
+                #-
+                    #paypal_sandbox_credit_card_info:
+                        #fields:
         links:
             developer_login: //a[text()='PayPal Sandbox']
             have_paypal_account: //input[@value='Have a PayPal account?']

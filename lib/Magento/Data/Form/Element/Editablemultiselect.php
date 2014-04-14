@@ -49,13 +49,13 @@ class Editablemultiselect extends \Magento\Data\Form\Element\Multiselect
 
         $selectConfigJson = \Zend_Json::encode($selectConfig);
         $jsObjectName = $this->getJsObjectName();
-        $html .= '<script type="text/javascript">'
-            . '/*<![CDATA[*/'
-            . '(function($) { $().ready(function () { '
-            . "var {$jsObjectName} = new {$elementJsClass}({$selectConfigJson}); "
-            . "{$jsObjectName}.init(); }); })(jQuery);"
-            . '/*]]>*/'
-            . '</script>';
+        $html .= '<script type="text/javascript">' .
+            '/*<![CDATA[*/' .
+            '(function($) { $().ready(function () { ' .
+            "var {$jsObjectName} = new {$elementJsClass}({$selectConfigJson}); " .
+            "{$jsObjectName}.init(); }); })(jQuery);" .
+            '/*]]>*/' .
+            '</script>';
         return $html;
     }
 
@@ -63,7 +63,7 @@ class Editablemultiselect extends \Magento\Data\Form\Element\Multiselect
      * Retrieve HTML markup of given select option
      *
      * @param array $option
-     * @param array $selected
+     * @param string[] $selected
      * @return string
      */
     protected function _optionToHtml($option, $selected)

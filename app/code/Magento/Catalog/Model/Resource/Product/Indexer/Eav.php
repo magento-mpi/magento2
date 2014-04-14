@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Product\Indexer;
 
 /**
  * Catalog Product Eav Indexer Resource Model
@@ -16,9 +16,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product\Indexer;
-
-class Eav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexer
+class Eav extends AbstractIndexer
 {
     /**
      * EAV Indexers by type
@@ -61,6 +59,7 @@ class Eav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexe
     /**
      * Define main index table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -75,9 +74,9 @@ class Eav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexe
     public function getIndexers()
     {
         if (is_null($this->_types)) {
-            $this->_types   = array(
-                'source'    => $this->_eavSourceFactory->create(),
-                'decimal'   => $this->_eavDecimalFactory->create(),
+            $this->_types = array(
+                'source' => $this->_eavSourceFactory->create(),
+                'decimal' => $this->_eavDecimalFactory->create()
             );
         }
 
@@ -89,13 +88,13 @@ class Eav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexe
      *
      * @param string $type
      * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getIndexer($type)
     {
         $indexers = $this->getIndexers();
         if (!isset($indexers[$type])) {
-            throw new \Magento\Core\Exception(__('We found an unknown EAV indexer type "%1".', $type));
+            throw new \Magento\Model\Exception(__('We found an unknown EAV indexer type "%1".', $type));
         }
         return $indexers[$type];
     }
@@ -106,7 +105,7 @@ class Eav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexe
      * when product was saved and assigned categories was changed.
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav
+     * @return $this
      */
     public function catalogProductSave(\Magento\Index\Model\Event $event)
     {
@@ -132,7 +131,7 @@ class Eav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexe
      * Process Product Delete
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav
+     * @return $this
      */
     public function catalogProductDelete(\Magento\Index\Model\Event $event)
     {
@@ -153,7 +152,7 @@ class Eav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexe
      * Process Product Mass Update
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav
+     * @return $this
      */
     public function catalogProductMassAction(\Magento\Index\Model\Event $event)
     {
@@ -174,7 +173,7 @@ class Eav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexe
      * Process Catalog Eav Attribute Save
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav
+     * @return $this
      */
     public function catalogEavAttributeSave(\Magento\Index\Model\Event $event)
     {
@@ -193,7 +192,7 @@ class Eav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexe
     /**
      * Rebuild all index data
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Eav
+     * @return $this
      */
     public function reindexAll()
     {
@@ -215,7 +214,7 @@ class Eav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexe
     public function getIdxTable($table = null)
     {
         if ($this->useIdxTable()) {
-           return $this->getTable('catalog_product_index_eav_idx');
+            return $this->getTable('catalog_product_index_eav_idx');
         }
         return $this->getTable('catalog_product_index_eav_tmp');
     }

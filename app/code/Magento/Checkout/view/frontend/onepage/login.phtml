@@ -20,6 +20,7 @@
     <div class="title"><strong><?php echo __('Login') ?></strong></div>
     <div class="content">
         <form class="form login" id="login-form" action="<?php echo $this->getPostAction() ?>" method="post">
+            <?php echo $this->getBlockHtml('formkey'); ?>
             <fieldset class="fieldset login" data-hasrequired="<?php echo __('* Required Fields') ?>">
                 <p class="field note"><?php echo __('Already registered?') ?> <?php echo __('Please log in below:') ?></p>
                 <div class="field email required">
@@ -35,7 +36,7 @@
                     </div>
                 </div>
                 <?php echo $this->getChildHtml('form_additional_info'); ?>
-                <div class="actions">
+                <div class="actions toolbar">
                     <input name="context" type="hidden" value="checkout" />
                     <div class="primary">
                         <button type="submit" class="action login" data-action="checkout-method-login"><span><?php echo __('Login') ?></span></button>
@@ -106,7 +107,7 @@
             <input type="hidden" name="checkout_method" id="login:register" value="register" checked="checked" />
         <?php endif; ?>
         <div class="actions">
-            <span class="please-wait load indicator" style="display:none;">
+            <span class="please-wait load indicator" style="display: none;" data-text="<?php echo __('Loading next step...') ?>">
                 <span><?php echo __('Loading next step...') ?></span>
             </span>
             <?php if ($this->isAllowedGuestCheckout()): ?>
@@ -114,9 +115,8 @@
             <?php elseif ($this->helper('Magento\Checkout\Helper\Data')->isCustomerMustBeLogged()): ?>
                 <button id="onepage-guest-register-button" type="button" class="action register" data-checkout='{"isGuestCheckoutAllowed":false, "registrationUrl":"<?php echo $this->helper('Magento\Checkout\Helper\Url')->getRegistrationUrl();?>"}'><span><?php echo __('Register') ?></span></button>
             <?php else: ?>
-                <form action="<?php echo $this->getUrl('persistent/index/saveMethod'); ?>">
-                    <button id="onepage-guest-register-button" type="submit" class="action register"><span><?php echo __('Register') ?></span></button>
-                </form>
+                <input type="hidden" name="checkout_method" id="login:register" value="register" checked="checked" />
+                <button id="onepage-guest-register-button" type="button" class="action register" data-checkout='{"isGuestCheckoutAllowed":true}'><span><?php echo __('Register') ?></span></button>
             <?php endif; ?>
         </div>
     </div>

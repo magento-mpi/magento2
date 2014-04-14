@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\Widget\Grid\Column;
 
 class MultistoreTest extends \PHPUnit_Framework_TestCase
@@ -25,7 +24,7 @@ class MultistoreTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
 
         $arguments = array(
             'storeManager' => $this->_storeManagerMock,
@@ -33,8 +32,10 @@ class MultistoreTest extends \PHPUnit_Framework_TestCase
         );
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Grid\Column\Multistore',
-            $arguments);
+        $this->_model = $objectManagerHelper->getObject(
+            'Magento\Backend\Block\Widget\Grid\Column\Multistore',
+            $arguments
+        );
     }
 
     protected function tearDown()

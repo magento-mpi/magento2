@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\ObjectManager;
 
 interface ConfigCache
@@ -23,6 +22,7 @@ interface ConfigCache
      *
      * @param array $config
      * @param string $key
+     * @return void
      */
     public function save(array $config, $key);
 }

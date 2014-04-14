@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Adminhtml\Category;
 
 /**
  * Category container block
@@ -15,8 +16,6 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Category;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -24,6 +23,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     protected $_template = 'catalog/category/edit.phtml';
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_objectId = 'entity_id';
@@ -31,5 +33,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $this->_controller = 'adminhtml_category';
         $this->_mode = 'edit';
         parent::_construct();
+        $this->_removeButton('back');
+        $this->_removeButton('reset');
+        $this->_removeButton('save');
     }
 }

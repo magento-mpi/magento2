@@ -7,17 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block;
 
 /**
  * Front end helper block to add links
  */
-namespace Magento\GiftRegistry\Block;
-
 class Link extends \Magento\View\Element\Html\Link\Current
 {
     /**
-     * @var \Magento\GiftRegistry\Helper\Data
-     *
      * @var \Magento\GiftRegistry\Helper\Data
      */
     protected $_giftHelper = null;
@@ -39,7 +36,7 @@ class Link extends \Magento\View\Element\Html\Link\Current
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _toHtml()
     {

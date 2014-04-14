@@ -15,6 +15,9 @@ namespace Magento\Install\Block;
 
 class Begin extends \Magento\Install\Block\AbstractBlock
 {
+    /**
+     * @var string
+     */
     protected $_template = 'begin.phtml';
 
     /**
@@ -42,7 +45,6 @@ class Begin extends \Magento\Install\Block\AbstractBlock
     ) {
         $this->_eulaFile = $eulaFile;
         parent::__construct($context, $installer, $installWizard, $session, $data);
-
     }
 
     /**
@@ -62,8 +64,10 @@ class Begin extends \Magento\Install\Block\AbstractBlock
      */
     public function getLicenseHtml()
     {
-        return ($this->_eulaFile)
-            ? $this->_filesystem->getDirectoryRead(\Magento\Filesystem::ROOT)->readFile($this->_eulaFile)
-            : '';
+        return $this->_eulaFile ? $this->_filesystem->getDirectoryRead(
+            \Magento\App\Filesystem::ROOT_DIR
+        )->readFile(
+            $this->_eulaFile
+        ) : '';
     }
 }

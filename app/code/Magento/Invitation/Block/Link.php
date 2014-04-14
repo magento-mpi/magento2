@@ -22,10 +22,12 @@ class Link extends \Magento\View\Element\Html\Link
      * @var \Magento\Invitation\Helper\Data
      */
     protected $_invitationConfiguration;
+
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
+
     /**
      * @var \Magento\Invitation\Helper\Data
      */
@@ -33,22 +35,23 @@ class Link extends \Magento\View\Element\Html\Link
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Invitation\Helper\Data $invitationHelper
      * @param \Magento\Invitation\Model\Config $invitationConfiguration
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Invitation\Helper\Data $invitationHelper,
         \Magento\Invitation\Model\Config $invitationConfiguration,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         $this->_invitationConfiguration = $invitationConfiguration;
         $this->_invitationHelper = $invitationHelper;
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -60,12 +63,14 @@ class Link extends \Magento\View\Element\Html\Link
     }
 
     /**
-     * @inheritdoc
+     * Render block HTML
+     *
+     * @return string
      */
     protected function _toHtml()
     {
         if ($this->_invitationConfiguration->isEnabledOnFront()
-            && $this->_customerSession->isLoggedIn()
+            && $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)
         ) {
             return parent::_toHtml();
         }

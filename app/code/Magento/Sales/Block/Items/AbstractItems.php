@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Items;
 
 /**
  * Abstract block for display sales (quote/order/invoice etc.) items
@@ -15,29 +16,12 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Items;
-
 class AbstractItems extends \Magento\View\Element\Template
 {
     /**
      * Block alias fallback
      */
     const DEFAULT_TYPE = 'default';
-
-    /**
-     * Initialize default item renderer
-     */
-    protected function _prepareLayout()
-    {
-        if (!$this->getChildBlock(self::DEFAULT_TYPE)) {
-            $this->addChild(
-                self::DEFAULT_TYPE,
-                'Magento\Checkout\Block\Cart\Item\Renderer',
-                array('template' => 'cart/item/default.phtml')
-            );
-        }
-        return parent::_prepareLayout();
-    }
 
     /**
      * Retrieve item renderer block
@@ -48,10 +32,18 @@ class AbstractItems extends \Magento\View\Element\Template
      */
     public function getItemRenderer($type)
     {
-        $renderer = $this->getChildBlock($type) ?: $this->getChildBlock(self::DEFAULT_TYPE);
-        if (!$renderer instanceof \Magento\View\Element\BlockInterface) {
-            throw new \RuntimeException('Renderer for type "' . $type . '" does not exist.');
+        /** @var \Magento\View\Element\RendererList $rendererList */
+        $rendererList = $this->getRendererListName() ? $this->getLayout()->getBlock(
+            $this->getRendererListName()
+        ) : $this->getChildBlock(
+            'renderer.list'
+        );
+        if (!$rendererList) {
+            throw new \RuntimeException('Renderer list for block "' . $this->getNameInLayout() . '" is not defined');
         }
+        $overriddenTemplates = $this->getOverriddenTemplates() ?: array();
+        $template = isset($overriddenTemplates[$type]) ? $overriddenTemplates[$type] : $this->getRendererTemplate();
+        $renderer = $rendererList->getRenderer($type, self::DEFAULT_TYPE, $template);
         $renderer->setRenderedBlock($this);
         return $renderer;
     }
@@ -60,7 +52,7 @@ class AbstractItems extends \Magento\View\Element\Template
      * Prepare item before output
      *
      * @param \Magento\View\Element\AbstractBlock $renderer
-     * @return \Magento\Sales\Block\Items\AbstractItems
+     * @return $this
      */
     protected function _prepareItem(\Magento\View\Element\AbstractBlock $renderer)
     {
@@ -95,8 +87,7 @@ class AbstractItems extends \Magento\View\Element\Template
     {
         $type = $this->_getItemType($item);
 
-        $block = $this->getItemRenderer($type)
-            ->setItem($item);
+        $block = $this->getItemRenderer($type)->setItem($item);
         $this->_prepareItem($block);
         return $block->toHtml();
     }

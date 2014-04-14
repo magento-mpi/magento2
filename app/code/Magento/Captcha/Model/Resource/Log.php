@@ -7,17 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Captcha\Model\Resource;
 
 /**
  * Log Attempts resource
  *
- * @category    Magento
- * @package     Magento_Captcha
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Captcha\Model\Resource;
-
-class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Log extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Type Remote Address
@@ -32,7 +29,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Core Date
      *
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_coreDate;
 
@@ -43,12 +40,12 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\Date $coreDate,        
+        \Magento\Stdlib\DateTime\DateTime $coreDate,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
         $this->_coreDate = $coreDate;
@@ -59,6 +56,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Define main table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -69,7 +67,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save or Update count Attempts
      *
      * @param string|null $login
-     * @return \Magento\Captcha\Model\Resource\Log
+     * @return $this
      */
     public function logAttempt($login)
     {
@@ -77,8 +75,10 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getMainTable(),
                 array(
-                     'type' => self::TYPE_LOGIN, 'value' => $login, 'count' => 1,
-                     'updated_at' => $this->_coreDate->gmtDate()
+                    'type' => self::TYPE_LOGIN,
+                    'value' => $login,
+                    'count' => 1,
+                    'updated_at' => $this->_coreDate->gmtDate()
                 ),
                 array('count' => new \Zend_Db_Expr('count+1'), 'updated_at')
             );
@@ -88,8 +88,10 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getMainTable(),
                 array(
-                     'type' => self::TYPE_REMOTE_ADDRESS, 'value' => $ip, 'count' => 1,
-                     'updated_at' => $this->_coreDate->gmtDate()
+                    'type' => self::TYPE_REMOTE_ADDRESS,
+                    'value' => $ip,
+                    'count' => 1,
+                    'updated_at' => $this->_coreDate->gmtDate()
                 ),
                 array('count' => new \Zend_Db_Expr('count+1'), 'updated_at')
             );
@@ -101,7 +103,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Delete User attempts by login
      *
      * @param string $login
-     * @return \Magento\Captcha\Model\Resource\Log
+     * @return $this
      */
     public function deleteUserAttempts($login)
     {
@@ -114,7 +116,8 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
         $ip = $this->_remoteAddress->getRemoteAddress();
         if ($ip != null) {
             $this->_getWriteAdapter()->delete(
-                $this->getMainTable(), array('type = ?' => self::TYPE_REMOTE_ADDRESS, 'value = ?' => $ip)
+                $this->getMainTable(),
+                array('type = ?' => self::TYPE_REMOTE_ADDRESS, 'value = ?' => $ip)
             );
         }
 
@@ -133,8 +136,16 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
             return 0;
         }
         $read = $this->_getReadAdapter();
-        $select = $read->select()->from($this->getMainTable(), 'count')->where('type = ?', self::TYPE_REMOTE_ADDRESS)
-            ->where('value = ?', $ip);
+        $select = $read->select()->from(
+            $this->getMainTable(),
+            'count'
+        )->where(
+            'type = ?',
+            self::TYPE_REMOTE_ADDRESS
+        )->where(
+            'value = ?',
+            $ip
+        );
         return $read->fetchOne($select);
     }
 
@@ -150,8 +161,16 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
             return 0;
         }
         $read = $this->_getReadAdapter();
-        $select = $read->select()->from($this->getMainTable(), 'count')->where('type = ?', self::TYPE_LOGIN)
-            ->where('value = ?', $login);
+        $select = $read->select()->from(
+            $this->getMainTable(),
+            'count'
+        )->where(
+            'type = ?',
+            self::TYPE_LOGIN
+        )->where(
+            'value = ?',
+            $login
+        );
         return $read->fetchOne($select);
     }
 
@@ -164,7 +183,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
-            array('updated_at < ?' => $this->_coreDate->gmtDate(null, time() - 60*30))
+            array('updated_at < ?' => $this->_coreDate->gmtDate(null, time() - 60 * 30))
         );
     }
 }

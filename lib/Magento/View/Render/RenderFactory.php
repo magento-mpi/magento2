@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Render;
 
 use Magento\ObjectManager;
@@ -17,11 +16,15 @@ use Magento\View\RenderInterface;
 class RenderFactory
 {
     /**
+     * Object manager
+     *
      * @var ObjectManager
      */
     protected $objectManager;
 
     /**
+     * Constructor
+     *
      * @param ObjectManager $objectManager
      */
     public function __construct(ObjectManager $objectManager)
@@ -30,8 +33,10 @@ class RenderFactory
     }
 
     /**
+     * Get method
+     *
      * @param string $type
-     * @return mixed
+     * @return RenderInterface
      * @throws \InvalidArgumentException
      */
     public function get($type)
@@ -39,7 +44,7 @@ class RenderFactory
         $className = 'Magento\\View\\Render\\' . ucfirst($type);
         $model = $this->objectManager->get($className);
 
-        if (($model instanceof RenderInterface) === false) {
+        if ($model instanceof RenderInterface === false) {
             throw new \InvalidArgumentException(
                 sprintf('Type "%s" is not instance on Magento\View\RenderInterface', $type)
             );

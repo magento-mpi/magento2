@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Address;
 
 /**
  * Flat sales order payment collection
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Address;
-
 class Collection extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
 {
     /**
@@ -25,18 +23,19 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
      *
      * @var string
      */
-    protected $_eventPrefix    = 'sales_order_address_collection';
+    protected $_eventPrefix = 'sales_order_address_collection';
 
     /**
      * Event object
      *
      * @var string
      */
-    protected $_eventObject    = 'order_address_collection';
+    protected $_eventObject = 'order_address_collection';
 
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -46,15 +45,13 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     /**
      * Redeclare after load method for dispatch event
      *
-     * @return \Magento\Sales\Model\Resource\Order\Address\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
         parent::_afterLoad();
 
-        $this->_eventManager->dispatch($this->_eventPrefix . '_load_after', array(
-            $this->_eventObject => $this
-        ));
+        $this->_eventManager->dispatch($this->_eventPrefix . '_load_after', array($this->_eventObject => $this));
 
         return $this;
     }

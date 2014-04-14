@@ -7,31 +7,30 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy;
 
 /**
  * Cms Hierarchy Copy Form Container Block
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy;
-
 class Manage extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_systemStore = $systemStore;
@@ -66,46 +65,35 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'data' => array(
-                'id'        => 'manage_form',
-                'method'    => 'post',
-            ))
-        );
+        $form = $this->_formFactory->create(array('data' => array('id' => 'manage_form', 'method' => 'post')));
 
         $currentWebsite = $this->getRequest()->getParam('website');
-        $currentStore   = $this->getRequest()->getParam('store');
+        $currentStore = $this->getRequest()->getParam('store');
         $excludeScopes = array();
         if ($currentStore) {
             $storeId = $this->_storeManager->getStore($currentStore)->getId();
-            $excludeScopes = array(
-                \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE . $storeId
-            );
+            $excludeScopes = array(\Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE . $storeId);
         } elseif ($currentWebsite) {
             $websiteId = $this->_storeManager->getWebsite($currentWebsite)->getId();
-            $excludeScopes = array(
-                \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_WEBSITE . $websiteId
-            );
+            $excludeScopes = array(\Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_WEBSITE . $websiteId);
         }
         $allStoreViews = $currentStore || $currentWebsite;
-        $form->addField('scopes', 'multiselect', array(
-            'name'      => 'scopes[]',
-            'class'     => 'manage-select',
-            'title'     => __('Manage Hierarchies'),
-            'values'    => $this->_prepareOptions($allStoreViews, $excludeScopes)
-        ));
+        $form->addField(
+            'scopes',
+            'multiselect',
+            array(
+                'name' => 'scopes[]',
+                'class' => 'manage-select',
+                'title' => __('Manage Hierarchies'),
+                'values' => $this->_prepareOptions($allStoreViews, $excludeScopes)
+            )
+        );
 
         if ($currentWebsite) {
-            $form->addField('website', 'hidden', array(
-                'name'   => 'website',
-                'value' => $currentWebsite,
-            ));
+            $form->addField('website', 'hidden', array('name' => 'website', 'value' => $currentWebsite));
         }
         if ($currentStore) {
-            $form->addField('store', 'hidden', array(
-                'name'   => 'store',
-                'value' => $currentStore,
-            ));
+            $form->addField('store', 'hidden', array('name' => 'store', 'value' => $currentStore));
         }
 
         $form->setUseContainer(true);
@@ -117,7 +105,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare options for Manage select
      *
-     * @param boolean $all
+     * @param bool $all
      * @param string $excludeScopes
      * @return array
      */
@@ -134,14 +122,14 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
                 $options[] = array(
                     'label' => $website['label'],
                     'value' => $website['value'],
-                    'style' => 'border-bottom: none; font-weight: bold;',
+                    'style' => 'border-bottom: none; font-weight: bold;'
                 );
                 foreach ($website['children'] as $store) {
                     if (isset($store['children']) && !in_array($store['value'], $excludeScopes)) {
                         $storeViewOptions = array();
                         foreach ($store['children'] as $storeView) {
-                            $storeView['value'] = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE
-                                . $storeView['value'];
+                            $storeView['value'] = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE .
+                                $storeView['value'];
                             if (!in_array($storeView['value'], $excludeScopes)) {
                                 $storeView['label'] = str_repeat($nonEscapableNbspChar, 4) . $storeView['label'];
                                 $storeViewOptions[] = $storeView;
@@ -155,13 +143,10 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
                         }
                     }
                 }
-            } elseif ($website['value'] == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
-                $website['value'] = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE
-                                    . \Magento\Core\Model\Store::DEFAULT_STORE_ID;
-                $options[] = array(
-                    'label' => $website['label'],
-                    'value' => $website['value'],
-                );
+            } elseif ($website['value'] == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
+                $website['value'] = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE .
+                    \Magento\Store\Model\Store::DEFAULT_STORE_ID;
+                $options[] = array('label' => $website['label'], 'value' => $website['value']);
             }
         }
         return $options;

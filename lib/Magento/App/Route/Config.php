@@ -9,7 +9,7 @@
  */
 namespace Magento\App\Route;
 
-class Config implements \Magento\App\Route\ConfigInterface
+class Config implements ConfigInterface
 {
     /**
      * @var \Magento\App\Route\Config\Reader
@@ -74,7 +74,7 @@ class Config implements \Magento\App\Route\ConfigInterface
         if (isset($this->_routes[$scope])) {
             return $this->_routes[$scope];
         }
-        $cacheId = $scope . '::'  . $this->_cacheId;
+        $cacheId = $scope . '::' . $this->_cacheId;
         $cachedRoutes = unserialize($this->_cache->load($cacheId));
         if (is_array($cachedRoutes)) {
             $this->_routes[$scope] = $cachedRoutes;
@@ -120,7 +120,7 @@ class Config implements \Magento\App\Route\ConfigInterface
     /**
      * @param string $frontName
      * @param string $scope
-     * @return array
+     * @return string[]
      */
     public function getModulesByFrontName($frontName, $scope = null)
     {

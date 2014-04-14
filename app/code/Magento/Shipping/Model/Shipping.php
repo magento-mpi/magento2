@@ -7,22 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Shipping\Model;
 
-class Shipping
-{
-    /**
-     * Store address
-     */
-    const XML_PATH_STORE_ADDRESS1     = 'shipping/origin/street_line1';
-    const XML_PATH_STORE_ADDRESS2     = 'shipping/origin/street_line2';
-    const XML_PATH_STORE_CITY         = 'shipping/origin/city';
-    const XML_PATH_STORE_REGION_ID    = 'shipping/origin/region_id';
-    const XML_PATH_STORE_ZIP          = 'shipping/origin/postcode';
-    const XML_PATH_STORE_COUNTRY_ID   = 'shipping/origin/country_id';
+use Magento\Sales\Model\Order\Shipment;
+use Magento\Sales\Model\Quote\Address\RateCollectorInterface;
 
+class Shipping implements RateCollectorInterface
+{
     /**
      * Default shipping orig for requests
      *
@@ -47,12 +38,12 @@ class Shipping
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -62,7 +53,7 @@ class Shipping
     protected $_shippingConfig;
 
     /**
-     * @var \Magento\Shipping\Model\Carrier\Factory
+     * @var \Magento\Shipping\Model\CarrierFactory
      */
     protected $_carrierFactory;
 
@@ -72,9 +63,9 @@ class Shipping
     protected $_rateResultFactory;
 
     /**
-     * @var \Magento\Shipping\Model\Rate\RequestFactory
+     * @var \Magento\Sales\Model\Quote\Address\RateRequestFactory
      */
-    protected $_rateRequestFactory;
+    protected $_shipmentRequestFactory;
 
     /**
      * @var \Magento\Directory\Model\RegionFactory
@@ -87,31 +78,31 @@ class Shipping
     protected $mathDivision;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Shipping\Model\Config $shippingConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
-     * @param \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory
+     * @param \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Math\Division $mathDivision
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Shipping\Model\Config $shippingConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
-        \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory,
+        \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Math\Division $mathDivision
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_shippingConfig = $shippingConfig;
         $this->_storeManager = $storeManager;
         $this->_carrierFactory = $carrierFactory;
         $this->_rateResultFactory = $rateResultFactory;
-        $this->_rateRequestFactory = $rateRequestFactory;
+        $this->_shipmentRequestFactory = $shipmentRequestFactory;
         $this->_regionFactory = $regionFactory;
         $this->mathDivision = $mathDivision;
     }
@@ -133,7 +124,7 @@ class Shipping
      * Set shipping orig data
      *
      * @param array $data
-     * @return null
+     * @return void
      */
     public function setOrigData($data)
     {
@@ -143,7 +134,7 @@ class Shipping
     /**
      * Reset cached result
      *
-     * @return \Magento\Shipping\Model\Shipping
+     * @return $this
      */
     public function resetResult()
     {
@@ -164,24 +155,48 @@ class Shipping
     /**
      * Retrieve all methods for supplied shipping data
      *
+     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
+     * @return $this
      * @todo make it ordered
-     * @param \Magento\Shipping\Model\Rate\Request $request
-     * @return \Magento\Shipping\Model\Shipping
      */
-    public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
+    public function collectRates(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {
         $storeId = $request->getStoreId();
         if (!$request->getOrig()) {
-            $request
-                ->setCountryId($this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_COUNTRY_ID, $request->getStore()))
-                ->setRegionId($this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_REGION_ID, $request->getStore()))
-                ->setCity($this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_CITY, $request->getStore()))
-                ->setPostcode($this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ZIP, $request->getStore()));
+            $request->setCountryId(
+                $this->_scopeConfig->getValue(
+                    Shipment::XML_PATH_STORE_COUNTRY_ID,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $request->getStore()
+                )
+            )->setRegionId(
+                $this->_scopeConfig->getValue(
+                    Shipment::XML_PATH_STORE_REGION_ID,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $request->getStore()
+                )
+            )->setCity(
+                $this->_scopeConfig->getValue(
+                    Shipment::XML_PATH_STORE_CITY,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $request->getStore()
+                )
+            )->setPostcode(
+                $this->_scopeConfig->getValue(
+                    Shipment::XML_PATH_STORE_ZIP,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $request->getStore()
+                )
+            );
         }
 
         $limitCarrier = $request->getLimitCarrier();
         if (!$limitCarrier) {
-            $carriers = $this->_coreStoreConfig->getConfig('carriers', $storeId);
+            $carriers = $this->_scopeConfig->getValue(
+                'carriers',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
 
             foreach ($carriers as $carrierCode => $carrierConfig) {
                 $this->collectCarrierRates($carrierCode, $request);
@@ -191,7 +206,11 @@ class Shipping
                 $limitCarrier = array($limitCarrier);
             }
             foreach ($limitCarrier as $carrierCode) {
-                $carrierConfig = $this->_coreStoreConfig->getConfig('carriers/' . $carrierCode, $storeId);
+                $carrierConfig = $this->_scopeConfig->getValue(
+                    'carriers/' . $carrierCode,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $storeId
+                );
                 if (!$carrierConfig) {
                     continue;
                 }
@@ -205,28 +224,28 @@ class Shipping
     /**
      * Collect rates of given carrier
      *
-     * @param string                           $carrierCode
-     * @param \Magento\Shipping\Model\Rate\Request $request
-     * @return \Magento\Shipping\Model\Shipping
+     * @param string $carrierCode
+     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
+     * @return $this
      */
     public function collectCarrierRates($carrierCode, $request)
     {
         /* @var $carrier \Magento\Shipping\Model\Carrier\AbstractCarrier */
-        $carrier = $this->getCarrierByCode($carrierCode, $request->getStoreId());
+        $carrier = $this->_carrierFactory->createIfActive($carrierCode, $request->getStoreId());
         if (!$carrier) {
             return $this;
         }
         $carrier->setActiveFlag($this->_availabilityConfigField);
         $result = $carrier->checkAvailableShipCountries($request);
-        if (false !== $result && !($result instanceof \Magento\Shipping\Model\Rate\Result\Error)) {
+        if (false !== $result && !$result instanceof \Magento\Sales\Model\Quote\Address\RateResult\Error) {
             $result = $carrier->proccessAdditionalValidation($request);
         }
         /*
-        * Result will be false if the admin set not to show the shipping module
-        * if the delivery country is not within specific countries
-        */
-        if (false !== $result){
-            if (!$result instanceof \Magento\Shipping\Model\Rate\Result\Error) {
+         * Result will be false if the admin set not to show the shipping module
+         * if the delivery country is not within specific countries
+         */
+        if (false !== $result) {
+            if (!$result instanceof \Magento\Sales\Model\Quote\Address\RateResult\Error) {
                 if ($carrier->getConfigData('shipment_requesttype')) {
                     $packages = $this->composePackagesForCarrier($carrier, $request);
                     if (!empty($packages)) {
@@ -282,62 +301,62 @@ class Shipping
 
     /**
      * Compose Packages For Carrier.
-     * Devides order into items and items into parts if it's necessary
+     * Divides order into items and items into parts if it's necessary
      *
      * @param \Magento\Shipping\Model\Carrier\AbstractCarrier $carrier
-     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
      * @return array [int, float]
      */
     public function composePackagesForCarrier($carrier, $request)
     {
-        $allItems   = $request->getAllItems();
-        $fullItems  = array();
+        $allItems = $request->getAllItems();
+        $fullItems = array();
 
-        $maxWeight  = (float) $carrier->getConfigData('max_package_weight');
+        $maxWeight = (double)$carrier->getConfigData('max_package_weight');
 
         foreach ($allItems as $item) {
-            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
-                && $item->getProduct()->getShipmentType()
+            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE &&
+                $item->getProduct()->getShipmentType()
             ) {
                 continue;
             }
 
-            $qty            = $item->getQty();
-            $changeQty      = true;
-            $checkWeight    = true;
-            $decimalItems   = array();
+            $qty = $item->getQty();
+            $changeQty = true;
+            $checkWeight = true;
+            $decimalItems = array();
 
             if ($item->getParentItem()) {
                 if (!$item->getParentItem()->getProduct()->getShipmentType()) {
                     continue;
                 }
-                $qty = $item->getIsQtyDecimal()
-                    ? $item->getParentItem()->getQty()
-                    : $item->getParentItem()->getQty() * $item->getQty();
+                $qty = $item->getIsQtyDecimal() ? $item->getParentItem()->getQty() : $item->getParentItem()->getQty() *
+                    $item->getQty();
             }
 
             $itemWeight = $item->getWeight();
-            if ($item->getIsQtyDecimal() && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
+            if ($item->getIsQtyDecimal() && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
+            ) {
                 $stockItem = $item->getProduct()->getStockItem();
                 if ($stockItem->getIsDecimalDivided()) {
-                   if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements()) {
+                    if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements()) {
                         $itemWeight = $itemWeight * $stockItem->getQtyIncrements();
-                        $qty        = round(($item->getWeight() / $itemWeight) * $qty);
-                        $changeQty  = false;
-                   } else {
-                       $itemWeight = $itemWeight * $item->getQty();
-                       if ($itemWeight > $maxWeight) {
-                           $qtyItem = floor($itemWeight / $maxWeight);
-                           $decimalItems[] = array('weight' => $maxWeight, 'qty' => $qtyItem);
-                           $weightItem = $this->mathDivision->getExactDivision($itemWeight, $maxWeight);
-                           if ($weightItem) {
-                               $decimalItems[] = array('weight' => $weightItem, 'qty' => 1);
-                           }
-                           $checkWeight = false;
-                       } else {
-                           $itemWeight = $itemWeight * $item->getQty();
-                       }
-                   }
+                        $qty = round($item->getWeight() / $itemWeight * $qty);
+                        $changeQty = false;
+                    } else {
+                        $itemWeight = $itemWeight * $item->getQty();
+                        if ($itemWeight > $maxWeight) {
+                            $qtyItem = floor($itemWeight / $maxWeight);
+                            $decimalItems[] = array('weight' => $maxWeight, 'qty' => $qtyItem);
+                            $weightItem = $this->mathDivision->getExactDivision($itemWeight, $maxWeight);
+                            if ($weightItem) {
+                                $decimalItems[] = array('weight' => $weightItem, 'qty' => 1);
+                            }
+                            $checkWeight = false;
+                        } else {
+                            $itemWeight = $itemWeight * $item->getQty();
+                        }
+                    }
                 } else {
                     $itemWeight = $itemWeight * $item->getQty();
                 }
@@ -347,15 +366,18 @@ class Shipping
                 return array();
             }
 
-            if ($changeQty && !$item->getParentItem() && $item->getIsQtyDecimal()
-                && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
+            if ($changeQty &&
+                !$item->getParentItem() &&
+                $item->getIsQtyDecimal() &&
+                $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
             ) {
                 $qty = 1;
             }
 
             if (!empty($decimalItems)) {
                 foreach ($decimalItems as $decimalItem) {
-                    $fullItems = array_merge($fullItems,
+                    $fullItems = array_merge(
+                        $fullItems,
                         array_fill(0, $decimalItem['qty'] * $qty, $decimalItem['weight'])
                     );
                 }
@@ -370,7 +392,7 @@ class Shipping
 
     /**
      * Make pieces
-     * Compose packeges list based on given items, so that each package is as heavy as possible
+     * Compose packages list based on given items, so that each package is as heavy as possible
      *
      * @param array $items
      * @param float $maxWeight
@@ -392,22 +414,22 @@ class Shipping
                 unset($items[$key]);
                 $sumWeight = $weight;
                 foreach ($items as $key => $weight) {
-                    if (($sumWeight + $weight) < $maxWeight) {
+                    if ($sumWeight + $weight < $maxWeight) {
                         unset($items[$key]);
                         $sumWeight += $weight;
-                    } elseif (($sumWeight + $weight) > $maxWeight) {
-                        $pieces[] = (string)(float)$sumWeight;
+                    } elseif ($sumWeight + $weight > $maxWeight) {
+                        $pieces[] = (string)(double)$sumWeight;
                         break;
                     } else {
                         unset($items[$key]);
-                        $pieces[] = (string)(float)($sumWeight + $weight);
+                        $pieces[] = (string)(double)($sumWeight + $weight);
                         $sumWeight = 0;
                         break;
                     }
                 }
             }
             if ($sumWeight > 0) {
-                $pieces[] = (string)(float)$sumWeight;
+                $pieces[] = (string)(double)$sumWeight;
             }
             $pieces = array_count_values($pieces);
         }
@@ -420,12 +442,12 @@ class Shipping
      *
      * @param \Magento\Object $address
      * @param null|bool|array $limitCarrier
-     * @return \Magento\Shipping\Model\Shipping
+     * @return $this
      */
     public function collectRatesByAddress(\Magento\Object $address, $limitCarrier = null)
     {
-        /** @var $request \Magento\Shipping\Model\Rate\Request */
-        $request = $this->_rateRequestFactory->create();
+        /** @var $request \Magento\Sales\Model\Quote\Address\RateRequest */
+        $request = $this->_shipmentRequestFactory->create();
         $request->setAllItems($address->getAllItems());
         $request->setDestCountryId($address->getCountryId());
         $request->setDestRegionId($address->getRegionId());
@@ -450,29 +472,11 @@ class Shipping
      * Set part of carrier xml config path
      *
      * @param string $code
-     * @return \Magento\Shipping\Model\Shipping
+     * @return $this
      */
     public function setCarrierAvailabilityConfigField($code = 'active')
     {
         $this->_availabilityConfigField = $code;
         return $this;
-    }
-
-    /**
-     * Get carrier by its code
-     *
-     * @param string $carrierCode
-     * @param null|int $storeId
-     * @return bool|\Magento\Core\Model\AbstractModel
-     */
-    public function getCarrierByCode($carrierCode, $storeId = null)
-    {
-        $isActive = $this->_coreStoreConfig
-            ->getConfigFlag('carriers/' . $carrierCode . '/' . $this->_availabilityConfigField, $storeId);
-        if (!$isActive) {
-            return false;
-        }
-
-        return $this->_carrierFactory->create($carrierCode, $storeId);
     }
 }

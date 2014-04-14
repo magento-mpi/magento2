@@ -7,24 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reports\Block\Adminhtml\Product;
 
 /**
  * Backend Report Sold Product Content Block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Product;
-
 class Sold extends \Magento\Backend\Block\Widget\Grid\Container
 {
+    /**
+     * @var string
+     */
     protected $_blockGroup = 'Magento_Reports';
 
     /**
      * Initialize container block settings
      *
+     * @return void
      */
     protected function _construct()
     {

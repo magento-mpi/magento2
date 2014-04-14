@@ -32,7 +32,6 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
      */
     public function createWrapping()
     {
-        $this->markTestIncomplete('BUG: Wrapping assigned to all websites instead of one');
         //Data
         $giftWrapping = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         $search = $this->loadDataSet('GiftWrapping', 'search_gift_wrapping',
@@ -90,30 +89,37 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function massactionEditWrapping()
+    public function massActionEditWrapping()
     {
         //Data
-        $giftWrapping = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
-        $search = $this->loadDataSet('GiftWrapping', 'search_gift_wrapping',
-            array('filter_gift_wrapping_design' => $giftWrapping['gift_wrapping_design']));
-        $this->addParameter('itemCount', '1');
+        $wrapping = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
+        $enabledSearch = $this->loadDataSet('GiftWrapping', 'search_gift_wrapping', array(
+            'filter_gift_wrapping_design' => $wrapping['gift_wrapping_design'],
+            'filter_status' => 'Enabled'
+        ));
+        $disabledSearch = $this->loadDataSet('GiftWrapping', 'search_gift_wrapping', array(
+            'filter_gift_wrapping_design' => $wrapping['gift_wrapping_design'],
+            'filter_status' => 'Disabled'
+        ));
         //Steps
-        $this->giftWrappingHelper()->createGiftWrapping($giftWrapping);
+        $this->giftWrappingHelper()->createGiftWrapping($wrapping);
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
-        $this->searchAndChoose($search, 'gift_wrapping_grid');
+        $this->searchAndChoose($enabledSearch, 'gift_wrapping_grid');
         $this->fillDropdown('massaction_action', 'Change status');
         $this->fillDropdown('massaction_status', 'Disabled');
         $this->saveForm('submit');
         //Verification
+        $this->addParameter('itemCount', '1');
         $this->assertMessagePresent('success', 'success_massaction_update');
         //Steps
-        $this->navigate('manage_gift_wrapping');
-        $this->searchAndChoose($search, 'gift_wrapping_grid');
+        $this->clickButton('reset_filter');
+        $this->searchAndChoose($disabledSearch, 'gift_wrapping_grid');
         $this->fillDropdown('massaction_action', 'Change status');
         $this->fillDropdown('massaction_status', 'Enabled');
         $this->saveForm('submit');
         //Verification
         $this->assertMessagePresent('success', 'success_massaction_update');
+        $this->assertNotNull($this->search($enabledSearch, 'gift_wrapping_grid'));
     }
 
     /**

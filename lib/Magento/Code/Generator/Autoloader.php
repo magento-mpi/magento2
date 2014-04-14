@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Code\Generator;
 
 class Autoloader
@@ -27,6 +26,7 @@ class Autoloader
      * Load specified class name and generate it if necessary
      *
      * @param string $className
+     * @return void
      */
     public function load($className)
     {

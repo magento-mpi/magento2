@@ -55,7 +55,7 @@ google_adwords_enable:
             google_adwords:
                 enable_google_adwords: Yes
                 conversion_id: 123456789
-                conversion_label: Some Label
+                conversion_label: SomeLabel
                 conversion_format: 2
                 conversion_color: FFFFFF
                 conversion_value_type: Constant

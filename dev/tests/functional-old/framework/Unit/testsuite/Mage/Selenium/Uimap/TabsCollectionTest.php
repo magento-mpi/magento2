@@ -3,11 +3,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 class Mage_Selenium_Uimap_TabsCollectionTest extends Unit_PHPUnit_TestCase
 {

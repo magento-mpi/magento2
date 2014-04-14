@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 /**
@@ -37,6 +36,7 @@ class Title extends \Magento\View\Element\Template
      * Set own page title
      *
      * @param string $pageTitle
+     * @return void
      */
     public function setPageTitle($pageTitle)
     {

@@ -83,22 +83,19 @@ class Enterprise_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
         $this->fillFieldset($data, $page);
         $this->clickButton('refresh');
         $gridElement = $this->getControlElement('pageelement', $gridTableElement);
-        $this->assertEquals(3, count($this->getChildElements($gridElement, 'tbody/tr', false)),
-            "Wrong records number in grid $gridTableElement");
+        $this->assertCount(
+            3,
+            $this->getChildElements($gridElement, 'tbody/tr', false),
+            "Wrong records number in $gridTableElement grid"
+        );
     }
 
     public function countGridRowsTestDataProvider()
     {
         return array(
-            array('report_product_sold', 'product_sold_grid', 'count_rows_by_day'),
-            array('report_product_sold', 'product_sold_grid', 'count_rows_by_month'),
-            array('report_product_sold', 'product_sold_grid', 'count_rows_by_year'),
             array('reports_invitations_customers', 'report_invitations_customers_grid', 'count_rows_by_day'),
             array('reports_invitations_customers', 'report_invitations_customers_grid', 'count_rows_by_month'),
             array('reports_invitations_customers', 'report_invitations_customers_grid', 'count_rows_by_year'),
-            array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_day'),
-            array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_month'),
-            array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_year'),
             array('invitations_order_conversion_rate', 'invitations_order_conversion_rate_grid', 'count_rows_by_day'),
             array('invitations_order_conversion_rate', 'invitations_order_conversion_rate_grid', 'count_rows_by_month'),
             array('invitations_order_conversion_rate', 'invitations_order_conversion_rate_grid', 'count_rows_by_year'),
@@ -158,7 +155,7 @@ class Enterprise_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
         //Check Quantity Ordered after  new order created
         $count = $this->getControlCount('pageelement', 'product_sold_grid_line');
         $totalAfter = $this->getElement($lineLocator . "[$count]/*[3]")->text();
-        $this->assertEquals($totalBefore + 1, $totalAfter);
+        $this->assertEquals((int)$totalBefore + 1, $totalAfter);
     }
 
     /**
@@ -210,7 +207,7 @@ class Enterprise_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
         //Check Quantity Ordered after  new order created
         $count = $this->getControlCount('pageelement', 'customer_orders_grid_line');
         $totalAfter = $this->getElement($lineLocator . "[$count]/*[3]")->text();
-        $this->assertEquals($totalBefore + 1, $totalAfter);
+        $this->assertEquals((int)$totalBefore + 1, $totalAfter);
     }
 
     /**
@@ -244,10 +241,10 @@ class Enterprise_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
         $count = $this->getControlCount('pageelement', 'invitations_order_conversion_rate_line');
         $totalBefore = $this->getElement($lineXpath . "[$count]/*[2]")->text();
         //Send Invitation from customer account on frontend with newly created customer on backend
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
-        $this->invitationHelper()->sendInvitationFrontend(1, $messageType = 'success', 'success_send');
+        $this->invitationHelper()->sendInvitationFrontend(1);
         // Steps
         $this->loginAdminUser();
         $this->navigate('invitations_order_conversion_rate');
@@ -256,7 +253,7 @@ class Enterprise_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
         //Check Invitation sent value
         $count = $this->getControlCount('pageelement', 'invitations_order_conversion_rate_line');
         $totalAfter = $this->getElement($lineXpath . "[$count]/*[2]")->text();
-        $this->assertEquals($totalBefore + 1, $totalAfter,
+        $this->assertEquals((int)$totalBefore + 1, $totalAfter,
             'Wrong records number in invitations_order_conversion_rate grid');
     }
 }

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\Module\Setup */
 $installer = $this;
 $installer->startSetup();
 
@@ -23,7 +23,7 @@ if ($tableName) {
         'Magento_Newsletter::admin_newsletter',
         'Magento_Review::pending',
         'Magento_Review::reviews',
-        'Magento_Review::reviews_ratings',
+        'Magento_Review::reviews_ratings'
     );
     $connection->delete($tableName, array('resource_id IN (?)' => $remove));
 }

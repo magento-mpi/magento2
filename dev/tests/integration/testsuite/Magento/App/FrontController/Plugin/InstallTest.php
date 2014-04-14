@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\App\FrontController\Plugin;
+
 class InstallTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
@@ -14,26 +15,34 @@ class InstallTest extends \Magento\TestFramework\TestCase\AbstractController
     protected $_objectManager;
 
     /**
-     * @var \Magento\Core\Model\Resource\Setup
+     * @var \Magento\Module\Setup
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Setup',
-                array('resourceName' => 'default_setup', 'moduleName' => 'Magento_Core')
-            );
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Module\Setup',
+            array('resourceName' => 'default_setup', 'moduleName' => 'Magento_Core')
+        );
     }
 
     public function testApplyAllDataUpdates()
     {
         /*reset versions*/
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Resource\Resource')
-            ->setDbVersion('adminnotification_setup', false);
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Resource\Resource')
-            ->setDataVersion('adminnotification_setup', false);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Module\ResourceInterface'
+        )->setDbVersion(
+            'adminnotification_setup',
+            false
+        );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Module\ResourceInterface'
+        )->setDataVersion(
+            'adminnotification_setup',
+            false
+        );
         $this->_model->deleteTableRow('core_resource', 'code', 'adminnotification_setup');
         $this->_model->getConnection()->dropTable($this->_model->getTable('adminnotification_inbox'));
         $this->_model->getConnection()->dropTable($this->_model->getTable('admin_system_messages'));
@@ -49,8 +58,9 @@ class InstallTest extends \Magento\TestFramework\TestCase\AbstractController
         }
 
         try {
-            $tableData = $this->_model->getConnection()
-                ->describeTable($this->_model->getTable('adminnotification_inbox'));
+            $tableData = $this->_model->getConnection()->describeTable(
+                $this->_model->getTable('adminnotification_inbox')
+            );
             $this->assertNotEmpty($tableData);
         } catch (\Exception $e) {
             $this->fail("Impossible to continue other tests, because database is broken: {$e}");

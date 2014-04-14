@@ -6,10 +6,11 @@
  * @license     {license_link}
  */
 namespace Magento\Backend\Model;
+
 class AuthTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento\Backend\Model\Auth
+     * @var \Magento\Backend\Model\Auth
      */
     protected $_model;
 
@@ -36,9 +37,9 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Backend\Model\Auth(
             $this->_eventManagerMock,
             $this->getMock('\Magento\Backend\Helper\Data', array(), array(), '', false),
-            $this->_authStorageMock = $this->getMock('\Magento\Backend\Model\Auth\StorageInterface'),
+            $this->getMock('\Magento\Backend\Model\Auth\StorageInterface'),
             $this->_credentialStorage,
-            $this->_coreConfigMock = $this->getMock('\Magento\Core\Model\Config', array(), array(), '', false),
+            $this->getMock('\Magento\App\Config\ScopeConfigInterface'),
             $this->_modelFactoryMock
         );
     }
@@ -54,17 +55,14 @@ class AuthTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with('Magento\Backend\Model\Auth\Credential\StorageInterface')
             ->will($this->returnValue($this->_credentialStorage));
-        $exceptionMock = new \Magento\Core\Exception;
+        $exceptionMock = new \Magento\Model\Exception;
         $this->_credentialStorage
             ->expects($this->once())
             ->method('login')
             ->with('username', 'password')
             ->will($this->throwException($exceptionMock));
         $this->_credentialStorage->expects($this->never())->method('getId');
-        $this->_eventManagerMock
-            ->expects($this->once())
-            ->method('dispatch')
-        ->with('backend_auth_user_login_failed');
+        $this->_eventManagerMock->expects($this->once())->method('dispatch')->with('backend_auth_user_login_failed');
         $this->_model->login('username', 'password');
     }
 }

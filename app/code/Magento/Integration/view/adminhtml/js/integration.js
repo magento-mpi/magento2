@@ -56,10 +56,15 @@
                     if (data['_redirect']) {
                         window.location.href = data['_redirect'];
                     } else if (data['integrationId']) {
+                        var integrationName = $('#integration_properties_name').val();
                         window.integration.popup.show($('<span>').attr({
                             'data-row-dialog': 'permissions',
                             'data-row-id': data['integrationId'],
-                            'data-row-name': $('#integration_properties_name').val(),
+                            // We do escaping here instead of the place of actual output because _showPopup()
+                            // actually receives dialog window title from couple of places: from here and from the grid.
+                            // The issue is we always should escape values in the grid, so that value is already
+                            // escaped. To avoid double escaping we do it here instead of the output.
+                            'data-row-name': $('<div>').text(integrationName).html(),
                             'data-row-is-reauthorize': '0',
                             'data-row-is-token-exchange': data['isTokenExchange']
                         }));
@@ -153,16 +158,14 @@
                 // Check to see if the location has changed.
                 try {
                     //Is the success callback invoked
-                    IdentityLogin.isCalledBack = IdentityLogin.win.location.href == IdentityLogin.successCallbackUrl;
-                    if (IdentityLogin.win.closed || IdentityLogin.isCalledBack) {
+                    if (IdentityLogin.win.closed ||
+                        (IdentityLogin.win.location.href == IdentityLogin.successCallbackUrl)) {
                         //Stop the the polling
                         clearInterval(IdentityLogin.checker);
-                        if (IdentityLogin.isCalledBack) {
-                            $('body').trigger('processStart');
-                            //Check for window closed
-                            window.location.reload();
-                            IdentityLogin.jqInfoDialog.dialog('close');
-                        }
+                        $('body').trigger('processStart');
+                        //Check for window closed
+                        window.location.reload();
+                        IdentityLogin.jqInfoDialog.dialog('close');
                     }
                 } catch (e) {
                     //squash. In case Window closed without success callback, clear polling

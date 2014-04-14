@@ -7,11 +7,13 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <job name="magento_giftcardaccount_update_states" instance="Magento\GiftCardAccount\Model\Cron" method="updateStates">
-        <schedule>0 1 * * *</schedule>
-    </job>
-    <job name="magento_giftcardaccount_generage_codes_pool" instance="Magento\GiftCardAccount\Model\Pool" method="applyCodesGeneration">
-        <schedule>30 * * * *</schedule>
-    </job>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Cron/etc/crontab.xsd">
+    <group id="default">
+        <job name="magento_giftcardaccount_update_states" instance="Magento\GiftCardAccount\Model\Cron" method="updateStates">
+            <schedule>0 1 * * *</schedule>
+        </job>
+        <job name="magento_giftcardaccount_generage_codes_pool" instance="Magento\GiftCardAccount\Model\Pool" method="applyCodesGeneration">
+            <schedule>30 * * * *</schedule>
+        </job>
+    </group>
 </config>

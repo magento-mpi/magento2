@@ -7,23 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
 
 /**
  * File uploader form element renderer
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
-
-class Uploader
-    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Recursive
+class Uploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Recursive
 {
     /**
      * Set of templates to render
      *
      * Upper is rendered first and is inserted into next using <?php echo $this->getHtml() ?>
      *
-     * @var array
+     * @var string[]
      */
-    protected $_templates = array(
-        'Magento_DesignEditor::editor/form/renderer/element/input.phtml',
-    );
+    protected $_templates = array('Magento_DesignEditor::editor/form/renderer/element/input.phtml');
 }

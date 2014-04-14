@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Model\Resource\Page\Version;
 
 /**
  * Cms page version collection
@@ -16,14 +16,12 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\VersionsCms\Model\Resource\Page\Version;
-
-class Collection
-    extends \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
+class Collection extends \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
 {
     /**
      * Constructor
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -36,7 +34,7 @@ class Collection
      * Can take parameter array or one level.
      *
      * @param mixed $level
-     * @return \Magento\VersionsCms\Model\Resource\Page\Version\Collection
+     * @return $this
      */
     public function addAccessLevelFilter($level)
     {
@@ -77,14 +75,16 @@ class Collection
     /**
      * Join revision data by version id
      *
-     * @return \Magento\VersionsCms\Model\Resource\Page\Version\Collection
+     * @return $this
      */
     public function joinRevisions()
     {
         if (!$this->getFlag('revisions_joined')) {
             $this->getSelect()->joinLeft(
                 array('rev_table' => $this->getTable('magento_versionscms_page_revision')),
-                'rev_table.version_id = main_table.version_id', '*');
+                'rev_table.version_id = main_table.version_id',
+                '*'
+            );
 
             $this->setFlag('revisions_joined');
         }
@@ -95,7 +95,7 @@ class Collection
      * Add order by version number in specified direction.
      *
      * @param string $dir
-     * @return \Magento\VersionsCms\Model\Resource\Page\Version\Collection
+     * @return $this
      */
     public function addNumberSort($dir = \Magento\DB\Select::SQL_DESC)
     {

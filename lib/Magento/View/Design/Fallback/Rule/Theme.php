@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Fallback\Rule;
 
 use Magento\View\Design\ThemeInterface;
@@ -18,11 +17,15 @@ use Magento\View\Design\ThemeInterface;
 class Theme implements RuleInterface
 {
     /**
+     * Rule
+     *
      * @var RuleInterface
      */
     protected $rule;
 
     /**
+     * Constructors
+     *
      * @param RuleInterface $rule
      */
     public function __construct(RuleInterface $rule)
@@ -39,7 +42,7 @@ class Theme implements RuleInterface
      */
     public function getPatternDirs(array $params)
     {
-        if (!array_key_exists('theme', $params) || !($params['theme'] instanceof ThemeInterface)) {
+        if (!array_key_exists('theme', $params) || !$params['theme'] instanceof ThemeInterface) {
             throw new \InvalidArgumentException(
                 'Parameter "theme" should be specified and should implement the theme interface.'
             );

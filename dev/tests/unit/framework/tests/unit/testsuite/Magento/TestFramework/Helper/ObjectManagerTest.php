@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Helper;
 
 class ObjectManagerTest extends \PHPUnit_Framework_TestCase
@@ -19,15 +18,14 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_blockDependencies = array(
-        'request'         => 'Magento\App\RequestInterface',
-        'layout'          => 'Magento\View\LayoutInterface',
-        'eventManager'    => 'Magento\Event\ManagerInterface',
-        'translator'      => 'Magento\TranslateInterface',
-        'cache'           => 'Magento\App\CacheInterface',
-        'design'          => 'Magento\View\DesignInterface',
-        'session'         => 'Magento\Session\SessionManagerInterface',
-        'storeConfig'     => 'Magento\Core\Model\Store\Config',
-        'frontController' => 'Magento\App\FrontController'
+        'request' => 'Magento\App\RequestInterface',
+        'layout' => 'Magento\View\LayoutInterface',
+        'eventManager' => 'Magento\Event\ManagerInterface',
+        'translator' => 'Magento\TranslateInterface',
+        'cache' => 'Magento\App\CacheInterface',
+        'design' => 'Magento\View\DesignInterface',
+        'session' => 'Magento\Session\SessionManagerInterface',
+        'scopeConfig' => 'Magento\App\Config\ScopeConfigInterface'
     );
 
     /**
@@ -36,9 +34,9 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_modelDependencies = array(
-        'eventManager'       => 'Magento\Event\ManagerInterface',
-        'cacheManager'       => 'Magento\App\CacheInterface',
-        'resource'           => 'Magento\Core\Model\Resource\AbstractResource',
+        'eventManager' => 'Magento\Event\ManagerInterface',
+        'cacheManager' => 'Magento\App\CacheInterface',
+        'resource' => 'Magento\Model\Resource\AbstractResource',
         'resourceCollection' => 'Magento\Data\Collection\Db'
     );
 
@@ -76,29 +74,25 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     public function testGetModel()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        /** @var $model \Magento\Core\Model\Config\Value */
-        $model = $objectManager->getObject('Magento\Core\Model\Config\Value');
-        $this->assertInstanceOf('Magento\Core\Model\Config\Value', $model);
+        /** @var $model \Magento\App\Config\ValueInterface */
+        $model = $objectManager->getObject('Magento\App\Config\Value');
+        $this->assertInstanceOf('Magento\App\Config\Value', $model);
         foreach ($this->_modelDependencies as $propertyName => $propertyType) {
             $this->assertAttributeInstanceOf($propertyType, '_' . $propertyName, $model);
         }
 
         /** @var $resourceMock \Magento\Core\Model\Resource\Resource */
         $resourceMock = $this->getMock(
-            'Magento\Core\Model\Resource\Resource',
+            'Magento\Install\Model\Resource\Resource',
             array('_getReadAdapter', 'getIdFieldName', '__sleep', '__wakeup'),
             array(),
             '',
             false
         );
-        $resourceMock->expects($this->once())
-            ->method('_getReadAdapter')
-            ->will($this->returnValue(false));
-        $resourceMock->expects($this->any())
-            ->method('getIdFieldName')
-            ->will($this->returnValue('id'));
+        $resourceMock->expects($this->once())->method('_getReadAdapter')->will($this->returnValue(false));
+        $resourceMock->expects($this->any())->method('getIdFieldName')->will($this->returnValue('id'));
         $arguments = array('resource' => $resourceMock);
-        $model = $objectManager->getObject('Magento\Core\Model\Config\Value', $arguments);
+        $model = $objectManager->getObject('Magento\App\Config\Value', $arguments);
         $this->assertFalse($model->getResource()->getDataVersion('test'));
     }
 }

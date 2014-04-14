@@ -14,32 +14,39 @@
  */
 namespace Magento\DesignEditor\Model\Editor\QuickStyles\Renderer;
 
-class BackgroundImageTest
-    extends \PHPUnit_Framework_TestCase
+class BackgroundImageTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @cover \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage::toCss
+     * @covers \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage::toCss
      * @dataProvider backgroundImageData
      */
     public function testToCss($expectedResult, $data)
     {
         /** @var $rendererModel \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage */
         $rendererModel = $this->getMock(
-            'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage', null, array(), '', false
+            'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage',
+            null,
+            array(),
+            '',
+            false
         );
 
         $this->assertEquals($expectedResult, $rendererModel->toCss($data));
     }
 
     /**
-     * @cover \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage::toCss
+     * @covers \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage::toCss
      * @dataProvider backgroundImageDataClearDefault
      */
     public function testToCssClearDefault($expectedResult, $data)
     {
         /** @var $rendererModel \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage */
         $rendererModel = $this->getMock(
-            'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage', null, array(), '', false
+            'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage',
+            null,
+            array(),
+            '',
+            false
         );
 
         $this->assertEquals($expectedResult, $rendererModel->toCss($data));
@@ -50,16 +57,18 @@ class BackgroundImageTest
      */
     public function backgroundImageData()
     {
-        return array(array(
-            'expected_result' => ".header { background-image: url('path/image.gif'); }",
-            'data'            => array(
-                'type'      => 'image-uploader',
-                'default'   => 'bg.gif',
-                'selector'  => '.header',
-                'attribute' => 'background-image',
-                'value'     => 'path/image.gif',
-            ),
-        ));
+        return array(
+            array(
+                'expected_result' => ".header { background-image: url('path/image.gif'); }",
+                'data' => array(
+                    'type' => 'image-uploader',
+                    'default' => 'bg.gif',
+                    'selector' => '.header',
+                    'attribute' => 'background-image',
+                    'value' => 'path/image.gif'
+                )
+            )
+        );
     }
 
     /**
@@ -67,15 +76,17 @@ class BackgroundImageTest
      */
     public function backgroundImageDataClearDefault()
     {
-        return array(array(
-            'expected_result' => ".header { background-image: none; }",
-            'data'            => array(
-                'type'      => 'image-uploader',
-                'default'   => 'bg.gif',
-                'selector'  => '.header',
-                'attribute' => 'background-image',
-                'value'     => '',
-            ),
-        ));
+        return array(
+            array(
+                'expected_result' => ".header { background-image: none; }",
+                'data' => array(
+                    'type' => 'image-uploader',
+                    'default' => 'bg.gif',
+                    'selector' => '.header',
+                    'attribute' => 'background-image',
+                    'value' => ''
+                )
+            )
+        );
     }
 }

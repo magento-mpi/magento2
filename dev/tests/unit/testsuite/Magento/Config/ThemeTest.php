@@ -8,25 +8,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Config;
 
 class ThemeTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testConstructException()
-    {
-        new \Magento\Config\Theme(array());
-    }
-
     public function testGetSchemaFile()
     {
-        $config = new \Magento\Config\Theme(array(
-            file_get_contents(sprintf('%s/_files/area/%s/theme.xml', __DIR__, 'default_default'))
-        ));
-
+        $config = new \Magento\Config\Theme(file_get_contents(__DIR__ . '/_files/area/default_default/theme.xml'));
         $this->assertFileExists($config->getSchemaFile());
     }
 
@@ -37,9 +25,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetThemeTitle($themePath, $expected)
     {
-        $config = new \Magento\Config\Theme(array(
-            file_get_contents(sprintf('%s/_files/area/%s/theme.xml', __DIR__, $themePath))
-        ));
+        $config = new \Magento\Config\Theme(file_get_contents(__DIR__ . "/_files/area/{$themePath}/theme.xml"));
         $this->assertSame($expected, $config->getThemeTitle());
     }
 
@@ -48,10 +34,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
      */
     public function getThemeTitleDataProvider()
     {
-        return array(
-            array('default_default', 'Default'),
-            array('default_test',    'Test'),
-        );
+        return array(array('default_default', 'Default'), array('default_test', 'Test'));
     }
 
     /**
@@ -61,9 +44,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetParentTheme($themePath, $expected)
     {
-        $config = new \Magento\Config\Theme(array(
-            file_get_contents(sprintf('%s/_files/area/%s/theme.xml', __DIR__, $themePath))
-        ));
+        $config = new \Magento\Config\Theme(file_get_contents(__DIR__ . "/_files/area/{$themePath}/theme.xml"));
         $this->assertSame($expected, $config->getParentTheme());
     }
 
@@ -76,7 +57,53 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             array('default_default', null),
             array('default_test', array('default_default')),
             array('default_test2', array('default_test')),
-            array('test_external_package_descendant', array('default_test2')),
+            array('test_external_package_descendant', array('default_test2'))
+        );
+    }
+
+    /**
+     * @param string $themePath
+     * @param array $expected
+     * @dataProvider dataGetterDataProvider
+     */
+    public function testDataGetter($themePath, $expected)
+    {
+        $expected = reset($expected);
+        $config = new \Magento\Config\Theme(file_get_contents(__DIR__ . "/_files/area/$themePath/theme.xml"));
+        $this->assertSame($expected['version'], $config->getThemeVersion());
+        $this->assertSame($expected['media'], $config->getMedia());
+    }
+
+    /**
+     * @return array
+     */
+    public function dataGetterDataProvider()
+    {
+        return array(
+            array(
+                'default_default',
+                array(array(
+                    'version' => '2.0.0.9',
+                    'media' => array('preview_image' => 'media/default_default.jpg'),
+                ))),
+            array(
+                'default_test',
+                array(array(
+                    'version' => '2.1.0.0',
+                    'media' => array('preview_image' => ''),
+                ))),
+            array(
+                'default_test2',
+                array(array(
+                    'version' => '2.0.0.0',
+                    'media' => array('preview_image' => ''),
+                ))),
+            array(
+                'test_default',
+                array(array(
+                    'version' => '2.0.1.0',
+                    'media' => array('preview_image' => 'media/test_default.jpg'),
+                ))),
         );
     }
 }

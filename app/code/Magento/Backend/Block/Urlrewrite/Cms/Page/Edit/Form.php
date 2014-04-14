@@ -39,12 +39,12 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory
-     * @param \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory
-     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\UrlRewrite\Model\UrlRewrite\TypeProviderFactory $typesFactory
+     * @param \Magento\UrlRewrite\Model\UrlRewrite\OptionProviderFactory $optionFactory
+     * @param \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Cms\Model\Page\UrlrewriteFactory $urlRewriteFactory
      * @param \Magento\Cms\Model\PageFactory $pageFactory
@@ -54,12 +54,12 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory,
-        \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory,
-        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\UrlRewrite\Model\UrlRewrite\TypeProviderFactory $typesFactory,
+        \Magento\UrlRewrite\Model\UrlRewrite\OptionProviderFactory $optionFactory,
+        \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory,
+        \Magento\Store\Model\System\Store $systemStore,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Cms\Model\Page\UrlrewriteFactory $urlRewriteFactory,
         \Magento\Cms\Model\PageFactory $pageFactory,
@@ -90,10 +90,10 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
     {
         $cmsPage = $this->_getCmsPage();
         $form->setAction(
-            $this->_adminhtmlData->getUrl('adminhtml/*/save', array(
-                'id'       => $this->_getModel()->getId(),
-                'cms_page' => $cmsPage->getId()
-            ))
+            $this->_adminhtmlData->getUrl(
+                'adminhtml/*/save',
+                array('id' => $this->_getModel()->getId(), 'cms_page' => $cmsPage->getId())
+            )
         );
 
         // Fill id path, request path and target path elements
@@ -132,7 +132,7 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
      * Get catalog entity associated stores
      *
      * @return array
-     * @throws \Magento\Core\Model\Store\Exception
+     * @throws \Magento\Store\Model\Exception
      */
     protected function _getEntityStores()
     {
@@ -141,11 +141,11 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
 
         // showing websites that only associated to CMS page
         if ($this->_getCmsPage()->getId()) {
-            $entityStores = (array) $cmsPage->getResource()->lookupStoreIds($cmsPage->getId());
+            $entityStores = (array)$cmsPage->getResource()->lookupStoreIds($cmsPage->getId());
             $this->_requireStoresFilter = !in_array(0, $entityStores);
 
             if (!$entityStores) {
-                throw new \Magento\Core\Model\Store\Exception(
+                throw new \Magento\Store\Model\Exception(
                     __('Chosen cms page does not associated with any website.')
                 );
             }

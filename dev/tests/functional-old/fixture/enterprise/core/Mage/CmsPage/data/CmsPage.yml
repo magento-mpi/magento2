@@ -16,6 +16,7 @@ new_page_all_fields:
         url_key: cms_page_url_%randomize%
         store_view: Default Store View
         status: Published
+        under_version_control: No
     content:
         content_heading: Content Heading Text
         widgets:
@@ -63,18 +64,18 @@ new_page_all_fields:
                 template: Viewed Products Grid Template
         variable_data:
             variable_1: Base Unsecure URL
-#            variable_2: Base Secure URL
-#            variable_3: General Contact Name
-#            variable_4: General Contact Email
-#            variable_5: Sales Representative Contact Name
-#            variable_6: Sales Representative Contact Email
-#            variable_7: Custom1 Contact Name
-#            variable_8: Custom1 Contact Email
-#            variable_9: Custom2 Contact Name
-#            variable_10: Custom2 Contact Email
-#            variable_11: Store Name
-#            variable_12: Store Phone Number
-#            variable_13: Store Phone Number
+            variable_2: Base Secure URL
+            variable_3: General Contact Name
+            variable_4: General Contact Email
+            variable_5: Sales Representative Contact Name
+            variable_6: Sales Representative Contact Email
+            variable_7: Custom1 Contact Name
+            variable_8: Custom1 Contact Email
+            variable_9: Custom2 Contact Name
+            variable_10: Custom2 Contact Email
+            variable_11: Store Name
+            variable_12: Store Phone Number
+            variable_13: Store Phone Number
     design:
         layout: 3 columns
         layout_update_xml: %noValue%
@@ -87,7 +88,6 @@ new_page_all_fields:
         keywords: Meta Data Keywords
         description: Meta Data Description
 
-
 #<-----------------------------Required Fields--------------------------------->
 new_cms_page_req:
     page_information:
@@ -95,6 +95,7 @@ new_cms_page_req:
         url_key: cms_page_url_%randomize%
         status: Published
         store_view: Default Store View
+        under_version_control: No
     content:
         content_heading: %noValue%
         widgets:

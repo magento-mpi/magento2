@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Controller\Adminhtml\Rma\Item;
 
 class Attribute extends \Magento\Backend\App\Action
@@ -22,18 +21,16 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -46,8 +43,7 @@ class Attribute extends \Magento\Backend\App\Action
     protected function _getEntityType()
     {
         if (is_null($this->_entityType)) {
-            $this->_entityType = $this->_objectManager->get('Magento\Eav\Model\Config')
-                ->getEntityType('rma_item');
+            $this->_entityType = $this->_objectManager->get('Magento\Eav\Model\Config')->getEntityType('rma_item');
         }
         return $this->_entityType;
     }
@@ -60,13 +56,15 @@ class Attribute extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Rma::sales_magento_rma_rma_item_attribute')
-            ->_addBreadcrumb(
-                __('RMA'),
-                __('RMA'))
-            ->_addBreadcrumb(
-                __('Manage RMA Item Attributes'),
-                __('Manage RMA Item Attributes'));
+        $this->_setActiveMenu(
+            'Magento_Rma::sales_magento_rma_rma_item_attribute'
+        )->_addBreadcrumb(
+            __('RMA'),
+            __('RMA')
+        )->_addBreadcrumb(
+            __('Manage RMA Item Attributes'),
+            __('Manage RMA Item Attributes')
+        );
         return $this;
     }
 
@@ -89,6 +87,7 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Attributes grid
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -100,6 +99,7 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Create new attribute action
      *
+     * @return void
      */
     public function newAction()
     {
@@ -110,13 +110,13 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Edit attribute action
      *
+     * @return void
      */
     public function editAction()
     {
         /* @var $attributeObject \Magento\Rma\Model\Item\Attribute */
         $attributeId = $this->getRequest()->getParam('attribute_id');
-        $attributeObject = $this->_initAttribute()
-            ->setEntityTypeId($this->_getEntityType()->getId());
+        $attributeObject = $this->_initAttribute()->setEntityTypeId($this->_getEntityType()->getId());
 
         $this->_title->add(__('Returns Attributes'));
 
@@ -145,33 +145,32 @@ class Attribute extends \Magento\Backend\App\Action
         $attributeObject->setCanManageOptionLabels(true);
         $this->_coreRegistry->register('entity_attribute', $attributeObject);
 
-        $label = $attributeObject->getId()
-            ? __('Edit Return Item Attribute')
-            : __('New Return Item Attribute');
+        $label = $attributeObject->getId() ? __('Edit Return Item Attribute') : __('New Return Item Attribute');
 
-        $this->_initAction()
-            ->_addBreadcrumb($label, $label);
+        $this->_initAction()->_addBreadcrumb($label, $label);
         $this->_view->renderLayout();
     }
 
     /**
      * Validate attribute action
      *
+     * @return void
      */
     public function validateAction()
     {
         $response = new \Magento\Object();
         $response->setError(false);
-        $attributeId        = $this->getRequest()->getParam('attribute_id');
+        $attributeId = $this->getRequest()->getParam('attribute_id');
         if (!$attributeId) {
             $attributeCode = $this->getRequest()->getParam('attribute_code');
-            $attributeObject = $this->_initAttribute()
-                ->loadByCode($this->_getEntityType()->getId(), $attributeCode)
-                ->setCanManageOptionLabels(true);
+            $attributeObject = $this->_initAttribute()->loadByCode(
+                $this->_getEntityType()->getId(),
+                $attributeCode
+            )->setCanManageOptionLabels(
+                true
+            );
             if ($attributeObject->getId()) {
-                $this->messageManager->addError(
-                    __('An attribute with the same code already exists.')
-                );
+                $this->messageManager->addError(__('An attribute with the same code already exists.'));
 
                 $this->_view->getLayout()->initMessages();
                 $response->setError(true);
@@ -184,6 +183,7 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Save attribute action
      *
+     * @return void
      */
     public function saveAction()
     {
@@ -191,12 +191,12 @@ class Attribute extends \Magento\Backend\App\Action
         if ($this->getRequest()->isPost() && $data) {
             /* @var $attributeObject \Magento\Rma\Model\Item\Attribute */
             $attributeObject = $this->_initAttribute();
-            /* @var $helper Magento\CustomAttribute\Helper\Data */
-            $helper = $this->_objectManager->get('Magento\CustomAttribute\Helper\Data');
+            /* @var $helper \Magento\CustomAttributeManagement\Helper\Data */
+            $helper = $this->_objectManager->get('Magento\CustomAttributeManagement\Helper\Data');
 
             try {
                 $data = $helper->filterPostData($data);
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 if (isset($data['attribute_id'])) {
                     $this->_redirect('adminhtml/*/edit', array('_current' => true));
@@ -210,30 +210,31 @@ class Attribute extends \Magento\Backend\App\Action
             if ($attributeId) {
                 $attributeObject->load($attributeId);
                 if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()) {
-                    $this->messageManager->addError(
-                        __('You cannot edit this attribute.')
-                    );
+                    $this->messageManager->addError(__('You cannot edit this attribute.'));
                     $this->_getSession()->addAttributeData($data);
                     $this->_redirect('adminhtml/*/');
                     return;
                 }
 
-                $data['attribute_code']     = $attributeObject->getAttributeCode();
-                $data['is_user_defined']    = $attributeObject->getIsUserDefined();
-                $data['frontend_input']     = $attributeObject->getFrontendInput();
-                $data['is_user_defined']    = $attributeObject->getIsUserDefined();
-                $data['is_system']          = $attributeObject->getIsSystem();
+                $data['attribute_code'] = $attributeObject->getAttributeCode();
+                $data['is_user_defined'] = $attributeObject->getIsUserDefined();
+                $data['frontend_input'] = $attributeObject->getFrontendInput();
+                $data['is_user_defined'] = $attributeObject->getIsUserDefined();
+                $data['is_system'] = $attributeObject->getIsSystem();
             } else {
-                $data['backend_model']      = $helper->getAttributeBackendModelByInputType($data['frontend_input']);
-                $data['source_model']       = $helper->getAttributeSourceModelByInputType($data['frontend_input']);
-                $data['backend_type']       = $helper->getAttributeBackendTypeByInputType($data['frontend_input']);
-                $data['is_user_defined']    = 1;
-                $data['is_system']          = 0;
+                $data['backend_model'] = $helper->getAttributeBackendModelByInputType($data['frontend_input']);
+                $data['source_model'] = $helper->getAttributeSourceModelByInputType($data['frontend_input']);
+                $data['backend_type'] = $helper->getAttributeBackendTypeByInputType($data['frontend_input']);
+                $data['is_user_defined'] = 1;
+                $data['is_system'] = 0;
 
                 // add set and group info
-                $data['attribute_set_id']   = $this->_getEntityType()->getDefaultAttributeSetId();
-                $data['attribute_group_id'] = $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Set')
-                    ->getDefaultGroupId($data['attribute_set_id']);
+                $data['attribute_set_id'] = $this->_getEntityType()->getDefaultAttributeSetId();
+                $data['attribute_group_id'] = $this->_objectManager->create(
+                    'Magento\Eav\Model\Entity\Attribute\Set'
+                )->getDefaultGroupId(
+                    $data['attribute_set_id']
+                );
             }
 
             if (!isset($data['used_in_forms'])) {
@@ -242,13 +243,14 @@ class Attribute extends \Magento\Backend\App\Action
 
             $defaultValueField = $helper->getAttributeDefaultValueByInput($data['frontend_input']);
             if ($defaultValueField) {
-                $scopeKeyPrefix = ($this->getRequest()->getParam('website') ? 'scope_' : '');
-                $data[$scopeKeyPrefix . 'default_value'] = $this->getRequest()
-                    ->getParam($scopeKeyPrefix . $defaultValueField);
+                $scopeKeyPrefix = $this->getRequest()->getParam('website') ? 'scope_' : '';
+                $data[$scopeKeyPrefix . 'default_value'] = $this->getRequest()->getParam(
+                    $scopeKeyPrefix . $defaultValueField
+                );
             }
 
-            $data['entity_type_id']     = $this->_getEntityType()->getId();
-            $data['validate_rules']     = $helper->getAttributeValidateRules($data['frontend_input'], $data);
+            $data['entity_type_id'] = $this->_getEntityType()->getId();
+            $data['validate_rules'] = $helper->getAttributeValidateRules($data['frontend_input'], $data);
 
             $attributeObject->addData($data);
 
@@ -266,28 +268,24 @@ class Attribute extends \Magento\Backend\App\Action
             try {
                 $attributeObject->save();
 
-                $this->messageManager->addSuccess(
-                    __('You saved the RMA item attribute.')
-                );
+                $this->messageManager->addSuccess(__('You saved the RMA item attribute.'));
                 $this->_getSession()->setAttributeData(false);
                 if ($this->getRequest()->getParam('back', false)) {
-                    $this->_redirect('adminhtml/*/edit', array(
-                        'attribute_id'  => $attributeObject->getId(),
-                        '_current'      => true
-                    ));
+                    $this->_redirect(
+                        'adminhtml/*/edit',
+                        array('attribute_id' => $attributeObject->getId(), '_current' => true)
+                    );
                 } else {
                     $this->_redirect('adminhtml/*/');
                 }
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setAttributeData($data);
                 $this->_redirect('adminhtml/*/edit', array('_current' => true));
                 return;
             } catch (\Exception $e) {
-                $this->messageManager->addException($e,
-                    __('Something went wrong saving the RMA item attribute.')
-                );
+                $this->messageManager->addException($e, __('Something went wrong saving the RMA item attribute.'));
                 $this->_getSession()->setAttributeData($data);
                 $this->_redirect('adminhtml/*/edit', array('_current' => true));
                 return;
@@ -300,38 +298,32 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Delete attribute action
      *
+     * @return void
      */
     public function deleteAction()
     {
         $attributeId = $this->getRequest()->getParam('attribute_id');
         if ($attributeId) {
-            $attributeObject = $this->_initAttribute()->load($attributeId)
-                ->setCanManageOptionLabels(true);
-            if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()
-                || !$attributeObject->getIsUserDefined()
+            $attributeObject = $this->_initAttribute()->load($attributeId)->setCanManageOptionLabels(true);
+            if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId() ||
+                !$attributeObject->getIsUserDefined()
             ) {
-                $this->messageManager->addError(
-                    __('You cannot delete this attribute.')
-                );
+                $this->messageManager->addError(__('You cannot delete this attribute.'));
                 $this->_redirect('adminhtml/*/');
                 return;
             }
             try {
                 $attributeObject->delete();
 
-                $this->messageManager->addSuccess(
-                    __('You deleted the RMA attribute.')
-                );
+                $this->messageManager->addSuccess(__('You deleted the RMA attribute.'));
                 $this->_redirect('adminhtml/*/');
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;
             } catch (\Exception $e) {
-                $this->messageManager->addException($e,
-                    __('Something went wrong deleting the RMA item attribute.')
-                );
+                $this->messageManager->addException($e, __('Something went wrong deleting the RMA item attribute.'));
                 $this->_redirect('adminhtml/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;
             }

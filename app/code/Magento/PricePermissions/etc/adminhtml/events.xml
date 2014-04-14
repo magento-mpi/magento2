@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="view_block_abstract_to_html_before">
         <observer name="magento_pricepermissions" instance="Magento\PricePermissions\Model\Observer" method="viewBlockAbstractToHtmlBefore" />
     </event>
@@ -22,9 +22,6 @@
     </event>
     <event name="catalog_product_save_before">
         <observer name="magento_pricepermissions" instance="Magento\PricePermissions\Model\Observer" method="catalogProductSaveBefore" />
-    </event>
-    <event name="catalog_product_prepare_save">
-        <observer name="magento_pricepermissions" instance="Magento\PricePermissions\Model\Observer" method="catalogProductPrepareSave" />
     </event>
     <event name="adminhtml_catalog_product_form_prepare_excluded_field_list">
         <observer name="magento_pricepermissions" instance="Magento\PricePermissions\Model\Observer" method="adminhtmlCatalogProductFormPrepareExcludedFieldList" />

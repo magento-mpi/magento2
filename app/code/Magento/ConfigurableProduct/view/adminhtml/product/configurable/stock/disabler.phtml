@@ -1,0 +1,18 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<script type="text/javascript">
+jQuery(function($) {
+    $('#product_info_tabs_product-details_content').on('stockbeforedisable', function(e) {
+        if (e.productType === 'configurable' && $('[data-panel=product-variations]').is('.opened')) {
+            e.stopImmediatePropagation();
+            return false;
+        }
+    });
+ });
+</script>

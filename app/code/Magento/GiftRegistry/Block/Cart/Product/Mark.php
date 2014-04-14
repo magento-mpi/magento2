@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Cart\Product;
 
 class Mark extends \Magento\View\Element\Template
@@ -53,12 +52,10 @@ class Mark extends \Magento\View\Element\Template
      */
     public function truncateString($value, $length = 80, $etc = '...', &$remainder = '', $breakWords = true)
     {
-        return $this->filterManager->truncate($value, array(
-            'length' => $length,
-            'etc' => $etc,
-            'remainder' => $remainder,
-            'breakWords' => $breakWords
-        ));
+        return $this->filterManager->truncate(
+            $value,
+            array('length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords)
+        );
     }
 
     /**
@@ -68,7 +65,7 @@ class Mark extends \Magento\View\Element\Template
      */
     public function getEnabled()
     {
-        return  $this->_giftRegistryData->isEnabled();
+        return $this->_giftRegistryData->isEnabled();
     }
 
     /**
@@ -85,7 +82,7 @@ class Mark extends \Magento\View\Element\Template
         }
 
 
-        if ($item instanceof  \Magento\Sales\Model\Quote\Address\Item) {
+        if ($item instanceof \Magento\Sales\Model\Quote\Address\Item) {
             $item = $item->getQuoteItem();
         }
 
@@ -106,7 +103,7 @@ class Mark extends \Magento\View\Element\Template
      * Get gifregistry params by quote item
      *
      * @param \Magento\Sales\Model\Quote\Item $newItem
-     * @return \Magento\GiftRegistry\Block\Cart\Product\Mark
+     * @return $this
      */
     public function setItem($newItem)
     {

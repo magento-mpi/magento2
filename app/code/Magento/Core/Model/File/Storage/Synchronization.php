@@ -5,12 +5,11 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Core\Model\File\Storage;
 
-use Magento\Filesystem\Directory\WriteInterface as DirectoryWrite,
-    Magento\Filesystem\File\Write,
-    Magento\Filesystem\FilesystemException;
+use Magento\Filesystem\Directory\WriteInterface as DirectoryWrite;
+use Magento\Filesystem\File\Write;
+use Magento\Filesystem\FilesystemException;
 
 /**
  * Class Synchronization
@@ -33,14 +32,14 @@ class Synchronization
 
     /**
      * @param \Magento\Core\Model\File\Storage\DatabaseFactory $storageFactory
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Model\File\Storage\DatabaseFactory $storageFactory,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->storageFactory = $storageFactory;
-        $this->pubDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::PUB);
+        $this->pubDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::PUB_DIR);
     }
 
     /**
@@ -48,6 +47,7 @@ class Synchronization
      *
      * @param string $relativeFileName
      * @param string $filePath
+     * @return void
      * @throws \LogicException
      */
     public function synchronize($relativeFileName, $filePath)
@@ -61,7 +61,7 @@ class Synchronization
         if ($storage->getId()) {
             /** @var Write $file */
             $file = $this->pubDirectory->openFile($this->pubDirectory->getRelativePath($filePath), 'w');
-            try{
+            try {
                 $file->lock();
                 $file->write($storage->getContent());
                 $file->unlock();

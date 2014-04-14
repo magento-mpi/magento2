@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Theme\Customization\File;
 
 /**
@@ -17,10 +16,14 @@ class Js extends \Magento\View\Design\Theme\Customization\AbstractFile
      * File type customization
      */
     const TYPE = 'js';
+
     const CONTENT_TYPE = 'js';
+
     /**#@-*/
 
     /**
+     * Get type
+     *
      * @return string
      */
     public function getType()
@@ -29,6 +32,8 @@ class Js extends \Magento\View\Design\Theme\Customization\AbstractFile
     }
 
     /**
+     * Get content type
+     *
      * @return string
      */
     public function getContentType()

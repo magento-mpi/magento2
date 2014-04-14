@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Model\Item;
 
 /**
  * RMA Item Form Model
  */
-namespace Magento\Rma\Model\Item;
-
 class Form extends \Magento\Eav\Model\Form
 {
     /**
@@ -30,12 +29,14 @@ class Form extends \Magento\Eav\Model\Form
     protected $_entityTypeCode = 'rma_item';
 
     /**
+     * Rma item form attribute collection
+     *
      * @var \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
@@ -45,7 +46,7 @@ class Form extends \Magento\Eav\Model\Form
      * @param \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
@@ -80,7 +81,7 @@ class Form extends \Magento\Eav\Model\Form
      * Validate data array and return true or array of errors
      *
      * @param array $data
-     * @return boolean|array
+     * @return bool|array
      */
     public function validateData(array $data)
     {

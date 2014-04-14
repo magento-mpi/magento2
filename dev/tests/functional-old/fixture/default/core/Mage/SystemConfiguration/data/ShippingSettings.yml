@@ -14,7 +14,7 @@ store_information:
         tab_name: general_general
         configuration:
             store_information:
-                store_name: Test Store Name
+                store_name: TestStoreName
 
 store_information_empty:
     configuration_scope: Default Config

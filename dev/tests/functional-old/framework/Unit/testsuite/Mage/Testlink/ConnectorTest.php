@@ -1,12 +1,10 @@
 <?php
+
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 class Mage_Testlink_ConnectorTest extends Unit_PHPUnit_TestCase
 {
@@ -37,17 +35,16 @@ class Mage_Testlink_ConnectorTest extends Unit_PHPUnit_TestCase
     }
 
     /**
-     * @covers Mage_Testlink_Connector::getProject
-     *
+     * @covers       Mage_Testlink_Connector::getProject
      * @dataProvider getProjectDataProvider
      */
     public function testGetProject($project)
     {
-        $proj = $this->_connector->getProject($project);
+        $value = $this->_connector->getProject($project);
         if (is_numeric($project)) {
-            $this->assertEquals($proj, $project);
+            $this->assertEquals($value, $project);
         } else {
-            $this->assertNull($proj);
+            $this->assertNull($value);
         }
     }
 
@@ -66,8 +63,7 @@ class Mage_Testlink_ConnectorTest extends Unit_PHPUnit_TestCase
     }
 
     /**
-     * @covers Mage_Testlink_Connector::getTestPlan
-     *
+     * @covers       Mage_Testlink_Connector::getTestPlan
      * @dataProvider getTestPlanDataProvider
      */
     public function testGetTestPlan($testplan)
@@ -103,8 +99,7 @@ class Mage_Testlink_ConnectorTest extends Unit_PHPUnit_TestCase
     }
 
     /**
-     * @covers Mage_Testlink_Connector::getBuild
-     *
+     * @covers       Mage_Testlink_Connector::getBuild
      * @dataProvider getBuildDataProvider
      */
     public function testGetBuild($build)

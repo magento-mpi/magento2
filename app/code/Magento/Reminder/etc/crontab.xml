@@ -7,8 +7,10 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <job name="send_notification" instance="Magento\Reminder\Model\Observer" method="scheduledNotification">
-        <schedule>*/15 * * * *</schedule>
-    </job>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Cron/etc/crontab.xsd">
+    <group id="default">
+        <job name="send_notification" instance="Magento\Reminder\Model\Observer" method="scheduledNotification">
+            <schedule>*/15 * * * *</schedule>
+        </job>
+    </group>
 </config>

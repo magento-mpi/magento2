@@ -1,16 +1,10 @@
 <?php
+
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Unit test for Data generator helper
+ * @copyright {copyright}
+ * @license {license_link}
  */
 class Mage_Selenium_Helper_DataGeneratorTest extends Unit_PHPUnit_TestCase
 {
@@ -21,7 +15,7 @@ class Mage_Selenium_Helper_DataGeneratorTest extends Unit_PHPUnit_TestCase
      */
     private $_dataGenerator;
 
-    public function  __construct($name = NULL, array $data = array(), $dataName = '')
+    public function __construct($name = null, array $data = array(), $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
         $this->_dataGenerator = $this->_testConfig->getHelper('dataGenerator');
@@ -63,8 +57,10 @@ class Mage_Selenium_Helper_DataGeneratorTest extends Unit_PHPUnit_TestCase
         $this->assertEquals(26, strlen($this->_dataGenerator->generate('text', 20, '', 'prefix')));
         $this->assertStringStartsWith('prefix', $this->_dataGenerator->generate('text', 20, '', 'prefix'));
 
-        $this->assertStringMatchesFormat('%s',
-            $this->_dataGenerator->generate('text', 20, array('class' => ':alnum:')));
+        $this->assertStringMatchesFormat(
+            '%s',
+            $this->_dataGenerator->generate('text', 20, array('class' => ':alnum:'))
+        );
         $this->assertRegExp('/[0-9 ]+/', $this->_dataGenerator->generate('text', 20, array('class' => ':digit:')));
 
         // email generations
@@ -74,11 +70,15 @@ class Mage_Selenium_Helper_DataGeneratorTest extends Unit_PHPUnit_TestCase
         $this->assertEmpty($this->_dataGenerator->generate('email', 0));
         $this->assertEmpty($this->_dataGenerator->generate('email', -1));
 
-        $this->assertRegExp("/^([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+(\.([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+)*@([a-z0-9-])+(\.([a-z0-9-])+)*\.(([a-z]){2,})$/i",
-            $this->_dataGenerator->generate('email', 20, 'valid'));
+        $this->assertRegExp(
+            "/^([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+(\.([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+)*@([a-z0-9-])+(\.([a-z0-9-])+)*\.(([a-z]){2,})$/i",
+            $this->_dataGenerator->generate('email', 20, 'valid')
+        );
         $this->_dataGenerator->generate('email');
-        $this->assertRegExp('|([a-z0-9_\.\-]+)@([a-z0-9\.\-]+)\.([a-z]{2,4})|is',
-            $this->_dataGenerator->generate('email'));
+        $this->assertRegExp(
+            '|([a-z0-9_\.\-]+)@([a-z0-9\.\-]+)\.([a-z]{2,4})|is',
+            $this->_dataGenerator->generate('email')
+        );
 
         $this->assertEquals(255, strlen($this->_dataGenerator->generate('email', 255, 'valid')));
     }
@@ -98,10 +98,14 @@ class Mage_Selenium_Helper_DataGeneratorTest extends Unit_PHPUnit_TestCase
         $this->assertEquals(20, strlen($this->_dataGenerator->generateEmailAddress(20, 'invalid')));
         $this->assertEquals(20, strlen($this->_dataGenerator->generateEmailAddress(20, 'some_value')));
 
-        $this->assertRegExp("/^([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+(\.([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+)*@([a-z0-9-])+(\.([a-z0-9-])+)*\.(([a-z]){2,})$/i",
-            $this->_dataGenerator->generateEmailAddress(20, 'valid'));
-        $this->assertNotRegExp("/^([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+(\.([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+)*@([a-z0-9-])+(\.([a-z0-9-])+)*\.(([a-z]){2,})$/i",
-            $this->_dataGenerator->generateEmailAddress(20, 'invalid'));
+        $this->assertRegExp(
+            "/^([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+(\.([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+)*@([a-z0-9-])+(\.([a-z0-9-])+)*\.(([a-z]){2,})$/i",
+            $this->_dataGenerator->generateEmailAddress(20, 'valid')
+        );
+        $this->assertNotRegExp(
+            "/^([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+(\.([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-])+)*@([a-z0-9-])+(\.([a-z0-9-])+)*\.(([a-z]){2,})$/i",
+            $this->_dataGenerator->generateEmailAddress(20, 'invalid')
+        );
     }
 
     /**
@@ -123,8 +127,10 @@ class Mage_Selenium_Helper_DataGeneratorTest extends Unit_PHPUnit_TestCase
         $this->assertRegExp('|[a-z]{20}|', $this->_dataGenerator->generateRandomString(20, ':lower:'));
         $pattern = preg_quote('!@#$%^&*()_+=-[]{}\\|";:/?.>,<');
         $this->assertRegExp('|[' . $pattern . ']{20}|', $this->_dataGenerator->generateRandomString(20, ':punct:'));
-        $this->assertRegExp('|[\(\)\[\]\\\\\;\:\,\<\>@]{20}|',
-            $this->_dataGenerator->generateRandomString(20, 'invalid-email'));
+        $this->assertRegExp(
+            '|[\(\)\[\]\\\\\;\:\,\<\>@]{20}|',
+            $this->_dataGenerator->generateRandomString(20, 'invalid-email')
+        );
     }
 
     /**
@@ -139,22 +145,30 @@ class Mage_Selenium_Helper_DataGeneratorTest extends Unit_PHPUnit_TestCase
         $this->assertEmpty($this->_dataGenerator->generateRandomText(-1));
 
         $this->assertEquals(20, strlen($this->_dataGenerator->generateRandomText(20, '')));
-        $this->assertEquals(20,
-            strlen($this->_dataGenerator->generateRandomText(20, array('class' => ':alnum:', 'para' => 3))));
+        $this->assertEquals(
+            20,
+            strlen($this->_dataGenerator->generateRandomText(20, array('class' => ':alnum:', 'para' => 3)))
+        );
         $this->assertEquals(20, strlen($this->_dataGenerator->generateRandomText(20, array('para' => 0))));
 
         $randomText = $this->_dataGenerator->generateRandomText(50, array('para' => 5));
         $this->assertEquals(5, count(explode("\n", $randomText)));
 
-        $this->assertRegExp('|[a-zA-Z0-9 ]{20}|',
-            $this->_dataGenerator->generateRandomText(20, array('class' => ':alnum:')));
-        $this->assertRegExp('|[a-zA-Z ]{20}|',
-            $this->_dataGenerator->generateRandomText(20, array('class' => ':alpha:')));
+        $this->assertRegExp(
+            '|[a-zA-Z0-9 ]{20}|',
+            $this->_dataGenerator->generateRandomText(20, array('class' => ':alnum:'))
+        );
+        $this->assertRegExp(
+            '|[a-zA-Z ]{20}|',
+            $this->_dataGenerator->generateRandomText(20, array('class' => ':alpha:'))
+        );
         $this->assertRegExp('|[0-9 ]{20}|', $this->_dataGenerator->generateRandomText(20, array('class' => ':digit:')));
         $this->assertRegExp('|[a-z ]{20}|', $this->_dataGenerator->generateRandomText(20, array('class' => ':lower:')));
         $pattern = preg_quote('!@#$%^&*()_+=-[]{}\\|";:/?.>,<');
         $this->assertRegExp(
-            '|[' . $pattern . ']{20}|', $this->_dataGenerator->generateRandomString(20, array('class' => ':punct:')));
+            '|[' . $pattern . ']{20}|',
+            $this->_dataGenerator->generateRandomString(20, array('class' => ':punct:'))
+        );
 
     }
 

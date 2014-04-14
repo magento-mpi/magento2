@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reminder\Model\Resource\Rule;
 
 /**
  * Reminder rules resource collection model
  *
- * @category    Magento
- * @package     Magento_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reminder\Model\Resource\Rule;
-
 class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection
 {
     /**
@@ -28,13 +24,15 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
     protected $_associatedEntitiesMap = array(
         'website' => array(
             'associations_table' => 'magento_reminder_rule_website',
-            'rule_id_field'      => 'rule_id',
-            'entity_id_field'    => 'website_id'
+            'rule_id_field' => 'rule_id',
+            'entity_id_field' => 'website_id'
         )
     );
 
     /**
      * Set resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -46,14 +44,17 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      * Limit rules collection by date columns
      *
      * @param string $date
-     *
-     * @return \Magento\Reminder\Model\Resource\Rule\Collection
+     * @return $this
      */
     public function addDateFilter($date)
     {
-        $this->getSelect()
-            ->where('from_date IS NULL OR from_date <= ?', $date)
-            ->where('to_date IS NULL OR to_date >= ?', $date);
+        $this->getSelect()->where(
+            'from_date IS NULL OR from_date <= ?',
+            $date
+        )->where(
+            'to_date IS NULL OR to_date >= ?',
+            $date
+        );
 
         return $this;
     }
@@ -62,7 +63,7 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      * Limit rules collection by separate rule
      *
      * @param int $value
-     * @return \Magento\Reminder\Model\Resource\Rule\Collection
+     * @return $this
      */
     public function addRuleFilter($value)
     {

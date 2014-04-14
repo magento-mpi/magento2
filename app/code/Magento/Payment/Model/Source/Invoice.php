@@ -7,16 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Model\Source;
 
 /**
  * Automatic invoice create source model
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Payment\Model\Source;
-
-class Invoice implements \Magento\Core\Model\Option\ArrayInterface
+class Invoice implements \Magento\Option\ArrayInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function toOptionArray()
     {
         return array(
@@ -24,10 +26,7 @@ class Invoice implements \Magento\Core\Model\Option\ArrayInterface
                 'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
                 'label' => __('Yes')
             ),
-            array(
-                'value' => '',
-                'label' => __('No')
-            ),
+            array('value' => '', 'label' => __('No'))
         );
     }
 }

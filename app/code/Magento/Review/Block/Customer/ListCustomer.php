@@ -2,22 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Review\Block\Customer;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
  * Customer Reviews list block
- *
- * @category   Magento
- * @package    Magento_Review
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Review\Block\Customer;
-
 class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
 {
     /**
@@ -28,34 +23,61 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $_collection;
 
     /**
+     * Review resource model
+     *
      * @var \Magento\Review\Model\Resource\Review\Product\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     */
+    protected $currentCustomer;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory
+     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        CustomerAccountServiceInterface $customerAccountService,
+        CustomerAddressServiceInterface $addressService,
         \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory,
+        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $customerSession, $subscriberFactory, $data);
+        parent::__construct(
+            $context,
+            $customerSession,
+            $subscriberFactory,
+            $customerAccountService,
+            $addressService,
+            $data
+        );
+        $this->_isScopePrivate = true;
+        $this->currentCustomer = $currentCustomer;
     }
 
+    /**
+     * Initialize review collection
+     *
+     * @return $this
+     */
     protected function _initCollection()
     {
         $this->_collection = $this->_collectionFactory->create();
         $this->_collection
             ->addStoreFilter($this->_storeManager->getStore()->getId())
-            ->addCustomerFilter($this->_customerSession->getCustomerId())
+            ->addCustomerFilter($this->currentCustomer->getCustomerId())
             ->setDateOrder();
         return $this;
     }
@@ -87,8 +109,12 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     protected function _prepareLayout()
     {
-        $toolbar = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager', 'customer_review_list.toolbar')
-            ->setCollection($this->getCollection());
+        $toolbar = $this->getLayout()->createBlock(
+            'Magento\Theme\Block\Html\Pager',
+            'customer_review_list.toolbar'
+        )->setCollection(
+            $this->getCollection()
+        );
 
         $this->setChild('toolbar', $toolbar);
         return parent::_prepareLayout();
@@ -140,22 +166,22 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Format date in short format
      *
-     * @param $date
+     * @param string $date
      * @return string
      */
     public function dateFormat($date)
     {
-        return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
+     * Add review summary
+     *
      * @return \Magento\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()
     {
-        $this->_getCollection()
-            ->load()
-            ->addReviewSummary();
+        $this->_getCollection()->load()->addReviewSummary();
         return parent::_beforeToHtml();
     }
 }

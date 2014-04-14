@@ -12,7 +12,7 @@ class User extends \Magento\Backend\App\AbstractAction
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -25,12 +25,12 @@ class User extends \Magento\Backend\App\AbstractAction
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\User\Model\UserFactory $userFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\User\Model\UserFactory $userFactory
     ) {
         parent::__construct($context);
@@ -38,17 +38,30 @@ class User extends \Magento\Backend\App\AbstractAction
         $this->_userFactory = $userFactory;
     }
 
+    /**
+     * @return $this
+     */
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_User::system_acl_users')
-            ->_addBreadcrumb(__('System'), __('System'))
-            ->_addBreadcrumb(__('Permissions'), __('Permissions'))
-            ->_addBreadcrumb(__('Users'), __('Users'))
-        ;
+        $this->_setActiveMenu(
+            'Magento_User::system_acl_users'
+        )->_addBreadcrumb(
+            __('System'),
+            __('System')
+        )->_addBreadcrumb(
+            __('Permissions'),
+            __('Permissions')
+        )->_addBreadcrumb(
+            __('Users'),
+            __('Users')
+        );
         return $this;
     }
 
+    /**
+     * @return void
+     */
     public function indexAction()
     {
         $this->_title->add(__('Users'));
@@ -56,11 +69,17 @@ class User extends \Magento\Backend\App\AbstractAction
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function newAction()
     {
         $this->_forward('edit');
     }
 
+    /**
+     * @return void
+     */
     public function editAction()
     {
         $this->_title->add(__('Users'));
@@ -71,13 +90,13 @@ class User extends \Magento\Backend\App\AbstractAction
 
         if ($userId) {
             $model->load($userId);
-            if (! $model->getId()) {
+            if (!$model->getId()) {
                 $this->messageManager->addError(__('This user no longer exists.'));
                 $this->_redirect('adminhtml/*/');
                 return;
             }
         } else {
-            $model->setInterfaceLocale(\Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE);
+            $model->setInterfaceLocale(\Magento\Locale\ResolverInterface::DEFAULT_LOCALE);
         }
 
         $this->_title->add($model->getId() ? $model->getName() : __('New User'));
@@ -99,6 +118,9 @@ class User extends \Magento\Backend\App\AbstractAction
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function saveAction()
     {
         $userId = (int)$this->getRequest()->getParam('user_id');
@@ -121,11 +143,17 @@ class User extends \Magento\Backend\App\AbstractAction
         }
 
         $currentUser = $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->getUser();
-        if ($userId == $currentUser->getId()
-            && $this->_objectManager->get('Magento\Core\Model\Locale\Validator')->isValid($data['interface_locale'])
+        if ($userId == $currentUser->getId() && $this->_objectManager->get(
+            'Magento\Locale\Validator'
+        )->isValid(
+            $data['interface_locale']
+        )
         ) {
-            $this->_objectManager->get('Magento\Backend\Model\Locale\Manager')
-                ->switchBackendInterfaceLocale($data['interface_locale']);
+            $this->_objectManager->get(
+                'Magento\Backend\Model\Locale\Manager'
+            )->switchBackendInterfaceLocale(
+                $data['interface_locale']
+            );
         }
 
         try {
@@ -133,7 +161,7 @@ class User extends \Magento\Backend\App\AbstractAction
             $this->messageManager->addSuccess(__('You saved the user.'));
             $this->_getSession()->setUserData(false);
             $this->_redirect('adminhtml/*/');
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addMessages($e->getMessages());
             $this->_getSession()->setUserData($data);
             $this->_redirect('adminhtml/*/edit', array('_current' => true));
@@ -157,12 +185,15 @@ class User extends \Magento\Backend\App\AbstractAction
         return $data;
     }
 
+    /**
+     * @return void
+     */
     public function deleteAction()
     {
         $currentUser = $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->getUser();
 
         if ($userId = $this->getRequest()->getParam('user_id')) {
-            if ( $currentUser->getId() == $userId ) {
+            if ($currentUser->getId() == $userId) {
                 $this->messageManager->addError(__('You cannot delete your own account.'));
                 $this->_redirect('adminhtml/*/edit', array('user_id' => $userId));
                 return;
@@ -175,8 +206,7 @@ class User extends \Magento\Backend\App\AbstractAction
                 $this->messageManager->addSuccess(__('You deleted the user.'));
                 $this->_redirect('adminhtml/*/');
                 return;
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('user_id' => $this->getRequest()->getParam('user_id')));
                 return;
@@ -186,6 +216,9 @@ class User extends \Magento\Backend\App\AbstractAction
         $this->_redirect('adminhtml/*/');
     }
 
+    /**
+     * @return void
+     */
     public function rolesGridAction()
     {
         $userId = $this->getRequest()->getParam('user_id');
@@ -200,12 +233,18 @@ class User extends \Magento\Backend\App\AbstractAction
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function roleGridAction()
     {
         $this->_view->loadLayout(false);
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return bool
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_User::acl_users');

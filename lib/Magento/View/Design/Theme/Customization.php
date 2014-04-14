@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Theme;
 
 /**
@@ -14,31 +13,43 @@ namespace Magento\View\Design\Theme;
 class Customization implements CustomizationInterface
 {
     /**
+     * File provider
+     *
      * @var \Magento\View\Design\Theme\FileProviderInterface
      */
     protected $fileProvider;
 
     /**
+     * Theme customization path
+     *
      * @var \Magento\View\Design\Theme\Customization\Path
      */
     protected $customizationPath;
 
     /**
+     * Theme
+     *
      * @var \Magento\View\Design\ThemeInterface
      */
     protected $theme;
 
     /**
+     * Theme files
+     *
      * @var \Magento\View\Design\Theme\FileInterface[]
      */
     protected $themeFiles;
 
     /**
+     * Theme files by type
+     *
      * @var \Magento\View\Design\Theme\FileInterface[]
      */
     protected $themeFilesByType = array();
 
     /**
+     * Constructor
+     *
      * @param \Magento\View\Design\Theme\FileProviderInterface $fileProvider
      * @param \Magento\View\Design\Theme\Customization\Path $customizationPath
      * @param \Magento\View\Design\ThemeInterface $theme
@@ -75,9 +86,7 @@ class Customization implements CustomizationInterface
     public function getFilesByType($type)
     {
         if (!isset($this->themeFilesByType[$type])) {
-            $this->themeFilesByType[$type] = $this->fileProvider->getItems(
-                $this->theme, array('file_type' => $type)
-            );
+            $this->themeFilesByType[$type] = $this->fileProvider->getItems($this->theme, array('file_type' => $type));
         }
         return $this->themeFilesByType[$type];
     }
@@ -117,9 +126,11 @@ class Customization implements CustomizationInterface
      */
     public function getThemeFilesPath()
     {
-        return $this->theme->isPhysical()
-            ? $this->customizationPath->getThemeFilesPath($this->theme)
-            : $this->customizationPath->getCustomizationPath($this->theme);
+        return $this->theme->isPhysical() ? $this->customizationPath->getThemeFilesPath(
+            $this->theme
+        ) : $this->customizationPath->getCustomizationPath(
+            $this->theme
+        );
     }
 
     /**
@@ -133,6 +144,8 @@ class Customization implements CustomizationInterface
     }
 
     /**
+     * Reorder
+     *
      * @param string $type
      * @param array $sequence
      * @return $this|CustomizationInterface

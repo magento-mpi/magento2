@@ -13,6 +13,8 @@ namespace Magento\View\Design\Theme\File;
 interface CollectionInterface
 {
     /**
+     * Get items
+     *
      * @return \Magento\View\Design\Theme\FileInterface[]
      */
     public function getItems();
@@ -36,7 +38,7 @@ interface CollectionInterface
     /**
      * Add field filter to collection
      *
-     * @param string|array $field
+     * @param string $field
      * @param null|string|array $condition
      * @return CollectionInterface
      */

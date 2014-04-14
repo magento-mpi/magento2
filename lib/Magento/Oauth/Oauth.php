@@ -5,21 +5,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Oauth;
 
 class Oauth implements OauthInterface
 {
-    /** @var  \Magento\Oauth\Helper\Oauth */
+    /**
+     * @var  \Magento\Oauth\Helper\Oauth
+     */
     protected $_oauthHelper;
 
-    /** @var  \Zend_Oauth_Http_Utility */
+    /**
+     * @var  \Zend_Oauth_Http_Utility
+     */
     protected $_httpUtility;
 
-    /** @var \Magento\Oauth\NonceGeneratorInterface */
+    /**
+     * @var \Magento\Oauth\NonceGeneratorInterface
+     */
     protected $_nonceGenerator;
 
-    /** @var \Magento\Oauth\TokenProviderInterface */
+    /**
+     * @var \Magento\Oauth\TokenProviderInterface
+     */
     protected $_tokenProvider;
 
     /**
@@ -43,7 +50,7 @@ class Oauth implements OauthInterface
     /**
      * Retrieve array of supported signature methods.
      *
-     * @return array - Supported HMAC-SHA1 and HMAC-SHA256 signature methods.
+     * @return string[] - Supported HMAC-SHA1 and HMAC-SHA256 signature methods.
      */
     public static function getSupportedSignatureMethods()
     {
@@ -60,12 +67,7 @@ class Oauth implements OauthInterface
         $this->_tokenProvider->validateConsumer($consumer);
         $this->_nonceGenerator->validateNonce($consumer, $params['oauth_nonce'], $params['oauth_timestamp']);
 
-        $this->_validateSignature(
-            $params,
-            $consumer->getSecret(),
-            $httpMethod,
-            $requestUrl
-        );
+        $this->_validateSignature($params, $consumer->getSecret(), $httpMethod, $requestUrl);
 
         return $this->_tokenProvider->createRequestToken($consumer);
     }
@@ -87,16 +89,13 @@ class Oauth implements OauthInterface
 
         $this->_validateProtocolParams($params, $required);
         $consumer = $this->_tokenProvider->getConsumerByKey($params['oauth_consumer_key']);
-        $tokenSecret = $this->_tokenProvider
-            ->validateRequestToken($params['oauth_token'], $consumer, $params['oauth_verifier']);
-
-        $this->_validateSignature(
-            $params,
-            $consumer->getSecret(),
-            $httpMethod,
-            $requestUrl,
-            $tokenSecret
+        $tokenSecret = $this->_tokenProvider->validateRequestToken(
+            $params['oauth_token'],
+            $consumer,
+            $params['oauth_verifier']
         );
+
+        $this->_validateSignature($params, $consumer->getSecret(), $httpMethod, $requestUrl, $tokenSecret);
 
         return $this->_tokenProvider->getAccessToken($consumer);
     }
@@ -119,13 +118,7 @@ class Oauth implements OauthInterface
         $consumer = $this->_tokenProvider->getConsumerByKey($params['oauth_consumer_key']);
         $tokenSecret = $this->_tokenProvider->validateAccessTokenRequest($params['oauth_token'], $consumer);
 
-        $this->_validateSignature(
-            $params,
-            $consumer->getSecret(),
-            $httpMethod,
-            $requestUrl,
-            $tokenSecret
-        );
+        $this->_validateSignature($params, $consumer->getSecret(), $httpMethod, $requestUrl, $tokenSecret);
 
         return $consumer->getId();
     }
@@ -142,20 +135,18 @@ class Oauth implements OauthInterface
      * {@inheritdoc}
      */
     public function buildAuthorizationHeader(
-        $params, $requestUrl, $signatureMethod = self::SIGNATURE_SHA1, $httpMethod = 'POST'
+        $params,
+        $requestUrl,
+        $signatureMethod = self::SIGNATURE_SHA1,
+        $httpMethod = 'POST'
     ) {
-        $required = array(
-            "oauth_consumer_key",
-            "oauth_consumer_secret",
-            "oauth_token",
-            "oauth_token_secret"
-        );
+        $required = array("oauth_consumer_key", "oauth_consumer_secret", "oauth_token", "oauth_token_secret");
         $this->_checkRequiredParams($params, $required);
         $consumer = $this->_tokenProvider->getConsumerByKey($params['oauth_consumer_key']);
         $headerParameters = array(
             'oauth_nonce' => $this->_nonceGenerator->generateNonce($consumer),
             'oauth_timestamp' => $this->_nonceGenerator->generateTimestamp(),
-            'oauth_version' => '1.0',
+            'oauth_version' => '1.0'
         );
         $headerParameters = array_merge($headerParameters, $params);
         $headerParameters['oauth_signature'] = $this->_httpUtility->sign(
@@ -180,7 +171,8 @@ class Oauth implements OauthInterface
      * @param string $httpMethod
      * @param string $requestUrl
      * @param string $tokenSecret
-     * @throws \Magento\Oauth\Exception
+     * @return void
+     * @throws Exception
      */
     protected function _validateSignature($params, $consumerSecret, $httpMethod, $requestUrl, $tokenSecret = null)
     {
@@ -212,7 +204,8 @@ class Oauth implements OauthInterface
      * Validate oauth version.
      *
      * @param string $version
-     * @throws \Magento\Oauth\Exception
+     * @return void
+     * @throws Exception
      */
     protected function _validateVersionParam($version)
     {
@@ -227,7 +220,8 @@ class Oauth implements OauthInterface
      *
      * @param array $protocolParams
      * @param array $requiredParams
-     * @throws \Magento\Oauth\Exception
+     * @return void
+     * @throws Exception
      */
     protected function _validateProtocolParams($protocolParams, $requiredParams)
     {
@@ -248,8 +242,11 @@ class Oauth implements OauthInterface
         }
         $this->_checkRequiredParams($protocolParams, $requiredParams);
 
-        if (isset($protocolParams['oauth_token']) &&
-            !$this->_tokenProvider->validateOauthToken($protocolParams['oauth_token'])
+        if (isset(
+            $protocolParams['oauth_token']
+        ) && !$this->_tokenProvider->validateOauthToken(
+            $protocolParams['oauth_token']
+        )
         ) {
             throw new Exception(__('Token is not the correct length'), self::ERR_TOKEN_REJECTED);
         }
@@ -264,7 +261,9 @@ class Oauth implements OauthInterface
 
         $consumer = $this->_tokenProvider->getConsumerByKey($protocolParams['oauth_consumer_key']);
         $this->_nonceGenerator->validateNonce(
-            $consumer, $protocolParams['oauth_nonce'], $protocolParams['oauth_timestamp']
+            $consumer,
+            $protocolParams['oauth_nonce'],
+            $protocolParams['oauth_timestamp']
         );
     }
 
@@ -273,7 +272,8 @@ class Oauth implements OauthInterface
      *
      * @param array $protocolParams
      * @param array $requiredParams
-     * @throws \Magento\Oauth\Exception
+     * @return void
+     * @throws Exception
      */
     protected function _checkRequiredParams($protocolParams, $requiredParams)
     {

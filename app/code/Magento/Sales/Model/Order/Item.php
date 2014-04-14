@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order;
 
 /**
  * Order Item Model
@@ -171,26 +172,50 @@
  * @method float getBaseDiscountRefunded()
  * @method \Magento\Sales\Model\Order\Item setBaseDiscountRefunded(float $value)
  */
-namespace Magento\Sales\Model\Order;
-
-class Item extends \Magento\Core\Model\AbstractModel
+class Item extends \Magento\Model\AbstractModel
 {
+    const STATUS_PENDING = 1;
 
-    const STATUS_PENDING        = 1; // No items shipped, invoiced, canceled, refunded nor backordered
-    const STATUS_SHIPPED        = 2; // When qty ordered - [qty canceled + qty returned] = qty shipped
-    const STATUS_INVOICED       = 9; // When qty ordered - [qty canceled + qty returned] = qty invoiced
-    const STATUS_BACKORDERED    = 3; // When qty ordered - [qty canceled + qty returned] = qty backordered
-    const STATUS_CANCELED       = 5; // When qty ordered = qty canceled
-    const STATUS_PARTIAL        = 6; // If [qty shipped or(max of two) qty invoiced + qty canceled + qty returned]
-                                     // < qty ordered
-    const STATUS_MIXED          = 7; // All other combinations
-    const STATUS_REFUNDED       = 8; // When qty ordered = qty refunded
+    // No items shipped, invoiced, canceled, refunded nor backordered
+    const STATUS_SHIPPED = 2;
 
-    const STATUS_RETURNED       = 4; // When qty ordered = qty returned // not used at the moment
+    // When qty ordered - [qty canceled + qty returned] = qty shipped
+    const STATUS_INVOICED = 9;
 
+    // When qty ordered - [qty canceled + qty returned] = qty invoiced
+    const STATUS_BACKORDERED = 3;
+
+    // When qty ordered - [qty canceled + qty returned] = qty backordered
+    const STATUS_CANCELED = 5;
+
+    // When qty ordered = qty canceled
+    const STATUS_PARTIAL = 6;
+
+    // If [qty shipped or(max of two) qty invoiced + qty canceled + qty returned]
+    // < qty ordered
+    const STATUS_MIXED = 7;
+
+    // All other combinations
+    const STATUS_REFUNDED = 8;
+
+    // When qty ordered = qty refunded
+    const STATUS_RETURNED = 4;
+
+    // When qty ordered = qty returned // not used at the moment
+
+    /**
+     * @var string
+     */
     protected $_eventPrefix = 'sales_order_item';
+
+    /**
+     * @var string
+     */
     protected $_eventObject = 'item';
 
+    /**
+     * @var array
+     */
     protected static $_statuses = null;
 
     /**
@@ -198,9 +223,17 @@ class Item extends \Magento\Core\Model\AbstractModel
      *
      * @var \Magento\Sales\Model\Order
      */
-    protected $_order       = null;
-    protected $_parentItem  = null;
-    protected $_children    = array();
+    protected $_order = null;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Item|null
+     */
+    protected $_parentItem = null;
+
+    /**
+     * @var array
+     */
+    protected $_children = array();
 
     /**
      * @var \Magento\Sales\Model\OrderFactory
@@ -213,20 +246,20 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected $_productFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -237,6 +270,8 @@ class Item extends \Magento\Core\Model\AbstractModel
 
     /**
      * Init resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -246,7 +281,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare data before save
      *
-     * @return \Magento\Sales\Model\Order\Item
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -263,8 +298,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Set parent item
      *
-     * @param   \Magento\Sales\Model\Order\Item $item
-     * @return  \Magento\Sales\Model\Order\Item
+     * @param Item $item
+     * @return $this
      */
     public function setParentItem($item)
     {
@@ -279,7 +314,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Get parent item
      *
-     * @return \Magento\Sales\Model\Order\Item || null
+     * @return \Magento\Sales\Model\Order\Item|null
      */
     public function getParentItem()
     {
@@ -367,7 +402,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             return 0;
         }
 
-        return max($this->getQtyInvoiced()-$this->getQtyRefunded(), 0);
+        return max($this->getQtyInvoiced() - $this->getQtyRefunded(), 0);
     }
 
     /**
@@ -384,8 +419,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Declare order
      *
-     * @param   \Magento\Sales\Model\Order $order
-     * @return  \Magento\Sales\Model\Order\Item
+     * @param \Magento\Sales\Model\Order $order
+     * @return $this
      */
     public function setOrder(\Magento\Sales\Model\Order $order)
     {
@@ -416,30 +451,30 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function getStatusId()
     {
-        $backordered = (float)$this->getQtyBackordered();
+        $backordered = (double)$this->getQtyBackordered();
         if (!$backordered && $this->getHasChildren()) {
-            $backordered = (float)$this->_getQtyChildrenBackordered();
+            $backordered = (double)$this->_getQtyChildrenBackordered();
         }
-        $canceled    = (float)$this->getQtyCanceled();
-        $invoiced    = (float)$this->getQtyInvoiced();
-        $ordered     = (float)$this->getQtyOrdered();
-        $refunded    = (float)$this->getQtyRefunded();
-        $shipped     = (float)$this->getQtyShipped();
+        $canceled = (double)$this->getQtyCanceled();
+        $invoiced = (double)$this->getQtyInvoiced();
+        $ordered = (double)$this->getQtyOrdered();
+        $refunded = (double)$this->getQtyRefunded();
+        $shipped = (double)$this->getQtyShipped();
 
         $actuallyOrdered = $ordered - $canceled - $refunded;
 
         if (!$invoiced && !$shipped && !$refunded && !$canceled && !$backordered) {
             return self::STATUS_PENDING;
         }
-        if ($shipped && $invoiced && ($actuallyOrdered == $shipped)) {
+        if ($shipped && $invoiced && $actuallyOrdered == $shipped) {
             return self::STATUS_SHIPPED;
         }
 
-        if ($invoiced && !$shipped && ($actuallyOrdered == $invoiced)) {
+        if ($invoiced && !$shipped && $actuallyOrdered == $invoiced) {
             return self::STATUS_INVOICED;
         }
 
-        if ($backordered && ($actuallyOrdered == $backordered) ) {
+        if ($backordered && $actuallyOrdered == $backordered) {
             return self::STATUS_BACKORDERED;
         }
 
@@ -467,7 +502,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         $backordered = null;
         foreach ($this->_children as $childItem) {
-            $backordered += (float)$childItem->getQtyBackordered();
+            $backordered += (double)$childItem->getQtyBackordered();
         }
 
         return $backordered;
@@ -503,17 +538,20 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Cancel order item
      *
-     * @return \Magento\Sales\Model\Order\Item
+     * @return $this
      */
     public function cancel()
     {
         if ($this->getStatusId() !== self::STATUS_CANCELED) {
-            $this->_eventManager->dispatch('sales_order_item_cancel', array('item'=>$this));
+            $this->_eventManager->dispatch('sales_order_item_cancel', array('item' => $this));
             $this->setQtyCanceled($this->getQtyToCancel());
-            $this->setTaxCanceled($this->getTaxCanceled() + $this->getBaseTaxAmount()
-                * $this->getQtyCanceled() / $this->getQtyOrdered());
-            $this->setHiddenTaxCanceled($this->getHiddenTaxCanceled() + $this->getHiddenTaxAmount()
-                * $this->getQtyCanceled() / $this->getQtyOrdered());
+            $this->setTaxCanceled(
+                $this->getTaxCanceled() + $this->getBaseTaxAmount() * $this->getQtyCanceled() / $this->getQtyOrdered()
+            );
+            $this->setHiddenTaxCanceled(
+                $this->getHiddenTaxCanceled() +
+                $this->getHiddenTaxAmount() * $this->getQtyCanceled() / $this->getQtyOrdered()
+            );
         }
         return $this;
     }
@@ -527,15 +565,15 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         if (is_null(self::$_statuses)) {
             self::$_statuses = array(
-                self::STATUS_PENDING        => __('Ordered'),
-                self::STATUS_SHIPPED        => __('Shipped'),
-                self::STATUS_INVOICED       => __('Invoiced'),
-                self::STATUS_BACKORDERED    => __('Backordered'),
-                self::STATUS_RETURNED       => __('Returned'),
-                self::STATUS_REFUNDED       => __('Refunded'),
-                self::STATUS_CANCELED       => __('Canceled'),
-                self::STATUS_PARTIAL        => __('Partial'),
-                self::STATUS_MIXED          => __('Mixed'),
+                self::STATUS_PENDING => __('Ordered'),
+                self::STATUS_SHIPPED => __('Shipped'),
+                self::STATUS_INVOICED => __('Invoiced'),
+                self::STATUS_BACKORDERED => __('Backordered'),
+                self::STATUS_RETURNED => __('Returned'),
+                self::STATUS_REFUNDED => __('Refunded'),
+                self::STATUS_CANCELED => __('Canceled'),
+                self::STATUS_PARTIAL => __('Partial'),
+                self::STATUS_MIXED => __('Mixed')
             );
         }
         return self::$_statuses;
@@ -558,8 +596,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Set product options
      *
-     * @param   array $options
-     * @return  \Magento\Sales\Model\Order\Item
+     * @param array $options
+     * @return $this
      */
     public function setProductOptions(array $options)
     {
@@ -617,7 +655,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Adds child item to this item
      *
-     * @param \Magento\Sales\Model\Order\Item $item
+     * @param Item $item
+     * @return void
      */
     public function addChildItem($item)
     {
@@ -644,7 +683,8 @@ class Item extends \Magento\Core\Model\AbstractModel
      *
      * @return bool
      */
-    public function isChildrenCalculated() {
+    public function isChildrenCalculated()
+    {
         $parentItem = $this->getParentItem();
         if ($parentItem) {
             $options = $parentItem->getProductOptions();
@@ -652,13 +692,15 @@ class Item extends \Magento\Core\Model\AbstractModel
             $options = $this->getProductOptions();
         }
 
-        if (isset($options['product_calculations'])
-            && $options['product_calculations'] == \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_CHILD
+        if (isset(
+            $options['product_calculations']
+        ) && $options['product_calculations'] == \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_CHILD
         ) {
             return true;
         }
         return false;
     }
+
     /**
      * Check if discount has to be applied to parent item
      *
@@ -681,7 +723,8 @@ class Item extends \Magento\Core\Model\AbstractModel
      *
      * @return bool
      */
-    public function isShipSeparately() {
+    public function isShipSeparately()
+    {
         $parentItem = $this->getParentItem();
         if ($parentItem) {
             $options = $parentItem->getProductOptions();
@@ -689,9 +732,11 @@ class Item extends \Magento\Core\Model\AbstractModel
             $options = $this->getProductOptions();
         }
 
-        if (isset($options['shipment_type']) &&
-             $options['shipment_type'] == \Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_SEPARATELY) {
-                return true;
+        if (isset(
+            $options['shipment_type']
+        ) && $options['shipment_type'] == \Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_SEPARATELY
+        ) {
+            return true;
         }
         return false;
     }
@@ -704,7 +749,8 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param bool $shipment
      * @return bool
      */
-    public function isDummy($shipment = false){
+    public function isDummy($shipment = false)
+    {
         if ($shipment) {
             if ($this->getHasChildren() && $this->isShipSeparately()) {
                 return true;

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design;
 
 /**
@@ -31,12 +30,12 @@ interface ThemeInterface
     /**
      * Virtual theme type
      */
-    const TYPE_VIRTUAL  = 1;
+    const TYPE_VIRTUAL = 1;
 
     /**
      * Staging theme type
      */
-    const TYPE_STAGING  = 2;
+    const TYPE_STAGING = 2;
 
     /**
      * Retrieve code of an area a theme belongs to
@@ -79,4 +78,19 @@ interface ThemeInterface
      * @return bool
      */
     public function isPhysical();
+
+    /**
+     * Return the full theme inheritance sequence, from the root theme till a specified one
+     * Format: array([<root_theme>, ..., <parent_theme>,] <current_theme>)
+     *
+     * @return ThemeInterface[]
+     */
+    public function getInheritedThemes();
+
+    /**
+     * Get theme id
+     *
+     * @return int
+     */
+    public function getId();
 }

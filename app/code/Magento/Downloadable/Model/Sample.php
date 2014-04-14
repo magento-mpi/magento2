@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Model;
 
 /**
  * Downloadable sample model
@@ -24,27 +25,23 @@
  * @method int getSortOrder()
  * @method \Magento\Downloadable\Model\Sample setSortOrder(int $value)
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Model;
-
-class Sample extends \Magento\Core\Model\AbstractModel
+class Sample extends \Magento\Model\AbstractModel
 {
     const XML_PATH_SAMPLES_TITLE = 'catalog/downloadable/samples_title';
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -54,6 +51,7 @@ class Sample extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -64,12 +62,11 @@ class Sample extends \Magento\Core\Model\AbstractModel
     /**
      * After save process
      *
-     * @return \Magento\Downloadable\Model\Sample
+     * @return $this
      */
     protected function _afterSave()
     {
-        $this->getResource()
-            ->saveItemTitle($this);
+        $this->getResource()->saveItemTitle($this);
         return parent::_afterSave();
     }
 
@@ -116,7 +113,6 @@ class Sample extends \Magento\Core\Model\AbstractModel
      */
     public function getSearchableData($productId, $storeId)
     {
-        return $this->_getResource()
-            ->getSearchableData($productId, $storeId);
+        return $this->_getResource()->getSearchableData($productId, $storeId);
     }
 }

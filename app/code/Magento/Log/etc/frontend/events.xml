@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="controller_action_predispatch">
         <observer name="log" instance="Magento\Log\Model\Visitor" method="initByRequest" />
     </event>
     <event name="controller_action_postdispatch">
         <observer name="log" instance="Magento\Log\Model\Visitor" method="saveByRequest" />
     </event>
-    <event name="customer_login">
+    <event name="customer_data_object_login">
         <observer name="log" instance="Magento\Log\Model\Visitor" method="bindCustomerLogin" />
     </event>
     <event name="customer_logout">

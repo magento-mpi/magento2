@@ -11,8 +11,7 @@
  */
 namespace Magento\Cache\Backend\Decorator;
 
-abstract class AbstractDecorator extends \Zend_Cache_Backend
-    implements \Zend_Cache_Backend_ExtendedInterface
+abstract class AbstractDecorator extends \Zend_Cache_Backend implements \Zend_Cache_Backend_ExtendedInterface
 {
     /**
      * Concrete Cache Backend class that is being decorated
@@ -31,8 +30,10 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend
      */
     public function __construct(array $options = array())
     {
-        if (array_key_exists('concrete_backend', $options)
-            && ($options['concrete_backend'] instanceof \Zend_Cache_Backend_Interface)
+        if (array_key_exists(
+            'concrete_backend',
+            $options
+        ) && $options['concrete_backend'] instanceof \Zend_Cache_Backend_Interface
         ) {
             $this->_backend = $options['concrete_backend'];
             unset($options['concrete_backend']);
@@ -92,12 +93,12 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend
      *
      * @param  string $data             Datas to cache
      * @param  string $cacheId          Cache id
-     * @param  array  $tags             Array of strings, the cache record will be tagged by each string entry
-     * @param  bool   $specificLifetime If != false, set a specific lifetime for this cache record
+     * @param  string[] $tags           Array of strings, the cache record will be tagged by each string entry
+     * @param  bool $specificLifetime   If != false, set a specific lifetime for this cache record
      *                                  (null => infinite lifetime)
-     * @param  int    $priority         integer between 0 (very low priority) and 10 (maximum priority) used by
+     * @param  int $priority            integer between 0 (very low priority) and 10 (maximum priority) used by
      *                                  some particular backends
-     * @return boolean true if no problem
+     * @return bool true if no problem
      */
     public function save($data, $cacheId, $tags = array(), $specificLifetime = false, $priority = 8)
     {
@@ -107,8 +108,8 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend
     /**
      * Remove a cache record
      *
-     * @param  string $cacheId Cache id
-     * @return boolean True if no problem
+     * @param string $cacheId Cache id
+     * @return bool true if no problem
      */
     public function remove($cacheId)
     {
@@ -129,8 +130,8 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend
      *                                               ($tags can be an array of strings or a single string)
      *
      * @param  string $mode Clean mode
-     * @param  array  $tags Array of tags
-     * @return boolean true if no problem
+     * @param  string[] $tags Array of tags
+     * @return bool true if no problem
      */
     public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, $tags = array())
     {
@@ -140,7 +141,7 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend
     /**
      * Return an array of stored cache ids
      *
-     * @return array array of stored cache ids (string)
+     * @return string[] array of stored cache ids (string)
      */
     public function getIds()
     {
@@ -150,7 +151,7 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend
     /**
      * Return an array of stored tags
      *
-     * @return array array of stored tags (string)
+     * @return string[] array of stored tags (string)
      */
     public function getTags()
     {
@@ -162,8 +163,8 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend
      *
      * In case of multiple tags, a logical AND is made between tags
      *
-     * @param array $tags array of tags
-     * @return array array of matching cache ids (string)
+     * @param string[] $tags array of tags
+     * @return string[] array of matching cache ids (string)
      */
     public function getIdsMatchingTags($tags = array())
     {
@@ -175,8 +176,8 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend
      *
      * In case of multiple tags, a logical OR is made between tags
      *
-     * @param array $tags array of tags
-     * @return array array of not matching cache ids (string)
+     * @param string[] $tags array of tags
+     * @return string[] array of not matching cache ids (string)
      */
     public function getIdsNotMatchingTags($tags = array())
     {
@@ -188,8 +189,8 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend
      *
      * In case of multiple tags, a logical AND is made between tags
      *
-     * @param array $tags array of tags
-     * @return array array of any matching cache ids (string)
+     * @param string[] $tags array of tags
+     * @return string[] array of any matching cache ids (string)
      */
     public function getIdsMatchingAnyTags($tags = array())
     {
@@ -215,7 +216,7 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend
      * - mtime : timestamp of last modification time
      *
      * @param string $cacheId cache id
-     * @return array array of metadatas (false if the cache id is not found)
+     * @return array|bool array of metadatas (false if the cache id is not found)
      */
     public function getMetadatas($cacheId)
     {

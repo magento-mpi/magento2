@@ -13,14 +13,14 @@ class Title
     /**
      * Title parts to be rendered in the page head title
      *
-     * @var array
+     * @var string[]
      */
     protected $_titles = array();
 
     /**
      * @param string $text
      * @param bool $prepend
-     * @return Title
+     * @return $this
      */
     public function add($text, $prepend = false)
     {
@@ -35,7 +35,7 @@ class Title
     /**
      * Get titles
      *
-     * @return array
+     * @return string[]
      */
     public function get()
     {

@@ -7,18 +7,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Auth;
 
 /**
  * Backend Auth session model
  *
+ * @method \Magento\User\Model\User|null getUser()
+ * @method \Magento\Backend\Model\Auth\Session setUser(\Magento\User\Model\User $value)
+ * @method \Magento\Acl|null getAcl()
+ * @method \Magento\Backend\Model\Auth\Session setAcl(\Magento\Acl $value)
+ * @method int getUpdatedAt()
+ * @method \Magento\Backend\Model\Auth\Session setUpdatedAt(int $value)
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @todo implement solution that keeps is_first_visit flag in session during redirects
  */
-class Session
-    extends \Magento\Session\SessionManager
-    implements \Magento\Backend\Model\Auth\StorageInterface
+class Session extends \Magento\Session\SessionManager implements \Magento\Backend\Model\Auth\StorageInterface
 {
     const XML_PATH_SESSION_LIFETIME = 'admin/security/session_lifetime';
 
@@ -37,7 +41,7 @@ class Session
     protected $_aclBuilder;
 
     /**
-     * @var \Magento\Backend\Model\Url
+     * @var \Magento\Backend\Model\UrlInterface
      */
     protected $_backendUrl;
 
@@ -47,25 +51,25 @@ class Session
     protected $_config;
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\App\Request\Http $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
      * @param \Magento\Session\ValidatorInterface $validator
      * @param \Magento\Session\StorageInterface $storage
      * @param \Magento\Acl\Builder $aclBuilder
-     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Backend\App\ConfigInterface $config
      */
     public function __construct(
-        \Magento\App\RequestInterface $request,
+        \Magento\App\Request\Http $request,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Session\SaveHandlerInterface $saveHandler,
         \Magento\Session\ValidatorInterface $validator,
         \Magento\Session\StorageInterface $storage,
         \Magento\Acl\Builder $aclBuilder,
-        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Backend\App\ConfigInterface $config
     ) {
         $this->_config = $config;
@@ -120,7 +124,6 @@ class Session
                         return $acl->isAllowed($user->getAclRole(), null, $privilege);
                     }
                 } catch (\Exception $e) {
-
                 }
             }
         }
@@ -138,7 +141,7 @@ class Session
         $currentTime = time();
 
         /* Validate admin session lifetime that should be more than 60 seconds */
-        if ($lifetime >= 60 && ($this->getUpdatedAt() < $currentTime - $lifetime)) {
+        if ($lifetime >= 60 && $this->getUpdatedAt() < $currentTime - $lifetime) {
             return false;
         }
 
@@ -211,6 +214,7 @@ class Session
      *
      * @param string $path
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function isValidForPath($path)
     {

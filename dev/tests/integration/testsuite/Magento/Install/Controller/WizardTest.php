@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Install\Controller;
 
 class WizardTest extends \Magento\TestFramework\TestCase\AbstractController
@@ -25,10 +24,10 @@ class WizardTest extends \Magento\TestFramework\TestCase\AbstractController
 
     public static function setUpBeforeClass()
     {
-        /** @var \Magento\Filesystem $filesystem */
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem');
-        $varDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
-        $tmpDir =  'WizardTest';
+        /** @var \Magento\App\Filesystem $filesystem */
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem');
+        $varDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $tmpDir = 'WizardTest';
         $varDirectory->delete($tmpDir);
         // deliberately create a file instead of directory to emulate broken access to static directory
         $varDirectory->touch($tmpDir);
@@ -38,12 +37,14 @@ class WizardTest extends \Magento\TestFramework\TestCase\AbstractController
 
     public function testPreDispatch()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(array(
-            'preferences' => array(
-                'Magento\App\RequestInterface' => 'Magento\TestFramework\Request',
-                'Magento\App\Response\Http' => 'Magento\TestFramework\Response'
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(
+            array(
+                'preferences' => array(
+                    'Magento\App\RequestInterface' => 'Magento\TestFramework\Request',
+                    'Magento\App\Response\Http' => 'Magento\TestFramework\Response'
+                )
             )
-        ));
+        );
         /** @var $appState \Magento\App\State */
         $appState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State');
         $appState->setInstallDate(false);

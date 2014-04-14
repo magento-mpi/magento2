@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout;
 
 /**
@@ -28,6 +27,8 @@ class ProcessorFactory
     protected $instanceName;
 
     /**
+     * Constructor
+     *
      * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      */

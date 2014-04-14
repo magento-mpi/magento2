@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
 /**
  * Accordion grid for products in wishlist
@@ -15,10 +16,7 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
-
-class Wishlist
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
+class Wishlist extends AbstractAccordion
 {
     /**
      * Collection field name for using in controls
@@ -28,11 +26,15 @@ class Wishlist
 
     /**
      * Javascript list type name for this grid
+     *
+     * @var string
      */
     protected $_listType = 'wishlist';
 
     /**
      * Url to configure this grid's items
+     *
+     * @var string
      */
     protected $_configureRoute = '*/checkout/configureWishlistItem';
 
@@ -45,29 +47,28 @@ class Wishlist
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         array $data = array()
     ) {
         $this->_itemFactory = $itemFactory;
-        parent::__construct($context, $urlModel, $backendHelper, $collectionFactory, $coreRegistry, $data);
+        parent::__construct($context, $backendHelper, $collectionFactory, $coreRegistry, $data);
     }
 
     /**
      * Initialize Grid
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -76,9 +77,7 @@ class Wishlist
         $this->setDefaultSort('added_at');
         $this->setData('open', true);
         if ($this->_getStore()) {
-            $this->setHeaderText(
-                __('Wish List (%1)', $this->getItemsCount())
-            );
+            $this->setHeaderText(__('Wish List (%1)', $this->getItemsCount()));
         }
     }
 
@@ -110,12 +109,11 @@ class Wishlist
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $collection = $this->_createItemsCollection()
-                ->addCustomerIdFilter($this->_getCustomer()->getId())
-                ->addStoreFilter($this->_getStore()->getWebsite()->getStoreIds())
-                ->setVisibilityFilter()
-                ->setSalableFilter()
-                ->resetSortOrder();
+            $collection = $this->_createItemsCollection()->addCustomerIdFilter(
+                $this->_getCustomer()->getId()
+            )->addStoreFilter(
+                $this->_getStore()->getWebsite()->getStoreIds()
+            )->setVisibilityFilter()->setSalableFilter()->resetSortOrder();
 
             foreach ($collection as $item) {
                 $product = $item->getProduct();
@@ -128,7 +126,6 @@ class Wishlist
                         $item->setPrice($product->getPrice());
                     }
                 }
-
             }
             $this->setData('items_collection', $collection);
         }
@@ -142,21 +139,23 @@ class Wishlist
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/viewWishlist', array('_current'=>true));
+        return $this->getUrl('checkout/*/viewWishlist', array('_current' => true));
     }
 
     /**
      * Add columns with controls to manage added products and their quantity
      * Uses inherited methods, but modifies Qty column to change renderer
      *
-     * @return \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Wishlist
+     * @return $this
      */
     protected function _addControlColumns()
     {
         parent::_addControlColumns();
-        $this->getColumn('qty')->addData(array(
-            'renderer' => 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Wishlist\Qty'
-        ));
+        $this->getColumn(
+            'qty'
+        )->addData(
+            array('renderer' => 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Wishlist\Qty')
+        );
 
         return $this;
     }

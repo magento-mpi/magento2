@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Email\Model\Resource\Template;
 
 /**
  * Templates collection
@@ -16,9 +16,7 @@
  * @package     Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Email\Model\Resource\Template;
-
-class Collection extends  \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Template table name
@@ -30,6 +28,7 @@ class Collection extends  \Magento\Core\Model\Resource\Db\Collection\AbstractCol
     /**
      * Define resource table
      *
+     * @return void
      */
     public function _construct()
     {

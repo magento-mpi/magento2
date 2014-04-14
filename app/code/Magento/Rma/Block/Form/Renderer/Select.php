@@ -7,20 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Form\Renderer;
 
 /**
  * Rma Item Form Renderer Block for select
  */
-namespace Magento\Rma\Block\Form\Renderer;
-
-class Select extends \Magento\CustomAttribute\Block\Form\Renderer\Select
+class Select extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Select
 {
     /**
+     * Rma item factory
+     *
      * @var \Magento\Rma\Model\ItemFactory
      */
     protected $_itemFactory;
 
     /**
+     * Rma item form
+     *
      * @var \Magento\Rma\Model\Item\Form
      */
     protected $_itemFormFactory;
@@ -40,6 +43,7 @@ class Select extends \Magento\CustomAttribute\Block\Form\Renderer\Select
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -54,9 +58,7 @@ class Select extends \Magento\CustomAttribute\Block\Form\Renderer\Select
         $itemModel = $this->_itemFactory->create();
         /* @var $itemForm \Magento\Rma\Model\Item\Form */
         $itemForm = $this->_itemFormFactory->create();
-        $itemForm->setFormCode('default')
-            ->setStore($this->getStore())
-            ->setEntity($itemModel);
+        $itemForm->setFormCode('default')->setStore($this->getStore())->setEntity($itemModel);
 
         $attribute = $itemForm->getAttribute($code);
         if ($attribute->getIsVisible()) {
@@ -65,4 +67,3 @@ class Select extends \Magento\CustomAttribute\Block\Form\Renderer\Select
         return false;
     }
 }
-

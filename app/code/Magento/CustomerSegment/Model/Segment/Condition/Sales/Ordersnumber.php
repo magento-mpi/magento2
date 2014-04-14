@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Sales;
+
+use Magento\Customer\Model\Customer;
+use Zend_Db_Expr;
 
 /**
  * Order numbers condition
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Sales;
-
-class Ordersnumber
-    extends \Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine
+class Ordersnumber extends \Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine
 {
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
@@ -36,9 +37,9 @@ class Ordersnumber
     /**
      * Set data with filtering
      *
-     * @param mixed $key
+     * @param string|array $key
      * @param mixed $value
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Sales\Ordersnumber
+     * @return $this
      */
     public function setData($key, $value = null)
     {
@@ -55,7 +56,7 @@ class Ordersnumber
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -65,7 +66,7 @@ class Ordersnumber
     /**
      * Redeclare value options. We use empty because value is text input
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Sales\Ordersnumber
+     * @return $this
      */
     public function loadValueOptions()
     {
@@ -80,16 +81,19 @@ class Ordersnumber
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Number of Orders %1 %2 while %3 of these Conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Number of Orders %1 %2 while %3 of these Conditions match:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml(),
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
      * Build query for matching orders count
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
+     * @param Customer|Zend_Db_Expr $customer
+     * @param int|Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)

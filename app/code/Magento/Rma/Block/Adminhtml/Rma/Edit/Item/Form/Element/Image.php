@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
 
 /**
  * RMA Item Widget Form Image File Element Block
@@ -16,8 +16,6 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
-
 class Image extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
@@ -59,7 +57,8 @@ class Image extends \Magento\Data\Form\Element\AbstractElement
             $this->addClass('required-file');
         }
 
-        $element = sprintf('<input id="%s" name="%s" %s />%s%s',
+        $element = sprintf(
+            '<input id="%s" name="%s" %s />%s%s',
             $this->getHtmlId(),
             $this->getName(),
             $this->serialize($this->getHtmlAttributes()),
@@ -90,16 +89,14 @@ class Image extends \Magento\Data\Form\Element\AbstractElement
         $html = '';
         if ($this->getValue() && !$this->getRequired() && !is_array($this->getValue())) {
             $checkboxId = sprintf('%s_delete', $this->getHtmlId());
-            $checkbox   = array(
-                'type'  => 'checkbox',
-                'name'  => sprintf('%s[delete]', $this->getName()),
+            $checkbox = array(
+                'type' => 'checkbox',
+                'name' => sprintf('%s[delete]', $this->getName()),
                 'value' => '1',
                 'class' => 'checkbox',
-                'id'    => $checkboxId
+                'id' => $checkboxId
             );
-            $label      = array(
-                'for'   => $checkboxId
-            );
+            $label = array('for' => $checkboxId);
             if ($this->getDisabled()) {
                 $checkbox['disabled'] = 'disabled';
                 $label['class'] = 'disabled';
@@ -134,21 +131,19 @@ class Image extends \Magento\Data\Form\Element\AbstractElement
         if ($this->getValue() && !is_array($this->getValue())) {
             $url = $this->_getPreviewUrl();
             $imageId = sprintf('%s_image', $this->getHtmlId());
-            $image   = array(
-                'alt'    => __('View Full Size'),
-                'title'  => __('View Full Size'),
-                'src'    => $url,
-                'class'  => 'small-image-preview v-middle',
+            $image = array(
+                'alt' => __('View Full Size'),
+                'title' => __('View Full Size'),
+                'src' => $url,
+                'class' => 'small-image-preview v-middle',
                 'height' => 22,
-                'width'  => 22,
-                'id'     => $imageId
+                'width' => 22,
+                'id' => $imageId
             );
-            $link    = array(
-                'href'      => $url,
-                'onclick'   => "imagePreview('{$imageId}'); return false;",
-            );
+            $link = array('href' => $url, 'onclick' => "imagePreview('{$imageId}'); return false;");
 
-            $html = sprintf('%s%s</a> ',
+            $html = sprintf(
+                '%s%s</a> ',
                 $this->_drawElementHtml('a', $link, false),
                 $this->_drawElementHtml('img', $image)
             );
@@ -159,16 +154,17 @@ class Image extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Return Image URL
      *
-     * @return string
+     * @return string|false
      */
     protected function _getPreviewUrl()
     {
         if (is_array($this->getValue())) {
             return false;
         }
-        return $this->_backendData->getUrl('adminhtml/rma/viewfile', array(
-            'image'      => $this->_escaper->urlEncode($this->getValue()),
-        ));
+        return $this->_backendData->getUrl(
+            'adminhtml/rma/viewfile',
+            array('image' => $this->_escaper->urlEncode($this->getValue()))
+        );
     }
 
     /**
@@ -178,12 +174,15 @@ class Image extends \Magento\Data\Form\Element\AbstractElement
      */
     protected function _getHiddenInput()
     {
-        return $this->_drawElementHtml('input', array(
-            'type'  => 'hidden',
-            'name'  => sprintf('%s[value]', $this->getName()),
-            'id'    => sprintf('%s_value', $this->getHtmlId()),
-            'value' => $this->getEscapedValue()
-        ));
+        return $this->_drawElementHtml(
+            'input',
+            array(
+                'type' => 'hidden',
+                'name' => sprintf('%s[value]', $this->getName()),
+                'id' => sprintf('%s_value', $this->getHtmlId()),
+                'value' => $this->getEscapedValue()
+            )
+        );
     }
 
     /**
@@ -208,7 +207,7 @@ class Image extends \Magento\Data\Form\Element\AbstractElement
      * Return escaped value
      *
      * @param int $index
-     * @return string
+     * @return string|false
      */
     public function getEscapedValue($index = null)
     {

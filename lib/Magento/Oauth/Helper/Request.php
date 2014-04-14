@@ -5,10 +5,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Oauth\Helper;
 
-use \Magento\Oauth\OauthInterface;
+use Magento\Oauth\OauthInterface;
 
 class Request
 {
@@ -16,10 +15,15 @@ class Request
      * HTTP Response Codes
      */
     const HTTP_OK = 200;
+
     const HTTP_BAD_REQUEST = 400;
+
     const HTTP_UNAUTHORIZED = 401;
+
     const HTTP_METHOD_NOT_ALLOWED = 405;
+
     const HTTP_INTERNAL_ERROR = 500;
+
     /**#@-*/
 
     /**
@@ -75,20 +79,17 @@ class Request
      * Process HTTP request object and prepare for token validation
      *
      * @param \Zend_Controller_Request_Http $httpRequest
-     * @param string $requestUrl The request Url
-     * @param array $bodyParams array of key value body parameters
      * @return array
      */
-    public function prepareRequest($httpRequest, $requestUrl, $bodyParams = array())
+    public function prepareRequest($httpRequest)
     {
-        $oauthParams = $this->_processRequest($httpRequest->getHeader('Authorization'),
+        $oauthParams = $this->_processRequest(
+            $httpRequest->getHeader('Authorization'),
             $httpRequest->getHeader(\Zend_Http_Client::CONTENT_TYPE),
             $httpRequest->getRawBody(),
-            $requestUrl);
-        // Use body parameters only for POST and PUT
-        $bodyParams = is_array($bodyParams) && ($httpRequest->getMethod() == 'POST' ||
-            $httpRequest->getMethod() == 'PUT') ? $bodyParams : array();
-        return array_merge($oauthParams, $bodyParams);
+            $this->getRequestUrl($httpRequest)
+        );
+        return $oauthParams;
     }
 
     /**
@@ -100,17 +101,16 @@ class Request
     public function getRequestUrl($httpRequest)
     {
         // TODO: Fix needed for $this->getRequest()->getHttpHost(). Hosts with port are not covered.
-        return $httpRequest->getScheme() . '://' . $httpRequest->getHttpHost() .
-            $httpRequest->getRequestUri();
+        return $httpRequest->getScheme() . '://' . $httpRequest->getHttpHost() . $httpRequest->getRequestUri();
     }
 
     /**
      * Process oauth related protocol information and return as an array
      *
-     * @param $authHeaderValue
-     * @param $contentTypeHeader
-     * @param $requestBodyString
-     * @param $requestUrl
+     * @param string $authHeaderValue
+     * @param string $contentTypeHeader
+     * @param string $requestBodyString
+     * @param string $requestUrl
      * @return array
      * merged array of oauth protocols and request parameters. eg :
      * <pre>
@@ -159,14 +159,17 @@ class Request
     /**
      * Retrieve protocol parameters from query string
      *
-     * @param $protocolParams
-     * @param $queryString
+     * @param array &$protocolParams
+     * @param array $queryString
+     * @return void
      */
     protected function _fetchProtocolParamsFromQuery(&$protocolParams, $queryString)
     {
-        foreach ($queryString as $queryParamName => $queryParamValue) {
-            if ($this->_isProtocolParameter($queryParamName)) {
-                $protocolParams[$queryParamName] = $queryParamValue;
+        if (is_array($queryString)) {
+            foreach ($queryString as $queryParamName => $queryParamValue) {
+                if ($this->_isProtocolParameter($queryParamName)) {
+                    $protocolParams[$queryParamName] = $queryParamValue;
+                }
             }
         }
     }
@@ -185,13 +188,15 @@ class Request
     /**
      * Process header parameters for Oauth
      *
-     * @param $authHeaderValue
-     * @param $protocolParams
+     * @param string $authHeaderValue
+     * @param array &$protocolParams
+     * @return void
      */
     protected function _processHeader($authHeaderValue, &$protocolParams)
     {
         if ($authHeaderValue && 'oauth' === strtolower(substr($authHeaderValue, 0, 5))) {
-            $authHeaderValue = substr($authHeaderValue, 6); // ignore 'OAuth ' at the beginning
+            $authHeaderValue = substr($authHeaderValue, 6);
+            // ignore 'OAuth ' at the beginning
 
             foreach (explode(',', $authHeaderValue) as $paramStr) {
                 $nameAndValue = explode('=', trim($paramStr), 2);
@@ -209,8 +214,9 @@ class Request
     /**
      * Process query string for Oauth
      *
-     * @param $protocolParams
-     * @param $queryString
+     * @param array &$protocolParams
+     * @param string $queryString
+     * @return void
      */
     protected function _extractQueryStringParams(&$protocolParams, $queryString)
     {
@@ -230,12 +236,10 @@ class Request
      *
      * @param \Exception $exception
      * @param \Zend_Controller_Response_Http $response OPTIONAL If NULL - will use internal getter
-     * @return string
+     * @return array
      */
-    public function prepareErrorResponse(
-        \Exception $exception,
-        \Zend_Controller_Response_Http $response = null
-    ) {
+    public function prepareErrorResponse(\Exception $exception, \Zend_Controller_Response_Http $response = null)
+    {
         $errorMap = $this->_errors;
         $errorsToHttpCode = $this->_errorsToHttpCode;
 

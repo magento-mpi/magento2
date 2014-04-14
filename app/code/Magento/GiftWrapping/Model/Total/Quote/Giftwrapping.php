@@ -18,7 +18,7 @@ namespace Magento\GiftWrapping\Model\Total\Quote;
 class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
@@ -79,21 +79,19 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
             $this->_quoteEntity = $quote;
         }
 
-        $this->_collectWrappingForItems($address)
-            ->_collectWrappingForQuote($address)
-            ->_collectPrintedCard($address);
+        $this->_collectWrappingForItems($address)->_collectWrappingForQuote($address)->_collectPrintedCard($address);
 
         $address->setBaseGrandTotal(
-            $address->getBaseGrandTotal()
-            + $address->getGwItemsBasePrice()
-            + $address->getGwBasePrice()
-            + $address->getGwCardBasePrice()
+            $address->getBaseGrandTotal() +
+            $address->getGwItemsBasePrice() +
+            $address->getGwBasePrice() +
+            $address->getGwCardBasePrice()
         );
         $address->setGrandTotal(
-            $address->getGrandTotal()
-            + $address->getGwItemsPrice()
-            + $address->getGwPrice()
-            + $address->getGwCardPrice()
+            $address->getGrandTotal() +
+            $address->getGwItemsPrice() +
+            $address->getGwPrice() +
+            $address->getGwCardPrice()
         );
 
         if ($quote->getIsNewGiftWrappingCollecting()) {
@@ -140,8 +138,8 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
             $wrappingPrice = $this->_store->convertPrice($wrappingBasePrice);
             $item->setGwBasePrice($wrappingBasePrice);
             $item->setGwPrice($wrappingPrice);
-            $wrappingForItemsBaseTotal += $wrappingBasePrice;
-            $wrappingForItemsTotal += $wrappingPrice;
+            $wrappingForItemsBaseTotal += $wrappingBasePrice * $item->getQty();
+            $wrappingForItemsTotal += $wrappingPrice * $item->getQty();
         }
         $address->setGwItemsBasePrice($wrappingForItemsBaseTotal);
         $address->setGwItemsPrice($wrappingForItemsTotal);
@@ -192,7 +190,7 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
      * Return wrapping model for wrapping ID
      *
      * @param  int $wrappingId
-     * @param  \Magento\Core\Model\Store $store
+     * @param  \Magento\Store\Model\Store $store
      * @return \Magento\GiftWrapping\Model\Wrapping
      */
     protected function _getWrapping($wrappingId, $store)
@@ -212,15 +210,17 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
      */
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
-        $address->addTotal(array(
-            'code'  => $this->getCode(),
-            'gw_price' => $address->getGwPrice(),
-            'gw_base_price' => $address->getGwBasePrice(),
-            'gw_items_price' => $address->getGwItemsPrice(),
-            'gw_items_base_price' => $address->getGwItemsBasePrice(),
-            'gw_card_price' => $address->getGwCardPrice(),
-            'gw_card_base_price' => $address->getGwCardBasePrice()
-        ));
+        $address->addTotal(
+            array(
+                'code' => $this->getCode(),
+                'gw_price' => $address->getGwPrice(),
+                'gw_base_price' => $address->getGwBasePrice(),
+                'gw_items_price' => $address->getGwItemsPrice(),
+                'gw_items_base_price' => $address->getGwItemsBasePrice(),
+                'gw_card_price' => $address->getGwCardPrice(),
+                'gw_card_base_price' => $address->getGwCardBasePrice()
+            )
+        );
         return $this;
     }
 }

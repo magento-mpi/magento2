@@ -68,9 +68,10 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
     {
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_authorizenet');
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'  => $simpleSku,
-                                             'payment_data' => $paymentData));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa', array(
+            'filter_sku' => $simpleSku,
+            'payment_data' => $paymentData
+        ));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -160,12 +161,13 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      */
     public function fullRefund($captureType, $refundType, $orderData)
     {
-        $this->markTestIncomplete('MAGETWO-8704');
+        if ($refundType == 'refund') {
+            $this->markTestIncomplete('BUG: wrong "%s %s %s - %s. %s. %s" message is displayed');
+        }
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
-        $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
         $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
@@ -194,15 +196,16 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      */
     public function partialRefund($captureType, $refundType, $orderData, $sku)
     {
-        $this->markTestIncomplete('MAGETWO-8704');
+        if ($refundType == 'refund') {
+            $this->markTestIncomplete('BUG: wrong "%s %s %s - %s. %s. %s" message is displayed');
+        }
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
         $creditMemo = $this->loadDataSet('SalesOrder', 'products_to_refund', array('return_filter_sku' => $sku));
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
-        $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
         $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
@@ -211,11 +214,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
             $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType, $creditMemo);
         } else {
             $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType, $creditMemo, false);
-            //$this->assertMessagePresent('error', 'failed_authorize_online_refund');
-            $error = $this->errorMessage('failed_authorize_online_refund');
-            if (!$error['success']) {
-                $this->skipTestWithScreenshot(self::messagesToString($this->getMessagesOnPage()));
-            }
+            $this->assertMessagePresent('error', 'failed_authorize_online_refund');
         }
     }
 

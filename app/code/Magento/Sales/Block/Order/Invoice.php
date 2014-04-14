@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Order;
 
 /**
  * Sales order view block
  */
-namespace Magento\Sales\Block\Order;
-
 class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
 {
     /**
@@ -21,9 +20,9 @@ class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
     protected $_template = 'order/invoice.phtml';
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
 
     /**
      * @var \Magento\Payment\Helper\Data
@@ -32,33 +31,34 @@ class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Registry $registry
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Registry $registry,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Payment\Helper\Data $paymentHelper,
         array $data = array()
     ) {
         $this->_paymentHelper = $paymentHelper;
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         parent::__construct($context, $registry, $data);
+        $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     protected function _prepareLayout()
     {
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Order # %1', $this->getOrder()->getRealOrderId()));
         }
-        $this->setChild(
-            'payment_info',
-            $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment())
-        );
+        $this->setChild('payment_info', $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment()));
     }
 
     /**
@@ -86,7 +86,7 @@ class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
      */
     public function getBackUrl()
     {
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             return $this->getUrl('*/*/history');
         }
         return $this->getUrl('*/*/form');
@@ -99,7 +99,7 @@ class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
      */
     public function getBackTitle()
     {
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             return __('Back to My Orders');
         }
         return __('View Another Order');

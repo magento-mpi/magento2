@@ -13,7 +13,7 @@
  */
 namespace Magento\Pbridge\Model\Source\Braintree;
 
-class PaymentAction implements \Magento\Core\Model\Option\ArrayInterface
+class PaymentAction implements \Magento\Option\ArrayInterface
 {
     /**
      * Return list of available payment actions for gateway
@@ -22,11 +22,14 @@ class PaymentAction implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            array('value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE,
-                'label' => __('Authorization')),
-            array('value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
-                'label' => __('Sale')),
+            array(
+                'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE,
+                'label' => __('Authorization')
+            ),
+            array(
+                'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
+                'label' => __('Sale')
+            )
         );
     }
 }
-

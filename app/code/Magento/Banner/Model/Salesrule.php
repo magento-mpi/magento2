@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Banner\Model;
 
 /**
  * Enterprise banner sales rule model
@@ -23,13 +23,12 @@
  * @package     Magento_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Banner\Model;
-
-class Salesrule extends \Magento\Core\Model\AbstractModel
+class Salesrule extends \Magento\Model\AbstractModel
 {
     /**
      * Initialize promo shopping cart price rule model
      *
+     * @return void
      */
     protected function _construct()
     {

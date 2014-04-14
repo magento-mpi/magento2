@@ -7,55 +7,67 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Controller;
 
 /**
  * RSS Controller for Catalog feeds
  */
-namespace Magento\Rss\Controller;
-
 class Catalog extends \Magento\App\Action\Action
 {
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Store\Config $storeConfig
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
+    /**
+     * @return void
+     */
     public function newAction()
     {
         $this->_genericAction('new');
     }
 
+    /**
+     * @return void
+     */
     public function specialAction()
     {
         $this->_genericAction('special');
     }
 
+    /**
+     * @return void
+     */
     public function salesruleAction()
     {
         $this->_genericAction('salesrule');
     }
 
+    /**
+     * @return void
+     */
     public function categoryAction()
     {
-         $this->_genericAction('category');
+        $this->_genericAction('category');
     }
 
     /**
      * Render or forward to "no route" action if this type of RSS is disabled
      *
      * @param string $code
+     * @return void
      */
     protected function _genericAction($code)
     {
@@ -74,11 +86,13 @@ class Catalog extends \Magento\App\Action\Action
      */
     protected function _isEnabled($code)
     {
-        return $this->_storeConfig->getConfigFlag("rss/catalog/{$code}");
+        return $this->_scopeConfig->isSetFlag("rss/catalog/{$code}", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
      * Render as XML-document using layout handle without inheriting any other handles
+     *
+     * @return void
      */
     protected function _render()
     {

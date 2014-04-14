@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DB;
+
+use Magento\DB\Adapter\AdapterInterface;
 
 /**
  * Class for SQL SELECT generation and results.
@@ -34,19 +37,17 @@
  * @package     Magento_DB
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\DB;
-
 class Select extends \Zend_Db_Select
 {
     /**
      * Condition type
      */
-    const TYPE_CONDITION    = 'TYPE_CONDITION';
+    const TYPE_CONDITION = 'TYPE_CONDITION';
 
     /**
      * Straight join key
      */
-    const STRAIGHT_JOIN     = 'straightjoin';
+    const STRAIGHT_JOIN = 'straightjoin';
 
     /**
      * Sql straight join
@@ -95,9 +96,9 @@ class Select extends \Zend_Db_Select
      * $db->fetchAll($select, array('id' => 5));
      * </code>
      *
-     * @param string   $cond  The WHERE condition.
-     * @param string   $value OPTIONAL A single value to quote into the condition.
-     * @param string|int|null $type  OPTIONAL The type of the given value
+     * @param string $cond The WHERE condition.
+     * @param string $value OPTIONAL A single value to quote into the condition.
+     * @param string|int|null $type OPTIONAL The type of the given value
      * @return \Magento\DB\Select
      */
     public function where($cond, $value = null, $type = null)
@@ -117,7 +118,7 @@ class Select extends \Zend_Db_Select
     /**
      * Reset unused LEFT JOIN(s)
      *
-     * @return \Magento\DB\Select
+     * @return $this
      */
     public function resetJoinLeft()
     {
@@ -127,8 +128,14 @@ class Select extends \Zend_Db_Select
                 foreach ($this->_parts[self::COLUMNS] as $columnEntry) {
                     list($correlationName, $column) = $columnEntry;
                     if ($column instanceof \Zend_Db_Expr) {
-                        if ($this->_findTableInCond($tableId, $column)
-                            || $this->_findTableInCond($tableProp['tableName'], $column)) {
+                        if ($this->_findTableInCond(
+                            $tableId,
+                            $column
+                        ) || $this->_findTableInCond(
+                            $tableProp['tableName'],
+                            $column
+                        )
+                        ) {
                             $useJoin = true;
                         }
                     } else {
@@ -138,22 +145,34 @@ class Select extends \Zend_Db_Select
                     }
                 }
                 foreach ($this->_parts[self::WHERE] as $where) {
-                    if ($this->_findTableInCond($tableId, $where)
-                        || $this->_findTableInCond($tableProp['tableName'], $where)) {
+                    if ($this->_findTableInCond(
+                        $tableId,
+                        $where
+                    ) || $this->_findTableInCond(
+                        $tableProp['tableName'],
+                        $where
+                    )
+                    ) {
                         $useJoin = true;
                     }
                 }
 
-                $joinUseInCond  = $useJoin;
-                $joinInTables   = array();
+                $joinUseInCond = $useJoin;
+                $joinInTables = array();
 
                 foreach ($this->_parts[self::FROM] as $tableCorrelationName => $table) {
                     if ($tableCorrelationName == $tableId) {
                         continue;
                     }
                     if (!empty($table['joinCondition'])) {
-                        if ($this->_findTableInCond($tableId, $table['joinCondition'])
-                        || $this->_findTableInCond($tableProp['tableName'], $table['joinCondition'])) {
+                        if ($this->_findTableInCond(
+                            $tableId,
+                            $table['joinCondition']
+                        ) || $this->_findTableInCond(
+                            $tableProp['tableName'],
+                            $table['joinCondition']
+                        )
+                        ) {
                             $useJoin = true;
                             $joinInTables[] = $tableCorrelationName;
                         }
@@ -177,7 +196,7 @@ class Select extends \Zend_Db_Select
     /**
      * Validate LEFT joins, and remove it if not exists
      *
-     * @return \Magento\DB\Select
+     * @return $this
      */
     protected function _resetJoinLeft()
     {
@@ -221,14 +240,14 @@ class Select extends \Zend_Db_Select
         }
 
         $position = 0;
-        $result   = 0;
-        $needle   = array();
+        $result = 0;
+        $needle = array();
         while (is_integer($result)) {
             $result = strpos($cond, $table . '.', $position);
 
             if (is_integer($result)) {
                 $needle[] = $result;
-                $position = ($result + strlen($table) + 1);
+                $position = $result + strlen($table) + 1;
             }
         }
 
@@ -257,7 +276,7 @@ class Select extends \Zend_Db_Select
      * as described in the from() method.
      *
      * @param  null|string $type Type of join; inner, left, and null are currently supported
-     * @param  array|string|Zend_Db_Expr $name Table name
+     * @param  array|string|\Zend_Db_Expr $name Table name
      * @param  string $cond Join on this condition
      * @param  array|string $cols The columns to select from the joined table
      * @param  string $schema The database name to specify, if any.
@@ -277,19 +296,19 @@ class Select extends \Zend_Db_Select
      *
      * @param int $count OPTIONAL The number of rows to return.
      * @param int $offset OPTIONAL Start returning after this many rows.
-     * @return \Zend_Db_Select This \Zend_Db_Select object.
+     * @return $this
      */
     public function limit($count = null, $offset = null)
     {
         if ($count === null) {
             $this->reset(self::LIMIT_COUNT);
         } else {
-            $this->_parts[self::LIMIT_COUNT]  = (int) $count;
+            $this->_parts[self::LIMIT_COUNT] = (int)$count;
         }
         if ($offset === null) {
             $this->reset(self::LIMIT_OFFSET);
         } else {
-            $this->_parts[self::LIMIT_OFFSET] = (int) $offset;
+            $this->_parts[self::LIMIT_OFFSET] = (int)$offset;
         }
         return $this;
     }
@@ -315,7 +334,7 @@ class Select extends \Zend_Db_Select
      */
     public function insertFromSelect($tableName, $fields = array(), $onDuplicate = true)
     {
-        $mode = $onDuplicate ? \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE : false;
+        $mode = $onDuplicate ? AdapterInterface::INSERT_ON_DUPLICATE : false;
         return $this->getAdapter()->insertFromSelect($this, $tableName, $fields, $mode);
     }
 
@@ -328,8 +347,7 @@ class Select extends \Zend_Db_Select
      */
     public function insertIgnoreFromSelect($tableName, $fields = array())
     {
-        return $this->getAdapter()
-            ->insertFromSelect($this, $tableName, $fields, \Magento\DB\Adapter\AdapterInterface::INSERT_IGNORE);
+        return $this->getAdapter()->insertFromSelect($this, $tableName, $fields, AdapterInterface::INSERT_IGNORE);
     }
 
     /**
@@ -348,7 +366,7 @@ class Select extends \Zend_Db_Select
      *
      * @param string $part
      * @param mixed $value
-     * @return \Magento\DB\Select
+     * @return $this
      * @throws \Zend_Db_Select_Exception
      */
     public function setPart($part, $value)
@@ -365,7 +383,7 @@ class Select extends \Zend_Db_Select
      * Use a STRAIGHT_JOIN for the SQL Select
      *
      * @param bool $flag Whether or not the SELECT use STRAIGHT_JOIN (default true).
-     * @return \Zend_Db_Select This \Zend_Db_Select object.
+     * @return $this
      */
     public function useStraightJoin($flag = true)
     {
@@ -396,6 +414,7 @@ class Select extends \Zend_Db_Select
      *     but possibly as a string containing one column.
      * @param  bool|string $afterCorrelationName True if it should be prepended,
      *     a correlation name if it should be inserted
+     * @return void
      */
     protected function _tableCols($correlationName, $cols, $afterCorrelationName = null)
     {
@@ -404,7 +423,7 @@ class Select extends \Zend_Db_Select
         }
 
         foreach ($cols as $k => $v) {
-            if ($v instanceof \Magento\DB\Select) {
+            if ($v instanceof Select) {
                 $cols[$k] = new \Zend_Db_Expr(sprintf('(%s)', $v->assemble()));
             }
         }
@@ -416,7 +435,7 @@ class Select extends \Zend_Db_Select
      * Adds the random order to query
      *
      * @param string $field     integer field name
-     * @return \Magento\DB\Select
+     * @return $this
      */
     public function orderRand($field = null)
     {
@@ -438,13 +457,14 @@ class Select extends \Zend_Db_Select
 
         return $sql;
     }
+
     /**
      * Add EXISTS clause
      *
-     * @param  \Magento\DB\Select $select
+     * @param  Select $select
      * @param  string           $joinCondition
      * @param   bool            $isExists
-     * @return \Magento\DB\Select
+     * @return $this
      */
     public function exists($select, $joinCondition, $isExists = true)
     {
@@ -453,9 +473,7 @@ class Select extends \Zend_Db_Select
         } else {
             $exists = 'NOT EXISTS (%s)';
         }
-        $select->reset(self::COLUMNS)
-            ->columns(array(new \Zend_Db_Expr('1')))
-            ->where($joinCondition);
+        $select->reset(self::COLUMNS)->columns(array(new \Zend_Db_Expr('1')))->where($joinCondition);
 
         $exists = sprintf($exists, $select->assemble());
 

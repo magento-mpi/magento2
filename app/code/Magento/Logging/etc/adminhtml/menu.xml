@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
     <menu>
         <add id="Magento_Logging::system_magento_logging" title="Action Log" module="Magento_Logging" sortOrder="70" parent="Magento_Backend::system" dependsOnModule="Magento_Logging" resource="Magento_Logging::magento_logging"/>
         <add id="Magento_Logging::system_magento_logging_events" title="Report" module="Magento_Logging" sortOrder="10" parent="Magento_Logging::system_magento_logging" action="adminhtml/logging" dependsOnModule="Magento_Logging" resource="Magento_Logging::magento_logging_events"/>

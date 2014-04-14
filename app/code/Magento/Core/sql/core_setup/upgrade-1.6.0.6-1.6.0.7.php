@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-/* @var $installer \Magento\Core\Model\Resource\Setup */
+/* @var $installer \Magento\Module\Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -19,32 +19,38 @@ $connection = $installer->getConnection();
  */
 $tableCoreLayoutLink = $installer->getTable('core_layout_link');
 
-$connection->addColumn($tableCoreLayoutLink, 'is_temporary',
+$connection->addColumn(
+    $tableCoreLayoutLink,
+    'is_temporary',
     array(
-        'type'     => \Magento\DB\Ddl\Table::TYPE_BOOLEAN,
+        'type' => \Magento\DB\Ddl\Table::TYPE_BOOLEAN,
         'nullable' => false,
-        'default'  => '0',
-        'comment'  => 'Defines whether Layout Update is Temporary'
+        'default' => '0',
+        'comment' => 'Defines whether Layout Update is Temporary'
     )
 );
 
 // we must drop next 2 foreign keys to have an ability to drop index
 $connection->dropForeignKey(
     $tableCoreLayoutLink,
-    $installer->getFkName($tableCoreLayoutLink, 'store_id', 'core_store', 'store_id')
+    $installer->getFkName($tableCoreLayoutLink, 'store_id', 'store', 'store_id')
 );
 $connection->dropForeignKey(
     $tableCoreLayoutLink,
     $installer->getFkName($tableCoreLayoutLink, 'theme_id', 'core_theme', 'theme_id')
 );
 
-$connection->dropIndex($tableCoreLayoutLink, $installer->getIdxName(
+$connection->dropIndex(
     $tableCoreLayoutLink,
-    array('store_id', 'theme_id', 'layout_update_id'),
-    \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
-));
+    $installer->getIdxName(
+        $tableCoreLayoutLink,
+        array('store_id', 'theme_id', 'layout_update_id'),
+        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    )
+);
 
-$connection->addIndex($tableCoreLayoutLink,
+$connection->addIndex(
+    $tableCoreLayoutLink,
     $installer->getIdxName(
         $tableCoreLayoutLink,
         array('store_id', 'theme_id', 'layout_update_id', 'is_temporary'),
@@ -56,10 +62,10 @@ $connection->addIndex($tableCoreLayoutLink,
 
 // recreate 2 dropped foreign keys to have an ability to drop index
 $connection->addForeignKey(
-    $installer->getFkName($tableCoreLayoutLink, 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName($tableCoreLayoutLink, 'store_id', 'store', 'store_id'),
     $tableCoreLayoutLink,
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE

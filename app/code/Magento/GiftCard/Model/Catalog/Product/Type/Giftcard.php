@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Model\Catalog\Product\Type;
+
+use Magento\Model\Exception;
 
 class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
@@ -22,7 +23,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_canUseQtyDecimals = false;
 
     /**
-     * Product is configurable
+     * Product is possible to configure
      *
      * @var bool
      */
@@ -31,16 +32,14 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Store instance
      *
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
     /**
-     * Locale instance
-     *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\FormatInterface
      */
-    protected $_locale;
+    protected $_localeFormat;
 
     /**
      * Array of allowed giftcard amounts
@@ -52,9 +51,9 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -64,15 +63,15 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Logger $logger
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Locale\FormatInterface $localeFormat
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -83,18 +82,18 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
-        \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Filesystem $filesystem,
+        \Magento\Registry $coreRegistry,
         \Magento\Logger $logger,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Locale\FormatInterface $localeFormat,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_store = $storeManager->getStore();
-        $this->_locale = $locale;
+        $this->_localeFormat = $localeFormat;
         parent::__construct(
             $productFactory,
             $catalogProductOption,
@@ -200,7 +199,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
 
         try {
             $amount = $this->_validate($buyRequest, $product, $processMode);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             return $e->getMessage();
         } catch (\Exception $e) {
             $this->_logger->logException($e);
@@ -217,9 +216,12 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
 
         $messageAllowed = false;
         if ($product->getUseConfigAllowMessage()) {
-            $messageAllowed = $this->_coreStoreConfig->getConfigFlag(\Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE);
+            $messageAllowed = $this->_scopeConfig->isSetFlag(
+                \Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         } else {
-            $messageAllowed = (int) $product->getAllowMessage();
+            $messageAllowed = (int)$product->getAllowMessage();
         }
 
         if ($messageAllowed) {
@@ -235,7 +237,8 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Object $buyRequest
      * @param \Magento\Catalog\Model\Product $product
      * @param bool $processMode
-     * @return double|float|mixed
+     * @return mixed
+     * @throws \Magento\Model\Exception
      */
     private function _validate(\Magento\Object $buyRequest, $product, $processMode)
     {
@@ -249,9 +252,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         $amount = null;
         if (($selectedAmount == 'custom' || !$selectedAmount) && $allowOpen) {
             if ($customAmount <= 0 && $isStrictProcessMode) {
-                throw new \Magento\Core\Exception(
-                    __('Please specify a gift card amount.')
-                );
+                throw new \Magento\Model\Exception(__('Please specify a gift card amount.'));
             }
             $amount = $this->_getAmountWithinConstraints($product, $customAmount, $isStrictProcessMode);
         } elseif (is_numeric($selectedAmount)) {
@@ -289,7 +290,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Get custom amount if null
      *
-     * @param $amount
+     * @param mixed $amount
      * @param array $allowedAmounts
      * @return mixed|null
      */
@@ -309,6 +310,8 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Object $buyRequest
      * @param \Magento\Catalog\Model\Product $product
      * @param bool $isStrictProcessMode
+     * @return void
+     * @throws \Magento\Model\Exception
      */
     protected function _checkFields($buyRequest, $product, $isStrictProcessMode)
     {
@@ -329,9 +332,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         }
 
         if ($emptyFields > 1 && $isStrictProcessMode) {
-            throw new \Magento\Core\Exception(
-                __('Please specify all the required information.')
-            );
+            throw new \Magento\Model\Exception(__('Please specify all the required information.'));
         }
     }
 
@@ -369,7 +370,8 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Product $product
      * @param int $customAmount
      * @param bool $isStrict
-     * @return int|void
+     * @return int
+     * @throws \Magento\Model\Exception
      */
     protected function _getAmountWithinConstraints($product, $customAmount, $isStrict)
     {
@@ -380,15 +382,11 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
                 return $customAmount;
             } elseif ($customAmount > $maxAmount && $isStrict) {
                 $messageAmount = $this->_coreData->currency($maxAmount, true, false);
-                throw new \Magento\Core\Exception(
-                    __('Gift Card max amount is %1', $messageAmount)
-                );
+                throw new \Magento\Model\Exception(__('Gift Card max amount is %1', $messageAmount));
             }
         } elseif ($customAmount < $minAmount && $isStrict) {
             $messageAmount = $this->_coreData->currency($minAmount, true, false);
-            throw new \Magento\Core\Exception(
-                __('Gift Card min amount is %1', $messageAmount)
-            );
+            throw new \Magento\Model\Exception(__('Gift Card min amount is %1', $messageAmount));
         }
     }
 
@@ -398,35 +396,27 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Object $buyRequest
      * @param bool $isPhysical
      * @param int $amount
+     * @return void
+     * @throws \Magento\Model\Exception
      */
     protected function _checkGiftcardFields($buyRequest, $isPhysical, $amount)
     {
         if (is_null($amount)) {
-            throw new \Magento\Core\Exception(
-                __('Please specify a gift card amount.')
-            );
+            throw new \Magento\Model\Exception(__('Please specify a gift card amount.'));
         }
         if (!$buyRequest->getGiftcardRecipientName()) {
-            throw new \Magento\Core\Exception(
-                __('Please specify a recipient name.')
-            );
+            throw new \Magento\Model\Exception(__('Please specify a recipient name.'));
         }
         if (!$buyRequest->getGiftcardSenderName()) {
-            throw new \Magento\Core\Exception(
-                __('Please specify a sender name.')
-            );
+            throw new \Magento\Model\Exception(__('Please specify a sender name.'));
         }
 
         if (!$isPhysical) {
             if (!$buyRequest->getGiftcardRecipientEmail()) {
-                throw new \Magento\Core\Exception(
-                    __('Please specify a recipient email.')
-                );
+                throw new \Magento\Model\Exception(__('Please specify a recipient email.'));
             }
             if (!$buyRequest->getGiftcardSenderEmail()) {
-                throw new \Magento\Core\Exception(
-                    __('Please specify a sender email.')
-                );
+                throw new \Magento\Model\Exception(__('Please specify a sender email.'));
             }
         }
     }
@@ -442,7 +432,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         $customAmount = $buyRequest->getCustomGiftcardAmount();
         $rate = $this->_store->getCurrentCurrencyRate();
         if ($rate != 1 && $customAmount) {
-            $customAmount = $this->_locale->getNumber($customAmount);
+            $customAmount = $this->_localeFormat->getNumber($customAmount);
             if (is_numeric($customAmount) && $customAmount) {
                 $customAmount = $this->_store->roundPrice($customAmount / $rate);
             }
@@ -454,8 +444,8 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Check if product can be bought
      *
      * @param  \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Type\AbstractType
-     * @throws \Magento\Core\Exception
+     * @return $this
+     * @throws \Magento\Model\Exception
      */
     public function checkProductBuyState($product)
     {
@@ -468,13 +458,12 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         return $this;
     }
 
-
     /**
      * Sets flag that product has required options, because gift card always
      * has some required options, at least - recipient name
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard
+     * @return $this
      */
     public function beforeSave($product)
     {
@@ -494,13 +483,13 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     public function processBuyRequest($product, $buyRequest)
     {
         $options = array(
-            'giftcard_amount'         => $buyRequest->getGiftcardAmount(),
-            'custom_giftcard_amount'  => $buyRequest->getCustomGiftcardAmount(),
-            'giftcard_sender_name'    => $buyRequest->getGiftcardSenderName(),
-            'giftcard_sender_email'    => $buyRequest->getGiftcardSenderEmail(),
+            'giftcard_amount' => $buyRequest->getGiftcardAmount(),
+            'custom_giftcard_amount' => $buyRequest->getCustomGiftcardAmount(),
+            'giftcard_sender_name' => $buyRequest->getGiftcardSenderName(),
+            'giftcard_sender_email' => $buyRequest->getGiftcardSenderEmail(),
             'giftcard_recipient_name' => $buyRequest->getGiftcardRecipientName(),
             'giftcard_recipient_email' => $buyRequest->getGiftcardRecipientEmail(),
-            'giftcard_message'        => $buyRequest->getGiftcardMessage()
+            'giftcard_message' => $buyRequest->getGiftcardMessage()
         );
 
         return $options;
@@ -510,6 +499,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Delete data specific for Gift Card product type
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return void
      */
     public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {

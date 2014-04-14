@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Category\Attribute\Backend;
 
 /**
  * Catalog Category Attribute Default and Available Sort By Backend Model
@@ -15,29 +16,24 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Category\Attribute\Backend;
-
-class Sortby
-    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Construct
      *
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(
-        \Magento\Logger $logger,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
-    ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+    public function __construct(\Magento\Logger $logger, \Magento\App\Config\ScopeConfigInterface $scopeConfig)
+    {
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($logger);
     }
 
@@ -46,7 +42,7 @@ class Sortby
      *
      * @param \Magento\Object $object
      * @return bool
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function validate($object)
     {
@@ -62,9 +58,9 @@ class Sortby
         if ($this->getAttribute()->getIsRequired()) {
             $attributeValue = $object->getData($attributeCode);
             if ($this->getAttribute()->isValueEmpty($attributeValue)) {
-                if (is_array($attributeValue) && count($attributeValue)>0) {
+                if (is_array($attributeValue) && count($attributeValue) > 0) {
                 } else {
-                    if(!$isUseConfig) {
+                    if (!$isUseConfig) {
                         return false;
                     }
                 }
@@ -74,7 +70,7 @@ class Sortby
         if ($this->getAttribute()->getIsUnique()) {
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
-                throw new \Magento\Core\Exception(__('The value of attribute "%1" must be unique.', $label));
+                throw new \Magento\Model\Exception(__('The value of attribute "%1" must be unique.', $label));
             }
         }
 
@@ -83,16 +79,23 @@ class Sortby
                 if (!is_array($available)) {
                     $available = explode(',', $available);
                 }
-                $data = (!in_array('default_sort_by', $postDataConfig))? $object->getData($attributeCode):
-                       $this->_coreStoreConfig->getConfig("catalog/frontend/default_sort_by");
+                $data = !in_array(
+                    'default_sort_by',
+                    $postDataConfig
+                ) ? $object->getData(
+                    $attributeCode
+                ) : $this->_scopeConfig->getValue(
+                    "catalog/frontend/default_sort_by",
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                );
                 if (!in_array($data, $available)) {
-                    throw new \Magento\Core\Exception(
+                    throw new \Magento\Model\Exception(
                         __('Default Product Listing Sort by does not exist in Available Product Listing Sort By.')
                     );
                 }
             } else {
                 if (!in_array('available_sort_by', $postDataConfig)) {
-                    throw new \Magento\Core\Exception(
+                    throw new \Magento\Model\Exception(
                         __('Default Product Listing Sort by does not exist in Available Product Listing Sort By.')
                     );
                 }
@@ -106,7 +109,7 @@ class Sortby
      * Before Attribute Save Process
      *
      * @param \Magento\Object $object
-     * @return \Magento\Catalog\Model\Category\Attribute\Backend\Sortby
+     * @return $this
      */
     public function beforeSave($object)
     {
@@ -124,6 +127,12 @@ class Sortby
         return $this;
     }
 
+    /**
+     * After Load Attribute Process
+     *
+     * @param \Magento\Object $object
+     * @return $this
+     */
     public function afterLoad($object)
     {
         $attributeCode = $this->getAttribute()->getName();

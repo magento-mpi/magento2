@@ -7,13 +7,13 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\Widget\Model\Widget\Instance">
-        <param name="relatedCacheTypes">
-            <value>
-                <blockCache>block_html</blockCache>
-                <layoutCache>layout</layoutCache>
-            </value>
-        </param>
+        <arguments>
+            <argument name="relatedCacheTypes" xsi:type="array">
+                <item name="blockCache" xsi:type="string">block_html</item>
+                <item name="layoutCache" xsi:type="string">layout</item>
+            </argument>
+        </arguments>
     </type>
 </config>

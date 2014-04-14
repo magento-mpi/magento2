@@ -14,7 +14,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert config
      *
-     * @param mixed $source
+     * @param \DOMDocument $source
      * @return array
      */
     public function convert($source)
@@ -78,7 +78,7 @@ class Converter implements \Magento\Config\ConverterInterface
                 if ($position === false) {
                     $position = count($modulesList);
                 }
-                array_splice($sortedModulesList, $position+1, 0, $moduleData['name']);
+                array_splice($sortedModulesList, $position + 1, 0, $moduleData['name']);
             } else {
                 $sortedModulesList[] = $moduleData['name'];
             }

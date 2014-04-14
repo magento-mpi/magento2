@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/system_file.xsd">
     <system>
         <tab id="general" translate="label" sortOrder="100">
             <label>General</label>
@@ -112,7 +112,7 @@
                     <backend_model>Magento\Core\Model\Design\Backend\Theme</backend_model>
                     <comment><![CDATA[If no value is specified, the system default will be used. The system default may be modified by third party extensions.]]></comment>
                 </field>
-                <field id="ua_regexp" translate="label comment tooltip" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="ua_regexp" translate="label comment tooltip" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>User-Agent Exceptions</label>
                     <frontend_model>Magento\Backend\Block\System\Config\Form\Field\Regexceptions</frontend_model>
                     <backend_model>Magento\Core\Model\Design\Backend\Exceptions</backend_model>
@@ -165,13 +165,13 @@
                     <comment>Leave empty for access from any location.</comment>
                 </field>
             </group>
-            <group id="debug" translate="label" type="text" sortOrder="20" showInDefault="0" showInWebsite="1" showInStore="1">
+            <group id="debug" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Debug</label>
-                <field id="template_hints" translate="label" type="select" sortOrder="20" showInDefault="0" showInWebsite="1" showInStore="1">
+                <field id="template_hints" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Template Path Hints</label>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="template_hints_blocks" translate="label" type="select" sortOrder="21" showInDefault="0" showInWebsite="1" showInStore="1">
+                <field id="template_hints_blocks" translate="label" type="select" sortOrder="21" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Add Block Names to Hints</label>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
@@ -493,7 +493,7 @@
                 </field>
             </group>
             <group id="seo" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Search Engines Optimization</label>
+                <label>Search Engine Optimization</label>
                 <field id="use_rewrites" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Use Web Server Rewrites</label>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
@@ -535,7 +535,7 @@
             </group>
             <group id="secure" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Base URLs (Secure)</label>
-                <comment>Any of the fields allow fully qualified URLs that end with '/' (slash) e.g. http://example.com/magento/</comment>
+                <comment>Any of the fields allow fully qualified URLs that end with '/' (slash) e.g. https://example.com/magento/</comment>
                 <field id="base_url" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Secure Base URL</label>
                     <backend_model>Magento\Backend\Model\Config\Backend\Baseurl</backend_model>
@@ -570,11 +570,13 @@
                     <label>Use Secure URLs in Frontend</label>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                     <backend_model>Magento\Backend\Model\Config\Backend\Secure</backend_model>
+                    <comment>Enter https protocol to use Secure URLs in Frontend.</comment>
                 </field>
                 <field id="use_in_adminhtml" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Use Secure URLs in Admin</label>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                     <backend_model>Magento\Backend\Model\Config\Backend\Secure</backend_model>
+                    <comment>Enter https protocol to use Secure URLs in Admin.</comment>
                 </field>
                 <field id="offloader_header" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Offloader header</label>

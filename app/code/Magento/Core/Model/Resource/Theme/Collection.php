@@ -7,15 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Resource\Theme;
 
 /**
  * Theme collection
  */
-namespace Magento\Core\Model\Resource\Theme;
-
-class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
-    implements \Magento\View\Design\Theme\Label\ListInterface, \Magento\View\Design\Theme\ListInterface
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection implements
+    \Magento\View\Design\Theme\Label\ListInterface,
+    \Magento\View\Design\Theme\ListInterface
 {
     /**
      * Default page size
@@ -24,6 +23,8 @@ class Collection
 
     /**
      * Collection initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -33,7 +34,7 @@ class Collection
     /**
      * Add title for parent themes
      *
-     * @return \Magento\Core\Model\Resource\Theme\Collection
+     * @return $this
      */
     public function addParentTitle()
     {
@@ -49,7 +50,7 @@ class Collection
      * Add area filter
      *
      * @param string $area
-     * @return \Magento\Core\Model\Resource\Theme\Collection
+     * @return $this
      */
     public function addAreaFilter($area = \Magento\Core\Model\App\Area::AREA_FRONTEND)
     {
@@ -62,7 +63,7 @@ class Collection
      *
      * @param int $typeParent
      * @param int $typeChild
-     * @return \Magento\Core\Model\Resource\Theme\Collection
+     * @return $this
      */
     public function addTypeRelationFilter($typeParent, $typeChild)
     {
@@ -70,7 +71,13 @@ class Collection
             array('parent' => $this->getMainTable()),
             'main_table.parent_id = parent.theme_id',
             array('parent_type' => 'parent.type')
-        )->where('parent.type = ?', $typeParent)->where('main_table.type = ?', $typeChild);
+        )->where(
+            'parent.type = ?',
+            $typeParent
+        )->where(
+            'main_table.type = ?',
+            $typeChild
+        );
         return $this;
     }
 
@@ -78,7 +85,7 @@ class Collection
      * Add type filter
      *
      * @param string|array $type
-     * @return \Magento\Core\Model\Resource\Theme\Collection
+     * @return $this
      */
     public function addTypeFilter($type)
     {
@@ -89,7 +96,7 @@ class Collection
     /**
      * Filter visible themes in backend (physical and virtual only)
      *
-     * @return \Magento\Core\Model\Resource\Theme\Collection
+     * @return $this
      */
     public function filterVisibleThemes()
     {
@@ -180,8 +187,11 @@ class Collection
         $pageSize = \Magento\Core\Model\Resource\Theme\Collection::DEFAULT_PAGE_SIZE
     ) {
 
-        $this->addAreaFilter(\Magento\Core\Model\App\Area::AREA_FRONTEND)
-            ->addTypeFilter(\Magento\View\Design\ThemeInterface::TYPE_PHYSICAL);
+        $this->addAreaFilter(
+            \Magento\Core\Model\App\Area::AREA_FRONTEND
+        )->addTypeFilter(
+            \Magento\View\Design\ThemeInterface::TYPE_PHYSICAL
+        );
         if ($page) {
             $this->setPageSize($pageSize)->setCurPage($page);
         }
@@ -193,7 +203,7 @@ class Collection
      *
      * @param string $area
      * @param int $type
-     * @return \Magento\Core\Model\Resource\Theme\Collection
+     * @return $this
      */
     public function filterThemeCustomizations(
         $area = \Magento\Core\Model\App\Area::AREA_FRONTEND,
@@ -209,9 +219,12 @@ class Collection
     public function getLabels()
     {
         $this->_reset()->clear();
-        $labels = $this->setOrder('theme_title', \Magento\Data\Collection::SORT_ORDER_ASC)
-            ->filterVisibleThemes()
-            ->addAreaFilter(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+        $labels = $this->setOrder(
+            'theme_title',
+            \Magento\Data\Collection::SORT_ORDER_ASC
+        )->filterVisibleThemes()->addAreaFilter(
+            \Magento\Core\Model\App\Area::AREA_FRONTEND
+        );
         return $labels->toOptionArray();
     }
 }

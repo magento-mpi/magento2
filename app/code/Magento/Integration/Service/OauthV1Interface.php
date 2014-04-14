@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Integration\Service;
 
-use \Magento\Integration\Model\Oauth\Token as Token;
+use Magento\Integration\Model\Oauth\Token;
 
 /**
  * Integration oAuth Service Interface
@@ -26,7 +25,7 @@ interface OauthV1Interface
      * )
      * </pre>
      * @return \Magento\Integration\Model\Oauth\Consumer
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @throws \Magento\Oauth\Exception
      */
     public function createConsumer($consumerData);
@@ -54,7 +53,7 @@ interface OauthV1Interface
      * @param int $consumerId
      * @return \Magento\Integration\Model\Oauth\Consumer
      * @throws \Magento\Oauth\Exception
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function loadConsumer($consumerId);
 
@@ -64,7 +63,7 @@ interface OauthV1Interface
      * @param string $key
      * @return \Magento\Integration\Model\Oauth\Consumer
      * @throws \Magento\Oauth\Exception
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function loadConsumerByKey($key);
 
@@ -74,7 +73,7 @@ interface OauthV1Interface
      * @param int $consumerId - The consumer Id.
      * @param string $endpointUrl - The integration endpoint Url (for HTTP Post)
      * @return string - The oauth_verifier.
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @throws \Magento\Oauth\Exception
      */
     public function postToConsumer($consumerId, $endpointUrl);

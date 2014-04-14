@@ -18,11 +18,6 @@
  */
 class Core_Mage_CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_TestCase
 {
-    protected function assertPreConditions()
-    {
-        $this->loginAdminUser();
-    }
-
     protected function tearDownAfterTest()
     {
         $this->frontend();
@@ -43,6 +38,7 @@ class Core_Mage_CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_
         $virtual = $this->loadDataSet('Product', 'virtual_product_visible');
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps and Verification
+        $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_products');
@@ -50,7 +46,7 @@ class Core_Mage_CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($virtual, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
 

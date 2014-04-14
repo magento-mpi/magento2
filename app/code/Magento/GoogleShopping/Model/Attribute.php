@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Model;
 
 /**
  * Attributes Model
@@ -15,14 +16,12 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Model;
-
-class Attribute extends \Magento\Core\Model\AbstractModel
+class Attribute extends \Magento\Model\AbstractModel
 {
     /**
      * Default ignored attribute codes
      *
-     * @var array
+     * @var string[]
      */
     protected $_ignoredAttributeCodes = array(
         'custom_design',
@@ -42,14 +41,14 @@ class Attribute extends \Magento\Core\Model\AbstractModel
         'use_config_email_template',
         'tier_price',
         'minimal_price',
-        'recurring_profile',
+        'recurring_payment',
         'shipment_type'
     );
 
     /**
      * Default ignored attribute types
      *
-     * @var array
+     * @var string[]
      */
     protected $_ignoredAttributeTypes = array('hidden', 'media_image', 'image', 'gallery');
 
@@ -64,9 +63,9 @@ class Attribute extends \Magento\Core\Model\AbstractModel
     protected $_gsProduct = null;
 
     /**
-     * @var \Magento\GoogleShopping\Helper\Price|null
+     * @var \Magento\Catalog\Model\Product\CatalogPrice
      */
-    protected $_gsPrice = null;
+    protected $catalogPrice;
 
     /**
      * Product factory
@@ -76,23 +75,23 @@ class Attribute extends \Magento\Core\Model\AbstractModel
     protected $_productFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
-     * @param \Magento\GoogleShopping\Helper\Price $gsPrice
+     * @param \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GoogleShopping\Helper\Data $gsData,
         \Magento\GoogleShopping\Helper\Product $gsProduct,
-        \Magento\GoogleShopping\Helper\Price $gsPrice,
+        \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice,
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -100,11 +99,13 @@ class Attribute extends \Magento\Core\Model\AbstractModel
         $this->_productFactory = $productFactory;
         $this->_gsData = $gsData;
         $this->_gsProduct = $gsProduct;
-        $this->_gsPrice = $gsPrice;
+        $this->catalogPrice = $catalogPrice;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GoogleShopping\Model\Resource\Attribute');
@@ -118,9 +119,9 @@ class Attribute extends \Magento\Core\Model\AbstractModel
      */
     public function getAllowedAttributes($setId)
     {
-        $attributes = $this->_productFactory->create()->getResource()
-                ->loadAllAttributes()
-                ->getSortedAttributes($setId);
+        $attributes = $this->_productFactory->create()->getResource()->loadAllAttributes()->getSortedAttributes(
+            $setId
+        );
 
         $titles = array();
         foreach ($attributes as $attribute) {
@@ -142,13 +143,16 @@ class Attribute extends \Magento\Core\Model\AbstractModel
      * Check if attribute allowed
      *
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
-     * @param array $attributes
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowedAttribute($attribute)
     {
-        return !in_array($attribute->getFrontendInput(), $this->_ignoredAttributeTypes)
-               && !in_array($attribute->getAttributeCode(), $this->_ignoredAttributeCodes)
-               && $attribute->getFrontendLabel() != "";
+        return !in_array(
+            $attribute->getFrontendInput(),
+            $this->_ignoredAttributeTypes
+        ) && !in_array(
+            $attribute->getAttributeCode(),
+            $this->_ignoredAttributeCodes
+        ) && $attribute->getFrontendLabel() != "";
     }
 }

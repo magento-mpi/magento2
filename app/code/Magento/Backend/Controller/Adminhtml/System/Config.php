@@ -7,13 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Controller\Adminhtml\System;
+
+use Magento\App\ResponseInterface;
 
 /**
  * System Configuration controller
  */
-namespace Magento\Backend\Controller\Adminhtml\System;
-
-class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
+class Config extends AbstractConfig
 {
     /**
      * @var \Magento\App\Response\Http\FileFactory
@@ -21,7 +22,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
     protected $_fileFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -29,13 +30,13 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         $this->_fileFactory = $fileFactory;
@@ -45,6 +46,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
     /**
      * Index action
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -54,6 +56,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
     /**
      * Edit configuration section
      *
+     * @return \Magento\App\ResponseInterface|void
      */
     public function editAction()
     {
@@ -61,7 +64,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 
         $current = $this->getRequest()->getParam('section');
         $website = $this->getRequest()->getParam('website');
-        $store   = $this->getRequest()->getParam('store');
+        $store = $this->getRequest()->getParam('store');
 
         /** @var $section \Magento\Backend\Model\Config\Structure\Element\Section */
         $section = $this->_configStructure->getElement($current);
@@ -71,51 +74,32 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 
         $this->_view->loadLayout();
 
-        $this->_setActiveMenu('Magento_Adminhtml::system_config');
+        $this->_setActiveMenu('Magento_Backend::system_config');
         $this->_view->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
 
-        $this->_addBreadcrumb(
-            __('System'),
-            __('System'),
-            $this->getUrl('*\/system')
-        );
+        $this->_addBreadcrumb(__('System'), __('System'), $this->getUrl('*\/system'));
 
         $this->_view->renderLayout();
     }
 
     /**
      * Save fieldset state through AJAX
+     *
+     * @return void
      */
     public function stateAction()
     {
-        if ($this->getRequest()->getParam('isAjax') && $this->getRequest()->getParam('container') != ''
-            && $this->getRequest()->getParam('value') != ''
+        if ($this->getRequest()->getParam(
+            'isAjax'
+        ) && $this->getRequest()->getParam(
+            'container'
+        ) != '' && $this->getRequest()->getParam(
+            'value'
+        ) != ''
         ) {
-            $configState = array(
-                $this->getRequest()->getParam('container') => $this->getRequest()->getParam('value')
-            );
+            $configState = array($this->getRequest()->getParam('container') => $this->getRequest()->getParam('value'));
             $this->_saveState($configState);
             $this->getResponse()->setBody('success');
         }
-    }
-
-    /**
-     * Export shipping table rates in csv format
-     */
-    public function exportTableratesAction()
-    {
-        $fileName = 'tablerates.csv';
-        /** @var $gridBlock \Magento\Shipping\Block\Adminhtml\Carrier\Tablerate\Grid */
-        $gridBlock = $this->_view->getLayout()
-            ->createBlock('Magento\Shipping\Block\Adminhtml\Carrier\Tablerate\Grid');
-        $website = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'));
-        if ($this->getRequest()->getParam('conditionName')) {
-            $conditionName = $this->getRequest()->getParam('conditionName');
-        } else {
-            $conditionName = $website->getConfig('carriers/tablerate/condition_name');
-        }
-        $gridBlock->setWebsiteId($website->getId())->setConditionName($conditionName);
-        $content = $gridBlock->getCsvFile();
-        return $this->_fileFactory->create($fileName, $content);
     }
 }

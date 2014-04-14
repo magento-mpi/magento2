@@ -7,46 +7,52 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Gift registry frontend search controller
- */
 namespace Magento\GiftRegistry\Controller;
 
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
 
+/**
+ * Gift registry frontend search controller
+ */
 class Search extends \Magento\App\Action\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $locale;
+    protected $_localeDate;
+
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Registry $coreRegistry,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Locale\ResolverInterface $localeResolver
     ) {
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
-        $this->locale = $locale;
+        $this->_localeDate = $localeDate;
+        $this->_localeResolver = $localeResolver;
         parent::__construct($context);
-
     }
 
     /**
@@ -82,9 +88,13 @@ class Search extends \Magento\App\Action\Action
      */
     protected function _initType($typeId)
     {
-        $type = $this->_objectManager->create('Magento\GiftRegistry\Model\Type')
-            ->setStoreId($this->_storeManager->getStore()->getId())
-            ->load($typeId);
+        $type = $this->_objectManager->create(
+            'Magento\GiftRegistry\Model\Type'
+        )->setStoreId(
+            $this->_storeManager->getStore()->getId()
+        )->load(
+            $typeId
+        );
 
         $this->_coreRegistry->register('current_giftregistry_type', $type);
         return $type;
@@ -106,7 +116,7 @@ class Search extends \Magento\App\Action\Action
             $dateType = $this->_objectManager->get('Magento\GiftRegistry\Model\Attribute\Config')->getStaticDateType();
             if ($dateType) {
                 $attribute = $type->getAttributeByCode($dateType);
-                $format = (isset($attribute['date_format'])) ? $attribute['date_format'] : null;
+                $format = isset($attribute['date_format']) ? $attribute['date_format'] : null;
 
                 $dateFields = array();
                 $fromDate = $dateType . '_from';
@@ -133,50 +143,38 @@ class Search extends \Magento\App\Action\Action
     protected function _validateSearchParams($params)
     {
         if (empty($params) || !is_array($params) || empty($params['search'])) {
-            $this->messageManager->addNotice(
-                __('Please enter correct search options.')
-            );
+            $this->messageManager->addNotice(__('Please enter correct search options.'));
             return false;
         }
 
         switch ($params['search']) {
             case 'type':
                 if (empty($params['firstname']) || strlen($params['firstname']) < 2) {
-                    $this->messageManager->addNotice(
-                        __('Please enter at least 2 letters of the first name.')
-                    );
+                    $this->messageManager->addNotice(__('Please enter at least 2 letters of the first name.'));
                     return false;
                 }
                 if (empty($params['lastname']) || strlen($params['lastname']) < 2) {
-                    $this->messageManager->addNotice(
-                        __('Please enter at least 2 letters of the last name.')
-                    );
+                    $this->messageManager->addNotice(__('Please enter at least 2 letters of the last name.'));
                     return false;
                 }
                 break;
 
             case 'email':
                 if (empty($params['email']) || !\Zend_Validate::is($params['email'], 'EmailAddress')) {
-                    $this->messageManager->addNotice(
-                        __('Please enter a valid email address.')
-                    );
+                    $this->messageManager->addNotice(__('Please enter a valid email address.'));
                     return false;
                 }
                 break;
 
             case 'id':
                 if (empty($params['id'])) {
-                    $this->messageManager->addNotice(
-                        __('Please enter a gift registry ID.')
-                    );
+                    $this->messageManager->addNotice(__('Please enter a gift registry ID.'));
                     return false;
                 }
                 break;
 
             default:
-                $this->messageManager->addNotice(
-                    __('Please enter correct search options.')
-                );
+                $this->messageManager->addNotice(__('Please enter correct search options.'));
                 return false;
         }
         return true;
@@ -185,9 +183,10 @@ class Search extends \Magento\App\Action\Action
     /**
      * Convert dates in array from localized to internal format
      *
-     * @param   array $array
-     * @param   array $dateFields
-     * @return  array
+     * @param array $array
+     * @param string[] $dateFields
+     * @param string $format
+     * @return array
      */
     protected function _filterInputDates($array, $dateFields, $format = null)
     {
@@ -195,16 +194,18 @@ class Search extends \Magento\App\Action\Action
             return $array;
         }
         if (is_null($format)) {
-            $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT;
+            $format = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT;
         }
 
-        $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
-            'locale' => $this->locale->getLocaleCode(),
-            'date_format' => $this->locale->getDateFormat($format)
-        ));
-        $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT
-        ));
+        $filterInput = new \Zend_Filter_LocalizedToNormalized(
+            array(
+                'locale' => $this->_localeResolver->getLocaleCode(),
+                'date_format' => $this->_localeDate->getDateFormat($format)
+            )
+        );
+        $filterInternal = new \Zend_Filter_NormalizedToLocalized(
+            array('date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
+        );
 
         foreach ($dateFields as $dateField) {
             if (array_key_exists($dateField, $array) && !empty($dateField)) {
@@ -217,6 +218,8 @@ class Search extends \Magento\App\Action\Action
 
     /**
      * Index action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -231,6 +234,8 @@ class Search extends \Magento\App\Action\Action
 
     /**
      * Index action
+     *
+     * @return void
      */
     public function resultsAction()
     {
@@ -245,11 +250,13 @@ class Search extends \Magento\App\Action\Action
         }
 
         if ($this->_validateSearchParams($params)) {
-            $results = $this->_objectManager->create('Magento\GiftRegistry\Model\Entity')->getCollection()
-                ->applySearchFilters($this->_filterInputParams($params));
+            $results = $this->_objectManager->create(
+                'Magento\GiftRegistry\Model\Entity'
+            )->getCollection()->applySearchFilters(
+                $this->_filterInputParams($params)
+            );
 
-            $this->_view->getLayout()->getBlock('giftregistry.search.results')
-                ->setSearchResults($results);
+            $this->_view->getLayout()->getBlock('giftregistry.search.results')->setSearchResults($results);
         } else {
             $this->_redirect('*/*/index', array('_current' => true));
             return;
@@ -263,6 +270,8 @@ class Search extends \Magento\App\Action\Action
 
     /**
      * Load type specific advanced search attributes
+     *
+     * @return void
      */
     public function advancedAction()
     {

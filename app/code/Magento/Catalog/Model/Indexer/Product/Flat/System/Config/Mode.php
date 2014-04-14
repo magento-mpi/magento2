@@ -1,0 +1,78 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Catalog\Model\Indexer\Product\Flat\System\Config;
+
+/**
+ * Flat product on/off backend
+ */
+class Mode extends \Magento\App\Config\Value
+{
+    /**
+     * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor
+     */
+    protected $_productFlatIndexerProcessor;
+
+    /**
+     * @var \Magento\Indexer\Model\Indexer\State
+     */
+    protected $indexerState;
+
+    /**
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
+     * @param \Magento\Indexer\Model\Indexer\State $indexerState
+     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
+        \Magento\Indexer\Model\Indexer\State $indexerState,
+        \Magento\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
+        $this->indexerState = $indexerState;
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
+    }
+
+    /**
+     * Set after commit callback
+     *
+     * @return $this
+     */
+    protected function _afterSave()
+    {
+        $this->_getResource()->addCommitCallback(array($this, 'processValue'));
+        return $this;
+    }
+
+    /**
+     * Process flat enabled mode change
+     *
+     * @return void
+     */
+    public function processValue()
+    {
+        if ((bool)$this->getValue() != (bool)$this->getOldValue()) {
+            if ((bool)$this->getValue()) {
+                $this->indexerState->loadByIndexer(\Magento\Catalog\Model\Indexer\Product\Flat\Processor::INDEXER_ID);
+                $this->indexerState->setStatus(\Magento\Indexer\Model\Indexer\State::STATUS_INVALID);
+                $this->indexerState->save();
+            } else {
+                $this->_productFlatIndexerProcessor->getIndexer()->setScheduled(false);
+            }
+        }
+    }
+}

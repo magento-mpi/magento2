@@ -68,7 +68,6 @@ class Core_Mage_Captcha_RegisterDuringCheckoutTest extends Mage_Selenium_TestCas
      */
     public function enableCaptcha($productName)
     {
-        $this->markTestIncomplete('BUG: No captcha image on Billing Information page');
         $checkout = array('checkout_method' => 'register');
         //Steps
         $this->loginAdminUser();

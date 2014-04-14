@@ -2,17 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Onepage;
+
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
+use Magento\Customer\Model\Address\Config as AddressConfig;
 
 /**
  * One page checkout status
  */
-namespace Magento\Checkout\Block\Onepage;
-
 class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
     /**
@@ -33,8 +34,12 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $resourceSession
-     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
-     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+     * @param CustomerAccountService $customerAccountService
+     * @param CustomerAddressService $customerAddressService
+     * @param AddressConfig $addressConfig
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param array $data
      */
@@ -44,8 +49,12 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $resourceSession,
-        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
-        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
+        CustomerAccountService $customerAccountService,
+        CustomerAddressService $customerAddressService,
+        AddressConfig $addressConfig,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         array $data = array()
     ) {
@@ -56,21 +65,28 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $configCacheType,
             $customerSession,
             $resourceSession,
-            $countryCollFactory,
-            $regionCollFactory,
+            $countryCollectionFactory,
+            $regionCollectionFactory,
+            $customerAccountService,
+            $customerAddressService,
+            $addressConfig,
+            $httpContext,
             $data
         );
+        $this->_isScopePrivate = true;
     }
 
     /**
      * Initialize shipping address step
+     *
+     * @return void
      */
     protected function _construct()
     {
-        $this->getCheckout()->setStepData('shipping', array(
-            'label'     => __('Shipping Information'),
-            'is_show'   => $this->isShow()
-        ));
+        $this->getCheckout()->setStepData(
+            'shipping',
+            array('label' => __('Shipping Information'), 'is_show' => $this->isShow())
+        );
 
         parent::_construct();
     }

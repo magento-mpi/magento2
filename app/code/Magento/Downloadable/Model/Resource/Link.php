@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Downloadable\Model\Resource;
 
 /**
  * Downloadable Product  Samples resource model
@@ -16,9 +16,7 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Model\Resource;
-
-class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Link extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Catalog data
@@ -28,9 +26,9 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_catalogData;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_app;
+    protected $_configuration;
 
     /**
      * @var \Magento\Directory\Model\CurrencyFactory
@@ -38,26 +36,26 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_currencyFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\App\Config\ScopeConfigInterface $configuration
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\App $app,
+        \Magento\App\Config\ScopeConfigInterface $configuration,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_catalogData = $catalogData;
-        $this->_app = $app;
+        $this->_configuration = $configuration;
         $this->_currencyFactory = $currencyFactory;
         $this->_storeManager = $storeManager;
         parent::__construct($resource);
@@ -66,6 +64,7 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize connection and define resource
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -76,77 +75,58 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save title and price of link item
      *
      * @param \Magento\Downloadable\Model\Link $linkObject
-     * @return \Magento\Downloadable\Model\Resource\Link
+     * @return $this
      */
     public function saveItemTitleAndPrice($linkObject)
     {
 
-        $writeAdapter   = $this->_getWriteAdapter();
+        $writeAdapter = $this->_getWriteAdapter();
         $linkTitleTable = $this->getTable('downloadable_link_title');
         $linkPriceTable = $this->getTable('downloadable_link_price');
 
-        $select = $writeAdapter->select()
-            ->from($this->getTable('downloadable_link_title'))
-            ->where('link_id=:link_id AND store_id=:store_id');
-        $bind = array(
-            ':link_id'   => $linkObject->getId(),
-            ':store_id'  => (int)$linkObject->getStoreId()
+        $select = $writeAdapter->select()->from(
+            $this->getTable('downloadable_link_title')
+        )->where(
+            'link_id=:link_id AND store_id=:store_id'
         );
+        $bind = array(':link_id' => $linkObject->getId(), ':store_id' => (int)$linkObject->getStoreId());
 
         if ($writeAdapter->fetchOne($select, $bind)) {
-            $where = array(
-                'link_id = ?'  => $linkObject->getId(),
-                'store_id = ?' => (int)$linkObject->getStoreId()
-            );
+            $where = array('link_id = ?' => $linkObject->getId(), 'store_id = ?' => (int)$linkObject->getStoreId());
             if ($linkObject->getUseDefaultTitle()) {
-                $writeAdapter->delete(
-                    $linkTitleTable, $where);
+                $writeAdapter->delete($linkTitleTable, $where);
             } else {
                 $insertData = array('title' => $linkObject->getTitle());
-                $writeAdapter->update(
-                    $linkTitleTable,
-                    $insertData,
-                    $where);
+                $writeAdapter->update($linkTitleTable, $insertData, $where);
             }
         } else {
             if (!$linkObject->getUseDefaultTitle()) {
                 $writeAdapter->insert(
                     $linkTitleTable,
                     array(
-                        'link_id'   => $linkObject->getId(),
-                        'store_id'  => (int)$linkObject->getStoreId(),
-                        'title'     => $linkObject->getTitle(),
-                    ));
+                        'link_id' => $linkObject->getId(),
+                        'store_id' => (int)$linkObject->getStoreId(),
+                        'title' => $linkObject->getTitle()
+                    )
+                );
             }
         }
 
-        $select = $writeAdapter->select()
-            ->from($linkPriceTable)
-            ->where('link_id=:link_id AND website_id=:website_id');
-        $bind = array(
-            ':link_id'       => $linkObject->getId(),
-            ':website_id'    => (int)$linkObject->getWebsiteId(),
-        );
+        $select = $writeAdapter->select()->from($linkPriceTable)->where('link_id=:link_id AND website_id=:website_id');
+        $bind = array(':link_id' => $linkObject->getId(), ':website_id' => (int)$linkObject->getWebsiteId());
         if ($writeAdapter->fetchOne($select, $bind)) {
-            $where = array(
-                'link_id = ?'    => $linkObject->getId(),
-                'website_id = ?' => $linkObject->getWebsiteId()
-            );
+            $where = array('link_id = ?' => $linkObject->getId(), 'website_id = ?' => $linkObject->getWebsiteId());
             if ($linkObject->getUseDefaultPrice()) {
-                $writeAdapter->delete(
-                    $linkPriceTable, $where);
+                $writeAdapter->delete($linkPriceTable, $where);
             } else {
-                $writeAdapter->update(
-                    $linkPriceTable,
-                    array('price' => $linkObject->getPrice()),
-                    $where);
+                $writeAdapter->update($linkPriceTable, array('price' => $linkObject->getPrice()), $where);
             }
         } else {
             if (!$linkObject->getUseDefaultPrice()) {
                 $dataToInsert[] = array(
-                    'link_id'    => $linkObject->getId(),
+                    'link_id' => $linkObject->getId(),
                     'website_id' => (int)$linkObject->getWebsiteId(),
-                    'price'      => (float)$linkObject->getPrice()
+                    'price' => (double)$linkObject->getPrice()
                 );
                 if ($linkObject->getOrigData('link_id') != $linkObject->getLinkId()) {
                     $_isNew = true;
@@ -156,7 +136,10 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
                 if ($linkObject->getWebsiteId() == 0 && $_isNew && !$this->_catalogData->isPriceGlobal()) {
                     $websiteIds = $linkObject->getProductWebsiteIds();
                     foreach ($websiteIds as $websiteId) {
-                        $baseCurrency = $this->_app->getBaseCurrencyCode();
+                        $baseCurrency = $this->_configuration->getValue(
+                            \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                            'default'
+                        );
                         $websiteCurrency = $this->_storeManager->getWebsite($websiteId)->getBaseCurrencyCode();
                         if ($websiteCurrency == $baseCurrency) {
                             continue;
@@ -167,9 +150,9 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
                         }
                         $newPrice = $linkObject->getPrice() * $rate;
                         $dataToInsert[] = array(
-                            'link_id'       => $linkObject->getId(),
-                            'website_id'    => (int)$websiteId,
-                            'price'         => $newPrice
+                            'link_id' => $linkObject->getId(),
+                            'website_id' => (int)$websiteId,
+                            'price' => $newPrice
                         );
                     }
                 }
@@ -183,26 +166,23 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Delete data by item(s)
      *
      * @param \Magento\Downloadable\Model\Link|array|int $items
-     * @return \Magento\Downloadable\Model\Resource\Link
+     * @return $this
      */
     public function deleteItems($items)
     {
-        $writeAdapter   = $this->_getWriteAdapter();
+        $writeAdapter = $this->_getWriteAdapter();
         $where = array();
         if ($items instanceof \Magento\Downloadable\Model\Link) {
-            $where = array('link_id = ?'    => $items->getId());
+            $where = array('link_id = ?' => $items->getId());
         } elseif (is_array($items)) {
             $where = array('link_id in (?)' => $items);
         } else {
-            $where = array('sample_id = ?'  => $items);
+            $where = array('sample_id = ?' => $items);
         }
         if ($where) {
-            $writeAdapter->delete(
-                $this->getMainTable(), $where);
-            $writeAdapter->delete(
-                $this->getTable('downloadable_link_title'), $where);
-            $writeAdapter->delete(
-                $this->getTable('downloadable_link_price'), $where);
+            $writeAdapter->delete($this->getMainTable(), $where);
+            $writeAdapter->delete($this->getTable('downloadable_link_title'), $where);
+            $writeAdapter->delete($this->getTable('downloadable_link_price'), $where);
         }
         return $this;
     }
@@ -216,23 +196,23 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getSearchableData($productId, $storeId)
     {
-        $adapter    = $this->_getReadAdapter();
+        $adapter = $this->_getReadAdapter();
         $ifNullDefaultTitle = $adapter->getIfNullSql('st.title', 's.title');
-        $select = $adapter->select()
-            ->from(array('m' => $this->getMainTable()), null)
-            ->join(
-                array('s' => $this->getTable('downloadable_link_title')),
-                's.link_id=m.link_id AND s.store_id=0',
-                array())
-            ->joinLeft(
-                array('st' => $this->getTable('downloadable_link_title')),
-                'st.link_id=m.link_id AND st.store_id=:store_id',
-                array('title' => $ifNullDefaultTitle))
-            ->where('m.product_id=:product_id');
-        $bind = array(
-            ':store_id'   => (int)$storeId,
-            ':product_id' => $productId
+        $select = $adapter->select()->from(
+            array('m' => $this->getMainTable()),
+            null
+        )->join(
+            array('s' => $this->getTable('downloadable_link_title')),
+            's.link_id=m.link_id AND s.store_id=0',
+            array()
+        )->joinLeft(
+            array('st' => $this->getTable('downloadable_link_title')),
+            'st.link_id=m.link_id AND st.store_id=:store_id',
+            array('title' => $ifNullDefaultTitle)
+        )->where(
+            'm.product_id=:product_id'
         );
+        $bind = array(':store_id' => (int)$storeId, ':product_id' => $productId);
 
         return $adapter->fetchCol($select, $bind);
     }

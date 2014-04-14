@@ -8,14 +8,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product\View;
 
 class AdditionalTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetChildHtmlList()
     {
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         /** @var $block \Magento\Catalog\Block\Product\View\Additional */
         $block = $layout->createBlock('Magento\Catalog\Block\Product\View\Additional', 'block');

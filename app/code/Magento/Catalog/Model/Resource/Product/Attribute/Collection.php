@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Product\Attribute;
 
 /**
  * Catalog product EAV additional attribute resource collection
@@ -16,10 +16,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product\Attribute;
-
-class Collection
-    extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
 {
     /**
      * Entity factory1
@@ -34,8 +31,8 @@ class Collection
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
-     * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Zend_Db_Adapter_Abstract $connection
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -44,7 +41,7 @@ class Collection
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_eavEntityFactory = $eavEntityFactory;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
@@ -53,6 +50,7 @@ class Collection
     /**
      * Resource model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -60,14 +58,15 @@ class Collection
     }
 
     /**
-     * initialize select object
+     * Initialize select object
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
+     * @return $this
      */
     protected function _initSelect()
     {
-        $entityTypeId = (int)$this->_eavEntityFactory->create()->setType(\Magento\Catalog\Model\Product::ENTITY)
-            ->getTypeId();
+        $entityTypeId = (int)$this->_eavEntityFactory->create()->setType(
+            \Magento\Catalog\Model\Product::ENTITY
+        )->getTypeId();
         $columns = $this->getConnection()->describeTable($this->getResource()->getMainTable());
         unset($columns['attribute_id']);
         $retColumns = array();
@@ -77,13 +76,16 @@ class Collection
                 $retColumns[$labelColumn] = 'main_table.' . $labelColumn;
             }
         }
-        $this->getSelect()
-            ->from(array('main_table' => $this->getResource()->getMainTable()), $retColumns)
-            ->join(
-                array('additional_table' => $this->getTable('catalog_eav_attribute')),
-                'additional_table.attribute_id = main_table.attribute_id'
-            )
-            ->where('main_table.entity_type_id = ?', $entityTypeId);
+        $this->getSelect()->from(
+            array('main_table' => $this->getResource()->getMainTable()),
+            $retColumns
+        )->join(
+            array('additional_table' => $this->getTable('catalog_eav_attribute')),
+            'additional_table.attribute_id = main_table.attribute_id'
+        )->where(
+            'main_table.entity_type_id = ?',
+            $entityTypeId
+        );
         return $this;
     }
 
@@ -92,7 +94,7 @@ class Collection
      * Entity type is defined.
      *
      * @param  int $typeId
-     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
+     * @return $this
      */
     public function setEntityTypeFilter($typeId)
     {
@@ -102,7 +104,7 @@ class Collection
     /**
      * Return array of fields to load attribute values
      *
-     * @return array
+     * @return string[]
      */
     protected function _getLoadDataFields()
     {
@@ -121,7 +123,7 @@ class Collection
     /**
      * Remove price from attribute list
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
+     * @return $this
      */
     public function removePriceFilter()
     {
@@ -131,7 +133,7 @@ class Collection
     /**
      * Specify "is_visible_in_advanced_search" filter
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
+     * @return $this
      */
     public function addDisplayInAdvancedSearchFilter()
     {
@@ -141,7 +143,7 @@ class Collection
     /**
      * Specify "is_filterable" filter
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
+     * @return $this
      */
     public function addIsFilterableFilter()
     {
@@ -151,7 +153,7 @@ class Collection
     /**
      * Add filterable in search filter
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
+     * @return $this
      */
     public function addIsFilterableInSearchFilter()
     {
@@ -161,7 +163,7 @@ class Collection
     /**
      * Specify filter by "is_visible" field
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
+     * @return $this
      */
     public function addVisibleFilter()
     {
@@ -171,7 +173,7 @@ class Collection
     /**
      * Specify "is_searchable" filter
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
+     * @return $this
      */
     public function addIsSearchableFilter()
     {
@@ -182,7 +184,7 @@ class Collection
      * Specify filter for attributes that have to be indexed
      *
      * @param bool $addRequiredCodes
-     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
+     * @return $this
      */
     public function addToIndexFilter($addRequiredCodes = false)
     {
@@ -195,8 +197,10 @@ class Collection
         );
 
         if ($addRequiredCodes) {
-            $conditions[] = $this->getConnection()->quoteInto('main_table.attribute_code IN (?)',
-                array('status', 'visibility'));
+            $conditions[] = $this->getConnection()->quoteInto(
+                'main_table.attribute_code IN (?)',
+                array('status', 'visibility')
+            );
         }
 
         $this->getSelect()->where(sprintf('(%s)', implode(' OR ', $conditions)));
@@ -207,13 +211,15 @@ class Collection
     /**
      * Specify filter for attributes used in quick search
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
+     * @return $this
      */
     public function addSearchableAttributeFilter()
     {
         $this->getSelect()->where(
-            'additional_table.is_searchable = 1 OR '.
-            $this->getConnection()->quoteInto('main_table.attribute_code IN (?)', array('status', 'visibility'))
+            'additional_table.is_searchable = 1 OR ' . $this->getConnection()->quoteInto(
+                'main_table.attribute_code IN (?)',
+                array('status', 'visibility')
+            )
         );
 
         return $this;

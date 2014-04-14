@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\TargetRule\Model\Actions\Condition;
 
 class Combine extends \Magento\Rule\Model\Condition\Combine
@@ -49,9 +47,9 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     public function getNewChildSelectOptions()
     {
         $conditions = array(
-            array('value'=>$this->getType(), 'label'=>__('Conditions Combination')),
+            array('value' => $this->getType(), 'label' => __('Conditions Combination')),
             $this->_attributeFactory->create()->getNewChildSelectOptions(),
-            $this->_specialFactory->create()->getNewChildSelectOptions(),
+            $this->_specialFactory->create()->getNewChildSelectOptions()
         );
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);
         return $conditions;
@@ -62,14 +60,14 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
      *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      * @param \Magento\TargetRule\Model\Index $object
-     * @param array $bind
-     * @return \Zend_Db_Expr
+     * @param array &$bind
+     * @return \Zend_Db_Expr|false
      */
     public function getConditionForCollection($collection, $object, &$bind)
     {
         $conditions = array();
         $aggregator = $this->getAggregator() == 'all' ? ' AND ' : ' OR ';
-        $operator   = $this->getValue() ? '' : 'NOT';
+        $operator = $this->getValue() ? '' : 'NOT';
 
         foreach ($this->getConditions() as $condition) {
             $subCondition = $condition->getConditionForCollection($collection, $object, $bind);
@@ -85,4 +83,3 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
         return false;
     }
 }
-

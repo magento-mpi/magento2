@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,17 +11,19 @@
  */
 namespace Magento\App\Cache;
 
-class Proxy implements \Magento\App\CacheInterface
+use Magento\App\CacheInterface;
+
+class Proxy implements CacheInterface
 {
     /**
      * @var \Magento\ObjectManager
      */
-    protected  $_objectManager;
+    protected $_objectManager;
 
     /**
-     * @var \Magento\App\CacheInterface
+     * @var CacheInterface
      */
-    protected  $_cache;
+    protected $_cache;
 
     /**
      * @param \Magento\ObjectManager $objectManager
@@ -36,7 +36,7 @@ class Proxy implements \Magento\App\CacheInterface
     /**
      * Create cache model
      *
-     * @return \Magento\App\CacheInterface|mixed
+     * @return CacheInterface
      */
     protected function _getCache()
     {

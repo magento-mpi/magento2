@@ -9,6 +9,8 @@
  */
 namespace Magento\Profiler\Driver\Standard\Output;
 
+use Magento\Profiler\Driver\Standard\OutputInterface;
+
 class Factory
 {
     /**
@@ -43,7 +45,7 @@ class Factory
      * Create instance of standard profiler driver output
      *
      * @param array $config
-     * @return \Magento\Profiler\Driver\Standard\OutputInterface
+     * @return OutputInterface
      * @throws \InvalidArgumentException If driver cannot be created
      */
     public function create(array $config)
@@ -55,16 +57,18 @@ class Factory
             $class = $this->_defaultOutputPrefix . ucfirst($type);
             if (!class_exists($class)) {
                 throw new \InvalidArgumentException(
-                    sprintf("Cannot create standard driver output, class \"%s\" doesn't exist.", $class
-                ));
+                    sprintf("Cannot create standard driver output, class \"%s\" doesn't exist.", $class)
+                );
             }
         }
         $output = new $class($config);
-        if (!$output instanceof \Magento\Profiler\Driver\Standard\OutputInterface) {
-            throw new \InvalidArgumentException(sprintf(
-                "Output class \"%s\" must implement \Magento\Profiler\Driver\Standard\OutputInterface.",
-                get_class($output)
-            ));
+        if (!$output instanceof OutputInterface) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Output class \"%s\" must implement \Magento\Profiler\Driver\Standard\OutputInterface.",
+                    get_class($output)
+                )
+            );
         }
         return $output;
     }

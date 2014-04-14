@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View;
 
 /**
@@ -14,6 +13,8 @@ namespace Magento\View;
 interface RenderInterface
 {
     /**
+     * Render template
+     *
      * @param string $template
      * @param array $data
      * @return string
@@ -21,6 +22,8 @@ interface RenderInterface
     public function renderTemplate($template, array $data);
 
     /**
+     * Render container
+     *
      * @param string $content
      * @param array $containerInfo
      * @return string

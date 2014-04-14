@@ -7,6 +7,8 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <job name="paypal_fetch_settlement_reports" instance="Magento\Paypal\Model\Observer" method="fetchReports" />
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Cron/etc/crontab.xsd">
+    <group id="default">
+        <job name="paypal_fetch_settlement_reports" instance="Magento\Paypal\Model\Observer" method="fetchReports" />
+    </group>
 </config>

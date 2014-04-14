@@ -7,8 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
-
 namespace Magento\Image\Adapter;
 
 class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
@@ -18,7 +16,7 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
      *
      * @var array
      */
-    protected $_requiredExtensions = Array("gd");
+    protected $_requiredExtensions = array("gd");
 
     /**
      * Image output callbacks by type
@@ -26,11 +24,11 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
      * @var array
      */
     private static $_callbacks = array(
-        IMAGETYPE_GIF  => array('output' => 'imagegif',  'create' => 'imagecreatefromgif'),
+        IMAGETYPE_GIF => array('output' => 'imagegif', 'create' => 'imagecreatefromgif'),
         IMAGETYPE_JPEG => array('output' => 'imagejpeg', 'create' => 'imagecreatefromjpeg'),
-        IMAGETYPE_PNG  => array('output' => 'imagepng',  'create' => 'imagecreatefrompng'),
-        IMAGETYPE_XBM  => array('output' => 'imagexbm',  'create' => 'imagecreatefromxbm'),
-        IMAGETYPE_WBMP => array('output' => 'imagewbmp', 'create' => 'imagecreatefromxbm'),
+        IMAGETYPE_PNG => array('output' => 'imagepng', 'create' => 'imagecreatefrompng'),
+        IMAGETYPE_XBM => array('output' => 'imagexbm', 'create' => 'imagecreatefromxbm'),
+        IMAGETYPE_WBMP => array('output' => 'imagewbmp', 'create' => 'imagecreatefromxbm')
     );
 
     /**
@@ -44,22 +42,91 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
      * Open image for processing
      *
      * @param string $filename
+     * @return void
+     * @throws \OverflowException
      */
     public function open($filename)
     {
         $this->_fileName = $filename;
         $this->getMimeType();
         $this->_getFileAttributes();
+        if ($this->_isMemoryLimitReached()) {
+            throw new \OverflowException('Memory limit has been reached.');
+        }
         $this->_imageHandler = call_user_func($this->_getCallback('create'), $this->_fileName);
+    }
+
+    /**
+     * Checks whether memory limit is reached.
+     *
+     * @return bool
+     */
+    protected function _isMemoryLimitReached()
+    {
+        $memory_limit = ini_get('memory_limit');
+        if ($memory_limit == -1) {
+            return false;
+        } else {
+            $limit = $this->_convertToByte($memory_limit);
+            $requiredMemory = $this->_getImageNeedMemorySize($this->_fileName);
+            return (memory_get_usage(true) + $requiredMemory) > $limit;
+        }
+    }
+
+    /**
+     * Get image needed memory size
+     *
+     * @param string $file
+     * @return float|int
+     */
+    protected function _getImageNeedMemorySize($file)
+    {
+        $imageInfo = getimagesize($file);
+        if (!isset($imageInfo[0]) || !isset($imageInfo[1])) {
+            return 0;
+        }
+        if (!isset($imageInfo['channels'])) {
+            // if there is no info about this parameter lets set it for maximum
+            $imageInfo['channels'] = 4;
+        }
+        if (!isset($imageInfo['bits'])) {
+            // if there is no info about this parameter lets set it for maximum
+            $imageInfo['bits'] = 8;
+        }
+
+        return round(
+            ($imageInfo[0] * $imageInfo[1] * $imageInfo['bits'] * $imageInfo['channels'] / 8 + Pow(2, 16)) * 1.65
+        );
+    }
+
+    /**
+     * Converts memory value (e.g. 64M, 129K) to bytes.
+     * Case insensitive value might be used.
+     *
+     * @param string $memoryValue
+     * @return int
+     */
+    protected function _convertToByte($memoryValue)
+    {
+        if (stripos($memoryValue, 'G') !== false) {
+            return (int)$memoryValue * pow(1024, 3);
+        } elseif (stripos($memoryValue, 'M') !== false) {
+            return (int)$memoryValue * 1024 * 1024;
+        } elseif (stripos($memoryValue, 'K') !== false) {
+            return (int)$memoryValue * 1024;
+        }
+
+        return (int)$memoryValue;
     }
 
     /**
      * Save image to specific path.
      * If some folders of path does not exist they will be created
      *
-     * @throws \Exception  if destination path is not writable
-     * @param string $destination
-     * @param string $newName
+     * @param null|string $destination
+     * @param null|string $newName
+     * @return void
+     * @throws \Exception  If destination path is not writable
      */
     public function save($destination = null, $newName = null)
     {
@@ -67,7 +134,7 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
 
         if (!$this->_resized) {
             // keep alpha transparency
-            $isAlpha     = false;
+            $isAlpha = false;
             $isTrueColor = false;
             $this->_getTransparency($this->_imageHandler, $this->_fileType, $isAlpha, $isTrueColor);
             if ($isAlpha) {
@@ -77,13 +144,7 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
                     $newImage = imagecreate($this->_imageSrcWidth, $this->_imageSrcHeight);
                 }
                 $this->_fillBackgroundColor($newImage);
-                imagecopy(
-                    $newImage,
-                    $this->_imageHandler,
-                    0, 0,
-                    0, 0,
-                    $this->_imageSrcWidth, $this->_imageSrcHeight
-                );
+                imagecopy($newImage, $this->_imageHandler, 0, 0, 0, 0, $this->_imageSrcWidth, $this->_imageSrcHeight);
                 $this->_imageHandler = $newImage;
             }
         }
@@ -94,7 +155,7 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
         if ($quality !== null) {
             if ($this->_fileType == IMAGETYPE_PNG) {
                 // for PNG files quality param must be from 0 to 10
-                $quality = ceil($quality/10);
+                $quality = ceil($quality / 10);
                 if ($quality > 10) {
                     $quality = 10;
                 }
@@ -121,7 +182,8 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
      * Obtain function name, basing on image type and callback type
      *
      * @param string $callbackType
-     * @param int $fileType
+     * @param null|int $fileType
+     * @param string $unsupportedText
      * @return string
      * @throws \Exception
      */
@@ -143,9 +205,9 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
      * Fill image with main background color.
      * Returns a color identifier.
      *
-     * @throws \Exception
-     * @param resource $imageResourceTo
+     * @param resource &$imageResourceTo
      * @return int
+     * @throws \Exception
      */
     private function _fillBackgroundColor(&$imageResourceTo)
     {
@@ -172,12 +234,11 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
                     }
 
                     return $transparentAlphaColor;
-                }
-                // fill image with indexed non-alpha transparency
-                elseif (false !== $transparentIndex) {
+                } elseif (false !== $transparentIndex) {
+                    // fill image with indexed non-alpha transparency
                     $transparentColor = false;
-                    if ($transparentIndex >=0 && $transparentIndex <= imagecolorstotal($this->_imageHandler)) {
-                        list($r, $g, $b)  = array_values(imagecolorsforindex($this->_imageHandler, $transparentIndex));
+                    if ($transparentIndex >= 0 && $transparentIndex <= imagecolorstotal($this->_imageHandler)) {
+                        list($r, $g, $b) = array_values(imagecolorsforindex($this->_imageHandler, $transparentIndex));
                         $transparentColor = imagecolorallocate($imageResourceTo, $r, $g, $b);
                     }
                     if (false === $transparentColor) {
@@ -189,8 +250,7 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
                     imagecolortransparent($imageResourceTo, $transparentColor);
                     return $transparentColor;
                 }
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 // fallback to default background color
             }
         }
@@ -211,7 +271,7 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
      */
     public function checkAlpha($fileName)
     {
-        return ((ord(file_get_contents($fileName, false, null, 25, 1)) & 6) & 4) == 4;
+        return (ord(file_get_contents($fileName, false, null, 25, 1)) & 6 & 4) == 4;
     }
 
     /**
@@ -219,13 +279,13 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
      *
      * @param resource $imageResource
      * @param int $fileType one of the constants IMAGETYPE_*
-     * @param bool $isAlpha
-     * @param bool $isTrueColor
+     * @param bool &$isAlpha
+     * @param bool &$isTrueColor
      * @return boolean
      */
     private function _getTransparency($imageResource, $fileType, &$isAlpha = false, &$isTrueColor = false)
     {
-        $isAlpha     = false;
+        $isAlpha = false;
         $isTrueColor = false;
         // assume that transparency is supported by gif/png only
         if (IMAGETYPE_GIF === $fileType || IMAGETYPE_PNG === $fileType) {
@@ -233,12 +293,12 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
             $transparentIndex = imagecolortransparent($imageResource);
             if ($transparentIndex >= 0) {
                 return $transparentIndex;
-            }
-            // assume that truecolor PNG has transparency
-            elseif (IMAGETYPE_PNG === $fileType) {
-                $isAlpha     = $this->checkAlpha($this->_fileName);
+            } elseif (IMAGETYPE_PNG === $fileType) {
+                // assume that truecolor PNG has transparency
+                $isAlpha = $this->checkAlpha($this->_fileName);
                 $isTrueColor = true;
-                return $transparentIndex; // -1
+                // -1
+                return $transparentIndex;
             }
         }
         if (IMAGETYPE_JPEG === $fileType) {
@@ -250,15 +310,16 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
     /**
      * Change the image size
      *
-     * @param int $frameWidth
-     * @param int $frameHeight
+     * @param null|int $frameWidth
+     * @param null|int $frameHeight
+     * @return void
      */
     public function resize($frameWidth = null, $frameHeight = null)
     {
         $dims = $this->_adaptResizeValues($frameWidth, $frameHeight);
 
         // create new image
-        $isAlpha     = false;
+        $isAlpha = false;
         $isTrueColor = false;
         $this->_getTransparency($this->_imageHandler, $this->_fileType, $isAlpha, $isTrueColor);
         if ($isTrueColor) {
@@ -275,10 +336,14 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
             imagecopyresampled(
                 $newImage,
                 $this->_imageHandler,
-                $dims['dst']['x'], $dims['dst']['y'],
-                $dims['src']['x'], $dims['src']['y'],
-                $dims['dst']['width'], $dims['dst']['height'],
-                $this->_imageSrcWidth, $this->_imageSrcHeight
+                $dims['dst']['x'],
+                $dims['dst']['y'],
+                $dims['src']['x'],
+                $dims['src']['y'],
+                $dims['dst']['width'],
+                $dims['dst']['height'],
+                $this->_imageSrcWidth,
+                $this->_imageSrcHeight
             );
         }
         $this->_imageHandler = $newImage;
@@ -290,6 +355,7 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
      * Rotate image on specific angle
      *
      * @param int $angle
+     * @return void
      */
     public function rotate($angle)
     {
@@ -305,22 +371,22 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
      * @param int $positionY
      * @param int $opacity
      * @param bool $tile
+     * @return void
      */
     public function watermark($imagePath, $positionX = 0, $positionY = 0, $opacity = 30, $tile = false)
     {
         list($watermarkSrcWidth, $watermarkSrcHeight, $watermarkFileType, ) = $this->_getImageOptions($imagePath);
         $this->_getFileAttributes();
-        $watermark = call_user_func($this->_getCallback(
-            'create',
-            $watermarkFileType,
-            'Unsupported watermark image format.'
-        ), $imagePath);
+        $watermark = call_user_func(
+            $this->_getCallback('create', $watermarkFileType, 'Unsupported watermark image format.'),
+            $imagePath
+        );
 
         $merged = false;
 
         if ($this->getWatermarkWidth() &&
             $this->getWatermarkHeight() &&
-            ($this->getWatermarkPosition() != self::POSITION_STRETCH)
+            $this->getWatermarkPosition() != self::POSITION_STRETCH
         ) {
             $newWatermark = imagecreatetruecolor($this->getWatermarkWidth(), $this->getWatermarkHeight());
             imagealphablending($newWatermark, false);
@@ -332,16 +398,21 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
             imagecopyresampled(
                 $newWatermark,
                 $watermark,
-                0, 0, 0, 0,
-                $this->getWatermarkWidth(), $this->getWatermarkHeight(),
-                imagesx($watermark), imagesy($watermark)
+                0,
+                0,
+                0,
+                0,
+                $this->getWatermarkWidth(),
+                $this->getWatermarkHeight(),
+                imagesx($watermark),
+                imagesy($watermark)
             );
             $watermark = $newWatermark;
         }
 
-        if( $this->getWatermarkPosition() == self::POSITION_TILE ) {
+        if ($this->getWatermarkPosition() == self::POSITION_TILE) {
             $tile = true;
-        } elseif( $this->getWatermarkPosition() == self::POSITION_STRETCH ) {
+        } elseif ($this->getWatermarkPosition() == self::POSITION_STRETCH) {
 
             $newWatermark = imagecreatetruecolor($this->_imageSrcWidth, $this->_imageSrcHeight);
             imagealphablending($newWatermark, false);
@@ -353,85 +424,110 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
             imagecopyresampled(
                 $newWatermark,
                 $watermark,
-                0, 0, 0, 0,
-                $this->_imageSrcWidth, $this->_imageSrcHeight,
-                imagesx($watermark), imagesy($watermark)
+                0,
+                0,
+                0,
+                0,
+                $this->_imageSrcWidth,
+                $this->_imageSrcHeight,
+                imagesx($watermark),
+                imagesy($watermark)
             );
             $watermark = $newWatermark;
-
-        } elseif( $this->getWatermarkPosition() == self::POSITION_CENTER ) {
-            $positionX = ($this->_imageSrcWidth/2 - imagesx($watermark)/2);
-            $positionY = ($this->_imageSrcHeight/2 - imagesy($watermark)/2);
+        } elseif ($this->getWatermarkPosition() == self::POSITION_CENTER) {
+            $positionX = $this->_imageSrcWidth / 2 - imagesx($watermark) / 2;
+            $positionY = $this->_imageSrcHeight / 2 - imagesy($watermark) / 2;
             imagecopymerge(
                 $this->_imageHandler,
                 $watermark,
-                $positionX, $positionY,
-                0, 0,
-                imagesx($watermark), imagesy($watermark),
+                $positionX,
+                $positionY,
+                0,
+                0,
+                imagesx($watermark),
+                imagesy($watermark),
                 $this->getWatermarkImageOpacity()
             );
-        } elseif( $this->getWatermarkPosition() == self::POSITION_TOP_RIGHT ) {
-            $positionX = ($this->_imageSrcWidth - imagesx($watermark));
+        } elseif ($this->getWatermarkPosition() == self::POSITION_TOP_RIGHT) {
+            $positionX = $this->_imageSrcWidth - imagesx($watermark);
             imagecopymerge(
                 $this->_imageHandler,
                 $watermark,
-                $positionX, $positionY,
-                0, 0,
-                imagesx($watermark), imagesy($watermark),
+                $positionX,
+                $positionY,
+                0,
+                0,
+                imagesx($watermark),
+                imagesy($watermark),
                 $this->getWatermarkImageOpacity()
             );
-        } elseif( $this->getWatermarkPosition() == self::POSITION_TOP_LEFT  ) {
+        } elseif ($this->getWatermarkPosition() == self::POSITION_TOP_LEFT) {
             imagecopymerge(
                 $this->_imageHandler,
                 $watermark,
-                $positionX, $positionY,
-                0, 0,
-                imagesx($watermark), imagesy($watermark),
+                $positionX,
+                $positionY,
+                0,
+                0,
+                imagesx($watermark),
+                imagesy($watermark),
                 $this->getWatermarkImageOpacity()
             );
-        } elseif( $this->getWatermarkPosition() == self::POSITION_BOTTOM_RIGHT ) {
-            $positionX = ($this->_imageSrcWidth - imagesx($watermark));
-            $positionY = ($this->_imageSrcHeight - imagesy($watermark));
+        } elseif ($this->getWatermarkPosition() == self::POSITION_BOTTOM_RIGHT) {
+            $positionX = $this->_imageSrcWidth - imagesx($watermark);
+            $positionY = $this->_imageSrcHeight - imagesy($watermark);
             imagecopymerge(
                 $this->_imageHandler,
                 $watermark,
-                $positionX, $positionY,
-                0, 0,
-                imagesx($watermark), imagesy($watermark),
+                $positionX,
+                $positionY,
+                0,
+                0,
+                imagesx($watermark),
+                imagesy($watermark),
                 $this->getWatermarkImageOpacity()
             );
-        } elseif( $this->getWatermarkPosition() == self::POSITION_BOTTOM_LEFT ) {
-            $positionY = ($this->_imageSrcHeight - imagesy($watermark));
+        } elseif ($this->getWatermarkPosition() == self::POSITION_BOTTOM_LEFT) {
+            $positionY = $this->_imageSrcHeight - imagesy($watermark);
             imagecopymerge(
                 $this->_imageHandler,
                 $watermark,
-                $positionX, $positionY,
-                0, 0,
-                imagesx($watermark), imagesy($watermark),
+                $positionX,
+                $positionY,
+                0,
+                0,
+                imagesx($watermark),
+                imagesy($watermark),
                 $this->getWatermarkImageOpacity()
             );
         }
 
-        if( $tile === false && $merged === false ) {
+        if ($tile === false && $merged === false) {
             imagecopymerge(
                 $this->_imageHandler,
                 $watermark,
-                $positionX, $positionY,
-                0, 0,
-                imagesx($watermark), imagesy($watermark),
+                $positionX,
+                $positionY,
+                0,
+                0,
+                imagesx($watermark),
+                imagesy($watermark),
                 $this->getWatermarkImageOpacity()
             );
         } else {
             $offsetX = $positionX;
             $offsetY = $positionY;
-            while( $offsetY <= ($this->_imageSrcHeight+imagesy($watermark)) ) {
-                while( $offsetX <= ($this->_imageSrcWidth+imagesx($watermark)) ) {
+            while ($offsetY <= $this->_imageSrcHeight + imagesy($watermark)) {
+                while ($offsetX <= $this->_imageSrcWidth + imagesx($watermark)) {
                     imagecopymerge(
                         $this->_imageHandler,
                         $watermark,
-                        $offsetX, $offsetY,
-                        0, 0,
-                        imagesx($watermark), imagesy($watermark),
+                        $offsetX,
+                        $offsetY,
+                        0,
+                        0,
+                        imagesx($watermark),
+                        imagesy($watermark),
                         $this->getWatermarkImageOpacity()
                     );
                     $offsetX += imagesx($watermark);
@@ -456,7 +552,7 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
      */
     public function crop($top = 0, $left = 0, $right = 0, $bottom = 0)
     {
-        if( $left == 0 && $top == 0 && $right == 0 && $bottom == 0 ) {
+        if ($left == 0 && $top == 0 && $right == 0 && $bottom == 0) {
             return false;
         }
 
@@ -472,9 +568,14 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
         imagecopyresampled(
             $canvas,
             $this->_imageHandler,
-            0, 0, $left, $top,
-            $newWidth, $newHeight,
-            $newWidth, $newHeight
+            0,
+            0,
+            $left,
+            $top,
+            $newWidth,
+            $newHeight,
+            $newWidth,
+            $newHeight
         );
 
         $this->_imageHandler = $canvas;
@@ -485,12 +586,13 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
     /**
      * Checks required dependencies
      *
-     * @throws \Exception if some of dependencies are missing
+     * @return void
+     * @throws \Exception If some of dependencies are missing
      */
     public function checkDependencies()
     {
-        foreach( $this->_requiredExtensions as $value ) {
-            if( !extension_loaded($value) ) {
+        foreach ($this->_requiredExtensions as $value) {
+            if (!extension_loaded($value)) {
                 throw new \Exception("Required PHP extension '{$value}' was not loaded.");
             }
         }
@@ -498,6 +600,8 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
 
     /**
      * Reassign image dimensions
+     *
+     * @return void
      */
     public function refreshImageDimensions()
     {
@@ -515,10 +619,11 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
         }
     }
 
-    /*
+    /**
      * Fixes saving PNG alpha channel
      *
      * @param resource $imageHandler
+     * @return void
      */
     private function _saveAlpha($imageHandler)
     {
@@ -568,7 +673,8 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
     /**
      * Create Image using standard font
      *
-     * @param $text
+     * @param string $text
+     * @return void
      */
     protected function _createImageFromText($text)
     {
@@ -587,6 +693,7 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
      *
      * @param string $text
      * @param string $font
+     * @return void
      * @throws \Exception
      */
     protected function _createImageFromTtfText($text, $font)
@@ -598,8 +705,16 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
         $this->_createEmptyImage($width, $height);
 
         $black = imagecolorallocate($this->_imageHandler, 0, 0, 0);
-        $result = imagettftext($this->_imageHandler, $this->_fontSize, 0, 0, $height - abs($boundingBox[1]),
-            $black, $font, $text);
+        $result = imagettftext(
+            $this->_imageHandler,
+            $this->_fontSize,
+            0,
+            0,
+            $height - abs($boundingBox[1]),
+            $black,
+            $font,
+            $text
+        );
         if ($result === false) {
             throw new \Exception('Unable to create TTF text');
         }
@@ -608,8 +723,9 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
     /**
      * Create empty image with transparent background
      *
-     * @param $width
-     * @param $height
+     * @param int $width
+     * @param int $height
+     * @return void
      */
     protected function _createEmptyImage($width, $height)
     {

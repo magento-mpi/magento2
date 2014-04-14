@@ -2,69 +2,75 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid\Renderer;
 
 /**
  * Adminhtml newsletter queue grid block action item renderer
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid\Renderer;
-
 class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
     }
 
+    /**
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function render(\Magento\Object $row)
     {
         $actions = array();
 
         $actions[] = array(
-            '@'	=>  array(
-                'href'  => $this->getUrl('newsletter/template/preview',
+            '@' => array(
+                'href' => $this->getUrl(
+                    'newsletter/template/preview',
                     array(
-                        'id'        => $row->getTemplateId(),
-                        'subscriber'=> $this->_coreRegistry->registry('subscriber')->getId()
+                        'id' => $row->getTemplateId(),
+                        'subscriber' => $this->_coreRegistry->registry('subscriber')->getId()
                     )
                 ),
-                'target'=>	'_blank'
+                'target' => '_blank'
             ),
-            '#'	=> __('View')
+            '#' => __('View')
         );
 
         return $this->_actionsToHtml($actions);
     }
 
+    /**
+     * @param string $value
+     * @return string
+     */
     protected function _getEscapedValue($value)
     {
-        return addcslashes(htmlspecialchars($value),'\\\'');
+        return addcslashes(htmlspecialchars($value), '\\\'');
     }
 
+    /**
+     * @param array $actions
+     * @return string
+     */
     protected function _actionsToHtml(array $actions)
     {
         $html = array();
@@ -75,5 +81,4 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
         }
         return implode('<span class="separator">&nbsp;|&nbsp;</span>', $html);
     }
-
 }

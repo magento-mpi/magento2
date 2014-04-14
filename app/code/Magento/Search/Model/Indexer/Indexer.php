@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model\Indexer;
 
- /**
+/**
  * Enterprise search model indexer
  *
  *
@@ -16,15 +17,13 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Model\Indexer;
-
 class Indexer
 {
     /**
      * Indexation mode that provide commit after all documents are added to index.
      * Products are not visible at front before indexation is not completed.
      */
-    const SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL   = 0;
+    const SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL = 0;
 
     /**
      * Indexation mode that provide commit after defined amount of products.
@@ -41,7 +40,7 @@ class Indexer
      *
      * @see e.g. /lib/Apache/Solr/conf/solrconfig.xml : <luceneAutoCommit/>, <autoCommit/>
      */
-    const SEARCH_ENGINE_INDEXATION_COMMIT_MODE_ENGINE  = 2;
+    const SEARCH_ENGINE_INDEXATION_COMMIT_MODE_ENGINE = 2;
 
     /**
      * Xml path for indexation mode configuration
@@ -64,10 +63,8 @@ class Indexer
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Search\Helper\Data $searchData
      */
-    public function __construct(
-        \Magento\Index\Model\Indexer $indexer,
-        \Magento\Search\Helper\Data $searchData
-    ) {
+    public function __construct(\Magento\Index\Model\Indexer $indexer, \Magento\Search\Helper\Data $searchData)
+    {
         $this->_indexer = $indexer;
         $this->_searchData = $searchData;
     }
@@ -75,7 +72,7 @@ class Indexer
     /**
      * Reindex of catalog search fulltext index using search engine
      *
-     * @return \Magento\Search\Model\Indexer\Indexer
+     * @return $this
      */
     public function reindexAll()
     {

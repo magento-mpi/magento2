@@ -2,31 +2,19 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Paypal Direct payment block
- *
- * @category    Magento
- * @package     Magento_Pbridge
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
 
-class AbstractCreate
-    extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
+class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
 {
     /**
-     * Paypal payment code
+     * Payment code
      *
      * @var string
      */
-    protected $_code = \Magento\Paypal\Model\Config::METHOD_WPP_DIRECT;
+    protected $_code;
 
     /**
      * Adminhtml template for payment form block
@@ -52,7 +40,7 @@ class AbstractCreate
     /**
      * Backend url
      *
-     * @var \Magento\Backend\Model\Url
+     * @var \Magento\Backend\Model\UrlInterface
      */
     protected $_backendUrl;
 
@@ -64,9 +52,14 @@ class AbstractCreate
     protected $_adminhtmlSessionQuote;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
      */
-    protected $_config;
+    protected $_customerService;
+
+    /**
+     * @var \Magento\Customer\Model\Converter
+     */
+    protected $_customerConverter;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
@@ -74,10 +67,12 @@ class AbstractCreate
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote
-     * @param \Magento\Backend\Model\Url $backendUrl
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Backend\Model\UrlInterface $backendUrl
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService
+     * @param \Magento\Customer\Model\Converter $customerConverter
      * @param array $data
      */
     public function __construct(
@@ -86,21 +81,25 @@ class AbstractCreate
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote,
-        \Magento\Backend\Model\Url $backendUrl,
-        \Magento\Core\Model\Config $config,
+        \Magento\Backend\Model\UrlInterface $backendUrl,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService,
+        \Magento\Customer\Model\Converter $customerConverter,
         array $data = array()
     ) {
         $this->_adminhtmlSessionQuote = $adminhtmlSessionQuote;
         $this->_backendUrl = $backendUrl;
-        $this->_config = $config;
+        $this->_customerService = $customerService;
+        $this->_customerConverter = $customerConverter;
         parent::__construct(
             $context,
             $customerSession,
             $pbridgeSession,
             $regionFactory,
             $pbridgeData,
+            $httpContext,
             $checkoutSession,
             $data
         );
@@ -113,7 +112,8 @@ class AbstractCreate
      */
     public function getRedirectUrl()
     {
-        return $this->_backendUrl->getUrl('adminhtml/pbridge/result',
+        return $this->_backendUrl->getUrl(
+            'adminhtml/pbridge/result',
             array('store' => $this->getQuote()->getStoreId())
         );
     }
@@ -135,8 +135,10 @@ class AbstractCreate
      */
     protected function _getVariation()
     {
-        return $this->_config->getValue('payment/pbridge/merchantcode', 'default')
-            . '_' . $this->getQuote()->getStore()->getWebsite()->getCode();
+        return $this->_scopeConfig->getValue(
+            'payment/pbridge/merchantcode',
+            'default'
+        ) . '_' . $this->getQuote()->getStore()->getWebsite()->getCode();
     }
 
     /**
@@ -151,21 +153,38 @@ class AbstractCreate
     /**
      * Get current customer object
      *
-     * @return null|\Magento\Customer\Model\Customer
+     * @return \Magento\Customer\Model\Customer|null
+     * @deprecated Use _getCurrentCustomerData() instead
      */
     protected function _getCurrentCustomer()
     {
-        if ($this->_adminhtmlSessionQuote->getCustomer() instanceof \Magento\Customer\Model\Customer) {
-            return $this->_adminhtmlSessionQuote->getCustomer();
+        /**
+         * TODO: This method should be removed when all external dependencies are refactored
+         * and converter usage should be eliminated
+         */
+        if ($this->_adminhtmlSessionQuote->hasCustomerId()) {
+            return $this->_customerConverter->createCustomerModel($this->_getCurrentCustomerData());
         }
+        return null;
+    }
 
+    /**
+     * Get current customer data object.
+     *
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
+     */
+    protected function _getCurrentCustomerData()
+    {
+        if ($this->_adminhtmlSessionQuote->hasCustomerId()) {
+            return $this->_customerService->getCustomer($this->_adminhtmlSessionQuote->getCustomerId());
+        }
         return null;
     }
 
     /**
      * Return store for current context
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getCurrentStore()
     {

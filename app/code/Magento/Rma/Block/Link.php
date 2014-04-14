@@ -7,21 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Rma\Block;
 
 /**
  * RMA Return Block
  *
- * @category    Magento
- * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block;
-
 class Link extends \Magento\View\Element\Html\Link\Current
 {
     /**
-     * @var \Magento\Rma\Helper\Data
+     * Rma data
      *
      * @var \Magento\Rma\Helper\Data
      */
@@ -44,7 +40,9 @@ class Link extends \Magento\View\Element\Html\Link\Current
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @return void
      */
     protected function _toHtml()
     {

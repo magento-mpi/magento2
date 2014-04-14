@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Store;
 
 /**
  * Store switcher for shopping cart management
@@ -15,8 +16,6 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Store;
-
 class Switcher extends \Magento\Backend\Block\Store\Switcher
 {
     /**
@@ -27,24 +26,24 @@ class Switcher extends \Magento\Backend\Block\Store\Switcher
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Website\Factory $websiteFactory
-     * @param \Magento\Core\Model\Store\Group\Factory $storeGroupFactory
-     * @param \Magento\Core\Model\StoreFactory $storeFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Store\Model\Website\Factory $websiteFactory
+     * @param \Magento\Store\Model\Group\Factory $storeGroupFactory
+     * @param \Magento\Store\Model\StoreFactory $storeFactory
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Website\Factory $websiteFactory,
-        \Magento\Core\Model\Store\Group\Factory $storeGroupFactory,
-        \Magento\Core\Model\StoreFactory $storeFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Store\Model\Website\Factory $websiteFactory,
+        \Magento\Store\Model\Group\Factory $storeGroupFactory,
+        \Magento\Store\Model\StoreFactory $storeFactory,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -53,6 +52,8 @@ class Switcher extends \Magento\Backend\Block\Store\Switcher
 
     /**
      * Add website filter
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -76,7 +77,7 @@ class Switcher extends \Magento\Backend\Block\Store\Switcher
     /**
      * Return current store from registry
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getStore()
     {

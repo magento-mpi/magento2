@@ -16,7 +16,6 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
 {
-
     /**
      * @var string
      */
@@ -37,7 +36,6 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $this->_restResourcePath = "/{$this->_version}/testmodule1/";
     }
 
-
     /**
      *  Test get item
      */
@@ -54,9 +52,9 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
                 'operation' => $this->_soapService . 'Item'
             )
         );
-        $requestData = array('id' => $itemId);
+        $requestData = array('itemId' => $itemId);
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($itemId, $item['id'], 'Item was retrieved unsuccessfully');
+        $this->assertEquals('testProduct1', $item['name'], 'Item was retrieved unsuccessfully');
     }
 
     /**
@@ -66,11 +64,11 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     {
         $itemArr = array(
             array(
-                'id' => 1,
+                'item_id' => 1,
                 'name' => 'testProduct1'
             ),
             array(
-                'id' => 2,
+                'item_id' => 2,
                 'name' => 'testProduct2'
             )
         );
@@ -156,9 +154,9 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
                 'operation' => $this->_soapService . 'Update'
             )
         );
-        $requestData = array('id' => $itemId, 'name' => 'testName');
+        $requestData = ['item' => ['itemId' => $itemId, 'name' => 'testName']];
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals('Updated' . $requestData['name'], $item['name'], 'Item update failed');
+        $this->assertEquals('Updated' . $requestData['item']['name'], $item['name'], 'Item update failed');
     }
 
     /**
@@ -177,7 +175,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
                 'operation' => $this->_soapService . 'Delete'
             )
         );
-        $requestData = array('id' => $itemId, 'name' => 'testName');
+        $requestData = array('itemId' => $itemId, 'name' => 'testName');
         $this->_assertNoRouteOrOperationException($serviceInfo, $requestData);
     }
 }

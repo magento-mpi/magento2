@@ -16,7 +16,7 @@ namespace Magento\Tools\View\Generator;
 class CopyRule
 {
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     private $_filesystem;
 
@@ -40,12 +40,12 @@ class CopyRule
     /**
      * Constructor
      *
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Core\Model\Theme\Collection $themes
      * @param \Magento\View\Design\Fallback\Rule\RuleInterface $fallbackRule
      */
     public function __construct(
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Core\Model\Theme\Collection $themes,
         \Magento\View\Design\Fallback\Rule\RuleInterface $fallbackRule
     ) {
@@ -69,20 +69,16 @@ class CopyRule
         /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($this->_themes as $theme) {
             $area = $theme->getArea();
-            $nonModularLocations = $this->_fallbackRule->getPatternDirs(array(
-                'area'      => $area,
-                'theme'     => $theme,
-            ));
-            $modularLocations = $this->_fallbackRule->getPatternDirs(array(
-                'area'      => $area,
-                'theme'     => $theme,
-                'namespace' => $this->_composePlaceholder('namespace'),
-                'module'    => $this->_composePlaceholder('module'),
-            ));
-            $allDirPatterns = array_merge(
-                array_reverse($modularLocations),
-                array_reverse($nonModularLocations)
+            $nonModularLocations = $this->_fallbackRule->getPatternDirs(array('area' => $area, 'theme' => $theme));
+            $modularLocations = $this->_fallbackRule->getPatternDirs(
+                array(
+                    'area' => $area,
+                    'theme' => $theme,
+                    'namespace' => $this->_composePlaceholder('namespace'),
+                    'module' => $this->_composePlaceholder('module')
+                )
             );
+            $allDirPatterns = array_merge(array_reverse($modularLocations), array_reverse($nonModularLocations));
             foreach ($allDirPatterns as $pattern) {
                 foreach ($this->_getMatchingDirs($pattern) as $srcDir) {
                     $paramsFromDir = $this->_parsePlaceholders($srcDir, $pattern);
@@ -99,10 +95,7 @@ class CopyRule
                         'module' => $module
                     );
 
-                    $result[] = array(
-                        'source' => $srcDir,
-                        'destinationContext' => $destinationContext,
-                    );
+                    $result[] = array('source' => $srcDir, 'destinationContext' => $destinationContext);
                 }
             }
         }
@@ -129,30 +122,21 @@ class CopyRule
     private function _getMatchingDirs($dirPattern)
     {
         $dirPattern = preg_replace($this->_placeholderPcre, '*', $dirPattern, -1, $placeholderCount);
-        $directoryHandler = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
+        $directoryHandler = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         if ($placeholderCount) {
             // autodetect pattern base directory because the filesystem interface requires it
             $firstPlaceholderPos = strpos($dirPattern, '*');
             $patternBaseDir = substr($dirPattern, 0, $firstPlaceholderPos);
             $patternTrailing = substr($dirPattern, $firstPlaceholderPos);
-            $patternTrailing = preg_replace_callback('/[\\\\^$.[\\]|()?*+{}\\-\\/]/', function ($matches) {
-                switch ($matches[0]) {
-                    case '*':
-                        return '.*';
-                    case '?':
-                        return '.';
-                    default:
-                        return '\\'.$matches[0];
-                }
-            }, $patternTrailing, -1);
 
-            $paths = $directoryHandler->search('#' . $patternTrailing . '#', $patternBaseDir);
+            $paths = $directoryHandler->search($patternTrailing, $patternBaseDir);
         } else {
             // pattern is already a valid path containing no placeholders
-            $paths = array($dirPattern);
+            $paths = array($directoryHandler->getRelativePath($dirPattern));
         }
         $result = array();
         foreach ($paths as $path) {
+            $path = $directoryHandler->getRelativePath($path);
             if ($directoryHandler->isDirectory($path)) {
                 $result[] = $directoryHandler->getAbsolutePath($path);
             }

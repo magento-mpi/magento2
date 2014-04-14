@@ -7,16 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
 
 /**
  * Product inventory data
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
-
 class Inventory extends \Magento\Backend\Block\Widget
 {
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/product/tab/inventory.phtml';
 
     /**
@@ -29,7 +31,7 @@ class Inventory extends \Magento\Backend\Block\Widget
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -48,7 +50,7 @@ class Inventory extends \Magento\Backend\Block\Widget
      * @param \Magento\CatalogInventory\Model\Source\Backorders $backorders
      * @param \Magento\CatalogInventory\Model\Source\Stock $stock
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -56,7 +58,7 @@ class Inventory extends \Magento\Backend\Block\Widget
         \Magento\CatalogInventory\Model\Source\Backorders $backorders,
         \Magento\CatalogInventory\Model\Source\Stock $stock,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_stock = $stock;
@@ -66,6 +68,9 @@ class Inventory extends \Magento\Backend\Block\Widget
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return array
+     */
     public function getBackordersOption()
     {
         if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
@@ -109,20 +114,23 @@ class Inventory extends \Magento\Backend\Block\Widget
         return $this->getProduct()->getStockItem();
     }
 
-    public function isConfigurable()
-    {
-        return $this->getProduct()->isConfigurable();
-    }
-
+    /**
+     * @param string $field
+     * @return string|null
+     */
     public function getFieldValue($field)
     {
         if ($this->getStockItem()) {
             return $this->getStockItem()->getDataUsingMethod($field);
         }
 
-        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
+        return $this->_scopeConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
+    /**
+     * @param string $field
+     * @return string|null
+     */
     public function getConfigFieldValue($field)
     {
         if ($this->getStockItem()) {
@@ -131,24 +139,31 @@ class Inventory extends \Magento\Backend\Block\Widget
             }
         }
 
-        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
+        return $this->_scopeConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
+    /**
+     * @param string $field
+     * @return string|null
+     */
     public function getDefaultConfigValue($field)
     {
-        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
+        return $this->_scopeConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
      * Is readonly stock
      *
-     * @return boolean
+     * @return bool
      */
     public function isReadonly()
     {
         return $this->getProduct()->getInventoryReadonly();
     }
 
+    /**
+     * @return bool
+     */
     public function isNew()
     {
         if ($this->getProduct()->getId()) {
@@ -157,6 +172,9 @@ class Inventory extends \Magento\Backend\Block\Widget
         return true;
     }
 
+    /**
+     * @return string
+     */
     public function getFieldSuffix()
     {
         return 'product';
@@ -175,7 +193,7 @@ class Inventory extends \Magento\Backend\Block\Widget
     /**
      * Check if product type is virtual
      *
-     * @return boolean
+     * @return bool
      */
     public function isVirtual()
     {

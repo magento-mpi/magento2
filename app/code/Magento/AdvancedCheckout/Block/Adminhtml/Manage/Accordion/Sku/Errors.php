@@ -17,24 +17,23 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Sku;
 
-class Errors
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors
+class Errors extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors
 {
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\AdvancedCheckout\Model\CartFactory $cartFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\AdvancedCheckout\Model\CartFactory $cartFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;
@@ -50,10 +49,7 @@ class Errors
     {
         $customer = $this->_registry->registry('checkout_current_customer');
         $store = $this->_registry->registry('checkout_current_store');
-        $params = array(
-            'customer'   => $customer->getId(),
-            'store'    => $store->getId()
-        );
+        $params = array('customer' => $customer->getId(), 'store' => $store->getId());
         return $this->getUrl('checkout/index/configureProductToAdd', $params);
     }
 
@@ -70,7 +66,7 @@ class Errors
     /**
      * Returns current store model
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {

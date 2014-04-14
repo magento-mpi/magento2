@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
 
 /**
  * Manage revision controller
  */
-namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
-
-class Revision
-    extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
+class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
 {
     /**
      * @var \Magento\Cms\Model\Page
@@ -27,33 +25,33 @@ class Revision
     protected $_design;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Filter\Date $dateFilter
+     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Stdlib\DateTime\Filter\Date $dateFilter
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Cms\Model\Page $cmsPage
      * @param \Magento\Core\Model\Design $design
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Filter\Date $dateFilter,
+        \Magento\Registry $coreRegistry,
+        \Magento\Stdlib\DateTime\Filter\Date $dateFilter,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Cms\Model\Page $cmsPage,
         \Magento\Core\Model\Design $design,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         $this->_cmsPage = $cmsPage;
@@ -69,19 +67,24 @@ class Revision
         );
     }
 
-
     /**
      * Init actions
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
+     * @return $this
      */
     protected function _initAction()
     {
         // load layout, set active menu and breadcrumbs
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Cms::cms_page')
-            ->_addBreadcrumb(__('CMS'), __('CMS'))
-            ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'));
+        $this->_setActiveMenu(
+            'Magento_Cms::cms_page'
+        )->_addBreadcrumb(
+            __('CMS'),
+            __('CMS')
+        )->_addBreadcrumb(
+            __('Manage Pages'),
+            __('Manage Pages')
+        );
         return $this;
     }
 
@@ -121,6 +124,8 @@ class Revision
 
     /**
      * Edit revision of CMS page
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -148,7 +153,7 @@ class Revision
     /**
      * Save action
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
+     * @return void
      */
     public function saveAction()
     {
@@ -158,14 +163,13 @@ class Revision
             $data = $this->_filterPostData($data);
             // init model and set data
             $revision = $this->_initRevision();
-            $revision->setData($data)
-                ->setUserId($this->_backendAuthSession->getUser()->getId());
+            $revision->setData($data)->setUserId($this->_backendAuthSession->getUser()->getId());
 
             if (!$this->_validatePostData($data)) {
-                $this->_redirect('adminhtml/*/' . $this->getRequest()->getParam('back'), array(
-                    'page_id' => $revision->getPageId(),
-                    'revision_id' => $revision->getId()
-                ));
+                $this->_redirect(
+                    'adminhtml/*/' . $this->getRequest()->getParam('back'),
+                    array('page_id' => $revision->getPageId(), 'revision_id' => $revision->getId())
+                );
                 return;
             }
 
@@ -180,17 +184,17 @@ class Revision
                 $this->_session->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('adminhtml/*/' . $this->getRequest()->getParam('back'), array(
-                        'page_id' => $revision->getPageId(),
-                        'revision_id' => $revision->getId()
-                    ));
+                    $this->_redirect(
+                        'adminhtml/*/' . $this->getRequest()->getParam('back'),
+                        array('page_id' => $revision->getPageId(), 'revision_id' => $revision->getId())
+                    );
                     return;
                 }
                 // go to grid
-                $this->_redirect('adminhtml/cms_page_version/edit', array(
-                    'page_id' => $revision->getPageId(),
-                    'version_id' => $revision->getVersionId()
-                ));
+                $this->_redirect(
+                    'adminhtml/cms_page_version/edit',
+                    array('page_id' => $revision->getPageId(), 'version_id' => $revision->getVersionId())
+                );
                 return;
             } catch (\Exception $e) {
                 // display error message
@@ -198,10 +202,13 @@ class Revision
                 // save data in session
                 $this->_session->setFormData($data);
                 // redirect to edit form
-                $this->_redirect('adminhtml/*/edit', array(
-                    'page_id' => $this->getRequest()->getParam('page_id'),
-                    'revision_id' => $this->getRequest()->getParam('revision_id'),
-                ));
+                $this->_redirect(
+                    'adminhtml/*/edit',
+                    array(
+                        'page_id' => $this->getRequest()->getParam('page_id'),
+                        'revision_id' => $this->getRequest()->getParam('revision_id')
+                    )
+                );
                 return;
             }
         }
@@ -209,6 +216,8 @@ class Revision
 
     /**
      * Publishing revision
+     *
+     * @return void
      */
     public function publishAction()
     {
@@ -224,10 +233,13 @@ class Revision
             // display error message
             $this->messageManager->addError($e->getMessage());
             // redirect to edit form
-            $this->_redirect('adminhtml/*/edit', array(
-                'page_id' => $this->getRequest()->getParam('page_id'),
-                'revision_id' => $this->getRequest()->getParam('revision_id')
-            ));
+            $this->_redirect(
+                'adminhtml/*/edit',
+                array(
+                    'page_id' => $this->getRequest()->getParam('page_id'),
+                    'revision_id' => $this->getRequest()->getParam('revision_id')
+                )
+            );
             return;
         }
     }
@@ -235,7 +247,7 @@ class Revision
     /**
      * Prepares page with iframe
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
+     * @return void
      */
     public function previewAction()
     {
@@ -243,7 +255,7 @@ class Revision
         $data = $this->getRequest()->getPost();
         if (empty($data) || !isset($data['page_id'])) {
             $this->_forward('noroute');
-            return ;
+            return;
         }
 
         $page = $this->_initPage();
@@ -283,17 +295,23 @@ class Revision
     /**
      * Generates preview of page
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
+     * @return void
      */
     public function dropAction()
     {
-        $this->_objectManager->get('Magento\Core\Model\Translate\InlineInterface')->disable();
-        $this->_objectManager->get('Magento\App\State')
-            ->emulateAreaCode('frontend', array($this, 'previewFrontendPage'));
+        $this->_objectManager->get('Magento\Translate\Inline\StateInterface')->suspend();
+        $this->_objectManager->get(
+            'Magento\App\State'
+        )->emulateAreaCode(
+            'frontend',
+            array($this, 'previewFrontendPage')
+        );
     }
 
     /**
      * Generates preview of page. Assumed to be run in frontend area
+     *
+     * @return void
      */
     public function previewFrontendPage()
     {
@@ -304,7 +322,7 @@ class Revision
             $page = $this->_cmsPage->load($data['page_id']);
             if (!$page->getId()) {
                 $this->_forward('noroute');
-                return ;
+                return;
             }
 
             /**
@@ -350,26 +368,28 @@ class Revision
             /**
              * Emulating front environment
              */
-            $this->_locale->emulate($selectedStoreId);
+            $this->_localeResolver->emulate($selectedStoreId);
             $this->_storeManager->setCurrentStore($this->_storeManager->getStore($selectedStoreId));
 
-            $theme = $this->_objectManager->get('Magento\View\DesignInterface')
-                ->getConfigurationDesignTheme(null, array('store' => $selectedStoreId));
+            $theme = $this->_objectManager->get(
+                'Magento\View\DesignInterface'
+            )->getConfigurationDesignTheme(
+                null,
+                array('store' => $selectedStoreId)
+            );
             $this->_objectManager->get('Magento\View\DesignInterface')->setDesignTheme($theme, 'frontend');
 
             $designChange = $this->_design->loadChange($selectedStoreId);
 
             if ($designChange->getData()) {
-                $this->_objectManager->get('Magento\View\DesignInterface')
-                    ->setDesignTheme($designChange->getDesign());
+                $this->_objectManager->get('Magento\View\DesignInterface')->setDesignTheme($designChange->getDesign());
             }
 
             // add handles used to render cms page on frontend
             $this->_view->getLayout()->getUpdate()->addHandle('default');
             $this->_view->getLayout()->getUpdate()->addHandle('cms_page_view');
             $this->_objectManager->get('Magento\Cms\Helper\Page')->renderPageExtended($this);
-            $this->_locale->revert();
-
+            $this->_localeResolver->revert();
         } else {
             $this->_forward('noroute');
         }
@@ -377,6 +397,8 @@ class Revision
 
     /**
      * Delete action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -389,12 +411,12 @@ class Revision
                 $revision->delete();
                 // display success message
                 $this->messageManager->addSuccess(__('You have deleted the revision.'));
-                $this->_redirect('adminhtml/cms_page_version/edit', array(
-                        'page_id' => $revision->getPageId(),
-                        'version_id' => $revision->getVersionId()
-                    ));
+                $this->_redirect(
+                    'adminhtml/cms_page_version/edit',
+                    array('page_id' => $revision->getPageId(), 'version_id' => $revision->getVersionId())
+                );
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 $error = true;
@@ -419,7 +441,7 @@ class Revision
     /**
      * Check the permission to run it
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {
@@ -438,7 +460,7 @@ class Revision
     /**
      * New Revision action
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
+     * @return void
      */
     public function newAction()
     {

@@ -17,33 +17,41 @@
  */
 namespace Magento\Data\Form\Element;
 
-class Time extends \Magento\Data\Form\Element\AbstractElement
+use Magento\Escaper;
+
+class Time extends AbstractElement
 {
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param Factory $factoryElement
+     * @param CollectionFactory $factoryCollection
+     * @param Escaper $escaper
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        Factory $factoryElement,
+        CollectionFactory $factoryCollection,
+        Escaper $escaper,
         $data = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('time');
     }
 
+    /**
+     * @return mixed
+     */
     public function getName()
     {
         $name = parent::getName();
         if (strpos($name, '[]') === false) {
-            $name.= '[]';
+            $name .= '[]';
         }
         return $name;
     }
 
+    /**
+     * @return string
+     */
     public function getElementHtml()
     {
         $this->addClass('select');
@@ -52,9 +60,9 @@ class Time extends \Magento\Data\Form\Element\AbstractElement
         $value_min = 0;
         $value_sec = 0;
 
-        if( $value = $this->getValue() ) {
+        if ($value = $this->getValue()) {
             $values = explode(',', $value);
-            if( is_array($values) && count($values) == 3 ) {
+            if (is_array($values) && count($values) == 3) {
                 $value_hrs = $values[0];
                 $value_min = $values[1];
                 $value_sec = $values[2];
@@ -62,27 +70,42 @@ class Time extends \Magento\Data\Form\Element\AbstractElement
         }
 
         $html = '<input type="hidden" id="' . $this->getHtmlId() . '" ' . $this->_getUiId() . '/>';
-        $html .= '<select name="'. $this->getName() . '" style="width:50px" '.$this->serialize($this->getHtmlAttributes()) . $this->_getUiId('hour') . '>'."\n";
-        for( $i=0;$i<24;$i++ ) {
+        $html .= '<select name="' . $this->getName() . '" style="width:50px" ' . $this->serialize(
+            $this->getHtmlAttributes()
+        ) . $this->_getUiId(
+            'hour'
+        ) . '>' . "\n";
+        for ($i = 0; $i < 24; $i++) {
             $hour = str_pad($i, 2, '0', STR_PAD_LEFT);
-            $html.= '<option value="'.$hour.'" '. ( ($value_hrs == $i) ? 'selected="selected"' : '' ) .'>' . $hour . '</option>';
+            $html .= '<option value="' . $hour . '" ' . ($value_hrs ==
+                $i ? 'selected="selected"' : '') . '>' . $hour . '</option>';
         }
-        $html.= '</select>'."\n";
+        $html .= '</select>' . "\n";
 
-        $html.= ':&nbsp;<select name="'. $this->getName() . '" style="width:50px" '.$this->serialize($this->getHtmlAttributes()) . $this->_getUiId('minute') . '>'."\n";
-        for( $i=0;$i<60;$i++ ) {
+        $html .= ':&nbsp;<select name="' . $this->getName() . '" style="width:50px" ' . $this->serialize(
+            $this->getHtmlAttributes()
+        ) . $this->_getUiId(
+            'minute'
+        ) . '>' . "\n";
+        for ($i = 0; $i < 60; $i++) {
             $hour = str_pad($i, 2, '0', STR_PAD_LEFT);
-            $html.= '<option value="'.$hour.'" '. ( ($value_min == $i) ? 'selected="selected"' : '' ) .'>' . $hour . '</option>';
+            $html .= '<option value="' . $hour . '" ' . ($value_min ==
+                $i ? 'selected="selected"' : '') . '>' . $hour . '</option>';
         }
-        $html.= '</select>'."\n";
+        $html .= '</select>' . "\n";
 
-        $html.= ':&nbsp;<select name="'. $this->getName() . '" style="width:50px" '.$this->serialize($this->getHtmlAttributes()) . $this->_getUiId('second') . '>'."\n";
-        for( $i=0;$i<60;$i++ ) {
+        $html .= ':&nbsp;<select name="' . $this->getName() . '" style="width:50px" ' . $this->serialize(
+            $this->getHtmlAttributes()
+        ) . $this->_getUiId(
+            'second'
+        ) . '>' . "\n";
+        for ($i = 0; $i < 60; $i++) {
             $hour = str_pad($i, 2, '0', STR_PAD_LEFT);
-            $html.= '<option value="'.$hour.'" '. ( ($value_sec == $i) ? 'selected="selected"' : '' ) .'>' . $hour . '</option>';
+            $html .= '<option value="' . $hour . '" ' . ($value_sec ==
+                $i ? 'selected="selected"' : '') . '>' . $hour . '</option>';
         }
-        $html.= '</select>'."\n";
-        $html.= $this->getAfterElementHtml();
+        $html .= '</select>' . "\n";
+        $html .= $this->getAfterElementHtml();
         return $html;
     }
 }

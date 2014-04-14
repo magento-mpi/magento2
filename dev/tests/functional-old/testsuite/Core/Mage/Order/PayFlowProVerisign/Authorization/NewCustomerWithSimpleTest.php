@@ -153,9 +153,6 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      */
     public function fullCreditMemo($captureType, $refundType, $orderData)
     {
-        if ($captureType != 'Capture Offline') {
-            $this->markTestIncomplete('BUG: Fatal error on page');
-        }
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $orderId = $this->orderHelper()->createOrder($orderData);

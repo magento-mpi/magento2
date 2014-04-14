@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Model\Resource\Calculation\Rule;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
@@ -42,17 +41,23 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function setClassTypeFilterDataProvider()
     {
         return array(
-            array(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT, 1,
-                '/`?cd`?\.`?product_tax_class_id`? = [\S]{0,1}1[\S]{0,1}/'),
-            array(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER, 1,
-                '/`?cd`?\.`?customer_tax_class_id`? = [\S]{0,1}1[\S]{0,1}/')
+            array(
+                \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT,
+                1,
+                '/`?cd`?\.`?product_tax_class_id`? = [\S]{0,1}1[\S]{0,1}/'
+            ),
+            array(
+                \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER,
+                1,
+                '/`?cd`?\.`?customer_tax_class_id`? = [\S]{0,1}1[\S]{0,1}/'
+            )
         );
     }
 
     /**
      * Test setClassTypeFilter with wrong Class Type
      *
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      */
     public function testSetClassTypeFilterWithWrongType()
     {

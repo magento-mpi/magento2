@@ -7,17 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GoogleAnalytics\Block;
 
 /**
  * GoogleAnalitics Page Block
- *
- * @category   Magento
- * @package    Magento_GoogleAnalytics
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleAnalytics\Block;
-
 class Ga extends \Magento\View\Element\Template
 {
     /**
@@ -57,7 +51,7 @@ class Ga extends \Magento\View\Element\Template
      */
     public function getConfig($path)
     {
-        return $this->_storeConfig->getConfig($path);
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -74,29 +68,28 @@ class Ga extends \Magento\View\Element\Template
      * Render regular page tracking javascript code
      * The custom "page name" may be set from layout or somewhere else. It must start from slash.
      *
-     * @link http://code.google.com/apis/analytics/docs/gaJS/gaJSApiBasicConfiguration.html#_gat.GA_Tracker_._trackPageview
-     * @link http://code.google.com/apis/analytics/docs/gaJS/gaJSApi_gaq.html
      * @param string $accountId
      * @return string
+     * @link http://code.google.com/apis/analytics/docs/gaJS/gaJSApiBasicConfiguration.html#_gat.GA_Tracker_._trackPageview
+     * @link http://code.google.com/apis/analytics/docs/gaJS/gaJSApi_gaq.html
      */
     public function getPageTrackingCode($accountId)
     {
-        $pageName   = trim($this->getPageName());
+        $pageName = trim($this->getPageName());
         $optPageURL = '';
         if ($pageName && substr($pageName, 0, 1) == '/' && strlen($pageName) > 1) {
             $optPageURL = ", '{$this->escapeJsQuote($pageName)}'";
         }
-        return "
-_gaq.push(['_setAccount', '{$this->escapeJsQuote($accountId)}']);
-_gaq.push(['_trackPageview'{$optPageURL}]);
-";
+        return "\n_gaq.push(['_setAccount', '{$this->escapeJsQuote(
+            $accountId
+        )}']);\n_gaq.push(['_trackPageview'{$optPageURL}]);\n";
     }
 
     /**
      * Render information about specified orders and their items
      *
      * @link http://code.google.com/apis/analytics/docs/gaJS/gaJSApiEcommerce.html#_gat.GA_Tracker_._addTrans
-     * @return string
+     * @return string|void
      */
     public function getOrdersTrackingCode()
     {
@@ -114,7 +107,8 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
             } else {
                 $address = $order->getShippingAddress();
             }
-            $result[] = sprintf("_gaq.push(['_addTrans', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s']);",
+            $result[] = sprintf(
+                "_gaq.push(['_addTrans', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s']);",
                 $order->getIncrementId(),
                 $this->escapeJsQuote($this->_storeManager->getStore()->getFrontendName()),
                 $order->getBaseGrandTotal(),
@@ -125,11 +119,14 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
                 $this->escapeJsQuote($this->escapeHtml($address->getCountry()))
             );
             foreach ($order->getAllVisibleItems() as $item) {
-                $result[] = sprintf("_gaq.push(['_addItem', '%s', '%s', '%s', '%s', '%s', '%s']);",
+                $result[] = sprintf(
+                    "_gaq.push(['_addItem', '%s', '%s', '%s', '%s', '%s', '%s']);",
                     $order->getIncrementId(),
-                    $this->escapeJsQuote($item->getSku()), $this->escapeJsQuote($item->getName()),
+                    $this->escapeJsQuote($item->getSku()),
+                    $this->escapeJsQuote($item->getName()),
                     null, // there is no "category" defined for the order item
-                    $item->getBasePrice(), $item->getQtyOrdered()
+                    $item->getBasePrice(),
+                    $item->getQtyOrdered()
                 );
             }
             $result[] = "_gaq.push(['_trackTrans']);";

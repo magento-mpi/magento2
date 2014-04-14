@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Logging\Model\Resource\Grid;
 
-class ActionsGroup implements \Magento\Core\Model\Option\ArrayInterface
+class ActionsGroup implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Logging\Model\Config
@@ -25,6 +24,11 @@ class ActionsGroup implements \Magento\Core\Model\Option\ArrayInterface
         $this->_config = $config;
     }
 
+    /**
+     * Get options as array
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         return $this->_config->getLabels();

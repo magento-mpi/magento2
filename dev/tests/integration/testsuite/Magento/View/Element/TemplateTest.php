@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element;
 
 class TemplateTest extends \PHPUnit_Framework_TestCase
@@ -21,19 +20,26 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $params = array('layout' => $objectManager->create('Magento\Core\Model\Layout', array()));
+        $params = array('layout' => $objectManager->create('Magento\View\Layout', array()));
         $context = $objectManager->create('Magento\View\Element\Template\Context', $params);
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\View\Element\Template', '', array(
-                'context' => $context,
-                'data' => array('module_name' => 'Magento_View'),
-            ));
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\View\Element\Template',
+            '',
+            array('context' => $context, 'data' => array('module_name' => 'Magento_View'))
+        );
     }
 
     public function testConstruct()
     {
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\View\Element\Template', '', array('data' => array('template' => 'value')));
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\View\Element\Template',
+            '',
+            array('data' => array('template' => 'value'))
+        );
         $this->assertEquals('value', $block->getTemplate());
     }
 
@@ -48,10 +54,17 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
         $this->assertEquals('frontend', $this->_block->getArea());
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('some_area');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\State'
+        )->setAreaCode(
+            'some_area'
+        );
         $this->assertEquals('some_area', $this->_block->getArea());
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
-            ->setAreaCode('another_area');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\State'
+        )->setAreaCode(
+            'another_area'
+        );
         $this->assertEquals('another_area', $this->_block->getArea());
     }
 

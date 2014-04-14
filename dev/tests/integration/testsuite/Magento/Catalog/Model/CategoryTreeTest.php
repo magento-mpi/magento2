@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model;
 
 /**
@@ -27,8 +26,47 @@ class CategoryTreeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Category');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Category'
+        );
+    }
+
+    /**
+     * Load category
+     *
+     * @param $categoryId
+     * @return Category
+     */
+    protected function loadCategory($categoryId)
+    {
+        $this->_model->setData(array());
+        $this->_model->load($categoryId);
+        return $this->_model;
+    }
+
+    public function testMovePosition()
+    {
+        //move category 9 to new parent 6 with afterCategoryId = null
+        $category = $this->loadCategory(9);
+        $category->move(6, null);
+        $category = $this->loadCategory(9);
+        $this->assertEquals(1, $category->getPosition(), 'Position must be 1, if $afterCategoryId was null|false|0');
+        $category = $this->loadCategory(10);
+        $this->assertEquals(5, $category->getPosition(), 'Category 10 position must decrease after Category 9 moved');
+        $category = $this->loadCategory(11);
+        $this->assertEquals(6, $category->getPosition(), 'Category 11 position must decrease after Category 9 moved');
+        $category = $this->loadCategory(6);
+        $this->assertEquals(2, $category->getPosition(), 'Category 6 position must be the same');
+
+        //move category 11 to new parent 6 with afterCategoryId = 9
+        $category = $this->loadCategory(11);
+        $category->move(6, 9);
+        $category = $this->loadCategory(11);
+        $this->assertEquals(2, $category->getPosition(), 'Category 11 position must be after category 9');
+        $category = $this->loadCategory(10);
+        $this->assertEquals(5, $category->getPosition(), 'Category 10 position must be the same');
+        $category = $this->loadCategory(9);
+        $this->assertEquals(1, $category->getPosition(), 'Category 9 position must be 1');
     }
 
     public function testMove()
@@ -43,7 +81,7 @@ class CategoryTreeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      */
     public function testMoveWrongParent()
     {
@@ -52,7 +90,7 @@ class CategoryTreeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      */
     public function testMoveWrongId()
     {
@@ -118,7 +156,7 @@ class CategoryTreeTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->unsetData();
         $this->_model->setPath('1/2/3');
-        $this->assertEquals(array(1,2,3), $this->_model->getPathIds());
+        $this->assertEquals(array(1, 2, 3), $this->_model->getPathIds());
     }
 
     public function testGetLevel()
@@ -149,7 +187,6 @@ class CategoryTreeTest extends \PHPUnit_Framework_TestCase
         $parents = $this->_model->getParentCategories();
         $this->assertEquals(0, count($parents));
     }
-
 
     public function testGetChildrenCategories()
     {

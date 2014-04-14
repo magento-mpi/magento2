@@ -7,11 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
-class Button
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Button extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render grid row
@@ -23,11 +21,15 @@ class Button
     {
         $buttonType = $this->getColumn()->getButtonType();
         $buttonClass = $this->getColumn()->getButtonClass();
-        return '<button'
-            . ($buttonType ? ' type="' . $buttonType . '"' : '')
-            . ($buttonClass ? ' class="' . $buttonClass . '"' : '')
-            .'>'
-            . $this->getColumn()->getHeader()
-            . '</button>';
+        return '<button' .
+            ($buttonType ? ' type="' .
+            $buttonType .
+            '"' : '') .
+            ($buttonClass ? ' class="' .
+            $buttonClass .
+            '"' : '') .
+            '>' .
+            $this->getColumn()->getHeader() .
+            '</button>';
     }
 }

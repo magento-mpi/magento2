@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authorizenet\Model\Directpost;
 
 /**
@@ -16,7 +15,7 @@ namespace Magento\Authorizenet\Model\Directpost;
 class Session extends \Magento\Session\SessionManager
 {
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\App\Request\Http $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
@@ -26,7 +25,7 @@ class Session extends \Magento\Session\SessionManager
      * @internal param array $data
      */
     public function __construct(
-        \Magento\App\RequestInterface $request,
+        \Magento\App\Request\Http $request,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Session\SaveHandlerInterface $saveHandler,
@@ -42,6 +41,7 @@ class Session extends \Magento\Session\SessionManager
      * Add order IncrementId to session
      *
      * @param string $orderIncrementId
+     * @return void
      */
     public function addCheckoutOrderIncrementId($orderIncrementId)
     {
@@ -57,6 +57,7 @@ class Session extends \Magento\Session\SessionManager
      * Remove order IncrementId from session
      *
      * @param string $orderIncrementId
+     * @return void
      */
     public function removeCheckoutOrderIncrementId($orderIncrementId)
     {

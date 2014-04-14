@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Block\Adminhtml\Store;
 
 /**
  * Adminhtml GoogleShopping Store Switcher
@@ -15,8 +16,6 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Block\Adminhtml\Store;
-
 class Switcher extends \Magento\Backend\Block\Store\Switcher
 {
     /**
@@ -28,6 +27,8 @@ class Switcher extends \Magento\Backend\Block\Store\Switcher
 
     /**
      * Set overridden params
+     *
+     * @return void
      */
     protected function _construct()
     {

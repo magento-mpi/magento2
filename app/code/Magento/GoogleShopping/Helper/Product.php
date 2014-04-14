@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Helper;
 
 /**
  * Google Content Product Helper
@@ -15,8 +16,6 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Helper;
-
 class Product extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -49,9 +48,9 @@ class Product extends \Magento\App\Helper\AbstractHelper
             }
         }
 
-        return isset($this->_productAttributes[$product->getId()][$attributeId])
-            ? $this->_productAttributes[$product->getId()][$attributeId]
-            : null;
+        return isset(
+            $this->_productAttributes[$product->getId()][$attributeId]
+        ) ? $this->_productAttributes[$product->getId()][$attributeId] : null;
     }
 
     /**

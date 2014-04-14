@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\User\Helper;
 
 /**
  * User data helper
@@ -15,15 +16,12 @@
  * @package  Magento_User
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\User\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Configuration path to expiration period of reset password link
      */
-    const XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD
-        = 'admin/emails/password_reset_link_expiration_period';
+    const XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD = 'admin/emails/password_reset_link_expiration_period';
 
     /**
      * @var \Magento\Backend\App\ConfigInterface

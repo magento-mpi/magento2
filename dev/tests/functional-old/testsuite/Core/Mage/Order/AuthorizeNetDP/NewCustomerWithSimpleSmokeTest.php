@@ -18,16 +18,12 @@
  */
 class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     */
     public function setUpBeforeTests()
     {
         //Steps
         $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenetdp_enable');
+        $this->systemConfigurationHelper()->useHttps('admin', 'no');
+        $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenetdp_without_3Dsecure');
     }
 
     protected function assertPreConditions()
@@ -73,12 +69,12 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
      */
     public function orderAuthorizeNetDPSmoke($simpleSku)
     {
-        $this->markTestIncomplete('MAGETWO-9104');
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_authorizenetdp');
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-            array('filter_sku'  => $simpleSku,
-                  'payment_data' => $paymentData));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa', array(
+            'filter_sku' => $simpleSku,
+            'payment_data' => $paymentData
+        ));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -100,7 +96,6 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
      */
     public function differentCardInAuthorizeNetDP($card, $orderData)
     {
-        $this->markTestIncomplete('MAGETWO-2856');
         //Data
         $orderData['payment_data']['payment_info'] = $this->loadDataSet('Payment', $card);
         //Steps
@@ -134,7 +129,6 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
      */
     public function fullInvoiceWithDifferentTypesOfCapture($captureType, $orderData)
     {
-        $this->markTestIncomplete('MAGETWO-2856');
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -142,11 +136,6 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
     }
 
-    /**
-     * <p>Data provider for fullInvoiceWithDifferentTypesOfCapture test</p>
-     *
-     * @return array
-     */
     public function captureTypeDataProvider()
     {
         return array(
@@ -170,18 +159,14 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
      */
     public function fullRefund($captureType, $refundType, $orderData)
     {
-        $this->markTestIncomplete('MAGETWO-2856');
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
-        $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
         $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
-        $this->addParameter('invoice_id', $this->getParameter('id'));
-        $this->clickButton('credit_memo');
-        $this->clickButton($refundType);
+        $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType, array(), false);
         //Verifying
         if ($refundType != 'refund') {
             $this->assertMessagePresent('success', 'success_creating_creditmemo');
@@ -205,32 +190,27 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
      */
     public function partialRefund($captureType, $refundType, $orderData)
     {
-        $this->markTestIncomplete('MAGETWO-2856');
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
         $creditMemo = $this->loadDataSet('SalesOrder', 'products_to_refund');
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
-        $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
-        $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
+        $invoiceId = $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
         //Verifying
         if ($refundType != 'refund') {
             $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType, $creditMemo);
         } else {
-            $this->addParameter('invoice_id', $this->getParameter('id'));
+            $this->addParameter('invoice_id', $invoiceId);
             $this->clickButton('credit_memo');
             $this->fillFieldSet($creditMemo['product_1'], 'items_to_refund');
             $this->clickButton('update_qty', false);
             $this->pleaseWait();
             $this->clickButton($refundType);
-            $error = $this->errorMessage('failed_authorizedp_online_refund');
-            if (!$error['success']) {
-                $this->skipTestWithScreenshot(self::messagesToString($this->getMessagesOnPage()));
-            }
+            $this->assertMessagePresent('error', 'failed_authorizedp_online_refund');
         }
     }
 
@@ -254,7 +234,6 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
      */
     public function fullShipmentForOrderWithoutInvoice($orderData)
     {
-        $this->markTestIncomplete('MAGETWO-2856');
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -273,7 +252,6 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
      */
     public function holdAndUnholdPendingOrderViaOrderPage($orderData)
     {
-        $this->markTestIncomplete('MAGETWO-2856');
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -295,13 +273,35 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
      */
     public function cancelPendingOrderFromOrderPage($orderData)
     {
-        $this->markTestIncomplete('MAGETWO-2856');
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertMessagePresent('success', 'success_canceled_order');
+    }
+
+    /**
+     * <p>Void order Authorize.net Direct Post.</p>
+     *
+     * @param array $orderData
+     *
+     * @test
+     * @depends orderAuthorizeNetDPSmoke
+     * @TestlinkId TL-MAGE-6106
+     */
+    public function voidPendingOrderFromOrderPage($orderData)
+    {
+        $this->markTestIncomplete('BUG: There is no Void button on the page');
+        //Steps
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_created_order');
+        //Steps
+        $this->clickButtonAndConfirm('void', 'confirmation_to_void');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_voided_order');
     }
 
     /**
@@ -329,28 +329,5 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
         $this->assertEmptyVerificationErrors();
-    }
-
-    /**
-     * <p>Void order Authorize.net Direct Post.</p>
-     *
-     * @param array $orderData
-     *
-     * @test
-     * @depends orderAuthorizeNetDPSmoke
-     * @TestlinkId TL-MAGE-6106
-     */
-    public function voidPendingOrderFromOrderPage($orderData)
-    {
-        $this->markTestIncomplete('MAGETWO-2856');
-        //Steps
-        $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_created_order');
-        //Steps
-        $this->clickButtonAndConfirm('void', 'confirmation_to_void');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_voided_order');
     }
 }

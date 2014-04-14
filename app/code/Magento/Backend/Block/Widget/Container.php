@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget;
 
 /**
  * Backend container block
@@ -15,15 +16,15 @@
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Widget;
-
 class Container extends \Magento\Backend\Block\Template
 {
     /**#@+
      * Initialization parameters in pseudo-constructor
      */
-    const PARAM_CONTROLLER  = 'controller';
+    const PARAM_CONTROLLER = 'controller';
+
     const PARAM_HEADER_TEXT = 'header_text';
+
     /**#@-*/
 
     /**
@@ -36,14 +37,9 @@ class Container extends \Magento\Backend\Block\Template
     /**
      * Array of buttons
      *
-     *
      * @var array
      */
-    protected $_buttons = array(
-        -1  => array(),
-        0   => array(),
-        1   => array(),
-    );
+    protected $_buttons = array(-1 => array(), 0 => array(), 1 => array());
 
     /**
      * Header text
@@ -54,6 +50,8 @@ class Container extends \Magento\Backend\Block\Template
 
     /**
      * Initialize "controller" and "header text"
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -73,10 +71,10 @@ class Container extends \Magento\Backend\Block\Template
      * @param array $data
      * @param integer $level
      * @param integer $sortOrder
-     * @param string|null $region, that button should be displayed in ('header', 'footer', null)
-     * @return \Magento\Backend\Block\Widget\Container
+     * @param string|null $region That button should be displayed in ('toolbar', 'header', 'footer', null)
+     * @return $this
      */
-    protected function _addButton($buttonId, $data, $level = 0, $sortOrder = 0, $region = 'header')
+    protected function _addButton($buttonId, $data, $level = 0, $sortOrder = 0, $region = 'toolbar')
     {
         if (!isset($this->_buttons[$level])) {
             $this->_buttons[$level] = array();
@@ -104,10 +102,10 @@ class Container extends \Magento\Backend\Block\Template
      * @param array $data
      * @param integer $level
      * @param integer $sortOrder
-     * @param string|null $region, that button should be displayed in ('header', 'footer', null)
-     * @return \Magento\Backend\Block\Widget\Container
+     * @param string|null $region That button should be displayed in ('toolbar', 'header', 'footer', null)
+     * @return $this
      */
-    public function addButton($buttonId, $data, $level = 0, $sortOrder = 0, $region = 'header')
+    public function addButton($buttonId, $data, $level = 0, $sortOrder = 0, $region = 'toolbar')
     {
         return $this->_addButton($buttonId, $data, $level, $sortOrder, $region);
     }
@@ -116,7 +114,7 @@ class Container extends \Magento\Backend\Block\Template
      * Remove existing button
      *
      * @param string $buttonId
-     * @return \Magento\Backend\Block\Widget\Container
+     * @return $this
      */
     protected function _removeButton($buttonId)
     {
@@ -132,7 +130,7 @@ class Container extends \Magento\Backend\Block\Template
      * Public wrapper for the _removeButton() method
      *
      * @param string $buttonId
-     * @return \Magento\Backend\Block\Widget\Container
+     * @return $this
      */
     public function removeButton($buttonId)
     {
@@ -144,8 +142,8 @@ class Container extends \Magento\Backend\Block\Template
      *
      * @param string $buttonId
      * @param string|null $key
-     * @param mixed $data
-     * @return \Magento\Backend\Block\Widget\Container
+     * @param string $data
+     * @return $this
      */
     protected function _updateButton($buttonId, $key, $data)
     {
@@ -175,8 +173,8 @@ class Container extends \Magento\Backend\Block\Template
      *
      * @param string $buttonId
      * @param string|null $key
-     * @param mixed $data
-     * @return \Magento\Backend\Block\Widget\Container
+     * @param string $data
+     * @return $this
      */
     public function updateButton($buttonId, $key, $data)
     {
@@ -186,7 +184,7 @@ class Container extends \Magento\Backend\Block\Template
     /**
      * Preparing child blocks for each added button
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -194,7 +192,14 @@ class Container extends \Magento\Backend\Block\Template
             foreach ($buttons as $buttonId => $data) {
                 $childId = $this->_prepareButtonBlockId($buttonId);
                 $blockClassName = isset($data['class_name']) ? $data['class_name'] : null;
-                $this->_addButtonChildBlock($childId, $blockClassName);
+                $block = $this->_getButtonChildBlock($childId, $blockClassName);
+                if (isset($data['name'])) {
+                    $data['element_name'] = $data['name'];
+                }
+                if ($block) {
+                    $block->setData($data);
+                    $this->_getButtonParentBlock($data['region'])->setChild($childId, $block);
+                }
             }
         }
         return parent::_prepareLayout();
@@ -212,20 +217,39 @@ class Container extends \Magento\Backend\Block\Template
     }
 
     /**
+     * Return button parent block.
+     *
+     * @param string $region
+     * @return \Magento\Backend\Block\Template
+     */
+    protected function _getButtonParentBlock($region)
+    {
+        if (!$region || $region == 'header' || $region == 'footer') {
+            $parent = $this;
+        } elseif ($region == 'toolbar') {
+            $parent = $this->getLayout()->getBlock('page.actions.toolbar');
+        } else {
+            $parent = $this->getLayout()->getBlock($region);
+        }
+        if ($parent) {
+            return $parent;
+        }
+        return $this;
+    }
+
+    /**
      * Adding child block with specified child's id.
      *
      * @param string $childId
      * @param null|string $blockClassName
      * @return \Magento\Backend\Block\Widget
      */
-    protected function _addButtonChildBlock($childId, $blockClassName = null)
+    protected function _getButtonChildBlock($childId, $blockClassName = null)
     {
         if (null === $blockClassName) {
             $blockClassName = 'Magento\Backend\Block\Widget\Button';
         }
-        $block = $this->getLayout()->createBlock($blockClassName, $this->getNameInLayout() . '-' . $childId);
-        $this->setChild($childId, $block);
-        return $block;
+        return $this->getLayout()->createBlock($blockClassName, $this->getNameInLayout() . '-' . $childId);
     }
 
     /**
@@ -240,23 +264,11 @@ class Container extends \Magento\Backend\Block\Template
         foreach ($this->_buttons as $buttons) {
             $_buttons = $this->_sortButtons($buttons);
             foreach ($_buttons as $button) {
-                $buttonId = $button['id'];
                 $data = $button['data'];
-                if ($region && isset($data['region']) && ($region != $data['region'])) {
+                if ($region && isset($data['region']) && $region != $data['region']) {
                     continue;
                 }
-                $childId = $this->_prepareButtonBlockId($buttonId);
-                $child = $this->getChildBlock($childId);
-
-                if (!$child) {
-                    $blockClassName = isset($data['class_name']) ? $data['class_name'] : null;
-                    $child = $this->_addButtonChildBlock($childId, $blockClassName);
-                }
-                if (isset($data['name'])) {
-                    $data['element_name'] = $data['name'];
-                }
-                $child->setData($data);
-
+                $childId = $this->_prepareButtonBlockId($button['id']);
                 $out .= $this->getChildHtml($childId);
             }
         }
@@ -319,7 +331,7 @@ class Container extends \Magento\Backend\Block\Template
     {
         foreach ($this->_buttons as $buttons) {
             foreach ($buttons as $data) {
-                if (isset($data['region']) && ('footer' == $data['region'])) {
+                if (isset($data['region']) && 'footer' == $data['region']) {
                     return true;
                 }
             }

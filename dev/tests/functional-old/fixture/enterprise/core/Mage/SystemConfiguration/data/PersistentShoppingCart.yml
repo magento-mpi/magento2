@@ -10,7 +10,6 @@
 #
 ---
 #Test data for Persistent Shopping Cart
-
 enable_persistent_shopping_cart:
     configuration_scope: Default Config
     tab_1:
@@ -18,8 +17,11 @@ enable_persistent_shopping_cart:
         configuration:
             general_options_shopping_cart:
                 enable_persistence: Yes
-                persistence_lifetime_seconds: 3153600
-                enable_remember_me: Yes
-                remember_me_default_value: Yes
-                clear_persistence_on_log_out: Yes
-                persist_shopping_cart: Yes
+
+disable_persistent_shopping_cart:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: customers_persistent_shopping_cart
+        configuration:
+            general_options_shopping_cart:
+                enable_persistence: No

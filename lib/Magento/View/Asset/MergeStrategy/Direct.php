@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset\MergeStrategy;
 
 /**
@@ -13,25 +12,38 @@ namespace Magento\View\Asset\MergeStrategy;
  */
 class Direct implements \Magento\View\Asset\MergeStrategyInterface
 {
+    /**#@+
+     * Delimiters for merging files of various content type
+     */
+    const MERGE_DELIMITER_JS = ';';
+
+    const MERGE_DELIMITER_EMPTY = '';
+
+    /**#@-*/
+
     /**
+     * Directory Write
+     *
      * @var \Magento\Filesystem\Directory\Write
      */
     private $_directory;
 
     /**
+     * Css Resolver
+     *
      * @var \Magento\View\Url\CssResolver
      */
     protected $cssUrlResolver;
 
     /**
-     * @param \Magento\Filesystem $filesystem
+     * Constructor
+     *
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
      */
-    public function __construct(
-        \Magento\Filesystem $filesystem,
-        \Magento\View\Url\CssResolver $cssUrlResolver
-    ) {
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::PUB);
+    public function __construct(\Magento\App\Filesystem $filesystem, \Magento\View\Url\CssResolver $cssUrlResolver)
+    {
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::PUB_DIR);
         $this->_cssUrlResolver = $cssUrlResolver;
     }
 
@@ -56,7 +68,8 @@ class Direct implements \Magento\View\Asset\MergeStrategyInterface
     protected function composeMergedContent(array $publicFiles, $targetFile, $contentType)
     {
         $result = array();
-        $isCss = ($contentType == \Magento\View\Publisher::CONTENT_TYPE_CSS) ? true : false;
+        $isCss = $contentType == \Magento\View\Publisher::CONTENT_TYPE_CSS ? true : false;
+        $delimiter = $this->_getFilesContentDelimiter($contentType);
 
         foreach ($publicFiles as $file) {
             if (!$this->_directory->isExist($this->_directory->getRelativePath($file))) {
@@ -68,7 +81,7 @@ class Direct implements \Magento\View\Asset\MergeStrategyInterface
             }
             $result[] = $content;
         }
-        $result = ltrim(implode($result));
+        $result = ltrim(implode($delimiter, $result));
         if ($isCss) {
             $result = $this->_popCssImportsUp($result);
         }
@@ -100,5 +113,19 @@ class Direct implements \Magento\View\Asset\MergeStrategyInterface
             $result = implode("\n", $imports) . "\n" . "/* Import directives above popped up. */\n" . $result;
         }
         return $result;
+    }
+
+    /**
+     * Return delimiter for separation of merged files content
+     *
+     * @param string $contentType
+     * @return string
+     */
+    protected function _getFilesContentDelimiter($contentType)
+    {
+        if ($contentType == \Magento\View\Publisher::CONTENT_TYPE_JS) {
+            return self::MERGE_DELIMITER_JS;
+        }
+        return self::MERGE_DELIMITER_EMPTY;
     }
 }

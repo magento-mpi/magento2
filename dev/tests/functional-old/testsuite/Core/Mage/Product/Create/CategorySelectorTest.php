@@ -364,10 +364,6 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->assertEquals('Yes', $this->getControlAttribute(self::FIELD_TYPE_DROPDOWN, 'is_active', 'selectedLabel'));
     }
 
-    /**
-     * @todo data provider should be static
-     * @return array
-     */
     public function categoryNameDataProvider()
     {
         return array(

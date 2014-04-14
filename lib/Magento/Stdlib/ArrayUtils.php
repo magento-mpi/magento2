@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Stdlib;
 
 /**
@@ -36,7 +35,7 @@ class ArrayUtils
             $locale .= '.UTF8';
         }
 
-        setlocale(LC_COLLATE,  $locale, 'C.UTF-8', 'en_US.utf8');
+        setlocale(LC_COLLATE, $locale, 'C.UTF-8', 'en_US.utf8');
         ksort($sort, SORT_LOCALE_STRING);
         setlocale(LC_COLLATE, $oldLocale);
 
@@ -58,10 +57,10 @@ class ArrayUtils
      * $forceSetAll true will cause to set all possible values for all elements.
      * When false (default), only non-empty values will be set.
      *
-     * @param mixed $array
+     * @param array $array
      * @param string $prefix
      * @param bool $forceSetAll
-     * @return mixed
+     * @return array
      */
     public function decorateArray($array, $prefix = 'decorated_', $forceSetAll = false)
     {
@@ -71,24 +70,30 @@ class ArrayUtils
         }
 
         $keyIsFirst = "{$prefix}is_first";
-        $keyIsOdd   = "{$prefix}is_odd";
-        $keyIsEven  = "{$prefix}is_even";
-        $keyIsLast  = "{$prefix}is_last";
+        $keyIsOdd = "{$prefix}is_odd";
+        $keyIsEven = "{$prefix}is_even";
+        $keyIsLast = "{$prefix}is_last";
 
-        $count  = count($array); // this will force Iterator to load
-        $index  = 0;
+        $count = count($array);
+        // this will force Iterator to load
+        $index = 0;
         $isEven = false;
         foreach ($array as $key => $element) {
             if (is_object($element)) {
-                $this->_decorateArrayObject($element, $keyIsFirst, (0 === $index), $forceSetAll || (0 === $index));
+                $this->_decorateArrayObject($element, $keyIsFirst, 0 === $index, $forceSetAll || 0 === $index);
                 $this->_decorateArrayObject($element, $keyIsOdd, !$isEven, $forceSetAll || !$isEven);
                 $this->_decorateArrayObject($element, $keyIsEven, $isEven, $forceSetAll || $isEven);
                 $isEven = !$isEven;
                 $index++;
-                $this->_decorateArrayObject($element, $keyIsLast, ($index === $count), $forceSetAll || ($index === $count));
+                $this->_decorateArrayObject(
+                    $element,
+                    $keyIsLast,
+                    $index === $count,
+                    $forceSetAll || $index === $count
+                );
             } elseif (is_array($element)) {
-                if ($forceSetAll || (0 === $index)) {
-                    $array[$key][$keyIsFirst] = (0 === $index);
+                if ($forceSetAll || 0 === $index) {
+                    $array[$key][$keyIsFirst] = 0 === $index;
                 }
                 if ($forceSetAll || !$isEven) {
                     $array[$key][$keyIsOdd] = !$isEven;
@@ -98,8 +103,8 @@ class ArrayUtils
                 }
                 $isEven = !$isEven;
                 $index++;
-                if ($forceSetAll || ($index === $count)) {
-                    $array[$key][$keyIsLast] = ($index === $count);
+                if ($forceSetAll || $index === $count) {
+                    $array[$key][$keyIsLast] = $index === $count;
                 }
             }
         }
@@ -111,8 +116,9 @@ class ArrayUtils
      *
      * @param \Magento\Object $element
      * @param string $key
-     * @param mixed $value
+     * @param bool $value
      * @param bool $isSkipped
+     * @return void
      */
     private function _decorateArrayObject($element, $key, $value, $isSkipped)
     {

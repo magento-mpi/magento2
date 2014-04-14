@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Integration\Service;
 
 use Magento\Integration\Model\Integration\Factory as IntegrationFactory;
@@ -19,10 +18,14 @@ use Magento\Integration\Service\OauthV1Interface as IntegrationOauthService;
  */
 class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interface
 {
-    /** @var IntegrationFactory */
+    /**
+     * @var IntegrationFactory
+     */
     protected $_integrationFactory;
 
-    /** @var IntegrationOauthService */
+    /**
+     * @var IntegrationOauthService
+     */
     protected $_oauthService;
 
     /**
@@ -31,10 +34,8 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
      * @param IntegrationFactory $integrationFactory
      * @param IntegrationOauthService $oauthService
      */
-    public function __construct(
-        IntegrationFactory $integrationFactory,
-        IntegrationOauthService $oauthService
-    ) {
+    public function __construct(IntegrationFactory $integrationFactory, IntegrationOauthService $oauthService)
+    {
         $this->_integrationFactory = $integrationFactory;
         $this->_oauthService = $oauthService;
     }
@@ -114,6 +115,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
      * Check if an integration exists by the name
      *
      * @param string $name
+     * @return void
      * @throws \Magento\Integration\Exception
      */
     private function _checkIntegrationByName($name)
@@ -144,6 +146,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
      * Add oAuth consumer key and secret.
      *
      * @param IntegrationModel $integration
+     * @return void
      */
     protected function _addOauthConsumerData(IntegrationModel $integration)
     {
@@ -158,6 +161,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
      * Add oAuth token and token secret.
      *
      * @param IntegrationModel $integration
+     * @return void
      */
     protected function _addOauthTokenData(IntegrationModel $integration)
     {

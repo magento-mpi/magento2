@@ -7,24 +7,26 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
-
 namespace Magento\Tools\Migration\System\Configuration;
+
+use Magento\Tools\Migration\System\Configuration\AbstractLogger;
+use Magento\Tools\Migration\System\Configuration\Formatter;
+use Magento\Tools\Migration\System\FileManager;
 
 class Generator
 {
     /**
-     * @var \Magento\Tools\Migration\System\FileManager
+     * @var FileManager
      */
     protected $_fileManager;
 
     /**
-     * @var \Magento\Tools\Migration\System\Configuration\Formatter
+     * @var Formatter
      */
     protected $_xmlFormatter;
 
     /**
-     * @var \Magento\Tools\Migration\System\Configuration\AbstractLogger
+     * @var AbstractLogger
      */
     protected $_logger;
 
@@ -36,23 +38,24 @@ class Generator
     protected $_basePath;
 
     /**
-     * @var \Magento\Tools\Migration\System\Configuration\AbstractLogger
+     * @var AbstractLogger
      */
     protected $_fileSchemaPath;
 
-    public function __construct(
-        \Magento\Tools\Migration\System\Configuration\Formatter $xmlFormatter,
-        \Magento\Tools\Migration\System\FileManager $fileManager,
-        \Magento\Tools\Migration\System\Configuration\AbstractLogger $logger
-    ) {
+    /**
+     * @param Formatter $xmlFormatter
+     * @param FileManager $fileManager
+     * @param AbstractLogger $logger
+     */
+    public function __construct(Formatter $xmlFormatter, FileManager $fileManager, AbstractLogger $logger)
+    {
         $this->_fileManager = $fileManager;
         $this->_xmlFormatter = $xmlFormatter;
         $this->_logger = $logger;
 
 
         $this->_basePath = realpath(__DIR__ . '/../../../../../../../');
-        $this->_fileSchemaPath = $this->_basePath
-            . '/app/code/Mage/Backend/etc/system_file.xsd';
+        $this->_fileSchemaPath = $this->_basePath . '/app/code/Mage/Backend/etc/system_file.xsd';
     }
 
     /**
@@ -60,30 +63,28 @@ class Generator
      *
      * @param string $fileName
      * @param array $configuration
+     * @return void
      */
     public function createConfiguration($fileName, array $configuration)
     {
         $domDocument = $this->_createDOMDocument($configuration);
-        if (@!$domDocument->schemaValidate($this->_fileSchemaPath)) {
-            $this->_logger->add(
-                $this->_removeBasePath($fileName),
-                \Magento\Tools\Migration\System\Configuration\AbstractLogger::FILE_KEY_INVALID
-            );
+        if (@(!$domDocument->schemaValidate($this->_fileSchemaPath))) {
+            $this->_logger->add($this->_removeBasePath($fileName), AbstractLogger::FILE_KEY_INVALID);
         } else {
-            $this->_logger->add(
-                $this->_removeBasePath($fileName),
-                \Magento\Tools\Migration\System\Configuration\AbstractLogger::FILE_KEY_VALID
-            );
+            $this->_logger->add($this->_removeBasePath($fileName), AbstractLogger::FILE_KEY_VALID);
         }
 
-        $output = $this->_xmlFormatter->parseString($domDocument->saveXml(), array(
-            'indent' => true,
-            'input-xml' => true,
-            'output-xml' => true,
-            'add-xml-space' => false,
-            'indent-spaces' => 4,
-            'wrap' => 1000
-        ));
+        $output = $this->_xmlFormatter->parseString(
+            $domDocument->saveXml(),
+            array(
+                'indent' => true,
+                'input-xml' => true,
+                'output-xml' => true,
+                'add-xml-space' => false,
+                'indent-spaces' => 4,
+                'wrap' => 1000
+            )
+        );
         $newFileName = $this->_getPathToSave($fileName);
         $this->_fileManager->write($newFileName, $output);
     }
@@ -175,7 +176,7 @@ class Generator
     /**
      * Get new path to system configuration file
      *
-     * @param $fileName
+     * @param string $fileName
      * @return string
      */
     protected function _getPathToSave($fileName)
@@ -186,7 +187,7 @@ class Generator
     /**
      * Remove path to magento application
      *
-     * @param $filename
+     * @param string $filename
      * @return string
      */
     protected function _removeBasePath($filename)

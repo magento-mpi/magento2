@@ -17,7 +17,7 @@
  */
 namespace Magento\Backend\Helper;
 
-class Js extends \Magento\Core\Helper\Js
+class Js
 {
     /**
      * Decode serialized grid data
@@ -39,10 +39,10 @@ class Js extends \Magento\Core\Helper\Js
      */
     public function decodeGridSerializedInput($encoded)
     {
-        $isSimplified = (false === strpos($encoded, '='));
+        $isSimplified = false === strpos($encoded, '=');
         $result = array();
         parse_str($encoded, $decoded);
-        foreach($decoded as $key => $value) {
+        foreach ($decoded as $key => $value) {
             if (is_numeric($key)) {
                 if ($isSimplified) {
                     $result[] = $key;

@@ -103,12 +103,12 @@ edit_customer:
                         pageelements:
                             reward_points_balance_head: //div[@id='customer_info_tabs_customer_edit_tab_reward_content']//div[@id='rewardPointsBalanceGrid']//div[@class='grid']//thead
         buttons:
-            manage_shopping_cart: //button[span='Manage Shopping Cart']
+            manage_shopping_cart: //button[@id='manage_quote']
 
 #Manage Invitations page
 manage_invitations:
-    mca: invitation/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'invitation/')]
+    mca: invitations/
+    click_xpath: //ul[@id='nav']//li[a/span='Marketing']//a[span='Invitations']
     title: Invitations / Private Sales / Marketing / Magento Admin
     uimap:
         form: &searchInvitationsGrid
@@ -153,7 +153,7 @@ manage_invitations:
 # New invitations page
 
 new_invitations:
-    mca: invitation/new/
+    mca: invitations/index/new/
     title: Private Sales / Marketing / Magento Admin
     uimap:
         form:
@@ -174,7 +174,7 @@ new_invitations:
 #Edit Customer Invitations page
 
 edit_invitations:
-    mca: invitation/view/id/%id%/
+    mca: invitations/index/view/id/%id%/
     title: Invitations / Private Sales / Marketing / Magento Admin
     uimap:
         form: &editInvitationsForm
@@ -198,7 +198,7 @@ edit_invitations:
 #Manage Gift Card Accounts page
 manage_gift_card_account:
     mca: giftcardaccount/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'giftcardaccount/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href,'giftcardaccount/')]
     title: Gift Card Accounts / Promotions / Marketing / Magento Admin
     uimap:
         form: &searchGiftCardAccountGrid
@@ -277,7 +277,7 @@ new_gift_card_account:
 #Manage Reward Exchange Rates page
 manage_reward_rates:
     mca: reward_rate/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'reward_rate/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href,'reward_rate/')]
     title: Reward Exchange Rates / Other Settings / Stores / Magento Admin
     uimap:
         form: &searchRewardPointGrid
@@ -300,8 +300,8 @@ manage_reward_rates:
         buttons:
             add_new_rate: //button[span='Add New Rate']
         messages: &customerSegmentMessages
-            success_saved_rate: //li[normalize-space(@class)='success-msg' and contains(.,'The rate has been saved.')]
-            success_delete_rate: //li[normalize-space(@class)='success-msg' and contains(.,'The rate has been deleted.')]
+            success_saved_rate: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the rate.')]
+            success_delete_rate: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the rate.')]
 #New Reward Exchange Rate page
 new_reward_rate:
     mca: reward_rate/new/

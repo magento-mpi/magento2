@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\TargetRule\Model\Rule\Condition;
 
 class Combine extends \Magento\Rule\Model\Condition\Combine
@@ -41,11 +39,8 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     public function getNewChildSelectOptions()
     {
         $conditions = array(
-            array(
-                'value' => $this->getType(),
-                'label' => __('Conditions Combination')
-            ),
-            $this->_attributeFactory->create()->getNewChildSelectOptions(),
+            array('value' => $this->getType(), 'label' => __('Conditions Combination')),
+            $this->_attributeFactory->create()->getNewChildSelectOptions()
         );
 
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);
@@ -56,7 +51,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
      * Collect validated attributes for Product Collection
      *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $productCollection
-     * @return \Magento\TargetRule\Model\Rule\Condition\Combine
+     * @return $this
      */
     public function collectValidatedAttributes($productCollection)
     {

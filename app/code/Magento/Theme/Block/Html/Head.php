@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 /**
  * Html page head block
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Head extends \Magento\View\Element\Template
 {
@@ -62,12 +62,24 @@ class Head extends \Magento\View\Element\Template
     protected $_fileStorageDatabase;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
+     * @var \Magento\Translation\Block\Js
+     */
+    protected $jsTranslation;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\View\Asset\GroupedCollection $assets
      * @param \Magento\View\Asset\MergeService $assetMergeService
      * @param \Magento\View\Asset\MinifyService $assetMinifyService
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Translation\Block\Js $jsTranslation
      * @param array $data
      */
     public function __construct(
@@ -77,6 +89,8 @@ class Head extends \Magento\View\Element\Template
         \Magento\View\Asset\GroupedCollection $assets,
         \Magento\View\Asset\MergeService $assetMergeService,
         \Magento\View\Asset\MinifyService $assetMinifyService,
+        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Translation\Block\Js $jsTranslation,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -85,32 +99,35 @@ class Head extends \Magento\View\Element\Template
         $this->_assetMergeService = $assetMergeService;
         $this->_assetMinifyService = $assetMinifyService;
         $this->_pageAssets = $assets;
+        $this->_localeResolver = $localeResolver;
+        $this->jsTranslation = $jsTranslation;
     }
+
     /**
      * Add RSS element to HEAD entity
      *
      * @param string $title
      * @param string $href
-     * @return \Magento\Theme\Block\Html\Head
+     * @return $this
      */
     public function addRss($title, $href)
     {
-        $asset = $this->_objectManager->create(
-            'Magento\View\Asset\Remote', array('url' => (string)$href)
-        );
+        $asset = $this->_objectManager->create('Magento\View\Asset\Remote', array('url' => (string)$href));
 
-        $this->_pageAssets->add("link/$href", $asset, array(
-            'attributes' => 'rel="alternate" type="application/rss+xml" title="' . $title . '"',
-        ));
+        $this->_pageAssets->add(
+            "link/{$href}",
+            $asset,
+            array('attributes' => 'rel="alternate" type="application/rss+xml" title="' . $title . '"')
+        );
 
         return $this;
     }
 
     /**
+     * Render HTML for the added head items
+     *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
-     *
-     * Render HTML for the added head items
      *
      * @return string
      */
@@ -156,7 +173,7 @@ class Head extends \Magento\View\Element\Template
                 }
             }
 
-            if ($contentType == \Magento\View\Publisher::CONTENT_TYPE_JS ) {
+            if ($contentType == \Magento\View\Publisher::CONTENT_TYPE_JS) {
                 $groupTemplate = '<script' . $attributes . ' type="text/javascript" src="%s"></script>' . "\n";
             } else {
                 if ($contentType == \Magento\View\Publisher::CONTENT_TYPE_CSS) {
@@ -192,6 +209,7 @@ class Head extends \Magento\View\Element\Template
                 $result .= sprintf($template, $asset->getUrl());
             }
         } catch (\Magento\Exception $e) {
+            $this->_logger->logException($e);
             $result .= sprintf($template, $this->_getNotFoundUrl());
         }
         return $result;
@@ -218,7 +236,10 @@ class Head extends \Magento\View\Element\Template
     public function getMediaType()
     {
         if (empty($this->_data['media_type'])) {
-            $this->_data['media_type'] = $this->_storeConfig->getConfig('design/head/default_media_type');
+            $this->_data['media_type'] = $this->_scopeConfig->getValue(
+                'design/head/default_media_type',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         }
         return $this->_data['media_type'];
     }
@@ -231,7 +252,10 @@ class Head extends \Magento\View\Element\Template
     public function getCharset()
     {
         if (empty($this->_data['charset'])) {
-            $this->_data['charset'] = $this->_storeConfig->getConfig('design/head/default_charset');
+            $this->_data['charset'] = $this->_scopeConfig->getValue(
+                'design/head/default_charset',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         }
         return $this->_data['charset'];
     }
@@ -251,9 +275,13 @@ class Head extends \Magento\View\Element\Template
             $this->_pureTitle = $title;
         }
 
-        $this->_data['title'] = $this->_storeConfig->getConfig('design/head/title_prefix')
-            . ' ' . $title
-            . ' ' . $this->_storeConfig->getConfig('design/head/title_suffix');
+        $this->_data['title'] = $this->_scopeConfig->getValue(
+            'design/head/title_prefix',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) . ' ' . $title . ' ' . $this->_scopeConfig->getValue(
+            'design/head/title_suffix',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
 
         return $this;
     }
@@ -274,7 +302,7 @@ class Head extends \Magento\View\Element\Template
     /**
      * Same as getTitle(), but return only first item from chunk for backend pages
      *
-     * @return mixed|string
+     * @return mixed
      */
     public function getShortTitle()
     {
@@ -292,7 +320,10 @@ class Head extends \Magento\View\Element\Template
      */
     public function getDefaultTitle()
     {
-        return $this->_storeConfig->getConfig('design/head/default_title');
+        return $this->_scopeConfig->getValue(
+            'design/head/default_title',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -303,7 +334,10 @@ class Head extends \Magento\View\Element\Template
     public function getDescription()
     {
         if (empty($this->_data['description'])) {
-            $this->_data['description'] = $this->_storeConfig->getConfig('design/head/default_description');
+            $this->_data['description'] = $this->_scopeConfig->getValue(
+                'design/head/default_description',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         }
         return $this->_data['description'];
     }
@@ -316,7 +350,10 @@ class Head extends \Magento\View\Element\Template
     public function getKeywords()
     {
         if (empty($this->_data['keywords'])) {
-            $this->_data['keywords'] = $this->_storeConfig->getConfig('design/head/default_keywords');
+            $this->_data['keywords'] = $this->_scopeConfig->getValue(
+                'design/head/default_keywords',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         }
         return $this->_data['keywords'];
     }
@@ -329,7 +366,10 @@ class Head extends \Magento\View\Element\Template
     public function getRobots()
     {
         if (empty($this->_data['robots'])) {
-            $this->_data['robots'] = $this->_storeConfig->getConfig('design/search_engine_robots/default_robots');
+            $this->_data['robots'] = $this->_scopeConfig->getValue(
+                'design/search_engine_robots/default_robots',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         }
         return $this->_data['robots'];
     }
@@ -342,7 +382,10 @@ class Head extends \Magento\View\Element\Template
     public function getIncludes()
     {
         if (empty($this->_data['includes'])) {
-            $this->_data['includes'] = $this->_storeConfig->getConfig('design/head/includes');
+            $this->_data['includes'] = $this->_scopeConfig->getValue(
+                'design/head/includes',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         }
         return $this->_data['includes'];
     }
@@ -368,11 +411,14 @@ class Head extends \Magento\View\Element\Template
     protected function _getFaviconFile()
     {
         $folderName = \Magento\Backend\Model\Config\Backend\Image\Favicon::UPLOAD_DIR;
-        $storeConfig = $this->_storeConfig->getConfig('design/head/shortcut_icon');
-        $path = $folderName . '/' . $storeConfig;
-        $faviconFile = $this->_storeManager->getStore()->getBaseUrl('media') . $path;
+        $scopeConfig = $this->_scopeConfig->getValue(
+            'design/head/shortcut_icon',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        $path = $folderName . '/' . $scopeConfig;
+        $faviconFile = $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . $path;
 
-        if (!is_null($storeConfig) && $this->_isFile($path)) {
+        if (!is_null($scopeConfig) && $this->_isFile($path)) {
             $url = $faviconFile;
         } else {
             $url = $this->getViewFileUrl('Magento_Theme::favicon.ico');
@@ -388,10 +434,10 @@ class Head extends \Magento\View\Element\Template
      */
     protected function _isFile($filename)
     {
-        if ($this->_fileStorageDatabase->checkDbUsage() && !$this->mediaDirectory->isFile($filename)) {
+        if ($this->_fileStorageDatabase->checkDbUsage() && !$this->getMediaDirectory()->isFile($filename)) {
             $this->_fileStorageDatabase->saveFileToFilesystem($filename);
         }
-        return $this->mediaDirectory->isFile($filename);
+        return $this->getMediaDirectory()->isFile($filename);
     }
 
     /**
@@ -401,6 +447,16 @@ class Head extends \Magento\View\Element\Template
      */
     public function getLocale()
     {
-        return substr($this->_locale->getLocaleCode(), 0, 2);
+        return substr($this->_localeResolver->getLocaleCode(), 0, 2);
+    }
+
+    /**
+     * Get translation js script
+     *
+     * @return string
+     */
+    public function getTranslatorScript()
+    {
+        return $this->jsTranslation->render();
     }
 }

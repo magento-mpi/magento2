@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerCustomAttributes\Helper;
 
 /**
  * Enterprise Customer Data Helper
@@ -15,63 +15,63 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-namespace Magento\CustomerCustomAttributes\Helper;
-
-class Data extends \Magento\CustomAttribute\Helper\Data
+class Data extends \Magento\CustomAttributeManagement\Helper\Data
 {
     /**
      * Customer customer
      *
-     * @var \Magento\CustomerCustomAttributes\Helper\Customer
+     * @var Customer
      */
     protected $_customerCustomer = null;
 
     /**
      * Customer address
      *
-     * @var \Magento\CustomerCustomAttributes\Helper\Address
+     * @var Address
      */
     protected $_customerAddress = null;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\CustomerCustomAttributes\Helper\Address $customerAddress
-     * @param \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer
+     * @param Address $customerAddress
+     * @param Customer $customerCustomer
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Filter\FilterManager $filterManager,
-        \Magento\CustomerCustomAttributes\Helper\Address $customerAddress,
-        \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer
+        Address $customerAddress,
+        Customer $customerCustomer
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_customerCustomer = $customerCustomer;
-        parent::__construct($context, $eavConfig, $locale, $filterManager);
+        parent::__construct($context, $eavConfig, $localeDate, $filterManager);
     }
 
     /**
      * Return available customer attribute form as select options
      *
-     * @throws \Magento\Core\Exception
+     * @return void
+     * @throws \Magento\Model\Exception
      */
     public function getAttributeFormOptions()
     {
-        throw new \Magento\Core\Exception(__('Use helper with defined EAV entity.'));
+        throw new \Magento\Model\Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**
      * Default attribute entity type code
      *
-     * @throws \Magento\Core\Exception
+     * @return void
+     * @throws \Magento\Model\Exception
      */
     protected function _getEntityTypeCode()
     {
-        throw new \Magento\Core\Exception(__('Use helper with defined EAV entity.'));
+        throw new \Magento\Model\Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**

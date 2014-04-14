@@ -23,11 +23,21 @@ class Core_Mage_AdvancedSearch_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param array $productData
      */
-    public function frontCatalogAdvancedSearch(array $productData)
+    public function frontCatalogAdvancedSearch(array $productData = array())
     {
-        $this->fillFieldset($productData, 'advanced_search_information');
+        if ($productData) {
+            $this->fillFieldset($productData, 'advanced_search_information');
+        }
         $this->formAdvancedSearchUrlParameter();
-        $this->saveForm('search');
+        $waitCondition = array(
+            $this->_getMessageXpath('general_error'),
+            $this->_getMessageXpath('general_validation'),
+            $this->_getControlXpath('fieldset', 'search_result',
+                $this->getUimapPage('frontend', 'advanced_search_result'))
+        );
+        $this->clickButton('search', false);
+        $this->waitForElementVisible($waitCondition);
+        $this->validatePage();
     }
 
     /**

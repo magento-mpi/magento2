@@ -25,6 +25,7 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         $this->navigate('manage_stores');
         $this->storeHelper()->createStore('StoreView/generic_store_view', 'store_view');
         $this->assertMessagePresent('success', 'success_saved_store_view');
+        $this->reindexInvalidedData();
     }
 
     protected function assertPreConditions()
@@ -57,14 +58,13 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
-        $this->logoutCustomer();
 
         return array(
             'user' => array('email' => $userData['email'], 'password' => $userData['password']),
-            'product' => array('name' => $simple['general_name'], 'price' => $simple['general_price']),
+            'productName' => $simple['general_name'],
             'catName' => $category['name'],
             'catPath' => $catPath
         );
@@ -91,7 +91,7 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
             'Category permissions must be present');
         $this->openTab('category_permissions_tab');
         $this->clickButton('new_permission', false);
-        $this->waitForElement($this->_getControlXpath('button', 'delete_permissions'));
+        $this->waitForControl('button', 'delete_permissions');
         $this->assertTrue($this->controlIsPresent('dropdown', 'website'), 'Dropdown "website" is absent');
         $this->assertTrue($this->controlIsPresent('dropdown', 'customer_group'), 'Dropdown "customer_group" is absent');
         $this->assertTrue($this->controlIsPresent('radiobutton', 'browsing_category_allow'),
@@ -131,8 +131,7 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
             array('allow_browsing' => 'No, Redirect to Landing Page'));
         $permission = $this->loadDataSet('Category', 'permissions_allow_all');
-        $this->addParameter('productName', $testData['product']['name']);
-        $this->addParameter('price', '$' . $testData['product']['price']);
+        $this->addParameter('productName', $testData['productName']);
         $this->addParameter('catName', $testData['catName']);
         //Steps
         $this->navigate('system_configuration');
@@ -149,10 +148,10 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
         $this->assertTrue($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" must be present');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'price_regular'), 'Product price must be present');
-        $this->productHelper()->frontOpenProduct($testData['product']['name']);
+        $this->assertTrue($this->controlIsPresent('fieldset', 'product_prices'), 'Product price must be present');
+        $this->productHelper()->frontOpenProduct($testData['productName']);
         $this->assertTrue($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" must be present');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'price_regular'), 'Product price must be present');
+        $this->assertTrue($this->controlIsPresent('fieldset', 'product_prices'), 'Product price must be present');
     }
 
     /**
@@ -168,8 +167,7 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
     {
         //Data
         $permission = $this->loadDataSet('Category', 'permissions_deny_add_to_cart');
-        $this->addParameter('productName', $testData['product']['name']);
-        $this->addParameter('price', '$' . $testData['product']['price']);
+        $this->addParameter('productName', $testData['productName']);
         //Steps
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
@@ -181,10 +179,10 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
         $this->assertFalse($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" should be absent');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'price_regular'), 'Product price must be present');
-        $this->productHelper()->frontOpenProduct($testData['product']['name']);
+        $this->assertTrue($this->controlIsPresent('fieldset', 'product_prices'), 'Product price must be present');
+        $this->productHelper()->frontOpenProduct($testData['productName']);
         $this->assertFalse($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" should be absent');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'price_regular'), 'Product price must be present');
+        $this->assertTrue($this->controlIsPresent('fieldset', 'product_prices'), 'Product price must be present');
     }
 
     /**
@@ -200,8 +198,7 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
     {
         //Data
         $permission = $this->loadDataSet('Category', 'permissions_deny_display_prices');
-        $this->addParameter('productName', $testData['product']['name']);
-        $this->addParameter('price', '$' . $testData['product']['price']);
+        $this->addParameter('productName', $testData['productName']);
         //Steps
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
@@ -213,10 +210,10 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
         $this->assertFalse($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" should be absent');
-        $this->assertFalse($this->controlIsPresent('pageelement', 'price_regular'), 'Product price must be present');
-        $this->productHelper()->frontOpenProduct($testData['product']['name']);
+        $this->assertFalse($this->controlIsPresent('fieldset', 'product_prices'), 'Product price must be present');
+        $this->productHelper()->frontOpenProduct($testData['productName']);
         $this->assertFalse($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" should be absent');
-        $this->assertFalse($this->controlIsPresent('pageelement', 'price_regular'), 'Product price must be present');
+        $this->assertFalse($this->controlIsPresent('fieldset', 'product_prices'), 'Product price must be present');
     }
 
     /**
@@ -230,11 +227,10 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
      */
     public function severalPermissions($testData)
     {
-        $this->markTestIncomplete('MAGETWO-11599');
+        //$this->markTestSkipped('\MAGETWO-11599');
         //Data
         $permission = $this->loadDataSet('Category', 'several_permissions');
-        $this->addParameter('productName', $testData['product']['name']);
-        $this->addParameter('price', '$' . $testData['product']['price']);
+        $this->addParameter('productName', $testData['productName']);
         $this->addParameter('catName', $testData['catName']);
         //Steps
         $this->navigate('manage_categories', false);
@@ -250,10 +246,10 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         $this->assertTrue($this->controlIsPresent('button', 'category_button'));
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
         $this->assertFalse($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" should be absent');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'price_regular'), 'Product price must be present');
-        $this->productHelper()->frontOpenProduct($testData['product']['name']);
+        $this->assertTrue($this->controlIsPresent('fieldset', 'product_prices'), 'Product price must be present');
+        $this->productHelper()->frontOpenProduct($testData['productName']);
         $this->assertFalse($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" should be absent');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'price_regular'), 'Product price must be present');
+        $this->assertTrue($this->controlIsPresent('fieldset', 'product_prices'), 'Product price must be present');
     }
 
     /**
@@ -269,8 +265,7 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
     {
         //Data
         $permission = $this->loadDataSet('Category', 'permissions_deny_display_prices');
-        $this->addParameter('productName', $testData['product']['name']);
-        $this->addParameter('price', '$' . $testData['product']['price']);
+        $this->addParameter('productName', $testData['productName']);
         //Steps
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
@@ -281,9 +276,10 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         $this->flushCache();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->wishlistHelper()
-            ->frontAddProductToWishlistFromCatalogPage($testData['product']['name'], $testData['catName']);
-        $this->navigate('my_wishlist');
-        $this->assertFalse($this->controlIsPresent('pageelement', 'price_regular'), 'Product price should be absent');
+            ->frontAddProductToWishlistFromCatalogPage($testData['productName'], $testData['catName']);
+        $this->clickControl('fieldset', 'customer_menu', false);
+        $this->clickControl('link', 'my_wishlist');
+        $this->assertFalse($this->controlIsPresent('fieldset', 'product_prices'), 'Product price should be absent');
         $this->assertFalse($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" should be absent');
     }
 

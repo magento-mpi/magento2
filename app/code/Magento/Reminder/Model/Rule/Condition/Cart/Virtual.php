@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+use Magento\DB\Select;
 
 /**
  * Virtual cart condition
  */
-namespace Magento\Reminder\Model\Rule\Condition\Cart;
-
 class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
@@ -37,8 +38,7 @@ class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(),
-            'label' => __('Virtual Only'));
+        return array('value' => $this->getType(), 'label' => __('Virtual Only'));
     }
 
     /**
@@ -48,9 +48,10 @@ class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Shopping cart %1 only virtual items', $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Shopping cart %1 only virtual items',
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -66,23 +67,20 @@ class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
     /**
      * Init list of available values
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Cart\Virtual
+     * @return $this
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(
-            '1' => __('has'),
-            '0' => __('does not have')
-        ));
+        $this->setValueOption(array('1' => __('has'), '0' => __('does not have')));
         return $this;
     }
 
     /**
      * Get SQL select
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @param null|int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
+     * @return Select
      */
     public function getConditionsSql($customer, $website)
     {

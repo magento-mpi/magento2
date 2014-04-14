@@ -7,34 +7,34 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Controller;
 
 use Magento\App\Action\NotFoundException;
 
 class Tracking extends \Magento\App\Action\Action
 {
-
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
     /**
+     * Http response file factory
+     *
      * @var \Magento\App\Response\Http\FileFactory
      */
     protected $_fileResponseFactory;
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\App\Response\Http\FileFactory $fileResponseFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -46,7 +46,7 @@ class Tracking extends \Magento\App\Action\Action
      * Popup action
      * Shows tracking info if it's present, otherwise redirects to 404
      *
-     * @return null
+     * @return void
      * @throws NotFoundException
      */
     public function popupAction()
@@ -71,7 +71,7 @@ class Tracking extends \Magento\App\Action\Action
      * Popup package action
      * Shows package info if it's present, otherwise redirects to 404
      *
-     * @return null
+     * @return void
      * @throws NotFoundException
      */
     public function packageAction()
@@ -98,7 +98,7 @@ class Tracking extends \Magento\App\Action\Action
     {
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
             $currentOrder = $this->_coreRegistry->registry('current_order');
-            if ($rma->getOrderId() && ($rma->getOrderId() === $currentOrder->getId())) {
+            if ($rma->getOrderId() && $rma->getOrderId() === $currentOrder->getId()) {
                 return true;
             }
             return false;
@@ -111,18 +111,24 @@ class Tracking extends \Magento\App\Action\Action
      * Try to load valid rma by entity_id and register it
      *
      * @param int $entityId
-     * @return bool
+     * @return bool|void
      */
     protected function _loadValidRma($entityId = null)
     {
-        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()
-            && !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder()
+        if (!$this->_objectManager->get(
+            'Magento\Customer\Model\Session'
+        )->isLoggedIn() && !$this->_objectManager->get(
+            'Magento\Sales\Helper\Guest'
+        )->loadValidOrder(
+            $this->_request,
+            $this->_response
+        )
         ) {
             return;
         }
 
         if (null === $entityId) {
-            $entityId = (int) $this->getRequest()->getParam('entity_id');
+            $entityId = (int)$this->getRequest()->getParam('entity_id');
         }
 
         if (!$entityId) {
@@ -144,13 +150,17 @@ class Tracking extends \Magento\App\Action\Action
     /**
      * Print label for one specific shipment
      *
-     * @throws NotFoundException
+     * @return \Magento\App\ResponseInterface|void
+     * @throws \Magento\App\Action\NotFoundException
      */
     public function printLabelAction()
     {
         try {
-            $data = $this->_objectManager->get('Magento\Rma\Helper\Data')
-                ->decodeTrackingHash($this->getRequest()->getParam('hash'));
+            $data = $this->_objectManager->get(
+                'Magento\Rma\Helper\Data'
+            )->decodeTrackingHash(
+                $this->getRequest()->getParam('hash')
+            );
 
             $rmaIncrementId = '';
             if ($data['key'] == 'rma_id') {
@@ -173,7 +183,12 @@ class Tracking extends \Magento\App\Action\Action
                     $pdf = new \Zend_Pdf();
                     $page = $shipping->createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->messageManager->addError(__("We don't recognize or support the file extension in shipment %1.", $shipping->getIncrementId()));
+                        $this->messageManager->addError(
+                            __(
+                                "We don't recognize or support the file extension in shipment %1.",
+                                $shipping->getIncrementId()
+                            )
+                        );
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -182,10 +197,11 @@ class Tracking extends \Magento\App\Action\Action
                 return $this->_fileResponseFactory->create(
                     'ShippingLabel(' . $rmaIncrementId . ').pdf',
                     $pdfContent,
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -197,11 +213,12 @@ class Tracking extends \Magento\App\Action\Action
     /**
      * Create pdf document with information about packages
      *
+     * @return void
      */
     public function packagePrintAction()
     {
-        /** @var $rmaHelper \Magento\Core\Model\Date */
-        $rmaHelper = $this->_objectManager->get('Magento\Core\Model\Date');
+        /** @var $rmaHelper \Magento\Stdlib\DateTime\DateTime */
+        $rmaHelper = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
         $data = $rmaHelper->decodeTrackingHash($this->getRequest()->getParam('hash'));
         if ($data['key'] == 'rma_id') {
             $this->_loadValidRma($data['id']);
@@ -211,17 +228,20 @@ class Tracking extends \Magento\App\Action\Action
         $shippingInfoModel = $this->_objectManager->create('Magento\Rma\Model\Shipping\Info');
         $shippingInfoModel->loadPackage($this->getRequest()->getParam('hash'));
         if ($shippingInfoModel) {
-            /** @var $orderPdf \Magento\Sales\Model\Order\Pdf\Shipment\Packaging */
-            $orderPdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment\Packaging');
+            /** @var $orderPdf \Magento\Shipping\Model\Order\Pdf\Packaging */
+            $orderPdf = $this->_objectManager->create('Magento\Shipping\Model\Order\Pdf\Packaging');
             $block = $this->_view->getLayout()->getBlockSingleton(
                 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod'
             );
             $orderPdf->setPackageShippingBlock($block);
             $pdf = $orderPdf->getPdf($shippingInfoModel);
-            /** @var $dateModel \Magento\Core\Model\Date */
-            $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
+            /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
+            $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
             $this->_fileResponseFactory->create(
-                'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf', $pdf->render(), 'application/pdf'
+                'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
+                $pdf->render(),
+                \Magento\App\Filesystem::VAR_DIR,
+                'application/pdf'
             );
         }
     }

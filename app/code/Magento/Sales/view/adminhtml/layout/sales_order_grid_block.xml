@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="sales_order.grid.container">
         <block class="Magento\Sales\Block\Adminhtml\Order\Grid" name="sales.order.grid" as="grid">
             <arguments>
@@ -64,7 +64,7 @@
                         </item>
                         <item name="print_shipping_label" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">Print Shipping Labels</item>
-                            <item name="url" xsi:type="string">sales/order_shipment/massPrintShippingLabel</item>
+                            <item name="url" xsi:type="string">adminhtml/order_shipment/massPrintShippingLabel</item>
                         </item>
                     </argument>
                 </arguments>

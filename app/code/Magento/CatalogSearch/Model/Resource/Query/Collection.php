@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CatalogSearch\Model\Resource\Query;
 
+use Magento\Store\Model\Store;
 
 /**
  * Catalog search query collection
@@ -16,9 +18,7 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CatalogSearch\Model\Resource\Query;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store for filter
@@ -30,7 +30,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -46,20 +46,20 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
-     * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Zend_Db_Adapter_Abstract $connection
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;
         $this->_resourceHelper = $resourceHelper;
@@ -69,6 +69,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Init model for collection
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -78,12 +79,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Set Store ID for filter
      *
-     * @param mixed $store
-     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
+     * @param Store|int $store
+     * @return $this
      */
     public function setStoreId($store)
     {
-        if ($store instanceof \Magento\Core\Model\Store) {
+        if ($store instanceof Store) {
             $store = $store->getId();
         }
         $this->_storeId = $store;
@@ -104,23 +105,26 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set search query text to filter
      *
      * @param string $query
-     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
+     * @return $this
      */
     public function setQueryFilter($query)
     {
-        $ifSynonymFor = $this->getConnection()
-            ->getIfNullSql('synonym_for', 'query_text');
-        $this->getSelect()->reset(\Zend_Db_Select::FROM)->distinct(true)
-            ->from(
-                array('main_table' => $this->getTable('catalogsearch_query')),
-                array('query'      => $ifSynonymFor, 'num_results')
-            )
-            ->where('num_results > 0 AND display_in_terms = 1 AND query_text LIKE ?',
-                $this->_resourceHelper->addLikeEscape($query, array('position' => 'start')))
-            ->order('popularity ' . \Magento\DB\Select::SQL_DESC);
+        $ifSynonymFor = $this->getConnection()->getIfNullSql('synonym_for', 'query_text');
+        $this->getSelect()->reset(
+            \Zend_Db_Select::FROM
+        )->distinct(
+            true
+        )->from(
+            array('main_table' => $this->getTable('catalogsearch_query')),
+            array('query' => $ifSynonymFor, 'num_results')
+        )->where(
+            'num_results > 0 AND display_in_terms = 1 AND query_text LIKE ?',
+            $this->_resourceHelper->addLikeEscape($query, array('position' => 'start'))
+        )->order(
+            'popularity ' . \Magento\DB\Select::SQL_DESC
+        );
         if ($this->getStoreId()) {
-            $this->getSelect()
-                ->where('store_id = ?', (int)$this->getStoreId());
+            $this->getSelect()->where('store_id = ?', (int)$this->getStoreId());
         }
         return $this;
     }
@@ -129,31 +133,37 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set Popular Search Query Filter
      *
      * @param int|array $storeIds
-     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
+     * @return $this
      */
     public function setPopularQueryFilter($storeIds = null)
     {
-        $ifSynonymFor = new \Zend_Db_Expr($this->getConnection()
-            ->getCheckSql("synonym_for IS NOT NULL AND synonym_for != ''", 'synonym_for', 'query_text'));
+        $ifSynonymFor = new \Zend_Db_Expr(
+            $this->getConnection()->getCheckSql(
+                "synonym_for IS NOT NULL AND synonym_for != ''",
+                'synonym_for',
+                'query_text'
+            )
+        );
 
-        $this->getSelect()
-            ->reset(\Zend_Db_Select::FROM)
-            ->reset(\Zend_Db_Select::COLUMNS)
-            ->distinct(true)
-            ->from(
-                array('main_table' => $this->getTable('catalogsearch_query')),
-                array('name' => $ifSynonymFor, 'num_results', 'popularity')
-            );
+        $this->getSelect()->reset(
+            \Zend_Db_Select::FROM
+        )->reset(
+            \Zend_Db_Select::COLUMNS
+        )->distinct(
+            true
+        )->from(
+            array('main_table' => $this->getTable('catalogsearch_query')),
+            array('name' => $ifSynonymFor, 'num_results', 'popularity')
+        );
         if ($storeIds) {
             $this->addStoreFilter($storeIds);
             $this->getSelect()->where('num_results > 0');
-        }
-        elseif (null === $storeIds) {
+        } elseif (null === $storeIds) {
             $this->addStoreFilter($this->_storeManager->getStore()->getId());
             $this->getSelect()->where('num_results > 0');
         }
 
-        $this->getSelect()->order(array('popularity desc','name'));
+        $this->getSelect()->order(array('popularity desc', 'name'));
 
         return $this;
     }
@@ -161,7 +171,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Set Recent Queries Order
      *
-     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
+     * @return $this
      */
     public function setRecentQueryFilter()
     {
@@ -173,7 +183,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter collection by specified store ids
      *
      * @param array|int $storeIds
-     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
+     * @return $this
      */
     public function addStoreFilter($storeIds)
     {

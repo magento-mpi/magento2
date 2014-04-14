@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\HTTP\PhpEnvironment;
 
 /**
@@ -37,21 +36,10 @@ class RemoteAddress
     /**
      * @param \Magento\App\RequestInterface $httpRequest
      * @param array $alternativeHeaders
-     * @throws \InvalidArgumentException
      */
-    public function __construct(
-        \Magento\App\RequestInterface $httpRequest,
-        $alternativeHeaders = array()
-    ) {
+    public function __construct(\Magento\App\RequestInterface $httpRequest, array $alternativeHeaders = array())
+    {
         $this->request = $httpRequest;
-
-        if (!is_array($alternativeHeaders)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Invalid value of type "%s" given while array is expected as alternative headers',
-                gettype($alternativeHeaders)
-            ));
-        }
-
         $this->alternativeHeaders = $alternativeHeaders;
     }
 

@@ -7,10 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <event name="adminhtml_customer_prepare_save">
-        <observer name="magento_customerbalance" instance="Magento\CustomerBalance\Model\Observer" method="prepareCustomerBalanceSave" />
-    </event>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="sales_prepare_amount_expression">
         <observer name="magento_customerbalance" instance="Magento\CustomerBalance\Model\Observer" method="extendSalesAmountExpression" />
     </event>

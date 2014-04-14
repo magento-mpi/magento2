@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Entity\Attribute\Source;
 
 /**
  * Customer store_id attribute source
@@ -15,29 +16,27 @@
  * @package    Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Entity\Attribute\Source;
-
 class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
 {
     /**
-     * @var \Magento\Core\Model\Resource\Store\CollectionFactory
+     * @var \Magento\Store\Model\Resource\Store\CollectionFactory
      */
-    protected $_storeCollFactory;
+    protected $_storeCollectionFactory;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $attrOptionFactory
-     * @param \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollFactory
+     * @param \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $attrOptionFactory,
-        \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollFactory
+        \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory
     ) {
-        parent::__construct($coreData, $attrOptCollFactory, $attrOptionFactory);
-        $this->_storeCollFactory = $storeCollFactory;
+        parent::__construct($coreData, $attrOptionCollectionFactory, $attrOptionFactory);
+        $this->_storeCollectionFactory = $storeCollectionFactory;
     }
 
     /**
@@ -48,9 +47,7 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
     public function getAllOptions()
     {
         if ($this->_options === null) {
-            $this->_options = $this->_storeCollFactory->create()
-                ->load()
-                ->toOptionArray();
+            $this->_options = $this->_storeCollectionFactory->create()->load()->toOptionArray();
         }
         return $this->_options;
     }

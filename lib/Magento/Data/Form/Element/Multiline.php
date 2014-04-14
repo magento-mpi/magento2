@@ -15,18 +15,20 @@
  */
 namespace Magento\Data\Form\Element;
 
-class Multiline extends \Magento\Data\Form\Element\AbstractElement
+use Magento\Escaper;
+
+class Multiline extends AbstractElement
 {
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param Factory $factoryElement
+     * @param CollectionFactory $factoryCollection
+     * @param Escaper $escaper
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        Factory $factoryElement,
+        CollectionFactory $factoryCollection,
+        Escaper $escaper,
         $data = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
@@ -34,11 +36,18 @@ class Multiline extends \Magento\Data\Form\Element\AbstractElement
         $this->setLineCount(2);
     }
 
+    /**
+     * @return string[]
+     */
     public function getHtmlAttributes()
     {
         return array('type', 'title', 'class', 'style', 'onclick', 'onchange', 'disabled', 'maxlength');
     }
 
+    /**
+     * @param int $suffix
+     * @return string
+     */
     public function getLabelHtml($suffix = 0)
     {
         return parent::getLabelHtml($suffix);
@@ -60,10 +69,23 @@ class Multiline extends \Magento\Data\Form\Element\AbstractElement
             } else {
                 $this->setClass('input-text');
             }
-            $html .= '<div class="multi-input"><input id="' . $this->getHtmlId() . $i . '" name="' . $this->getName()
-                . '[' . $i . ']' . '" value="' . $this->getEscapedValue($i) . '" '
-                . $this->serialize($this->getHtmlAttributes()) . '  ' . $this->_getUiId($i) . '/>' . "\n";
-            if ($i==0) {
+            $html .= '<div class="multi-input"><input id="' .
+                $this->getHtmlId() .
+                $i .
+                '" name="' .
+                $this->getName() .
+                '[' .
+                $i .
+                ']' .
+                '" value="' .
+                $this->getEscapedValue(
+                    $i
+                ) . '" ' . $this->serialize(
+                    $this->getHtmlAttributes()
+                ) . '  ' . $this->_getUiId(
+                    $i
+                ) . '/>' . "\n";
+            if ($i == 0) {
                 $html .= $this->getAfterElementHtml();
             }
             $html .= '</div>';
@@ -71,30 +93,50 @@ class Multiline extends \Magento\Data\Form\Element\AbstractElement
         return $html;
     }
 
+    /**
+     * @return mixed
+     */
     public function getDefaultHtml()
     {
         $html = '';
         $lineCount = $this->getLineCount();
 
-        for ($i=0; $i<$lineCount; $i++){
-            $html.= ( $this->getNoSpan() === true ) ? '' : '<span class="field-row">'."\n";
-            if ($i==0) {
-                $html.= '<label for="'.$this->getHtmlId().$i.'">'.$this->getLabel()
-                    .( $this->getRequired() ? ' <span class="required">*</span>' : '' ).'</label>'."\n";
-                if($this->getRequired()){
+        for ($i = 0; $i < $lineCount; $i++) {
+            $html .= $this->getNoSpan() === true ? '' : '<span class="field-row">' . "\n";
+            if ($i == 0) {
+                $html .= '<label for="' .
+                    $this->getHtmlId() .
+                    $i .
+                    '">' .
+                    $this->getLabel() .
+                    ($this->getRequired() ? ' <span class="required">*</span>' : '') .
+                    '</label>' .
+                    "\n";
+                if ($this->getRequired()) {
                     $this->setClass('input-text required-entry');
                 }
-            }
-            else {
+            } else {
                 $this->setClass('input-text');
-                $html.= '<label>&nbsp;</label>'."\n";
+                $html .= '<label>&nbsp;</label>' . "\n";
             }
-            $html.= '<input id="'.$this->getHtmlId().$i.'" name="'.$this->getName().'['.$i.']'
-                .'" value="'.$this->getEscapedValue($i).'"'.$this->serialize($this->getHtmlAttributes()).' />'."\n";
-            if ($i==0) {
-                $html.= $this->getAfterElementHtml();
+            $html .= '<input id="' .
+                $this->getHtmlId() .
+                $i .
+                '" name="' .
+                $this->getName() .
+                '[' .
+                $i .
+                ']' .
+                '" value="' .
+                $this->getEscapedValue(
+                    $i
+                ) . '"' . $this->serialize(
+                    $this->getHtmlAttributes()
+                ) . ' />' . "\n";
+            if ($i == 0) {
+                $html .= $this->getAfterElementHtml();
             }
-            $html.= ( $this->getNoSpan() === true ) ? '' : '</span>'."\n";
+            $html .= $this->getNoSpan() === true ? '' : '</span>' . "\n";
         }
         return $html;
     }

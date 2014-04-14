@@ -32,7 +32,7 @@ class Factory
      * Create new clone model
      *
      * @param string $cloneModel
-     * @return \Magento\Core\Model\Config\Value
+     * @return mixed
      */
     public function create($cloneModel)
     {

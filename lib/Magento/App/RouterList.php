@@ -32,9 +32,12 @@ class RouterList implements RouterListInterface
     {
         $this->_objectManager = $objectManager;
         $this->_routerList = $routerList;
-        $this->_routerList = array_filter($routerList, function ($item) {
-            return (!isset($item['disable']) || !$item['disable']) && $item['instance'];
-        });
+        $this->_routerList = array_filter(
+            $routerList,
+            function ($item) {
+                return (!isset($item['disable']) || !$item['disable']) && $item['class'];
+            }
+        );
         uasort($this->_routerList, array($this, '_compareRoutersSortOrder'));
     }
 
@@ -48,7 +51,7 @@ class RouterList implements RouterListInterface
     {
         if (!isset($this->_routerList[$routerId]['object'])) {
             $this->_routerList[$routerId]['object'] = $this->_objectManager->create(
-                $this->_routerList[$routerId]['instance']
+                $this->_routerList[$routerId]['class']
             );
         }
         return $this->_routerList[$routerId]['object'];
@@ -80,11 +83,11 @@ class RouterList implements RouterListInterface
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the key of the current element
      * @link http://php.net/manual/en/iterator.key.php
-     * @return mixed scalar on success, or null on failure.
+     * @return void
      */
     public function key()
     {
-        key($this->_routerList);
+        return key($this->_routerList);
     }
 
     /**

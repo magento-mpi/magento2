@@ -6,14 +6,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Install\App\Action\Plugin;
 
-use Magento\Filesystem,
-    Magento\Filesystem\FilesystemException,
-    Magento\Filesystem\Directory\Write,
-    Magento\App\State,
-    Magento\Logger;
+use Magento\App\Filesystem;
+use Magento\Filesystem\FilesystemException;
+use Magento\Filesystem\Directory\Write;
+use Magento\App\State;
+use Magento\Logger;
 
 class Dir
 {
@@ -53,10 +52,13 @@ class Dir
     /**
      * Clear temporary directories
      *
-     * @param $arguments
-     * @return mixed
+     * @param \Magento\Install\Controller\Index $subject
+     * @param \Magento\App\RequestInterface $request
+     *
+     * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeDispatch($arguments)
+    public function beforeDispatch(\Magento\Install\Controller\Index $subject, \Magento\App\RequestInterface $request)
     {
         if (!$this->appState->isInstalled()) {
             foreach ($this->varDirectory->read() as $dir) {
@@ -69,6 +71,5 @@ class Dir
                 }
             }
         }
-        return $arguments;
     }
-} 
+}

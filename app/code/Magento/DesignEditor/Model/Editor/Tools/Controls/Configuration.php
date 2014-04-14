@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Editor\Tools\Controls;
 
 /**
  * Configuration of controls
  */
-namespace Magento\DesignEditor\Model\Editor\Tools\Controls;
-
 class Configuration
 {
     /**
@@ -38,7 +37,7 @@ class Configuration
     protected $_design;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -85,7 +84,7 @@ class Configuration
 
     /**
      * @param \Magento\View\DesignInterface $design
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Event\ManagerInterface $eventDispatcher
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\DesignEditor\Model\Config\Control\AbstractControl $configuration
@@ -94,7 +93,7 @@ class Configuration
      */
     public function __construct(
         \Magento\View\DesignInterface $design,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Event\ManagerInterface $eventDispatcher,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\DesignEditor\Model\Config\Control\AbstractControl $configuration = null,
@@ -114,25 +113,23 @@ class Configuration
     /**
      * Initialize view configurations
      *
-     * @return \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
+     * @return $this
      */
     protected function _initViewConfigs()
     {
-        $this->_viewConfig = $this->_viewConfigLoader->getViewConfig(array(
-            'area'       => \Magento\View\DesignInterface::DEFAULT_AREA,
-            'themeModel' => $this->_theme
-        ));
-        $this->_viewConfigParent = $this->_viewConfigLoader->getViewConfig(array(
-            'area'       => \Magento\View\DesignInterface::DEFAULT_AREA,
-            'themeModel' => $this->_parentTheme
-        ));
+        $this->_viewConfig = $this->_viewConfigLoader->getViewConfig(
+            array('area' => \Magento\View\DesignInterface::DEFAULT_AREA, 'themeModel' => $this->_theme)
+        );
+        $this->_viewConfigParent = $this->_viewConfigLoader->getViewConfig(
+            array('area' => \Magento\View\DesignInterface::DEFAULT_AREA, 'themeModel' => $this->_parentTheme)
+        );
         return $this;
     }
 
     /**
      * Load all control values
      *
-     * @return \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
+     * @return $this
      */
     protected function _loadControlsData()
     {
@@ -148,8 +145,8 @@ class Configuration
     /**
      * Prepare list of control links
      *
-     * @param array $controls
-     * @return \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
+     * @param array &$controls
+     * @return $this
      */
     protected function _prepareControlList(array &$controls)
     {
@@ -157,7 +154,7 @@ class Configuration
             if (!empty($control['components'])) {
                 $this->_prepareControlList($control['components']);
             }
-            $this->_controlList[$controlName] = &$control;
+            $this->_controlList[$controlName] =& $control;
         }
         return $this;
     }
@@ -165,10 +162,10 @@ class Configuration
     /**
      * Load data item values and default values from the view configuration
      *
-     * @param array $control
+     * @param array &$control
      * @param string $paramName
      * @param \Magento\Config\View $viewConfiguration
-     * @return \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
+     * @return $this
      */
     protected function _loadControlData(array &$control, $paramName, \Magento\Config\View $viewConfiguration)
     {
@@ -194,12 +191,12 @@ class Configuration
      *
      * @param string $controlName
      * @return array
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getControlData($controlName)
     {
         if (!isset($this->_controlList[$controlName])) {
-            throw new \Magento\Core\Exception("Unknown control: \"{$controlName}\"");
+            throw new \Magento\Model\Exception("Unknown control: \"{$controlName}\"");
         }
         return $this->_controlList[$controlName];
     }
@@ -208,7 +205,7 @@ class Configuration
      * Extract module and key name
      *
      * @param string $value
-     * @return array
+     * @return string[]
      */
     protected function _extractModuleKey($value)
     {
@@ -239,7 +236,7 @@ class Configuration
      * Save control values data
      *
      * @param array $controlsData
-     * @return \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
+     * @return $this
      */
     public function saveData(array $controlsData)
     {
@@ -263,9 +260,10 @@ class Configuration
             }
         }
         $this->_saveViewConfiguration($configDom);
-        $this->_eventDispatcher->dispatch('save_view_configuration', array(
-            'configuration' => $this, 'theme' => $this->_theme
-        ));
+        $this->_eventDispatcher->dispatch(
+            'save_view_configuration',
+            array('configuration' => $this, 'theme' => $this->_theme)
+        );
         return $this;
     }
 
@@ -283,12 +281,12 @@ class Configuration
      * Save customized DOM of view configuration
      *
      * @param \DOMDocument $config
-     * @return \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
+     * @return $this
      */
     protected function _saveViewConfiguration(\DOMDocument $config)
     {
         $targetPath = $this->_theme->getCustomization()->getCustomViewConfigPath();
-        $directory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+        $directory = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $directory->writeFile($directory->getRelativePath($targetPath), $config->saveXML());
         return $this;
     }

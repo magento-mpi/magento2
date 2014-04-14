@@ -60,7 +60,7 @@ class PayflowProTest extends Functional
         $paypalPage->getReviewBlock()->continueCheckout();
 
         //Proceed Checkout on Magento side
-        $checkoutReviewPage = Factory::getPageFactory()->getPaypalukExpressReview();
+        $checkoutReviewPage = Factory::getPageFactory()->getPaypalPayflowexpressReview();
         $checkoutReviewPage->getReviewBlock()->selectShippingMethod($fixture->getShippingMethods());
         $checkoutReviewPage->getReviewBlock()->placeOrder();
 

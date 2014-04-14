@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertBundleInCategory module="Magento_Bundle">
+        <severeness>low</severeness>
+        <require>
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <product class="Magento\Bundle\Test\Fixture\CatalogProductBundle" />
+            <category class="Magento\Catalog\Test\Fixture\Category" />
+        </require>
+    </assertBundleInCategory>
+    <assertBundleView module="Magento_Bundle">
+        <severeness>low</severeness>
+        <require>
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <product class="Magento\Bundle\Test\Fixture\CatalogProductBundle" />
+        </require>
+    </assertBundleView>
+    <assertBundleInCart module="Magento_Bundle">
+        <severeness>low</severeness>
+        <require>
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <product class="Magento\Bundle\Test\Fixture\CatalogProductBundle" />
+            <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
+        </require>
+    </assertBundleInCart>
+</constraint>

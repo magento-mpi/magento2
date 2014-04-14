@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Session;
 
 interface SidResolverInterface
@@ -20,6 +19,8 @@ interface SidResolverInterface
     const SESSION_ID_QUERY_PARAM = 'SID';
 
     /**
+     * Get SID
+     *
      * @param \Magento\Session\SessionManagerInterface $session
      * @return string
      */
@@ -32,4 +33,34 @@ interface SidResolverInterface
      * @return string
      */
     public function getSessionIdQueryParam(\Magento\Session\SessionManagerInterface $session);
+
+    /**
+     * Set use session var instead of SID for URL
+     *
+     * @param bool $var
+     * @return $this
+     */
+    public function setUseSessionVar($var);
+
+    /**
+     * Retrieve use flag session var instead of SID for URL
+     *
+     * @return bool
+     */
+    public function getUseSessionVar();
+
+    /**
+     * Set Use session in URL flag
+     *
+     * @param bool $flag
+     * @return $this
+     */
+    public function setUseSessionInUrl($flag = true);
+
+    /**
+     * Retrieve use session in URL flag
+     *
+     * @return bool
+     */
+    public function getUseSessionInUrl();
 }

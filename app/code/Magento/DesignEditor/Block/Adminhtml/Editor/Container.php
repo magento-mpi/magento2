@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor;
 
 /**
  * Editor toolbar
  *
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Container setTheme(\Magento\View\Design\ThemeInterface $theme)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor;
-
 class Container extends \Magento\Backend\Block\Widget\Container
 {
     /**
@@ -26,14 +25,19 @@ class Container extends \Magento\Backend\Block\Widget\Container
 
     /**
      * Add elements in layout
+     *
+     * @return void
      */
     protected function _prepareLayout()
     {
-        $this->addButton('back_button', array(
-            'label'   => __('Back'),
-            'onclick' => 'setLocation(\'' . $this->getUrl('adminhtml/*') . '\')',
-            'class'   => 'back'
-        ));
+        $this->addButton(
+            'back_button',
+            array(
+                'label' => __('Back'),
+                'onclick' => 'setLocation(\'' . $this->getUrl('adminhtml/*') . '\')',
+                'class' => 'back'
+            )
+        );
 
         parent::_prepareLayout();
     }
@@ -51,7 +55,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
     /**
      * @param string $url
      *
-     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Container
+     * @return $this
      */
     public function setFrameUrl($url)
     {

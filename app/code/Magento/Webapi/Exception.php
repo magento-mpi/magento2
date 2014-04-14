@@ -15,12 +15,19 @@ class Exception extends \RuntimeException
      * Error HTTP response codes.
      */
     const HTTP_BAD_REQUEST = 400;
+
     const HTTP_UNAUTHORIZED = 401;
+
     const HTTP_FORBIDDEN = 403;
+
     const HTTP_NOT_FOUND = 404;
+
     const HTTP_METHOD_NOT_ALLOWED = 405;
+
     const HTTP_NOT_ACCEPTABLE = 406;
+
     const HTTP_INTERNAL_ERROR = 500;
+
     /**#@-*/
 
     /**
@@ -45,13 +52,21 @@ class Exception extends \RuntimeException
     protected $_name;
 
     /**
+     * Wrapped error details.
+     *
+     * @var array
+     */
+    protected $_wrappedErrors;
+
+    /**
      * Initialize exception with HTTP code.
      *
      * @param string $message
-     * @param int $httpCode
      * @param int $code Error code
+     * @param int $httpCode
      * @param array $details Additional exception details
      * @param string $name Exception name
+     * @param array $wrappedErrors Wrapped error details
      * @throws \InvalidArgumentException
      */
     public function __construct(
@@ -59,7 +74,8 @@ class Exception extends \RuntimeException
         $code = 0,
         $httpCode = self::HTTP_BAD_REQUEST,
         array $details = array(),
-        $name = ''
+        $name = '',
+        array $wrappedErrors = array()
     ) {
         /** Only HTTP error codes are allowed. No success or redirect codes must be used. */
         if ($httpCode < 400 || $httpCode > 599) {
@@ -69,6 +85,7 @@ class Exception extends \RuntimeException
         $this->_httpCode = $httpCode;
         $this->_details = $details;
         $this->_name = $name;
+        $this->_wrappedErrors = $wrappedErrors;
     }
 
     /**
@@ -88,9 +105,10 @@ class Exception extends \RuntimeException
      */
     public function getOriginator()
     {
-        return ($this->getHttpCode() < 500)
-            ? \Magento\Webapi\Model\Soap\Fault::FAULT_CODE_SENDER
-            : \Magento\Webapi\Model\Soap\Fault::FAULT_CODE_RECEIVER;
+        return $this->getHttpCode() <
+            500 ?
+            \Magento\Webapi\Model\Soap\Fault::FAULT_CODE_SENDER :
+            \Magento\Webapi\Model\Soap\Fault::FAULT_CODE_RECEIVER;
     }
 
     /**
@@ -111,5 +129,15 @@ class Exception extends \RuntimeException
     public function getName()
     {
         return $this->_name;
+    }
+
+    /**
+     * Retrieve wrapped errors.
+     *
+     * @return array
+     */
+    public function getWrappedErrors()
+    {
+        return $this->_wrappedErrors;
     }
 }

@@ -7,17 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Block\Adminhtml\Order\Create\Totals;
 
 /**
  * Default Total Row Renderer
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Create\Totals;
-
 class DefaultTotals extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals
 {
+    /**
+     * Template
+     *
+     * @var string
+     */
     protected $_template = 'Magento_Sales::order/create/totals/default.phtml';
 
     /**
@@ -33,13 +36,19 @@ class DefaultTotals extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals
     /**
      * Retrieve store model object
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {
         return $this->_getSession()->getStore();
     }
 
+    /**
+     * Format price
+     *
+     * @param float $value
+     * @return string
+     */
     public function formatPrice($value)
     {
         return $this->getStore()->formatPrice($value);

@@ -25,11 +25,12 @@ class Crosssell extends \Magento\TargetRule\Model\Resource\Index\AbstractIndex
      *
      * @var int
      */
-    protected $_listType     = \Magento\TargetRule\Model\Rule::CROSS_SELLS;
+    protected $_listType = \Magento\TargetRule\Model\Rule::CROSS_SELLS;
 
     /**
      * Initialize connection and define main table
      *
+     * @return void
      */
     protected function _construct()
     {

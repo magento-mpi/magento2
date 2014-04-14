@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Customer\Block\Account\Dashboard;
+
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
 class Hello extends \Magento\View\Element\Template
 {
@@ -19,22 +17,46 @@ class Hello extends \Magento\View\Element\Template
     protected $_customerSession;
 
     /**
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_viewHelper;
+
+    /**
+     * @var CustomerAccountServiceInterface
+     */
+    protected $_customerAccountService;
+
+    /**
+     * Constructor
+     *
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Helper\View $viewHelper
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Helper\View $viewHelper,
+        CustomerAccountServiceInterface $customerAccountService,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
+        $this->_viewHelper = $viewHelper;
+        $this->_customerAccountService = $customerAccountService;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
+    /**
+     * Concatenate all customer name parts into full customer name.
+     *
+     * @return string
+     */
     public function getCustomerName()
     {
-        return $this->_customerSession->getCustomer()->getName();
+        $customer = $this->_customerAccountService->getCustomer($this->_customerSession->getCustomerId());
+        return $this->_viewHelper->getCustomerName($customer);
     }
-
 }

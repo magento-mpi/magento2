@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Page;
 
 /**
  * Adminhtml header block
@@ -15,10 +16,11 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Page;
-
 class Header extends \Magento\Backend\Block\Template
 {
+    /**
+     * @var string
+     */
     protected $_template = 'page/header.phtml';
 
     /**
@@ -50,16 +52,25 @@ class Header extends \Magento\Backend\Block\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return string
+     */
     public function getHomeLink()
     {
         return $this->_backendData->getHomePageUrl();
     }
 
+    /**
+     * @return \Magento\User\Model\User|null
+     */
     public function getUser()
     {
         return $this->_authSession->getUser();
     }
 
+    /**
+     * @return string
+     */
     public function getLogoutLink()
     {
         return $this->getUrl('adminhtml/auth/logout');
@@ -72,6 +83,6 @@ class Header extends \Magento\Backend\Block\Template
      */
     public function displayNoscriptNotice()
     {
-        return $this->_storeConfig->getConfig('web/browser_capabilities/javascript');
+        return $this->_scopeConfig->getValue('web/browser_capabilities/javascript', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

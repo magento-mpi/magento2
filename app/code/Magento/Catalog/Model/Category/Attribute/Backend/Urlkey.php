@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Category\Attribute\Backend;
 
 /**
  * Category url key attribute backend
@@ -16,16 +16,13 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Category\Attribute\Backend;
-
 class Urlkey extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
-
     /**
-     * Enter description here...
+     * TODO: Enter description here...
      *
      * @param \Magento\Object $object
-     * @return \Magento\Catalog\Model\Category\Attribute\Backend\Urlkey
+     * @return $this
      */
     public function beforeSave($object)
     {
@@ -35,7 +32,7 @@ class Urlkey extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         if ($urlKey === false) {
             return $this;
         }
-        if ($urlKey=='') {
+        if ($urlKey == '') {
             $urlKey = $object->getName();
         }
 

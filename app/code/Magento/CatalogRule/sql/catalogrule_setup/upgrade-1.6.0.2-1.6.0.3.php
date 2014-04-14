@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\Core\Model\Resource\Setup */
+/* @var $installer \Magento\Module\Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -18,7 +18,7 @@ $ruleProductTable = $installer->getTable('catalogrule_product');
 $columnOptions = array(
     'TYPE' => \Magento\DB\Ddl\Table::TYPE_TEXT,
     'LENGTH' => 32,
-    'COMMENT' => 'Simple Action For Subitems',
+    'COMMENT' => 'Simple Action For Subitems'
 );
 $installer->getConnection()->addColumn($ruleProductTable, 'sub_simple_action', $columnOptions);
 
@@ -28,7 +28,7 @@ $columnOptions = array(
     'PRECISION' => 12,
     'NULLABLE' => false,
     'DEFAULT' => '0.0000',
-    'COMMENT' => 'Discount Amount For Subitems',
+    'COMMENT' => 'Discount Amount For Subitems'
 );
 $installer->getConnection()->addColumn($ruleProductTable, 'sub_discount_amount', $columnOptions);
 

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Message;
 
 /**
@@ -19,7 +18,7 @@ abstract class AbstractMessage implements MessageInterface
     protected $text;
 
     /**
-     * @var mixed
+     * @var string
      */
     protected $identifier;
 

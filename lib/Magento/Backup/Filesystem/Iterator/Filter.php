@@ -45,14 +45,15 @@ class Filter extends \FilterIterator
      */
     public function accept()
     {
-        $current = $this->current()->__toString();
-        $currentFilename = $this->current()->getFilename();
+        $current = str_replace('\\', '/', $this->current()->__toString());
+        $currentFilename = str_replace('\\', '/', $this->current()->getFilename());
 
         if ($currentFilename == '.' || $currentFilename == '..') {
             return false;
         }
 
         foreach ($this->_filters as $filter) {
+            $filter = str_replace('\\', '/', $filter);
             if (false !== strpos($current, $filter)) {
                 return false;
             }

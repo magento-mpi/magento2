@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerBalance\Model\Resource\Balance;
 
 /**
  * Customerbalance history resource model
@@ -16,9 +16,7 @@
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerBalance\Model\Resource\Balance;
-
-class History extends \Magento\Core\Model\Resource\Db\AbstractDb
+class History extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime
@@ -37,6 +35,8 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Initialize resource
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -46,10 +46,10 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Set updated_at automatically before saving
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\CustomerBalance\Model\Resource\Balance\History
+     * @param \Magento\Model\AbstractModel $object
+     * @return $this
      */
-    public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    public function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         $object->setUpdatedAt($this->dateTime->formatDate(time()));
         return parent::_beforeSave($object);
@@ -59,10 +59,12 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Mark specified balance history record as sent to customer
      *
      * @param int $id
+     * @return void
      */
     public function markAsSent($id)
     {
-        $this->_getWriteAdapter()->update($this->getMainTable(),
+        $this->_getWriteAdapter()->update(
+            $this->getMainTable(),
             array('is_customer_notified' => 1),
             array('history_id = ?' => $id)
         );

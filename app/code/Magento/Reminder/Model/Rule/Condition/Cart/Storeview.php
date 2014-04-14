@@ -7,32 +7,32 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+use Magento\DB\Select;
 
 /**
  * Cart items store view subselection condition
  */
-namespace Magento\Reminder\Model\Rule\Condition\Cart;
-
-class Storeview
-    extends \Magento\Reminder\Model\Condition\AbstractCondition
+class Storeview extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * Store
      *
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_store;
 
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
-     * @param \Magento\Core\Model\System\Store $store
+     * @param \Magento\Store\Model\System\Store $store
      * @param array $data
      */
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
-        \Magento\Core\Model\System\Store $store,
+        \Magento\Store\Model\System\Store $store,
         array $data = array()
     ) {
         $this->_store = $store;
@@ -48,8 +48,7 @@ class Storeview
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(),
-            'label' => __('Store View'));
+        return array('value' => $this->getType(), 'label' => __('Store View'));
     }
 
     /**
@@ -59,15 +58,17 @@ class Storeview
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('The item was added to shopping cart %1, store view %2.', $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'The item was added to shopping cart %1, store view %2.',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
      * Initialize value select options
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Cart\Storeview
+     * @return $this
      */
     public function loadValueOptions()
     {
@@ -98,24 +99,21 @@ class Storeview
     /**
      * Prepare operator select options
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist\Storeview
+     * @return $this
      */
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array(
-            '==' => __('from'),
-            '!=' => __('not from')
-        ));
+        $this->setOperatorOption(array('==' => __('from'), '!=' => __('not from')));
         return $this;
     }
 
     /**
      * Get SQL select
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @param null|int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
+     * @return Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -126,11 +124,7 @@ class Storeview
         $select = $this->getResource()->createSelect();
         $select->from(array('item' => $quoteItemTable), array(new \Zend_Db_Expr(1)));
 
-        $select->joinInner(
-            array('quote' => $quoteTable),
-            'item.quote_id = quote.entity_id',
-            array()
-        );
+        $select->joinInner(array('quote' => $quoteTable), 'item.quote_id = quote.entity_id', array());
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active = 1');

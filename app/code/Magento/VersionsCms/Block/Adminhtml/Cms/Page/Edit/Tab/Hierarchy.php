@@ -7,15 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
 
 /**
  * Cms Page Edit Hierarchy Tab Block
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
-
-class Hierarchy
-    extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Hierarchy extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Array of nodes for tree
@@ -34,14 +31,14 @@ class Hierarchy
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
     /**
      * @var \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory
      */
-    protected $_nodeCollFactory;
+    protected $_nodeCollectionFactory;
 
     /**
      * @var \Magento\Json\EncoderInterface
@@ -58,8 +55,8 @@ class Hierarchy
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Json\DecoderInterface $jsonDecoder
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollFactory
+     * @param \Magento\Registry $registry
+     * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollectionFactory
      * @param array $data
      */
     public function __construct(
@@ -67,15 +64,15 @@ class Hierarchy
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Json\DecoderInterface $jsonDecoder,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollFactory,
+        \Magento\Registry $registry,
+        \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollectionFactory,
         array $data = array()
     ) {
         $this->_jsonDecoder = $jsonDecoder;
         $this->_jsonEncoder = $jsonEncoder;
         $this->_coreRegistry = $registry;
         $this->_cmsHierarchy = $cmsHierarchy;
-        $this->_nodeCollFactory = $nodeCollFactory;
+        $this->_nodeCollectionFactory = $nodeCollectionFactory;
         parent::__construct($context, $data);
     }
 
@@ -104,20 +101,24 @@ class Hierarchy
      *
      * @return array
      */
-    public function getNodes() {
+    public function getNodes()
+    {
         if (is_null($this->_nodes)) {
             $this->_nodes = array();
-            try{
+            try {
                 $data = $this->_jsonDecoder->decode($this->getPage()->getNodesData());
-            }catch (\Zend_Json_Exception $e){
+            } catch (\Zend_Json_Exception $e) {
                 $data = null;
             }
 
             /** @var \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection $collection */
-            $collection = $this->_nodeCollFactory->create()
+            $collection = $this->_nodeCollectionFactory
+                ->create()
                 ->joinCmsPage()
                 ->setOrderByLevel()
-                ->joinPageExistsNodeInfo($this->getPage());
+                ->joinPageExistsNodeInfo(
+                    $this->getPage()
+                );
 
             if (is_array($data)) {
                 foreach ($data as $v) {
@@ -127,12 +128,12 @@ class Hierarchy
                         $pageExists = false;
                     }
                     $node = array(
-                        'node_id'               => $v['node_id'],
-                        'parent_node_id'        => $v['parent_node_id'],
-                        'label'                 => $v['label'],
-                        'page_exists'           => $pageExists,
-                        'page_id'               => $v['page_id'],
-                        'current_page'          => (bool)$v['current_page']
+                        'node_id' => $v['node_id'],
+                        'parent_node_id' => $v['parent_node_id'],
+                        'label' => $v['label'],
+                        'page_exists' => $pageExists,
+                        'page_id' => $v['page_id'],
+                        'current_page' => (bool)$v['current_page']
                     );
                     $item = $collection->getItemById($v['node_id']);
                     if ($item) {
@@ -150,14 +151,13 @@ class Hierarchy
                     }
                     /* @var $item \Magento\VersionsCms\Model\Hierarchy\Node */
                     $node = array(
-                        'node_id'               => $item->getId(),
-                        'parent_node_id'        => $item->getParentNodeId(),
-                        'label'                 => $item->getLabel(),
-                        'page_exists'           => (bool)$item->getPageExists(),
-                        'page_id'               => $item->getPageId(),
-                        'current_page'          => (bool)$item->getCurrentPage(),
-                        'assigned_to_stores'    => $this->getPageStoreIds($item)
-
+                        'node_id' => $item->getId(),
+                        'parent_node_id' => $item->getParentNodeId(),
+                        'label' => $item->getLabel(),
+                        'page_exists' => (bool)$item->getPageExists(),
+                        'page_id' => $item->getPageId(),
+                        'current_page' => (bool)$item->getCurrentPage(),
+                        'assigned_to_stores' => $this->getPageStoreIds($item)
                     );
                     $this->_nodes[] = $node;
                 }
@@ -182,7 +182,7 @@ class Hierarchy
      * Forced nodes setter
      *
      * @param array $nodes New nodes array
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Hierarchy
+     * @return $this
      */
     public function setNodes($nodes)
     {
@@ -223,10 +223,7 @@ class Hierarchy
      */
     public function getCurrentPageJson()
     {
-        $data = array(
-            'label' => $this->getPage()->getTitle(),
-            'id' => $this->getPage()->getId()
-        );
+        $data = array('label' => $this->getPage()->getTitle(), 'id' => $this->getPage()->getId());
 
         return $this->_jsonEncoder->encode($data);
     }
@@ -258,9 +255,9 @@ class Hierarchy
      */
     public function canShowTab()
     {
-        if (!$this->getPage()->getId()
-            || !$this->_cmsHierarchy->isEnabled()
-            || !$this->_authorization->isAllowed('Magento_VersionsCms::hierarchy')
+        if (!$this->getPage()->getId() || !$this->_cmsHierarchy->isEnabled() || !$this->_authorization->isAllowed(
+            'Magento_VersionsCms::hierarchy'
+        )
         ) {
             return false;
         }

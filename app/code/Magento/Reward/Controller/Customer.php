@@ -25,7 +25,7 @@ class Customer extends \Magento\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -36,12 +36,12 @@ class Customer extends \Magento\App\Action\Action
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_formKeyValidator = $formKeyValidator;
@@ -70,6 +70,8 @@ class Customer extends \Magento\App\Action\Action
 
     /**
      * Info Action
+     *
+     * @return void
      */
     public function infoAction()
     {
@@ -85,6 +87,8 @@ class Customer extends \Magento\App\Action\Action
 
     /**
      * Save settings
+     *
+     * @return void
      */
     public function saveSettingsAction()
     {
@@ -94,25 +98,28 @@ class Customer extends \Magento\App\Action\Action
 
         $customer = $this->_getCustomer();
         if ($customer->getId()) {
-            $customer->setRewardUpdateNotification($this->getRequest()->getParam('subscribe_updates'))
-                ->setRewardWarningNotification($this->getRequest()->getParam('subscribe_warnings'));
+            $customer->setRewardUpdateNotification(
+                $this->getRequest()->getParam('subscribe_updates')
+            )->setRewardWarningNotification(
+                $this->getRequest()->getParam('subscribe_warnings')
+            );
             $customer->getResource()->saveAttribute($customer, 'reward_update_notification');
             $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
 
-            $this->messageManager->addSuccess(
-                __('You saved the settings.')
-            );
+            $this->messageManager->addSuccess(__('You saved the settings.'));
         }
         $this->_redirect('*/*/info');
     }
 
     /**
      * Unsubscribe customer from update/warning balance notifications
+     *
+     * @return void
      */
     public function unsubscribeAction()
     {
         $notification = $this->getRequest()->getParam('notification');
-        if (!in_array($notification, array('update','warning'))) {
+        if (!in_array($notification, array('update', 'warning'))) {
             $this->_forward('noroute');
         }
 
@@ -127,9 +134,7 @@ class Customer extends \Magento\App\Action\Action
                     $customer->setRewardWarningNotification(false);
                     $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
                 }
-                $this->messageManager->addSuccess(
-                    __('You have been unsubscribed.')
-                );
+                $this->messageManager->addSuccess(__('You have been unsubscribed.'));
             }
         } catch (\Exception $e) {
             $this->messageManager->addError(__('Failed to unsubscribe'));
@@ -165,11 +170,13 @@ class Customer extends \Magento\App\Action\Action
      */
     protected function _getReward()
     {
-        $reward = $this->_objectManager->create('Magento\Reward\Model\Reward')
-            ->setCustomer($this->_getCustomer())
-            ->setWebsiteId($this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')
-                ->getStore()->getWebsiteId())
-            ->loadByCustomer();
+        $reward = $this->_objectManager->create(
+            'Magento\Reward\Model\Reward'
+        )->setCustomer(
+            $this->_getCustomer()
+        )->setWebsiteId(
+            $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
+        )->loadByCustomer();
         return $reward;
     }
 }

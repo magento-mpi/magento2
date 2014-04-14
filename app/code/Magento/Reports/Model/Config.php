@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Model;
 
 /**
  * Configuration for reports
  */
-namespace Magento\Reports\Model;
-
 class Config extends \Magento\Object
 {
     /**
@@ -21,18 +20,18 @@ class Config extends \Magento\Object
     protected $_moduleReader;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Module\Dir\Reader $moduleReader
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Module\Dir\Reader $moduleReader,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -40,6 +39,11 @@ class Config extends \Magento\Object
         $this->_storeManager = $storeManager;
     }
 
+    /**
+     * Return reports global configuration
+     *
+     * @return string
+     */
     public function getGlobalConfig()
     {
         $dom = new \DOMDocument();
@@ -53,17 +57,23 @@ class Config extends \Magento\Object
         return $dom->saveXML();
     }
 
+    /**
+     * Return reports language
+     *
+     * @return string
+     */
     public function getLanguage()
     {
-        return file_get_contents(
-            $this->_moduleReader->getModuleDir('etc', 'Magento_Reports') . '/flexLanguage.xml'
-        );
+        return file_get_contents($this->_moduleReader->getModuleDir('etc', 'Magento_Reports') . '/flexLanguage.xml');
     }
 
+    /**
+     * Return reports dashboard
+     *
+     * @return string
+     */
     public function getDashboard()
     {
-        return file_get_contents(
-            $this->_moduleReader->getModuleDir('etc', 'Magento_Reports') . '/flexDashboard.xml'
-        );
+        return file_get_contents($this->_moduleReader->getModuleDir('etc', 'Magento_Reports') . '/flexDashboard.xml');
     }
 }

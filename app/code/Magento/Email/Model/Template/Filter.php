@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Email\Model\Template;
 
 /**
@@ -36,8 +35,13 @@ class Filter extends \Magento\Filter\Template
      *
      * @var array
      */
-    protected $_modifiers = array('nl2br'  => '');
+    protected $_modifiers = array('nl2br' => '');
 
+    /**
+     * Store id
+     *
+     * @var int
+     */
     protected $_storeId = null;
 
     /**
@@ -69,7 +73,7 @@ class Filter extends \Magento\Filter\Template
     protected $_variableFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -86,9 +90,9 @@ class Filter extends \Magento\Filter\Template
     /**
      * Setup callbacks for filters
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Layout directive params
@@ -109,9 +113,9 @@ class Filter extends \Magento\Filter\Template
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
      * @param \Magento\View\Url $viewUrl
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\View\LayoutFactory $layoutFactory
      * @param \Magento\App\State $appState
@@ -124,9 +128,9 @@ class Filter extends \Magento\Filter\Template
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
         \Magento\View\Url $viewUrl,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\View\LayoutInterface $layout,
         \Magento\View\LayoutFactory $layoutFactory,
         \Magento\App\State $appState,
@@ -135,7 +139,7 @@ class Filter extends \Magento\Filter\Template
         $this->_escaper = $escaper;
         $this->_viewUrl = $viewUrl;
         $this->_logger = $logger;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
         $this->_variableFactory = $coreVariableFactory;
         $this->_storeManager = $storeManager;
@@ -149,7 +153,7 @@ class Filter extends \Magento\Filter\Template
      * Set use absolute links flag
      *
      * @param bool $flag
-     * @return \Magento\Email\Model\Template\Filter
+     * @return $this
      */
     public function setUseAbsoluteLinks($flag)
     {
@@ -162,7 +166,7 @@ class Filter extends \Magento\Filter\Template
      * Doesn't set anything intentionally, since SID is not allowed in any kind of emails
      *
      * @param bool $flag
-     * @return \Magento\Email\Model\Template\Filter
+     * @return $this
      */
     public function setUseSessionInUrl($flag)
     {
@@ -173,8 +177,8 @@ class Filter extends \Magento\Filter\Template
     /**
      * Setter
      *
-     * @param boolean $plainTemplateMode
-     * @return \Magento\Email\Model\Template\Filter
+     * @param bool $plainTemplateMode
+     * @return $this
      */
     public function setPlainTemplateMode($plainTemplateMode)
     {
@@ -185,8 +189,8 @@ class Filter extends \Magento\Filter\Template
     /**
      * Setter
      *
-     * @param integer $storeId
-     * @return \Magento\Email\Model\Template\Filter
+     * @param int $storeId
+     * @return $this
      */
     public function setStoreId($storeId)
     {
@@ -195,8 +199,7 @@ class Filter extends \Magento\Filter\Template
     }
 
     /**
-     * Getter
-     * if $_storeId is null return Design store id
+     * Getter. If $_storeId is null, return design store id.
      *
      * @return integer
      */
@@ -211,10 +214,10 @@ class Filter extends \Magento\Filter\Template
     /**
      * Retrieve Block html directive
      *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      * @param array $construction
      * @return string
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function blockDirective($construction)
     {
@@ -250,13 +253,13 @@ class Filter extends \Magento\Filter\Template
         if (!isset($method) || !is_string($method) || !method_exists($block, $method)) {
             $method = 'toHtml';
         }
-        return $block->$method();
+        return $block->{$method}();
     }
 
     /**
      * Retrieve layout html directive
      *
-     * @param array $construction
+     * @param string[] $construction
      * @return string
      */
     public function layoutDirective($construction)
@@ -286,8 +289,7 @@ class Filter extends \Magento\Filter\Template
 
         /** @var $layout \Magento\View\LayoutInterface */
         $layout = $this->_layoutFactory->create();
-        $layout->getUpdate()->addHandle($this->_directiveParams['handle'])
-            ->load();
+        $layout->getUpdate()->addHandle($this->_directiveParams['handle'])->load();
 
         $layout->generateXml();
         $layout->generateElements();
@@ -314,7 +316,8 @@ class Filter extends \Magento\Filter\Template
         }
 
         $result = $layout->getOutput();
-        $layout->__destruct(); // To overcome bug with SimpleXML memory leak (https://bugs.php.net/bug.php?id=62468)
+        $layout->__destruct();
+        // To overcome bug with SimpleXML memory leak (https://bugs.php.net/bug.php?id=62468)
         return $result;
     }
 
@@ -335,7 +338,7 @@ class Filter extends \Magento\Filter\Template
     /**
      * Retrieve View URL directive
      *
-     * @param array $construction
+     * @param string[] $construction
      * @return string
      */
     public function viewDirective($construction)
@@ -348,20 +351,20 @@ class Filter extends \Magento\Filter\Template
     /**
      * Retrieve media file URL directive
      *
-     * @param array $construction
+     * @param string[] $construction
      * @return string
      */
     public function mediaDirective($construction)
     {
         $params = $this->_getIncludeParameters($construction[2]);
-        return $this->_storeManager->getStore()->getBaseUrl('media') . $params['url'];
+        return $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . $params['url'];
     }
 
     /**
      * Retrieve store URL directive
      * Support url and direct_url properties
      *
-     * @param array $construction
+     * @param string[] $construction
      * @return string
      */
     public function storeDirective($construction)
@@ -399,7 +402,7 @@ class Filter extends \Magento\Filter\Template
      * Supported options:
      *     allowed_tags - Comma separated html tags that have not to be converted
      *
-     * @param array $construction
+     * @param string[] $construction
      * @return string
      */
     public function escapehtmlDirective($construction)
@@ -420,12 +423,12 @@ class Filter extends \Magento\Filter\Template
     /**
      * Var directive with modifiers support
      *
-     * @param array $construction
+     * @param string[] $construction
      * @return string
      */
     public function varDirective($construction)
     {
-        if (count($this->_templateVars)==0) {
+        if (count($this->_templateVars) == 0) {
             // If template preprocessing
             return $construction[0];
         }
@@ -453,7 +456,7 @@ class Filter extends \Magento\Filter\Template
             if (empty($part)) {
                 continue;
             }
-            $params   = explode(':', $part);
+            $params = explode(':', $part);
             $modifier = array_shift($params);
             if (isset($this->_modifiers[$modifier])) {
                 $callback = $this->_modifiers[$modifier];
@@ -498,7 +501,8 @@ class Filter extends \Magento\Filter\Template
      * {{protocol http="http://url" https="https://url"}
      * also allow additional parameter "store"
      *
-     * @param array $construction
+     * @param string[] $construction
+     * @throws \Magento\Mail\Exception
      * @return string
      */
     public function protocolDirective($construction)
@@ -506,7 +510,11 @@ class Filter extends \Magento\Filter\Template
         $params = $this->_getIncludeParameters($construction[2]);
         $store = null;
         if (isset($params['store'])) {
-            $store = $this->_storeManager->getSafeStore($params['store']);
+            try {
+                $store = $this->_storeManager->getStore($params['store']);
+            } catch (\Exception $e) {
+                throw new \Magento\Mail\Exception(__('Requested invalid store "%1"', $params['store']));
+            }
         }
         $isSecure = $this->_storeManager->getStore($store)->isCurrentlySecure();
         $protocol = $isSecure ? 'https' : 'http';
@@ -525,7 +533,7 @@ class Filter extends \Magento\Filter\Template
     /**
      * Store config directive
      *
-     * @param array $construction
+     * @param string[] $construction
      * @return string
      */
     public function configDirective($construction)
@@ -534,7 +542,11 @@ class Filter extends \Magento\Filter\Template
         $params = $this->_getIncludeParameters($construction[2]);
         $storeId = $this->getStoreId();
         if (isset($params['path'])) {
-            $configValue = $this->_coreStoreConfig->getConfig($params['path'], $storeId);
+            $configValue = $this->_scopeConfig->getValue(
+                $params['path'],
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
         }
         return $configValue;
     }
@@ -542,7 +554,7 @@ class Filter extends \Magento\Filter\Template
     /**
      * Custom Variable directive
      *
-     * @param array $construction
+     * @param string[] $construction
      * @return string
      */
     public function customvarDirective($construction)
@@ -550,9 +562,11 @@ class Filter extends \Magento\Filter\Template
         $customVarValue = '';
         $params = $this->_getIncludeParameters($construction[2]);
         if (isset($params['code'])) {
-            $variable = $this->_variableFactory->create()
-                ->setStoreId($this->getStoreId())
-                ->loadByCode($params['code']);
+            $variable = $this->_variableFactory->create()->setStoreId(
+                $this->getStoreId()
+            )->loadByCode(
+                $params['code']
+            );
             $mode = $this->_plainTemplateMode
                 ? \Magento\Core\Model\Variable::TYPE_TEXT
                 : \Magento\Core\Model\Variable::TYPE_HTML;
@@ -568,9 +582,9 @@ class Filter extends \Magento\Filter\Template
      * Filter the string as template.
      * Rewrited for logging exceptions
      *
-     * @SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
      * @param string $value
      * @return string
+     * @SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
      */
     public function filter($value)
     {

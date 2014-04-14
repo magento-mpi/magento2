@@ -7,15 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Install\Controller;
+
+use Magento\App\RequestInterface;
+use Magento\App\ResponseInterface;
 
 /**
  * Installation wizard controller
  */
-namespace Magento\Install\Controller;
-
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
-
 class Wizard extends \Magento\Install\Controller\Action
 {
     /**
@@ -60,7 +59,7 @@ class Wizard extends \Magento\Install\Controller\Action
      * @param \Magento\Install\Model\Wizard $wizard
      * @param \Magento\Session\Generic $session
      * @param \Magento\Module\UpdaterInterface $dbUpdater
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      */
     public function __construct(
@@ -70,7 +69,7 @@ class Wizard extends \Magento\Install\Controller\Action
         \Magento\Install\Model\Wizard $wizard,
         \Magento\Session\Generic $session,
         \Magento\Module\UpdaterInterface $dbUpdater,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState
     ) {
         $this->_storeManager = $storeManager;
@@ -123,7 +122,7 @@ class Wizard extends \Magento\Install\Controller\Action
     /**
      * Prepare layout
      *
-     * @return \Magento\Install\Controller\Wizard
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -146,9 +145,7 @@ class Wizard extends \Magento\Install\Controller\Action
     protected function _checkIfInstalled()
     {
         if ($this->_getInstaller()->isApplicationInstalled()) {
-            $this->getResponse()
-                ->setRedirect($this->_storeManager->getStore()->getBaseUrl())
-                ->sendResponse();
+            $this->getResponse()->setRedirect($this->_storeManager->getStore()->getBaseUrl())->sendResponse();
             exit;
         }
         return true;
@@ -156,6 +153,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Index action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -164,6 +163,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Begin installation action
+     *
+     * @return void
      */
     public function beginAction()
     {
@@ -182,13 +183,15 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Process begin step POST data
+     *
+     * @return void
      */
     public function beginPostAction()
     {
         $this->_checkIfInstalled();
 
         $agree = $this->getRequest()->getPost('agree');
-        if ($agree && $step = $this->_getWizard()->getStepByName('begin')) {
+        if ($agree && ($step = $this->_getWizard()->getStepByName('begin'))) {
             $this->getResponse()->setRedirect($step->getNextUrl());
         } else {
             $this->_redirect('install');
@@ -197,6 +200,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Localization settings
+     *
+     * @return void
      */
     public function localeAction()
     {
@@ -207,16 +212,14 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_prepareLayout();
         $this->_view->getLayout()->initMessages();
         $this->_view->getLayout()->addBlock('Magento\Install\Block\Locale', 'install.locale', 'content');
-        $this->_view->getLayout()
-            ->getBlock('install.locale')
-            ->setLocaleCode(
-                $this->_session->getLocale()
-            );
+        $this->_view->getLayout()->getBlock('install.locale')->setLocaleCode($this->_session->getLocale());
         $this->_view->renderLayout();
     }
 
     /**
      * Change current locale
+     *
+     * @return void
      */
     public function localeChangeAction()
     {
@@ -226,9 +229,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $timezone = $this->getRequest()->getParam('timezone');
         $currency = $this->getRequest()->getParam('currency');
         if ($locale) {
-            $this->_session->setLocale($locale)
-                ->setTimezone($timezone)
-                ->setCurrency($currency);
+            $this->_session->setLocale($locale)->setTimezone($timezone)->setCurrency($currency);
         }
 
         $this->_redirect('*/*/locale');
@@ -236,6 +237,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Saving localization settings
+     *
+     * @return void
      */
     public function localePostAction()
     {
@@ -252,6 +255,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Download page action
+     *
+     * @return void
      */
     public function downloadAction()
     {
@@ -268,6 +273,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Download post action
+     *
+     * @return void
      */
     public function downloadPostAction()
     {
@@ -294,6 +301,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Download auto action
+     *
+     * @return void
      */
     public function downloadAutoAction()
     {
@@ -303,22 +312,24 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Install action
+     *
+     * @return void
      * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function installAction()
     {
         $pear = \Magento\Pear::getInstance();
-        $params = array(
-            'comment' => __("Downloading and installing Magento, please wait...") . "\r\n\r\n"
-        );
+        $params = array('comment' => __("Downloading and installing Magento, please wait...") . "\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $state = $this->getRequest()->getParam('state', 'beta');
             if ($state) {
-                $result = $pear->runHtmlConsole(array(
-                'comment'   => __("Setting preferred state to: %1", $state) . "\r\n\r\n",
-                'command'   => 'config-set',
-                'params'    => array('preferred_state', $state)
-                ));
+                $result = $pear->runHtmlConsole(
+                    array(
+                        'comment' => __("Setting preferred state to: %1", $state) . "\r\n\r\n",
+                        'command' => 'config-set',
+                        'params' => array('preferred_state', $state)
+                    )
+                );
                 if ($result instanceof PEAR_Error) {
                     $this->installFailureCallback();
                     exit;
@@ -336,6 +347,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Install success callback
+     *
+     * @return void
      */
     public function installSuccessCallback()
     {
@@ -344,6 +357,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Install failure callback
+     *
+     * @return void
      */
     public function installFailureCallback()
     {
@@ -352,6 +367,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Download manual action
+     *
+     * @return void
      */
     public function downloadManualAction()
     {
@@ -361,6 +378,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Configuration data installation
+     *
+     * @return void
      */
     public function configAction()
     {
@@ -384,23 +403,28 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Process configuration POST data
+     *
+     * @return ResponseInterface|void
      */
     public function configPostAction()
     {
         $this->_checkIfInstalled();
         $step = $this->_getWizard()->getStepByName('config');
 
-        $config             = $this->getRequest()->getPost('config');
-        $connectionConfig   = $this->getRequest()->getPost('connection');
+        $config = $this->getRequest()->getPost('config');
+        $connectionConfig = $this->getRequest()->getPost('connection');
 
         if ($config && $connectionConfig && isset($connectionConfig[$config['db_model']])) {
 
             $data = array_merge($config, $connectionConfig[$config['db_model']]);
 
-            $this->_session
-                ->setConfigData($data)
-                ->setSkipUrlValidation($this->getRequest()->getPost('skip_url_validation'))
-                ->setSkipBaseUrlValidation($this->getRequest()->getPost('skip_base_url_validation'));
+            $this->_session->setConfigData(
+                $data
+            )->setSkipUrlValidation(
+                $this->getRequest()->getPost('skip_url_validation')
+            )->setSkipBaseUrlValidation(
+                $this->getRequest()->getPost('skip_base_url_validation')
+            );
             try {
                 $this->_getInstaller()->installConfig($data);
                 return $this->_redirect('*/*/installDb');
@@ -414,6 +438,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Install DB
+     *
+     * @return void
      */
     public function installDbAction()
     {
@@ -438,6 +464,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Install administrator account
+     *
+     * @return void
      */
     public function administratorAction()
     {
@@ -452,14 +480,16 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * Process administrator installation POST data
+     *
+     * @return void
      */
     public function administratorPostAction()
     {
         $this->_checkIfInstalled();
 
         $step = $this->_wizard->getStepByName('administrator');
-        $adminData      = $this->getRequest()->getPost('admin');
-        $encryptionKey  = $this->getRequest()->getPost('encryption_key');
+        $adminData = $this->getRequest()->getPost('admin');
+        $encryptionKey = $this->getRequest()->getPost('encryption_key');
 
         try {
             $encryptionKey = $this->_getInstaller()->getValidEncryptionKey($encryptionKey);
@@ -468,7 +498,7 @@ class Wizard extends \Magento\Install\Controller\Action
             $this->getResponse()->setRedirect($step->getNextUrl());
         } catch (\Exception $e) {
             $this->_session->setAdminData($adminData);
-            if ($e instanceof \Magento\Core\Exception) {
+            if ($e instanceof \Magento\Model\Exception) {
                 $this->messageManager->addMessages($e->getMessages());
             } else {
                 $this->messageManager->addError($e->getMessage());
@@ -479,6 +509,8 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * End installation
+     *
+     * @return void
      */
     public function endAction()
     {

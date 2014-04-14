@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset\MergeStrategy;
 
 /**
@@ -15,22 +14,28 @@ namespace Magento\View\Asset\MergeStrategy;
 class Checksum implements \Magento\View\Asset\MergeStrategyInterface
 {
     /**
+     * Strategy
+     *
      * @var \Magento\View\Asset\MergeStrategyInterface
      */
     protected $strategy;
 
     /**
-     * @var \Magento\Filesystem
+     * Filesystem
+     *
+     * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
     /**
+     * Constructor
+     *
      * @param \Magento\View\Asset\MergeStrategyInterface $strategy
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\View\Asset\MergeStrategyInterface $strategy,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->strategy = $strategy;
         $this->filesystem = $filesystem;
@@ -41,16 +46,22 @@ class Checksum implements \Magento\View\Asset\MergeStrategyInterface
      */
     public function mergeFiles(array $publicFiles, $destinationFile, $contentType)
     {
-        $mergedMTimeFile = $destinationFile . '.dat';
+        $directory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::PUB_DIR);
+        $mergedMTimeFile = $directory->getRelativePath($destinationFile . '.dat');
 
         // Check whether we have already merged these files
         $filesMTimeData = '';
-        $directory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
         foreach ($publicFiles as $file) {
-            $filesMTimeData .= $directory->stat($file)['mtime'];
+            $filesMTimeData .= $directory->stat($directory->getRelativePath($file))['mtime'];
         }
-        if (!($directory->isExist($destinationFile) && $directory->isExist($mergedMTimeFile)
-            && (strcmp($filesMTimeData, $directory->readFile($mergedMTimeFile)) == 0))
+        if (!($directory->isExist(
+            $destinationFile
+        ) && $directory->isExist(
+            $mergedMTimeFile
+        ) && strcmp(
+            $filesMTimeData,
+            $directory->readFile($mergedMTimeFile)
+        ) == 0)
         ) {
             $this->strategy->mergeFiles($publicFiles, $destinationFile, $contentType);
             $directory->writeFile($mergedMTimeFile, $filesMTimeData);

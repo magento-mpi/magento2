@@ -11,11 +11,6 @@
 
 class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCase
 {
-    public function setUpBeforeTests()
-    {
-        $this->markTestIncomplete('MAGETWO-11472');
-    }
-
     private static $_customer = array();
 
     protected function assertPreConditions()
@@ -56,7 +51,7 @@ class Enterprise_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCas
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
         self::$_customer = array('email' => $userData['email']);

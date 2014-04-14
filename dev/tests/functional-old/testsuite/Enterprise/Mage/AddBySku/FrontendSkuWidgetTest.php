@@ -60,7 +60,7 @@ class Enterprise_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_TestC
         $this->flushCache();
         $this->reindexInvalidedData();
 
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($user);
         $this->assertMessagePresent('success', 'success_registration');
         $this->logoutCustomer();
@@ -150,7 +150,7 @@ class Enterprise_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_TestC
      */
     public function checkSkuWidgetWithLink($testData)
     {
-        //Steps        
+        //Steps
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($testData['category']);
         //Verifying
@@ -226,50 +226,56 @@ class Enterprise_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_TestC
         $this->cmsWidgetsHelper()->fillWidgetOptions($widgetOptions);
         $this->saveForm('save');
         $this->assertMessagePresent('success', 'successfully_saved_widget');
-        $this->clearInvalidedCache();
+        $this->flushCache();
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($testData['category']);
-        //Verifying    
+        //Verifying
         $this->assertSame($widgetOptions['sku_link_text'], $this->getControlAttribute('link', 'sku_link', 'text'),
             'The link on the Order by SKU widget is not changed.');
     }
-
 
     /**
      * <p>Valid values for QTY field according SRS</p>
      *
      * @param string $qty
+     * @param string $message
+     * @param string $messageType
      * @param array $testData
      *
      * @test
      * @dataProvider qtyListDataProvider
-     * @depends      preconditionsForTests
+     * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3933, TL-MAGE-3889
      */
-    public function qtyValidation($qty, $testData)
+    public function qtyValidation($qty, $message, $messageType, $testData)
     {
         //Steps:
         $this->customerHelper()->frontLoginCustomer($testData['customer']);
         $this->categoryHelper()->frontOpenCategory($testData['category']);
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array(
-            array('sku' => $testData['simple']['sku'], 'qty' => $qty)
-        ));
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows(
+            array(array('sku' => $testData['simple']['sku'], 'qty' => $qty))
+        );
         $this->saveForm('add_to_cart_by_sku');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('pageelement', 'requiring_attention_title'));
-        $this->assertMessagePresent('error', 'required_attention_product');
-        $this->assertMessagePresent('validation', 'enter_valid_qty');
+        if ($messageType == 'validation') {
+            $this->addFieldIdToMessage('field', 'qty');
+            $this->assertMessagePresent('validation', $message);
+        } else {
+            $this->assertTrue($this->controlIsVisible('fieldset', 'products_requiring_attention'));
+            $this->assertMessagePresent('error', 'required_attention_product');
+            $this->assertMessagePresent('error', $message);
+        }
     }
 
     public function qtyListDataProvider()
     {
         return array(
-            array('non-num'),
-            array('-5'),
-            array('0'),
-            array('0.00001'),
-            array('999999999.9999'),
-            array('')
+            array('non-num', 'enter_greater_than_zero', 'validation'),
+            array('-5', 'enter_greater_than_zero', 'validation'),
+            array('0', 'enter_greater_than_zero', 'validation'),
+            array('', 'empty_required_field', 'validation'),
+            array('0.00001', 'enter_valid_qty', 'error'),
+            array('99999999.9999', 'max_allowed_qty', 'error')
         );
     }
 
@@ -289,7 +295,8 @@ class Enterprise_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_TestC
         $this->categoryHelper()->frontOpenCategory($testData['category']);
         $this->saveForm('add_to_cart_by_sku');
         //Verifying
-        $this->assertMessagePresent('error', 'no_product_added_from_widget');
+        $this->addFieldIdToMessage('field', 'sku');
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     /**
@@ -303,15 +310,15 @@ class Enterprise_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_TestC
      */
     public function addSimpleProductWithEmptyRow($testData)
     {
-        $this->markTestIncomplete('BUG: Add Row link does not work');
         //Steps:
         $this->customerHelper()->frontLoginCustomer($testData['customer']);
         $this->categoryHelper()->frontOpenCategory($testData['category']);
+        $this->addFieldIdToMessage('field', 'sku');
         $this->clickButton('add_row', false);
         $this->addBySkuHelper()->frontFulfillSkuQtyRows(array($testData['simple']));
         $this->saveForm('add_to_cart_by_sku');
         //Verifying
-        $this->assertMessagePresent('success', 'product_added_to_cart_by_sku');
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     /**
@@ -331,7 +338,8 @@ class Enterprise_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_TestC
         $this->addBySkuHelper()->frontFulfillSkuQtyRows(array($testData['simple']));
         $this->saveForm('add_to_cart_by_sku');
         //Verifying
-        $this->assertMessagePresent('success', 'product_added_to_cart_by_sku');
+        $this->addParameter('productName', '1 product');
+        $this->assertMessagePresent('success', 'product_added_to_cart');
     }
 
     /**
@@ -351,8 +359,8 @@ class Enterprise_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_TestC
         $this->addBySkuHelper()->frontFulfillSkuQtyRows(array($testData['simple'], $testData['simple']));
         $this->saveForm('add_to_cart_by_sku');
         //Verifying
-        $this->addParameter('number', '2');
-        $this->assertMessagePresent('success', 'products_added_to_cart_by_sku');
+        $this->addParameter('productName', '2 products');
+        $this->assertMessagePresent('success', 'product_added_to_cart');
     }
 
     /**
@@ -371,11 +379,12 @@ class Enterprise_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_TestC
         $this->categoryHelper()->frontOpenCategory($testData['category']);
         $this->addBySkuHelper()->frontFulfillSkuQtyRows(array(
             $testData['simple'],
-            array('sku' => $testData['simple']['sku'], 'qty' => '#$%')
+            array('sku' => $testData['simple']['sku'], 'qty' => '-15'),
         ));
         $this->saveForm('add_to_cart_by_sku');
         //Verifying
-        $this->assertMessagePresent('error', 'sku_invalid_number');
+        $this->addFieldIdToMessage('field', 'qty');
+        $this->assertMessagePresent('validation', 'enter_greater_than_zero');
     }
 
     /**

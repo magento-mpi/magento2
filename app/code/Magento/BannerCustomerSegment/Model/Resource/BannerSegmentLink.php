@@ -11,10 +11,12 @@
  */
 namespace Magento\BannerCustomerSegment\Model\Resource;
 
-class BannerSegmentLink extends \Magento\Core\Model\Resource\Db\AbstractDb
+class BannerSegmentLink extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Setup association with a table
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -29,10 +31,13 @@ class BannerSegmentLink extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function loadBannerSegments($bannerId)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), 'segment_id')
-            ->where('banner_id = ?', $bannerId)
-        ;
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable(),
+            'segment_id'
+        )->where(
+            'banner_id = ?',
+            $bannerId
+        );
         return $this->_getReadAdapter()->fetchCol($select);
     }
 
@@ -41,6 +46,7 @@ class BannerSegmentLink extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $bannerId
      * @param array $segmentIds
+     * @return void
      */
     public function saveBannerSegments($bannerId, array $segmentIds)
     {
@@ -65,6 +71,7 @@ class BannerSegmentLink extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Zend_Db_Select $select
      * @param array $segmentIds
+     * @return void
      */
     public function addBannerSegmentFilter(\Zend_Db_Select $select, array $segmentIds)
     {

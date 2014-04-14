@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\CatalogRule\Model\Rule">
-        <param name="relatedCacheTypes">
-            <value>
-                <blockCache>block_html</blockCache>
-            </value>
-        </param>
+        <arguments>
+            <argument name="relatedCacheTypes" xsi:type="array">
+                <item name="blockCache" xsi:type="string">block_html</item>
+            </argument>
+        </arguments>
     </type>
 </config>

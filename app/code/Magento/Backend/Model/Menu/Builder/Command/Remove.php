@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Menu\Builder\Command;
 
 /**
  * Command to remove menu item
  */
-namespace Magento\Backend\Model\Menu\Builder\Command;
-
 class Remove extends \Magento\Backend\Model\Menu\Builder\AbstractCommand
 {
     /**

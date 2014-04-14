@@ -17,8 +17,7 @@
  */
 namespace Magento\Catalog\Model\Product\Attribute\Source;
 
-class Countryofmanufacture
-    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
+class Countryofmanufacture extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * @var \Magento\App\Cache\Type\Config
@@ -28,7 +27,7 @@ class Countryofmanufacture
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -43,12 +42,12 @@ class Countryofmanufacture
      * Construct
      *
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Cache\Type\Config $configCacheType
      */
     public function __construct(
         \Magento\Directory\Model\CountryFactory $countryFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\Cache\Type\Config $configCacheType
     ) {
         $this->_countryFactory = $countryFactory;
@@ -59,7 +58,7 @@ class Countryofmanufacture
     /**
      * Get list of all available countries
      *
-     * @return mixed
+     * @return array
      */
     public function getAllOptions()
     {
@@ -67,8 +66,7 @@ class Countryofmanufacture
         if ($cache = $this->_configCacheType->load($cacheKey)) {
             $options = unserialize($cache);
         } else {
-            $collection = $this->_countryFactory->create()->getResourceCollection()
-                ->loadByStore();
+            $collection = $this->_countryFactory->create()->getResourceCollection()->loadByStore();
             $options = $collection->toOptionArray();
             $this->_configCacheType->save(serialize($options), $cacheKey);
         }

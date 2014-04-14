@@ -7,7 +7,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\App\ObjectManager;
 
 class ConfigCache implements \Magento\ObjectManager\ConfigCache
@@ -48,10 +47,10 @@ class ConfigCache implements \Magento\ObjectManager\ConfigCache
      *
      * @param array $config
      * @param string $key
+     * @return void
      */
     public function save(array $config, $key)
     {
         $this->_cacheFrontend->save(serialize($config), $this->_prefix . $key);
     }
-
 }

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Model\Export\Entity\Customer;
 
 /**
  * Export customer finance entity model
@@ -18,10 +19,7 @@
  *
  * @method      array getData() getData()
  */
-namespace Magento\ScheduledImportExport\Model\Export\Entity\Customer;
-
-class Finance
-    extends \Magento\ImportExport\Model\Export\AbstractEntity
+class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
 {
     /**#@+
      * Permanent column names
@@ -29,16 +27,18 @@ class Finance
      * Names that begins with underscore is not an attribute. This name convention is for
      * to avoid interference with same attribute name.
      */
-    const COLUMN_EMAIL           = '_email';
-    const COLUMN_WEBSITE         = '_website';
+    const COLUMN_EMAIL = '_email';
+
+    const COLUMN_WEBSITE = '_website';
+
     const COLUMN_FINANCE_WEBSITE = '_finance_website';
+
     /**#@-*/
 
     /**
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME =
-        'Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection';
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection';
 
     /**
      * XML path to page size parameter
@@ -55,14 +55,14 @@ class Finance
     /**
      * Array of attributes for export
      *
-     * @var array
+     * @var string[]
      */
     protected $_entityAttributes;
 
     /**
      * Permanent entity columns
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array(self::COLUMN_EMAIL, self::COLUMN_WEBSITE, self::COLUMN_FINANCE_WEBSITE);
 
@@ -90,7 +90,7 @@ class Finance
     /**
      * @var \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory
      */
-    protected $_customerCollFactory;
+    protected $_customerCollectionFactory;
 
     /**
      * @var \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory
@@ -98,45 +98,44 @@ class Finance
     protected $_eavCustomerFactory;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
-     * @param \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollFactory
+     * @param \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
      * @param \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\App $app,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
-        \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollFactory,
+        \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollectionFactory,
         \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $data);
+        parent::__construct($scopeConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
 
-        $this->_customerCollFactory = $customerCollFactory;
+        $this->_customerCollectionFactory = $customerCollectionFactory;
         $this->_eavCustomerFactory = $eavCustomerFactory;
         $this->_importExportData = $importExportData;
 
-        $this->_initFrontendWebsites()
-            ->_initWebsites(true);
+        $this->_initFrontendWebsites()->_initWebsites(true);
         $this->setFileName($this->getEntityTypeCode());
     }
 
     /**
      * Initialize frontend websites
      *
-     * @return \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance
+     * @return $this
      */
     protected function _initFrontendWebsites()
     {
-        /** @var $website \Magento\Core\Model\Website */
-        foreach ($this->_websiteManager->getWebsites() as $website) {
+        /** @var $website \Magento\Store\Model\Website */
+        foreach ($this->_storeManager->getWebsites() as $website) {
             $this->_websiteIdToCode[$website->getId()] = $website->getCode();
         }
         return $this;
@@ -150,13 +149,13 @@ class Finance
     protected function _getEntityCollection()
     {
         if (empty($this->_customerCollection)) {
-            $this->_customerCollection = $this->_customerCollFactory->create();
+            $this->_customerCollection = $this->_customerCollectionFactory->create();
         }
         return $this->_customerCollection;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _getHeaderColumns()
     {
@@ -166,7 +165,7 @@ class Finance
     /**
      * Get list of permanent attributes
      *
-     * @return array
+     * @return string[]
      */
     public function getPermanentAttributes()
     {
@@ -193,7 +192,7 @@ class Finance
      * Export given customer data
      *
      * @param \Magento\Customer\Model\Customer $item
-     * @return string
+     * @return void
      */
     public function exportItem($item)
     {
@@ -203,18 +202,17 @@ class Finance
             $row = array();
             foreach ($validAttributeCodes as $code) {
                 $attributeCode = $websiteCode . '_' . $code;
-                $websiteData   = $item->getData($attributeCode);
+                $websiteData = $item->getData($attributeCode);
                 if (null !== $websiteData) {
                     $row[$code] = $websiteData;
                 }
             }
 
             if (!empty($row)) {
-                $row[self::COLUMN_EMAIL]           = $item->getEmail();
-                $row[self::COLUMN_WEBSITE]         = $this->_websiteIdToCode[$item->getWebsiteId()];
+                $row[self::COLUMN_EMAIL] = $item->getEmail();
+                $row[self::COLUMN_WEBSITE] = $this->_websiteIdToCode[$item->getWebsiteId()];
                 $row[self::COLUMN_FINANCE_WEBSITE] = $websiteCode;
-                $this->getWriter()
-                    ->writeRow($row);
+                $this->getWriter()->writeRow($row);
             }
         }
     }
@@ -222,7 +220,7 @@ class Finance
     /**
      * Set parameters (push filters from post into export customer model)
      *
-     * @param array $parameters
+     * @param string[] $parameters
      * @return \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address
      */
     public function setParameters(array $parameters)
@@ -259,7 +257,7 @@ class Finance
     /**
      * Get attributes for export
      *
-     * @return array
+     * @return string[]
      */
     protected function _getEntityAttributes()
     {

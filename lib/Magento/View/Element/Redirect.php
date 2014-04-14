@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element;
 
 /**
@@ -15,16 +14,22 @@ class Redirect extends Template
 {
     /**
      *  HTML form hidden fields
+     *
+     * @var array
      */
     protected $formFields = array();
 
     /**
+     * Form factory
+     *
      * @var \Magento\Data\FormFactory
      */
     protected $formFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * Constructor
+     *
+     * @param Template\Context $context
      * @param \Magento\Data\FormFactory $formFactory
      * @param array $data
      */
@@ -62,7 +67,7 @@ class Redirect extends Template
      *
      * @return string
      */
-    public function getRedirectOutput ()
+    public function getRedirectOutput()
     {
         if ($this->isHtmlFormRedirect()) {
             return $this->getHtmlFormRedirect();
@@ -80,7 +85,9 @@ class Redirect extends Template
     {
         return '<script type="text/javascript">
             (function($){
-                $($.mage.redirect("' . $this->getTargetURL() . '"));
+                $($.mage.redirect("' .
+            $this->getTargetURL() .
+            '"));
             })(jQuery);
         </script>';
     }
@@ -94,12 +101,20 @@ class Redirect extends Template
     {
         /** @var \Magento\Data\Form $form */
         $form = $this->formFactory->create();
-        $form->setAction($this->getTargetURL())
-            ->setId($this->getFormId())
-            ->setName($this->getFormId())
-            ->setAttr('data-auto-submit', 'true')
-            ->setMethod($this->getFormMethod())
-            ->setUseContainer(true);
+        $form->setAction(
+            $this->getTargetURL()
+        )->setId(
+            $this->getFormId()
+        )->setName(
+            $this->getFormId()
+        )->setAttr(
+            'data-auto-submit',
+            'true'
+        )->setMethod(
+            $this->getFormMethod()
+        )->setUseContainer(
+            true
+        );
         foreach ($this->_getFormFields() as $field => $value) {
             $form->addField($field, 'hidden', array('name' => $field, 'value' => $value));
         }
@@ -109,7 +124,7 @@ class Redirect extends Template
     /**
      * HTML form or JS redirect
      *
-     * @return boolean
+     * @return bool
      */
     public function isHtmlFormRedirect()
     {

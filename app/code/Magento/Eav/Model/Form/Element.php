@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Form;
 
+use Magento\Model\Exception;
 
 /**
  * Eav Form Element Model
@@ -26,9 +28,7 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Form;
-
-class Element extends \Magento\Core\Model\AbstractModel
+class Element extends \Magento\Model\AbstractModel
 {
     /**
      * Prefix of model events names
@@ -43,18 +43,18 @@ class Element extends \Magento\Core\Model\AbstractModel
     protected $_eavConfig;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -65,6 +65,7 @@ class Element extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -94,16 +95,16 @@ class Element extends \Magento\Core\Model\AbstractModel
     /**
      * Validate data before save data
      *
-     * @throws \Magento\Core\Exception
-     * @return \Magento\Eav\Model\Form\Element
+     * @throws Exception
+     * @return $this
      */
     protected function _beforeSave()
     {
         if (!$this->getTypeId()) {
-            throw new \Magento\Core\Exception(__('Invalid form type.'));
+            throw new Exception(__('Invalid form type.'));
         }
         if (!$this->getAttributeId()) {
-            throw new \Magento\Core\Exception(__('Invalid EAV attribute'));
+            throw new Exception(__('Invalid EAV attribute'));
         }
 
         return parent::_beforeSave();

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset;
 
 class MinifyServiceTest extends \PHPUnit_Framework_TestCase
@@ -35,14 +34,10 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
         $this->_config = $this->getMock('Magento\View\Asset\ConfigInterface', array(), array(), '', false);
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_appState = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
         $directory = $this->getMock('Magento\Filesystem\Directory\Read', array(), array(), '', false);
-        $filesystem->expects($this->any())
-            ->method('getDirectoryRead')
-            ->will($this->returnValue($directory));
-        $directory->expects($this->any())
-            ->method('getAbsolutePath')
-            ->will($this->returnArgument(0));
+        $filesystem->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($directory));
+        $directory->expects($this->any())->method('getAbsolutePath')->will($this->returnArgument(0));
         $this->_model = new \Magento\View\Asset\MinifyService(
             $this->_config,
             $this->_objectManager,
@@ -54,31 +49,37 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetAssets()
     {
         $assetOne = $this->getMockForAbstractClass('Magento\View\Asset\LocalInterface');
-        $assetOne->expects($this->once())
-            ->method('getContentType')
-            ->will($this->returnValue('js'));
+        $assetOne->expects($this->once())->method('getContentType')->will($this->returnValue('js'));
         $assetTwo = $this->getMockForAbstractClass('Magento\View\Asset\LocalInterface');
-        $assetTwo->expects($this->once())
-            ->method('getContentType')
-            ->will($this->returnValue('js'));
+        $assetTwo->expects($this->once())->method('getContentType')->will($this->returnValue('js'));
 
-        $this->_config->expects($this->once())
-            ->method('isAssetMinification')
-            ->with('js')
-            ->will($this->returnValue(true));
-        $this->_config->expects($this->once())
-            ->method('getAssetMinificationAdapter')
-            ->with('js')
-            ->will($this->returnValue('Magento\Code\Minifier\AdapterInterface'));
+        $this->_config->expects(
+            $this->once()
+        )->method(
+            'isAssetMinification'
+        )->with(
+            'js'
+        )->will(
+            $this->returnValue(true)
+        );
+        $this->_config->expects(
+            $this->once()
+        )->method(
+            'getAssetMinificationAdapter'
+        )->with(
+            'js'
+        )->will(
+            $this->returnValue('Magento\Code\Minifier\AdapterInterface')
+        );
 
         $self = $this;
-        $this->_objectManager->expects($this->any())
-            ->method('create')
-            ->will($this->returnCallback(
+        $this->_objectManager->expects($this->any())->method('create')->will(
+            $this->returnCallback(
                 function ($className) use ($self) {
                     return $self->getMock($className, array(), array(), '', false);
                 }
-            ));
+            )
+        );
 
         $minifiedAssets = $this->_model->getAssets(array($assetOne, $assetTwo));
         $this->assertCount(2, $minifiedAssets);
@@ -90,16 +91,18 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetAssetsDisabled()
     {
         $asset = $this->getMockForAbstractClass('Magento\View\Asset\LocalInterface');
-        $asset->expects($this->once())
-            ->method('getContentType')
-            ->will($this->returnValue('js'));
+        $asset->expects($this->once())->method('getContentType')->will($this->returnValue('js'));
 
-        $this->_config->expects($this->once())
-            ->method('isAssetMinification')
-            ->with('js')
-            ->will($this->returnValue(false));
-        $this->_config->expects($this->never())
-            ->method('getAssetMinificationAdapter');
+        $this->_config->expects(
+            $this->once()
+        )->method(
+            'isAssetMinification'
+        )->with(
+            'js'
+        )->will(
+            $this->returnValue(false)
+        );
+        $this->_config->expects($this->never())->method('getAssetMinificationAdapter');
 
         $minifiedAssets = $this->_model->getAssets(array($asset));
         $this->assertCount(1, $minifiedAssets);
@@ -113,17 +116,18 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetAssetsNoAdapterDefined()
     {
         $asset = $this->getMockForAbstractClass('Magento\View\Asset\LocalInterface');
-        $asset->expects($this->once())
-            ->method('getContentType')
-            ->will($this->returnValue('js'));
+        $asset->expects($this->once())->method('getContentType')->will($this->returnValue('js'));
 
-        $this->_config->expects($this->once())
-            ->method('isAssetMinification')
-            ->with('js')
-            ->will($this->returnValue(true));
-        $this->_config->expects($this->once())
-            ->method('getAssetMinificationAdapter')
-            ->with('js');
+        $this->_config->expects(
+            $this->once()
+        )->method(
+            'isAssetMinification'
+        )->with(
+            'js'
+        )->will(
+            $this->returnValue(true)
+        );
+        $this->_config->expects($this->once())->method('getAssetMinificationAdapter')->with('js');
 
         $this->_model->getAssets(array($asset));
     }
@@ -135,27 +139,31 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAssetsAppModes($mode, $expectedStrategy)
     {
-        $this->_appState->expects($this->once())
-            ->method('getMode')
-            ->will($this->returnValue($mode));
+        $this->_appState->expects($this->once())->method('getMode')->will($this->returnValue($mode));
 
         $asset = $this->getMockForAbstractClass('Magento\View\Asset\LocalInterface');
-        $asset->expects($this->once())
-            ->method('getContentType')
-            ->will($this->returnValue('js'));
+        $asset->expects($this->once())->method('getContentType')->will($this->returnValue('js'));
 
-        $this->_config->expects($this->once())
-            ->method('isAssetMinification')
-            ->with('js')
-            ->will($this->returnValue(true));
-        $this->_config->expects($this->once())
-            ->method('getAssetMinificationAdapter')
-            ->with('js')
-            ->will($this->returnValue('Magento\Code\Minifier\AdapterInterface'));
+        $this->_config->expects(
+            $this->once()
+        )->method(
+            'isAssetMinification'
+        )->with(
+            'js'
+        )->will(
+            $this->returnValue(true)
+        );
+        $this->_config->expects(
+            $this->once()
+        )->method(
+            'getAssetMinificationAdapter'
+        )->with(
+            'js'
+        )->will(
+            $this->returnValue('Magento\Code\Minifier\AdapterInterface')
+        );
 
-        $this->_objectManager->expects($this->at(1))
-            ->method('create')
-            ->with($expectedStrategy);
+        $this->_objectManager->expects($this->at(1))->method('create')->with($expectedStrategy);
 
         $this->_model->getAssets(array($asset));
     }
@@ -166,18 +174,9 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
     public function getAssetsAppModesDataProvider()
     {
         return array(
-            'production' => array(
-                \Magento\App\State::MODE_PRODUCTION,
-                'Magento\Code\Minifier\Strategy\Lite'
-            ),
-            'default'    => array(
-                \Magento\App\State::MODE_DEFAULT,
-                'Magento\Code\Minifier\Strategy\Generate'
-            ),
-            'developer'  => array(
-                \Magento\App\State::MODE_DEVELOPER,
-                'Magento\Code\Minifier\Strategy\Generate'
-            ),
+            'production' => array(\Magento\App\State::MODE_PRODUCTION, 'Magento\Code\Minifier\Strategy\Lite'),
+            'default' => array(\Magento\App\State::MODE_DEFAULT, 'Magento\Code\Minifier\Strategy\Generate'),
+            'developer' => array(\Magento\App\State::MODE_DEVELOPER, 'Magento\Code\Minifier\Strategy\Generate')
         );
     }
 }

@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code;
 
 use Magento\Tools\I18n\Code\Dictionary\Phrase;
@@ -33,6 +32,7 @@ class Dictionary
      * Add phrase to pack container
      *
      * @param \Magento\Tools\I18n\Code\Dictionary\Phrase $phrase
+     * @return void
      */
     public function addPhrase(Phrase $phrase)
     {
@@ -57,8 +57,13 @@ class Dictionary
      */
     public function getDuplicates()
     {
-        return array_values(array_filter($this->_phrasesByKey, function ($phrases) {
-            return count($phrases) > 1;
-        }));
+        return array_values(
+            array_filter(
+                $this->_phrasesByKey,
+                function ($phrases) {
+                    return count($phrases) > 1;
+                }
+            )
+        );
     }
 }

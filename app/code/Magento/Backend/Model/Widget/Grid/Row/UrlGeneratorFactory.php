@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Backend\Model\Widget\Grid\Row;
 
 /**
  * Grid row url generator factory
@@ -16,8 +16,6 @@
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Model\Widget\Grid\Row;
-
 class UrlGeneratorFactory
 {
     /**
@@ -44,7 +42,7 @@ class UrlGeneratorFactory
     public function createUrlGenerator($generatorClassName, array $arguments = array())
     {
         $rowUrlGenerator = $this->_objectManager->create($generatorClassName, $arguments);
-        if (false === ($rowUrlGenerator instanceof \Magento\Backend\Model\Widget\Grid\Row\GeneratorInterface)) {
+        if (false === $rowUrlGenerator instanceof \Magento\Backend\Model\Widget\Grid\Row\GeneratorInterface) {
             throw new \InvalidArgumentException('Passed wrong parameters');
         }
 

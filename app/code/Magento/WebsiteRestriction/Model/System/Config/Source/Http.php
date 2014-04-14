@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\WebsiteRestriction\Model\System\Config\Source;
 
 /**
  * Sys config source model for stub page statuses
  *
  */
-namespace Magento\WebsiteRestriction\Model\System\Config\Source;
-
-class Http extends \Magento\Object implements \Magento\Core\Model\Option\ArrayInterface
+class Http extends \Magento\Object implements \Magento\Option\ArrayInterface
 {
     /**
      * Get options for select
@@ -26,12 +25,9 @@ class Http extends \Magento\Object implements \Magento\Core\Model\Option\ArrayIn
         return array(
             array(
                 'value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_503,
-                'label' => __('503 Service Unavailable'),
+                'label' => __('503 Service Unavailable')
             ),
-            array(
-                'value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_200,
-                'label' => __('200 OK'),
-            ),
+            array('value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_200, 'label' => __('200 OK'))
         );
     }
 }

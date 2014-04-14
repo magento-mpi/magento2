@@ -10,8 +10,8 @@
 ---
 #CMS Pages page
 manage_cms_pages:
-    mca: cms_page/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'cms_page/')]
+    mca: cms/page/
+    click_xpath: //ul[@id='nav']//a[span='Pages']
     title: Pages / Elements / Content / Magento Admin
     uimap:
         form:
@@ -50,7 +50,7 @@ manage_cms_pages:
             confirmation_for_delete: Are you sure you want to do this?
 
 create_cms_page:
-    mca: cms_page/new/
+    mca: cms/page/new/
     title: New Page / Pages / Elements / Content / Magento Admin
     uimap:
         form: &createPage
@@ -97,7 +97,7 @@ create_cms_page:
                                         show_hide_editor: //button[span='Show / Hide Editor']
                             -
                                 widget_insertion:
-                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Insert Widget...']]
+                                    xpath: //div[div/span[text()='Insert Widget...']]
                                     dropdowns:
                                         widget_type: //select[@name='widget_type']
                                         template: //select[@name='parameters[template]']
@@ -118,7 +118,7 @@ create_cms_page:
                                         chosen_option_verify: //label[@class='widget-option-label' and normalize-space(text())='%elementName%']
                             -
                                 select_page:
-                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Select Page...']]
+                                    xpath: //div[div/span[text()='Select Page...']]
                                     fields:
                                         page: //input[@name='page']
                                         filter_id: //input[@name='chooser_id']
@@ -136,7 +136,7 @@ create_cms_page:
                                         product_table_head: //table/thead/tr[@class='headings']
                             -
                                 select_block:
-                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Select Block...']]
+                                    xpath: //div[div/span[text()='Select Block...']]
                                     fields:
                                         page: //input[@name='page']
                                         filter_id: //input[@name='chooser_id']
@@ -153,7 +153,7 @@ create_cms_page:
                                         product_table_head: //table/thead/tr[@class='headings']
                             -
                                 select_category:
-                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Select Category...']]
+                                    xpath: //div[div/span[text()='Select Category...']]
                                     links:
                                         select_category_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
                                         select_category_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
@@ -166,7 +166,7 @@ create_cms_page:
                                         close_category_insertion: //a[@class='ui-dialog-titlebar-close ui-corner-all']
                             -
                                 select_product:
-                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Select Product...']]
+                                    xpath: //div[div/span[text()='Select Product...']]
                                     fields:
                                         page: //input[@name='page']
                                         filter_id: //input[@name='entity_id']
@@ -189,7 +189,7 @@ create_cms_page:
                                         product_table_head: //table/thead/tr[@class='headings']
                             -
                                 file_insertion:
-                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Insert File...']]
+                                    xpath: //div[div/span[text()='Insert File...']]
                                     buttons:
                                         browse_files: #TODO flash
                                         template: #TODO flash
@@ -202,7 +202,7 @@ create_cms_page:
                                         sub_storage: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
                             -
                                 variable_insertion:
-                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Insert Variable...']]
+                                    xpath: //div[div/span='Insert Variable...']
                                     links:
                                         variable: //a[text()='%variableName%']
                                     buttons:
@@ -255,7 +255,7 @@ create_cms_page:
         messages: *pageMessages
 
 edit_cms_page:
-    mca: cms_page/edit/page_id/%id%/
+    mca: cms/page/edit/page_id/%id%/
     title: %elementTitle% / Pages / Elements / Content / Magento Admin
     uimap:
         form: *createPage
@@ -268,7 +268,7 @@ edit_cms_page:
         messages: *pageMessages
 
 save_and_continue_edit_cms_page:
-    mca: cms_page/edit/page_id/%id%/back/edit/active_tab/%tab%/
+    mca: cms/page/edit/page_id/%id%/back/edit/active_tab/%tab%/
     title: %elementTitle% / Pages / Elements / Content / Magento Admin
     uimap:
         form: *createPage
@@ -281,7 +281,7 @@ save_and_continue_edit_cms_page:
         messages: *pageMessages
 
 error_cms_page:
-    mca: cms_page/edit/
+    mca: cms/page/edit/
     title: New Page / Pages / Elements / Content / Magento Admin
     uimap:
         form: *createPage

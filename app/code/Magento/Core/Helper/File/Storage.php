@@ -29,11 +29,9 @@ class Storage extends \Magento\App\Helper\AbstractHelper
     /**
      * List of internal storages
      *
-     * @var array
+     * @var int[]
      */
-    protected $_internalStorageList = array(
-        \Magento\Core\Model\File\Storage::STORAGE_MEDIA_FILE_SYSTEM
-    );
+    protected $_internalStorageList = array(\Magento\Core\Model\File\Storage::STORAGE_MEDIA_FILE_SYSTEM);
 
     /**
      * Core file storage database
@@ -55,7 +53,7 @@ class Storage extends \Magento\App\Helper\AbstractHelper
     protected $_filesystemStorage;
 
     /**
-     * @var \Magento\Core\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $config;
 
@@ -64,14 +62,14 @@ class Storage extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\File\Storage $storage
      * @param \Magento\Core\Model\File\Storage\File $filesystemStorage
-     * @param \Magento\Core\Model\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Model\File\Storage $storage,
         \Magento\Core\Model\File\Storage\File $filesystemStorage,
-        \Magento\Core\Model\ConfigInterface $config
+        \Magento\App\Config\ScopeConfigInterface $config
     ) {
         $this->_filesystemStorage = $filesystemStorage;
         $this->_coreFileStorageDb = $coreFileStorageDb;
@@ -88,8 +86,9 @@ class Storage extends \Magento\App\Helper\AbstractHelper
     public function getCurrentStorageCode()
     {
         if (is_null($this->_currentStorage)) {
-            $this->_currentStorage = (int) $this->config->getValue(
-                \Magento\Core\Model\File\Storage::XML_PATH_STORAGE_MEDIA, 'default'
+            $this->_currentStorage = (int)$this->config->getValue(
+                \Magento\Core\Model\File\Storage::XML_PATH_STORAGE_MEDIA,
+                'default'
             );
         }
 
@@ -114,7 +113,7 @@ class Storage extends \Magento\App\Helper\AbstractHelper
      */
     public function isInternalStorage($storage = null)
     {
-        $storage = (!is_null($storage)) ? (int) $storage : $this->getCurrentStorageCode();
+        $storage = !is_null($storage) ? (int)$storage : $this->getCurrentStorageCode();
 
         return in_array($storage, $this->_internalStorageList);
     }
@@ -124,7 +123,7 @@ class Storage extends \Magento\App\Helper\AbstractHelper
      *
      * @param  int|null $storage
      * @param  array $params
-     * @return \Magento\Core\Model\AbstractModel|bool
+     * @return \Magento\Model\AbstractModel|bool
      */
     public function getStorageModel($storage = null, $params = array())
     {
@@ -166,5 +165,4 @@ class Storage extends \Magento\App\Helper\AbstractHelper
     {
         return $this->getStorageFileModel()->saveFile($file, true);
     }
-
 }

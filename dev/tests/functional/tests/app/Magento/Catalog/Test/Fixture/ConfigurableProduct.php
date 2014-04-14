@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Test\Fixture;
 
 use Mtf\System\Config;
@@ -26,7 +25,7 @@ class ConfigurableProduct extends Product
     /**
      * Mapping data into ui tabs
      */
-    const GROUP = 'product_info_tabs_super_config_content';
+    const GROUP = 'variations';
 
     /**
      * @var array
@@ -50,6 +49,7 @@ class ConfigurableProduct extends Product
      * Provide data to product from new attribute
      *
      * @param ProductAttribute $attribute
+     * @return void
      */
     public function provideNewAttributeData(ProductAttribute $attribute)
     {
@@ -154,7 +154,7 @@ class ConfigurableProduct extends Product
     public function persist()
     {
         $id = Factory::getApp()->magentoCatalogCreateConfigurable($this);
-        $this->_data['fields']['id']['value'] = $id;
+        $this->_data['id']['value'] = $id;
 
         return $this;
     }
@@ -190,6 +190,8 @@ class ConfigurableProduct extends Product
 
     /**
      * Init Data
+     *
+     * @return void
      */
     protected function _initData()
     {
@@ -218,8 +220,12 @@ class ConfigurableProduct extends Product
                     'value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS
                 ),
-                'website_ids' => array(
-                    'value' => array(1),
+                'product_website_1' => array(
+                    'value' => 'Yes',
+                    'input_value' => array(1),
+                    'group' => static::GROUP_PRODUCT_WEBSITE,
+                    'input' => 'checkbox',
+                    'input_name' => 'website_ids'
                 ),
                 'configurable_attributes_data' => array(
                     'value' => array(
@@ -268,6 +274,10 @@ class ConfigurableProduct extends Product
                                 )
                             ),
                             'value' => array(
+                                'display' => array(
+                                    'value' => 'Yes',
+                                    'input' => 'checkbox'
+                                ),
                                 'name' => array(
                                     'value' => 'Variation 0-%isolation%'
                                 ),
@@ -286,6 +296,10 @@ class ConfigurableProduct extends Product
                                 )
                             ),
                             'value' => array(
+                                'display' => array(
+                                    'value' => 'Yes',
+                                    'input' => 'checkbox'
+                                ),
                                 'name' => array(
                                     'value' => 'Variation 1-%isolation%'
                                 ),
@@ -359,12 +373,28 @@ class ConfigurableProduct extends Product
             foreach ($attributes as $attribute) {
                 $optionCount = 0;
                 while (isset($attribute[$optionCount])) {
-                    if ($attribute[$optionCount]['option_label']['value'] == $optionName)
+                    if ($attribute[$optionCount]['option_label']['value'] == $optionName) {
                         $price += $attribute[$optionCount]['pricing_value']['value'];
+                    }
                     ++$optionCount;
                 }
             }
         }
         return $price;
+    }
+
+    /**
+     * Prepare edit configurable product data
+     *
+     * @return $this
+     */
+    public function getEditData()
+    {
+        $data = $this->getData();
+        $this->switchData('edit_configurable');
+        $editData = $this->getData();
+        $data['fields']['variations-matrix'] = $editData['fields']['variations-matrix'];
+        $this->_data = array_replace_recursive($data, $editData);
+        return $this;
     }
 }

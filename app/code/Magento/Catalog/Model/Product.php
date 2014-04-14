@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model;
 
 /**
  * Catalog product model
  *
- * @method \Magento\Catalog\Model\Resource\Product getResource()
- * @method \Magento\Catalog\Model\Resource\Product _getResource()
+ * @method Resource\Product getResource()
+ * @method Resource\Product _getResource()
  * @method \Magento\Catalog\Model\Product setHasError(bool $value)
  * @method null|bool getHasError()
  * @method \Magento\Catalog\Model\Product setTypeId(string $typeId)
@@ -20,23 +21,40 @@
  * @method array getAssociatedProductIds()
  * @method \Magento\Catalog\Model\Product setNewVariationsAttributeSetId(int $value)
  * @method int getNewVariationsAttributeSetId()
+ * @method \Magento\Catalog\Model\Resource\Product\Collection getCollection()
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Catalog\Model;
-
-class Product extends \Magento\Catalog\Model\AbstractModel
+class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Entity code.
      * Can be used as part of method name for entity processing
      */
-    const ENTITY                 = 'catalog_product';
+    const ENTITY = 'catalog_product';
 
-    const CACHE_TAG              = 'catalog_product';
-    protected $_cacheTag         = 'catalog_product';
-    protected $_eventPrefix      = 'catalog_product';
-    protected $_eventObject      = 'product';
+    const CACHE_TAG = 'catalog_product';
+
+    const CACHE_CATEGORY_TAG = 'catalog_category_product';
+
+    /**
+     * @var string
+     */
+    protected $_cacheTag = 'catalog_product';
+
+    /**
+     * @var string
+     */
+    protected $_eventPrefix = 'catalog_product';
+
+    /**
+     * @var string
+     */
+    protected $_eventObject = 'product';
+
+    /**
+     * @var bool
+     */
     protected $_canAffectOptions = false;
 
     /**
@@ -49,7 +67,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Product link instance
      *
-     * @var \Magento\Catalog\Model\Product\Link
+     * @var Product\Link
      */
     protected $_linkInstance;
 
@@ -63,28 +81,36 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Product Url Instance
      *
-     * @var \Magento\Catalog\Model\Product\Url
+     * @var Product\Url
      */
     protected $_urlModel = null;
 
+    /**
+     * @var string
+     */
     protected static $_url;
+
+    /**
+     * @var string
+     */
     protected static $_urlRewrite;
 
+    /**
+     * @var array
+     */
     protected $_errors = array();
 
     /**
      * Product option
      *
-     * @var \Magento\Catalog\Model\Product\Option
+     * @var Product\Option
      */
     protected $_optionInstance;
 
-    protected $_options = array();
-
     /**
-     * Product reserved attribute codes
+     * @var array
      */
-    protected $_reservedAttributes;
+    protected $_options = array();
 
     /**
      * Flag for available duplicate function
@@ -129,7 +155,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Catalog product type
      *
-     * @var \Magento\Catalog\Model\Product\Type
+     * @var Product\Type
      */
     protected $_catalogProductType;
 
@@ -143,21 +169,21 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Catalog product media config
      *
-     * @var \Magento\Catalog\Model\Product\Media\Config
+     * @var Product\Media\Config
      */
     protected $_catalogProductMediaConfig;
 
     /**
      * Catalog product status
      *
-     * @var \Magento\Catalog\Model\Product\Status
+     * @var \Magento\Catalog\Model\Product\Attribute\Source\Status
      */
     protected $_catalogProductStatus;
 
     /**
      * Catalog product visibility
      *
-     * @var \Magento\Catalog\Model\Product\Visibility
+     * @var Product\Visibility
      */
     protected $_catalogProductVisibility;
 
@@ -190,30 +216,39 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_itemOptionFactory;
 
     /**
-     * @var \Magento\App\State
-     */
-    protected $_appState;
-
-    /**
      * Filesystem facade
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @var \Magento\Indexer\Model\IndexerInterface
+     */
+    protected $categoryIndexer;
+
+    /**
+     * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor
+     */
+    protected $_productFlatIndexerProcessor;
+
+    /**
+     * @var \Magento\Catalog\Model\Indexer\Product\Price\Processor
+     */
+    protected $_productPriceIndexerProcessor;
+
+    /**
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Product\Url $url
      * @param Product\Link $productLink
      * @param Product\Configuration\Item\OptionFactory $itemOptionFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
-     * @param ProductFactory $productFactory
      * @param CategoryFactory $categoryFactory
      * @param Product\Option $catalogProductOption
      * @param Product\Visibility $catalogProductVisibility
-     * @param Product\Status $catalogProductStatus
+     * @param Product\Attribute\Source\Status $catalogProductStatus
      * @param Product\Media\Config $catalogProductMediaConfig
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param Product\Type $catalogProductType
@@ -223,39 +258,43 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param Resource\Product $resource
      * @param Resource\Product\Collection $resourceCollection
      * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Indexer\Model\IndexerInterface $categoryIndexer
+     * @param Indexer\Product\Flat\Processor $productFlatIndexerProcessor
+     * @param Indexer\Product\Price\Processor $productPriceIndexerProcessor
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Product\Url $url,
-        \Magento\Catalog\Model\Product\Link $productLink,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        Product\Url $url,
+        Product\Link $productLink,
         \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Product\Option $catalogProductOption,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
-        \Magento\Catalog\Model\Product\Status $catalogProductStatus,
+        \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus,
         \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig,
         \Magento\Index\Model\Indexer $indexIndexer,
-        \Magento\Catalog\Model\Product\Type $catalogProductType,
+        Product\Type $catalogProductType,
         \Magento\Catalog\Helper\Image $catalogImage,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\Catalog\Model\Resource\Product $resource,
-        \Magento\Catalog\Model\Resource\Product\Collection $resourceCollection,
+        Resource\Product $resource,
+        Resource\Product\Collection $resourceCollection,
         \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
+        \Magento\Indexer\Model\IndexerInterface $categoryIndexer,
+        \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
+        \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
         $this->_stockItemFactory = $stockItemFactory;
-        $this->_productFactory = $productFactory;
         $this->_categoryFactory = $categoryFactory;
         $this->_optionInstance = $catalogProductOption;
         $this->_catalogProductVisibility = $catalogProductVisibility;
@@ -270,15 +309,33 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_urlModel = $url;
         $this->_linkInstance = $productLink;
         $this->_filesystem = $filesystem;
+        $this->categoryIndexer = $categoryIndexer;
+        $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
+        $this->_productPriceIndexerProcessor = $productPriceIndexerProcessor;
         parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
 
     /**
      * Initialize resources
+     *
+     * @return void
      */
     protected function _construct()
     {
         $this->_init('Magento\Catalog\Model\Resource\Product');
+    }
+
+    /**
+     * Return product category indexer object
+     *
+     * @return \Magento\Indexer\Model\IndexerInterface
+     */
+    protected function getCategoryIndexer()
+    {
+        if (!$this->categoryIndexer->getId()) {
+            $this->categoryIndexer->load(Indexer\Product\Category::INDEXER_ID);
+        }
+        return $this->categoryIndexer;
     }
 
     /**
@@ -309,7 +366,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Get product url model
      *
-     * @return \Magento\Catalog\Model\Product\Url
+     * @return Product\Url
      */
     public function getUrlModel()
     {
@@ -384,7 +441,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     public function getStatus()
     {
         if (is_null($this->_getData('status'))) {
-            $this->setData('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
+            $this->setData('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         }
         return $this->_getData('status');
     }
@@ -398,8 +455,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     public function getTypeInstance()
     {
         if ($this->_typeInstance === null) {
-            $this->_typeInstance = $this->_catalogProductType
-                ->factory($this);
+            $this->_typeInstance = $this->_catalogProductType->factory($this);
         }
         return $this->_typeInstance;
     }
@@ -419,7 +475,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Retrieve link instance
      *
-     * @return  \Magento\Catalog\Model\Product\Link
+     * @return  Product\Link
      */
     public function getLinkInstance()
     {
@@ -444,7 +500,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getCategoryId()
     {
-        $category = $this->_coreRegistry->registry('current_category');
+        $category = $this->_registry->registry('current_category');
         if ($category) {
             return $category->getId();
         }
@@ -560,6 +616,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel
 
     /**
      * Check product options and type options and save them, too
+     *
+     * @return void
      */
     protected function _beforeSave()
     {
@@ -569,7 +627,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
 
         $this->getTypeInstance()->beforeSave($this);
 
-        $hasOptions         = false;
+        $hasOptions = false;
         $hasRequiredOptions = false;
 
         /**
@@ -584,7 +642,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
                 $this->setIsCustomOptionChanged(true);
                 foreach ($this->getProductOptions() as $option) {
                     $this->getOptionInstance()->addOption($option);
-                    if ((!isset($option['is_delete'])) || $option['is_delete'] != '1') {
+                    if (!isset($option['is_delete']) || $option['is_delete'] != '1') {
                         $hasOptions = true;
                     }
                 }
@@ -611,6 +669,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         } elseif ($this->canAffectOptions()) {
             $this->setHasOptions(false);
             $this->setRequiredOptions(false);
+        }
+
+        if (!$this->getOrigData('website_ids')) {
+            $websiteIds = $this->_getResource()->getWebsiteIds($this);
+            $this->setOrigData('website_ids', $websiteIds);
         }
 
         parent::_beforeSave();
@@ -641,18 +704,43 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->getLinkInstance()->saveProductRelations($this);
         $this->getTypeInstance()->save($this);
 
+        $this->_getResource()->addCommitCallback(array($this, 'priceReindexCallback'));
+
         /**
          * Product Options
          */
-        $this->getOptionInstance()->setProduct($this)
-            ->saveOptions();
+        $this->getOptionInstance()->setProduct($this)->saveOptions();
 
         $result = parent::_afterSave();
 
-        $this->_indexIndexer->processEntityAction(
-            $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
-        );
+        $this->_indexIndexer->processEntityAction($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE);
+        $this->_getResource()->addCommitCallback(array($this, 'reindex'));
         return $result;
+    }
+
+    /**
+     * Callback for entity reindex
+     *
+     * @return void
+     */
+    public function priceReindexCallback()
+    {
+        if ($this->isObjectNew() || $this->_catalogProduct->isDataForPriceIndexerWasChanged($this)) {
+            $this->_productPriceIndexerProcessor->reindexRow($this->getEntityId());
+        }
+    }
+
+    /**
+     * Init indexing process after product save
+     *
+     * @return void
+     */
+    public function reindex()
+    {
+        $this->_productFlatIndexerProcessor->reindexRow($this->getEntityId());
+        if (!$this->getCategoryIndexer()->isScheduled()) {
+            $this->getCategoryIndexer()->reindexRow($this->getId());
+        }
     }
 
     /**
@@ -663,31 +751,28 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     protected function _beforeDelete()
     {
-        $this->_protectFromNonAdmin();
         $this->cleanCache();
-        $this->_indexIndexer->logEvent(
-            $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE
-        );
+        $this->_indexIndexer->logEvent($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE);
         return parent::_beforeDelete();
     }
 
     /**
      * Init indexing process after product delete commit
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return void
      */
     protected function _afterDeleteCommit()
     {
+        $this->reindex();
+        $this->_productPriceIndexerProcessor->reindexRow($this->getId());
         parent::_afterDeleteCommit();
-        $this->_indexIndexer->indexEvents(
-            self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE
-        );
+        $this->_indexIndexer->indexEvents(self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE);
     }
 
     /**
      * Load product options if they exists
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -701,17 +786,18 @@ class Product extends \Magento\Catalog\Model\AbstractModel
                 $this->addOption($option);
             }
         }
+
         return $this;
     }
 
     /**
      * Clear cache related with product id
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return $this
      */
     public function cleanCache()
     {
-        $this->_cacheManager->clean('catalog_product_'.$this->getId());
+        $this->_cacheManager->clean('catalog_product_' . $this->getId());
         return $this;
     }
 
@@ -738,10 +824,10 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Get product tier price by qty
      *
-     * @param   double $qty
-     * @return  double
+     * @param   float $qty
+     * @return  float|array
      */
-    public function getTierPrice($qty=null)
+    public function getTierPrice($qty = null)
     {
         return $this->getPriceModel()->getTierPrice($qty, $this);
     }
@@ -759,10 +845,10 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Get formated by currency tier price
      *
-     * @param   double $qty
+     * @param   float $qty
      * @return  array || double
      */
-    public function getFormatedTierPrice($qty=null)
+    public function getFormatedTierPrice($qty = null)
     {
         return $this->getPriceModel()->getFormatedTierPrice($qty, $this);
     }
@@ -796,10 +882,10 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Get product final price
      *
-     * @param double $qty
-     * @return double
+     * @param float $qty
+     * @return float
      */
-    public function getFinalPrice($qty=null)
+    public function getFinalPrice($qty = null)
     {
         $price = $this->_getData('final_price');
         if ($price !== null) {
@@ -858,10 +944,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         return $this->_getData('special_to_date');
     }
 
-
-/*******************************************************************************
- ** Linked products API
- */
+    /*******************************************************************************
+     ** Linked products API
+     */
     /**
      * Retrieve array of related products
      *
@@ -904,9 +989,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getRelatedProductCollection()
     {
-        $collection = $this->getLinkInstance()->useRelatedLinks()
-            ->getProductCollection()
-            ->setIsStrongMode();
+        $collection = $this->getLinkInstance()->useRelatedLinks()->getProductCollection()->setIsStrongMode();
         $collection->setProduct($this);
         return $collection;
     }
@@ -918,8 +1001,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getRelatedLinkCollection()
     {
-        $collection = $this->getLinkInstance()->useRelatedLinks()
-            ->getLinkCollection();
+        $collection = $this->getLinkInstance()->useRelatedLinks()->getLinkCollection();
         $collection->setProduct($this);
         $collection->addLinkTypeIdFilter();
         $collection->addProductIdFilter();
@@ -968,9 +1050,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getUpSellProductCollection()
     {
-        $collection = $this->getLinkInstance()->useUpSellLinks()
-            ->getProductCollection()
-            ->setIsStrongMode();
+        $collection = $this->getLinkInstance()->useUpSellLinks()->getProductCollection()->setIsStrongMode();
         $collection->setProduct($this);
         return $collection;
     }
@@ -982,8 +1062,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getUpSellLinkCollection()
     {
-        $collection = $this->getLinkInstance()->useUpSellLinks()
-            ->getLinkCollection();
+        $collection = $this->getLinkInstance()->useUpSellLinks()->getLinkCollection();
         $collection->setProduct($this);
         $collection->addLinkTypeIdFilter();
         $collection->addProductIdFilter();
@@ -1032,9 +1111,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getCrossSellProductCollection()
     {
-        $collection = $this->getLinkInstance()->useCrossSellLinks()
-            ->getProductCollection()
-            ->setIsStrongMode();
+        $collection = $this->getLinkInstance()->useCrossSellLinks()->getProductCollection()->setIsStrongMode();
         $collection->setProduct($this);
         return $collection;
     }
@@ -1046,8 +1123,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getCrossSellLinkCollection()
     {
-        $collection = $this->getLinkInstance()->useCrossSellLinks()
-            ->getLinkCollection();
+        $collection = $this->getLinkInstance()->useCrossSellLinks()->getLinkCollection();
         $collection->setProduct($this);
         $collection->addLinkTypeIdFilter();
         $collection->addProductIdFilter();
@@ -1055,25 +1131,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         return $collection;
     }
 
-    /**
-     * Retrieve collection grouped link
-     *
-     * @return \Magento\Catalog\Model\Resource\Product\Link\Collection
+    /*******************************************************************************
+     ** Media API
      */
-    public function getGroupedLinkCollection()
-    {
-        $collection = $this->getLinkInstance()->useGroupedLinks()
-            ->getLinkCollection();
-        $collection->setProduct($this);
-        $collection->addLinkTypeIdFilter();
-        $collection->addProductIdFilter();
-        $collection->joinAttributes();
-        return $collection;
-    }
-
-/*******************************************************************************
- ** Media API
- */
     /**
      * Retrieve attributes for media gallery
      *
@@ -1084,7 +1144,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         if (!$this->hasMediaAttributes()) {
             $mediaAttributes = array();
             foreach ($this->getAttributes() as $attribute) {
-                if($attribute->getFrontend()->getInputType() == 'media_image') {
+                if ($attribute->getFrontend()->getInputType() == 'media_image') {
                     $mediaAttributes[$attribute->getAttributeCode()] = $attribute;
                 }
             }
@@ -1100,8 +1160,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getMediaGalleryImages()
     {
-        $directory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
-        if(!$this->hasData('media_gallery_images') && is_array($this->getMediaGallery('images'))) {
+        $directory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
+        if (!$this->hasData('media_gallery_images') && is_array($this->getMediaGallery('images'))) {
             $images = $this->_collectionFactory->create();
             foreach ($this->getMediaGallery('images') as $image) {
                 if (isset($image['disabled']) && $image['disabled']) {
@@ -1128,7 +1188,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param boolean       $exclude           mark image as disabled in product page view
      * @return \Magento\Catalog\Model\Product
      */
-    public function addImageToMediaGallery($file, $mediaAttribute=null, $move=false, $exclude=true)
+    public function addImageToMediaGallery($file, $mediaAttribute = null, $move = false, $exclude = true)
     {
         $attributes = $this->getTypeInstance()->getSetAttributes($this);
         if (!isset($attributes['media_gallery'])) {
@@ -1143,162 +1203,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Retrieve product media config
      *
-     * @return \Magento\Catalog\Model\Product\Media\Config
+     * @return Product\Media\Config
      */
     public function getMediaConfig()
     {
         return $this->_catalogProductMediaConfig;
-    }
-
-    /**
-     * Create duplicate
-     *
-     * @return \Magento\Catalog\Model\Product
-     */
-    public function duplicate()
-    {
-        $this->getWebsiteIds();
-        $this->getCategoryIds();
-
-        /* @var $newProduct \Magento\Catalog\Model\Product */
-        $newProduct = $this->_productFactory->create()->setData($this->getData())
-            ->setIsDuplicate(true)
-            ->setOriginalId($this->getId())
-            ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED)
-            ->setCreatedAt(null)
-            ->setUpdatedAt(null)
-            ->setId(null)
-            ->setStoreId($this->_storeManager->getStore()->getId());
-
-        $this->_eventManager->dispatch(
-            'catalog_model_product_duplicate',
-            array('current_product' => $this, 'new_product' => $newProduct)
-        );
-
-        /* Prepare Related*/
-        $data = array();
-        $this->getLinkInstance()->useRelatedLinks();
-        $attributes = array();
-        foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
-            if (isset($_attribute['code'])) {
-                $attributes[] = $_attribute['code'];
-            }
-        }
-        foreach ($this->getRelatedLinkCollection() as $_link) {
-            $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
-        }
-        $newProduct->setRelatedLinkData($data);
-
-        /* Prepare UpSell*/
-        $data = array();
-        $this->getLinkInstance()->useUpSellLinks();
-        $attributes = array();
-        foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
-            if (isset($_attribute['code'])) {
-                $attributes[] = $_attribute['code'];
-            }
-        }
-        foreach ($this->getUpSellLinkCollection() as $_link) {
-            $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
-        }
-        $newProduct->setUpSellLinkData($data);
-
-        /* Prepare Cross Sell */
-        $data = array();
-        $this->getLinkInstance()->useCrossSellLinks();
-        $attributes = array();
-        foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
-            if (isset($_attribute['code'])) {
-                $attributes[] = $_attribute['code'];
-            }
-        }
-        foreach ($this->getCrossSellLinkCollection() as $_link) {
-            $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
-        }
-        $newProduct->setCrossSellLinkData($data);
-
-        /* Prepare Grouped */
-        $data = array();
-        $this->getLinkInstance()->useGroupedLinks();
-        $attributes = array();
-        foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
-            if (isset($_attribute['code'])) {
-                $attributes[] = $_attribute['code'];
-            }
-        }
-        foreach ($this->getGroupedLinkCollection() as $_link) {
-            $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
-        }
-        $newProduct->setGroupedLinkData($data);
-
-        $newProduct->save();
-
-        $this->getOptionInstance()->duplicate($this->getId(), $newProduct->getId());
-        $this->getResource()->duplicate($this->getId(), $newProduct->getId());
-
-        // TODO - duplicate product on all stores of the websites it is associated with
-        /*if ($storeIds = $this->getWebsiteIds()) {
-            foreach ($storeIds as $storeId) {
-                $this->setStoreId($storeId)
-                   ->load($this->getId());
-
-                $newProduct->setData($this->getData())
-                    ->setSku(null)
-                    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED)
-                    ->setId($newId)
-                    ->save();
-            }
-        }*/
-        return $newProduct;
-    }
-
-    /**
-     * Is product grouped
-     *
-     * @return bool
-     */
-    public function isSuperGroup()
-    {
-        return $this->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_GROUPED;
-    }
-
-    /**
-     * Alias for isConfigurable()
-     *
-     * @return bool
-     */
-    public function isSuperConfig()
-    {
-        return $this->isConfigurable();
-    }
-    /**
-     * Check is product grouped
-     *
-     * @return bool
-     */
-    public function isGrouped()
-    {
-        return $this->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_GROUPED;
-    }
-
-    /**
-     * Check is product configurable
-     *
-     * @return bool
-     */
-    public function isConfigurable()
-    {
-        return $this->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE;
-    }
-
-    /**
-     * Whether product configurable or grouped
-     *
-     * @return bool
-     */
-    public function isSuper()
-    {
-        return $this->isConfigurable() || $this->isGrouped();
     }
 
     /**
@@ -1369,10 +1278,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function setIsDuplicable($value)
     {
-        $this->_isDuplicable = (boolean) $value;
+        $this->_isDuplicable = (bool)$value;
         return $this;
     }
-
 
     /**
      * Check is product available for sale
@@ -1381,20 +1289,15 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function isSalable()
     {
-        $this->_eventManager->dispatch('catalog_product_is_salable_before', array(
-            'product'   => $this
-        ));
+        $this->_eventManager->dispatch('catalog_product_is_salable_before', array('product' => $this));
 
         $salable = $this->isAvailable();
 
-        $object = new \Magento\Object(array(
-            'product'    => $this,
-            'is_salable' => $salable
-        ));
-        $this->_eventManager->dispatch('catalog_product_is_salable_after', array(
-            'product'   => $this,
-            'salable'   => $object
-        ));
+        $object = new \Magento\Object(array('product' => $this, 'is_salable' => $salable));
+        $this->_eventManager->dispatch(
+            'catalog_product_is_salable_after',
+            array('product' => $this, 'salable' => $object)
+        );
         return $object->getIsSalable();
     }
 
@@ -1405,8 +1308,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function isAvailable()
     {
-        return $this->getTypeInstance()->isSalable($this)
-            || $this->_catalogProduct->getSkipSaleableCheck();
+        return $this->getTypeInstance()->isSalable($this) || $this->_catalogProduct->getSkipSaleableCheck();
     }
 
     /**
@@ -1439,16 +1341,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * Whether the product is a recurring payment
-     *
-     * @return bool
-     */
-    public function isRecurring()
-    {
-        return $this->getIsRecurring() == '1';
-    }
-
-    /**
      * Alias for isSalable()
      *
      * @return bool
@@ -1465,21 +1357,22 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function isInStock()
     {
-        return $this->getStatus() == \Magento\Catalog\Model\Product\Status::STATUS_ENABLED;
+        return $this->getStatus() == \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED;
     }
 
     /**
      * Get attribute text by its code
      *
-     * @param $attributeCode Code of the attribute
+     * @param string $attributeCode Code of the attribute
      * @return string
      */
     public function getAttributeText($attributeCode)
     {
-        return $this->getResource()
-            ->getAttribute($attributeCode)
-            ->getSource()
-            ->getOptionText($this->getData($attributeCode));
+        return $this->getResource()->getAttribute(
+            $attributeCode
+        )->getSource()->getOptionText(
+            $this->getData($attributeCode)
+        );
     }
 
     /**
@@ -1521,7 +1414,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Formats URL key
      *
-     * @param $str URL
+     * @param string $str URL
      * @return string
      */
     public function formatUrlKey($str)
@@ -1535,7 +1428,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Catalog\Model\Category $category
      * @return string
      */
-    public function getUrlPath($category=null)
+    public function getUrlPath($category = null)
     {
         return $this->getUrlModel()->getUrlPath($this, $category);
     }
@@ -1567,7 +1460,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param array $arrAttributes Attribute array
      * @return array
      */
-    public function toArray(array $arrAttributes=array())
+    public function toArray(array $arrAttributes = array())
     {
         $data = parent::toArray($arrAttributes);
         if ($stock = $this->getStockItem()) {
@@ -1587,9 +1480,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     {
         if (isset($data['stock_item'])) {
             if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
-                $stockItem = $this->_stockItemFactory->create()
-                    ->setData($data['stock_item'])
-                    ->setProduct($this);
+                $stockItem = $this->_stockItemFactory->create()->setData($data['stock_item'])->setProduct($this);
                 $this->setStockItem($stockItem);
             }
             unset($data['stock_item']);
@@ -1606,7 +1497,10 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     public function delete()
     {
         parent::delete();
-        $this->_eventManager->dispatch($this->_eventPrefix.'_delete_after_done', array($this->_eventObject=>$this));
+        $this->_eventManager->dispatch(
+            $this->_eventPrefix . '_delete_after_done',
+            array($this->_eventObject => $this)
+        );
         return $this;
     }
 
@@ -1624,20 +1518,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * Custom function for other modules
      * @return string
      */
-
     public function getGiftMessageAvailable()
     {
         return $this->_getData('gift_message_available');
-    }
-
-    /**
-     * Returns rating summary
-     *
-     * @return mixed
-     */
-    public function getRatingSummary()
-    {
-        return $this->_getData('rating_summary');
     }
 
     /**
@@ -1684,7 +1567,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Retrieve option instance
      *
-     * @return \Magento\Catalog\Model\Product\Option
+     * @return Product\Option
      */
     public function getOptionInstance()
     {
@@ -1698,8 +1581,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getProductOptionsCollection()
     {
-        $collection = $this->getOptionInstance()
-            ->getProductOptionCollection($this);
+        $collection = $this->getOptionInstance()->getProductOptionCollection($this);
 
         return $collection;
     }
@@ -1707,10 +1589,10 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Add option to array of product options
      *
-     * @param \Magento\Catalog\Model\Product\Option $option
+     * @param Product\Option $option
      * @return \Magento\Catalog\Model\Product
      */
-    public function addOption(\Magento\Catalog\Model\Product\Option $option)
+    public function addOption(Product\Option $option)
     {
         $this->_options[$option->getId()] = $option;
         return $this;
@@ -1720,7 +1602,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * Get option from options array of product by given option id
      *
      * @param int $optionId
-     * @return \Magento\Catalog\Model\Product\Option | null
+     * @return Product\Option|null
      */
     public function getOptionById($optionId)
     {
@@ -1756,19 +1638,15 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      *
      * @param   string $code    Option code
      * @param   mixed  $value   Value of the option
-     * @param   int    $product Product ID
-     * @return  \Magento\Catalog\Model\Product
+     * @param   int|Product    $product Product ID
+     * @return  $this
      */
-    public function addCustomOption($code, $value, $product=null)
+    public function addCustomOption($code, $value, $product = null)
     {
         $product = $product ? $product : $this;
-        $option = $this->_itemOptionFactory->create()
-            ->addData(array(
-                'product_id'=> $product->getId(),
-                'product'   => $product,
-                'code'      => $code,
-                'value'     => $value,
-            ));
+        $option = $this->_itemOptionFactory->create()->addData(
+            array('product_id' => $product->getId(), 'product' => $product, 'code' => $code, 'value' => $value)
+        );
         $this->_customOptions[$code] = $option;
         return $this;
     }
@@ -1864,59 +1742,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     *  Returns system reserved attribute codes
-     *
-     *  @return array Reserved attribute names
-     */
-    public function getReservedAttributes()
-    {
-        if ($this->_reservedAttributes === null) {
-            $_reserved = array('position');
-            $methods = get_class_methods(__CLASS__);
-            foreach ($methods as $method) {
-                if (preg_match('/^get([A-Z]{1}.+)/', $method, $matches)) {
-                    $method = $matches[1];
-                    $tmp = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $method));
-                    $_reserved[] = $tmp;
-                }
-            }
-            $_allowed = array(
-                'type_id','calculated_final_price','request_path','rating_summary'
-            );
-            $this->_reservedAttributes = array_diff($_reserved, $_allowed);
-        }
-        return $this->_reservedAttributes;
-    }
-
-    /**
-     *  Check whether attribute reserved or not
-     *
-     *  @param \Magento\Catalog\Model\Entity\Attribute $attribute Attribute model object
-     *  @return boolean
-     */
-    public function isReservedAttribute ($attribute)
-    {
-        return $attribute->getIsUserDefined()
-            && in_array($attribute->getAttributeCode(), $this->getReservedAttributes());
-    }
-
-    /**
-     * Set original loaded data if needed
-     *
-     * @param string $key
-     * @param mixed $data
-     * @return \Magento\Object
-     */
-    public function setOrigData($key=null, $data=null)
-    {
-        if ($this->_appState->getAreaCode() === \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE) {
-            return parent::setOrigData($key, $data);
-        }
-
-        return $this;
-    }
-
-    /**
      * Reset all model data
      *
      * @return \Magento\Catalog\Model\Product
@@ -1931,7 +1756,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Get cache tags associated with object id
      *
-     * @return array
+     * @return string[]
      */
     public function getCacheIdTags()
     {
@@ -1941,7 +1766,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
             $affectedCategoryIds = $this->getCategoryIds();
         }
         foreach ($affectedCategoryIds as $categoryId) {
-            $tags[] = \Magento\Catalog\Model\Category::CACHE_TAG.'_'.$categoryId;
+            $tags[] = \Magento\Catalog\Model\Category::CACHE_TAG . '_' . $categoryId;
         }
         return $tags;
     }
@@ -1979,9 +1804,12 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         /* add product custom options data */
         $customOptions = $buyRequest->getOptions();
         if (is_array($customOptions)) {
-            array_filter($customOptions, function ($value) {
-                return $value !== '';
-            });
+            array_filter(
+                $customOptions,
+                function ($value) {
+                    return $value !== '';
+                }
+            );
             $options->setOptions($customOptions);
         }
 
@@ -2003,12 +1831,12 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getPreconfiguredValues()
     {
-        $preconfiguredValues = $this->getData('preconfigured_values');
-        if (!$preconfiguredValues) {
-            $preconfiguredValues = new \Magento\Object();
+        $preConfiguredValues = $this->getData('preconfigured_values');
+        if (!$preConfiguredValues) {
+            $preConfiguredValues = new \Magento\Object();
         }
 
-        return $preconfiguredValues;
+        return $preConfiguredValues;
     }
 
     /**
@@ -2046,18 +1874,18 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     protected function _clearData()
     {
-        foreach ($this->_data as $data){
-            if (is_object($data) && method_exists($data, 'reset')){
+        foreach ($this->_data as $data) {
+            if (is_object($data) && method_exists($data, 'reset')) {
                 $data->reset();
             }
         }
 
         $this->setData(array());
         $this->setOrigData();
-        $this->_customOptions       = array();
-        $this->_options             = array();
-        $this->_canAffectOptions    = false;
-        $this->_errors              = array();
+        $this->_customOptions = array();
+        $this->_options = array();
+        $this->_canAffectOptions = false;
+        $this->_errors = array();
 
         return $this;
     }
@@ -2100,7 +1928,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function isDisabled()
     {
-        return $this->getStatus() == \Magento\Catalog\Model\Product\Status::STATUS_DISABLED;
+        return $this->getStatus() == \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED;
     }
 
     /**
@@ -2112,5 +1940,69 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     {
         $this->getTypeInstance()->setImageFromChildProduct($this);
         return parent::getImage();
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $identities = array(self::CACHE_TAG . '_' . $this->getId());
+        $identities = array_merge($identities, $this->getTypeInstance()->getIdentities($this));
+
+        if ($this->_isDataChanged()) {
+            $identities = $this->_getCategoryIdentities($identities);
+        } else {
+            $identities = $this->_getCategoryProductIdentities($identities);
+        }
+        return $identities;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function _isDataChanged()
+    {
+        $isDataChanged = ($this->getOrigData() == null && $this->getData()) || $this->isDeleted();
+        if (!$isDataChanged) {
+            foreach ($this->getOrigData() as $key => $value) {
+                if ($this->getData($key) != $value) {
+                    $isDataChanged = true;
+                    break;
+                }
+            }
+        }
+        return $isDataChanged;
+    }
+
+    /**
+     * @param array $identities
+     * @return array
+     */
+    protected function _getCategoryIdentities($identities)
+    {
+        $categoryIds = $this->getAffectedCategoryIds();
+        if (!$categoryIds) {
+            $categoryIds = $this->getCategoryIds();
+        }
+        foreach ($categoryIds as $categoryId) {
+            $identities[] = Category::CACHE_TAG . '_' . $categoryId;
+        }
+        return $identities;
+    }
+
+    /**
+     * @param array $identities
+     * @return array
+     */
+    protected function _getCategoryProductIdentities($identities)
+    {
+        $categoryIds = $this->getCategoryIds();
+        foreach ($categoryIds as $categoryId) {
+            $identities[] = self::CACHE_CATEGORY_TAG . '_' . $categoryId;
+        }
+        return $identities;
     }
 }

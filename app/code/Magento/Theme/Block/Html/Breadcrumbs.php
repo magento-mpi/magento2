@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 /**
@@ -23,16 +22,9 @@ class Breadcrumbs extends \Magento\View\Element\Template
     /**
      * List of available breadcrumb properties
      *
-     * @var array
+     * @var string[]
      */
-    protected $_properties = array(
-        'label',
-        'title',
-        'link',
-        'first',
-        'last',
-        'readonly',
-    );
+    protected $_properties = array('label', 'title', 'link', 'first', 'last', 'readonly');
 
     /**
      * List of breadcrumbs
@@ -53,7 +45,7 @@ class Breadcrumbs extends \Magento\View\Element\Template
      *
      * @param string $crumbName
      * @param array $crumbInfo
-     * @return \Magento\Theme\Block\Html\Breadcrumbs
+     * @return $this
      */
     public function addCrumb($crumbName, $crumbInfo)
     {
@@ -63,7 +55,7 @@ class Breadcrumbs extends \Magento\View\Element\Template
             }
         }
 
-        if ((!isset($this->_crumbs[$crumbName])) || (!$this->_crumbs[$crumbName]['readonly'])) {
+        if (!isset($this->_crumbs[$crumbName]) || !$this->_crumbs[$crumbName]['readonly']) {
             $this->_crumbs[$crumbName] = $crumbInfo;
         }
 
@@ -82,7 +74,7 @@ class Breadcrumbs extends \Magento\View\Element\Template
         if (is_null($this->_cacheKeyInfo)) {
             $this->_cacheKeyInfo = parent::getCacheKeyInfo() + array(
                 'crumbs' => base64_encode(serialize($this->_crumbs)),
-                'name' => $this->getNameInLayout(),
+                'name' => $this->getNameInLayout()
             );
         }
         return $this->_cacheKeyInfo;

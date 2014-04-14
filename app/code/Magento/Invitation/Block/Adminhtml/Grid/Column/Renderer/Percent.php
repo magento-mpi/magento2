@@ -16,8 +16,7 @@
  */
 namespace Magento\Invitation\Block\Adminhtml\Grid\Column\Renderer;
 
-class Percent
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Number
+class Percent extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Number
 {
     /**
      * Renders grid column

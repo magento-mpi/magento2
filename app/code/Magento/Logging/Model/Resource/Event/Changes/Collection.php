@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Logging\Model\Resource\Event\Changes;
 
 /**
  * Log items collection
@@ -16,13 +16,12 @@
  * @package     Magento_Logging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Logging\Model\Resource\Event\Changes;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource
      *
+     * @return void
      */
     protected function _construct()
     {

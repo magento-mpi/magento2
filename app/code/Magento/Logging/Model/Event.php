@@ -5,15 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Logging\Model;
 
 /**
  * Logging event model
  */
-namespace Magento\Logging\Model;
-
-class Event extends \Magento\Core\Model\AbstractModel
+class Event extends \Magento\Model\AbstractModel
 {
     const RESULT_SUCCESS = 'success';
+
     const RESULT_FAILURE = 'failure';
 
     /**
@@ -26,18 +26,18 @@ class Event extends \Magento\Core\Model\AbstractModel
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\User\Model\UserFactory $userFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\User\Model\UserFactory $userFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -48,6 +48,8 @@ class Event extends \Magento\Core\Model\AbstractModel
 
     /**
      * Constructor
+     *
+     * @return void
      */
     public function _construct()
     {
@@ -57,13 +59,13 @@ class Event extends \Magento\Core\Model\AbstractModel
     /**
      * Set some data automatically before saving model
      *
-     * @return \Magento\Logging\Model\Event
+     * @return $this
      */
     protected function _beforeSave()
     {
         if (!$this->getId()) {
             $this->setStatus($this->getIsSuccess() ? self::RESULT_SUCCESS : self::RESULT_FAILURE);
-            if (!$this->getUser() && $id = $this->getUserId()) {
+            if (!$this->getUser() && ($id = $this->getUserId())) {
                 $this->setUser($this->_userFactory->create()->load($id)->getUserName());
             }
             if (!$this->hasTime()) {

@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Order\Address;
+
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Order address attribute condition
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Order\Address;
-
-class Attributes
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Attributes extends AbstractCondition
 {
     /**
      * Array of Customer Address attributes used for customer segment
@@ -65,7 +66,7 @@ class Attributes
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -82,27 +83,21 @@ class Attributes
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
         $conditions = array();
         foreach ($attributes as $code => $label) {
-            $conditions[] = array(
-                'value' => $this->getType() . '|' . $code,
-                'label' => $label
-            );
+            $conditions[] = array('value' => $this->getType() . '|' . $code, 'label' => $label);
         }
 
-        return array(
-            'value' => $conditions,
-            'label' => __('Order Address Attributes')
-        );
+        return array('value' => $conditions, 'label' => __('Order Address Attributes'));
     }
 
     /**
      * Load attribute options
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Attributes
+     * @return $this
      */
     public function loadAttributeOptions()
     {
         if (is_null($this->_attributes)) {
-            $this->_attributes  = array();
+            $this->_attributes = array();
 
             $attributes = array();
             foreach ($this->_eavConfig->getEntityAttributeCodes('customer_address') as $attributeCode) {
@@ -134,13 +129,11 @@ class Attributes
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = $this->_countryFactory->create()
-                        ->toOptionArray();
+                    $options = $this->_countryFactory->create()->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = $this->_allregionFactory->create()
-                        ->toOptionArray();
+                    $options = $this->_allregionFactory->create()->toOptionArray();
                     break;
 
                 default:
@@ -171,7 +164,8 @@ class Attributes
     public function getInputType()
     {
         switch ($this->getAttribute()) {
-            case 'country_id': case 'region_id':
+            case 'country_id':
+            case 'region_id':
                 return 'select';
         }
         return 'string';
@@ -185,7 +179,8 @@ class Attributes
     public function getValueElementType()
     {
         switch ($this->getAttribute()) {
-            case 'country_id': case 'region_id':
+            case 'country_id':
+            case 'region_id':
                 return 'select';
         }
         return 'text';
@@ -215,8 +210,8 @@ class Attributes
     /**
      * Get condition query for order address attribute
      *
-     * @param $customer
-     * @param $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)

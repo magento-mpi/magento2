@@ -19,6 +19,7 @@ class Locks extends \Magento\Backend\App\Action
     /**
      * Render page with grid
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -32,16 +33,18 @@ class Locks extends \Magento\Backend\App\Action
     /**
      * Render AJAX-grid only
      *
+     * @return void
      */
     public function gridAction()
     {
         $this->_view->loadLayout(false);
         $this->_view->renderLayout();
-
     }
 
     /**
      * Unlock specified users
+     *
+     * @return void
      */
     public function massUnlockAction()
     {
@@ -50,11 +53,9 @@ class Locks extends \Magento\Backend\App\Action
             $userIds = $this->getRequest()->getPost('unlock');
             if ($userIds && is_array($userIds)) {
                 $affectedUsers = $this->_objectManager->get('Magento\Pci\Model\Resource\Admin\User')->unlock($userIds);
-                $this->_objectManager->get('Magento\Backend\Model\Session')
-                        ->addSuccess(__('Unlocked %1 user(s).', $affectedUsers));
+                $this->getMessageManager()->addSuccess(__('Unlocked %1 user(s).', $affectedUsers));
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         }
         $this->_redirect('adminhtml/*/');

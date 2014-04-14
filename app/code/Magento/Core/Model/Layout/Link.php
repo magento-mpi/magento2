@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Layout;
 
 /**
  * Layout Link model class
@@ -18,12 +19,12 @@
  * @method \Magento\Core\Model\Layout\Link setThemeId($id)
  * @method \Magento\Core\Model\Layout\Link setLayoutUpdateId($id)
  */
-namespace Magento\Core\Model\Layout;
-
-class Link extends \Magento\Core\Model\AbstractModel
+class Link extends \Magento\Model\AbstractModel
 {
     /**
      * Layout Update model initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

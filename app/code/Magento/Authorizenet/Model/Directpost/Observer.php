@@ -7,25 +7,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Authorizenet directpayment observer
- *
- * @category    Magento
- * @package     Magento_Authorizenet
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Authorizenet\Model\Directpost;
 
+/**
+ * Authorize.net directpayment observer
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Observer
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
-    
+
     /**
      * Core helper
      *
@@ -41,9 +38,9 @@ class Observer
     protected $_authorizenetData;
 
     /**
-     * @var \Magento\Authorizenet\Model\DirectpostFactory
+     * @var \Magento\Authorizenet\Model\Directpost
      */
-    protected $_modelFactory;
+    protected $_payment;
 
     /**
      * @var \Magento\Authorizenet\Model\Directpost\Session
@@ -51,30 +48,30 @@ class Observer
     protected $_session;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Authorizenet\Helper\Data $authorizenetData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Authorizenet\Model\DirectpostFactory $modelFactory
+     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Authorizenet\Model\Directpost $payment
      * @param \Magento\Authorizenet\Model\Directpost\Session $session
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Authorizenet\Helper\Data $authorizenetData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Authorizenet\Model\DirectpostFactory $modelFactory,
+        \Magento\Registry $coreRegistry,
+        \Magento\Authorizenet\Model\Directpost $payment,
         \Magento\Authorizenet\Model\Directpost\Session $session,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_authorizenetData = $authorizenetData;
         $this->_coreData = $coreData;
-        $this->_modelFactory = $modelFactory;
+        $this->_payment = $payment;
         $this->_session = $session;
         $this->_storeManager = $storeManager;
     }
@@ -83,7 +80,7 @@ class Observer
      * Save order into registry to use it in the overloaded controller.
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Authorizenet\Model\Directpost\Observer
+     * @return $this
      */
     public function saveOrderAfterSubmit(\Magento\Event\Observer $observer)
     {
@@ -98,7 +95,7 @@ class Observer
      * Set data for response of frontend saveOrder action
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Authorizenet\Model\Directpost\Observer
+     * @return $this
      */
     public function addAdditionalFieldsToResponseFrontend(\Magento\Event\Observer $observer)
     {
@@ -107,9 +104,11 @@ class Observer
 
         if ($order && $order->getId()) {
             $payment = $order->getPayment();
-            if ($payment && $payment->getMethod() == $this->_modelFactory->create()->getCode()) {
-                $request = $observer->getEvent()->getRequest();
-                $response = $observer->getEvent()->getResponse();
+            if ($payment && $payment->getMethod() == $this->_payment->getCode()) {
+                /** @var \Magento\Checkout\Controller\Action $controller */
+                $controller = $observer->getEvent()->getData('controller_action');
+                $request = $controller->getRequest();
+                $response = $controller->getResponse();
                 $result = $this->_coreData->jsonDecode($response->getBody('default'));
 
                 if (empty($result['error'])) {
@@ -117,11 +116,11 @@ class Observer
                     //if success, then set order to session and add new fields
                     $this->_session->addCheckoutOrderIncrementId($order->getIncrementId());
                     $this->_session->setLastOrderIncrementId($order->getIncrementId());
-                    $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
-                    $requestToPaygate->setControllerActionName($request->getControllerName());
-                    $requestToPaygate->setIsSecure((string)$this->_storeManager->getStore()->isCurrentlySecure());
+                    $requestToAuthorizenet = $payment->getMethodInstance()->generateRequestFromOrder($order);
+                    $requestToAuthorizenet->setControllerActionName($request->getControllerName());
+                    $requestToAuthorizenet->setIsSecure((string)$this->_storeManager->getStore()->isCurrentlySecure());
 
-                    $result['directpost'] = array('fields' => $requestToPaygate->getData());
+                    $result['directpost'] = array('fields' => $requestToAuthorizenet->getData());
 
                     $response->clearHeader('Location');
                     $response->setBody($this->_coreData->jsonEncode($result));
@@ -137,11 +136,11 @@ class Observer
      * Needed for correct work of edit orders in Admin area.
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Authorizenet\Model\Directpost\Observer
+     * @return $this
      */
     public function updateAllEditIncrements(\Magento\Event\Observer $observer)
     {
-         /* @var $order \Magento\Sales\Model\Order */
+        /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getData('order');
         $this->_authorizenetData->updateOrderEditIncrements($order);
 

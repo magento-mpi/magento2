@@ -37,7 +37,7 @@ class Controllers
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -78,7 +78,7 @@ class Controllers
      * @param \Magento\Logging\Helper\Data $loggingData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $actionAttribute
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\Logging\Model\Event\ChangesFactory $eventChangesFactory
@@ -89,7 +89,7 @@ class Controllers
         \Magento\Logging\Helper\Data $loggingData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $actionAttribute,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\App\RequestInterface $request,
         \Magento\App\ResponseInterface $response,
         \Magento\Logging\Model\Event\ChangesFactory $eventChangesFactory
@@ -111,15 +111,13 @@ class Controllers
      * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @param \Magento\Logging\Model\Processor $processorModel
-     * @return \Magento\Logging\Model\Event
+     * @return bool
      */
     public function postDispatchGeneric($config, $eventModel, $processorModel)
     {
         $collectedIds = $processorModel->getCollectedIds();
         if ($collectedIds) {
-            $eventModel->setInfo(
-                $this->_loggingData->implodeValues($collectedIds)
-            );
+            $eventModel->setInfo($this->_loggingData->implodeValues($collectedIds));
             return true;
         }
         return false;
@@ -183,7 +181,9 @@ class Controllers
         //For each group of current section creating separated event change
         if (isset($postData['groups'])) {
             foreach ($postData['groups'] as $groupName => $groupData) {
-                foreach (isset($groupData['fields']) ? $groupData['fields'] : [] as $fieldName => $fieldValueData) {
+                foreach (isset(
+                    $groupData['fields']
+                ) ? $groupData['fields'] : array() as $fieldName => $fieldValueData) {
                     //Clearing config data accordingly to collected skip fields
                     if (!in_array($fieldName, $skipEncrypted) && isset($fieldValueData['value'])) {
                         $groupFieldsData[$fieldName] = $fieldValueData['value'];
@@ -191,9 +191,7 @@ class Controllers
                 }
 
                 $processor->addEventChanges(
-                    clone $change->setSourceName($groupName)
-                        ->setOriginalData(array())
-                        ->setResultData($groupFieldsData)
+                    clone $change->setSourceName($groupName)->setOriginalData(array())->setResultData($groupFieldsData)
                 );
                 $groupFieldsData = array();
             }
@@ -239,7 +237,8 @@ class Controllers
     public function postDispatchForgotPassword($config, $eventModel)
     {
         if ($this->_request->isPost()) {
-            if ($model = $this->_coreRegistry->registry('magento_logging_saved_model_adminhtml_index_forgotpassword')) {
+            if ($model = $this->_coreRegistry->registry('magento_logging_saved_model_adminhtml_index_forgotpassword')
+            ) {
                 $info = $model->getId();
             } else {
                 $info = $this->_request->getParam('email');
@@ -289,14 +288,17 @@ class Controllers
         $filter = $this->_request->getParam('filter');
 
         //Filtering request data
-        $data = array_intersect_key($this->_request->getParams(), array(
-            'report_from' => null,
-            'report_to' => null,
-            'report_period' => null,
-            'store' => null,
-            'website' => null,
-            'group' => null
-        ));
+        $data = array_intersect_key(
+            $this->_request->getParams(),
+            array(
+                'report_from' => null,
+                'report_to' => null,
+                'report_period' => null,
+                'store' => null,
+                'website' => null,
+                'group' => null
+            )
+        );
 
         //Need when in request data there are was no period info
         if ($filter) {
@@ -308,9 +310,9 @@ class Controllers
         if ($data) {
             /** @var \Magento\Logging\Model\Event\Changes $change */
             $change = $this->_eventChangesFactory->create();
-            $processor->addEventChanges($change->setSourceName('params')
-                ->setOriginalData(array())
-                ->setResultData($data));
+            $processor->addEventChanges(
+                $change->setSourceName('params')->setOriginalData(array())->setResultData($data)
+            );
         }
 
         return $eventModel->setInfo($fullActionNameParts[1]);
@@ -401,35 +403,59 @@ class Controllers
             $products = $this->_actionAttribute->getProductIds();
         }
         if ($products) {
-            $processor->addEventChanges(clone $change->setSourceName('product')
-                ->setOriginalData(array())
-                ->setResultData(array('ids' => implode(', ', $products))));
+            $processor->addEventChanges(
+                clone $change->setSourceName(
+                    'product'
+                )->setOriginalData(
+                    array()
+                )->setResultData(
+                    array('ids' => implode(', ', $products))
+                )
+            );
         }
 
-        $processor->addEventChanges(clone $change->setSourceName('inventory')
-                ->setOriginalData(array())
-                ->setResultData($this->_request->getParam('inventory', array())));
+        $processor->addEventChanges(
+            clone $change->setSourceName(
+                'inventory'
+            )->setOriginalData(
+                array()
+            )->setResultData(
+                $this->_request->getParam('inventory', array())
+            )
+        );
         $attributes = $this->_request->getParam('attributes', array());
         $status = $this->_request->getParam('status', null);
         if (!$attributes && $status) {
             $attributes['status'] = $status;
         }
-        $processor->addEventChanges(clone $change->setSourceName('attributes')
-                ->setOriginalData(array())
-                ->setResultData($attributes));
+        $processor->addEventChanges(
+            clone $change->setSourceName('attributes')->setOriginalData(array())->setResultData($attributes)
+        );
 
         $websiteIds = $this->_request->getParam('remove_website', array());
         if ($websiteIds) {
-            $processor->addEventChanges(clone $change->setSourceName('remove_website_ids')
-                ->setOriginalData(array())
-                ->setResultData(array('ids' => implode(', ', $websiteIds))));
+            $processor->addEventChanges(
+                clone $change->setSourceName(
+                    'remove_website_ids'
+                )->setOriginalData(
+                    array()
+                )->setResultData(
+                    array('ids' => implode(', ', $websiteIds))
+                )
+            );
         }
 
         $websiteIds = $this->_request->getParam('add_website', array());
         if ($websiteIds) {
-            $processor->addEventChanges(clone $change->setSourceName('add_website_ids')
-                ->setOriginalData(array())
-                ->setResultData(array('ids' => implode(', ', $websiteIds))));
+            $processor->addEventChanges(
+                clone $change->setSourceName(
+                    'add_website_ids'
+                )->setOriginalData(
+                    array()
+                )->setResultData(
+                    array('ids' => implode(', ', $websiteIds))
+                )
+            );
         }
 
         return $eventModel->setInfo(__('Attributes Updated'));
@@ -484,8 +510,7 @@ class Controllers
         $backup = $this->_coreRegistry->registry('backup_manager');
 
         if ($backup) {
-            $eventModel->setIsSuccess($backup->getIsSuccess())
-                ->setInfo($backup->getBackupFilename());
+            $eventModel->setIsSuccess($backup->getIsSuccess())->setInfo($backup->getBackupFilename());
 
             $errorMessage = $backup->getErrorMessage();
             if (!empty($errorMessage)) {
@@ -509,8 +534,11 @@ class Controllers
         $backup = $this->_coreRegistry->registry('backup_manager');
 
         if ($backup) {
-            $eventModel->setIsSuccess($backup->getIsSuccess())
-                ->setInfo($this->_loggingData->implodeValues($backup->getDeleteResult()));
+            $eventModel->setIsSuccess(
+                $backup->getIsSuccess()
+            )->setInfo(
+                $this->_loggingData->implodeValues($backup->getDeleteResult())
+            );
         } else {
             $eventModel->setIsSuccess(false);
         }
@@ -529,8 +557,7 @@ class Controllers
         $backup = $this->_coreRegistry->registry('backup_manager');
 
         if ($backup) {
-            $eventModel->setIsSuccess($backup->getIsSuccess())
-                ->setInfo($backup->getBackupFilename());
+            $eventModel->setIsSuccess($backup->getIsSuccess())->setInfo($backup->getBackupFilename());
 
             $errorMessage = $backup->getErrorMessage();
             if (!empty($errorMessage)) {
@@ -609,9 +636,13 @@ class Controllers
         }
 
         $processor->addEventChanges(
-            $change->setSourceName('rates')
-                ->setOriginalData(array())
-                ->setResultData(array('rates' => implode(', ', $values)))
+            $change->setSourceName(
+                'rates'
+            )->setOriginalData(
+                array()
+            )->setResultData(
+                array('rates' => implode(', ', $values))
+            )
         );
         $success = true;
         $messages = $this->messageManager->getMessages()->getLastAddedMessage();
@@ -686,13 +717,13 @@ class Controllers
     }
 
     /**
-     * Custom handler for Recurring Profiles status update
+     * Custom handler for Recurring Payments status update
      *
      * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
      */
-    public function postDispatchRecurringProfilesUpdate($config, $eventModel)
+    public function postDispatchRecurringPaymentsUpdate($config, $eventModel)
     {
         $message = '';
         if ($this->_request->getParam('action')) {

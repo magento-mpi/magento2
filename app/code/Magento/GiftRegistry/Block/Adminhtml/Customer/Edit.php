@@ -7,27 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer;
 
-class Edit
-    extends \Magento\Backend\Block\Widget\Form\Container
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -36,6 +34,8 @@ class Edit
 
     /**
      * Initialize form
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -49,9 +49,11 @@ class Edit
 
         $confirmMessage = __('Are you sure you want to delete this gift registry?');
         $this->_updateButton('delete', 'label', __('Delete Registry'));
-        $this->_updateButton('delete', 'onclick',
-                'deleteConfirm(\'' . $this->escapeJsQuote($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
-            );
+        $this->_updateButton(
+            'delete',
+            'onclick',
+            'deleteConfirm(\'' . $this->escapeJsQuote($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
+        );
     }
 
     /**

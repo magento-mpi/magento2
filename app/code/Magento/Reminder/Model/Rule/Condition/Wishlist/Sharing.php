@@ -7,14 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
+
+use Magento\DB\Select;
 
 /**
  * Wishlist sharing condition
  */
-namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
-
-class Sharing
-    extends \Magento\Reminder\Model\Condition\AbstractCondition
+class Sharing extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
@@ -38,8 +38,7 @@ class Sharing
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(),
-            'label' => __('Sharing'));
+        return array('value' => $this->getType(), 'label' => __('Sharing'));
     }
 
     /**
@@ -49,9 +48,10 @@ class Sharing
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Wish List %1 shared', $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Wish List %1 shared',
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -67,23 +67,20 @@ class Sharing
     /**
      * Init list of available values
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist\Sharing
+     * @return $this
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(
-            '1' => __('is'),
-            '0' => __('is not'),
-        ));
+        $this->setValueOption(array('1' => __('is'), '0' => __('is not')));
         return $this;
     }
 
     /**
      * Get SQL select
      *
-     * @param $customer
+     * @param null|int|\Zend_Db_Expr $customer
      * @param int|Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return Select
      */
     public function getConditionsSql($customer, $website)
     {

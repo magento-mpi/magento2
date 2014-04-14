@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Session;
 
 interface SaveHandlerInterface extends \Zend_Session_SaveHandler_Interface

@@ -19,6 +19,9 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 
 class Apply extends \Magento\Data\Form\Element\Multiselect
 {
+    /**
+     * @return string
+     */
     public function getElementHtml()
     {
         $elementAttributeHtml = '';
@@ -32,9 +35,9 @@ class Apply extends \Magento\Data\Form\Element\Multiselect
         }
 
         $html = '<select onchange="toggleApplyVisibility(this)"' . $elementAttributeHtml . '>'
-              . '<option value="0">' . $this->getModeLabels('all'). '</option>'
-              . '<option value="1" ' . ($this->getValue()==null ? '' : 'selected') . '>' . $this->getModeLabels('custom'). '</option>'
-              . '</select><br /><br />';
+            . '<option value="0">' . $this->getModeLabels('all'). '</option>'
+            . '<option value="1" ' . ($this->getValue()==null ? '' : 'selected') . '>'
+            . $this->getModeLabels('custom'). '</option>' . '</select><br /><br />';
 
         $html .= parent::getElementHtml();
         return $html;
@@ -45,7 +48,7 @@ class Apply extends \Magento\Data\Form\Element\Multiselect
      *
      * @param bool $readonly
      * @param bool $useDisabled
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Apply
+     * @return $this
      */
     public function setReadonly($readonly, $useDisabled = false)
     {
@@ -53,5 +56,4 @@ class Apply extends \Magento\Data\Form\Element\Multiselect
         $this->setData('disabled', $useDisabled);
         return $this;
     }
-
 }

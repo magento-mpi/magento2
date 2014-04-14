@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Account;
 
 class Redeem extends \Magento\View\Element\Template
@@ -31,6 +30,7 @@ class Redeem extends \Magento\View\Element\Template
     ) {
         $this->_customerBalanceData = $customerBalanceData;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

@@ -7,21 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Model\Source;
 
 /**
  * Search source model
  */
-namespace Magento\GiftRegistry\Model\Source;
-
-class Search implements \Magento\Core\Model\Option\ArrayInterface
+class Search implements \Magento\Option\ArrayInterface
 {
     /**
      * Quick search form types
      */
-    const SEARCH_ALL_FORM   = 'all';
-    const SEARCH_NAME_FORM  = 'name';
+    const SEARCH_ALL_FORM = 'all';
+
+    const SEARCH_NAME_FORM = 'name';
+
     const SEARCH_EMAIL_FORM = 'email';
-    const SEARCH_ID_FORM    = 'id';
+
+    const SEARCH_ID_FORM = 'id';
 
     /**
      * Return search form types as option array

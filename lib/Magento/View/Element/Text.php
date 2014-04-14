@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element;
 
 /**
@@ -40,6 +39,7 @@ class Text extends \Magento\View\Element\AbstractBlock
      *
      * @param string $text
      * @param bool $before
+     * @return void
      */
     public function addText($text, $before = false)
     {

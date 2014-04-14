@@ -24,7 +24,7 @@ item_gift_wrapping:
     individual_items:
         item_1:
             product_name: %gift_item_product_1%
-            item_gift_wrapping_design: %item_wrapping%
+            item_gift_wrapping_design: %product1wrapping%
 
 order_gift_message_with_gift_wrapping:
     entire_order:
@@ -39,7 +39,7 @@ item_gift_message_with_gift_wrapping:
     individual_items:
         item_1:
             product_name: %gift_item_product_1%
-            item_gift_wrapping_design: %item_wrapping%
+            item_gift_wrapping_design: %product1wrapping%
             gift_message:
                 item_gift_message_from: From_%randomize%
                 item_gift_message_to: To_%randomize%'
@@ -98,18 +98,18 @@ verify_gift_data:
 
 verify_wrapping_data:
     entire_order:
-        order_gift_wrapping: %order_wrapping%
+        order_gift_wrapping_design: %order_wrapping%
         order_gift_wrapping_price: %price_order%
         printed_card_price: %noValue%
     individual:
         product_1:
             sku_product: %gift_item_product_1%
             item_gift_wrapping_price: %price_product_1%
-            item_gift_wrapping: %item_wrapping%
+            item_gift_wrapping_design: %product1wrapping%
         product_2:
             sku_product: %gift_item_product_2%
             item_gift_wrapping_price: %price_product_2%
-            item_gift_wrapping: %item_wrapping2%
+            item_gift_wrapping_design: %product2wrapping%
 
 recount_gift_wrapping_no_image:
     products_to_add: *product_add
@@ -120,7 +120,7 @@ recount_gift_wrapping_no_image:
             individual_items:
                 item_1:
                     product_name: %gift_item_product_1%
-                    item_gift_wrapping_design: %item_wrapping%
+                    item_gift_wrapping_design: %product1wrapping%
                     gift_message:
                         item_gift_message_from: From_%randomize%
                         item_gift_message_to: To_%randomize%'
@@ -134,16 +134,17 @@ recount_gift_wrapping_no_image:
     payment_data: *payment_check_money
     validate_prod_data:
         product_1:
-            product_name: %validate_product_1%
+            product_name: %add_product_1%
+            gift_wrapping: %product1wrapping%
             price: $12.99
-            qty: 1
+            qty: '1'
             subtotal: $12.99
     validate_total_data:
-        grand_total: $29.76
+        subtotal: $12.99
+        shipping_handling_flat_rate_fixed: $5.00
         gift_wrapping_for_order: %noValue%
         gift_wrapping_for_items: %noValue%
-        shipping_handling_flat_rate_fixed: $5.00
-        subtotal: $12.99
+        grand_total: $29.76
 
 recount_gift_wrapping_with_image:
     products_to_add: *product_add
@@ -152,16 +153,17 @@ recount_gift_wrapping_with_image:
     payment_data: *payment_check_money
     validate_prod_data:
         product_1:
-            product_name: %validate_product_1%
+            product_name: %add_product_1%
+            gift_wrapping: %product1wrapping%
             price: $12.99
-            qty: 1
+            qty: '1'
             subtotal: $12.99
     validate_total_data:
-        grand_total: $36.32
+        subtotal: $12.99
+        shipping_handling_flat_rate_fixed: $5.00
         gift_wrapping_for_order: %noValue%
         gift_wrapping_for_items: %noValue%
-        shipping_handling_flat_rate_fixed: $5.00
-        subtotal: $12.99
+        grand_total: $36.32
 
 recount_no_gift_wrapping:
     products_to_add: *product_add
@@ -172,14 +174,15 @@ recount_no_gift_wrapping:
     payment_data: *payment_check_money
     validate_prod_data:
         product_1:
-            product_name: %validate_product_1%
+            product_name: %add_product_1%
+            gift_wrapping: %product1wrapping%
             price: $12.99
-            qty: 1
+            qty: '1'
             subtotal: $12.99
     validate_total_data:
-        grand_total: $17.99
-        shipping_handling_flat_rate_fixed: $5.00
         subtotal: $12.99
+        shipping_handling_flat_rate_fixed: $5.00
+        grand_total: $17.99
 
 recount_gift_wrapping_printed_card_yes:
     products_to_add: *product_add
@@ -191,15 +194,16 @@ recount_gift_wrapping_printed_card_yes:
     payment_data: *payment_check_money
     validate_prod_data:
         product_1:
-            product_name: %validate_product_1%
+            product_name: %add_product_1%
+            gift_wrapping: %product1wrapping%
             price: $12.99
-            qty: 1
+            qty: '1'
             subtotal: $12.99
     validate_total_data:
-        grand_total: $36.52
-        shipping_handling_flat_rate_fixed: $5.00
-        printed_card: $18.53
         subtotal: $12.99
+        shipping_handling_flat_rate_fixed: $5.00
+        printed_card: $10.00
+        grand_total: $27.99
 
 recount_gift_wrapping_printed_card_no:
     products_to_add: *product_add
@@ -211,14 +215,15 @@ recount_gift_wrapping_printed_card_no:
     payment_data: *payment_check_money
     validate_prod_data:
         product_1:
-            product_name: %validate_product_1%
+            product_name: %add_product_1%
+            gift_wrapping: %product1wrapping%
             price: $12.99
-            qty: 1
+            qty: '1'
             subtotal: $12.99
     validate_total_data:
-        grand_total: $17.99
-        shipping_handling_flat_rate_fixed: $5.00
         subtotal: $12.99
+        shipping_handling_flat_rate_fixed: $5.00
+        grand_total: $17.99
 
 gift_wrapping_custom_price:
     products_to_add: *product_add
@@ -231,28 +236,30 @@ gift_wrapping_custom_price:
             individual_items:
                 item_1:
                     product_name: %gift_item_product_1%
-                    item_gift_wrapping_design: %item_wrapping%
+                    item_gift_wrapping_design: %product1wrapping%
                 item_2:
                     product_name: %gift_item_product_2%
-                    item_gift_wrapping_design: %item_wrapping%
+                    item_gift_wrapping_design: %product2wrapping%
     payment_data: *payment_check_money
     validate_prod_data:
         product_1:
-            product_name: %validate_product_1%
+            product_name: %add_product_1%
+            gift_wrapping: %product1wrapping%
             price: $12.99
-            qty: 1
+            qty: '1'
             subtotal: $12.99
         product_2:
-            product_name: %validate_product_2%
+            product_name: %add_product_2%
+            gift_wrapping: %product2wrapping%
             price: $12.99
-            qty: 1
+            qty: '1'
             subtotal: $12.99
     validate_total_data:
-        grand_total: $77.29
+        subtotal: $25.98
+        shipping_handling_flat_rate_fixed: $10.00
         gift_wrapping_for_order: %noValue%
         gift_wrapping_for_items: %noValue%
-        shipping_handling_flat_rate_fixed: $10.00
-        subtotal: $25.98
+        grand_total: $77.29
 
 gift_wrapping_custom_price_on_site:
     products_to_add: *product_add
@@ -265,25 +272,27 @@ gift_wrapping_custom_price_on_site:
             individual_items:
                 item_1:
                     product_name: %gift_item_product_1%
-                    item_gift_wrapping_design: %item_wrapping%
+                    item_gift_wrapping_design: %product1wrapping%
                 item_2:
                     product_name: %gift_item_product_2%
-                    item_gift_wrapping_design: %item_wrapping%
+                    item_gift_wrapping_design: %product2wrapping%
     payment_data: *payment_check_money
     validate_prod_data:
         product_1:
-            product_name: %validate_product_1%
+            product_name: %add_product_1%
+            gift_wrapping: %product1wrapping%
             price: $12.99
-            qty: 1
+            qty: '1'
             subtotal: $12.99
         product_2:
-            product_name: %validate_product_2%
+            product_name: %add_product_2%
+            gift_wrapping: %product2wrapping%
             price: $12.99
-            qty: 1
+            qty: '1'
             subtotal: $12.99
     validate_total_data:
-        grand_total: $75.19
+        subtotal: $25.98
+        shipping_handling_flat_rate_fixed: $10.00
         gift_wrapping_for_order: %noValue%
         gift_wrapping_for_items: %noValue%
-        shipping_handling_flat_rate_fixed: $10.00
-        subtotal: $25.98
+        grand_total: $75.19

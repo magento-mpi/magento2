@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer\Address;
+
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Customer address attributes selector
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Customer\Address;
-
-class Attributes
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Attributes extends AbstractCondition
 {
     /**
      * @var \Magento\Directory\Model\Config\Source\CountryFactory
@@ -74,7 +75,7 @@ class Attributes
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -90,25 +91,23 @@ class Attributes
     {
         $conditions = array();
         foreach ($this->loadAttributeOptions()->getAttributeOption() as $code => $label) {
-            $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
+            $conditions[] = array('value' => $this->getType() . '|' . $code, 'label' => $label);
         }
-        $conditions = array_merge($conditions,
-            $this->_conditionFactory->create('Customer\Address\Region')->getNewChildSelectOptions());
-        return array(
-            'value' => $conditions,
-            'label' => __('Address Attributes'),
+        $conditions = array_merge(
+            $conditions,
+            $this->_conditionFactory->create('Customer\Address\Region')->getNewChildSelectOptions()
         );
+        return array('value' => $conditions, 'label' => __('Address Attributes'));
     }
 
     /**
      * Load attribute options
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Customer\Address\Attributes
+     * @return $this
      */
     public function loadAttributeOptions()
     {
-        $customerAttributes = $this->_resourceAddress->loadAllAttributes()
-            ->getAttributesByCode();
+        $customerAttributes = $this->_resourceAddress->loadAllAttributes()->getAttributesByCode();
 
         $attributes = array();
         foreach ($customerAttributes as $attribute) {
@@ -136,13 +135,11 @@ class Attributes
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = $this->_countryFactory->create()
-                        ->toOptionArray();
+                    $options = $this->_countryFactory->create()->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = $this->_allregionFactory->create()
-                        ->toOptionArray();
+                    $options = $this->_allregionFactory->create()->toOptionArray();
                     break;
 
                 default:
@@ -253,8 +250,8 @@ class Attributes
     /**
      * Prepare customer address attribute condition select
      *
-     * @param $customer
-     * @param $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
@@ -262,13 +259,16 @@ class Attributes
         $select = $this->getResource()->createSelect();
         $attribute = $this->getAttributeObject();
 
-        $select->from(array('val'=>$attribute->getBackendTable()), array(new \Zend_Db_Expr(1)));
-        $condition = $this->getResource()->createConditionSql(
-            'val.value', $this->getOperator(), $this->getValue()
+        $select->from(array('val' => $attribute->getBackendTable()), array(new \Zend_Db_Expr(1)));
+        $condition = $this->getResource()->createConditionSql('val.value', $this->getOperator(), $this->getValue());
+        $select->where(
+            'val.attribute_id = ?',
+            $attribute->getId()
+        )->where(
+            "val.entity_id = customer_address.entity_id"
+        )->where(
+            $condition
         );
-        $select->where('val.attribute_id = ?', $attribute->getId())
-            ->where("val.entity_id = customer_address.entity_id")
-            ->where($condition);
         $select->limit(1);
         return $select;
     }

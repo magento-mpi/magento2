@@ -20,17 +20,17 @@ namespace Magento\GiftWrapping\Block\Adminhtml\Order\View;
 class AbstractView extends \Magento\View\Element\Template
 {
     /**
-     * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @var \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     protected $_designCollection;
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Gift wrapping data
      *
@@ -41,7 +41,7 @@ class AbstractView extends \Magento\View\Element\Template
     /**
      * @var \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory
      */
-    protected $_wrappingCollFactory;
+    protected $_wrappingCollectionFactory;
 
     /**
      * @var \Magento\Sales\Helper\Admin
@@ -51,23 +51,23 @@ class AbstractView extends \Magento\View\Element\Template
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
+     * @param \Magento\Registry $registry
+     * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory
      * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
+        \Magento\Registry $registry,
+        \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
         \Magento\Sales\Helper\Admin $adminHelper,
         array $data = array()
     ) {
         $this->_adminHelper = $adminHelper;
         $this->_coreRegistry = $registry;
         $this->_giftWrappingData = $giftWrappingData;
-        $this->_wrappingCollFactory = $wrappingCollFactory;
+        $this->_wrappingCollectionFactory = $wrappingCollectionFactory;
         parent::__construct($context, $data);
     }
 
@@ -100,10 +100,11 @@ class AbstractView extends \Magento\View\Element\Template
     {
         if (is_null($this->_designCollection)) {
             $store = $this->_storeManager->getStore($this->getStoreId());
-            $this->_designCollection = $this->_wrappingCollFactory->create()
-                ->addStoreAttributesToResult($store->getId())
-                ->applyStatusFilter()
-                ->applyWebsiteFilter($store->getWebsiteId());
+            $this->_designCollection = $this->_wrappingCollectionFactory->create()->addStoreAttributesToResult(
+                $store->getId()
+            )->applyStatusFilter()->applyWebsiteFilter(
+                $store->getWebsiteId()
+            );
         }
         return $this->_designCollection;
     }

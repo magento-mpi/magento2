@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Bundle\Block\Catalog\Product;
 
 /**
  * Bundle product price block
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_Bundle
  */
-namespace Magento\Bundle\Block\Catalog\Product;
-
 class Price extends \Magento\Catalog\Block\Product\Price
 {
     /**
@@ -29,7 +27,7 @@ class Price extends \Magento\Catalog\Block\Product\Price
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Checkout\Helper\Cart $cartHelper
@@ -41,7 +39,7 @@ class Price extends \Magento\Catalog\Block\Product\Price
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Stdlib\String $string,
         \Magento\Math\Random $mathRandom,
         \Magento\Checkout\Helper\Cart $cartHelper,
@@ -62,6 +60,9 @@ class Price extends \Magento\Catalog\Block\Product\Price
         $this->_taxCalc = $taxCalc;
     }
 
+    /**
+     * @return bool
+     */
     public function isRatesGraterThenZero()
     {
         $_request = $this->_taxCalc->getRateRequest(false, false, false);
@@ -72,7 +73,7 @@ class Price extends \Magento\Catalog\Block\Product\Price
         $_request->setProductClassId($this->getProduct()->getTaxClassId());
         $currentTax = $this->_taxCalc->getRate($_request);
 
-        return (floatval($defaultTax) > 0 || floatval($currentTax) > 0);
+        return floatval($defaultTax) > 0 || floatval($currentTax) > 0;
     }
 
     /**
@@ -85,7 +86,8 @@ class Price extends \Magento\Catalog\Block\Product\Price
     {
         $product = $this->getProduct();
         if ($product->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC &&
-            $product->getPriceModel()->getIsPricesCalculatedByIndex() !== false) {
+            $product->getPriceModel()->getIsPricesCalculatedByIndex() !== false
+        ) {
             return false;
         }
         return $this->_taxData->displayBothPrices();
@@ -99,8 +101,9 @@ class Price extends \Magento\Catalog\Block\Product\Price
     protected function _toHtml()
     {
         $product = $this->getProduct();
-        if ($this->getMAPTemplate() && $this->_catalogData->canApplyMsrp($product)
-                && $product->getPriceType() != \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC
+        if ($this->getMAPTemplate() && $this->_catalogData->canApplyMsrp(
+            $product
+        ) && $product->getPriceType() != \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC
         ) {
             $hiddenPriceHtml = parent::_toHtml();
             if ($this->_catalogData->isShowPriceOnGesture($product)) {
@@ -108,16 +111,21 @@ class Price extends \Magento\Catalog\Block\Product\Price
             }
             $realPriceHtml = parent::_toHtml();
             $this->unsWithoutPrice();
-            $addToCartUrl  = $this->getLayout()->getBlock('product.info.bundle')->getAddToCartUrl($product);
+            $addToCartUrl = $this->getLayout()->getBlock('product.info.bundle')->getAddToCartUrl($product);
             $product->setAddToCartUrl($addToCartUrl);
-            $html = $this->getLayout()
-                ->createBlock('Magento\Catalog\Block\Product\Price')
-                ->setTemplate($this->getMAPTemplate())
-                ->setRealPriceHtml($hiddenPriceHtml)
-                ->setPriceElementIdPrefix('bundle-price-')
-                ->setIdSuffix($this->getIdSuffix())
-                ->setProduct($product)
-                ->toHtml();
+            $html = $this->getLayout()->createBlock(
+                'Magento\Catalog\Block\Product\Price'
+            )->setTemplate(
+                $this->getMAPTemplate()
+            )->setRealPriceHtml(
+                $hiddenPriceHtml
+            )->setPriceElementIdPrefix(
+                'bundle-price-'
+            )->setIdSuffix(
+                $this->getIdSuffix()
+            )->setProduct(
+                $product
+            )->toHtml();
 
             return $realPriceHtml . $html;
         }
@@ -126,8 +134,8 @@ class Price extends \Magento\Catalog\Block\Product\Price
     }
 
     /**
-     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
-     * @return bool|\Magento\Core\Model\Website
+     * @param null|string|bool|int|\Magento\Store\Model\Store $storeId
+     * @return bool|\Magento\Store\Model\Website
      */
     public function getWebsite($storeId)
     {

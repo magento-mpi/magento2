@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    mage
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,17 +11,12 @@
         loaderStarted: 0,
         spinner: $(undefined),
         options: {
-            icon: '',
+            icon: 'icon.gif',
             texts: {
                 loaderText: $.mage.__('Please wait...'),
                 imgAlt: $.mage.__('Loading...')
             },
-            template: '<div class="loading-mask" data-role="loader">' +
-                '<div class="loader">' +
-                '<img {{if texts.imgAlt}}alt="${texts.imgAlt}"{{/if}} src="${icon}">' +
-                '<p>{{if texts.loaderText}}${texts.loaderText}{{/if}}</p>' +
-                '</div>' +
-                '</div>'
+            template: null
         },
 
         /**
@@ -56,17 +49,26 @@
          * @param event
          * @private
          */
-        _contentUpdated: function(event) {
-            this.show();
+        _contentUpdated: function(e) {
+            this.show(e);
         },
 
         /**
          * Show loader
          */
-        show: function() {
+        show: function(e, ctx) {
             this._render();
             this.loaderStarted++;
             this.spinner.show();
+            if (ctx) {
+                this.spinner
+                    .css({width: ctx.outerWidth(), height: ctx.outerHeight(), position: 'absolute'})
+                    .position({
+                        my: 'top left',
+                        at: 'top left',
+                        of: ctx
+                    });
+            }
             return false;
         },
 
@@ -89,26 +91,18 @@
          */
         _render: function() {
             if (this.spinner.length === 0) {
-                this.spinner = $.tmpl(this.options.template, this.options)/*.css(this._getCssObj())*/;
+                this.spinner = $(this.options.template)/*.css(this._getCssObj())*/;
             }
-            this.element.prepend(this.spinner);
-        },
 
-        /**
-         * Prepare object with css properties for loader
-         * @protected
-         */
-        _getCssObj: function() {
-            var isBodyElement = this.element.is('[data-container=body]'),
-                width = isBodyElement ? $(window).width() : this.element.outerWidth(),
-                height = isBodyElement ? $(window).height() : this.element.outerHeight(),
-                position = isBodyElement ? 'fixed' : 'relative';
-            return {
-                height: height + 'px',
-                width: width + 'px',
-                position: position,
-                'margin-bottom': '-' + height + 'px'
+            var source = this.spinner.html();
+            var template = Handlebars.compile(source);
+            var content = {
+                imgAlt: this.options.texts.imgAlt, 
+                icon: this.options.icon, 
+                loaderText: this.options.texts.loaderText
             };
+            var html = template(content);
+            this.element.prepend(html);
         },
 
         /**

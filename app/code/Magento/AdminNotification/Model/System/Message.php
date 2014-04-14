@@ -5,12 +5,13 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\AdminNotification\Model\System;
 
-class Message extends \Magento\Core\Model\AbstractModel
-    implements \Magento\AdminNotification\Model\System\MessageInterface
+class Message extends \Magento\Model\AbstractModel implements \Magento\AdminNotification\Model\System\MessageInterface
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\AdminNotification\Model\Resource\System\Message');
@@ -29,7 +30,7 @@ class Message extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve message text
      *
-     * @return text
+     * @return string
      */
     public function getText()
     {

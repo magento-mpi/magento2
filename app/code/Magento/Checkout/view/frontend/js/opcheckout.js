@@ -42,7 +42,7 @@
             }
             var events = {};
             events['click ' + this.options.checkout.continueSelector] = function(e) {
-                this._continue($(e.target));
+                this._continue($(e.currentTarget));
             };
             events['click ' + this.options.backSelector] = function() {
                 this.element.trigger('enableSection', {selector: '#' + this.element.find('.active').prev().attr('id')});
@@ -390,7 +390,7 @@
                 if ($.isNumeric(checkoutPrice)) {
                     this.checkoutPrice = checkoutPrice;
                 }
-                if (this.checkoutPrice < this.options.minBalance) {
+                if (this.checkoutPrice < this.options.minBalance && !this.options.hasRecurringItems) {
                     this._disablePaymentMethods();
                 } else {
                     this._enablePaymentMethods();
@@ -406,7 +406,7 @@
                     if (data.totalPrice) {
                         data.totalPrice = this.checkoutPrice;
                     }
-                    if (this.checkoutPrice < this.options.minBalance) {
+                    if (this.checkoutPrice < this.options.minBalance && !this.options.hasRecurringItems) {
                         // Add free input field, hide and disable unchecked checkbox payment method and all radio button payment methods
                         this._disablePaymentMethods();
                     } else {
@@ -454,7 +454,7 @@
                 alert($.mage.__("We can't complete your order because you don't have a payment method available."));
                 return false;
             }
-            if (this.checkoutPrice < this.options.minBalance) {
+            if (this.checkoutPrice < this.options.minBalance && !this.options.hasRecurringItems) {
                 return true;
             } else if (methods.filter('input:radio:checked').length) {
                 return true;
@@ -497,7 +497,6 @@
                 continueSelector: '#review-buttons-container .button',
                 container: '#opc-review',
                 agreementFormSelector:'#checkout-agreements input[type="checkbox"]',
-                submitContainer: '#checkout-review-submit'
             }
         },
 
@@ -506,14 +505,6 @@
             var events = {};
             events['click ' + this.options.review.continueSelector] = this._saveOrder;
             events['saveOrder' + this.options.review.container] = this._saveOrder;
-            events['contentUpdated' + this.options.review.container] = function() {
-                var paypalIframe = this.element.find(this.options.review.container)
-                    .find('[data-container="paypal-iframe"]');
-                if (paypalIframe.length) {
-                    paypalIframe.show();
-                    $(this.options.review.submitContainer).hide();
-                }
-            };
             this._on(events);
         },
 

@@ -14,10 +14,9 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Widget\Model\Resource\Widget\Instance\Options;
 
-class Types implements \Magento\Core\Model\Option\ArrayInterface
+class Types implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Widget\Model\Widget\Instance
@@ -32,6 +31,9 @@ class Types implements \Magento\Core\Model\Option\ArrayInterface
         $this->_model = $widgetInstanceModel;
     }
 
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         $widgets = array();

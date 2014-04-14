@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reward\Model\Reward;
 
 /**
  * Reward history model
@@ -51,14 +49,8 @@
  * @method \Magento\Reward\Model\Reward\History setIsDuplicateOf(int $value)
  * @method int getNotificationSent()
  * @method \Magento\Reward\Model\Reward\History setNotificationSent(int $value)
- *
- * @category    Magento
- * @package     Magento_Reward
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model\Reward;
-
-class History extends \Magento\Core\Model\AbstractModel
+class History extends \Magento\Model\AbstractModel
 {
     /**
      * Reward data
@@ -68,39 +60,54 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_rewardData = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * Core model store manager interface
+     *
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Reward model
+     *
      * @var \Magento\Reward\Model\Reward
      */
     protected $_reward;
 
     /**
+     * Date time formatter
+     *
      * @var \Magento\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * Reward rate model
+     *
+     * @var Rate
+     */
+    protected $rewardRate;
+
+    /**
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\Resource\Reward\History $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\Reward $reward
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Reward\Model\Reward\Rate $rewardRate
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\Resource\Reward\History $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\Reward $reward,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Reward\Model\Reward\Rate $rewardRate,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -108,11 +115,14 @@ class History extends \Magento\Core\Model\AbstractModel
         $this->_storeManager = $storeManager;
         $this->_reward = $reward;
         $this->dateTime = $dateTime;
+        $this->rewardRate = $rewardRate;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -123,35 +133,32 @@ class History extends \Magento\Core\Model\AbstractModel
      * Processing object before save data.
      * Prepare history data
      *
-     * @return \Magento\Reward\Model\Reward\History
+     * @return $this
      */
     protected function _beforeSave()
     {
         if ($this->getWebsiteId()) {
-            $this->setBaseCurrencyCode(
-                $this->_storeManager->getWebsite($this->getWebsiteId())->getBaseCurrencyCode()
-            );
+            $this->setBaseCurrencyCode($this->_storeManager->getWebsite($this->getWebsiteId())->getBaseCurrencyCode());
         }
         if ($this->getPointsDelta() < 0) {
             $this->_spendAvailablePoints($this->getPointsDelta());
         }
 
         $now = time();
-        $this->addData(array(
-            'created_at' => $this->dateTime->formatDate($now),
-            'expired_at_static' => null,
-            'expired_at_dynamic' => null,
-            'notification_sent' => 0
-        ));
+        $this->addData(
+            array(
+                'created_at' => $this->dateTime->formatDate($now),
+                'expired_at_static' => null,
+                'expired_at_dynamic' => null,
+                'notification_sent' => 0
+            )
+        );
 
         $lifetime = (int)$this->_rewardData->getGeneralConfig('expiration_days', $this->getWebsiteId());
         if ($lifetime > 0) {
             $expires = $now + $lifetime * 86400;
             $expires = $this->dateTime->formatDate($expires);
-            $this->addData(array(
-                'expired_at_static' => $expires,
-                'expired_at_dynamic' => $expires,
-            ));
+            $this->addData(array('expired_at_static' => $expires, 'expired_at_dynamic' => $expires));
         }
 
         return parent::_beforeSave();
@@ -161,7 +168,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * Setter
      *
      * @param \Magento\Reward\Model\Reward $reward
-     * @return \Magento\Reward\Model\Reward\History
+     * @return $this
      */
     public function setReward($reward)
     {
@@ -182,7 +189,7 @@ class History extends \Magento\Core\Model\AbstractModel
     /**
      * Create history data from reward object
      *
-     * @return \Magento\Reward\Model\Reward\History
+     * @return $this
      */
     public function prepareFromReward()
     {
@@ -190,80 +197,86 @@ class History extends \Magento\Core\Model\AbstractModel
         if ($store === null) {
             $store = $this->_storeManager->getStore();
         }
-        $this->setRewardId($this->getReward()->getId())
-            ->setWebsiteId($this->getReward()->getWebsiteId())
-            ->setStoreId($store->getId())
-            ->setPointsBalance($this->getReward()->getPointsBalance())
-            ->setPointsDelta($this->getReward()->getPointsDelta())
-            ->setCurrencyAmount($this->getReward()->getCurrencyAmount())
-            ->setCurrencyDelta($this->getReward()->getCurrencyDelta())
-            ->setAction($this->getReward()->getAction())
-            ->setComment($this->getReward()->getComment());
+        $this->setRewardId(
+            $this->getReward()->getId()
+        )->setWebsiteId(
+            $this->getReward()->getWebsiteId()
+        )->setStoreId(
+            $store->getId()
+        )->setPointsBalance(
+            $this->getReward()->getPointsBalance()
+        )->setPointsDelta(
+            $this->getReward()->getPointsDelta()
+        )->setCurrencyAmount(
+            $this->getReward()->getCurrencyAmount()
+        )->setCurrencyDelta(
+            $this->getReward()->getCurrencyDelta()
+        )->setAction(
+            $this->getReward()->getAction()
+        )->setComment(
+            $this->getReward()->getComment()
+        );
 
-        $this->addAdditionalData(array(
-            'rate' => array(
-                'points' => $this->getReward()->getRate()->getPoints(),
-                'currency_amount' => $this->getReward()->getRate()->getCurrencyAmount(),
-                'direction' => $this->getReward()->getRate()->getDirection(),
-                'currency_code' => $this->_storeManager->getWebsite($this->getReward()->getWebsiteId())->getBaseCurrencyCode()
+        $this->addAdditionalData(
+            array(
+                'rate' => array(
+                    'points' => $this->getReward()->getRate()->getPoints(),
+                    'currency_amount' => $this->getReward()->getRate()->getCurrencyAmount(),
+                    'direction' => $this->getReward()->getRate()->getDirection(),
+                    'currency_code' => $this->_storeManager->getWebsite(
+                        $this->getReward()->getWebsiteId()
+                    )->getBaseCurrencyCode()
+                )
             )
-        ));
+        );
 
         if ($this->getReward()->getIsCappedReward()) {
-            $this->addAdditionalData(array(
-                'is_capped_reward' => true,
-                'cropped_points'    => $this->getReward()->getCroppedPoints()
-            ));
+            $this->addAdditionalData(
+                array('is_capped_reward' => true, 'cropped_points' => $this->getReward()->getCroppedPoints())
+            );
         }
         return $this;
     }
 
     /**
-     * Getter.
-     * Unserialize if need
+     * Retrieve additional data of an arbitrary structure
      *
      * @return array
+     * @throws \UnexpectedValueException
      */
     public function getAdditionalData()
     {
-        if (is_string($this->_getData('additional_data'))) {
-            $this->setData('additional_data', unserialize($this->_getData('additional_data')));
+        $result = $this->hasData('additional_data') ? $this->_getData('additional_data') : array();
+        if (!is_array($result)) {
+            throw new \UnexpectedValueException('Additional data for a reward point history has to be an array.');
         }
-        return $this->_getData('additional_data');
+        return $result;
     }
 
     /**
-     * Getter.
-     * Return value of unserialized additional data item by given item key
+     * Retrieve value of additional data's field
      *
      * @param string $key
-     * @return mixed | null
+     * @return mixed|null
      */
     public function getAdditionalDataByKey($key)
     {
         $data = $this->getAdditionalData();
-        if (is_array($data) && !empty($data) && isset($data[$key])) {
+        if (isset($data[$key])) {
             return $data[$key];
         }
         return null;
     }
 
     /**
-     * Add additional values to additional_data
+     * Add field values to the additional data, overriding values of existing fields
      *
      * @param array $data
-     * @return \Magento\Reward\Model\Reward\History
+     * @return $this
      */
-    public function addAdditionalData($data)
+    public function addAdditionalData(array $data)
     {
-        if (is_array($data)) {
-            $additional = $this->getDataSetDefault('additional_data', array());
-            foreach ($data as $k => $v) {
-                $additional[$k] = $v;
-            }
-            $this->setData('additional_data', $additional);
-        }
-
+        $this->setData('additional_data', array_merge($this->getAdditionalData(), $data));
         return $this;
     }
 
@@ -294,8 +307,10 @@ class History extends \Magento\Core\Model\AbstractModel
     {
         $rate = $this->getAdditionalDataByKey('rate');
         if (isset($rate['points']) && isset($rate['currency_amount']) && isset($rate['direction'])) {
-            return \Magento\Reward\Model\Reward\Rate::getRateText(
-                (int)$rate['direction'], (int)$rate['points'], (float)$rate['currency_amount'],
+            return $this->rewardRate->getRateText(
+                (int)$rate['direction'],
+                (int)$rate['points'],
+                (double)$rate['currency_amount'],
                 $this->getBaseCurrencyCode()
             );
         }
@@ -304,11 +319,11 @@ class History extends \Magento\Core\Model\AbstractModel
     /**
      * Check if history update with given action, customer and entity exist
      *
-     * @param integer $customerId
-     * @param integer $action
-     * @param integer $websiteId
+     * @param int $customerId
+     * @param int $action
+     * @param int $websiteId
      * @param mixed $entity
-     * @return boolean
+     * @return bool
      */
     public function isExistHistoryUpdate($customerId, $action, $websiteId, $entity)
     {
@@ -321,7 +336,7 @@ class History extends \Magento\Core\Model\AbstractModel
      *
      * @param int $action
      * @param int $customerId
-     * @param integer $websiteId
+     * @param int $websiteId
      * @return int
      */
     public function getTotalQtyRewards($action, $customerId, $websiteId)
@@ -339,16 +354,16 @@ class History extends \Magento\Core\Model\AbstractModel
         if ($this->getPointsDelta() <= 0) {
             return null;
         }
-        return $this->_rewardData->getGeneralConfig('expiry_calculation') == 'static'
-            ? $this->getExpiredAtStatic() : $this->getExpiredAtDynamic()
-        ;
+        return $this->_rewardData->getGeneralConfig(
+            'expiry_calculation'
+        ) == 'static' ? $this->getExpiredAtStatic() : $this->getExpiredAtDynamic();
     }
 
     /**
      * Spend unused points for required amount
      *
      * @param int $required Points total that required
-     * @return \Magento\Reward\Model\Reward\History
+     * @return $this
      */
     protected function _spendAvailablePoints($required)
     {

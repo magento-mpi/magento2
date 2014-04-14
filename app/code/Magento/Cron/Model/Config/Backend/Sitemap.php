@@ -17,20 +17,20 @@
  */
 namespace Magento\Cron\Model\Config\Backend;
 
-class Sitemap extends \Magento\Core\Model\Config\Value
+class Sitemap extends \Magento\App\Config\Value
 {
     /**
      * Cron string path
      */
-    const CRON_STRING_PATH = 'crontab/jobs/sitemap_generate/schedule/cron_expr';
+    const CRON_STRING_PATH = 'crontab/default/jobs/sitemap_generate/schedule/cron_expr';
 
     /**
      * Cron mode path
      */
-    const CRON_MODEL_PATH  = 'crontab/jobs/sitemap_generate/run/model';
+    const CRON_MODEL_PATH = 'crontab/default/jobs/sitemap_generate/run/model';
 
     /**
-     * @var \Magento\Core\Model\Config\ValueFactory
+     * @var \Magento\App\Config\ValueFactory
      */
     protected $_configValueFactory;
 
@@ -40,34 +40,32 @@ class Sitemap extends \Magento\Core\Model\Config\Value
     protected $_runModelPath = '';
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\App\Config\ValueFactory $configValueFactory
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param string $runModelPath
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\Config\ValueFactory $configValueFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\App\Config\ValueFactory $configValueFactory,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         $runModelPath = '',
         array $data = array()
     ) {
         $this->_runModelPath = $runModelPath;
         $this->_configValueFactory = $configValueFactory;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
-     * @return \Magento\Core\Model\AbstractModel
+     * @return void
      * @throws \Exception
      */
     protected function _afterSave()
@@ -78,24 +76,30 @@ class Sitemap extends \Magento\Core\Model\Config\Value
         $cronExprArray = array(
             intval($time[1]), //Minute
             intval($time[0]), //Hour
-            ($frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY) ? '1' : '*', //Day of the Month
+            $frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY ? '1' : '*', //Day of the Month
             '*', //Month of the Year
-            ($frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY) ? '1' : '*', //# Day of the Week
+            $frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY ? '1' : '*' //# Day of the Week
         );
 
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            $this->_configValueFactory->create()
-                ->load(self::CRON_STRING_PATH, 'path')
-                ->setValue($cronExprString)
-                ->setPath(self::CRON_STRING_PATH)
-                ->save();
-            $this->_configValueFactory->create()
-                ->load(self::CRON_MODEL_PATH, 'path')
-                ->setValue($this->_runModelPath)
-                ->setPath(self::CRON_MODEL_PATH)
-                ->save();
+            $this->_configValueFactory->create()->load(
+                self::CRON_STRING_PATH,
+                'path'
+            )->setValue(
+                $cronExprString
+            )->setPath(
+                self::CRON_STRING_PATH
+            )->save();
+            $this->_configValueFactory->create()->load(
+                self::CRON_MODEL_PATH,
+                'path'
+            )->setValue(
+                $this->_runModelPath
+            )->setPath(
+                self::CRON_MODEL_PATH
+            )->save();
         } catch (\Exception $e) {
             throw new \Exception(__('We can\'t save the cron expression.'));
         }

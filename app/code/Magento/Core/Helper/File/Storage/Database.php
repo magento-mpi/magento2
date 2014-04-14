@@ -46,7 +46,7 @@ class Database extends \Magento\App\Helper\AbstractHelper
     protected $_mediaBaseDirectory;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -61,23 +61,23 @@ class Database extends \Magento\App\Helper\AbstractHelper
     protected $_fileStorage;
 
     /**
-     * @var \Magento\Core\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $config;
-    
+
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\File\Storage\DatabaseFactory $dbStorageFactory
      * @param \Magento\Core\Model\File\Storage\File $fileStorage
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\ConfigInterface $config
+     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\File\Storage\DatabaseFactory $dbStorageFactory,
         \Magento\Core\Model\File\Storage\File $fileStorage,
-        \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\ConfigInterface $config
+        \Magento\App\Filesystem $filesystem,
+        \Magento\App\Config\ScopeConfigInterface $config
     ) {
         $this->_filesystem = $filesystem;
         $this->_dbStorageFactory = $dbStorageFactory;
@@ -95,10 +95,11 @@ class Database extends \Magento\App\Helper\AbstractHelper
     public function checkDbUsage()
     {
         if (null === $this->_useDb) {
-            $currentStorage = (int) $this->config->getValue(
-                \Magento\Core\Model\File\Storage::XML_PATH_STORAGE_MEDIA, 'default'
+            $currentStorage = (int)$this->config->getValue(
+                \Magento\Core\Model\File\Storage::XML_PATH_STORAGE_MEDIA,
+                'default'
             );
-            $this->_useDb = ($currentStorage == \Magento\Core\Model\File\Storage::STORAGE_MEDIA_DATABASE);
+            $this->_useDb = $currentStorage == \Magento\Core\Model\File\Storage::STORAGE_MEDIA_DATABASE;
         }
 
         return $this->_useDb;
@@ -145,6 +146,7 @@ class Database extends \Magento\App\Helper\AbstractHelper
      * Save file in DB storage
      *
      * @param string $filename
+     * @return void
      */
     public function saveFile($filename)
     {
@@ -158,12 +160,15 @@ class Database extends \Magento\App\Helper\AbstractHelper
      *
      * @param string $oldName
      * @param string $newName
+     * @return void
      */
     public function renameFile($oldName, $newName)
     {
         if ($this->checkDbUsage()) {
-            $this->getStorageDatabaseModel()
-                ->renameFile($this->_removeAbsPathFromFileName($oldName), $this->_removeAbsPathFromFileName($newName));
+            $this->getStorageDatabaseModel()->renameFile(
+                $this->_removeAbsPathFromFileName($oldName),
+                $this->_removeAbsPathFromFileName($newName)
+            );
         }
     }
 
@@ -172,11 +177,15 @@ class Database extends \Magento\App\Helper\AbstractHelper
      *
      * @param string $oldName
      * @param string $newName
+     * @return void
      */
-    public function copyFile($oldName, $newName) {
+    public function copyFile($oldName, $newName)
+    {
         if ($this->checkDbUsage()) {
-            $this->getStorageDatabaseModel()
-                ->copyFile($this->_removeAbsPathFromFileName($oldName), $this->_removeAbsPathFromFileName($newName));
+            $this->getStorageDatabaseModel()->copyFile(
+                $this->_removeAbsPathFromFileName($oldName),
+                $this->_removeAbsPathFromFileName($newName)
+            );
         }
     }
 
@@ -205,13 +214,13 @@ class Database extends \Magento\App\Helper\AbstractHelper
     public function getUniqueFilename($directory, $filename)
     {
         if ($this->checkDbUsage()) {
-           $directory = $this->_removeAbsPathFromFileName($directory);
-            if($this->fileExists($directory . $filename)) {
+            $directory = $this->_removeAbsPathFromFileName($directory);
+            if ($this->fileExists($directory . $filename)) {
                 $index = 1;
                 $extension = strrchr($filename, '.');
                 $filenameWoExtension = substr($filename, 0, -1 * strlen($extension));
                 while ($this->fileExists($directory . $filenameWoExtension . '_' . $index . $extension)) {
-                    $index ++;
+                    $index++;
                 }
                 $filename = $filenameWoExtension . '_' . $index . $extension;
             }
@@ -225,11 +234,11 @@ class Database extends \Magento\App\Helper\AbstractHelper
      * @param string $filename
      * @return bool|int
      */
-    public function saveFileToFilesystem($filename) {
+    public function saveFileToFilesystem($filename)
+    {
         if ($this->checkDbUsage()) {
             /** @var $file \Magento\Core\Model\File\Storage\Database */
-            $file = $this->_dbStorageFactory->create()
-                ->loadByFilename($this->_removeAbsPathFromFileName($filename));
+            $file = $this->_dbStorageFactory->create()->loadByFilename($this->_removeAbsPathFromFileName($filename));
             if (!$file->getId()) {
                 return false;
             }
@@ -254,6 +263,7 @@ class Database extends \Magento\App\Helper\AbstractHelper
      * Deletes from DB files, which belong to one folder
      *
      * @param string $folderName
+     * @return void
      */
     public function deleteFolder($folderName)
     {
@@ -266,6 +276,7 @@ class Database extends \Magento\App\Helper\AbstractHelper
      * Deletes from DB files, which belong to one folder
      *
      * @param string $filename
+     * @return void
      */
     public function deleteFile($filename)
     {
@@ -296,7 +307,7 @@ class Database extends \Magento\App\Helper\AbstractHelper
             $uniqueResultFile = $this->getUniqueFilename($path, $file);
 
             if ($uniqueResultFile !== $file) {
-                $dirWrite = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+                $dirWrite = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
                 $dirWrite->renameFile($path . $file, $path . $uniqueResultFile);
             }
             $this->saveFile($path . $uniqueResultFile);
@@ -327,7 +338,7 @@ class Database extends \Magento\App\Helper\AbstractHelper
     public function getMediaBaseDir()
     {
         if (null === $this->_mediaBaseDirectory) {
-            $mediaDir = $this->_filesystem->getPath(\Magento\Filesystem::MEDIA);
+            $mediaDir = $this->_filesystem->getPath(\Magento\App\Filesystem::MEDIA_DIR);
             $this->_mediaBaseDirectory = rtrim($mediaDir, '\\/');
         }
         return $this->_mediaBaseDirectory;

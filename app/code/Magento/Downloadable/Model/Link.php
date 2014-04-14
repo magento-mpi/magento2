@@ -7,61 +7,65 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Model;
+
+use Magento\Downloadable\Model\Resource\Link as Resource;
 
 /**
  * Downloadable link model
  *
- * @method \Magento\Downloadable\Model\Resource\Link _getResource()
- * @method \Magento\Downloadable\Model\Resource\Link getResource()
+ * @method Resource _getResource()
+ * @method Resource getResource()
  * @method int getProductId()
- * @method \Magento\Downloadable\Model\Link setProductId(int $value)
+ * @method Link setProductId(int $value)
  * @method int getSortOrder()
- * @method \Magento\Downloadable\Model\Link setSortOrder(int $value)
+ * @method Link setSortOrder(int $value)
  * @method int getNumberOfDownloads()
- * @method \Magento\Downloadable\Model\Link setNumberOfDownloads(int $value)
+ * @method Link setNumberOfDownloads(int $value)
  * @method int getIsShareable()
- * @method \Magento\Downloadable\Model\Link setIsShareable(int $value)
+ * @method Link setIsShareable(int $value)
  * @method string getLinkUrl()
- * @method \Magento\Downloadable\Model\Link setLinkUrl(string $value)
+ * @method Link setLinkUrl(string $value)
  * @method string getLinkFile()
- * @method \Magento\Downloadable\Model\Link setLinkFile(string $value)
+ * @method Link setLinkFile(string $value)
  * @method string getLinkType()
- * @method \Magento\Downloadable\Model\Link setLinkType(string $value)
+ * @method Link setLinkType(string $value)
  * @method string getSampleUrl()
- * @method \Magento\Downloadable\Model\Link setSampleUrl(string $value)
+ * @method Link setSampleUrl(string $value)
  * @method string getSampleFile()
- * @method \Magento\Downloadable\Model\Link setSampleFile(string $value)
+ * @method Link setSampleFile(string $value)
  * @method string getSampleType()
- * @method \Magento\Downloadable\Model\Link setSampleType(string $value)
+ * @method Link setSampleType(string $value)
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Model;
-
-class Link extends \Magento\Core\Model\AbstractModel
+class Link extends \Magento\Model\AbstractModel
 {
-    const XML_PATH_LINKS_TITLE              = 'catalog/downloadable/links_title';
-    const XML_PATH_DEFAULT_DOWNLOADS_NUMBER = 'catalog/downloadable/downloads_number';
-    const XML_PATH_TARGET_NEW_WINDOW        = 'catalog/downloadable/links_target_new_window';
-    const XML_PATH_CONFIG_IS_SHAREABLE      = 'catalog/downloadable/shareable';
+    const XML_PATH_LINKS_TITLE = 'catalog/downloadable/links_title';
 
-    const LINK_SHAREABLE_YES    = 1;
-    const LINK_SHAREABLE_NO     = 0;
+    const XML_PATH_DEFAULT_DOWNLOADS_NUMBER = 'catalog/downloadable/downloads_number';
+
+    const XML_PATH_TARGET_NEW_WINDOW = 'catalog/downloadable/links_target_new_window';
+
+    const XML_PATH_CONFIG_IS_SHAREABLE = 'catalog/downloadable/shareable';
+
+    const LINK_SHAREABLE_YES = 1;
+
+    const LINK_SHAREABLE_NO = 0;
+
     const LINK_SHAREABLE_CONFIG = 2;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -71,6 +75,7 @@ class Link extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -81,7 +86,7 @@ class Link extends \Magento\Core\Model\AbstractModel
     /**
      * Enter description here...
      *
-     * @return \Magento\Downloadable\Model\Link
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -138,7 +143,6 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getSearchableData($productId, $storeId)
     {
-        return $this->_getResource()
-            ->getSearchableData($productId, $storeId);
+        return $this->_getResource()->getSearchableData($productId, $storeId);
     }
 }

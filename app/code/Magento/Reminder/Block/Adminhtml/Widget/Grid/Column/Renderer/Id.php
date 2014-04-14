@@ -7,30 +7,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
 /**
  * Column renderer for customer id
  */
-namespace Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer;
-
-class Id
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Id extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Url Builder
      *
-     * @var \Magento\Backend\Model\Url
+     * @var \Magento\Backend\Model\UrlInterface
      */
     protected $_urlBuilder;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Backend\Model\Url $url
+     * @param \Magento\Backend\Model\UrlInterface $url
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Backend\Model\Url $url,
+        \Magento\Backend\Model\UrlInterface $url,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -40,13 +38,15 @@ class Id
     /**
      * Render customer id linked to its account edit page
      *
-     * @param   \Magento\Object $row
-     * @return  string
+     * @param \Magento\Object $row
+     * @return string
      */
     protected function _getValue(\Magento\Object $row)
     {
         $customerId = $this->escapeHtml($row->getData($this->getColumn()->getIndex()));
-        return '<a href="' . $this->_urlBuilder->getUrl('customer/index/edit',
-            array('id' => $customerId)) . '">' . $customerId . '</a>';
+        return '<a href="' . $this->_urlBuilder->getUrl(
+            'customer/index/edit',
+            array('id' => $customerId)
+        ) . '">' . $customerId . '</a>';
     }
 }

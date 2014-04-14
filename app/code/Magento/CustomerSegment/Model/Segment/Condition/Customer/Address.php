@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
+
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine;
 
 /**
  * Customer address attributes conditions combine
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
-
-class Address
-    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
+class Address extends AbstractCombine
 {
     /**
      * @var \Magento\Eav\Model\Config
@@ -47,14 +48,14 @@ class Address
      */
     public function getNewChildSelectOptions()
     {
-        $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
+        $result = array_merge_recursive(
+            parent::getNewChildSelectOptions(),
             array(
-                'value' => $this->getType(),
-                'label' => __('Conditions Combination'),
-            ),
-            $this->_conditionFactory->create('Customer\Address\DefaultAddress')->getNewChildSelectOptions(),
-            $this->_conditionFactory->create('Customer\Address\Attributes')->getNewChildSelectOptions(),
-        ));
+                array('value' => $this->getType(), 'label' => __('Conditions Combination')),
+                $this->_conditionFactory->create('Customer\Address\DefaultAddress')->getNewChildSelectOptions(),
+                $this->_conditionFactory->create('Customer\Address\Attributes')->getNewChildSelectOptions()
+            )
+        );
         return $result;
     }
 
@@ -65,9 +66,10 @@ class Address
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('If Customer Addresses match %1 of these Conditions:', $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'If Customer Addresses match %1 of these Conditions:',
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -83,8 +85,8 @@ class Address
     /**
      * Prepare base condition select which related with current condition combine
      *
-     * @param $customer
-     * @param $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
@@ -99,5 +101,4 @@ class Address
         $select->limit(1);
         return $select;
     }
-
 }

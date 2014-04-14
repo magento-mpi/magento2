@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Checkout\Block\Cart\Item;
 
 /**
  * Cart Item Configure block
@@ -17,25 +17,24 @@
  * @package    Magento_Checkout
  * @module     Checkout
  */
-namespace Magento\Checkout\Block\Cart\Item;
-
 class Configure extends \Magento\View\Element\Template
 {
-
     /**
      * Configure product view blocks
      *
-     * @return \Magento\Checkout\Block\Cart\Item\Configure
+     * @return $this
      */
     protected function _prepareLayout()
     {
         // Set custom submit url route for form - to submit updated options to cart
         $block = $this->getLayout()->getBlock('product.info');
         if ($block) {
-             $block->setSubmitRouteData(array(
-                'route' => 'checkout/cart/updateItemOptions',
-                'params' => array('id' => $this->getRequest()->getParam('id'))
-             ));
+            $block->setSubmitRouteData(
+                array(
+                    'route' => 'checkout/cart/updateItemOptions',
+                    'params' => array('id' => $this->getRequest()->getParam('id'))
+                )
+            );
         }
 
         return parent::_prepareLayout();

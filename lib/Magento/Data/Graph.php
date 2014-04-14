@@ -12,9 +12,12 @@ class Graph
     /**#@+
      * Search modes
      */
-    const DIRECTIONAL     = 1;
-    const INVERSE         = 2;
+    const DIRECTIONAL = 1;
+
+    const INVERSE = 2;
+
     const NON_DIRECTIONAL = 3;
+
     /**#@-*/
 
     /**
@@ -61,7 +64,7 @@ class Graph
      *
      * @param string|int $fromNode
      * @param string|int $toNode
-     * @return \Magento\Data\Graph
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function addRelation($fromNode, $toNode)
@@ -115,7 +118,7 @@ class Graph
      */
     public function findCycle($node = null, $firstOnly = true)
     {
-        $nodes = (null === $node) ? $this->_nodes : array($node);
+        $nodes = null === $node ? $this->_nodes : array($node);
         $results = array();
         foreach ($nodes as $node) {
             $result = $this->dfs($node, $node);
@@ -185,6 +188,7 @@ class Graph
      *
      * @param string|int $node
      * @param bool $mustExist
+     * @return void
      * @throws \InvalidArgumentException according to assertion rules
      */
     protected function _assertNode($node, $mustExist)

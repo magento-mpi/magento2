@@ -9,20 +9,31 @@
  */
 namespace Magento\Profiler\Driver\Standard;
 
+use Magento\Profiler;
+
 class Stat
 {
     /**
      * #@+ Timer statistics data keys
      */
     const ID = 'id';
+
     const START = 'start';
+
     const TIME = 'sum';
+
     const COUNT = 'count';
+
     const AVG = 'avg';
+
     const REALMEM = 'realmem';
+
     const REALMEM_START = 'realmem_start';
+
     const EMALLOC = 'emalloc';
+
     const EMALLOC_START = 'emalloc_start';
+
     /**#@-*/
 
     /**
@@ -39,16 +50,17 @@ class Stat
      * @param int $time
      * @param int $realMemory Real size of memory allocated from system
      * @param int $emallocMemory Memory used by emalloc()
+     * @return void
      */
     public function start($timerId, $time, $realMemory, $emallocMemory)
     {
         if (empty($this->_timers[$timerId])) {
             $this->_timers[$timerId] = array(
-                self::START   => false,
-                self::TIME    => 0,
-                self::COUNT   => 0,
+                self::START => false,
+                self::TIME => 0,
+                self::COUNT => 0,
                 self::REALMEM => 0,
-                self::EMALLOC => 0,
+                self::EMALLOC => 0
             );
         }
 
@@ -65,6 +77,7 @@ class Stat
      * @param int $time
      * @param int $realMemory Real size of memory allocated from system
      * @param int $emallocMemory Memory used by emalloc()
+     * @return void
      * @throws \InvalidArgumentException if timer doesn't exist
      */
     public function stop($timerId, $time, $realMemory, $emallocMemory)
@@ -73,7 +86,7 @@ class Stat
             throw new \InvalidArgumentException(sprintf('Timer "%s" doesn\'t exist.', $timerId));
         }
 
-        $this->_timers[$timerId][self::TIME] += ($time - $this->_timers[$timerId]['start']);
+        $this->_timers[$timerId][self::TIME] += $time - $this->_timers[$timerId]['start'];
         $this->_timers[$timerId][self::START] = false;
         $this->_timers[$timerId][self::REALMEM] += $realMemory;
         $this->_timers[$timerId][self::REALMEM] -= $this->_timers[$timerId][self::REALMEM_START];
@@ -99,9 +112,9 @@ class Stat
     /**
      * Retrieve statistics on specified timer
      *
-     * @param $timerId
+     * @param string $timerId
      * @param string $key Information to return
-     * @return int|float
+     * @return string|bool|int|float
      * @throws \InvalidArgumentException
      */
     public function fetch($timerId, $key)
@@ -113,7 +126,7 @@ class Stat
             throw new \InvalidArgumentException(sprintf('Timer "%s" doesn\'t exist.', $timerId));
         }
         /* AVG = TIME / COUNT */
-        $isAvg = ($key == self::AVG);
+        $isAvg = $key == self::AVG;
         if ($isAvg) {
             $key = self::TIME;
         }
@@ -122,7 +135,7 @@ class Stat
         }
         $result = $this->_timers[$timerId][$key];
         if ($key == self::TIME && $this->_timers[$timerId][self::START] !== false) {
-            $result += (microtime(true) - $this->_timers[$timerId][self::START]);
+            $result += microtime(true) - $this->_timers[$timerId][self::START];
         }
         if ($isAvg) {
             $count = $this->_timers[$timerId][self::COUNT];
@@ -137,6 +150,7 @@ class Stat
      * Clear collected statistics for specified timer or for all timers if timer id is omitted
      *
      * @param string|null $timerId
+     * @return void
      */
     public function clear($timerId = null)
     {
@@ -170,7 +184,7 @@ class Stat
             /* Filter by thresholds */
             $match = true;
             foreach ($thresholds as $fetchKey => $minMatchValue) {
-                $match = ($this->fetch($timerId, $fetchKey) >= $minMatchValue);
+                $match = $this->fetch($timerId, $fetchKey) >= $minMatchValue;
                 if ($match) {
                     break;
                 }
@@ -196,7 +210,7 @@ class Stat
         }
 
         /* Prepare PCRE once to use it inside the loop body */
-        $nestingSep = preg_quote(\Magento\Profiler::NESTING_SEPARATOR, '/');
+        $nestingSep = preg_quote(Profiler::NESTING_SEPARATOR, '/');
         $patternLastTimerId = '/' . $nestingSep . '(?:.(?!' . $nestingSep . '))+$/';
 
         $prevTimerId = $timerIds[0];
@@ -208,10 +222,10 @@ class Stat
                 continue;
             }
             /* Loop over all timers that need to be closed under previous timer */
-            while (strpos($timerId, $prevTimerId . \Magento\Profiler::NESTING_SEPARATOR) !== 0) {
+            while (strpos($timerId, $prevTimerId . Profiler::NESTING_SEPARATOR) !== 0) {
                 /* Add to result all timers nested in the previous timer */
                 for ($j = $i + 1; $j < count($timerIds); $j++) {
-                    if (strpos($timerIds[$j], $prevTimerId . \Magento\Profiler::NESTING_SEPARATOR) === 0) {
+                    if (strpos($timerIds[$j], $prevTimerId . Profiler::NESTING_SEPARATOR) === 0) {
                         $result[] = $timerIds[$j];
                         /* Mark timer as already added */
                         $timerIds[$j] = null;

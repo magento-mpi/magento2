@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Model\Resource\Page;
 
 /**
  * Cms page revision resource model
@@ -16,9 +16,7 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\VersionsCms\Model\Resource\Page;
-
-class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Revision extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Name of page table from config
@@ -50,24 +48,26 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Resource initialization. Define the table names and its aliases.
+     *
+     * @return void
      */
     protected function _construct()
     {
         $this->_init('magento_versionscms_page_revision', 'revision_id');
 
-        $this->_pageTable         = $this->getTable('cms_page');
-        $this->_versionTable      = $this->getTable('magento_versionscms_page_version');
-        $this->_pageTableAlias    = 'page_table';
+        $this->_pageTable = $this->getTable('cms_page');
+        $this->_versionTable = $this->getTable('magento_versionscms_page_version');
+        $this->_pageTableAlias = 'page_table';
         $this->_versionTableAlias = 'version_table';
     }
 
     /**
      * Process page data before saving
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
+     * @param \Magento\Model\AbstractModel $object
+     * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         if (!$object->getCopiedFromOriginal()) {
             /*
@@ -89,10 +89,10 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Process data after save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
+     * @param \Magento\Model\AbstractModel $object
+     * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         $this->_aggregateVersionData((int)$object->getVersionId());
 
@@ -103,10 +103,10 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Process data after delete
      * Validate if this revision can be removed
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
+     * @param \Magento\Model\AbstractModel $object
+     * @return $this
      */
-    protected function _afterDelete(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterDelete(\Magento\Model\AbstractModel $object)
     {
         $this->_aggregateVersionData((int)$object->getVersionId());
 
@@ -117,14 +117,13 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Checking if revision was published
      *
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return bool
      */
-    public function isRevisionPublished(\Magento\Core\Model\AbstractModel $object)
+    public function isRevisionPublished(\Magento\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select();
-        $select->from($this->_pageTable, 'published_revision_id')
-            ->where('page_id = ?', (int)$object->getPageId());
+        $select->from($this->_pageTable, 'published_revision_id')->where('page_id = ?', (int)$object->getPageId());
 
         $result = $this->_getReadAdapter()->fetchOne($select);
 
@@ -135,21 +134,31 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Aggregate data for version
      *
      * @param int $versionId
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
+     * @return $this
      */
     protected function _aggregateVersionData($versionId)
     {
         $adapter = $this->_getReadAdapter();
-        $selectCount = $adapter->select()
-            ->from($this->getMainTable(), array('version_id', 'revisions_count' => 'COUNT(1)'))
-            ->where('version_id = ?', (int)$versionId)
-            ->group('version_id');
+        $selectCount = $adapter->select()->from(
+            $this->getMainTable(),
+            array('version_id', 'revisions_count' => 'COUNT(1)')
+        )->where(
+            'version_id = ?',
+            (int)$versionId
+        )->group(
+            'version_id'
+        );
 
         $sql = new \Zend_Db_Expr(sprintf('(%s)', $selectCount));
         $select = clone $selectCount;
-        $select->reset()
-            ->join(array('r' => $sql), 'p.version_id = r.version_id', array('revisions_count'))
-            ->where('r.version_id = ?', (int)$versionId);
+        $select->reset()->join(
+            array('r' => $sql),
+            'p.version_id = r.version_id',
+            array('revisions_count')
+        )->where(
+            'r.version_id = ?',
+            (int)$versionId
+        );
 
         $adapter = $this->_getWriteAdapter();
         $query = $adapter->updateFromSelect($select, array('p' => $this->_versionTable));
@@ -163,11 +172,11 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\VersionsCms\Model\Page\Revision $object
      * @param int $targetId
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
+     * @return $this
      */
     public function publish(\Magento\VersionsCms\Model\Page\Revision $object, $targetId)
     {
-        $data      = $this->_prepareDataForTable($object, $this->_pageTable);
+        $data = $this->_prepareDataForTable($object, $this->_pageTable);
         $condition = array('page_id = ?' => $targetId);
         $this->_getWriteAdapter()->update($this->_pageTable, $data, $condition);
 
@@ -178,11 +187,11 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Loading revision's data with extra access level checking.
      *
      * @param \Magento\VersionsCms\Model\Page\Revision $object
-     * @param array|string $accessLevel
+     * @param string|string[] $accessLevel
      * @param int $userId
      * @param int|string $value
      * @param string|null $field
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
+     * @return $this
      */
     public function loadWithRestrictions($object, $accessLevel, $userId, $value, $field)
     {
@@ -197,8 +206,11 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
 
             // prepare join conditions for version table
             $joinConditions = array($this->_getPermissionCondition($accessLevel, $userId));
-            $joinConditions[] = sprintf('%s.version_id = %s.version_id',
-                $this->_versionTableAlias, $this->getMainTable());
+            $joinConditions[] = sprintf(
+                '%s.version_id = %s.version_id',
+                $this->_versionTableAlias,
+                $this->getMainTable()
+            );
             // joining version table
             $this->_joinVersionData($select, 'joinInner', implode(' AND ', $joinConditions));
 
@@ -232,9 +244,9 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\VersionsCms\Model\Page\Revision $object
      * @param int $versionId
      * @param int $pageId
-     * @param array|string $accessLevel
+     * @param string|string[] $accessLevel
      * @param int $userId
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision
+     * @return $this
      */
     public function loadByVersionPageWithRestrictions($object, $versionId, $pageId, $accessLevel, $userId)
     {
@@ -243,8 +255,7 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
             // getting main load select
             $select = $this->_getLoadSelect($this->getIdFieldName(), false, $object);
             // reseting all columns and where as we don't have need them
-            $select->reset(\Zend_Db_Select::COLUMNS)
-                   ->reset(\Zend_Db_Select::WHERE);
+            $select->reset(\Zend_Db_Select::COLUMNS)->reset(\Zend_Db_Select::WHERE);
 
             // adding where conditions with restriction filter
             $whereConditions = array($this->_getPermissionCondition($accessLevel, $userId));
@@ -279,7 +290,7 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Preparing array of conditions based on user id and version's access level.
      *
-     * @param array|string $accessLevel
+     * @param string|string[] $accessLevel
      * @param int $userId
      * @return string
      */
@@ -290,7 +301,10 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
         $permissionCondition[] = $read->quoteInto($this->_versionTableAlias . '.user_id = ? ', $userId);
 
         if (is_array($accessLevel) && !empty($accessLevel)) {
-            $permissionCondition[] = $read->quoteInto($this->_versionTableAlias . '.access_level IN (?)', $accessLevel);
+            $permissionCondition[] = $read->quoteInto(
+                $this->_versionTableAlias . '.access_level IN (?)',
+                $accessLevel
+            );
         } elseif ($accessLevel) {
             $permissionCondition[] = $read->quoteInto($this->_versionTableAlias . '.access_level = ?', $accessLevel);
         } else {
@@ -310,9 +324,11 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _joinVersionData($select, $joinType, $joinConditions)
     {
-        $select->$joinType(array($this->_versionTableAlias => $this->_versionTable),
+        $select->{$joinType}(
+            array($this->_versionTableAlias => $this->_versionTable),
             $joinConditions,
-            array('version_id', 'version_number', 'label', 'access_level', 'version_user_id' => 'user_id'));
+            array('version_id', 'version_number', 'label', 'access_level', 'version_user_id' => 'user_id')
+        );
 
         return $select;
     }
@@ -327,8 +343,7 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _joinPageData($select, $joinType, $joinConditions)
     {
-        $select->$joinType(array($this->_pageTableAlias => $this->_pageTable),
-            $joinConditions, array('title'));
+        $select->{$joinType}(array($this->_pageTableAlias => $this->_pageTable), $joinConditions, array('title'));
 
         return $select;
     }

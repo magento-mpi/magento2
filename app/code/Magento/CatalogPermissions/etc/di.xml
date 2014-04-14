@@ -9,11 +9,88 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <preference for="Magento\CatalogPermissions\App\ConfigInterface" type="Magento\CatalogPermissions\App\Config" />
     <type name="Magento\CatalogPermissions\Helper\Data">
-        <param name="customerSession">
-            <instance type="Magento\Customer\Model\Session\Proxy" />
-        </param>
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Store\Model\Resource\Store">
+        <plugin name="catalogPermissionsIndexerStoreView" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Store\View" />
+    </type>
+    <type name="Magento\Store\Model\Resource\Group">
+        <plugin name="catalogPermissionsIndexerStoreGroup" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Store\Group"/>
+    </type>
+    <type name="Magento\Indexer\Model\Indexer\State">
+        <plugin name="catalogPermissionsIndexerSetStatusForIndexer" type="Magento\CatalogPermissions\Model\Indexer\Plugin\IndexerState" />
+    </type>
+    <type name="Magento\ImportExport\Model\Import">
+        <plugin name="catalogPermissionImport" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Import" />
+    </type>
+    <type name="Magento\CatalogPermissions\Model\Indexer\Plugin\IndexerState">
+        <arguments>
+            <argument name="state" xsi:type="object" shared="false">Magento\Indexer\Model\Indexer\State</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Mview\View\StateInterface">
+        <plugin name="catalogPermissionsIndexerSetStatusForMview" type="Magento\CatalogPermissions\Model\Indexer\Plugin\MviewState" />
+    </type>
+    <type name="Magento\CatalogPermissions\Model\Indexer\Plugin\MviewState">
+        <arguments>
+            <argument name="state" xsi:type="object" shared="false">Magento\Mview\View\StateInterface</argument>
+            <argument name="changelog" xsi:type="object" shared="false">Magento\Mview\View\ChangelogInterface</argument>
+        </arguments>
+    </type>
+    <type name="Magento\CatalogPermissions\Model\Indexer\System\Config\Mode">
+        <arguments>
+            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Indexer\Model\Config\Data">
+        <plugin name="catalogPermissionsIndexerConfigGet" type="Magento\CatalogPermissions\Model\Indexer\Plugin\IndexerConfigData" />
+    </type>
+    <type name="Magento\Customer\Service\V1\CustomerGroupService">
+        <plugin name="customerGroupEdit" type="Magento\CatalogPermissions\Model\Indexer\Plugin\CustomerGroupV1" />
+    </type>
+    <type name="Magento\CatalogPermissions\Model\Indexer\Plugin\CustomerGroupV1">
+        <arguments>
+            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
+        </arguments>
+    </type>
+    <type name="Magento\CatalogPermissions\Model\Indexer\Plugin\AbstractProduct">
+        <arguments>
+            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="catalogPermissionsProductChange" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Product"/>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Action">
+        <plugin name="catalogPermissionsProductMassChange" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Product\Action"/>
+    </type>
+    <type name="Magento\Catalog\Model\Category">
+        <plugin name="categoryChange" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Category" />
+    </type>
+    <type name="Magento\CatalogPermissions\Model\Indexer\Plugin\Category">
+        <arguments>
+            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
+            <argument name="authorization" xsi:type="object">Magento\AuthorizationInterface\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\CatalogPermissions\Model\Indexer\Plugin\ConfigData">
+        <arguments>
+            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Backend\Model\Config">
+        <plugin name="configPermissionChange" type="Magento\CatalogPermissions\Model\Indexer\Plugin\ConfigData" />
+    </type>
+    <type name="Magento\Module\Setup\Migration">
+        <arguments>
+            <argument name="compositeModules" xsi:type="array">
+                <item name="magento_catalogpermissions" xsi:type="string">Magento_CatalogPermissions</item>
+            </argument>
+        </arguments>
     </type>
 </config>

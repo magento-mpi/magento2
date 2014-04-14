@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Model;
 
 /**
  * Increment model
@@ -39,10 +39,7 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\VersionsCms\Model;
-
-class Increment extends \Magento\Core\Model\AbstractModel
+class Increment extends \Magento\Model\AbstractModel
 {
     /*
      * Increment types
@@ -53,10 +50,13 @@ class Increment extends \Magento\Core\Model\AbstractModel
      * Increment levels
      */
     const LEVEL_VERSION = 0;
+
     const LEVEL_REVISION = 1;
 
     /**
      * Constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -70,7 +70,7 @@ class Increment extends \Magento\Core\Model\AbstractModel
      * @param int $type
      * @param int $node
      * @param int $level
-     * @return \Magento\VersionsCms\Model\Increment
+     * @return $this
      */
     public function loadByTypeNodeLevel($type, $node, $level)
     {
@@ -82,7 +82,7 @@ class Increment extends \Magento\Core\Model\AbstractModel
     /**
      * Get incremented value of counter.
      *
-     * @return mixed
+     * @return int
      */
     protected function _getNextId()
     {
@@ -110,9 +110,7 @@ class Increment extends \Magento\Core\Model\AbstractModel
 
         // if no counter for such combination we need to create new
         if (!$this->getId()) {
-            $this->setIncrementType($type)
-                ->setIncrementNode($node)
-                ->setIncrementLevel($level);
+            $this->setIncrementType($type)->setIncrementNode($node)->setIncrementLevel($level);
         }
 
         $newIncrementId = $this->_getNextId();

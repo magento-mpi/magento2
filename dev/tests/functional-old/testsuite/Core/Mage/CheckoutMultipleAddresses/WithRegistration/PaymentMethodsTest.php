@@ -18,8 +18,6 @@
  */
 class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
-    private static $_paypalAccount;
-
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -33,12 +31,8 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
 
     protected function tearDownAfterTestClass()
     {
-        $this->loginAdminUser();
-        $this->systemConfigurationHelper()->useHttps('frontend', 'no');
-        if (isset(self::$_paypalAccount)) {
-            $this->paypalHelper()->paypalDeveloperLogin();
-            $this->paypalHelper()->deleteAccount(self::$_paypalAccount);
-        }
+//        $this->loginAdminUser();
+//        $this->systemConfigurationHelper()->useHttps('frontend', 'no');
     }
 
     /**
@@ -56,7 +50,6 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
-        self::$_paypalAccount = $accountInfo['email'];
 
         return array(
             'products' => array(
@@ -81,6 +74,9 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
      */
     public function paymentsWithout3d($payment, $testData)
     {
+        if ($payment == 'paypaldirectuk') {
+            $this->markTestIncomplete('BUG: There is no "Website Payments Pro Payflow Edition" fiedset');
+        }
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
@@ -134,6 +130,9 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
      */
     public function paymentsWith3d($payment, $testData)
     {
+        if ($payment == 'paypaldirectuk') {
+            $this->markTestIncomplete('BUG: There is no "Website Payments Pro Payflow Edition" fiedset');
+        }
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
@@ -141,7 +140,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');
         //Steps
         if ($payment == 'paypaldirect') {
-            $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
+//            $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
             $paymentConfig = $this->overrideArrayData($testData['api'], $paymentConfig, 'byFieldKey');
         }
         $this->navigate('system_configuration');

@@ -7,16 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authorizenet\Helper;
 
 /**
- * Authorizenet Data Helper
+ * Authorize.net Data Helper
  */
 class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -27,12 +26,12 @@ class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\OrderFactory $orderFactory
     ) {
         parent::__construct($context);
@@ -49,7 +48,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
      */
     protected function _getUrl($route, $params = array())
     {
-        $params['_type'] = \Magento\Core\Model\Store::URL_TYPE_LINK;
+        $params['_type'] = \Magento\UrlInterface::URL_TYPE_LINK;
         if (isset($params['is_secure'])) {
             $params['_secure'] = (bool)$params['is_secure'];
         } elseif ($this->_storeManager->getStore()->isCurrentlySecure()) {
@@ -89,9 +88,9 @@ class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
     }
 
     /**
-     * Retrieve redirect ifrmae url
+     * Retrieve redirect iframe url
      *
-     * @param array params
+     * @param array $params
      * @return string
      */
     public function getRedirectIframeUrl($params)
@@ -122,7 +121,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
     /**
      * Retrieve place order url
      *
-     * @param array params
+     * @param array $params
      * @return  string
      */
     public function getSuccessOrderUrl($params)
@@ -133,7 +132,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
                 $route = 'checkout/onepage/success';
                 break;
 
-            default :
+            default:
                 $route = 'checkout/onepage/success';
                 break;
         }
@@ -146,6 +145,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
      * Needed for Admin area.
      *
      * @param \Magento\Sales\Model\Order $order
+     * @return void
      */
     public function updateOrderEditIncrements(\Magento\Sales\Model\Order $order)
     {
@@ -161,5 +161,169 @@ class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
                 $orderToUpdate->save();
             }
         }
+    }
+
+    /**
+     * Converts a lot of messages to message
+     *
+     * @param  array $messages
+     * @return string
+     */
+    public function convertMessagesToMessage($messages)
+    {
+        return implode(' | ', $messages);
+    }
+
+    /**
+     * Return message for gateway transaction request
+     * 
+     * @param \Magento\Payment\Model\Info $payment
+     * @param string $requestType
+     * @param string $lastTransactionId
+     * @param \Magento\Object $card
+     * @param bool|float $amount
+     * @param bool|string $exception
+     * @return bool|string
+     */
+    public function getTransactionMessage(
+        $payment,
+        $requestType,
+        $lastTransactionId,
+        $card,
+        $amount = false,
+        $exception = false
+    ) {
+        return $this->getExtendedTransactionMessage(
+            $payment,
+            $requestType,
+            $lastTransactionId,
+            $card,
+            $amount,
+            $exception
+        );
+    }
+
+    /**
+     * Return message for gateway transaction request
+     * 
+     * @param \Magento\Payment\Model\Info $payment
+     * @param string $requestType
+     * @param string $lastTransactionId
+     * @param \Magento\Object $card
+     * @param bool|float $amount
+     * @param bool|string $exception
+     * @param bool|string $additionalMessage
+     * @return bool|mixed
+     */
+    public function getExtendedTransactionMessage(
+        $payment,
+        $requestType,
+        $lastTransactionId,
+        $card,
+        $amount = false,
+        $exception = false,
+        $additionalMessage = false
+    ) {
+        $operation = $this->_getOperation($requestType);
+
+        if (!$operation) {
+            return false;
+        }
+
+        if ($amount) {
+            $amount = __('amount %1', $this->_formatPrice($payment, $amount));
+        }
+
+        if ($exception) {
+            $result = __('failed');
+        } else {
+            $result = __('successful');
+        }
+
+        $card = __('Credit Card: xxxx-%1', $card->getCcLast4());
+
+        $pattern = '%s %s %s - %s.';
+        $texts = array($card, $amount, $operation, $result);
+
+        if (!is_null($lastTransactionId)) {
+            $pattern .= ' %s.';
+            $texts[] = __('Authorize.Net Transaction ID %1', $lastTransactionId);
+        }
+
+        if ($additionalMessage) {
+            $pattern .= ' %s.';
+            $texts[] = $additionalMessage;
+        }
+        $pattern .= ' %s';
+        $texts[] = $exception;
+
+        return call_user_func_array('__', array_merge(array($pattern), $texts));
+    }
+
+    /**
+     * Return operation name for request type
+     *
+     * @param  string $requestType
+     * @return bool|string
+     */
+    protected function _getOperation($requestType)
+    {
+        switch ($requestType) {
+            case \Magento\Authorizenet\Model\Authorizenet::REQUEST_TYPE_AUTH_ONLY:
+                return __('authorize');
+            case \Magento\Authorizenet\Model\Authorizenet::REQUEST_TYPE_AUTH_CAPTURE:
+                return __('authorize and capture');
+            case \Magento\Authorizenet\Model\Authorizenet::REQUEST_TYPE_PRIOR_AUTH_CAPTURE:
+                return __('capture');
+            case \Magento\Authorizenet\Model\Authorizenet::REQUEST_TYPE_CREDIT:
+                return __('refund');
+            case \Magento\Authorizenet\Model\Authorizenet::REQUEST_TYPE_VOID:
+                return __('void');
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * Format price with currency sign
+     * @param  \Magento\Payment\Model\Info $payment
+     * @param float $amount
+     * @return string
+     */
+    protected function _formatPrice($payment, $amount)
+    {
+        return $payment->getOrder()->getBaseCurrency()->formatTxt($amount);
+    }
+
+    /**
+     * Get payment method step html
+     *
+     * @param \Magento\App\ViewInterface $view
+     * @return string
+     */
+    public function getPaymentMethodsHtml(\Magento\App\ViewInterface $view)
+    {
+        $layout = $view->getLayout();
+        $update = $layout->getUpdate();
+        $update->load('checkout_onepage_paymentmethod');
+        $layout->generateXml();
+        $layout->generateElements();
+        $output = $layout->getOutput();
+        return $output;
+    }
+
+    /**
+     * Get direct post rely url
+     *
+     * @param null|int|string $storeId
+     * @return string
+     */
+    public function getRelyUrl($storeId = null)
+    {
+        return $this->_storeManager->getStore(
+            $storeId
+        )->getBaseUrl(
+            \Magento\UrlInterface::URL_TYPE_LINK
+        ) . 'authorizenet/directpost_payment/response';
     }
 }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset;
 
 /**
@@ -14,16 +13,22 @@ namespace Magento\View\Asset;
 class Remote implements AssetInterface
 {
     /**
+     * URL
+     *
      * @var string
      */
     protected $url;
 
     /**
+     * Content type
+     *
      * @var string
      */
     protected $contentType;
 
     /**
+     * Constructor
+     *
      * @param string $url
      * @param string $contentType
      */

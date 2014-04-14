@@ -15,7 +15,6 @@
  * @package    Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Newsletter\Block;
 
 class Subscribe extends \Magento\View\Element\Template
@@ -39,13 +38,24 @@ class Subscribe extends \Magento\View\Element\Template
     ) {
         parent::__construct($context, $data);
         $this->_newsletterSession = $newsletterSession;
+        $this->_isScopePrivate = true;
     }
 
+    /**
+     * Get success message
+     *
+     * @return string
+     */
     public function getSuccessMessage()
     {
         return $this->_newsletterSession->getSuccess();
     }
 
+    /**
+     * Get error message
+     *
+     * @return string
+     */
     public function getErrorMessage()
     {
         return $this->_newsletterSession->getError();

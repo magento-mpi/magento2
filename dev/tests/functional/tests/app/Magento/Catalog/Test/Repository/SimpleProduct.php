@@ -36,7 +36,7 @@ class SimpleProduct extends Product
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         parent::__construct($defaultConfig, $defaultData);
         $this->_data[self::ADVANCED_INVENTORY] = $this->getSimpleAdvancedInventory();
@@ -67,7 +67,7 @@ class SimpleProduct extends Product
             'category_id' => '%category::getCategoryId%',
             'fields' => array_intersect_key(
                 $defaultData['fields'],
-                array_flip(array('name', 'sku', 'price', 'weight'))
+                array_flip(array('name', 'sku', 'price', 'weight', 'product_website_1'))
             )
         );
     }

@@ -47,12 +47,11 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_products');
-        $this->runMassAction('Delete', 'all');
         foreach (self::$_productTypes as $type) {
             $method = 'create' . ucfirst($type) . 'Product';
             $products[$type] = $this->productHelper()->$method();
         }
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
 
@@ -75,7 +74,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
         //Data
         list($products) = $testData;
         $simple = $products['simple']['simple']['product_name'];
-        $virtual = $products['configurable'][$productType]['product_name'];
+        $virtual = $products['grouped'][$productType]['product_name'];
         $checkout = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login_virtual',
             array('email' => $testData['email']),
             array('product_1' => $simple, 'product_2' => $virtual));
@@ -135,7 +134,6 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
      * @dataProvider withBundleProductDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5237
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function withBundleProduct($productType, $dateSet, $testData)
     {
@@ -175,7 +173,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
         $simple = $products['simple']['simple']['product_name'];
         $configurable = $products['configurable']['configurable']['product_name'];
         $optionParams = $products['configurable']['configurableOption'];
-        $optionParams['custom_option_dropdown'] = $products['configurable'][$productType . 'Option']['option_front'];
+        $optionParams['custom_option_dropdown'] = $products['configurable'][$productType . 'Option'];
         $productOptions = $this->loadDataSet('Product', 'configurable_options_to_add_to_shopping_cart', $optionParams);
         $checkout = $this->loadDataSet('MultipleAddressesCheckout', $dateSet, array('email' => $testData['email']),
             array('product_1' => $simple, 'product_2' => $configurable, 'option_product_2' => $productOptions));

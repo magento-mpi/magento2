@@ -17,8 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Wishlist;
 
-class Qty
-    extends \Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Qty
+class Qty extends \Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Qty
 {
     /**
      * Returns whether this qty field must be inactive
@@ -28,6 +27,6 @@ class Qty
      */
     protected function _isInactive($row)
     {
-        return $row->getProduct()->getTypeId() == \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE;
+        return parent::_isInactive($row->getProduct());
     }
 }

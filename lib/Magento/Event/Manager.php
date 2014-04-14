@@ -37,10 +37,8 @@ class Manager implements ManagerInterface
      * @param InvokerInterface $invoker
      * @param ConfigInterface $eventConfig
      */
-    public function __construct(
-        InvokerInterface $invoker,
-        ConfigInterface $eventConfig
-    ) {
+    public function __construct(InvokerInterface $invoker, ConfigInterface $eventConfig)
+    {
         $this->_invoker = $invoker;
         $this->_eventConfig = $eventConfig;
     }
@@ -53,6 +51,7 @@ class Manager implements ManagerInterface
      *
      * @param string $eventName
      * @param array $data
+     * @return void
      */
     public function dispatch($eventName, array $data = array())
     {
@@ -66,7 +65,7 @@ class Manager implements ManagerInterface
 
             \Magento\Profiler::start('OBSERVER:' . $observerConfig['name']);
             $this->_invoker->dispatch($observerConfig, $wrapper);
-            \Magento\Profiler::stop('OBSERVER:' .  $observerConfig['name']);
+            \Magento\Profiler::stop('OBSERVER:' . $observerConfig['name']);
         }
         \Magento\Profiler::stop('EVENT:' . $eventName);
     }

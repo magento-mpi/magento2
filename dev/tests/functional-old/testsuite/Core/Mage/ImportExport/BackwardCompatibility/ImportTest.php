@@ -50,45 +50,6 @@ class Core_Mage_ImportExport_BackwardCompatibility_ImportTest extends Mage_Selen
     }
 
     /**
-     * Has been excluded from functionality scope
-     * Validation Result block
-     * Verify that Validation Result block will be displayed after checking data of import file
-     *
-     * @test
-     * @TestlinkId TL-MAGE-1108
-     */
-    public function validationResultBlock()
-    {
-        $this->markTestIncomplete('Customers option is not present while Export now');
-        //Precondition
-        $this->navigate('export');
-        $this->importExportHelper()->chooseExportOptions('Customers');
-        $report = $this->importExportHelper()->export();
-        //calculate number of entities in csv file
-        $numberOfEntities = 0;
-        foreach ($report as $value) {
-            if ($value['email'] != '') {
-                $numberOfEntities++;
-            }
-        }
-        //Step 1
-        $this->navigate('import');
-        //Steps 2-4
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Append Complex Data');
-        //Step 5-6
-        $importData = $this->importExportHelper()->import($report);
-        //Verifying
-        $this->assertEquals(
-            'Checked rows: ' . count($report) . ', checked entities: ' . $numberOfEntities
-                . ', invalid rows: 0, total errors: 0',
-            $importData['validation']['validation'][0],
-            'Validation message is not correct'
-        );
-        $this->assertEquals('File is valid! To start import process press "Import" button  Import',
-            $importData['validation']['success'][0], 'Success message is not correct');
-    }
-
-    /**
      * Required columns
      *
      * @test
@@ -132,12 +93,14 @@ class Core_Mage_ImportExport_BackwardCompatibility_ImportTest extends Mage_Selen
     {
         return array(
             array(
-                $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
-                    'firstname' => 'New First Name',
-                    'lastname' => 'New Last Name',
-                    '_store' => ''
-                )),
-                $this->loadDataSet('ImportExport', 'generic_customer_csv', array('_store' => ''))
+                array(
+                    $this->loadDataSet( 'ImportExport', 'generic_customer_csv', array(
+                        'firstname' => 'New First Name',
+                        'lastname' => 'New Last Name',
+                        '_store' => ''
+                    )),
+                    $this->loadDataSet('ImportExport', 'generic_customer_csv', array('_store' => ''))
+                )
             )
         );
     }

@@ -14,7 +14,7 @@ class NoRouteHandlerList
     /**
      * No route handlers instances
      *
-     * @var array
+     * @var NoRouteHandlerInterface[]
      */
     protected $_handlers;
 
@@ -32,10 +32,8 @@ class NoRouteHandlerList
      * @param \Magento\ObjectManager $objectManager
      * @param array $handlerClassesList
      */
-    public function __construct(
-        \Magento\ObjectManager $objectManager,
-        array $handlerClassesList
-    ) {
+    public function __construct(\Magento\ObjectManager $objectManager, array $handlerClassesList)
+    {
         $this->_handlerList = $handlerClassesList;
         $this->_objectManager = $objectManager;
     }
@@ -43,7 +41,7 @@ class NoRouteHandlerList
     /**
      * Get noRoute handlers
      *
-     * @return array
+     * @return NoRouteHandlerInterface[]
      */
     public function getHandlers()
     {
@@ -52,8 +50,8 @@ class NoRouteHandlerList
             //sorting handlers list
             $sortedHandlersList = array();
             foreach ($this->_handlerList as $handlerInfo) {
-                if (isset($handlerInfo['instance']) && isset($handlerInfo['sortOrder'])) {
-                    $sortedHandlersList[$handlerInfo['instance']] = $handlerInfo['sortOrder'];
+                if (isset($handlerInfo['class']) && isset($handlerInfo['sortOrder'])) {
+                    $sortedHandlersList[$handlerInfo['class']] = $handlerInfo['sortOrder'];
                 }
             }
 

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework;
 
 /**
@@ -21,14 +20,14 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
      *
      * @var string
      */
-    protected $_locatorClassName = '\Magento\TestFramework\ObjectManager';
+    protected $_locatorClassName = 'Magento\TestFramework\ObjectManager';
 
     /**
      * Config class name
      *
      * @var string
      */
-    protected $_configClassName = '\Magento\TestFramework\ObjectManager\Config';
+    protected $_configClassName = 'Magento\TestFramework\ObjectManager\Config';
 
     /**
      * @var array
@@ -36,9 +35,31 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
     protected $_primaryConfigData = null;
 
     /**
-     * @var \Magento\TestFramework\Interception\PluginList
+     * Proxy over arguments instance, used by the application and all the DI stuff
+     *
+     * @var App\Arguments\Proxy
      */
-    protected $_pluginList = null;
+    protected $appArgumentsProxy;
+
+    /**
+     * Override the parent method and return proxied instance instead, so that we can reset the actual app arguments
+     * instance for all its clients at any time
+     *
+     * @param \Magento\App\Filesystem\DirectoryList $directoryList
+     * @param array $arguments
+     * @return App\Arguments\Proxy
+     * @throws \Magento\Exception
+     */
+    protected function createAppArguments(\Magento\App\Filesystem\DirectoryList $directoryList, array $arguments)
+    {
+        if ($this->appArgumentsProxy) {
+            // Framework constraint: this is ambiguous situation, because it is not clear what to do with older instance
+            throw new \Magento\Exception('Only one creation of application arguments is supported');
+        }
+        $appArguments = parent::createAppArguments($directoryList, $arguments);
+        $this->appArgumentsProxy = new App\Arguments\Proxy($appArguments);
+        return $this->appArgumentsProxy;
+    }
 
     /**
      * Restore locator instance
@@ -50,85 +71,76 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
      */
     public function restore(ObjectManager $objectManager, $rootDir, array $arguments)
     {
-        $directories = isset($arguments[\Magento\Filesystem::PARAM_APP_DIRS])
-            ? $arguments[\Magento\Filesystem::PARAM_APP_DIRS]
-            : array();
-        $directoryList = new \Magento\Filesystem\DirectoryList($rootDir, $directories);
+        $directories = isset(
+            $arguments[\Magento\App\Filesystem::PARAM_APP_DIRS]
+        ) ? $arguments[\Magento\App\Filesystem::PARAM_APP_DIRS] : array();
+        $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList($rootDir, $directories);
 
         \Magento\TestFramework\ObjectManager::setInstance($objectManager);
 
-        $this->_pluginList->reset();
-
         $objectManager->configure($this->_primaryConfigData);
+        $objectManager->addSharedInstance($directoryList, 'Magento\App\Filesystem\DirectoryList');
         $objectManager->addSharedInstance($directoryList, 'Magento\Filesystem\DirectoryList');
-        $objectManager->configure(array(
-            'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy' => array(
-                'parameters' => array('canSaveMap' => false)
-            ),
-            'default_setup' => array(
-                'type' => 'Magento\TestFramework\Db\ConnectionAdapter'
-            ),
-            'preferences' => array(
-                'Magento\Stdlib\Cookie' => 'Magento\TestFramework\Cookie',
-                'Magento\App\RequestInterface' => 'Magento\TestFramework\Request',
-                'Magento\App\ResponseInterface' => 'Magento\TestFramework\Response',
-            ),
-        ));
 
-        $options = new \Magento\App\Config(
-            $arguments,
-            new \Magento\App\Config\Loader($directoryList)
-        );
+        $appArguments = parent::createAppArguments($directoryList, $arguments);
+        $this->appArgumentsProxy->setSubject($appArguments);
+        $this->factory->setArguments($appArguments->get());
+        $objectManager->addSharedInstance($appArguments, 'Magento\App\Arguments');
 
-        $objectManager->addSharedInstance($options, 'Magento\App\Config');
-        $objectManager->getFactory()->setArguments($options->get());
-        $objectManager->configure(
-            $objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('global')
-        );
+        $objectManager->get('Magento\Interception\PluginList')->reset();
+        $objectManager->configure($objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('global'));
 
         return $objectManager;
     }
 
     /**
-     * Load primary config data
+     * Load primary config
      *
-     * @param string $configDirectoryPath
+     * @param \Magento\App\Filesystem\DirectoryList $directoryList
+     * @param mixed $argumentMapper
      * @param string $appMode
      * @return array
-     * @throws \Magento\BootstrapException
      */
-    protected function _loadPrimaryConfig($configDirectoryPath, $appMode)
-    {
+    protected function _loadPrimaryConfig(
+        \Magento\App\Filesystem\DirectoryList $directoryList,
+        $argumentMapper,
+        $appMode
+    ) {
         if (null === $this->_primaryConfigData) {
-            $this->_primaryConfigData = parent::_loadPrimaryConfig($configDirectoryPath, $appMode);
+            $this->_primaryConfigData = array_replace(
+                parent::_loadPrimaryConfig($directoryList, $argumentMapper, $appMode),
+                array(
+                    'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy' => array(
+                        'arguments' => array(
+                            'canSaveMap' => false
+                        )
+                    ),
+                    'default_setup' => array('type' => 'Magento\TestFramework\Db\ConnectionAdapter')
+                )
+            );
+            $this->_primaryConfigData['preferences'] = array_replace(
+                $this->_primaryConfigData['preferences'],
+                [
+                    'Magento\Stdlib\Cookie' => 'Magento\TestFramework\Cookie',
+                    'Magento\App\RequestInterface' => 'Magento\TestFramework\Request',
+                    'Magento\App\Request\Http' => 'Magento\TestFramework\Request',
+                    'Magento\App\ResponseInterface' => 'Magento\TestFramework\Response',
+                    'Magento\App\Response\Http' => 'Magento\TestFramework\Response',
+                    'Magento\Interception\PluginList' => 'Magento\TestFramework\Interception\PluginList',
+                    'Magento\Interception\ObjectManager\Config' => 'Magento\TestFramework\ObjectManager\Config',
+                    'Magento\View\LayoutInterface' => 'Magento\TestFramework\View\Layout'
+                ]
+            );
         }
         return $this->_primaryConfigData;
     }
 
     /**
-     * Create plugin list object
+     * Override method in while running integration tests to prevent getting Exception
      *
-     * @param \Magento\ObjectManager $locator
-     * @param \Magento\ObjectManager\Relations $relations
-     * @param \Magento\ObjectManager\DefinitionFactory $definitionFactory
-     * @param \Magento\ObjectManager\Config\Config $diConfig
-     * @param \Magento\ObjectManager\Definition $definitions
-     * @return \Magento\Interception\PluginList\PluginList
+     * @param \Magento\ObjectManager $objectManager
      */
-    protected function _createPluginList(
-        \Magento\ObjectManager $locator,
-        \Magento\ObjectManager\Relations $relations,
-        \Magento\ObjectManager\DefinitionFactory $definitionFactory,
-        \Magento\ObjectManager\Config\Config $diConfig,
-        \Magento\ObjectManager\Definition $definitions
-    ) {
-        $locator->configure(array('preferences' =>
-            array('Magento\Interception\PluginList\PluginList' => 'Magento\TestFramework\Interception\PluginList')
-        ));
-        $this->_pluginList = parent::_createPluginList(
-            $locator, $relations, $definitionFactory, $diConfig, $definitions
-        );
-        return $this->_pluginList;
+    protected function configureDirectories(\Magento\ObjectManager $objectManager)
+    {
     }
-
 }

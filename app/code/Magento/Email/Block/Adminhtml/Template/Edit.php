@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Email\Block\Adminhtml\Template;
 
 /**
  * Adminhtml system template edit block
@@ -16,12 +17,10 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @method array getTemplateOptions()
  */
-namespace Magento\Email\Block\Adminhtml\Template;
-
 class Edit extends \Magento\Backend\Block\Widget
 {
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registryManager;
 
@@ -60,7 +59,7 @@ class Edit extends \Magento\Backend\Block\Widget
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Backend\Model\Menu\Config $menuConfig
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\Email\Model\Template\Config $emailConfig
@@ -70,7 +69,7 @@ class Edit extends \Magento\Backend\Block\Widget
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Email\Model\Template\Config $emailConfig,
@@ -86,97 +85,107 @@ class Edit extends \Magento\Backend\Block\Widget
         parent::__construct($context, $data);
     }
 
+    /**
+     * Prepare layout
+     *
+     * @return $this
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function _prepareLayout()
     {
-        $this->setChild('back_button',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(
-                    array(
-                        'label'   => __('Back'),
-                        'onclick' => "window.location.href = '" . $this->getUrl('adminhtml/*') . "'",
-                        'class'   => 'back'
-                    )
+        $this->getToolbar()->setChild(
+            'back_button',
+            $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Button'
+            )->setData(
+                array(
+                    'label' => __('Back'),
+                    'onclick' => "window.location.href = '" . $this->getUrl('adminhtml/*') . "'",
+                    'class' => 'back'
                 )
+            )
         );
-        $this->setChild('reset_button',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(
-                    array(
-                        'label'   => __('Reset'),
-                        'onclick' => 'window.location.href = window.location.href'
-                    )
-                )
+        $this->getToolbar()->setChild(
+            'reset_button',
+            $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Button'
+            )->setData(
+                array('label' => __('Reset'), 'onclick' => 'window.location.href = window.location.href')
+            )
         );
-        $this->setChild('delete_button',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(
+        if ($this->getEditMode()) {
+            $this->getToolbar()->setChild(
+                'delete_button',
+                $this->getLayout()->createBlock(
+                    'Magento\Backend\Block\Widget\Button'
+                )->setData(
                     array(
-                        'label'   => __('Delete Template'),
+                        'label' => __('Delete Template'),
                         'onclick' => 'templateControl.deleteTemplate();',
-                        'class'   => 'delete'
+                        'class' => 'delete'
                     )
                 )
-        );
-        $this->setChild('to_plain_button',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(
+            );
+        }
+        if (!$this->isTextType()) {
+            $this->getToolbar()->setChild(
+                'to_plain_button',
+                $this->getLayout()->createBlock(
+                    'Magento\Backend\Block\Widget\Button'
+                )->setData(
                     array(
-                        'label'   => __('Convert to Plain Text'),
+                        'label' => __('Convert to Plain Text'),
                         'onclick' => 'templateControl.stripTags();',
-                        'id'      => 'convert_button'
+                        'id' => 'convert_button'
                     )
                 )
-        );
-        $this->setChild('to_html_button',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(
+            );
+            $this->getToolbar()->setChild(
+                'to_html_button',
+                $this->getLayout()->createBlock(
+                    'Magento\Backend\Block\Widget\Button'
+                )->setData(
                     array(
-                        'label'   => __('Return Html Version'),
+                        'label' => __('Return Html Version'),
                         'onclick' => 'templateControl.unStripTags();',
-                        'id'      => 'convert_button_back',
-                        'style'   => 'display:none'
+                        'id' => 'convert_button_back',
+                        'style' => 'display:none'
                     )
                 )
+            );
+        }
+        $this->getToolbar()->setChild(
+            'preview_button',
+            $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Button'
+            )->setData(
+                array('label' => __('Preview Template'), 'onclick' => 'templateControl.preview();')
+            )
         );
-        $this->setChild('toggle_button',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(
-                    array(
-                        'label'   => __('Toggle Editor'),
-                        'onclick' => 'templateControl.toggleEditor();',
-                        'id'      => 'toggle_button'
-                    )
+        $this->getToolbar()->setChild(
+            'save_button',
+            $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Button'
+            )->setData(
+                array(
+                    'label' => __('Save Template'),
+                    'onclick' => 'templateControl.save();',
+                    'class' => 'save primary save-template'
                 )
+            )
         );
-        $this->setChild('preview_button',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(
-                    array(
-                        'label'   => __('Preview Template'),
-                        'onclick' => 'templateControl.preview();'
-                    )
+        $this->setChild(
+            'load_button',
+            $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Button'
+            )->setData(
+                array(
+                    'label' => __('Load Template'),
+                    'onclick' => 'templateControl.load();',
+                    'type' => 'button',
+                    'class' => 'save'
                 )
-        );
-        $this->setChild('save_button',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(
-                    array(
-                        'label'   => __('Save Template'),
-                        'onclick' => 'templateControl.save();',
-                        'class'   => 'save'
-                    )
-                )
-        );
-        $this->setChild('load_button',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(
-                    array(
-                        'label'   => __('Load Template'),
-                        'onclick' => 'templateControl.load();',
-                        'type'    => 'button',
-                        'class'   => 'save'
-                    )
-                )
+            )
         );
         $this->addChild('form', 'Magento\Email\Block\Adminhtml\Template\Edit\Form');
         return parent::_prepareLayout();
@@ -185,7 +194,7 @@ class Edit extends \Magento\Backend\Block\Widget
     /**
      * Collect, sort and set template options
      *
-     * @return \Magento\Email\Block\Adminhtml\Template\Edit
+     * @return $this
      */
     protected function _beforeToHtml()
     {
@@ -211,55 +220,23 @@ class Edit extends \Magento\Backend\Block\Widget
             $options[] = array(
                 'value' => $templateId,
                 'label' => $this->_emailConfig->getTemplateLabel($templateId),
-                'group' => $this->_emailConfig->getTemplateModule($templateId),
+                'group' => $this->_emailConfig->getTemplateModule($templateId)
             );
         }
-        uasort($options, function (array $firstElement, array $secondElement) {
-            return strcmp($firstElement['label'], $secondElement['label']);
-        });
+        uasort(
+            $options,
+            function (array $firstElement, array $secondElement) {
+                return strcmp($firstElement['label'], $secondElement['label']);
+            }
+        );
         return $options;
     }
 
-    public function getBackButtonHtml()
-    {
-        return $this->getChildHtml('back_button');
-    }
-
-    public function getToggleButtonHtml()
-    {
-        return $this->getChildHtml('toggle_button');
-    }
-
-    public function getResetButtonHtml()
-    {
-        return $this->getChildHtml('reset_button');
-    }
-
-    public function getToPlainButtonHtml()
-    {
-        return $this->getChildHtml('to_plain_button');
-    }
-
-    public function getToHtmlButtonHtml()
-    {
-        return $this->getChildHtml('to_html_button');
-    }
-
-    public function getSaveButtonHtml()
-    {
-        return $this->getChildHtml('save_button');
-    }
-
-    public function getPreviewButtonHtml()
-    {
-        return $this->getChildHtml('preview_button');
-    }
-
-    public function getDeleteButtonHtml()
-    {
-        return $this->getChildHtml('delete_button');
-    }
-
+    /**
+     * Get the html element for load button
+     *
+     * @return string
+     */
     public function getLoadButtonHtml()
     {
         return $this->getChildHtml('load_button');
@@ -285,7 +262,7 @@ class Edit extends \Magento\Backend\Block\Widget
         if ($this->getEditMode()) {
             return __('Edit Email Template');
         }
-        return  __('New Email Template');
+        return __('New Email Template');
     }
 
     /**
@@ -318,6 +295,11 @@ class Edit extends \Magento\Backend\Block\Widget
         return $this->getUrl('adminhtml/*/preview');
     }
 
+    /**
+     * Return true if template type is text; return false otherwise
+     *
+     * @return bool
+     */
     public function isTextType()
     {
         return $this->getEmailTemplate()->isPlain();
@@ -392,9 +374,9 @@ class Edit extends \Magento\Backend\Block\Widget
     /**
      * Convert xml config paths to decorated names
      *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @param array $paths
      * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _getSystemConfigPathsParts($paths)
     {
@@ -403,15 +385,13 @@ class Edit extends \Magento\Backend\Block\Widget
         if ($paths) {
             /** @var $menu \Magento\Backend\Model\Menu */
             $menu = $this->_menuConfig->getMenu();
-            $item = $menu->get('Magento_Adminhtml::system');
+            $item = $menu->get('Magento_Backend::stores');
             // create prefix path parts
+            $prefixParts[] = array('title' => __($item->getTitle()));
+            $item = $menu->get('Magento_Backend::system_config');
             $prefixParts[] = array(
                 'title' => __($item->getTitle()),
-            );
-            $item = $menu->get('Magento_Adminhtml::system_config');
-            $prefixParts[] = array(
-                'title' => __($item->getTitle()),
-                'url' => $this->getUrl('adminhtml/system_config/'),
+                'url' => $this->getUrl('adminhtml/system_config/')
             );
 
             $pathParts = $prefixParts;
@@ -443,22 +423,18 @@ class Edit extends \Magento\Backend\Block\Widget
                 }
                 $pathParts[] = array(
                     'title' => $this->_configStructure->getElement($sectionName)->getLabel(),
-                    'url' => $this->getUrl('adminhtml/system_config/edit', $urlParams),
+                    'url' => $this->getUrl('adminhtml/system_config/edit', $urlParams)
                 );
                 $elementPathParts = array($sectionName);
                 while (count($pathDataParts) != 1) {
                     $elementPathParts[] = array_shift($pathDataParts);
                     $pathParts[] = array(
-                        'title' => $this->_configStructure
-                            ->getElementByPathParts($elementPathParts)
-                            ->getLabel()
+                        'title' => $this->_configStructure->getElementByPathParts($elementPathParts)->getLabel()
                     );
                 }
                 $elementPathParts[] = array_shift($pathDataParts);
                 $pathParts[] = array(
-                    'title' => $this->_configStructure
-                        ->getElementByPathParts($elementPathParts)
-                        ->getLabel(),
+                    'title' => $this->_configStructure->getElementByPathParts($elementPathParts)->getLabel(),
                     'scope' => $scopeLabel
                 );
                 $result[] = $pathParts;

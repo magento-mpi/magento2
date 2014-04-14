@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TargetRule\Block\Checkout\Cart;
 
 /**
@@ -34,7 +33,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected $_products;
 
     /**
-     * object of just added product to cart
+     * Object of just added product to cart
      *
      * @var \Magento\Catalog\Model\Product
      */
@@ -88,17 +87,12 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected $_productCollectionFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
-     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
-     * @param \Magento\Theme\Helper\Layout $layoutHelper
-     * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
+     */
+    protected $productTypeConfig;
+
+    /**
+     * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\TargetRule\Model\Resource\Index $index
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
@@ -108,22 +102,12 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      * @param \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param array $data
-     * 
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @param array $priceBlockTypes
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Catalog\Block\Product\Context $context,
         \Magento\TargetRule\Model\Resource\Index $index,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
@@ -133,8 +117,11 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
-        array $data = array()
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
+        $this->productTypeConfig = $productTypeConfig;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_visibility = $visibility;
         $this->_status = $status;
@@ -144,20 +131,12 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         $this->_indexFactory = $indexFactory;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
             $index,
             $targetRuleData,
-            $data
+            $data,
+            $priceBlockTypes
         );
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -240,7 +219,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
 
     /**
      * Retrieve Array of product ids which have special relation with products in Cart
-     * For example simple product as part of Grouped product
+     * For example simple product as part of product type that represents product set
      *
      * @return array
      */
@@ -249,9 +228,10 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         $productIds = array();
         foreach ($this->getQuote()->getAllItems() as $quoteItem) {
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');
-            if ($productTypeOpt instanceof \Magento\Sales\Model\Quote\Item\Option
-                && $productTypeOpt->getValue() == \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE
-                && $productTypeOpt->getProductId()
+            if ($productTypeOpt instanceof \Magento\Sales\Model\Quote\Item\Option &&
+                $this->productTypeConfig->isProductSet(
+                    $productTypeOpt->getValue()
+                ) && $productTypeOpt->getProductId()
             ) {
                 $productIds[] = $productTypeOpt->getProductId();
             }
@@ -296,17 +276,15 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     /**
      * Get link collection for cross-sell
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection|null
      */
     protected function _getTargetLinkCollection()
     {
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Link\Product\Collection */
-        $collection = $this->_productLinkFactory->create()
-            ->useCrossSellLinks()
-            ->getProductCollection()
-            ->setStoreId($this->_storeManager->getStore()->getId())
-            ->setGroupBy();
+        $collection = $this->_productLinkFactory->create()->useCrossSellLinks()->getProductCollection()->setStoreId(
+            $this->_storeManager->getStore()->getId()
+        )->setGroupBy();
         $this->_addProductAttributesAndPrices($collection);
         $collection->setVisibility($this->_visibility->getVisibleInSiteIds());
         $this->_status->addIsInStockFilterToCollection($collection);
@@ -336,18 +314,21 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      * Retrieve Product Ids from Cross-sell rules based products index by product object
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param int $limit
+     * @param int $count
      * @param array $excludeProductIds
      * @return array
      */
     protected function _getProductIdsFromIndexByProduct($product, $count, $excludeProductIds = array())
     {
-        return $this->_getTargetRuleIndex()
-            ->setType(\Magento\TargetRule\Model\Rule::CROSS_SELLS)
-            ->setLimit($count)
-            ->setProduct($product)
-            ->setExcludeProductIds($excludeProductIds)
-            ->getProductIds();
+        return $this->_getTargetRuleIndex()->setType(
+            \Magento\TargetRule\Model\Rule::CROSS_SELLS
+        )->setLimit(
+            $count
+        )->setProduct(
+            $product
+        )->setExcludeProductIds(
+            $excludeProductIds
+        )->getProductIds();
     }
 
     /**
@@ -372,7 +353,6 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     /**
      * Retrieve Product Ids from Cross-sell rules based products index by products in shopping cart
      *
-     * @param \Magento\Catalog\Model\Product $product
      * @param int $limit
      * @param array $excludeProductIds
      * @return array
@@ -386,8 +366,11 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
                 continue;
             }
 
-            $productIds = $this
-                ->_getProductIdsFromIndexByProduct($product, $this->getPositionLimit(), $excludeProductIds);
+            $productIds = $this->_getProductIdsFromIndexByProduct(
+                $product,
+                $this->getPositionLimit(),
+                $excludeProductIds
+            );
             $resultIds = array_merge($resultIds, $productIds);
         }
 
@@ -420,9 +403,14 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     {
         $excludeProductIds = $this->_getExcludeProductIds();
         $limit = $this->getPositionLimit();
-        $productIds = $this->_byLastAddedProduct
-            ? $this->_getProductIdsFromIndexByProduct($this->getLastAddedProduct(), $limit, $excludeProductIds)
-            : $this->_getProductIdsFromIndexForCartProducts($limit, $excludeProductIds);
+        $productIds = $this->_byLastAddedProduct ? $this->_getProductIdsFromIndexByProduct(
+            $this->getLastAddedProduct(),
+            $limit,
+            $excludeProductIds
+        ) : $this->_getProductIdsFromIndexForCartProducts(
+            $limit,
+            $excludeProductIds
+        );
 
         $items = array();
         if ($productIds) {

@@ -19,7 +19,7 @@ class Core_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderForRegisteredTest
 {
     public function setUpBeforeTests()
     {
-        $this->markTestIncomplete('BUG: group is not change after onepage checkout');
+        $this->markTestIncomplete('MAGETWO-15584');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
@@ -27,7 +27,7 @@ class Core_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderForRegisteredTest
         $this->clickControl('button', 'validate_vat_number', false);
         $this->pleaseWait();
         //Verification
-        if (!$this->controlIsVisible('pageelement', 'vat_number_is_valid')){
+        if (!$this->controlIsVisible('message', 'vat_number_is_valid')){
             $this->skipTestWithScreenshot('VAT Number is not valid');
         }
     }
@@ -102,7 +102,6 @@ class Core_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderForRegisteredTest
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney', $vatNumber);
         //Steps
         $this->logoutCustomer();
-        $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
         //Verification

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <update handle="editor"/>
     <referenceBlock name="head">
         <block class="Magento\Theme\Block\Html\Head\Css" name="jquery-fileuploader-css-jquery-fileupload-ui-css">
@@ -41,6 +41,17 @@
             </arguments>
         </block>
     </referenceBlock>
+    <referenceContainer name="page.main.actions">
+        <block class="Magento\Backend\Block\Store\Switcher" name="category.store.switcher" template="Magento_Backend::store/switcher.phtml">
+            <!--<arguments>-->
+                <!--<argument name="switch_url" xsi:type="url" path="catalog/*/*">-->
+                    <!--<param name="_current" xsi:type="boolean">true</param>-->
+                    <!--<param name="_query" xsi:type="boolean">false</param>-->
+                    <!--<param name="store" xsi:type="null" />-->
+                <!--</argument>-->
+            <!--</arguments>-->
+        </block>
+    </referenceContainer>
     <referenceContainer name="left">
         <block class="Magento\Catalog\Block\Adminhtml\Category\Tree" name="category.tree" template="catalog/category/tree.phtml"/>
     </referenceContainer>

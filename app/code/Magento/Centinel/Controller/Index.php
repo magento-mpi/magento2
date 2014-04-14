@@ -19,18 +19,16 @@ class Index extends \Magento\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -38,6 +36,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * Process autentication start action
      *
+     * @return void
      */
     public function authenticationStartAction()
     {
@@ -51,6 +50,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * Process autentication complete action
      *
+     * @return void
      */
     public function authenticationCompleteAction()
     {
@@ -95,4 +95,3 @@ class Index extends \Magento\App\Action\Action
         return false;
     }
 }
-

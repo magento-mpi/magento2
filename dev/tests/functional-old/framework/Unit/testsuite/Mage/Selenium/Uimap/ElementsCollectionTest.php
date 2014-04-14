@@ -1,12 +1,10 @@
 <?php
+
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 class Mage_Selenium_Uimap_ElementsCollectionTest extends Unit_PHPUnit_TestCase
 {
@@ -23,8 +21,8 @@ class Mage_Selenium_Uimap_ElementsCollectionTest extends Unit_PHPUnit_TestCase
     public function test__get()
     {
         $uimapHelper = $this->_testConfig->getHelper('uimap');
-        $uipage = $uimapHelper->getUimapPage('admin', 'create_customer');
-        $buttons = $uipage->getMainForm()->getAllButtons();
+        $page = $uimapHelper->getUimapPage('admin', 'create_customer');
+        $buttons = $page->getMainForm()->getAllButtons();
         $this->assertInstanceOf('Mage_Selenium_Uimap_ElementsCollection', $buttons);
         $this->assertGreaterThanOrEqual(1, count($buttons));
         foreach ($buttons as $buttonXPath) {
@@ -38,8 +36,8 @@ class Mage_Selenium_Uimap_ElementsCollectionTest extends Unit_PHPUnit_TestCase
     public function testGet()
     {
         $uimapHelper = $this->_testConfig->getHelper('uimap');
-        $uipage = $uimapHelper->getUimapPage('admin', 'create_customer');
-        $button = $uipage->getAllButtons()->get('save_customer');
+        $page = $uimapHelper->getUimapPage('admin', 'create_customer');
+        $button = $page->getAllButtons()->get('save_customer');
         $this->assertInternalType('string', $button);
     }
 
@@ -52,8 +50,8 @@ class Mage_Selenium_Uimap_ElementsCollectionTest extends Unit_PHPUnit_TestCase
         $this->assertEquals('elementType', $instance->getType());
 
         $uimapHelper = $this->_testConfig->getHelper('uimap');
-        $uipage = $uimapHelper->getUimapPage('admin', 'create_customer');
-        $fieldsets = $uipage->getMainForm()->getAllFieldsets();
+        $page = $uimapHelper->getUimapPage('admin', 'create_customer');
+        $fieldsets = $page->getMainForm()->getAllFieldsets();
         $fieldsetsType = $fieldsets->getType();
         $this->assertEquals('fieldsets', $fieldsetsType);
     }

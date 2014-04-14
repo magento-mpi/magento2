@@ -24,7 +24,7 @@ class Config
     protected $_widget;
 
     /**
-     * @var \Magento\Backend\Model\Url
+     * @var \Magento\Backend\Model\UrlInterface
      */
     protected $_backendUrl;
 
@@ -39,13 +39,13 @@ class Config
     protected $_widgetFactory;
 
     /**
-     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\Widget\Model\WidgetFactory $widgetFactory
      */
     public function __construct(
-        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Core\Helper\Data $coreHelper,
         \Magento\View\Url $viewUrl,
         \Magento\Widget\Model\WidgetFactory $widgetFactory
@@ -68,9 +68,9 @@ class Config
             'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/editor_plugin.js'
         );
         $settings = array(
-            'widget_plugin_src'   => $url,
+            'widget_plugin_src' => $url,
             'widget_placeholders' => $this->_widgetFactory->create()->getPlaceholderImageUrls(),
-            'widget_window_url'   => $this->getWidgetWindowUrl($config)
+            'widget_window_url' => $this->getWidgetWindowUrl($config)
         );
 
         return $settings;
@@ -106,7 +106,7 @@ class Config
     /**
      * Encode list of widget types into query param
      *
-     * @param array $widgets List of widgets
+     * @param string[]|string $widgets List of widgets
      * @return string Query param value
      */
     public function encodeWidgetsToQuery($widgets)
@@ -120,12 +120,11 @@ class Config
      * Decode URL query param and return list of widgets
      *
      * @param string $queryParam Query param value to decode
-     * @return array Array of widget types
+     * @return string[] Array of widget types
      */
     public function decodeWidgetsFromQuery($queryParam)
     {
         $param = $this->_coreHelper->urlDecode($queryParam);
         return preg_split('/\s*\,\s*/', $param, 0, PREG_SPLIT_NO_EMPTY);
     }
-
 }

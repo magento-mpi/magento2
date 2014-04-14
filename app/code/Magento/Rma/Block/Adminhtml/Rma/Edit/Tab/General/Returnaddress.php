@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
 
 /**
  * Request Details Block at RMA page
@@ -15,10 +16,7 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
-
-class Returnaddress
-    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
+class Returnaddress extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {
     /**
      * Rma data
@@ -29,13 +27,13 @@ class Returnaddress
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         array $data = array()
     ) {
@@ -45,6 +43,8 @@ class Returnaddress
 
     /**
      * Constructor
+     *
+     * @return void
      */
     public function _construct()
     {
@@ -66,5 +66,4 @@ class Returnaddress
     {
         return $this->_rmaData->getReturnAddress('html', array(), $this->getStoreId());
     }
-
 }

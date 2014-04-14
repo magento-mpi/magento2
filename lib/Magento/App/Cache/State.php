@@ -9,12 +9,17 @@
  */
 namespace Magento\App\Cache;
 
-class State implements \Magento\App\Cache\StateInterface
+class State implements StateInterface
 {
     /**
      * Cache identifier used to store cache type statuses
      */
     const CACHE_ID  = 'core_cache_options';
+    
+    /**
+     * Disallow cache
+     */
+    const PARAM_BAN_CACHE = 'global_ban_use_cache';
 
     /**
      * Persistent storage of cache type statuses
@@ -60,6 +65,7 @@ class State implements \Magento\App\Cache\StateInterface
      * Load statuses (enabled/disabled) of cache types
      *
      * @param bool $forceDisableAll
+     * @return void
      */
     private function _loadTypeStatuses($forceDisableAll = false)
     {
@@ -95,6 +101,7 @@ class State implements \Magento\App\Cache\StateInterface
      *
      * @param string $cacheType
      * @param bool $isEnabled
+     * @return void
      */
     public function setEnabled($cacheType, $isEnabled)
     {
@@ -103,6 +110,8 @@ class State implements \Magento\App\Cache\StateInterface
 
     /**
      * Save the current statuses (enabled/disabled) of cache types to the persistent storage
+     *
+     * @return void
      */
     public function persist()
     {

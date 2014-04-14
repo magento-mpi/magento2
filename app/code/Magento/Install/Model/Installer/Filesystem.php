@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Install\Model\Installer;
 
 /**
@@ -19,11 +18,13 @@ class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
      * @deprecated since 1.7.1.0
      */
     const MODE_WRITE = 'write';
-    const MODE_READ  = 'read';
+
+    const MODE_READ = 'read';
+
     /**#@- */
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -48,13 +49,13 @@ class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
 
     /**
      * @param \Magento\Install\Model\Installer $installer
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Install\Model\Config $installConfig
      * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Install\Model\Config $installConfig,
         \Magento\Message\ManagerInterface $messageManager
     ) {
@@ -67,12 +68,14 @@ class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
     /**
      * Check and prepare file system
      *
+     * @return $this
+     * @throws \Exception
      */
     public function install()
     {
         if (!$this->_checkFilesystem()) {
             throw new \Exception();
-        };
+        }
         return $this;
     }
 
@@ -108,7 +111,7 @@ class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
     protected function _checkFullPath($fullPath, $recursive, $existence)
     {
         $result = true;
-        $directory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+        $directory = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $path = $directory->getRelativePath($fullPath);
         if ($recursive && $directory->isDirectory($path)) {
             $pathsToCheck = $directory->read($path);

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\User\Model\Resource\User;
 
 /**
  * Admin user collection
@@ -16,13 +16,12 @@
  * @package     Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\User\Model\Resource\User;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define resource model
      *
+     * @return void
      */
     protected function _construct()
     {

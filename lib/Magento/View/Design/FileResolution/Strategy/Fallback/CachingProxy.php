@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\FileResolution\Strategy\Fallback;
 
-use Magento\Filesystem;
+use Magento\App\Filesystem;
 use Magento\View\Design\FileResolution\Strategy\Fallback;
 use Magento\View\Design\FileResolution\Strategy\FileInterface;
 use Magento\View\Design\FileResolution\Strategy\LocaleInterface;
@@ -54,6 +53,8 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
     protected $canSaveMap;
 
     /**
+     * Var directory
+     *
      * @var Write
      */
     protected $varDirectory;
@@ -66,6 +67,8 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
     protected $sections = array();
 
     /**
+     * Constructor
+     *
      * @param Fallback $fallback
      * @param Filesystem $filesystem
      * @param string $mapDir
@@ -77,12 +80,13 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
         Fallback $fallback,
         Filesystem $filesystem,
         $mapDir,
-        $baseDir, // magento root
+        // magento root
+        $baseDir,
         $canSaveMap = true
     ) {
         $this->fallback = $fallback;
         $this->varDirectory = $filesystem->getDirectoryWrite(Filesystem::VAR_DIR);
-        $rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT);
+        $rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT_DIR);
         if (!$rootDirectory->isDirectory($rootDirectory->getRelativePath($baseDir))) {
             throw new \InvalidArgumentException("Wrong base directory specified: '{$baseDir}'");
         }
@@ -183,7 +187,7 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
     protected function getFromMap($fileType, $area, ThemeInterface $theme, $locale, $module, $file)
     {
         $sectionKey = $this->loadSection($area, $theme, $locale);
-        $fileKey = "$fileType|$file|$module";
+        $fileKey = "{$fileType}|{$file}|{$module}";
         if (isset($this->sections[$sectionKey]['data'][$fileKey])) {
             $value = $this->sections[$sectionKey]['data'][$fileKey];
             if ('' !== (string)$value) {
@@ -204,6 +208,7 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
      * @param string|null $module
      * @param string $file
      * @param string $filePath
+     * @return void
      * @throws \Magento\Exception
      */
     protected function setToMap($fileType, $area, ThemeInterface $theme, $locale, $module, $file, $filePath)
@@ -216,7 +221,7 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
         $value = ltrim(substr($filePath, strlen($this->baseDir)), '/\\');
 
         $sectionKey = $this->loadSection($area, $theme, $locale);
-        $fileKey = "$fileType|$file|$module";
+        $fileKey = "{$fileType}|{$file}|{$module}";
         $this->sections[$sectionKey]['data'][$fileKey] = $value;
         $this->sections[$sectionKey]['is_changed'] = true;
     }
@@ -248,10 +253,7 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
         $sectionFile = $this->getSectionFile($area, $themeModel, $locale);
         if (!isset($this->sections[$sectionFile])) {
             $filePath = $this->mapDir . '/' . $sectionFile;
-            $this->sections[$sectionFile] = array(
-                'data' => array(),
-                'is_changed' => false,
-            );
+            $this->sections[$sectionFile] = array('data' => array(), 'is_changed' => false);
             if ($this->varDirectory->isFile($filePath)) {
                 $this->sections[$sectionFile]['data'] = unserialize($this->varDirectory->readFile($filePath));
             }
@@ -268,7 +270,7 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
      * @param string|null $module
      * @param string $file
      * @param string $newFilePath
-     * @return \Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy
+     * @return $this
      */
     public function setViewFilePathToMap($area, ThemeInterface $themeModel, $locale, $module, $file, $newFilePath)
     {

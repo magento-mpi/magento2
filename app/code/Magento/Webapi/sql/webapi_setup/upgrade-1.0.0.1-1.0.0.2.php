@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var \Magento\Core\Model\Resource\Setup $installer */
+/* @var \Magento\Module\Setup $installer */
 $installer = $this;
 $installer->startSetup();
 $connection = $installer->getConnection();
@@ -22,12 +22,7 @@ $connection->dropIndex(
 $connection->addColumn(
     $table,
     'company_name',
-    array(
-        'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
-        'length' => 255,
-        'nullable' => true,
-        'comment' => 'Company Name',
-    )
+    array('type' => \Magento\DB\Ddl\Table::TYPE_TEXT, 'length' => 255, 'nullable' => true, 'comment' => 'Company Name')
 );
 $connection->addColumn(
     $table,
@@ -36,19 +31,14 @@ $connection->addColumn(
         'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
         'length' => 255,
         'nullable' => false,
-        'comment' => 'Contact Email',
+        'comment' => 'Contact Email'
     )
 );
 $connection->changeColumn(
     $table,
     'user_name',
     'api_key',
-    array(
-        'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
-        'length' => 255,
-        'nullable' => false,
-        'comment' => 'Web API key'
-    )
+    array('type' => \Magento\DB\Ddl\Table::TYPE_TEXT, 'length' => 255, 'nullable' => false, 'comment' => 'Web API key')
 );
 
 $connection->addIndex(

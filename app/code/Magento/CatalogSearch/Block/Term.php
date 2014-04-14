@@ -17,36 +17,53 @@
  */
 namespace Magento\CatalogSearch\Block;
 
-class Term extends \Magento\View\Element\Template
+use Magento\CatalogSearch\Model\Resource\Query\CollectionFactory;
+use Magento\UrlFactory;
+use Magento\UrlInterface;
+use Magento\View\Element\Template;
+use Magento\View\Element\Template\Context;
+
+class Term extends Template
 {
+    /**
+     * @var array
+     */
     protected $_terms;
+
+    /**
+     * @var int
+     */
     protected $_minPopularity;
+
+    /**
+     * @var int
+     */
     protected $_maxPopularity;
 
     /**
      * Url factory
      *
-     * @var \Magento\Core\Model\UrlFactory
+     * @var UrlFactory
      */
     protected $_urlFactory;
 
     /**
      * Query collection factory
      *
-     * @var \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory
+     * @var CollectionFactory
      */
     protected $_queryCollectionFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queryCollectionFactory
-     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param Context $context
+     * @param CollectionFactory $queryCollectionFactory
+     * @param UrlFactory $urlFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queryCollectionFactory,
-        \Magento\Core\Model\UrlFactory $urlFactory,
+        Context $context,
+        CollectionFactory $queryCollectionFactory,
+        UrlFactory $urlFactory,
         array $data = array()
     ) {
         $this->_queryCollectionFactory = $queryCollectionFactory;
@@ -57,19 +74,19 @@ class Term extends \Magento\View\Element\Template
     /**
      * Load terms and try to sort it by names
      *
-     * @return \Magento\CatalogSearch\Block\Term
+     * @return $this
      */
     protected function _loadTerms()
     {
         if (empty($this->_terms)) {
             $this->_terms = array();
-            $terms = $this->_queryCollectionFactory->create()
-                ->setPopularQueryFilter($this->_storeManager->getStore()->getId())
-                ->setPageSize(100)
-                ->load()
-                ->getItems();
+            $terms = $this->_queryCollectionFactory->create()->setPopularQueryFilter(
+                $this->_storeManager->getStore()->getId()
+            )->setPageSize(
+                100
+            )->load()->getItems();
 
-            if( count($terms) == 0 ) {
+            if (count($terms) == 0) {
                 return $this;
             }
 
@@ -77,12 +94,12 @@ class Term extends \Magento\View\Element\Template
             $this->_maxPopularity = reset($terms)->getPopularity();
             $this->_minPopularity = end($terms)->getPopularity();
             $range = $this->_maxPopularity - $this->_minPopularity;
-            $range = ( $range == 0 ) ? 1 : $range;
+            $range = $range == 0 ? 1 : $range;
             foreach ($terms as $term) {
-                if( !$term->getPopularity() ) {
+                if (!$term->getPopularity()) {
                     continue;
                 }
-                $term->setRatio(($term->getPopularity()-$this->_minPopularity)/$range);
+                $term->setRatio(($term->getPopularity() - $this->_minPopularity) / $range);
                 $temp[$term->getName()] = $term;
                 $termKeys[] = $term->getName();
             }
@@ -95,29 +112,42 @@ class Term extends \Magento\View\Element\Template
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function getTerms()
     {
         $this->_loadTerms();
         return $this->_terms;
     }
 
+    /**
+     * @param /Magento/Object $obj
+     * @return string
+     */
     public function getSearchUrl($obj)
     {
-        /** @var $url \Magento\Core\Model\Url */
+        /** @var $url UrlInterface */
         $url = $this->_urlFactory->create();
         /*
-        * url encoding will be done in Url.php http_build_query
-        * so no need to explicitly called urlencode for the text
-        */
+         * url encoding will be done in Url.php http_build_query
+         * so no need to explicitly called urlencode for the text
+         */
         $url->setQueryParam('q', $obj->getName());
         return $url->getUrl('catalogsearch/result');
     }
 
+    /**
+     * @return int
+     */
     public function getMaxPopularity()
     {
         return $this->_maxPopularity;
     }
 
+    /**
+     * @return int
+     */
     public function getMinPopularity()
     {
         return $this->_minPopularity;

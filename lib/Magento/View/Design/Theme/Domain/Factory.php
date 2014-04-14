@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Theme\Domain;
 
-use \Magento\View\Design\ThemeInterface;
+use Magento\View\Design\ThemeInterface;
 
 /**
  * Theme domain model class factory
@@ -16,20 +15,26 @@ use \Magento\View\Design\ThemeInterface;
 class Factory
 {
     /**
+     * Object manager
+     *
      * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
+     * Types
+     *
      * @var array
      */
     protected $_types = array(
         ThemeInterface::TYPE_PHYSICAL => 'Magento\View\Design\Theme\Domain\PhysicalInterface',
-        ThemeInterface::TYPE_VIRTUAL  => 'Magento\View\Design\Theme\Domain\VirtualInterface',
-        ThemeInterface::TYPE_STAGING  => 'Magento\View\Design\Theme\Domain\StagingInterface',
+        ThemeInterface::TYPE_VIRTUAL => 'Magento\View\Design\Theme\Domain\VirtualInterface',
+        ThemeInterface::TYPE_STAGING => 'Magento\View\Design\Theme\Domain\StagingInterface'
     );
 
     /**
+     * Constructor
+     *
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(\Magento\ObjectManager $objectManager)

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid;
 
 /**
  * @method string|array getInputNames()
@@ -15,8 +16,6 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Widget\Grid;
-
 class Serializer extends \Magento\View\Element\Template
 {
     /**
@@ -50,14 +49,15 @@ class Serializer extends \Magento\View\Element\Template
             $grid = $this->getLayout()->getBlock($grid);
         }
         if ($grid instanceof \Magento\Backend\Block\Widget\Grid) {
-            $this->setGridBlock($grid)
-                ->setSerializeData($grid->{$this->getCallback()}());
+            $this->setGridBlock($grid)->setSerializeData($grid->{$this->getCallback()}());
         }
         return parent::_prepareLayout();
     }
 
     /**
      * Set serializer template
+     *
+     * @return void
      */
     public function _construct()
     {
@@ -69,7 +69,6 @@ class Serializer extends \Magento\View\Element\Template
      * Get grid column input names to serialize
      *
      * @param bool $asJSON
-     *
      * @return string|array
      */
     public function getColumnInputNames($asJSON = false)

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule;
 
 /**
  * Factory class for Rule Condition
  */
-namespace Magento\Reminder\Model\Rule;
-
 class ConditionFactory
 {
     /**
@@ -25,7 +24,7 @@ class ConditionFactory
     /**
      * Available conditions
      *
-     * @var array
+     * @var string[]
      */
     protected $_conditions = array(
         'Magento\Reminder\Model\Rule\Condition\Cart\Amount',
@@ -49,7 +48,7 @@ class ConditionFactory
         'Magento\Reminder\Model\Rule\Condition\Wishlist\Subselection',
         'Magento\Reminder\Model\Rule\Condition\Cart',
         'Magento\Reminder\Model\Rule\Condition\Combine',
-        'Magento\Reminder\Model\Rule\Condition\Wishlist',
+        'Magento\Reminder\Model\Rule\Condition\Wishlist'
     );
 
     /**
@@ -57,9 +56,8 @@ class ConditionFactory
      *
      * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(
-        \Magento\ObjectManager $objectManager
-    ) {
+    public function __construct(\Magento\ObjectManager $objectManager)
+    {
         $this->_objectManager = $objectManager;
     }
 

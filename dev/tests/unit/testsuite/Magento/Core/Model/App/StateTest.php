@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\App;
 
 class StateTest extends \PHPUnit_Framework_TestCase
@@ -38,15 +37,9 @@ class StateTest extends \PHPUnit_Framework_TestCase
     public static function constructorDataProvider()
     {
         return array(
-            'default mode' => array(
-                \Magento\App\State::MODE_DEFAULT
-            ),
-            'production mode' => array(
-                \Magento\App\State::MODE_PRODUCTION
-            ),
-            'developer mode' => array(
-                \Magento\App\State::MODE_DEVELOPER
-            ),
+            'default mode' => array(\Magento\App\State::MODE_DEFAULT),
+            'production mode' => array(\Magento\App\State::MODE_PRODUCTION),
+            'developer mode' => array(\Magento\App\State::MODE_DEVELOPER)
         );
     }
 

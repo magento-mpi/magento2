@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Config;
 
 interface ScopeListInterface
@@ -13,7 +12,7 @@ interface ScopeListInterface
     /**
      * Retrieve list of all scopes
      *
-     * @return array
+     * @return string[]
      */
     public function getAllScopes();
 }

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ProductAlert\Model;
 
+use Resource\Price\Customer\Collection;
 
 /**
  * ProductAlert for back in stock model
@@ -33,9 +35,7 @@
  * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ProductAlert\Model;
-
-class Stock extends \Magento\Core\Model\AbstractModel
+class Stock extends \Magento\Model\AbstractModel
 {
     /**
      * @var \Magento\ProductAlert\Model\Resource\Stock\Customer\CollectionFactory
@@ -43,18 +43,18 @@ class Stock extends \Magento\Core\Model\AbstractModel
     protected $_customerColFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\ProductAlert\Model\Resource\Stock\Customer\CollectionFactory $customerColFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\ProductAlert\Model\Resource\Stock\Customer\CollectionFactory $customerColFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -62,16 +62,25 @@ class Stock extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\ProductAlert\Model\Resource\Stock');
     }
 
+    /**
+     * @return Collection
+     */
     public function getCustomerCollection()
     {
         return $this->_customerColFactory->create();
     }
 
+    /**
+     * @return $this
+     */
     public function loadByParam()
     {
         if (!is_null($this->getProductId()) && !is_null($this->getCustomerId()) && !is_null($this->getWebsiteId())) {
@@ -80,6 +89,11 @@ class Stock extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @param int $customerId
+     * @param int $websiteId
+     * @return $this
+     */
     public function deleteCustomer($customerId, $websiteId = 0)
     {
         $this->getResource()->deleteCustomer($this, $customerId, $websiteId);

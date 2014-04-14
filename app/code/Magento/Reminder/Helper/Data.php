@@ -7,35 +7,37 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Helper;
 
 /**
  * Reminder rules data helper
  */
-namespace Magento\Reminder\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'promo/magento_reminder/enabled';
+
     const XML_PATH_SEND_LIMIT = 'promo/magento_reminder/limit';
+
     const XML_PATH_EMAIL_IDENTITY = 'promo/magento_reminder/identity';
+
     const XML_PATH_EMAIL_THRESHOLD = 'promo/magento_reminder/threshold';
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
@@ -46,7 +48,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_ENABLED);
+        return (bool)$this->_scopeConfig->getValue(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -56,7 +58,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getOneRunLimit()
     {
-        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_SEND_LIMIT);
+        return (int)$this->_scopeConfig->getValue(self::XML_PATH_SEND_LIMIT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -66,7 +68,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getEmailIdentity()
     {
-        return (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY);
+        return (string)$this->_scopeConfig->getValue(self::XML_PATH_EMAIL_IDENTITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -76,6 +78,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getSendFailureThreshold()
     {
-        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_THRESHOLD);
+        return (int)$this->_scopeConfig->getValue(self::XML_PATH_EMAIL_THRESHOLD, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

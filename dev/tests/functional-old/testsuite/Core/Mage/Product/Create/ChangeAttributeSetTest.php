@@ -86,8 +86,10 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         //Verifying
         $this->productHelper()->openProductTab('general');
         $this->addParameter('attributeCodeDropdown', $assignedAttribute);
-        $this->assertTrue($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
-            "There is absent attribute $assignedAttribute, but shouldn't");
+        $this->assertTrue(
+            $this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
+            "There is absent attribute $assignedAttribute, but shouldn't"
+        );
         $productData['product_attribute_set'] = $newAttributeSet;
         $this->productHelper()->verifyProductInfo($productData);
         $this->productHelper()->saveProduct();
@@ -118,8 +120,10 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         //Verifying
         $this->productHelper()->openProductTab('general');
         $this->addParameter('attributeCodeDropdown', $assignedAttribute);
-        $this->assertFalse($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
-            "There is present $assignedAttribute attribute, but shouldn't");
+        $this->assertFalse(
+            $this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
+            "There is present $assignedAttribute attribute, but shouldn't"
+        );
         $productData['product_attribute_set'] = $newAttributeSet;
         $this->productHelper()->verifyProductInfo($productData);
         $this->productHelper()->saveProduct();
@@ -150,8 +154,10 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->productHelper()->changeAttributeSet($newAttributeSet);
         //Verifying
         $this->addParameter('attributeCodeDropdown', $assignedAttribute);
-        $this->assertTrue($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
-            "There is absent attribute $assignedAttribute, but shouldn't");
+        $this->assertTrue(
+            $this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
+            "There is absent attribute $assignedAttribute, but shouldn't"
+        );
         $productData['product_attribute_set'] = $newAttributeSet;
         $this->productHelper()->verifyProductInfo($productData);
         $this->productHelper()->saveProduct();
@@ -183,8 +189,10 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->productHelper()->changeAttributeSet($newAttributeSet);
         //Verifying
         $this->addParameter('attributeCodeDropdown', $assignedAttribute);
-        $this->assertFalse($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
-            "There is present $assignedAttribute attribute, but shouldn't");
+        $this->assertFalse(
+            $this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
+            "There is present $assignedAttribute attribute, but shouldn't"
+        );
         $productData['product_attribute_set'] = $newAttributeSet;
         $this->productHelper()->verifyProductInfo($productData);
         $this->productHelper()->saveProduct();
@@ -254,7 +262,8 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->productHelper()->changeAttributeSet($attributeSetData['attributeSetName']);
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->assertEquals($attributeSetData['attributeSetName'],
+        $this->assertEquals(
+            $attributeSetData['attributeSetName'],
             $this->productHelper()->getProductDataFromGrid($search, 'Attribute Set'),
             'Product has been saved with incorrect attribute set.'
         );
@@ -263,65 +272,73 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     /**
      * Change attribute set with product related attributes
      *
-     * @param array $attributeSetData
+     * @param array $attributeSet
      *
      * @test
      * @depends preconditionsForTests
      */
-    public function fromDefaultToCustomWithoutSpecialPrice($attributeSetData)
+    public function fromDefaultToCustomWithoutSpecialPrice($attributeSet)
     {
         //Data
-        $newAttributeSet = $attributeSetData['attributeSetName'];
         $subCategoryData = $this->loadDataSet('Category', 'sub_category_required');
-        $productData = $this->loadDataSet('Product', 'simple_product_visible', array(
-            'general_categories' => $subCategoryData['parent_category'] . '/' . $subCategoryData['name']
+        $product = $this->loadDataSet('Product', 'simple_product_visible', array(
+            'general_categories' => $subCategoryData['parent_category'] . '/' . $subCategoryData['name'],
+            'prices_special_price' => '3.99'
         ));
-        $productData['prices_special_price'] = '3.99';
+        $verifyPrices = array(
+            'general_price' => $product['general_price'],
+            'prices_special_price' => $product['prices_special_price']
+        );
         //Steps
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($subCategoryData);
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($product);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->flushCache();
 
         //Verifying
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($subCategoryData['name']);
-        $this->addParameter('productName', $productData['general_name']);
-        $this->addParameter('price', '$' . $productData['prices_special_price']);
-        $this->assertTrue($this->controlIsVisible('pageelement', 'price_special_with_value'),
-            'Special price not found');
-        $this->productHelper()->frontOpenProduct($productData['general_name']);
-        $this->assertSame('$' . $productData['prices_special_price'],
-            $this->getControlAttribute('pageelement', 'price_special', 'text'), 'Special price is not applied');
+        $this->addParameter('productName', $product['general_name']);
+        $this->assertEquals($verifyPrices, $this->productHelper()->getFrontendProductPrices());
+        $this->productHelper()->frontOpenProduct($product['general_name']);
+        $this->assertEquals($verifyPrices, $this->productHelper()->getFrontendProductPrices());
         $this->clickButton('add_to_cart');
-        $productInfo = $this->shoppingCartHelper()->getProductInfoInTable();
-        $this->assertSame('$' . $productData['prices_special_price'],
-            $productInfo['product_1']['unit_price'], 'Special price is not applied');
+        $info = $this->shoppingCartHelper()->getProductInfoInTable();
+        $this->assertSame(
+            '$' . $product['prices_special_price'],
+            $info['product_1']['unit_price'],
+            'Special price is not applied'
+        );
         //Steps
         $this->loginAdminUser();
-        $this->attributeSetHelper()->openAttributeSet($newAttributeSet);
+        $this->attributeSetHelper()->openAttributeSet($attributeSet['attributeSetName']);
         $this->attributeSetHelper()->unassignAttributeFromSet(array('special_price'));
         $this->saveForm('save_attribute_set');
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
         $this->navigate('manage_products');
-        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->productHelper()->changeAttributeSet($newAttributeSet);
+        $this->productHelper()->openProduct(array('product_sku' => $product['general_sku']));
+        $this->productHelper()->changeAttributeSet($attributeSet['attributeSetName']);
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->flushCache();
         //Verifying
+        unset($verifyPrices['prices_special_price']);
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($subCategoryData['name']);
-        $this->assertFalse($this->controlIsPresent('pageelement', 'price_special'), 'Special price is found');
-        $this->productHelper()->frontOpenProduct($productData['general_name']);
-        $this->assertFalse($this->controlIsPresent('pageelement', 'price_special'), 'Special price is found');
+        $this->addParameter('productName', $product['general_name']);
+        $this->assertEquals($verifyPrices, $this->productHelper()->getFrontendProductPrices());
+        $this->productHelper()->frontOpenProduct($product['general_name']);
+        $this->assertEquals($verifyPrices, $this->productHelper()->getFrontendProductPrices());
         $this->clickButton('add_to_cart');
-        $productInfo = $this->shoppingCartHelper()->getProductInfoInTable();
-        $this->assertSame('$' . $productData['general_price'],
-            $productInfo['product_1']['unit_price'], 'Special is applied');
+        $info = $this->shoppingCartHelper()->getProductInfoInTable();
+        $this->assertSame(
+            '$' . $product['general_price'],
+            $info['product_1']['unit_price'],
+            'Special price is applied'
+        );
     }
 
     /**
@@ -348,8 +365,10 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->productHelper()->openProductTab('general');
         //Verifying
         $this->addParameter('attributeCodeDropdown', $attributeSetData['assignedAttribute']);
-        $this->assertTrue($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
-            'Attribute with code ' . $attributeSetData['assignedAttribute'] . ' is absent');
+        $this->assertTrue(
+            $this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
+            'Attribute with code ' . $attributeSetData['assignedAttribute'] . ' is absent'
+        );
         $this->productHelper()->changeAttributeSet('Default');
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');

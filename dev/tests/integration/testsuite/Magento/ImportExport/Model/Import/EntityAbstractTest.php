@@ -21,8 +21,8 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveValidatedBunches()
     {
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
-        $directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\App\Filesystem');
+        $directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv',
             $directory
@@ -32,20 +32,19 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $model \Magento\ImportExport\Model\Import\AbstractEntity|\PHPUnit_Framework_MockObject_MockObject */
-        $model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\AbstractEntity', array(
-            $objectManager->get('Magento\Core\Helper\Data'),
-            $objectManager->get('Magento\Stdlib\String'),
-            $objectManager->get('Magento\Core\Model\Store\Config'),
-            $objectManager->get('Magento\ImportExport\Model\ImportFactory'),
-            $objectManager->get('Magento\ImportExport\Model\Resource\Helper'),
-            $objectManager->get('Magento\App\Resource'),
-        ));
-        $model->expects($this->any())
-            ->method('validateRow')
-            ->will($this->returnValue(true));
-        $model->expects($this->any())
-            ->method('getEntityTypeCode')
-            ->will($this->returnValue('customer'));
+        $model = $this->getMockForAbstractClass(
+            'Magento\ImportExport\Model\Import\AbstractEntity',
+            array(
+                $objectManager->get('Magento\Core\Helper\Data'),
+                $objectManager->get('Magento\Stdlib\String'),
+                $objectManager->get('Magento\App\Config\ScopeConfigInterface'),
+                $objectManager->get('Magento\ImportExport\Model\ImportFactory'),
+                $objectManager->get('Magento\ImportExport\Model\Resource\Helper'),
+                $objectManager->get('Magento\App\Resource')
+            )
+        );
+        $model->expects($this->any())->method('validateRow')->will($this->returnValue(true));
+        $model->expects($this->any())->method('getEntityTypeCode')->will($this->returnValue('customer'));
 
         $model->setSource($source);
 

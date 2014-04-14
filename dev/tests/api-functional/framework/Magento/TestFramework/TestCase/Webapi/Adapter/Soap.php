@@ -1,7 +1,5 @@
 <?php
 /**
- * Test client for SOAP API testing.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,8 +7,14 @@
  */
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
-class Soap
-    implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
+use Magento\Service\DataObjectConverter;
+use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy as WsdlDiscoveryStrategy;
+use Magento\Webapi\Controller\Soap\Request\Handler as SoapHandler;
+
+/**
+ * Test client for SOAP API testing.
+ */
+class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
 {
     const WSDL_BASE_PATH = '/soap?wsdl=1';
 
@@ -27,6 +31,16 @@ class Soap
     protected $_soapConfig;
 
     /**
+     * @var \Magento\Webapi\Helper\Data
+     */
+    protected $_helper;
+
+    /**
+     * @var DataObjectConverter
+     */
+    protected $_converter;
+
+    /**
      * Initialize dependencies.
      */
     public function __construct()
@@ -34,6 +48,8 @@ class Soap
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_soapConfig = $objectManager->get('Magento\Webapi\Model\Soap\Config');
+        $this->_helper = $objectManager->get('Magento\Webapi\Helper\Data');
+        $this->_converter = $objectManager->get('\Magento\Service\DataObjectConverter');
     }
 
     /**
@@ -42,12 +58,14 @@ class Soap
     public function call($serviceInfo, $arguments = array())
     {
         $soapOperation = $this->_getSoapOperation($serviceInfo);
+        $arguments = $this->_converter->convertKeysToCamelCase($arguments);
         $soapResponse = $this->_getSoapClient($serviceInfo)->$soapOperation($arguments);
-
-        // TODO: Check if code below is necessary (when some tests are implemented)
+        //Convert to snake case for tests to use same assertion data for both SOAP and REST tests
         $result = (is_array($soapResponse) || is_object($soapResponse))
-            ? $this->_normalizeResponse($soapResponse)
+            ? $this->toSnakeCase($this->_converter->convertStdObjectToArray($soapResponse, true))
             : $soapResponse;
+        /** Remove result wrappers */
+        $result = isset($result[SoapHandler::RESULT_NODE_NAME]) ? $result[SoapHandler::RESULT_NODE_NAME] : $result;
         return $result;
     }
 
@@ -78,15 +96,14 @@ class Soap
     public function instantiateSoapClient($wsdlUrl)
     {
         $accessCredentials = \Magento\TestFramework\Authentication\OauthHelper::getApiAccessCredentials();
-        $opts = array(
-            'http'=>array(
-                'header'=>"Authorization: Bearer " . $accessCredentials['key']
-            )
-        );
+        $opts = array('http' => array('header' => "Authorization: Bearer " . $accessCredentials['key']));
         $context = stream_context_create($opts);
         $soapClient = new \Zend\Soap\Client($wsdlUrl);
         $soapClient->setSoapVersion(SOAP_1_2);
         $soapClient->setStreamContext($context);
+        if (TESTS_XDEBUG_ENABLED) {
+            $soapClient->setCookie('XDEBUG_SESSION', 1);
+        }
         return $soapClient;
     }
 
@@ -151,10 +168,14 @@ class Soap
                 since version will be part of the service name
             */
             return '';
-        } else if (isset($serviceInfo['serviceInterface'])) {
-            preg_match(\Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN, $serviceInfo['serviceInterface'], $matches);
-            if (isset($matches[4])) {
-                $version = $matches[4];
+        } elseif (isset($serviceInfo['serviceInterface'])) {
+            preg_match(
+                \Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN,
+                $serviceInfo['serviceInterface'],
+                $matches
+            );
+            if (isset($matches[3])) {
+                $version = $matches[3];
             } else {
                 throw new \LogicException("Service interface name is invalid.");
             }
@@ -178,7 +199,7 @@ class Soap
         if (isset($serviceInfo['soap']['service'])) {
             $serviceName = $serviceInfo['soap']['service'];
         } else if (isset($serviceInfo['serviceInterface'])) {
-            $serviceName = $this->_soapConfig->getServiceName($serviceInfo['serviceInterface'], false);
+            $serviceName = $this->_helper->getServiceName($serviceInfo['serviceInterface'], false);
         } else {
             throw new \LogicException("Service name cannot be identified.");
         }
@@ -186,62 +207,25 @@ class Soap
     }
 
     /**
-     * Convert object to array recursively
+     * Recursively transform array keys from camelCase to snake_case.
      *
-     * @param object $soapResult
-     * @return array
-     */
-    protected function _normalizeResponse($soapResult)
-    {
-        return $this->_replaceComplexObjectArray($this->_soapResultToArray($soapResult));
-    }
-
-    /**
-     * Replace "complexObjectArray" keys from array
+     * Utility method for converting SOAP responses. Webapi framework's SOAP processing outputs
+     * snake case Data Object properties(ex. item_id) as camel case(itemId) to adhere to the WSDL.
+     * This method allows tests to use the same data for asserting both SOAP and REST responses.
      *
-     * @param array $arg
-     * @return array
+     * @param array $objectData An array of data.
+     * @return array The array with all camelCase keys converted to snake_case.
      */
-    protected function _replaceComplexObjectArray(array $arg)
+    protected function toSnakeCase(array $objectData)
     {
-        $data = array();
-
-        foreach ($arg as $key => $value) {
+        $data = [];
+        foreach ($objectData as $key => $value) {
             if (is_array($value)) {
-                $value = $this->_replaceComplexObjectArray($value);
+                $data[$key] = $this->toSnakeCase($value);
+            } else {
+                $data[strtolower(preg_replace("/(?<=\\w)(?=[A-Z])/", "_$1", $key))] = $value;
             }
-            if ('complexObjectArray' == $key) {
-                $key = count($data);
-            }
-            $data[$key] = $value;
         }
-        return isset($arg['complexObjectArray']) ? reset($data) : $data;
-    }
-
-    /**
-     * Convert object to array recursively
-     *
-     * @param object $soapResult
-     * @return array
-     */
-    protected function _soapResultToArray($soapResult)
-    {
-        if (is_object($soapResult) && null !== ($_data = get_object_vars($soapResult))) {
-            array_walk($_data, function ($value, $key) use (&$_data) {
-                if (is_object($value) || is_array($value)) {
-                    $_data[$key] = $this->_soapResultToArray($value);
-                }
-            });
-            return $_data;
-        } else if (is_array($soapResult)) {
-            $_data = array();
-            array_walk($soapResult, function ($value, $key) use (&$_data) {
-                if (is_object($value) || is_array($value)) {
-                    $_data[$key] = $this->_soapResultToArray($value);
-                }
-            });
-            return $_data;
-        }
-        return array();
+        return $data;
     }
 }

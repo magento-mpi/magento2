@@ -66,8 +66,7 @@ class Link extends \Magento\Backend\Block\Template
     public function getDesign()
     {
         if ($this->getItem()->getGwId()) {
-            $wrappingModel = $this->_wrappingFactory->create()
-                ->load($this->getItem()->getGwId());
+            $wrappingModel = $this->_wrappingFactory->create()->load($this->getItem()->getGwId());
             if ($wrappingModel->getId()) {
                 return $this->escapeHtml($wrappingModel->getDesign());
             }
@@ -83,7 +82,7 @@ class Link extends \Magento\Backend\Block\Template
     public function canDisplayGiftWrappingForItem()
     {
         $product = $this->getItem()->getProduct();
-        $allowed = !$product->getTypeInstance()->isVirtual($product) && $product->getGiftWrappingAvailable();
+        $allowed = !$product->getTypeInstance()->isVirtual($product) ? $product->getGiftWrappingAvailable() : false;
         $storeId = $this->getItem()->getStoreId();
         return $this->_giftWrappingData->isGiftWrappingAvailableForProduct($allowed, $storeId);
     }

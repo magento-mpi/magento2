@@ -7,22 +7,22 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <value>
-                <checkout_setup>Magento\Checkout\Model\Resource\Setup</checkout_setup>
-            </value>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="checkout_setup" xsi:type="string">Magento\Checkout\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
     </type>
     <virtualType name="Magento\Checkout\Model\Session\Storage" type="Magento\Session\Storage">
-        <param name="namespace">
-            <value>checkout</value>
-        </param>
+        <arguments>
+            <argument name="namespace" xsi:type="string">checkout</argument>
+        </arguments>
     </virtualType>
     <type name="Magento\Checkout\Model\Session">
-        <param name="storage">
-            <instance type="Magento\Checkout\Model\Session\Storage" />
-        </param>
+        <arguments>
+            <argument name="storage" xsi:type="object">Magento\Checkout\Model\Session\Storage</argument>
+        </arguments>
     </type>
 </config>

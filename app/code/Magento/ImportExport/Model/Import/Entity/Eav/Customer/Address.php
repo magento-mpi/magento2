@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Model\Import\Entity\Eav\Customer;
 
 /**
@@ -16,13 +15,13 @@ namespace Magento\ImportExport\Model\Import\Entity\Eav\Customer;
  * @todo finish moving dependencies to constructor in the scope of
  * @todo https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
-class Address
-    extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer
+class Address extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer
 {
     /**#@+
      * Attribute collection name
      */
     const ATTRIBUTE_COLLECTION_NAME = 'Magento\Customer\Model\Resource\Address\Attribute\Collection';
+
     /**#@-*/
 
     /**#@+
@@ -31,31 +30,41 @@ class Address
      * Names that begins with underscore is not an attribute.
      * This name convention is for to avoid interference with same attribute name.
      */
-    const COLUMN_EMAIL      = '_email';
+    const COLUMN_EMAIL = '_email';
+
     const COLUMN_ADDRESS_ID = '_entity_id';
+
     /**#@-*/
 
     /**#@+
      * Required column names
      */
-    const COLUMN_REGION     = 'region';
+    const COLUMN_REGION = 'region';
+
     const COLUMN_COUNTRY_ID = 'country_id';
+
     /**#@-*/
 
     /**#@+
      * Particular columns that contains of customer default addresses
      */
-    const COLUMN_DEFAULT_BILLING  = '_address_default_billing_';
+    const COLUMN_DEFAULT_BILLING = '_address_default_billing_';
+
     const COLUMN_DEFAULT_SHIPPING = '_address_default_shipping_';
+
     /**#@-*/
 
     /**#@+
      * Error codes
      */
     const ERROR_ADDRESS_ID_IS_EMPTY = 'addressIdIsEmpty';
-    const ERROR_ADDRESS_NOT_FOUND   = 'addressNotFound';
-    const ERROR_INVALID_REGION      = 'invalidRegion';
-    const ERROR_DUPLICATE_PK        = 'duplicateAddressId';
+
+    const ERROR_ADDRESS_NOT_FOUND = 'addressNotFound';
+
+    const ERROR_INVALID_REGION = 'invalidRegion';
+
+    const ERROR_DUPLICATE_PK = 'duplicateAddressId';
+
     /**#@-*/
 
     /**
@@ -64,21 +73,21 @@ class Address
      * @var array
      */
     protected static $_defaultAddressAttributeMapping = array(
-        self::COLUMN_DEFAULT_BILLING  => 'default_billing',
+        self::COLUMN_DEFAULT_BILLING => 'default_billing',
         self::COLUMN_DEFAULT_SHIPPING => 'default_shipping'
     );
 
     /**
      * Permanent entity columns
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array(self::COLUMN_WEBSITE, self::COLUMN_EMAIL, self::COLUMN_ADDRESS_ID);
 
     /**
      * Existing addresses
      *
-     * [customer ID] => array(
+     * Example Array: [customer ID] => array(
      *     address ID 1,
      *     address ID 2,
      *     ...
@@ -92,7 +101,7 @@ class Address
     /**
      * Attributes with index (not label) value
      *
-     * @var array
+     * @var string[]
      */
     protected $_indexValueAttributes = array(self::COLUMN_COUNTRY_ID);
 
@@ -106,7 +115,7 @@ class Address
     /**
      * Countries and regions
      *
-     * array(
+     * Example array: array(
      *   [country_id_lowercased_1] => array(
      *     [region_code_lowercased_1]         => region_id_1,
      *     [region_default_name_lowercased_1] => region_id_1,
@@ -131,7 +140,7 @@ class Address
     /**
      * Column names that holds values with particular meaning
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array(
         self::COLUMN_ACTION,
@@ -212,11 +221,11 @@ class Address
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory
@@ -231,11 +240,11 @@ class Address
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Stdlib\String $string,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\App $app,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory,
@@ -256,38 +265,46 @@ class Address
         if (!isset($data['attribute_collection'])) {
             /** @var $attributeCollection \Magento\Customer\Model\Resource\Address\Attribute\Collection */
             $attributeCollection = $attributesFactory->create();
-            $attributeCollection->addSystemHiddenFilter()
-                ->addExcludeHiddenFrontendFilter();
+            $attributeCollection->addSystemHiddenFilter()->addExcludeHiddenFrontendFilter();
             $data['attribute_collection'] = $attributeCollection;
         }
         parent::__construct(
-            $coreData, $string, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $app,
-            $collectionFactory, $eavConfig, $storageFactory, $data
+            $coreData,
+            $string,
+            $scopeConfig,
+            $importFactory,
+            $resourceHelper,
+            $resource,
+            $storeManager,
+            $collectionFactory,
+            $eavConfig,
+            $storageFactory,
+            $data
         );
 
-        $this->_addressCollection = isset($data['address_collection']) ? $data['address_collection']
-            : $addressColFactory->create();
-        $this->_entityTable = isset($data['entity_table']) ? $data['entity_table']
-            : $addressFactory->create()->getResource()->getEntityTable();
-        $this->_regionCollection = isset($data['region_collection']) ? $data['region_collection']
-            : $regionColFactory->create();
+        $this->_addressCollection = isset(
+            $data['address_collection']
+        ) ? $data['address_collection'] : $addressColFactory->create();
+        $this->_entityTable = isset(
+            $data['entity_table']
+        ) ? $data['entity_table'] : $addressFactory->create()->getResource()->getEntityTable();
+        $this->_regionCollection = isset(
+            $data['region_collection']
+        ) ? $data['region_collection'] : $regionColFactory->create();
 
-        $this->addMessageTemplate(self::ERROR_ADDRESS_ID_IS_EMPTY,
-            __('Customer address id column is not specified')
-        );
-        $this->addMessageTemplate(self::ERROR_ADDRESS_NOT_FOUND,
+        $this->addMessageTemplate(self::ERROR_ADDRESS_ID_IS_EMPTY, __('Customer address id column is not specified'));
+        $this->addMessageTemplate(
+            self::ERROR_ADDRESS_NOT_FOUND,
             __("Customer address for such customer doesn't exist")
         );
-        $this->addMessageTemplate(self::ERROR_INVALID_REGION,
-            __('Region is invalid')
-        );
-        $this->addMessageTemplate(self::ERROR_DUPLICATE_PK,
+        $this->addMessageTemplate(self::ERROR_INVALID_REGION, __('Region is invalid'));
+        $this->addMessageTemplate(
+            self::ERROR_DUPLICATE_PK,
             __('Row with such email, website and address id combination was already found.')
         );
 
         $this->_initAttributes();
-        $this->_initAddresses()
-            ->_initCountryRegions();
+        $this->_initAddresses()->_initCountryRegions();
     }
 
     /**
@@ -314,7 +331,7 @@ class Address
             $this->_regionParameters = array();
             /** @var $regionIdAttribute \Magento\Customer\Model\Attribute */
             $regionIdAttribute = $this->_eavConfig->getAttribute($this->getEntityTypeCode(), 'region_id');
-            $this->_regionParameters['table']        = $regionIdAttribute->getBackend()->getTable();
+            $this->_regionParameters['table'] = $regionIdAttribute->getBackend()->getTable();
             $this->_regionParameters['attribute_id'] = $regionIdAttribute->getId();
         }
         return $this->_regionParameters;
@@ -329,8 +346,8 @@ class Address
     {
         if (!$this->_nextEntityId) {
             /** @var $addressResource \Magento\Customer\Model\Resource\Address */
-            $addressResource     = $this->_addressFactory->create()->getResource();
-            $addressTable        = $addressResource->getEntityTable();
+            $addressResource = $this->_addressFactory->create()->getResource();
+            $addressTable = $addressResource->getEntityTable();
             $this->_nextEntityId = $this->_resourceHelper->getNextAutoincrement($addressTable);
         }
         return $this->_nextEntityId++;
@@ -339,7 +356,7 @@ class Address
     /**
      * Initialize existent addresses data
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
+     * @return $this
      */
     protected function _initAddresses()
     {
@@ -360,7 +377,7 @@ class Address
     /**
      * Initialize country regions hash for clever recognition
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
+     * @return $this
      */
     protected function _initCountryRegions()
     {
@@ -386,9 +403,10 @@ class Address
     {
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $addUpdateRows = array();
-            $attributes    = array();
-            $defaults      = array(); // customer default addresses (billing/shipping) data
-            $deleteRowIds  = array();
+            $attributes = array();
+            $defaults = array();
+            // customer default addresses (billing/shipping) data
+            $deleteRowIds = array();
 
             foreach ($bunch as $rowNumber => $rowData) {
                 // check row data
@@ -400,15 +418,19 @@ class Address
                     $addUpdateResult = $this->_prepareDataForUpdate($rowData);
                     $addUpdateRows[] = $addUpdateResult['entity_row'];
                     $attributes = $this->_mergeEntityAttributes($addUpdateResult['attributes'], $attributes);
-                    $defaults   = $this->_mergeEntityAttributes($addUpdateResult['defaults'], $defaults);
+                    $defaults = $this->_mergeEntityAttributes($addUpdateResult['defaults'], $defaults);
                 } elseif ($this->getBehavior($rowData) == \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE) {
                     $deleteRowIds[] = $rowData[self::COLUMN_ADDRESS_ID];
                 }
             }
 
-            $this->_saveAddressEntities($addUpdateRows)
-                ->_saveAddressAttributes($attributes)
-                ->_saveCustomerDefaults($defaults);
+            $this->_saveAddressEntities(
+                $addUpdateRows
+            )->_saveAddressAttributes(
+                $attributes
+            )->_saveCustomerDefaults(
+                $defaults
+            );
 
             $this->_deleteAddressEntities($deleteRowIds);
         }
@@ -442,11 +464,11 @@ class Address
      */
     protected function _prepareDataForUpdate(array $rowData)
     {
-        $email      = strtolower($rowData[self::COLUMN_EMAIL]);
+        $email = strtolower($rowData[self::COLUMN_EMAIL]);
         $customerId = $this->_getCustomerId($email, $rowData[self::COLUMN_WEBSITE]);
 
-        $regionParameters    = $this->_getRegionParameters();
-        $regionIdTable       = $regionParameters['table'];
+        $regionParameters = $this->_getRegionParameters();
+        $regionIdTable = $regionParameters['table'];
         $regionIdAttributeId = $regionParameters['attribute_id'];
 
         // get address attributes
@@ -466,8 +488,12 @@ class Address
         }
 
         // get address id
-        if (isset($this->_addresses[$customerId])
-            && in_array($rowData[self::COLUMN_ADDRESS_ID], $this->_addresses[$customerId])
+        if (isset(
+            $this->_addresses[$customerId]
+        ) && in_array(
+            $rowData[self::COLUMN_ADDRESS_ID],
+            $this->_addresses[$customerId]
+        )
         ) {
             $addressId = $rowData[self::COLUMN_ADDRESS_ID];
         } else {
@@ -476,19 +502,18 @@ class Address
 
         // entity table data
         $entityRow = array(
-            'entity_id'      => $addressId,
+            'entity_id' => $addressId,
             'entity_type_id' => $this->getEntityTypeId(),
-            'parent_id'      => $customerId,
-            'created_at'     => $this->dateTime->now(),
-            'updated_at'     => $this->dateTime->now()
+            'parent_id' => $customerId,
+            'created_at' => $this->dateTime->now(),
+            'updated_at' => $this->dateTime->now()
         );
 
         // attribute values
         $attributes = array();
         foreach ($this->_attributes as $attributeParams) {
             if (isset($addressAttributes[$attributeParams['id']])) {
-                $attributes[$attributeParams['table']][$addressId][$attributeParams['id']]
-                    = $addressAttributes[$attributeParams['id']];
+                $attributes[$attributeParams['table']][$addressId][$attributeParams['id']] = $addressAttributes[$attributeParams['id']];
             }
         }
 
@@ -505,7 +530,7 @@ class Address
         // let's try to find region ID
         if (!empty($rowData[self::COLUMN_REGION])) {
             $countryNormalized = strtolower($rowData[self::COLUMN_COUNTRY_ID]);
-            $regionNormalized  = strtolower($rowData[self::COLUMN_REGION]);
+            $regionNormalized = strtolower($rowData[self::COLUMN_REGION]);
 
             if (isset($this->_countryRegions[$countryNormalized][$regionNormalized])) {
                 $regionId = $this->_countryRegions[$countryNormalized][$regionNormalized];
@@ -516,18 +541,14 @@ class Address
             }
         }
 
-        return array(
-            'entity_row' => $entityRow,
-            'attributes' => $attributes,
-            'defaults'   => $defaults,
-        );
+        return array('entity_row' => $entityRow, 'attributes' => $attributes, 'defaults' => $defaults);
     }
 
     /**
      * Update and insert data in entity table
      *
      * @param array $entityRows Rows for insert
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
+     * @return $this
      */
     protected function _saveAddressEntities(array $entityRows)
     {
@@ -541,7 +562,7 @@ class Address
      * Save customer address attributes
      *
      * @param array $attributesData
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
+     * @return $this
      */
     protected function _saveAddressAttributes(array $attributesData)
     {
@@ -550,10 +571,10 @@ class Address
             foreach ($data as $addressId => $attributeData) {
                 foreach ($attributeData as $attributeId => $value) {
                     $tableData[] = array(
-                        'entity_id'      => $addressId,
+                        'entity_id' => $addressId,
                         'entity_type_id' => $this->getEntityTypeId(),
-                        'attribute_id'   => $attributeId,
-                        'value'          => $value
+                        'attribute_id' => $attributeId,
+                        'value' => $value
                     );
                 }
             }
@@ -566,7 +587,7 @@ class Address
      * Save customer default addresses
      *
      * @param array $defaults
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
+     * @return $this
      */
     protected function _saveCustomerDefaults(array $defaults)
     {
@@ -579,10 +600,10 @@ class Address
             foreach ($data as $customerId => $attributeData) {
                 foreach ($attributeData as $attributeId => $value) {
                     $tableData[] = array(
-                        'entity_id'      => $customerId,
+                        'entity_id' => $customerId,
                         'entity_type_id' => $entityTypeId,
-                        'attribute_id'   => $attributeId,
-                        'value'          => $value
+                        'attribute_id' => $attributeId,
+                        'value' => $value
                     );
                 }
             }
@@ -595,7 +616,7 @@ class Address
      * Delete data from entity table
      *
      * @param array $entityRowIds Row IDs for delete
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
+     * @return $this
      */
     protected function _deleteAddressEntities(array $entityRowIds)
     {
@@ -632,14 +653,14 @@ class Address
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return null
+     * @return void
      */
     protected function _validateRowForUpdate(array $rowData, $rowNumber)
     {
         if ($this->_checkUniqueKey($rowData, $rowNumber)) {
-            $email      = strtolower($rowData[self::COLUMN_EMAIL]);
-            $website    = $rowData[self::COLUMN_WEBSITE];
-            $addressId  = $rowData[self::COLUMN_ADDRESS_ID];
+            $email = strtolower($rowData[self::COLUMN_EMAIL]);
+            $website = $rowData[self::COLUMN_WEBSITE];
+            $addressId = $rowData[self::COLUMN_ADDRESS_ID];
             $customerId = $this->_getCustomerId($email, $website);
 
             if ($customerId === false) {
@@ -655,21 +676,27 @@ class Address
                         }
                         if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
                             $this->isAttributeValid($attributeCode, $attributeParams, $rowData, $rowNumber);
-                        } elseif ($attributeParams['is_required'] && (!isset($this->_addresses[$customerId])
-                            || !in_array($addressId, $this->_addresses[$customerId]))
+                        } elseif ($attributeParams['is_required'] && (!isset(
+                            $this->_addresses[$customerId]
+                        ) || !in_array(
+                            $addressId,
+                            $this->_addresses[$customerId]
+                        ))
                         ) {
                             $this->addRowError(self::ERROR_VALUE_IS_REQUIRED, $rowNumber, $attributeCode);
                         }
                     }
 
                     if (isset($rowData[self::COLUMN_COUNTRY_ID]) && isset($rowData[self::COLUMN_REGION])) {
-                        $countryRegions = isset($this->_countryRegions[strtolower($rowData[self::COLUMN_COUNTRY_ID])])
-                            ? $this->_countryRegions[strtolower($rowData[self::COLUMN_COUNTRY_ID])]
-                            : array();
+                        $countryRegions = isset(
+                            $this->_countryRegions[strtolower($rowData[self::COLUMN_COUNTRY_ID])]
+                        ) ? $this->_countryRegions[strtolower(
+                            $rowData[self::COLUMN_COUNTRY_ID]
+                        )] : array();
 
-                        if (!empty($rowData[self::COLUMN_REGION])
-                            && !empty($countryRegions)
-                            && !isset($countryRegions[strtolower($rowData[self::COLUMN_REGION])])
+                        if (!empty($rowData[self::COLUMN_REGION]) && !empty($countryRegions) && !isset(
+                            $countryRegions[strtolower($rowData[self::COLUMN_REGION])]
+                        )
                         ) {
                             $this->addRowError(self::ERROR_INVALID_REGION, $rowNumber, self::COLUMN_REGION);
                         }
@@ -684,13 +711,13 @@ class Address
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return null
+     * @return void
      */
     protected function _validateRowForDelete(array $rowData, $rowNumber)
     {
         if ($this->_checkUniqueKey($rowData, $rowNumber)) {
-            $email     = strtolower($rowData[self::COLUMN_EMAIL]);
-            $website   = $rowData[self::COLUMN_WEBSITE];
+            $email = strtolower($rowData[self::COLUMN_EMAIL]);
+            $website = $rowData[self::COLUMN_WEBSITE];
             $addressId = $rowData[self::COLUMN_ADDRESS_ID];
 
             $customerId = $this->_getCustomerId($email, $website);

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Model;
 
 /**
  * Events model
@@ -30,19 +31,22 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Model;
-
-class Event extends \Magento\Core\Model\AbstractModel
+class Event extends \Magento\Model\AbstractModel
 {
-    const EVENT_PRODUCT_VIEW    = 1;
-    const EVENT_PRODUCT_SEND    = 2;
+    const EVENT_PRODUCT_VIEW = 1;
+
+    const EVENT_PRODUCT_SEND = 2;
+
     const EVENT_PRODUCT_COMPARE = 3;
+
     const EVENT_PRODUCT_TO_CART = 4;
+
     const EVENT_PRODUCT_TO_WISHLIST = 5;
-    const EVENT_WISHLIST_SHARE  = 6;
+
+    const EVENT_WISHLIST_SHARE = 6;
 
     /**
-     * @var \Magento\Core\Model\DateFactory
+     * @var \Magento\Stdlib\DateTime\DateTimeFactory
      */
     protected $_dateFactory;
 
@@ -52,20 +56,20 @@ class Event extends \Magento\Core\Model\AbstractModel
     protected $_eventTypeFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\DateFactory $dateFactory
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\DateFactory $dateFactory,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -77,6 +81,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -86,7 +91,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     /**
      * Before Event save process
      *
-     * @return \Magento\Reports\Model\Event
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -101,15 +106,13 @@ class Event extends \Magento\Core\Model\AbstractModel
      * @param int $visitorId
      * @param int $customerId
      * @param array $types
-     * @return \Magento\Reports\Model\Event
+     * @return $this
      */
     public function updateCustomerType($visitorId, $customerId, $types = null)
     {
         if (is_null($types)) {
             $types = array();
-            $typesCollection = $this->_eventTypeFactory
-                ->create()
-                ->getCollection();
+            $typesCollection = $this->_eventTypeFactory->create()->getCollection();
             foreach ($typesCollection as $eventType) {
                 if ($eventType->getCustomerLogin()) {
                     $types[$eventType->getId()] = $eventType->getId();
@@ -123,7 +126,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     /**
      * Clean events (visitors)
      *
-     * @return \Magento\Reports\Model\Event
+     * @return $this
      */
     public function clean()
     {

@@ -5,40 +5,47 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Theme\Customization;
 
 /**
  * Theme file service abstract class
  */
-abstract class AbstractFile
-    implements \Magento\View\Design\Theme\Customization\FileInterface,
-               \Magento\View\Design\Theme\Customization\FileAssetInterface
+abstract class AbstractFile implements
+    \Magento\View\Design\Theme\Customization\FileInterface,
+    \Magento\View\Design\Theme\Customization\FileAssetInterface
 {
     /**
+     * Customization path
+     *
      * @var \Magento\View\Design\Theme\Customization\Path
      */
     protected $_customizationPath;
 
     /**
+     * File factory
+     *
      * @var \Magento\View\Design\Theme\FileFactory
      */
     protected $_fileFactory;
 
     /**
-     * @var \Magento\Filesystem
+     * File system
+     *
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
     /**
+     * Constructor
+     *
      * @param \Magento\View\Design\Theme\Customization\Path $customizationPath
      * @param \Magento\View\Design\Theme\FileFactory $fileFactory
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\View\Design\Theme\Customization\Path $customizationPath,
         \Magento\View\Design\Theme\FileFactory $fileFactory,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->_customizationPath = $customizationPath;
         $this->_fileFactory = $fileFactory;
@@ -70,6 +77,8 @@ abstract class AbstractFile
     }
 
     /**
+     * Prepare the file
+     *
      * @param \Magento\View\Design\Theme\FileInterface $file
      * @return $this
      */
@@ -112,6 +121,7 @@ abstract class AbstractFile
      * Prepares filename of file
      *
      * @param \Magento\View\Design\Theme\FileInterface $file
+     * @return void
      */
     protected function _prepareFileName(\Magento\View\Design\Theme\FileInterface $file)
     {
@@ -133,6 +143,7 @@ abstract class AbstractFile
      * Prepares relative path of file
      *
      * @param \Magento\View\Design\Theme\FileInterface $file
+     * @return void
      */
     protected function _prepareFilePath(\Magento\View\Design\Theme\FileInterface $file)
     {
@@ -143,6 +154,7 @@ abstract class AbstractFile
      * Prepares sort order of custom file
      *
      * @param \Magento\View\Design\Theme\FileInterface $file
+     * @return void
      */
     protected function _prepareSortOrder(\Magento\View\Design\Theme\FileInterface $file)
     {
@@ -162,6 +174,7 @@ abstract class AbstractFile
      *
      * @param string $filePath
      * @param string $content
+     * @return void
      */
     protected function _saveFileContent($filePath, $content)
     {
@@ -175,6 +188,7 @@ abstract class AbstractFile
      * Deletes file of customization in filesystem
      *
      * @param string $filePath
+     * @return void
      */
     protected function _deleteFileContent($filePath)
     {
@@ -191,6 +205,6 @@ abstract class AbstractFile
      */
     protected function getDirectoryWrite()
     {
-        return $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+        return $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
     }
 }

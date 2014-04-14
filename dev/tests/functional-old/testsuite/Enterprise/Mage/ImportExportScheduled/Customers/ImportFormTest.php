@@ -45,7 +45,6 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ImportFormTest extends Mag
      */
     public function addingNewScheduledImport()
     {
-        $this->markTestIncomplete('BUG: behavior field is not editable');
         //Steps 2-4
         $importData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
             'entity_type' => 'Customers Main File',
@@ -204,7 +203,6 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ImportFormTest extends Mag
      */
     public function deletingScheduledImportsExportsThroughAction($data)
     {
-        $this->markTestIncomplete('BUG: behavior field is not editable');
         //Precondition
         foreach ($data as $value) {
             if (strstr($value['name'], 'import')) {

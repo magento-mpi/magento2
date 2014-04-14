@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Code\Model\File\Validator;
 
 class NotProtectedExtensionTest extends \PHPUnit_Framework_TestCase
@@ -16,9 +15,9 @@ class NotProtectedExtensionTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Core\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var string
@@ -27,13 +26,23 @@ class NotProtectedExtensionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_coreStoreConfig = $this->getMock('\Magento\Core\Model\Store\Config', array('getConfig'),
-            array(), '', false);
-        $this->_coreStoreConfig->expects($this->atLeastOnce())->method('getConfig')->with($this->equalTo(
+        $this->_scopeConfig = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfig->expects(
+            $this->atLeastOnce()
+        )->method(
+            'getValue'
+        )->with(
+            $this->equalTo(
                 \Magento\Core\Model\File\Validator\NotProtectedExtension::XML_PATH_PROTECTED_FILE_EXTENSIONS
-            ), $this->equalTo(null))->will($this->returnValue($this->_protectedList));
-        $this->_model = new \Magento\Core\Model\File\Validator\NotProtectedExtension($this->_coreStoreConfig);
+            ),
+            $this->equalTo(\Magento\Store\Model\ScopeInterface::SCOPE_STORE),
+            $this->equalTo(null)
+        )->will(
+            $this->returnValue($this->_protectedList)
+        );
+        $this->_model = new \Magento\Core\Model\File\Validator\NotProtectedExtension($this->_scopeConfig);
     }
+
     public function testGetProtectedFileExtensions()
     {
         $this->assertEquals($this->_protectedList, $this->_model->getProtectedFileExtensions());
@@ -46,8 +55,9 @@ class NotProtectedExtensionTest extends \PHPUnit_Framework_TestCase
             '_messageTemplates'
         );
         $property->setAccessible(true);
-        $defaultMess = array('protectedExtension'
-                             => __('File with an extension "%value%" is protected and cannot be uploaded'));
+        $defaultMess = array(
+            'protectedExtension' => __('File with an extension "%value%" is protected and cannot be uploaded')
+        );
         $this->assertEquals($defaultMess, $property->getValue($this->_model));
 
         $property = new \ReflectionProperty(

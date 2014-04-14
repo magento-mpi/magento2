@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Quote\Address;
 
+use Magento\Sales\Model\Quote;
 
 /**
  * @method \Magento\Sales\Model\Resource\Quote\Address\Item _getResource()
@@ -90,8 +92,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Quote\Address;
-
 class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
 {
     /**
@@ -100,8 +100,15 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * @var \Magento\Sales\Model\Quote\Address
      */
     protected $_address;
+
+    /**
+     * @var Quote
+     */
     protected $_quote;
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Sales\Model\Resource\Quote\Address\Item');
@@ -122,13 +129,13 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Declare address model
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  \Magento\Sales\Model\Quote\Address\Item
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return $this
      */
     public function setAddress(\Magento\Sales\Model\Quote\Address $address)
     {
         $this->_address = $address;
-        $this->_quote   = $address->getQuote();
+        $this->_quote = $address->getQuote();
         return $this;
     }
 
@@ -145,7 +152,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Retrieve quote model instance
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return Quote
      */
     public function getQuote()
     {
@@ -159,16 +166,27 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     public function importQuoteItem(\Magento\Sales\Model\Quote\Item $quoteItem)
     {
         $this->_quote = $quoteItem->getQuote();
-        $this->setQuoteItem($quoteItem)
-            ->setQuoteItemId($quoteItem->getId())
-            ->setProductId($quoteItem->getProductId())
-            ->setProduct($quoteItem->getProduct())
-            ->setSku($quoteItem->getSku())
-            ->setName($quoteItem->getName())
-            ->setDescription($quoteItem->getDescription())
-            ->setWeight($quoteItem->getWeight())
-            ->setPrice($quoteItem->getPrice())
-            ->setCost($quoteItem->getCost());
+        $this->setQuoteItem(
+            $quoteItem
+        )->setQuoteItemId(
+            $quoteItem->getId()
+        )->setProductId(
+            $quoteItem->getProductId()
+        )->setProduct(
+            $quoteItem->getProduct()
+        )->setSku(
+            $quoteItem->getSku()
+        )->setName(
+            $quoteItem->getName()
+        )->setDescription(
+            $quoteItem->getDescription()
+        )->setWeight(
+            $quoteItem->getWeight()
+        )->setPrice(
+            $quoteItem->getPrice()
+        )->setCost(
+            $quoteItem->getCost()
+        );
 
         if (!$this->hasQty()) {
             $this->setQty($quoteItem->getQty());

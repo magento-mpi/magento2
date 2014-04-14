@@ -7,15 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Widget;
 
 /**
  * Cms Hierarchy Node Widget Block
  */
-namespace Magento\VersionsCms\Block\Widget;
-
-class Node
-    extends \Magento\View\Element\Html\Link
-    implements \Magento\Widget\Block\BlockInterface
+class Node extends \Magento\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Current Hierarchy Node Page Instance
@@ -34,7 +31,7 @@ class Node
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -45,13 +42,13 @@ class Node
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
         array $data = array()
     ) {
@@ -69,7 +66,7 @@ class Node
     {
         $value = $this->_getInstanceData('label');
 
-        return ($value !== false ? $value : $this->_node->getLabel());
+        return $value !== false ? $value : $this->_node->getLabel();
     }
 
     /**
@@ -81,7 +78,7 @@ class Node
     {
         $value = $this->_getInstanceData('title');
 
-        return ($value !== false ? $value : $this->_node->getLabel());
+        return $value !== false ? $value : $this->_node->getLabel();
     }
 
     /**
@@ -141,18 +138,18 @@ class Node
      * Retrieve data from instance
      *
      * @param string $key
-     * @return bool|mixed
+     * @return mixed|false
      */
     protected function _getInstanceData($key)
     {
         $dataKeys = array(
             $key . '_' . $this->_getStoreId(),
-            $key . '_' . \Magento\Core\Model\Store::DEFAULT_STORE_ID,
-            $key,
+            $key . '_' . \Magento\Store\Model\Store::DEFAULT_STORE_ID,
+            $key
         );
-        foreach($dataKeys as $value) {
+        foreach ($dataKeys as $value) {
             if ($this->getData($value) !== null) {
-               return $this->getData($value);
+                return $this->getData($value);
             }
         }
         return false;

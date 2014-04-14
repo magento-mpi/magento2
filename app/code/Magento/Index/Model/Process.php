@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Index\Model;
+
+use Magento\Index\Model\Resource\Event\Collection;
 
 /**
  * @method \Magento\Index\Model\Resource\Process _getResource()
@@ -26,31 +29,35 @@
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Index\Model;
-
-class Process extends \Magento\Core\Model\AbstractModel
+class Process extends \Magento\Model\AbstractModel
 {
     /**
      * Process statuses
      */
-    const STATUS_RUNNING            = 'working';
-    const STATUS_PENDING            = 'pending';
-    const STATUS_REQUIRE_REINDEX    = 'require_reindex';
+    const STATUS_RUNNING = 'working';
+
+    const STATUS_PENDING = 'pending';
+
+    const STATUS_REQUIRE_REINDEX = 'require_reindex';
 
     /**
      * Process event statuses
      */
-    const EVENT_STATUS_NEW          = 'new';
-    const EVENT_STATUS_DONE         = 'done';
-    const EVENT_STATUS_ERROR        = 'error';
-    const EVENT_STATUS_WORKING      = 'working';
+    const EVENT_STATUS_NEW = 'new';
+
+    const EVENT_STATUS_DONE = 'done';
+
+    const EVENT_STATUS_ERROR = 'error';
+
+    const EVENT_STATUS_WORKING = 'working';
 
     /**
      * Process modes
      * Process mode allow disable automatic process events processing
      */
-    const MODE_MANUAL              = 'manual';
-    const MODE_REAL_TIME           = 'real_time';
+    const MODE_MANUAL = 'manual';
+
+    const MODE_REAL_TIME = 'real_time';
 
     /**
      * Indexer stategy object
@@ -101,28 +108,28 @@ class Process extends \Magento\Core\Model\AbstractModel
     protected $_indexerConfig;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Index\Model\Resource\Event $resourceEvent
      * @param \Magento\Index\Model\Indexer\Factory $indexerFactory
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Index\Model\Indexer\ConfigInterface $indexerConfig
      * @param \Magento\Index\Model\Lock\Storage $lockStorage
      * @param \Magento\Index\Model\EventRepository $eventRepository
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Index\Model\Resource\Event $resourceEvent,
         \Magento\Index\Model\Indexer\Factory $indexerFactory,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\Index\Model\Indexer\ConfigInterface $indexerConfig,
         \Magento\Index\Model\Lock\Storage $lockStorage,
         \Magento\Index\Model\EventRepository $eventRepository,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -137,6 +144,8 @@ class Process extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -146,10 +155,10 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Set indexer class name as data namespace for event object
      *
-     * @param   \Magento\Index\Model\Event $event
-     * @return  \Magento\Index\Model\Process
+     * @param   Event $event
+     * @return  $this
      */
-    protected function _setEventNamespace(\Magento\Index\Model\Event $event)
+    protected function _setEventNamespace(Event $event)
     {
         $namespace = get_class($this->getIndexer());
         $event->setDataNamespace($namespace);
@@ -160,8 +169,8 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Remove indexer namespace from event
      *
-     * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Index\Model\Process
+     * @param Event $event
+     * @return $this
      */
     protected function _resetEventNamespace($event)
     {
@@ -173,10 +182,10 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Register data required by process in event object
      *
-     * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Index\Model\Process
+     * @param Event $event
+     * @return $this
      */
-    public function register(\Magento\Index\Model\Event $event)
+    public function register(Event $event)
     {
         if ($this->matchEvent($event)) {
             $this->_setEventNamespace($event);
@@ -188,16 +197,15 @@ class Process extends \Magento\Core\Model\AbstractModel
             }
         }
         return $this;
-
     }
 
     /**
      * Check if event can be matched by process
      *
-     * @param \Magento\Index\Model\Event $event
+     * @param Event $event
      * @return bool
      */
-    public function matchEvent(\Magento\Index\Model\Event $event)
+    public function matchEvent(Event $event)
     {
         return $this->getIndexer()->matchEvent($event);
     }
@@ -220,15 +228,18 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Reindex all data what this process responsible is
      *
-     * @throws \Magento\Core\Exception
+     * @return void
+     * @throws \Magento\Model\Exception
      * @throws \Exception
      */
     public function reindexAll()
     {
         if ($this->isLocked()) {
-            throw new \Magento\Core\Exception(
-                __('%1 Index process is not working now. Please try running this process later.',
-                    $this->getIndexer()->getName())
+            throw new \Magento\Model\Exception(
+                __(
+                    '%1 Index process is not working now. Please try running this process later.',
+                    $this->getIndexer()->getName()
+                )
             );
         }
 
@@ -238,8 +249,8 @@ class Process extends \Magento\Core\Model\AbstractModel
         $this->lock();
         try {
             $eventsCollection = $this->_eventRepository->getUnprocessed($this);
-            if ($processStatus == self::STATUS_PENDING && $eventsCollection->getSize() > 0
-                || $this->getForcePartialReindex()
+            if ($processStatus == self::STATUS_PENDING && $eventsCollection->getSize() > 0 ||
+                $this->getForcePartialReindex()
             ) {
                 $this->_getResource()->beginTransaction();
                 try {
@@ -273,7 +284,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      * Reindex all data what this process responsible is
      * Check and using depends processes
      *
-     * @return \Magento\Index\Model\Process
+     * @return $this|void
      */
     public function reindexEverything()
     {
@@ -301,10 +312,10 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Process event with assigned indexer object
      *
-     * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Index\Model\Process
+     * @param Event $event
+     * @return $this
      */
-    public function processEvent(\Magento\Index\Model\Event $event)
+    public function processEvent(Event $event)
     {
         if (!$this->matchEvent($event)) {
             return $this;
@@ -337,7 +348,7 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Get Indexer strategy object
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return \Magento\Index\Model\IndexerInterface
      */
     public function getIndexer()
@@ -345,17 +356,19 @@ class Process extends \Magento\Core\Model\AbstractModel
         if ($this->_currentIndexer === null) {
             $name = $this->_getData('indexer_code');
             if (!$name) {
-                throw new \Magento\Core\Exception(__('Indexer name is not defined.'));
+                throw new \Magento\Model\Exception(__('Indexer name is not defined.'));
             }
             $indexerConfiguration = $this->_indexerConfig->getIndexer($name);
             if (!$indexerConfiguration || empty($indexerConfiguration['instance'])) {
-                throw new \Magento\Core\Exception(__('Indexer model is not defined.'));
+                throw new \Magento\Model\Exception(__('Indexer model is not defined.'));
             }
             $indexerModel = $this->_indexerFactory->create($indexerConfiguration['instance']);
             if ($indexerModel instanceof \Magento\Index\Model\Indexer\AbstractIndexer) {
                 $this->_currentIndexer = $indexerModel;
             } else {
-                throw new \Magento\Core\Exception(__('Indexer model should extend \Magento\Index\Model\Indexer\Abstract.'));
+                throw new \Magento\Model\Exception(
+                    __('Indexer model should extend \Magento\Index\Model\Indexer\Abstract.')
+                );
             }
         }
         return $this->_currentIndexer;
@@ -366,7 +379,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      *
      * @param   null|string $entity
      * @param   null|string $type
-     * @return  \Magento\Index\Model\Process
+     * @return  $this
      * @throws \Exception
      */
     public function indexEvents($entity = null, $type = null)
@@ -413,14 +426,12 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Process all events of the collection
      *
-     * @param \Magento\Index\Model\Resource\Event\Collection $eventsCollection
+     * @param Collection $eventsCollection
      * @param bool $skipUnmatched
-     * @return \Magento\Index\Model\Process
+     * @return $this
      */
-    protected function _processEventsCollection(
-        \Magento\Index\Model\Resource\Event\Collection $eventsCollection,
-        $skipUnmatched = true
-    ) {
+    protected function _processEventsCollection(Collection $eventsCollection, $skipUnmatched = true)
+    {
         // We can't reload the collection because of transaction
         /** @var $event \Magento\Index\Model\Event */
         while (true == ($event = $eventsCollection->fetchItem())) {
@@ -443,11 +454,11 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Update status process/event association
      *
-     * @param   \Magento\Index\Model\Event $event
+     * @param   Event $event
      * @param   string $status
-     * @return  \Magento\Index\Model\Process
+     * @return  $this
      */
-    public function updateEventStatus(\Magento\Index\Model\Event $event, $status)
+    public function updateEventStatus(Event $event, $status)
     {
         $this->_getResource()->updateEventStatus($this->getId(), $event->getId(), $status);
         return $this;
@@ -470,7 +481,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      * Lock process without blocking.
      * This method allow protect multiple process running and fast lock validation.
      *
-     * @return \Magento\Index\Model\Process
+     * @return $this
      */
     public function lock()
     {
@@ -483,7 +494,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      * If new instance of the process will try validate locking state
      * script will wait until process will be unlocked
      *
-     * @return \Magento\Index\Model\Process
+     * @return $this
      */
     public function lockAndBlock()
     {
@@ -494,7 +505,7 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Unlock process
      *
-     * @return \Magento\Index\Model\Process
+     * @return $this
      */
     public function unlock()
     {
@@ -517,14 +528,11 @@ class Process extends \Magento\Core\Model\AbstractModel
      * Change process status
      *
      * @param string $status
-     * @return \Magento\Index\Model\Process
+     * @return $this
      */
     public function changeStatus($status)
     {
-        $this->_eventManager->dispatch('index_process_change_status', array(
-            'process' => $this,
-            'status' => $status
-        ));
+        $this->_eventManager->dispatch('index_process_change_status', array('process' => $this, 'status' => $status));
         $this->_getResource()->updateStatus($this, $status);
         return $this;
     }
@@ -536,10 +544,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      */
     public function getModesOptions()
     {
-        return array(
-            self::MODE_REAL_TIME => __('Update on Save'),
-            self::MODE_MANUAL => __('Manual Update')
-        );
+        return array(self::MODE_REAL_TIME => __('Update on Save'), self::MODE_MANUAL => __('Manual Update'));
     }
 
     /**
@@ -550,9 +555,9 @@ class Process extends \Magento\Core\Model\AbstractModel
     public function getStatusesOptions()
     {
         return array(
-            self::STATUS_PENDING            => __('Ready'),
-            self::STATUS_RUNNING            => __('Processing'),
-            self::STATUS_REQUIRE_REINDEX    => __('Reindex Required'),
+            self::STATUS_PENDING => __('Ready'),
+            self::STATUS_RUNNING => __('Processing'),
+            self::STATUS_REQUIRE_REINDEX => __('Reindex Required')
         );
     }
 
@@ -563,10 +568,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      */
     public function getUpdateRequiredOptions()
     {
-        return array(
-            0 => __('No'),
-            1 => __('Yes'),
-        );
+        return array(0 => __('No'), 1 => __('Yes'));
     }
 
     /**
@@ -595,11 +597,11 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Process event with locks checking
      *
-     * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Index\Model\Process
+     * @param Event $event
+     * @return $this
      * @throws \Exception
      */
-    public function safeProcessEvent(\Magento\Index\Model\Event $event)
+    public function safeProcessEvent(Event $event)
     {
         if (!$this->matchEvent($event)) {
             return $this;

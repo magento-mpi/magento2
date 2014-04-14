@@ -37,11 +37,9 @@ return array(
     'enterprise_cms/page_revision' => 'magento_versionscms_page_revision',
     'enterprise_cms/page_version' => 'magento_versionscms_page_version',
     'enterprise_customer/sales_order' => 'magento_customercustomattributes_sales_flat_order',
-    'enterprise_customer/sales_order_address' =>
-        'magento_customercustomattributes_sales_flat_order_address',
+    'enterprise_customer/sales_order_address' => 'magento_customercustomattributes_sales_flat_order_address',
     'enterprise_customer/sales_quote' => 'magento_customercustomattributes_sales_flat_quote',
-    'enterprise_customer/sales_quote_address' =>
-        'magento_customercustomattributes_sales_flat_quote_address',
+    'enterprise_customer/sales_quote_address' => 'magento_customercustomattributes_sales_flat_quote_address',
     'enterprise_customerbalance/balance' => 'magento_customerbalance',
     'enterprise_customerbalance/balance_history' => 'magento_customerbalance_history',
     'enterprise_customersegment/customer' => 'magento_customersegment_customer',
@@ -98,5 +96,5 @@ return array(
     'enterprise_targetrule/index_related' => 'magento_targetrule_index_related',
     'enterprise_targetrule/index_upsell' => 'magento_targetrule_index_upsell',
     'enterprise_targetrule/product' => 'magento_targetrule_product',
-    'enterprise_targetrule/rule' => 'magento_targetrule',
+    'enterprise_targetrule/rule' => 'magento_targetrule'
 );

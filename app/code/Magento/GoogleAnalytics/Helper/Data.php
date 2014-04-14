@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleAnalytics\Helper;
 
+use Magento\Store\Model\Store;
 
 /**
  * GoogleAnalytics data helper
@@ -15,44 +17,43 @@
  * @category   Magento
  * @package    Magento_GoogleAnalytics
  */
-namespace Magento\GoogleAnalytics\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Config paths for using throughout the code
      */
-    const XML_PATH_ACTIVE  = 'google/analytics/active';
+    const XML_PATH_ACTIVE = 'google/analytics/active';
+
     const XML_PATH_ACCOUNT = 'google/analytics/account';
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
     /**
      * Whether GA is ready to use
      *
-     * @param mixed $store
+     * @param null|string|bool|int|Store $store
      * @return bool
      */
     public function isGoogleAnalyticsAvailable($store = null)
     {
-        $accountId = $this->_coreStoreConfig->getConfig(self::XML_PATH_ACCOUNT, $store);
-        return $accountId && $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ACTIVE, $store);
+        $accountId = $this->_scopeConfig->getValue(self::XML_PATH_ACCOUNT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $accountId && $this->_scopeConfig->isSetFlag(self::XML_PATH_ACTIVE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 }

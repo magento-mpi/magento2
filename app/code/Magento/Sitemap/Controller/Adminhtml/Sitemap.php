@@ -7,32 +7,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * XML sitemap controller
- */
 namespace Magento\Sitemap\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
 
-class Sitemap extends  \Magento\Backend\App\Action
+/**
+ * XML sitemap controller
+ */
+class Sitemap extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -40,25 +36,28 @@ class Sitemap extends  \Magento\Backend\App\Action
     /**
      * Init actions
      *
-     * @return \Magento\Sitemap\Controller\Adminhtml\Sitemap
+     * @return $this
      */
     protected function _initAction()
     {
         // load layout, set active menu and breadcrumbs
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Sitemap::catalog_sitemap')
-            ->_addBreadcrumb(
-                __('Catalog'),
-                __('Catalog'))
-            ->_addBreadcrumb(
-                __('XML Sitemap'),
-                __('XML Sitemap')
+        $this->_setActiveMenu(
+            'Magento_Sitemap::catalog_sitemap'
+        )->_addBreadcrumb(
+            __('Catalog'),
+            __('Catalog')
+        )->_addBreadcrumb(
+            __('XML Sitemap'),
+            __('XML Sitemap')
         );
         return $this;
     }
 
     /**
      * Index action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -69,6 +68,8 @@ class Sitemap extends  \Magento\Backend\App\Action
 
     /**
      * Create new sitemap
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -78,6 +79,8 @@ class Sitemap extends  \Magento\Backend\App\Action
 
     /**
      * Edit sitemap
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -90,7 +93,7 @@ class Sitemap extends  \Magento\Backend\App\Action
         // 2. Initial checking
         if ($id) {
             $model->load($id);
-            if (! $model->getId()) {
+            if (!$model->getId()) {
                 $this->messageManager->addError(__('This sitemap no longer exists.'));
                 $this->_redirect('adminhtml/*/');
                 return;
@@ -109,17 +112,19 @@ class Sitemap extends  \Magento\Backend\App\Action
         $this->_coreRegistry->register('sitemap_sitemap', $model);
 
         // 5. Build edit form
-        $this->_initAction()
-            ->_addBreadcrumb(
-                $id ? __('Edit Sitemap') : __('New Sitemap'),
-                $id ? __('Edit Sitemap') : __('New Sitemap')
-            )
-            ->_addContent($this->_view->getLayout()->createBlock('Magento\Sitemap\Block\Adminhtml\Edit'));
+        $this->_initAction()->_addBreadcrumb(
+            $id ? __('Edit Sitemap') : __('New Sitemap'),
+            $id ? __('Edit Sitemap') : __('New Sitemap')
+        )->_addContent(
+            $this->_view->getLayout()->createBlock('Magento\Sitemap\Block\Adminhtml\Edit')
+        );
         $this->_view->renderLayout();
     }
 
     /**
      * Save action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -132,8 +137,7 @@ class Sitemap extends  \Magento\Backend\App\Action
 
             //validate path to generate
             if (!empty($data['sitemap_filename']) && !empty($data['sitemap_path'])) {
-                $path = rtrim($data['sitemap_path'], '\\/')
-                      . '/' . $data['sitemap_filename'];
+                $path = rtrim($data['sitemap_path'], '\\/') . '/' . $data['sitemap_filename'];
                 /** @var $validator \Magento\Core\Model\File\Validator\AvailablePath */
                 $validator = $this->_objectManager->create('Magento\Core\Model\File\Validator\AvailablePath');
                 /** @var $helper \Magento\Catalog\Helper\Catalog */
@@ -146,15 +150,20 @@ class Sitemap extends  \Magento\Backend\App\Action
                     // save data in session
                     $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData($data);
                     // redirect to edit form
-                    $this->_redirect('adminhtml/*/edit', array(
-                        'sitemap_id' => $this->getRequest()->getParam('sitemap_id')));
+                    $this->_redirect(
+                        'adminhtml/*/edit',
+                        array('sitemap_id' => $this->getRequest()->getParam('sitemap_id'))
+                    );
                     return;
                 }
             }
 
             /** @var \Magento\Filesystem\Directory\Write $directory */
-            $directory = $this->_objectManager->get('Magento\Filesystem')
-                ->getDirectoryWrite(\Magento\Filesystem::ROOT);
+            $directory = $this->_objectManager->get(
+                'Magento\App\Filesystem'
+            )->getDirectoryWrite(
+                \Magento\App\Filesystem::ROOT_DIR
+            );
 
             if ($this->getRequest()->getParam('sitemap_id')) {
                 $model->load($this->getRequest()->getParam('sitemap_id'));
@@ -190,30 +199,35 @@ class Sitemap extends  \Magento\Backend\App\Action
                 }
                 $this->_redirect('adminhtml/*/');
                 return;
-
             } catch (\Exception $e) {
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 // save data in session
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData($data);
                 // redirect to edit form
-                $this->_redirect('adminhtml/*/edit', array(
-                    'sitemap_id' => $this->getRequest()->getParam('sitemap_id')));
+                $this->_redirect(
+                    'adminhtml/*/edit',
+                    array('sitemap_id' => $this->getRequest()->getParam('sitemap_id'))
+                );
                 return;
             }
         }
         $this->_redirect('adminhtml/*/');
-
     }
 
     /**
      * Delete action
+     *
+     * @return void
      */
     public function deleteAction()
     {
         /** @var \Magento\Filesystem\Directory\Write $directory */
-        $directory = $this->_objectManager->get('Magento\Filesystem')
-            ->getDirectoryWrite(\Magento\Filesystem::ROOT);
+        $directory = $this->_objectManager->get(
+            'Magento\App\Filesystem'
+        )->getDirectoryWrite(
+            \Magento\App\Filesystem::ROOT_DIR
+        );
 
         // check if we know what should be deleted
         $id = $this->getRequest()->getParam('sitemap_id');
@@ -237,7 +251,6 @@ class Sitemap extends  \Magento\Backend\App\Action
                 // go to grid
                 $this->_redirect('adminhtml/*/');
                 return;
-
             } catch (\Exception $e) {
                 // display error message
                 $this->messageManager->addError($e->getMessage());
@@ -254,6 +267,8 @@ class Sitemap extends  \Magento\Backend\App\Action
 
     /**
      * Generate sitemap
+     *
+     * @return void
      */
     public function generateAction()
     {
@@ -268,16 +283,15 @@ class Sitemap extends  \Magento\Backend\App\Action
                 $sitemap->generateXml();
 
                 $this->messageManager->addSuccess(
-                    __('The sitemap "%1" has been generated.', $sitemap->getSitemapFilename()));
-            } catch (\Magento\Core\Exception $e) {
+                    __('The sitemap "%1" has been generated.', $sitemap->getSitemapFilename())
+                );
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException($e,
-                    __('Something went wrong generating the sitemap.'));
+                $this->messageManager->addException($e, __('Something went wrong generating the sitemap.'));
             }
         } else {
-            $this->messageManager->addError(
-                __('We can\'t find a sitemap to generate.'));
+            $this->messageManager->addError(__('We can\'t find a sitemap to generate.'));
         }
 
         // go to grid
@@ -287,7 +301,7 @@ class Sitemap extends  \Magento\Backend\App\Action
     /**
      * Check the permission to run it
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

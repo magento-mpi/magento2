@@ -2,21 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Cart;
+
+use Magento\Sales\Model\Quote;
 
 /**
  * Shopping cart abstract block
- *
- * @category    Magento
- * @package     Magento_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Block\Cart;
-
 class AbstractCart extends \Magento\View\Element\Template
 {
     /**
@@ -24,9 +19,19 @@ class AbstractCart extends \Magento\View\Element\Template
      */
     const DEFAULT_TYPE = 'default';
 
-    protected $_customer = null;
-    protected $_quote    = null;
+    /**
+     * @var Quote|null
+     */
+    protected $_quote = null;
+
+    /**
+     * @var array
+     */
     protected $_totals;
+
+    /**
+     * @var array
+     */
     protected $_itemRenders = array();
 
     /**
@@ -64,58 +69,48 @@ class AbstractCart extends \Magento\View\Element\Template
         $this->_checkoutSession = $checkoutSession;
         $this->_catalogData = $catalogData;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
-     * Initialize default item renderer
-     */
-    protected function _prepareLayout()
-    {
-        if (!$this->getChildBlock(self::DEFAULT_TYPE)) {
-            $this->addChild(
-                self::DEFAULT_TYPE,
-                'Magento\Checkout\Block\Cart\Item\Renderer',
-                array('template' => 'cart/item/default.phtml')
-            );
-        }
-        return parent::_prepareLayout();
-    }
-
-    /**
-     * Get renderer block instance by product type code
+     * Retrieve renderer list
      *
-     * @param  string $type
+     * @return \Magento\View\Element\RendererList
+     */
+    protected function _getRendererList()
+    {
+        return $this->getRendererListName() ? $this->getLayout()->getBlock(
+            $this->getRendererListName()
+        ) : $this->getChildBlock(
+            'renderer.list'
+        );
+    }
+
+    /**
+     * Retrieve item renderer block
+     *
+     * @param string|null $type
+     * @return \Magento\View\Element\Template
      * @throws \RuntimeException
-     * @return \Magento\View\Element\AbstractBlock
      */
-    public function getItemRenderer($type)
+    public function getItemRenderer($type = null)
     {
-        $renderer = $this->getChildBlock($type) ?: $this->getChildBlock(self::DEFAULT_TYPE);
-        if (!$renderer instanceof \Magento\View\Element\BlockInterface) {
-            throw new \RuntimeException('Renderer for type "' . $type . '" does not exist.');
+        if (is_null($type)) {
+            $type = self::DEFAULT_TYPE;
         }
-        $renderer->setRenderedBlock($this);
-        return $renderer;
-    }
-
-
-    /**
-     * Get logged in customer
-     *
-     * @return \Magento\Customer\Model\Customer
-     */
-    public function getCustomer()
-    {
-        if (null === $this->_customer) {
-            $this->_customer = $this->_customerSession->getCustomer();
+        $rendererList = $this->_getRendererList();
+        if (!$rendererList) {
+            throw new \RuntimeException('Renderer list for block "' . $this->getNameInLayout() . '" is not defined');
         }
-        return $this->_customer;
+        $overriddenTemplates = $this->getOverriddenTemplates() ?: array();
+        $template = isset($overriddenTemplates[$type]) ? $overriddenTemplates[$type] : $this->getRendererTemplate();
+        return $rendererList->getRenderer($type, self::DEFAULT_TYPE, $template);
     }
 
     /**
      * Get active quote
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return Quote
      */
     public function getQuote()
     {
@@ -147,11 +142,17 @@ class AbstractCart extends \Magento\View\Element\Template
         return $renderer->toHtml();
     }
 
+    /**
+     * @return array
+     */
     public function getTotals()
     {
         return $this->getTotalsCache();
     }
 
+    /**
+     * @return array
+     */
     public function getTotalsCache()
     {
         if (empty($this->_totals)) {

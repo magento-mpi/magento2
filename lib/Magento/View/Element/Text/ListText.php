@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element\Text;
 
 use Magento\View\Element\Text;
@@ -26,7 +25,7 @@ class ListText extends \Magento\View\Element\Text
 
         $layout = $this->getLayout();
         foreach ($this->getChildNames() as $child) {
-            $this->addText($layout->renderElement($child));
+            $this->addText($layout->renderElement($child, false));
         }
 
         return parent::_toHtml();

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/App/etc/routes.xsd">
     <router id="admin">
         <route id="multiplewishlist" frontName="multiplewishlist">
             <module name="Magento_MultipleWishlist_Adminhtml" before="Magento_Adminhtml" />

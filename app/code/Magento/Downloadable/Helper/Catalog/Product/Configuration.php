@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Helper\Catalog\Product;
 
 /**
  * Helper for fetching properties by product configurational item
@@ -15,10 +16,8 @@
  * @package    Magento_Downloadable
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Helper\Catalog\Product;
-
-class Configuration extends \Magento\App\Helper\AbstractHelper
-    implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
+class Configuration extends \Magento\App\Helper\AbstractHelper implements
+    \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
     /**
      * Catalog product configuration
@@ -30,22 +29,22 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfigur
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Catalog\Helper\Product\Configuration $productConfigur,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_productConfigur = $productConfigur;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
@@ -61,8 +60,7 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
         $itemLinks = array();
         $linkIds = $item->getOptionByCode('downloadable_link_ids');
         if ($linkIds) {
-            $productLinks = $product->getTypeInstance()
-                ->getLinks($product);
+            $productLinks = $product->getTypeInstance()->getLinks($product);
             foreach (explode(',', $linkIds->getValue()) as $linkId) {
                 if (isset($productLinks[$linkId])) {
                     $itemLinks[] = $productLinks[$linkId];
@@ -84,7 +82,7 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
         if (strlen($title)) {
             return $title;
         }
-        return $this->_coreStoreConfig->getConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE);
+        return $this->_scopeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -99,10 +97,7 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
 
         $links = $this->getLinks($item);
         if ($links) {
-            $linksOption = array(
-                'label' => $this->getLinksTitle($item->getProduct()),
-                'value' => array()
-            );
+            $linksOption = array('label' => $this->getLinksTitle($item->getProduct()), 'value' => array());
             foreach ($links as $link) {
                 $linksOption['value'][] = $link->getTitle();
             }

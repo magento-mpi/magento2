@@ -7,16 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Resource\Theme;
 
 /**
  * Theme files resource model
  */
-namespace Magento\Core\Model\Resource\Theme;
-
-class File extends \Magento\Core\Model\Resource\Db\AbstractDb
+class File extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

@@ -1,18 +1,15 @@
 <?php
 /**
+ * Banner Setup Resource Model
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Banner\Model\Resource;
 
 /**
- * Banner Setup Resource Model
- *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Setup extends \Magento\Sales\Model\Resource\Setup
@@ -33,11 +30,11 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $mathRandom;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Eav\Model\Entity\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Banner\Model\BannerFactory $bannerFactory
      * @param \Magento\Math\Random $mathRandom
@@ -45,21 +42,29 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Eav\Model\Entity\Setup\Context $context,
         $resourceName,
         \Magento\App\CacheInterface $cache,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
-        \Magento\Core\Model\Config $config,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Banner\Model\BannerFactory $bannerFactory,
         \Magento\Math\Random $mathRandom,
         $moduleName = 'Magento_Banner',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_widgetFactory = $widgetFactory;
         $this->_bannerFactory = $bannerFactory;
         $this->mathRandom = $mathRandom;
-        parent::__construct($context, $resourceName, $cache, $attrGrCollFactory, $config, $moduleName, $connectionName);
+        parent::__construct(
+            $context,
+            $resourceName,
+            $cache,
+            $attrGroupCollectionFactory,
+            $config,
+            $moduleName,
+            $connectionName
+        );
     }
 
     /**
@@ -68,14 +73,6 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     public function getBannerInstance()
     {
         return $this->_bannerFactory->create();
-    }
-
-    /**
-     * @return \Magento\Core\Model\Resource\Theme\Collection
-     */
-    public function getThemeCollection()
-    {
-        return $this->_themeResourceFactory->create();
     }
 
     /**

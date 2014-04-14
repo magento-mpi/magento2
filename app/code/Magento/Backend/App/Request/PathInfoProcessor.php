@@ -17,16 +17,17 @@ class PathInfoProcessor implements \Magento\App\Request\PathInfoProcessorInterfa
     private $_helper;
 
     /**
-     * @var \Magento\Core\App\Request\PathInfoProcessor
+     * @var \Magento\Store\App\Request\PathInfoProcessor
      */
     private $_subject;
 
     /**
-     * @param \Magento\Core\App\Request\PathInfoProcessor $subject
+     * @param \Magento\Store\App\Request\PathInfoProcessor $subject
      * @param \Magento\Backend\Helper\Data $helper
      */
     public function __construct(
-        \Magento\Core\App\Request\PathInfoProcessor $subject, \Magento\Backend\Helper\Data $helper
+        \Magento\Store\App\Request\PathInfoProcessor $subject,
+        \Magento\Backend\Helper\Data $helper
     ) {
         $this->_helper = $helper;
         $this->_subject = $subject;

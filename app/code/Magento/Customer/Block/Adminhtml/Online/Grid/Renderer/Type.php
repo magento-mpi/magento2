@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Online\Grid\Renderer;
 
 /**
  * Adminhtml customers online grid renderer for customer type.
@@ -15,14 +16,14 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Online\Grid\Renderer;
-
 class Type extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
-
+    /**
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function render(\Magento\Object $row)
     {
-        return ($row->getCustomerId() > 0 ) ? __('Customer') : __('Visitor') ;
+        return $row->getCustomerId() > 0 ? __('Customer') : __('Visitor');
     }
-
 }

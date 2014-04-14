@@ -11,7 +11,7 @@
 #Reviews and Ratings
 manage_ratings:
     mca: rating/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'rating/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/rating/')]
     title: Ratings / Attributes / Stores / Magento Admin
     uimap:
         form:
@@ -42,7 +42,7 @@ manage_ratings:
             confirmation_for_single_delete: Are you sure you want to do this?
 
 new_rating:
-    mca: rating/new/
+    mca: rating/index/new/
     title: New Rating / Ratings / Attributes / Stores / Magento Admin
     uimap: &newRating
         form: &new_rating-form
@@ -67,29 +67,29 @@ new_rating:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_rating: //button[@data-ui-id='rating-edit-save-button']
+            save_rating: //button[@title='Save Rating']
         messages: *ratingMessages
 
 new_edit_rating:
-    mca: rating/edit/
+    mca: rating/index/edit/
     title: New Rating / Ratings / Attributes / Stores / Magento Admin
     uimap: *newRating
 
 edit_rating:
-    mca: rating/edit/id/%id%/
+    mca: rating/index/edit/id/%id%/
     title: %elementTitle% / Ratings / Attributes / Stores / Magento Admin
     uimap:
         form: *new_rating-form
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_rating: //button[@data-ui-id='rating-edit-save-button']
+            save_rating: //button[@title='Save Rating']
             delete_rating: //button[span='Delete Rating']
         messages: *ratingMessages
 
 manage_all_reviews:
     mca: catalog/product_review/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_review/index/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog/product_review/index/')]
     title: Reviews / Customer Reviews / User Content / Marketing / Magento Admin
     uimap:
         form: &manageReviews
@@ -195,7 +195,7 @@ edit_review:
                         links:
                             product: //a[text()='%productName%']
                         radiobuttons:
-                            detailed_rating: //label[contains(@for,'%ratingName%')][contains(text(),'%stars% star')]
+                            detailed_rating: //input[@id='%ratingName%_%stars%']
                         dropdowns:
                             status: //select[@name='status_id']
                         multiselects:

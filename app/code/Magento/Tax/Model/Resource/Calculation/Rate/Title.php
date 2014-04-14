@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Tax\Model\Resource\Calculation\Rate;
 
 /**
  * Tax Rate Title Collection
@@ -16,12 +16,12 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Tax\Model\Resource\Calculation\Rate;
-
-class Title extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Title extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,7 +32,7 @@ class Title extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Delete title by rate identifier
      *
      * @param int $rateId
-     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Title
+     * @return $this
      */
     public function deleteByRateId($rateId)
     {

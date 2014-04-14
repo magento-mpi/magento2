@@ -31,17 +31,25 @@ class Files
     protected $_path = '';
 
     /**
-     * Setter/Getter for an instance of self
+     * Setter for an instance of self
      *
-     * @param \Magento\TestFramework\Utility\Files $instance
+     * Also can unset the current instance, if no arguments are specified
+     *
+     * @param Files|null $instance
+     */
+    public static function setInstance(Files $instance = null)
+    {
+        self::$_instance = $instance;
+    }
+
+    /**
+     * Getter for an instance of self
+     *
      * @return \Magento\TestFramework\Utility\Files
      * @throws \Exception when there is no instance set
      */
-    public static function init(\Magento\TestFramework\Utility\Files $instance = null)
+    public static function init()
     {
-        if ($instance) {
-            self::$_instance = $instance;
-        }
         if (!self::$_instance) {
             throw new \Exception('Instance is not set yet.');
         }
@@ -147,48 +155,35 @@ class Files
      * @return array
      */
     public function getClassFiles(
-        $appCode = true, $devTests = true, $devTools = true,
-        $downloaderApp = true, $downloaderLib = true, $lib = true, $asDataSet = true
+        $appCode = true,
+        $devTests = true,
+        $devTools = true,
+        $downloaderApp = true,
+        $downloaderLib = true,
+        $lib = true,
+        $asDataSet = true
     ) {
         $key = __METHOD__ .
             "/{$this->_path}/{$appCode}/{$devTests}/{$devTools}/{$downloaderApp}/{$downloaderLib}/{$lib}";
         if (!isset(self::$_cache[$key])) {
             $files = array();
             if ($appCode) {
-                $files = array_merge(
-                    $files,
-                    self::getFiles(array("{$this->_path}/app/code/Magento"), '*.php')
-                );
+                $files = array_merge($files, self::getFiles(array("{$this->_path}/app/code/Magento"), '*.php'));
             }
             if ($devTests) {
-                $files = array_merge(
-                    $files,
-                    self::getFiles(array("{$this->_path}/dev/tests"), '*.php')
-                );
+                $files = array_merge($files, self::getFiles(array("{$this->_path}/dev/tests"), '*.php'));
             }
             if ($devTools) {
-                $files = array_merge(
-                    $files,
-                    self::getFiles(array("{$this->_path}/dev/tools/Magento"), '*.php')
-                );
+                $files = array_merge($files, self::getFiles(array("{$this->_path}/dev/tools/Magento"), '*.php'));
             }
             if ($downloaderApp) {
-                $files = array_merge(
-                    $files,
-                    self::getFiles(array("{$this->_path}/downloader/app/Magento"), '*.php')
-                );
+                $files = array_merge($files, self::getFiles(array("{$this->_path}/downloader/app/Magento"), '*.php'));
             }
             if ($downloaderLib) {
-                $files = array_merge(
-                    $files,
-                    self::getFiles(array("{$this->_path}/downloader/lib/Magento"), '*.php')
-                );
+                $files = array_merge($files, self::getFiles(array("{$this->_path}/downloader/lib/Magento"), '*.php'));
             }
             if ($lib) {
-                $files = array_merge(
-                    $files,
-                    self::getFiles(array("{$this->_path}/lib/Magento"), '*.php')
-                );
+                $files = array_merge($files, self::getFiles(array("{$this->_path}/lib/Magento"), '*.php'));
             }
             self::$_cache[$key] = $files;
         }
@@ -229,7 +224,7 @@ class Files
                 'app/etc/*/config.xml',
                 'app/etc/local.xml',
                 'app/code/*/*/etc/config.xml',
-                'app/code/*/*/etc/config.*.xml', // Module DB-specific configs, e.g. config.mysql4.xml
+                'app/code/*/*/etc/config.*.xml' // Module DB-specific configs, e.g. config.mysql4.xml
             );
             $files = array();
             foreach ($globPaths as $globPath) {
@@ -280,13 +275,11 @@ class Files
      * @param bool $asDataSet
      * @return array
      */
-    public function getLayoutConfigFiles(
-        $fileNamePattern = '*.xml',
-        $asDataSet = true
-    ) {
+    public function getLayoutConfigFiles($fileNamePattern = '*.xml', $asDataSet = true)
+    {
         $cacheKey = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
         if (!isset(self::$_cache[$cacheKey])) {
-            self::$_cache[$cacheKey] = $this->_getConfigFilesList($fileNamePattern, 'design');;
+            self::$_cache[$cacheKey] = $this->_getConfigFilesList($fileNamePattern, 'design');
         }
         if ($asDataSet) {
             return self::composeDataSets(self::$_cache[$cacheKey]);
@@ -333,27 +326,21 @@ class Files
             if ($params['include_code']) {
                 $files = self::getFiles(
                     array(
-                        "{$this->_path}/app/code/{$params['namespace']}/{$params['module']}"
-                        . "/view/{$params['area']}/layout"
+                        "{$this->_path}/app/code/{$params['namespace']}/{$params['module']}" .
+                        "/view/{$params['area']}/layout"
                     ),
                     '*.xml'
                 );
             }
             if ($params['include_design']) {
-                $themeLayoutDir = "{$this->_path}/app/design/{$params['area']}/{$params['theme']}"
-                    . "/{$params['namespace']}_{$params['module']}/layout";
+                $themeLayoutDir = "{$this->_path}/app/design/{$params['area']}/{$params['theme']}" .
+                    "/{$params['namespace']}_{$params['module']}/layout";
                 $dirPatterns = array(
                     $themeLayoutDir,
                     $themeLayoutDir . '/override',
-                    $themeLayoutDir . '/override/*/*',
+                    $themeLayoutDir . '/override/*/*'
                 );
-                $files = array_merge(
-                    $files,
-                    self::getFiles(
-                        $dirPatterns,
-                        '*.xml'
-                    )
-                );
+                $files = array_merge($files, self::getFiles($dirPatterns, '*.xml'));
             }
             self::$_cache[__METHOD__][$cacheKey] = $files;
         }
@@ -381,12 +368,7 @@ class Files
      */
     public function getPageTypeFiles($incomingParams = array(), $asDataSet = true)
     {
-        $params = array(
-            'namespace' => '*',
-            'module' => '*',
-            'area' => '*',
-            'theme' => '*',
-        );
+        $params = array('namespace' => '*', 'module' => '*', 'area' => '*', 'theme' => '*');
         foreach (array_keys($params) as $key) {
             if (isset($incomingParams[$key])) {
                 $params[$key] = $incomingParams[$key];
@@ -397,10 +379,7 @@ class Files
         if (!isset(self::$_cache[__METHOD__][$cacheKey])) {
             $files = array();
             $files = self::getFiles(
-                array(
-                    "{$this->_path}/app/code/{$params['namespace']}/{$params['module']}"
-                    . "/etc/{$params['area']}"
-                ),
+                array("{$this->_path}/app/code/{$params['namespace']}/{$params['module']}" . "/etc/{$params['area']}"),
                 'page_types.xml'
             );
 
@@ -453,17 +432,12 @@ class Files
         $paths = array(
             "{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}",
             "{$this->_path}/app/design/{$area}/{$theme}",
-            "{$this->_path}/pub/lib/varien",
+            "{$this->_path}/pub/lib/varien"
         );
-        $files = self::getFiles(
-            $paths,
-            '*.js'
-        );
+        $files = self::getFiles($paths, '*.js');
 
         if ($area == 'adminhtml') {
-            $adminhtmlPaths = array(
-                "{$this->_path}/pub/lib/mage/{adminhtml,backend}",
-            );
+            $adminhtmlPaths = array("{$this->_path}/pub/lib/mage/{adminhtml,backend}");
             $files = array_merge($files, self::getFiles($adminhtmlPaths, '*.js'));
         } else {
             $frontendPaths = array("{$this->_path}/pub/lib/mage");
@@ -523,7 +497,7 @@ class Files
                 $this->_path . '/dev',
                 $this->_path . '/downloader',
                 $this->_path . '/lib',
-                $this->_path . '/pub',
+                $this->_path . '/pub'
             ),
             '*'
         );
@@ -554,8 +528,8 @@ class Files
     {
         $result = array();
         foreach ($dirPatterns as $oneDirPattern) {
-            $entriesInDir = glob("$oneDirPattern/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
-            $subDirs = glob("$oneDirPattern/*", GLOB_ONLYDIR | GLOB_NOSORT | GLOB_BRACE);
+            $entriesInDir = glob("{$oneDirPattern}/{$fileNamePattern}", GLOB_NOSORT | GLOB_BRACE);
+            $subDirs = glob("{$oneDirPattern}/*", GLOB_ONLYDIR | GLOB_NOSORT | GLOB_BRACE);
             $filesInDir = array_diff($entriesInDir, $subDirs);
 
             if ($recursive) {
@@ -604,12 +578,23 @@ class Files
         $namespace = implode('\\', $classParts);
         $path = implode('/', explode('\\', $class)) . '.php';
         $directories = array(
-            '/app/code/', '/lib/', '/downloader/app/', '/downloader/lib/', '/dev/tools/',
-            '/dev/tests/api-functional/framework/', '/dev/tests/integration/framework/',
-            '/dev/tests/integration/framework/tests/unit/testsuite/', '/dev/tests/integration/testsuite/',
-            '/dev/tests/integration/testsuite/Magento/Test/Integrity/', '/dev/tests/performance/framework/',
-            '/dev/tests/static/framework/', '/dev/tests/static/testsuite/', '/dev/tests/functional/tests/app/',
-            '/dev/tests/unit/framework/', '/dev/tests/unit/testsuite/',
+            '/app/code/',
+            '/lib/',
+            '/downloader/app/',
+            '/downloader/lib/',
+            '/dev/tools/',
+            '/dev/tools/performance_toolkit/framework/',
+            '/dev/tests/api-functional/framework/',
+            '/dev/tests/integration/framework/',
+            '/dev/tests/integration/framework/tests/unit/testsuite/',
+            '/dev/tests/integration/testsuite/',
+            '/dev/tests/integration/testsuite/Magento/Test/Integrity/',
+            '/dev/tests/performance/framework/',
+            '/dev/tests/static/framework/',
+            '/dev/tests/static/testsuite/',
+            '/dev/tests/functional/tests/app/',
+            '/dev/tests/unit/framework/',
+            '/dev/tests/unit/testsuite/'
         );
 
         foreach ($directories as $dir) {
@@ -617,12 +602,21 @@ class Files
             /**
              * Use realpath() instead of file_exists() to avoid incorrect work on Windows because of case insensitivity
              * of file names
+             * Note that realpath() automatically changes directory separator to the OS-native
              */
-            if (realpath($fullPath) == $fullPath) {
+            if (realpath($fullPath) == str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $fullPath)) {
                 $fileContent = file_get_contents($fullPath);
-                if (strpos($fileContent, 'namespace ' . $namespace) !== false &&
-                    (strpos($fileContent, 'class ' . $className) !== false ||
-                        strpos($fileContent, 'interface ' . $className) !== false)) {
+                if (strpos(
+                    $fileContent,
+                    'namespace ' . $namespace
+                ) !== false && (strpos(
+                    $fileContent,
+                    'class ' . $className
+                ) !== false || strpos(
+                    $fileContent,
+                    'interface ' . $className
+                ) !== false)
+                ) {
                     return true;
                 }
             }
@@ -674,8 +668,7 @@ class Files
      */
     protected function _getConfigFilesList($fileNamePattern, $appDir)
     {
-        return glob($this->_path . '/app/' . $appDir . "/*/*/etc/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
-
+        return glob($this->_path . '/app/' . $appDir . "/*/*/etc/{$fileNamePattern}", GLOB_NOSORT | GLOB_BRACE);
     }
 
     /**
@@ -695,6 +688,58 @@ class Files
 
         if ($asDataSet) {
             return self::composeDataSets(self::$_cache[$key]);
+        }
+
+        return self::$_cache[$key];
+    }
+
+    /**
+     * Read all text files by specified glob pattern and combine them into an array of valid files/directories
+     *
+     * The Magento root path is prepended to all (non-empty) entries
+     *
+     * @param string $globPattern
+     * @return array
+     * @throws \Exception if any of the patterns don't return any result
+     */
+    public static function readLists($globPattern)
+    {
+        $patterns = array();
+        foreach (glob($globPattern) as $list) {
+            $patterns = array_merge($patterns, file($list, FILE_IGNORE_NEW_LINES));
+        }
+
+        // Expand glob patterns
+        $result = array();
+        foreach ($patterns as $pattern) {
+            if (0 === strpos($pattern, '#')) {
+                continue;
+            }
+            /**
+             * Note that glob() for directories will be returned as is,
+             * but passing directory is supported by the tools (phpcpd, phpmd, phpcs)
+             */
+            $files = glob(self::init()->getPathToSource() . '/' . $pattern, GLOB_BRACE);
+            if (empty($files)) {
+                throw new \Exception("The glob() pattern '{$pattern}' didn't return any result.");
+            }
+            $result = array_merge($result, $files);
+        }
+        return $result;
+    }
+
+    /**
+     * Check module existence
+     *
+     * @param string $moduleName
+     * @return bool
+     */
+    public function isModuleExists($moduleName)
+    {
+        $key = __METHOD__ . "/{$moduleName}";
+        if (!isset(self::$_cache[$key])) {
+            list($namespace, $module) = explode('_', $moduleName);
+            self::$_cache[$key] = file_exists("{$this->_path}/app/code/{$namespace}/{$module}");
         }
 
         return self::$_cache[$key];

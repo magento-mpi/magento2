@@ -14,8 +14,7 @@
  */
 namespace Magento\Translate;
 
-abstract class AbstractAdapter extends \Zend_Translate_Adapter
-    implements \Magento\Translate\AdapterInterface
+abstract class AbstractAdapter extends \Zend_Translate_Adapter implements AdapterInterface
 {
     /**
      * Load translation data
@@ -38,9 +37,9 @@ abstract class AbstractAdapter extends \Zend_Translate_Adapter
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @param string $messageId
-     * @param boolean $original
+     * @param bool $original
      * @param null $locale
-     * @return boolean
+     * @return false
      */
     public function isTranslated($messageId, $original = false, $locale = null)
     {
@@ -52,13 +51,12 @@ abstract class AbstractAdapter extends \Zend_Translate_Adapter
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @param string|\Zend_Locale $locale
-     * @return \Zend_Translate_Adapter
+     * @return $this
      */
     public function setLocale($locale)
     {
         return $this;
     }
-
 
     /**
      * Returns the adapter name

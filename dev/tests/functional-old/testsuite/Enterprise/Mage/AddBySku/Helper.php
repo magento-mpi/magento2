@@ -257,9 +257,6 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
             ) {
                 $this->clickButton('add_row', false);
                 $this->addParameter('number', 1 + (int)$this->getParameter('number'));
-                if (!$this->controlIsVisible('field', 'sku')) {
-                    $this->markTestIncomplete('BUG: Add Row link does not work on frontend');
-                }
             }
             $this->fillFieldset($dataRow, $fieldset);
         }

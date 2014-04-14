@@ -7,22 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Review\Model\Resource\Review;
 
+use Magento\Model\AbstractModel;
 
 /**
  * Review summary resource model
  *
- * @category    Magento
- * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Review\Model\Resource\Review;
-
-class Summary extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Summary extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Define module
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -34,8 +33,8 @@ class Summary extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $field
      * @param mixed $value
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return unknown
+     * @param AbstractModel $object
+     * @return \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -45,22 +44,20 @@ class Summary extends \Magento\Core\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Reaggregate all data by rating summary
+     * Re-aggregate all data by rating summary
      *
      * @param array $summary
-     * @return \Magento\Review\Model\Resource\Review\Summary
+     * @return $this
      */
     public function reAggregate($summary)
     {
         $adapter = $this->_getWriteAdapter();
-        $select = $adapter->select()
-            ->from($this->getMainTable(),
-                array(
-                    'primary_id' => new \Zend_Db_Expr('MAX(primary_id)'),
-                    'store_id',
-                    'entity_pk_value'
-                ))
-            ->group(array('entity_pk_value', 'store_id'));
+        $select = $adapter->select()->from(
+            $this->getMainTable(),
+            array('primary_id' => new \Zend_Db_Expr('MAX(primary_id)'), 'store_id', 'entity_pk_value')
+        )->group(
+            array('entity_pk_value', 'store_id')
+        );
         foreach ($adapter->fetchAll($select) as $row) {
             if (isset($summary[$row['store_id']]) && isset($summary[$row['store_id']][$row['entity_pk_value']])) {
                 $summaryItem = $summary[$row['store_id']][$row['entity_pk_value']];

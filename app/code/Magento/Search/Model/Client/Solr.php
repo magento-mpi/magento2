@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model\Client;
 
 /**
  * Solr client
  */
-namespace Magento\Search\Model\Client;
-
 class Solr extends \Apache_Solr_Service
 {
     /**
@@ -45,20 +44,15 @@ class Solr extends \Apache_Solr_Service
      * Initialize Solr Client
      *
      * @param array $options
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function __construct($options = array())
     {
-        $_optionsNames = array(
-            'hostname',
-            'login',
-            'password',
-            'port',
-            'path'
-        );
+        $_optionsNames = array('hostname', 'login', 'password', 'port', 'path');
         if (!sizeof(array_intersect($_optionsNames, array_keys($options)))) {
-            throw new \Magento\Core\Exception(
-                __('We were unable to perform the search because a search engine misconfiguration.'));
+            throw new \Magento\Model\Exception(
+                __('We were unable to perform the search because a search engine misconfiguration.')
+            );
         }
 
         $this->setUserLogin($options['login']);
@@ -72,11 +66,15 @@ class Solr extends \Apache_Solr_Service
         return $this;
     }
 
+    /**
+     * Initialize urls
+     *
+     * @return void
+     */
     protected function _initUrls()
     {
         parent::_initUrls();
         $this->_suggestionsUrl = $this->_constructUrl(self::SUGGESTIONS_SERVLET);
-
     }
 
     /**
@@ -97,8 +95,8 @@ class Solr extends \Apache_Solr_Service
      * Create a delete document based on a multiple queries and submit it
      *
      * @param array $rawQueries Expected to be utf-8 encoded
-     * @param boolean $fromPending
-     * @param boolean $fromCommitted
+     * @param bool $fromPending
+     * @param bool $fromCommitted
      * @param float|int $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
      * @return \Apache_Solr_Response
      *
@@ -111,8 +109,7 @@ class Solr extends \Apache_Solr_Service
 
         $rawPost = '<delete fromPending="' . $pendingValue . '" fromCommitted="' . $committedValue . '">';
 
-        foreach ($rawQueries as $query)
-        {
+        foreach ($rawQueries as $query) {
             //escape special xml characters
             $query = htmlspecialchars($query, ENT_NOQUOTES);
 
@@ -128,11 +125,10 @@ class Solr extends \Apache_Solr_Service
      * Alias to \Apache_Solr_Service::deleteByMultipleIds() method
      *
      * @param array $ids Expected to be utf-8 encoded strings
-     * @param boolean $fromPending
-     * @param boolean $fromCommitted
+     * @param bool $fromPending
+     * @param bool $fromCommitted
      * @param float|int $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
-     * @return \Apache_Solr_Response
-     *
+     * @return void
      * @throws \Exception If an error occurs during the service call
      */
     public function deleteByIds($ids, $fromPending = true, $fromCommitted = true, $timeout = 3600)
@@ -147,14 +143,13 @@ class Solr extends \Apache_Solr_Service
      * @param bool|float $timeout Read timeout in seconds
      * @return \Apache_Solr_Response
      */
-    protected function _sendRawGet($url, $timeout = FALSE)
+    protected function _sendRawGet($url, $timeout = false)
     {
         $this->_setAuthHeader($this->_getContext);
-        \Magento\Profiler::start('solr_send_raw_get', array(
-            'group' => 'solr',
-            'operation' => 'solr:_sendRawGet',
-            'host' => $this->getHost()
-        ));
+        \Magento\Profiler::start(
+            'solr_send_raw_get',
+            array('group' => 'solr', 'operation' => 'solr:_sendRawGet', 'host' => $this->getHost())
+        );
         $response = parent::_sendRawGet($url, $timeout);
         \Magento\Profiler::stop('solr_send_raw_get');
         return $response;
@@ -169,14 +164,13 @@ class Solr extends \Apache_Solr_Service
      * @param string $contentType
      * @return \Apache_Solr_Response
      */
-    protected function _sendRawPost($url, $rawPost, $timeout = FALSE, $contentType = 'text/xml; charset=UTF-8')
+    protected function _sendRawPost($url, $rawPost, $timeout = false, $contentType = 'text/xml; charset=UTF-8')
     {
         $this->_setAuthHeader($this->_postContext);
-        \Magento\Profiler::start('solr_send_raw_post', array(
-            'group' => 'solr',
-            'operation' => 'solr:_sendRawPost',
-            'host' => $this->getHost()
-        ));
+        \Magento\Profiler::start(
+            'solr_send_raw_post',
+            array('group' => 'solr', 'operation' => 'solr:_sendRawPost', 'host' => $this->getHost())
+        );
         $response = parent::_sendRawPost($url, $rawPost, $timeout, $contentType);
         \Magento\Profiler::stop('solr_send_raw_post');
         return $response;
@@ -186,17 +180,23 @@ class Solr extends \Apache_Solr_Service
      * Set Authorization header to stream context.
      *
      * @param resource $context
+     * @return void
      */
     protected function _setAuthHeader($context)
     {
-        stream_context_set_option($context, 'http', 'header',
-            'Authorization: Basic ' . base64_encode($this->getUserLogin() . ':' . $this->getPassword()));
+        stream_context_set_option(
+            $context,
+            'http',
+            'header',
+            'Authorization: Basic ' . base64_encode($this->getUserLogin() . ':' . $this->getPassword())
+        );
     }
 
     /**
      * Setter for solr server username
      *
      * @param string $username
+     * @return void
      */
     public function setUserLogin($username)
     {
@@ -217,6 +217,7 @@ class Solr extends \Apache_Solr_Service
      * Setter for solr server password
      *
      * @param string $username
+     * @return void
      */
     public function setPassword($username)
     {

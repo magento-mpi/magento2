@@ -17,13 +17,13 @@
  */
 namespace Magento\ScheduledImportExport\Model;
 
-class Import extends \Magento\ImportExport\Model\Import
-    implements \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
+class Import extends \Magento\ImportExport\Model\Import implements
+    \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
 {
     /**
      * Reindex indexes by process codes.
      *
-     * @return \Magento\ScheduledImportExport\Model\Import
+     * @return $this
      */
     public function reindexAll()
     {
@@ -56,12 +56,12 @@ class Import extends \Magento\ImportExport\Model\Import
             $result = $this->validateSource(
                 \Magento\ImportExport\Model\Import\Adapter::findAdapterFor(
                     $sourceFile,
-                    $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP)
+                    $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR)
                 )
             );
         }
-        $isAllowedForcedImport = $operation->getForceImport()
-            && $this->getProcessedRowsCount() != $this->getInvalidRowsCount();
+        $isAllowedForcedImport = $operation->getForceImport() &&
+            $this->getProcessedRowsCount() != $this->getInvalidRowsCount();
         if ($isAllowedForcedImport || $result) {
             $result = $this->importSource();
         }
@@ -75,17 +75,19 @@ class Import extends \Magento\ImportExport\Model\Import
      * Initialize import instance from scheduled operation
      *
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
-     * @return \Magento\ScheduledImportExport\Model\Import
+     * @return $this
      */
     public function initialize(\Magento\ScheduledImportExport\Model\Scheduled\Operation $operation)
     {
-        $this->setData(array(
-            'entity'                 => $operation->getEntityType(),
-            'behavior'               => $operation->getBehavior(),
-            'operation_type'         => $operation->getOperationType(),
-            'run_at'                 => $operation->getStartTime(),
-            'scheduled_operation_id' => $operation->getId()
-        ));
+        $this->setData(
+            array(
+                'entity' => $operation->getEntityType(),
+                'behavior' => $operation->getBehavior(),
+                'operation_type' => $operation->getOperationType(),
+                'run_at' => $operation->getStartTime(),
+                'scheduled_operation_id' => $operation->getId()
+            )
+        );
         return $this;
     }
 }

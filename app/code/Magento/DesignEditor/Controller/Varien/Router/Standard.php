@@ -21,7 +21,7 @@ class Standard extends \Magento\Core\App\Router\Base
     /**
      * Routers that must not been matched
      *
-     * @var array
+     * @var string[]
      */
     protected $_excludedRouters = array('admin', 'vde');
 
@@ -33,9 +33,24 @@ class Standard extends \Magento\Core\App\Router\Base
     protected $_routerList;
 
     /**
-     * @var \Magento\Core\App\Request\RewriteService
+     * @var \Magento\UrlRewrite\App\Request\RewriteService
      */
     protected $_urlRewriteService;
+
+    /**
+     * @var \Magento\DesignEditor\Helper\Data
+     */
+    protected $_designEditorHelper;
+
+    /**
+     * @var \Magento\DesignEditor\Model\State
+     */
+    protected $_state;
+
+    /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_session;
 
     /**
      * @param \Magento\App\ActionFactory $actionFactory
@@ -44,14 +59,18 @@ class Standard extends \Magento\Core\App\Router\Base
      * @param \Magento\App\Route\Config $routeConfig
      * @param \Magento\App\State $appState
      * @param \Magento\UrlInterface $url
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
      * @param string $routerId
+     * @param \Magento\Code\NameBuilder $nameBuilder
      * @param \Magento\App\RouterListInterface $routerList
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\App\Request\RewriteService $urlRewriteService
-     * 
+     * @param \Magento\UrlRewrite\App\Request\RewriteService $urlRewriteService
+     * @param \Magento\DesignEditor\Helper\Data $designEditorHelper
+     * @param \Magento\DesignEditor\Model\State $designEditorState
+     * @param \Magento\Backend\Model\Auth\Session $session
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -61,13 +80,17 @@ class Standard extends \Magento\Core\App\Router\Base
         \Magento\App\Route\Config $routeConfig,
         \Magento\App\State $appState,
         \Magento\UrlInterface $url,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId,
+        \Magento\Code\NameBuilder $nameBuilder,
         \Magento\App\RouterListInterface $routerList,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\App\Request\RewriteService $urlRewriteService
+        \Magento\UrlRewrite\App\Request\RewriteService $urlRewriteService,
+        \Magento\DesignEditor\Helper\Data $designEditorHelper,
+        \Magento\DesignEditor\Model\State $designEditorState,
+        \Magento\Backend\Model\Auth\Session $session
     ) {
         parent::__construct(
             $actionFactory,
@@ -77,13 +100,16 @@ class Standard extends \Magento\Core\App\Router\Base
             $appState,
             $url,
             $storeManager,
-            $storeConfig,
+            $scopeConfig,
             $urlSecurityInfo,
-            $routerId
+            $routerId,
+            $nameBuilder
         );
         $this->_urlRewriteService = $urlRewriteService;
-        $this->_objectManager = $objectManager;
         $this->_routerList = $routerList;
+        $this->_designEditorHelper = $designEditorHelper;
+        $this->_state = $designEditorState;
+        $this->_session = $session;
     }
 
     /**
@@ -95,12 +121,12 @@ class Standard extends \Magento\Core\App\Router\Base
     public function match(\Magento\App\RequestInterface $request)
     {
         // if URL has VDE prefix
-        if (!$this->_objectManager->get('Magento\DesignEditor\Helper\Data')->isVdeRequest($request)) {
+        if (!$this->_designEditorHelper->isVdeRequest($request)) {
             return null;
         }
 
         // user must be logged in admin area
-        if (!$this->_objectManager->get('Magento\Backend\Model\Auth\Session')->isLoggedIn()) {
+        if (!$this->_session->isLoggedIn()) {
             return null;
         }
 
@@ -118,14 +144,13 @@ class Standard extends \Magento\Core\App\Router\Base
             /** @var $controller \Magento\App\Action\AbstractAction */
             $controller = $router->match($request);
             if ($controller) {
-                $this->_objectManager->get('Magento\DesignEditor\Model\State')
-                    ->update(\Magento\Core\Model\App\Area::AREA_FRONTEND, $request);
+                $this->_state->update(\Magento\Core\Model\App\Area::AREA_FRONTEND, $request);
                 break;
             }
         }
 
         // set inline translation mode
-        $this->_objectManager->get('Magento\DesignEditor\Helper\Data')->setTranslationMode($request);
+        $this->_designEditorHelper->setTranslationMode($request);
 
         return $controller;
     }
@@ -134,7 +159,7 @@ class Standard extends \Magento\Core\App\Router\Base
      * Modify request path to imitate basic request
      *
      * @param \Magento\App\RequestInterface $request
-     * @return \Magento\DesignEditor\Controller\Varien\Router\Standard
+     * @return $this
      */
     protected function _prepareVdeRequest(\Magento\App\RequestInterface $request)
     {
@@ -154,10 +179,11 @@ class Standard extends \Magento\Core\App\Router\Base
      */
     protected function _getMatchedRouters()
     {
-        $routers = $this->_routerList->getRouters();
-        foreach (array_keys($routers) as $name) {
-            if (in_array($name, $this->_excludedRouters)) {
-                unset($routers[$name]);
+        $routers = [];
+        foreach ($this->_routerList as $router) {
+            $name = $this->_routerList->key();
+            if (!in_array($name, $this->_excludedRouters)) {
+                $routers[$name] = $router;
             }
         }
         return $routers;

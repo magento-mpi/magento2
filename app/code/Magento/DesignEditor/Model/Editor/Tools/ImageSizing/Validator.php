@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Editor\Tools\ImageSizing;
 
 /**
  * Image sizing validator
  */
-namespace Magento\DesignEditor\Model\Editor\Tools\ImageSizing;
-
 class Validator
 {
     /**
@@ -48,7 +47,7 @@ class Validator
     /**
      * List of allowed filed control types
      *
-     * @var array
+     * @var string[]
      */
     protected $_allowedTypes = array(
         self::FIELD_WHITE_BORDER,
@@ -97,7 +96,7 @@ class Validator
      * Initialize list of controls for validation
      *
      * @param array $controls
-     * @return \Magento\DesignEditor\Model\Editor\Tools\ImageSizing\Validator
+     * @return $this
      */
     protected function _initFieldByTypes(array $controls)
     {
@@ -118,7 +117,7 @@ class Validator
      * @param array $validators
      * @param array $fields
      * @param array $data
-     * @return \Magento\DesignEditor\Model\Editor\Tools\ImageSizing\Validator
+     * @return $this
      */
     protected function _validate(array $validators, array $fields, array $data)
     {
@@ -161,27 +160,34 @@ class Validator
             case self::FIELD_WHITE_BORDER:
                 $validators = array(
                     array('class' => 'Zend_Validate_Int', 'options' => array()),
-                    array('class' => 'Zend_Validate_Between', 'options' => array(
-                        'min' => 0, 'max' => 1, 'inclusive' => true
-                )));
+                    array(
+                        'class' => 'Zend_Validate_Between',
+                        'options' => array('min' => 0, 'max' => 1, 'inclusive' => true)
+                    )
+                );
                 break;
             case self::FIELD_IMAGE_WIDTH:
             case self::FIELD_IMAGE_HEIGHT:
                 $validators = array(
                     array('class' => 'Zend_Validate_Regex', 'options' => array('pattern' => '/[0-9]*/')),
-                    array('class' => 'Zend_Validate_Between', 'options' => array(
-                        'min' => 0, 'max' => self::MAX_SIZE_VALUE, 'inclusive' => true
-                )));
+                    array(
+                        'class' => 'Zend_Validate_Between',
+                        'options' => array('min' => 0, 'max' => self::MAX_SIZE_VALUE, 'inclusive' => true)
+                    )
+                );
                 break;
             case self::FIELD_IMAGE_RATIO:
                 $validators = array(
-                    array('class' => 'Zend_Validate_InArray', 'options' => array('haystack' => array('0', '1'))));
+                    array('class' => 'Zend_Validate_InArray', 'options' => array('haystack' => array('0', '1')))
+                );
                 break;
             case self::FIELD_IMAGE_TYPE:
                 $validators = array(
-                    array('class' => 'Zend_Validate_InArray', 'options' => array('haystack' => array(
-                        'image', 'small_image', 'thumbnail'
-                ))));
+                    array(
+                        'class' => 'Zend_Validate_InArray',
+                        'options' => array('haystack' => array('image', 'small_image', 'thumbnail'))
+                    )
+                );
                 break;
         }
         $this->_instantiateValidators($validators);
@@ -191,8 +197,8 @@ class Validator
     /**
      * Instantiate class validator
      *
-     * @param array $validators
-     * @return \Magento\DesignEditor\Model\Editor\Tools\ImageSizing\Validator
+     * @param array &$validators
+     * @return $this
      */
     protected function _instantiateValidators(array &$validators)
     {

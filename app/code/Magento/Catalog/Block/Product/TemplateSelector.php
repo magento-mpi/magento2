@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product;
 
 /**
@@ -20,7 +19,7 @@ class TemplateSelector extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -41,14 +40,14 @@ class TemplateSelector extends \Magento\View\Element\Template
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
         array $data = array()
     ) {
@@ -71,13 +70,20 @@ class TemplateSelector extends \Magento\View\Element\Template
         $labelPart = $this->_resourceHelper->addLikeEscape($labelPart, array('position' => 'any'));
         /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $collection */
         $collection = $this->_setColFactory->create();
-        $collection->setEntityTypeFilter($entityType->getId())
-            ->addFieldToFilter('attribute_set_name', array('like' => $labelPart))
-            ->addFieldToSelect('attribute_set_id', 'id')
-            ->addFieldToSelect('attribute_set_name', 'label')
-            ->setOrder(
-                'attribute_set_name',
-                \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection::SORT_ORDER_ASC
+        $collection->setEntityTypeFilter(
+            $entityType->getId()
+        )->addFieldToFilter(
+            'attribute_set_name',
+            array('like' => $labelPart)
+        )->addFieldToSelect(
+            'attribute_set_id',
+            'id'
+        )->addFieldToSelect(
+            'attribute_set_name',
+            'label'
+        )->setOrder(
+            'attribute_set_name',
+            \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection::SORT_ORDER_ASC
         );
         return $collection->getData();
     }

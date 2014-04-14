@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sendfriend\Helper;
 
 /**
  * Sendfriend Data Helper
@@ -16,38 +16,42 @@
  * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sendfriend\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
-    const XML_PATH_ENABLED          = 'sendfriend/email/enabled';
-    const XML_PATH_ALLOW_FOR_GUEST  = 'sendfriend/email/allow_guest';
-    const XML_PATH_MAX_RECIPIENTS   = 'sendfriend/email/max_recipients';
-    const XML_PATH_MAX_PER_HOUR     = 'sendfriend/email/max_per_hour';
-    const XML_PATH_LIMIT_BY         = 'sendfriend/email/check_by';
-    const XML_PATH_EMAIL_TEMPLATE   = 'sendfriend/email/template';
+    const XML_PATH_ENABLED = 'sendfriend/email/enabled';
 
-    const COOKIE_NAME   = 'stf';
+    const XML_PATH_ALLOW_FOR_GUEST = 'sendfriend/email/allow_guest';
 
-    const CHECK_IP      = 1;
-    const CHECK_COOKIE  = 0;
+    const XML_PATH_MAX_RECIPIENTS = 'sendfriend/email/max_recipients';
+
+    const XML_PATH_MAX_PER_HOUR = 'sendfriend/email/max_per_hour';
+
+    const XML_PATH_LIMIT_BY = 'sendfriend/email/check_by';
+
+    const XML_PATH_EMAIL_TEMPLATE = 'sendfriend/email/template';
+
+    const COOKIE_NAME = 'stf';
+
+    const CHECK_IP = 1;
+
+    const CHECK_COOKIE = 0;
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
@@ -59,7 +63,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLED, $store);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
@@ -70,7 +74,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isAllowForGuest($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ALLOW_FOR_GUEST, $store);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_ALLOW_FOR_GUEST, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
@@ -81,7 +85,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getMaxRecipients($store = null)
     {
-        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_RECIPIENTS, $store);
+        return (int)$this->_scopeConfig->getValue(self::XML_PATH_MAX_RECIPIENTS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
@@ -92,7 +96,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getMaxEmailPerPeriod($store = null)
     {
-        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_PER_HOUR, $store);
+        return (int)$this->_scopeConfig->getValue(self::XML_PATH_MAX_PER_HOUR, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
@@ -113,7 +117,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getLimitBy($store = null)
     {
-        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_LIMIT_BY, $store);
+        return (int)$this->_scopeConfig->getValue(self::XML_PATH_LIMIT_BY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
@@ -124,7 +128,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getEmailTemplate($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_TEMPLATE, $store);
+        return $this->_scopeConfig->getValue(self::XML_PATH_EMAIL_TEMPLATE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**

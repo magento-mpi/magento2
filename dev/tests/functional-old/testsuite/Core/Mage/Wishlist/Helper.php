@@ -22,15 +22,14 @@ class Core_Mage_Wishlist_Helper extends Mage_Selenium_AbstractHelper
      * Adds product to wishlist from a specific catalog page.
      *
      * @param string $productName
-     * @param string $category
+     * @param string $categoryName
      */
-    public function frontAddProductToWishlistFromCatalogPage($productName, $category)
+    public function frontAddProductToWishlistFromCatalogPage($productName, $categoryName)
     {
-        $pageId = $this->categoryHelper()->frontSearchAndOpenPageWithProduct($productName, $category);
-        if (!$pageId) {
-            $this->fail('Could not find the product');
+        if (!$this->categoryHelper()->frontSearchAndOpenPageWithProduct($productName, $categoryName)) {
+            $this->fail('Could not find "' . $productName . '" product on "' . $categoryName . '" category page');
         }
-        $this->addParameter('productName', $productName);
+        $this->moveto($this->getControlElement('pageelement', 'product_name'));
         $this->clickControl('link', 'add_to_wishlist');
     }
 
@@ -43,6 +42,11 @@ class Core_Mage_Wishlist_Helper extends Mage_Selenium_AbstractHelper
     public function frontAddProductToWishlistFromProductPage($productName, $options = array())
     {
         $this->productHelper()->frontOpenProduct($productName);
+        if ($this->controlIsPresent('button', 'customize_and_add_to_cart')) {
+            $this->clickButton('customize_and_add_to_cart', false);
+            $this->waitForControlVisible('field', 'bundle_item_qty');
+            $this->waitForControlStopsMoving('field', 'bundle_item_qty');
+        }
         if (!empty($options)) {
             $this->productHelper()->frontFillBuyInfo($options);
         }
@@ -107,6 +111,11 @@ class Core_Mage_Wishlist_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontClearWishlist()
     {
+        if (!$this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'customer_menu')) {
+            return;
+        }
+        $this->clickControl(self::UIMAP_TYPE_FIELDSET, 'customer_menu', false);
+        $this->clickControl('link', 'my_wishlist');
         while ($this->controlIsPresent('link', 'remove_item_generic')) {
             $this->clickControlAndConfirm('link', 'remove_item_generic', 'confirmation_for_delete');
             $this->assertTrue($this->checkCurrentPage('my_wishlist'), $this->getParsedMessages());
@@ -137,12 +146,9 @@ class Core_Mage_Wishlist_Helper extends Mage_Selenium_AbstractHelper
     public function frontAddToShoppingCartFromWishlist($productName, $productOptions = array())
     {
         $this->addParameter('productName', $productName);
-        $this->navigate('my_wishlist');
-        if (!$this->buttonIsPresent('add_to_cart')) {
-            $this->fail('Product ' . $productName . ' is not in the wishlist');
-        }
+        $this->assertTrue($this->buttonIsPresent('add_to_cart'), 'Product ' . $productName . ' is not in the wishlist');
         $this->clickButton('add_to_cart');
-        if ($this->getCurrentPage() == 'wishlist_configure_product' && !empty($productOptions)) {
+        if ($this->getCurrentPage() == 'product_configure_wishlist' && !empty($productOptions)) {
             $this->productHelper()->frontFillBuyInfo($productOptions);
             $this->clickButton('add_to_cart');
         }

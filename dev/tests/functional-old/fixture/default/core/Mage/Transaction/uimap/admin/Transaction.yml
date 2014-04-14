@@ -10,8 +10,8 @@
 ---
 # Sales Transactions page
 manage_sales_transactions:
-    mca: sales_transactions/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_transactions/')]
+    mca: sales/transactions/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'sales/transactions/')]
     title: Transactions / Operations / Sales / Magento Admin
     uimap:
         form: &salesTransactions
@@ -36,4 +36,3 @@ manage_sales_transactions:
                             filter_parent_transaction_id: //input[@name='parent_txn_id']
                             filter_created_from: //input[@name='created_at[from]']
                             filter_created_to: //input[@name='created_at[to]']
-

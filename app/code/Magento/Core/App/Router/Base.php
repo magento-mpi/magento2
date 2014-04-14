@@ -24,13 +24,9 @@ class Base extends \Magento\App\Router\AbstractRouter
     /**
      * List of required request parameters
      * Order sensitive
-     * @var array
+     * @var string[]
      */
-    protected $_requiredParams = array(
-        'moduleFrontName',
-        'controllerName',
-        'actionName',
-    );
+    protected $_requiredParams = array('moduleFrontName', 'controllerName', 'actionName');
 
     /**
      * @var \Magento\App\Route\ConfigInterface
@@ -40,23 +36,16 @@ class Base extends \Magento\App\Router\AbstractRouter
     /**
      * Url security information.
      *
-     * @var \Magento\Core\Model\Url\SecurityInfoInterface
+     * @var \Magento\Url\SecurityInfoInterface
      */
     protected $_urlSecurityInfo;
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
-
-    /**
-     * Core config
-     *
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_config = null;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\UrlInterface
@@ -64,7 +53,7 @@ class Base extends \Magento\App\Router\AbstractRouter
     protected $_url;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -84,16 +73,22 @@ class Base extends \Magento\App\Router\AbstractRouter
     protected $_defaultPath;
 
     /**
+     * @var \Magento\Code\NameBuilder
+     */
+    protected $nameBuilder;
+
+    /**
      * @param \Magento\App\ActionFactory $actionFactory
      * @param \Magento\App\DefaultPathInterface $defaultPath
      * @param \Magento\App\ResponseFactory $responseFactory
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\Url|\Magento\UrlInterface $url
-     * @param \Magento\Core\Model\StoreManagerInterface|\Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
-     * @param $routerId
+     * @param \Magento\UrlInterface $url
+     * @param \Magento\Store\Model\StoreManagerInterface|\Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
+     * @param string $routerId
+     * @param \Magento\Code\NameBuilder $nameBuilder
      * @throws \InvalidArgumentException
      */
     public function __construct(
@@ -103,21 +98,22 @@ class Base extends \Magento\App\Router\AbstractRouter
         \Magento\App\Route\ConfigInterface $routeConfig,
         \Magento\App\State $appState,
         \Magento\UrlInterface $url,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo,
-        $routerId
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
+        $routerId,
+        \Magento\Code\NameBuilder $nameBuilder
     ) {
         parent::__construct($actionFactory);
-
         $this->_responseFactory = $responseFactory;
-        $this->_defaultPath     = $defaultPath;
-        $this->_routeConfig     = $routeConfig;
+        $this->_defaultPath = $defaultPath;
+        $this->_routeConfig = $routeConfig;
         $this->_urlSecurityInfo = $urlSecurityInfo;
-        $this->_storeConfig     = $storeConfig;
-        $this->_url             = $url;
-        $this->_storeManager    = $storeManager;
-        $this->_appState        = $appState;
+        $this->_scopeConfig = $scopeConfig;
+        $this->_url = $url;
+        $this->_storeManager = $storeManager;
+        $this->_appState = $appState;
+        $this->nameBuilder = $nameBuilder;
     }
 
     /**
@@ -145,13 +141,13 @@ class Base extends \Magento\App\Router\AbstractRouter
 
         $path = trim($request->getPathInfo(), '/');
 
-        $params = explode('/', ($path ? $path : $this->_getDefaultPath()));
+        $params = explode('/', $path ? $path : $this->_getDefaultPath());
         foreach ($this->_requiredParams as $paramName) {
             $output[$paramName] = array_shift($params);
         }
 
-        for ($i = 0, $l = sizeof($params); $i < $l; $i += 2) {
-            $output['variables'][$params[$i]] = isset($params[$i+1]) ? urldecode($params[$i + 1]) : '';
+        for ($i = 0,$l = sizeof($params); $i < $l; $i += 2) {
+            $output['variables'][$params[$i]] = isset($params[$i + 1]) ? urldecode($params[$i + 1]) : '';
         }
         return $output;
     }
@@ -172,7 +168,7 @@ class Base extends \Magento\App\Router\AbstractRouter
             $moduleFrontName = $param;
         } else {
             $moduleFrontName = $this->_defaultPath->getPart('module');
-            $request->setAlias(\Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS, '');
+            $request->setAlias(\Magento\Url::REWRITE_REQUEST_PATH_ALIAS, '');
         }
         if (!$moduleFrontName) {
             return null;
@@ -187,7 +183,7 @@ class Base extends \Magento\App\Router\AbstractRouter
      * @param string $param
      * @return string
      */
-    protected function _matchControllerName(\Magento\App\RequestInterface $request,  $param)
+    protected function _matchControllerName(\Magento\App\RequestInterface $request, $param)
     {
         if ($request->getControllerName()) {
             $controller = $request->getControllerName();
@@ -195,10 +191,7 @@ class Base extends \Magento\App\Router\AbstractRouter
             $controller = $param;
         } else {
             $controller = $this->_defaultPath->getPart('controller');
-            $request->setAlias(
-                \Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS,
-                ltrim($request->getOriginalPathInfo(), '/')
-            );
+            $request->setAlias(\Magento\Url::REWRITE_REQUEST_PATH_ALIAS, ltrim($request->getOriginalPathInfo(), '/'));
         }
         return $controller;
     }
@@ -226,7 +219,7 @@ class Base extends \Magento\App\Router\AbstractRouter
     /**
      * Get not found controller instance
      *
-     * @param $currentModuleName
+     * @param string $currentModuleName
      * @param \Magento\App\RequestInterface $request
      * @return \Magento\App\Action\Action|null
      */
@@ -242,9 +235,7 @@ class Base extends \Magento\App\Router\AbstractRouter
         }
 
         // instantiate controller class
-        return $this->_actionFactory->createController($controllerClassName,
-            array('request' => $request)
-        );
+        return $this->_actionFactory->createController($controllerClassName, array('request' => $request));
     }
 
     /**
@@ -291,7 +282,8 @@ class Base extends \Magento\App\Router\AbstractRouter
                 continue;
             }
 
-            $controllerInstance = $this->_actionFactory->createController($controllerClassName,
+            $controllerInstance = $this->_actionFactory->createController(
+                $controllerClassName,
                 array('request' => $request)
             );
             break;
@@ -302,6 +294,7 @@ class Base extends \Magento\App\Router\AbstractRouter
             if (is_null($controllerInstance)) {
                 return null;
             }
+            $action = 'noroute';
         }
 
         // set values only after all the checks are done
@@ -322,7 +315,7 @@ class Base extends \Magento\App\Router\AbstractRouter
      */
     protected function _getDefaultPath()
     {
-        return $this->_storeConfig->getConfig('web/default/front');
+        return $this->_scopeConfig->getValue('web/default/front', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -344,11 +337,7 @@ class Base extends \Magento\App\Router\AbstractRouter
      */
     public function getControllerClassName($module, $controller)
     {
-        return \Magento\Core\Helper\String::buildClassName(array(
-            $module,
-            'Controller',
-            $controller
-        ));
+        return $this->nameBuilder->buildClassName(array($module, 'Controller', $controller));
     }
 
     /**
@@ -371,9 +360,7 @@ class Base extends \Magento\App\Router\AbstractRouter
                 $url = $this->_url->getRedirectUrl($url);
             }
 
-            $this->_responseFactory->create()
-                ->setRedirect($url)
-                ->sendResponse();
+            $this->_responseFactory->create()->setRedirect($url)->sendResponse();
             exit;
         }
     }
@@ -396,7 +383,7 @@ class Base extends \Magento\App\Router\AbstractRouter
      */
     protected function _getCurrentSecureUrl($request)
     {
-        $alias = $request->getAlias(\Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS);
+        $alias = $request->getAlias(\Magento\Url::REWRITE_REQUEST_PATH_ALIAS);
         if ($alias) {
             return $this->_storeManager->getStore()->getBaseUrl('link', true) . ltrim($alias, '/');
         }
@@ -413,9 +400,17 @@ class Base extends \Magento\App\Router\AbstractRouter
      */
     protected function _shouldBeSecure($path)
     {
-        return parse_url($this->_storeConfig->getConfig('web/unsecure/base_url'), PHP_URL_SCHEME) === 'https'
-            || $this->_storeConfig->getConfigFlag(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND)
-                && parse_url($this->_storeConfig->getConfig('web/secure/base_url'), PHP_URL_SCHEME) == 'https'
-                && $this->_urlSecurityInfo->isSecure($path);
+        return parse_url(
+            $this->_scopeConfig->getValue('web/unsecure/base_url', \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
+            PHP_URL_SCHEME
+        ) === 'https' || $this->_scopeConfig->isSetFlag(
+            \Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) && parse_url(
+            $this->_scopeConfig->getValue('web/secure/base_url', \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
+            PHP_URL_SCHEME
+        ) == 'https' && $this->_urlSecurityInfo->isSecure(
+            $path
+        );
     }
 }

@@ -22,7 +22,6 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     {
         $this->frontend();
         $this->logoutCustomer();
-        $this->frontend('customer_login');
     }
 
     /**

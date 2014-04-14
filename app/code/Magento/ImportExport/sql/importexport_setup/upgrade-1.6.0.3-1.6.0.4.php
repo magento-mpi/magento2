@@ -8,8 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\Module\Setup */
 $installer = $this;
 
-$installer->getConnection()
-    ->dropColumn($installer->getTable('importexport_importdata'), 'entity_subtype');
+$installer->getConnection()->dropColumn($installer->getTable('importexport_importdata'), 'entity_subtype');

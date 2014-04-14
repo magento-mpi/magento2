@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PersistentHistory\Model;
+
+use Magento\Event\Observer as EventObserver;
 
 class Observer
 {
@@ -22,10 +23,10 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Persistent data
      *
@@ -85,12 +86,12 @@ class Observer
     protected $_configFactory;
 
     /**
-     * @var \Magento\Core\Model\UrlFactory
+     * @var \Magento\UrlFactory
      */
     protected $_urlFactory;
 
     /**
-     * @var \Magento\Core\Model\Config\ValueFactory
+     * @var \Magento\App\Config\ValueFactory
      */
     protected $_valueFactory;
 
@@ -110,40 +111,47 @@ class Observer
     protected $_wishListFactory;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     */
+    protected $_customerAccountService;
+
+    /**
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\PersistentHistory\Helper\Data $ePersistentData
      * @param \Magento\Persistent\Helper\Data $mPersistentData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Persistent\Model\Observer $observer
      * @param \Magento\Catalog\Model\Product\Compare\Item $compareItem
      * @param \Magento\Persistent\Model\Persistent\ConfigFactory $configFactory
-     * @param \Magento\Core\Model\UrlFactory $urlFactory
-     * @param \Magento\Core\Model\Config\ValueFactory $valueFactory
+     * @param \Magento\UrlFactory $urlFactory
+     * @param \Magento\App\Config\ValueFactory $valueFactory
      * @param \Magento\Reports\Model\Product\Index\ComparedFactory $comparedFactory
      * @param \Magento\Reports\Model\Product\Index\ViewedFactory $viewedFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishListFactory
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      */
     public function __construct(
         \Magento\Persistent\Helper\Session $persistentSession,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\PersistentHistory\Helper\Data $ePersistentData,
         \Magento\Persistent\Helper\Data $mPersistentData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\View\LayoutInterface $layout,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Persistent\Model\Observer $observer,
         \Magento\Catalog\Model\Product\Compare\Item $compareItem,
         \Magento\Persistent\Model\Persistent\ConfigFactory $configFactory,
-        \Magento\Core\Model\UrlFactory $urlFactory,
-        \Magento\Core\Model\Config\ValueFactory $valueFactory,
+        \Magento\UrlFactory $urlFactory,
+        \Magento\App\Config\ValueFactory $valueFactory,
         \Magento\Reports\Model\Product\Index\ComparedFactory $comparedFactory,
         \Magento\Reports\Model\Product\Index\ViewedFactory $viewedFactory,
-        \Magento\Wishlist\Model\WishlistFactory $wishListFactory
+        \Magento\Wishlist\Model\WishlistFactory $wishListFactory,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
     ) {
         $this->_persistentSession = $persistentSession;
         $this->_wishlistData = $wishlistData;
@@ -161,34 +169,38 @@ class Observer
         $this->_comparedFactory = $comparedFactory;
         $this->_viewedFactory = $viewedFactory;
         $this->_wishListFactory = $wishListFactory;
+        $this->_customerAccountService = $customerAccountService;
     }
 
     /**
      * Set persistent data to customer session
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\PersistentHistory\Model\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
     public function emulateCustomer($observer)
     {
-        if (!$this->_mPersistentData->canProcess($observer)
-            || !$this->_ePersistentData->isCustomerAndSegmentsPersist()
+        if (!$this->_mPersistentData->canProcess($observer) || !$this->_ePersistentData->isCustomerAndSegmentsPersist()
         ) {
             return $this;
         }
 
         if ($this->_isLoggedOut()) {
-            /** @var $customer \Magento\Customer\Model\Customer */
+            /** TODO DataObject should be initialized instead of CustomerModel after refactoring of segment_customer */
+            /** @var \Magento\Customer\Model\Customer $customer */
             $customer = $this->_customerFactory->create()->load(
                 $this->_getPersistentHelper()->getSession()->getCustomerId()
             );
-            $this->_customerSession->setCustomerId($customer->getId())
-                ->setCustomerGroupId($customer->getGroupId());
+            $this->_customerSession->setCustomerId($customer->getId())->setCustomerGroupId($customer->getGroupId());
 
             // apply persistent data to segments
             $this->_coreRegistry->register('segment_customer', $customer, true);
             if ($this->_isWishlistPersist()) {
-                $this->_wishlistData->setCustomer($customer);
+                /** @var \Magento\Customer\Service\V1\Data\Customer $customerDataObject */
+                $customerDataObject = $this->_customerAccountService->getCustomer(
+                    $this->_getPersistentHelper()->getSession()->getCustomerId()
+                );
+                $this->_wishlistData->setCustomer($customerDataObject);
             }
         }
         return $this;
@@ -197,49 +209,51 @@ class Observer
     /**
      * Modify expired quotes cleanup
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
     public function modifyExpiredQuotesCleanup($observer)
     {
         /** @var $salesObserver \Magento\Sales\Model\Observer */
         $salesObserver = $observer->getEvent()->getSalesObserver();
-        $salesObserver->setExpireQuotesAdditionalFilterFields(array(
-            'is_persistent' => 0
-        ));
+        $salesObserver->setExpireQuotesAdditionalFilterFields(array('is_persistent' => 0));
     }
 
     /**
      * Apply persistent data
      *
-     * @param \Magento\Event\Observer $observer
-     * @return null
+     * @param EventObserver $observer
+     * @return void
      */
     public function applyPersistentData($observer)
     {
-        if (!$this->_mPersistentData->canProcess($observer)
-            || !$this->_isPersistent() || $this->_customerSession->isLoggedIn()
+        if (!$this->_mPersistentData->canProcess(
+            $observer
+        ) || !$this->_isPersistent() || $this->_customerSession->isLoggedIn()
         ) {
             return;
         }
-        $this->_configFactory->create()
-            ->setConfigFilePath($this->_ePersistentData->getPersistentConfigFilePath())
-            ->fire();
+        $this->_configFactory->create()->setConfigFilePath(
+            $this->_ePersistentData->getPersistentConfigFilePath()
+        )->fire();
     }
 
+    /**
+     * @param EventObserver $observer
+     * @return $this
+     */
     public function applyBlockPersistentData($observer)
     {
-        $observer->getEvent()->setConfigFilePath(
-            $this->_ePersistentData->getPersistentConfigFilePath()
-        );
+        $observer->getEvent()->setConfigFilePath($this->_ePersistentData->getPersistentConfigFilePath());
         return $this->_observer->applyBlockPersistentData($observer);
     }
 
     /**
      * Set whislist items count in top wishlist link block
      *
-     * @deprecated after 1.11.2.0
      * @param \Magento\View\Element\AbstractBlock $block
-     * @return null
+     * @return void
+     * @deprecated after 1.11.2.0
      */
     public function initWishlist($block)
     {
@@ -252,9 +266,9 @@ class Observer
     /**
      * Set persistent wishlist to wishlist sidebar block
      *
-     * @deprecated after 1.11.2.0
      * @param \Magento\View\Element\AbstractBlock $block
-     * @return null
+     * @return void
+     * @deprecated after 1.11.2.0
      */
     public function initWishlistSidebar($block)
     {
@@ -268,7 +282,7 @@ class Observer
      * Set persistent orders to recently orders block
      *
      * @param \Magento\View\Element\AbstractBlock $block
-     * @return null
+     * @return void
      */
     public function initReorderSidebar($block)
     {
@@ -283,7 +297,7 @@ class Observer
      * Emulate 'viewed products' block with persistent data
      *
      * @param \Magento\Reports\Block\Product\Viewed $block
-     * @return null
+     * @return void
      */
     public function emulateViewedProductsBlock(\Magento\Reports\Block\Product\Viewed $block)
     {
@@ -291,9 +305,7 @@ class Observer
             return;
         }
         $customerId = $this->_getCustomerId();
-        $block->getModel()
-            ->setCustomerId($customerId)
-            ->calculate();
+        $block->getModel()->setCustomerId($customerId)->calculate();
         $block->setCustomerId($customerId);
     }
 
@@ -301,7 +313,7 @@ class Observer
      * Emulate 'compared products' block with persistent data
      *
      * @param \Magento\Reports\Block\Product\Compared $block
-     * @return null
+     * @return void
      */
     public function emulateComparedProductsBlock(\Magento\Reports\Block\Product\Compared $block)
     {
@@ -310,25 +322,21 @@ class Observer
         }
         $customerId = $this->_getCustomerId();
         $block->setCustomerId($customerId);
-        $block->getModel()
-            ->setCustomerId($customerId)
-            ->calculate();
+        $block->getModel()->setCustomerId($customerId)->calculate();
     }
 
     /**
      * Emulate 'compare products' block with persistent data
      *
      * @param \Magento\Catalog\Block\Product\Compare\Sidebar $block
-     * @return null
+     * @return void
      */
     public function emulateCompareProductsBlock(\Magento\Catalog\Block\Product\Compare\Sidebar $block)
     {
         if (!$this->_isCompareProductsPersist()) {
             return;
         }
-        $collection = $block->getCompareProductHelper()
-            ->setCustomerId($this->_getCustomerId())
-            ->getItemCollection();
+        $collection = $block->getCompareProductHelper()->setCustomerId($this->_getCustomerId())->getItemCollection();
         $block->setItems($collection);
     }
 
@@ -336,7 +344,7 @@ class Observer
      * Emulate 'compare products list' block with persistent data
      *
      * @param \Magento\Catalog\Block\Product\Compare\ListCompare $block
-     * @return null
+     * @return void
      */
     public function emulateCompareProductsListBlock(\Magento\Catalog\Block\Product\Compare\ListCompare $block)
     {
@@ -349,8 +357,8 @@ class Observer
     /**
      * Apply persistent customer id
      *
-     * @param \Magento\Event\Observer $observer
-     * @return null
+     * @param EventObserver $observer
+     * @return void
      */
     public function applyCustomerId($observer)
     {
@@ -364,13 +372,12 @@ class Observer
     /**
      * Emulate customer wishlist (add, delete, etc)
      *
-     * @param \Magento\Event\Observer $observer
-     * @return null
+     * @param EventObserver $observer
+     * @return void
      */
     public function emulateWishlist($observer)
     {
-        if (!$this->_mPersistentData->canProcess($observer)
-            || !$this->_isPersistent() || !$this->_isWishlistPersist()
+        if (!$this->_mPersistentData->canProcess($observer) || !$this->_isPersistent() || !$this->_isWishlistPersist()
         ) {
             return;
         }
@@ -384,8 +391,8 @@ class Observer
     /**
      * Set persistent data into quote
      *
-     * @param \Magento\Event\Observer $observer
-     * @return null
+     * @param EventObserver $observer
+     * @return void
      */
     public function setQuotePersistentData($observer)
     {
@@ -418,8 +425,10 @@ class Observer
     /**
      * Prevent setting persistent data into quote
      *
-     * @param  $observer
-     * @see \Magento\PersistentHistory\Model\Observer::setQuotePersistentData
+     * @param EventObserver $observer
+     * @return void
+     * 
+     * @see Observer::setQuotePersistentData
      */
     public function preventSettingQuotePersistent($observer)
     {
@@ -430,7 +439,7 @@ class Observer
      * Update Option "Persist Customer Group Membership and Segmentation"
      * set value "Yes" if option "Persist Shopping Cart" equals "Yes"
      *
-     * @param  $observer \Magento\PersistentHistory\Model\Observer
+     * @param Observer $observer
      * @return void
      */
     public function updateOptionCustomerSegmentation($observer)
@@ -438,19 +447,23 @@ class Observer
         $eventDataObject = $observer->getEvent()->getDataObject();
 
         if ($eventDataObject->getValue()) {
-            $optionCustomerSegm = $this->_valueFactory->create()
-                ->setScope($eventDataObject->getScope())
-                ->setScopeId($eventDataObject->getScopeId())
-                ->setPath(\Magento\PersistentHistory\Helper\Data::XML_PATH_PERSIST_CUSTOMER_AND_SEGM)
-                ->setValue(true)
-                ->save();
+            $optionCustomerSegm = $this->_valueFactory->create()->setScope(
+                $eventDataObject->getScope()
+            )->setScopeId(
+                $eventDataObject->getScopeId()
+            )->setPath(
+                \Magento\PersistentHistory\Helper\Data::XML_PATH_PERSIST_CUSTOMER_AND_SEGM
+            )->setValue(
+                true
+            )->save();
         }
     }
 
     /**
      * Expire data of Sidebars
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
     public function expireSidebars($observer)
     {
@@ -462,6 +475,7 @@ class Observer
     /**
      * Expire data of Compare products sidebar
      *
+     * @return void
      */
     public function _expireCompareProducts()
     {
@@ -474,29 +488,27 @@ class Observer
     /**
      * Expire data of Compared products sidebar
      *
+     * @return void
      */
     public function _expireComparedProducts()
     {
         if (!$this->_isComparedProductsPersist()) {
             return;
         }
-        $this->_comparedFactory->create()
-            ->purgeVisitorByCustomer()
-            ->calculate();
+        $this->_comparedFactory->create()->purgeVisitorByCustomer()->calculate();
     }
 
     /**
      * Expire data of Viewed products sidebar
      *
+     * @return void
      */
     public function _expireViewedProducts()
     {
         if (!$this->_isComparedProductsPersist()) {
             return;
         }
-        $this->_viewedFactory->create()
-            ->purgeVisitorByCustomer()
-            ->calculate();
+        $this->_viewedFactory->create()->purgeVisitorByCustomer()->calculate();
     }
 
     /**
@@ -526,7 +538,7 @@ class Observer
      */
     protected function _initWishlist()
     {
-        return $this->_wishListFactory->create()->loadByCustomer($this->_getCustomerId() ,true);
+        return $this->_wishListFactory->create()->loadByCustomerId($this->_getCustomerId(), true);
     }
 
     /**
@@ -592,9 +604,10 @@ class Observer
     /**
      * Skip website restriction and allow access for persistent customers
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
-    public function skipWebsiteRestriction(\Magento\Event\Observer $observer)
+    public function skipWebsiteRestriction(EventObserver $observer)
     {
         $result = $observer->getEvent()->getResult();
         if ($result->getShouldProceed() && $this->_isPersistent()) {

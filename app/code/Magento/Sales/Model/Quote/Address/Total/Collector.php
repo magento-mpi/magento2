@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Quote\Address\Total;
 
 /**
  * Address Total Collector model
  */
-namespace Magento\Sales\Model\Quote\Address\Total;
-
 class Collector extends \Magento\Sales\Model\Config\Ordered
 {
     /**
@@ -30,7 +29,7 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
     /**
      * Corresponding store object
      *
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
@@ -56,9 +55,9 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Sales\Model\Quote\Address\TotalFactory
@@ -69,8 +68,8 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Logger $logger
      * @param \Magento\Sales\Model\Config $salesConfig
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\Quote\Address\TotalFactory $totalFactory
      * @param mixed $sourceData
      * @param mixed $store
@@ -79,13 +78,13 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Logger $logger,
         \Magento\Sales\Model\Config $salesConfig,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Quote\Address\TotalFactory $totalFactory,
         $sourceData = null,
         $store = null
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_totalFactory = $totalFactory;
         parent::__construct($configCacheType, $logger, $salesConfig, $sourceData);
         $this->_store = $store ?: $storeManager->getStore();
@@ -119,23 +118,22 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
      * @param string $totalCode
      * @param array $totalConfig
      * @return \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _initModelInstance($class, $totalCode, $totalConfig)
     {
         $model = $this->_totalFactory->create($class);
         if (!$model instanceof \Magento\Sales\Model\Quote\Address\Total\AbstractTotal) {
-            throw new \Magento\Core\Exception(
-                __('The address total model should be extended from \Magento\Sales\Model\Quote\Address\Total\AbstractTotal.')
+            throw new \Magento\Model\Exception(
+                __(
+                    'The address total model should be extended from \Magento\Sales\Model\Quote\Address\Total\AbstractTotal.'
+                )
             );
         }
 
         $model->setCode($totalCode);
-        $this->_modelsConfig[$totalCode]= $this->_prepareConfigArray($totalCode, $totalConfig);
-        $this->_modelsConfig[$totalCode]= $model->processConfigArray(
-            $this->_modelsConfig[$totalCode],
-            $this->_store
-        );
+        $this->_modelsConfig[$totalCode] = $this->_prepareConfigArray($totalCode, $totalConfig);
+        $this->_modelsConfig[$totalCode] = $model->processConfigArray($this->_modelsConfig[$totalCode], $this->_store);
 
         return $model;
     }
@@ -143,15 +141,15 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
     /**
      * Initialize retrievers array
      *
-     * @return \Magento\Sales\Model\Quote\Address\Total\Collector
+     * @return $this
      */
-    protected function _initRetrievers()
+    private function _initRetrievers()
     {
-        $sorts = $this->_coreStoreConfig->getConfig(self::XML_PATH_SALES_TOTALS_SORT, $this->_store);
+        $sorts = $this->_scopeConfig->getValue(self::XML_PATH_SALES_TOTALS_SORT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_store);
         foreach ($sorts as $code => $sortOrder) {
             if (isset($this->_models[$code])) {
                 // Reserve enough space for collisions
-                $retrieverId = 100 * (int) $sortOrder;
+                $retrieverId = 100 * (int)$sortOrder;
                 // Check if there is a retriever with such id and find next available position if needed
                 while (isset($this->_retrievers[$retrieverId])) {
                     $retrieverId++;

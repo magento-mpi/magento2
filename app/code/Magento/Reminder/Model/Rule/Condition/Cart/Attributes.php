@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+use Magento\Model\Exception;
+use Magento\DB\Select;
 
 /**
  * Cart items attributes subselection condition
  */
-namespace Magento\Reminder\Model\Rule\Condition\Cart;
-
-class Attributes
-    extends \Magento\Reminder\Model\Condition\AbstractCondition
+class Attributes extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * @var string
@@ -43,24 +44,25 @@ class Attributes
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(),
-            'label' => __('Numeric Attribute'));
+        return array('value' => $this->getType(), 'label' => __('Numeric Attribute'));
     }
 
     /**
      * Init available options list
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Cart\Attributes
+     * @return $this
      */
     public function loadAttributeOptions()
     {
-        $this->setAttributeOption(array(
-            'weight' => __('weight'),
-            'row_weight' => __('row weight'),
-            'qty' => __('quantity'),
-            'price' => __('base price'),
-            'base_cost' => __('base cost')
-        ));
+        $this->setAttributeOption(
+            array(
+                'weight' => __('weight'),
+                'row_weight' => __('row weight'),
+                'qty' => __('quantity'),
+                'price' => __('base price'),
+                'base_cost' => __('base cost')
+            )
+        );
         return $this;
     }
 
@@ -71,18 +73,21 @@ class Attributes
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Item %1 %2 %3:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Item %1 %2 %3:',
+            $this->getAttributeElementHtml(),
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
      * Build condition limitations sql string for specific website
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
-     * @return \Magento\DB\Select
-     * @throws \Magento\Core\Exception
+     * @param null|int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
+     * @return Select
+     * @throws Exception
      */
     public function getConditionsSql($customer, $website)
     {
@@ -93,11 +98,7 @@ class Attributes
         $select = $this->getResource()->createSelect();
         $select->from(array('item' => $quoteItemTable), array(new \Zend_Db_Expr(1)));
 
-        $select->joinInner(
-            array('quote' => $quoteTable),
-            'item.quote_id = quote.entity_id',
-            array()
-        );
+        $select->joinInner(array('quote' => $quoteTable), 'item.quote_id = quote.entity_id', array());
 
         switch ($this->getAttribute()) {
             case 'weight':
@@ -116,9 +117,7 @@ class Attributes
                 $field = 'item.base_cost';
                 break;
             default:
-                throw new \Magento\Core\Exception(
-                    __('Unknown attribute specified')
-                );
+                throw new Exception(__('Unknown attribute specified'));
         }
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');

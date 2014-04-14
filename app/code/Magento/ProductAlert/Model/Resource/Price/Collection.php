@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\ProductAlert\Model\Resource\Price;
 
 /**
  * Product alert for changed price collection
@@ -16,13 +16,12 @@
  * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ProductAlert\Model\Resource\Price;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define price collection
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -33,7 +32,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add customer filter
      *
      * @param mixed $customer
-     * @return \Magento\ProductAlert\Model\Resource\Price\Collection
+     * @return $this
      */
     public function addCustomerFilter($customer)
     {
@@ -52,7 +51,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add website filter
      *
      * @param mixed $website
-     * @return \Magento\ProductAlert\Model\Resource\Price\Collection
+     * @return $this
      */
     public function addWebsiteFilter($website)
     {
@@ -61,7 +60,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         }
         if (is_array($website)) {
             $condition = $this->getConnection()->quoteInto('website_id IN(?)', $website);
-        } elseif ($website instanceof \Magento\Core\Model\Website) {
+        } elseif ($website instanceof \Magento\Store\Model\Website) {
             $condition = $this->getConnection()->quoteInto('website_id=?', $website->getId());
         } else {
             $condition = $this->getConnection()->quoteInto('website_id=?', $website);
@@ -74,7 +73,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set order by customer
      *
      * @param string $sort
-     * @return \Magento\ProductAlert\Model\Resource\Price\Collection
+     * @return $this
      */
     public function setCustomerOrder($sort = 'ASC')
     {

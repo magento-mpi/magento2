@@ -153,7 +153,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      * @param array $serviceInfo
      * @param array $arguments
      * @param string|null $webApiAdapterCode
-     * @return array Web API call results
+     * @return array|int|string|float|bool Web API call results
      */
     protected function _webApiCall($serviceInfo, $arguments = array(), $webApiAdapterCode = null)
     {
@@ -204,11 +204,13 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
                 self::$_methodLevelFixtures[$fixturesNamespace] = array();
             }
             self::$_methodLevelFixtures[$fixturesNamespace][] = $key;
-        } else if ($tearDown == self::AUTO_TEAR_DOWN_AFTER_CLASS) {
-            if (!isset(self::$_classLevelFixtures[$fixturesNamespace])) {
-                self::$_classLevelFixtures[$fixturesNamespace] = array();
+        } else {
+            if ($tearDown == self::AUTO_TEAR_DOWN_AFTER_CLASS) {
+                if (!isset(self::$_classLevelFixtures[$fixturesNamespace])) {
+                    self::$_classLevelFixtures[$fixturesNamespace] = array();
+                }
+                self::$_classLevelFixtures[$fixturesNamespace][] = $key;
             }
-            self::$_classLevelFixtures[$fixturesNamespace][] = $key;
         }
     }
 
@@ -230,13 +232,13 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     /**
      * Call safe delete for model
      *
-     * @param \Magento\Core\Model\AbstractModel $model
+     * @param \Magento\Model\AbstractModel $model
      * @param bool $secure
      * @return \Magento\TestFramework\TestCase\WebapiAbstract
      */
-    static public function callModelDelete($model, $secure = false)
+    public static function callModelDelete($model, $secure = false)
     {
-        if ($model instanceof \Magento\Core\Model\AbstractModel && $model->getId()) {
+        if ($model instanceof \Magento\Model\AbstractModel && $model->getId()) {
             if ($secure) {
                 self::_enableSecureArea();
             }
@@ -250,16 +252,13 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     /**
      * Call safe delete for model
      *
-     * @param \Magento\Core\Model\AbstractModel $model
+     * @param \Magento\Model\AbstractModel $model
      * @param bool $secure
      * @return \Magento\TestFramework\TestCase\WebapiAbstract
      */
     public function addModelToDelete($model, $secure = false)
     {
-        $this->_modelsToDelete[] = array(
-            'model' => $model,
-            'secure' => $secure
-        );
+        $this->_modelsToDelete[] = array('model' => $model, 'secure' => $secure);
         return $this;
     }
 
@@ -274,12 +273,11 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     {
         if (!isset($this->_webApiAdapters[$webApiAdapterCode])) {
             if (!isset($this->_webApiAdaptersMap[$webApiAdapterCode])) {
-                throw new \LogicException(sprintf(
-                    'Declaration of the requested Web API adapter "%s" was not found.',
-                    $webApiAdapterCode
-                ));
+                throw new \LogicException(
+                    sprintf('Declaration of the requested Web API adapter "%s" was not found.', $webApiAdapterCode)
+                );
             }
-            $this->_webApiAdapters[$webApiAdapterCode] = new $this->_webApiAdaptersMap[$webApiAdapterCode];
+            $this->_webApiAdapters[$webApiAdapterCode] = new $this->_webApiAdaptersMap[$webApiAdapterCode]();
         }
         return $this->_webApiAdapters[$webApiAdapterCode];
     }
@@ -328,14 +326,14 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      * @param bool $flag
      * @return void
      */
-    static protected function _enableSecureArea($flag = true)
+    protected static function _enableSecureArea($flag = true)
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $objectManager->get('Magento\Core\Model\Registry')->unregister('isSecureArea');
+        $objectManager->get('Magento\Registry')->unregister('isSecureArea');
         if ($flag) {
-            $objectManager->get('Magento\Core\Model\Registry')->register('isSecureArea', $flag);
+            $objectManager->get('Magento\Registry')->register('isSecureArea', $flag);
         }
     }
 
@@ -348,7 +346,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     {
         if ($this->_modelsToDelete) {
             foreach ($this->_modelsToDelete as $key => $modelData) {
-                /** @var $model \Magento\Core\Model\AbstractModel */
+                /** @var $model \Magento\Model\AbstractModel */
                 $model = $modelData['model'];
                 $this->callModelDelete($model, $modelData['secure']);
                 unset($this->_modelsToDelete[$key]);
@@ -366,7 +364,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     protected function _assertMessagesEqual($expectedMessages, $receivedMessages)
     {
         foreach ($receivedMessages as $message) {
-            $this->assertContains($message, $expectedMessages, "Unexpected message: '$message'");
+            $this->assertContains($message, $expectedMessages, "Unexpected message: '{$message}'");
         }
         $expectedErrorsCount = count($expectedMessages);
         $this->assertCount($expectedErrorsCount, $receivedMessages, 'Invalid messages quantity received');
@@ -412,15 +410,15 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         if (null === $this->_appCache) {
             //set application path
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-            /** @var \Magento\Core\Model\Config $config */
-            $config = $objectManager->get('Magento\Core\Model\Config');
+            /** @var \Magento\App\Config\ScopeConfigInterface $config */
+            $config = $objectManager->get('Magento\App\Config\ScopeConfigInterface');
             $options = $config->getOptions();
             $currentCacheDir = $options->getCacheDir();
             $currentEtcDir = $options->getEtcDir();
-            /** @var \Magento\Filesystem $filesystem */
-            $filesystem = $objectManager->get('Magento\Filesystem');
-            $options->setCacheDir($filesystem->getPath(\Magento\Filesystem::ROOT) . '/var/cache');
-            $options->setEtcDir($filesystem->getPath(\Magento\Filesystem::ROOT) . '/app/etc');
+            /** @var \Magento\App\Filesystem $filesystem */
+            $filesystem = $objectManager->get('Magento\App\Filesystem');
+            $options->setCacheDir($filesystem->getPath(\Magento\App\Filesystem::ROOT_DIR) . '/var/cache');
+            $options->setEtcDir($filesystem->getPath(\Magento\App\Filesystem::ROOT_DIR) . '/app/etc');
 
             $this->_appCache = $objectManager->get('Magento\App\Cache');
 
@@ -438,7 +436,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      */
     protected function _cleanAppConfigCache()
     {
-        return $this->_getAppCache()->clean(\Magento\Core\Model\Config::CACHE_TAG);
+        return $this->_getAppCache()->clean(\Magento\App\Config::CACHE_TAG);
     }
 
     /**
@@ -462,30 +460,31 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         list($section, $group, $node) = explode('/', $path);
 
         if (!$section || !$group || !$node) {
-            throw new \RuntimeException(sprintf(
-                'Config path must have view as "section/group/node" but now it "%s"',
-                $path
-            ));
+            throw new \RuntimeException(
+                sprintf('Config path must have view as "section/group/node" but now it "%s"', $path)
+            );
         }
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $config \Magento\Backend\Model\Config */
         $config = $objectManager->create('Magento\Backend\Model\Config');
         $data[$group]['fields'][$node]['value'] = $value;
-        $config->setSection($section)
-            ->setGroups($data)
-            ->save();
+        $config->setSection($section)->setGroups($data)->save();
 
         if ($restore && !isset($this->_origConfigValues[$path])) {
-            $this->_origConfigValues[$path] = (string) $objectManager->get('Magento\Core\Model\Config')
-                ->getNode($path, 'default');
+            $this->_origConfigValues[$path] = (string)$objectManager->get(
+                'Magento\App\Config\ScopeConfigInterface'
+            )->getNode(
+                $path,
+                'default'
+            );
         }
 
         //refresh local cache
         if ($cleanAppCache) {
             if ($updateLocalConfig) {
-                $objectManager->get('Magento\Core\Model\Config')->reinit();
-                $objectManager->get('Magento\Core\Model\StoreManagerInterface')->reinitStores();
+                $objectManager->get('Magento\App\Config\ReinitableConfigInterface')->reinit();
+                $objectManager->get('Magento\Store\Model\StoreManagerInterface')->reinitStores();
             }
 
             if (!$this->_cleanAppConfigCache()) {

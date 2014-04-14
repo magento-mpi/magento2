@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerBalance\Model\Total\Creditmemo;
 
 class Customerbalance extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
@@ -23,10 +22,8 @@ class Customerbalance extends \Magento\Sales\Model\Order\Creditmemo\Total\Abstra
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param array $data
      */
-    public function __construct(
-        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
-        array $data = array()
-    ) {
+    public function __construct(\Magento\CustomerBalance\Helper\Data $customerBalanceData, array $data = array())
+    {
         $this->_customerBalanceData = $customerBalanceData;
         parent::__construct($data);
     }
@@ -35,7 +32,7 @@ class Customerbalance extends \Magento\Sales\Model\Order\Creditmemo\Total\Abstra
      * Collect customer balance totals for credit memo
      *
      * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
-     * @return \Magento\CustomerBalance\Model\Total\Creditmemo\Customerbalance
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
@@ -68,18 +65,24 @@ class Customerbalance extends \Magento\Sales\Model\Order\Creditmemo\Total\Abstra
                 $baseUsed = $order->getBaseCustomerBalanceInvoiced() - $order->getBaseCustomerBalanceRefunded();
                 $used = $order->getCustomerBalanceInvoiced() - $order->getCustomerBalanceRefunded();
 
-                $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal()-$baseUsed);
-                $creditmemo->setGrandTotal($creditmemo->getGrandTotal()-$used);
+                $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal() - $baseUsed);
+                $creditmemo->setGrandTotal($creditmemo->getGrandTotal() - $used);
             }
 
             $creditmemo->setBaseCustomerBalanceAmount($baseUsed);
             $creditmemo->setCustomerBalanceAmount($used);
         }
 
-        $creditmemo->setBaseCustomerBalanceReturnMax($creditmemo->getBaseCustomerBalanceReturnMax() + $creditmemo->getBaseGrandTotal());
-        $creditmemo->setBaseCustomerBalanceReturnMax($creditmemo->getBaseCustomerBalanceReturnMax() + $creditmemo->getBaseCustomerBalanceAmount());
+        $creditmemo->setBaseCustomerBalanceReturnMax(
+            $creditmemo->getBaseCustomerBalanceReturnMax() + $creditmemo->getBaseGrandTotal()
+        );
+        $creditmemo->setBaseCustomerBalanceReturnMax(
+            $creditmemo->getBaseCustomerBalanceReturnMax() + $creditmemo->getBaseCustomerBalanceAmount()
+        );
 
-        $creditmemo->setCustomerBalanceReturnMax($creditmemo->getCustomerBalanceReturnMax() + $creditmemo->getCustomerBalanceAmount());
+        $creditmemo->setCustomerBalanceReturnMax(
+            $creditmemo->getCustomerBalanceReturnMax() + $creditmemo->getCustomerBalanceAmount()
+        );
 
         return $this;
     }

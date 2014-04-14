@@ -62,7 +62,7 @@ unit_cat_ex_ship_ex:
                 oic_include_tax_in_grand_total: Yes
                 oic_display_full_tax_summary: No
                 oic_display_zero_tax_subtotal: Yes
-            enable_fpt:
+            fixed_product_taxes:
                 enable_fpt: No
 
 row_cat_ex_ship_ex:
@@ -101,6 +101,7 @@ row_cat_ex_ship_ex:
                 oic_include_tax_in_grand_total: Yes
                 oic_display_full_tax_summary: No
                 oic_display_zero_tax_subtotal: Yes
+            fixed_product_taxes:
                 enable_fpt: No
 
 total_cat_ex_ship_ex:
@@ -139,7 +140,7 @@ total_cat_ex_ship_ex:
                 oic_include_tax_in_grand_total: Yes
                 oic_display_full_tax_summary: No
                 oic_display_zero_tax_subtotal: Yes
-            enable_fpt:
+            fixed_product_taxes:
                 enable_fpt: No
 
 unit_cat_ex_ship_in:
@@ -178,7 +179,7 @@ unit_cat_ex_ship_in:
                 oic_include_tax_in_grand_total: Yes
                 oic_display_full_tax_summary: No
                 oic_display_zero_tax_subtotal: Yes
-            enable_fpt:
+            fixed_product_taxes:
                 enable_fpt: No
 
 row_cat_ex_ship_in:
@@ -217,7 +218,7 @@ row_cat_ex_ship_in:
                 oic_include_tax_in_grand_total: Yes
                 oic_display_full_tax_summary: No
                 oic_display_zero_tax_subtotal: Yes
-            enable_fpt:
+            fixed_product_taxes:
                 enable_fpt: No
 
 total_cat_ex_ship_in:
@@ -239,8 +240,10 @@ total_cat_ex_ship_in:
                 default_country: United States
                 default_state: '*'
                 default_post_code: '*'
+            price_display_settings:
                 display_product_prices_in_catalog: Including and Excluding Tax
                 display_shipping_prices: Including and Excluding Tax
+            shopping_cart_display_settings:
                 sc_display_prices: Including and Excluding Tax
                 sc_display_subtotal: Including and Excluding Tax
                 sc_display_shipping_amount: Including and Excluding Tax
@@ -254,7 +257,7 @@ total_cat_ex_ship_in:
                 oic_include_tax_in_grand_total: Yes
                 oic_display_full_tax_summary: No
                 oic_display_zero_tax_subtotal: Yes
-            enable_fpt:
+            fixed_product_taxes:
                 enable_fpt: No
 
 unit_cat_in_ship_ex:
@@ -276,8 +279,10 @@ unit_cat_in_ship_ex:
                 default_country: United States
                 default_state: '*'
                 default_post_code: '*'
+            price_display_settings:
                 display_product_prices_in_catalog: Including and Excluding Tax
                 display_shipping_prices: Including and Excluding Tax
+            shopping_cart_display_settings:
                 sc_display_prices: Including and Excluding Tax
                 sc_display_subtotal: Including and Excluding Tax
                 sc_display_shipping_amount: Including and Excluding Tax
@@ -291,7 +296,7 @@ unit_cat_in_ship_ex:
                 oic_include_tax_in_grand_total: Yes
                 oic_display_full_tax_summary: No
                 oic_display_zero_tax_subtotal: Yes
-            enable_fpt:
+            fixed_product_taxes:
                 enable_fpt: No
 
 row_cat_in_ship_ex:
@@ -313,8 +318,10 @@ row_cat_in_ship_ex:
                 default_country: United States
                 default_state: '*'
                 default_post_code: '*'
+            price_display_settings:
                 display_product_prices_in_catalog: Including and Excluding Tax
                 display_shipping_prices: Including and Excluding Tax
+            shopping_cart_display_settings:
                 sc_display_prices: Including and Excluding Tax
                 sc_display_subtotal: Including and Excluding Tax
                 sc_display_shipping_amount: Including and Excluding Tax
@@ -328,7 +335,7 @@ row_cat_in_ship_ex:
                 oic_include_tax_in_grand_total: Yes
                 oic_display_full_tax_summary: No
                 oic_display_zero_tax_subtotal: Yes
-            enable_fpt:
+            fixed_product_taxes:
                 enable_fpt: No
 
 total_cat_in_ship_ex:
@@ -367,7 +374,7 @@ total_cat_in_ship_ex:
                 oic_include_tax_in_grand_total: Yes
                 oic_display_full_tax_summary: No
                 oic_display_zero_tax_subtotal: Yes
-            enable_fpt:
+            fixed_product_taxes:
                 enable_fpt: No
 
 unit_cat_in_ship_in:
@@ -406,7 +413,7 @@ unit_cat_in_ship_in:
                 oic_include_tax_in_grand_total: Yes
                 oic_display_full_tax_summary: No
                 oic_display_zero_tax_subtotal: Yes
-            enable_fpt:
+            fixed_product_taxes:
                 enable_fpt: No
 
 row_cat_in_ship_in:
@@ -445,7 +452,7 @@ row_cat_in_ship_in:
                 oic_include_tax_in_grand_total: Yes
                 oic_display_full_tax_summary: No
                 oic_display_zero_tax_subtotal: Yes
-            enable_fpt:
+            fixed_product_taxes:
                 enable_fpt: No
 
 total_cat_in_ship_in:
@@ -484,7 +491,7 @@ total_cat_in_ship_in:
                 oic_include_tax_in_grand_total: Yes
                 oic_display_full_tax_summary: No
                 oic_display_zero_tax_subtotal: Yes
-            enable_fpt:
+            fixed_product_taxes:
                 enable_fpt: No
 
 default_tax_config:

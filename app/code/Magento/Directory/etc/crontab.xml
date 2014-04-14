@@ -7,6 +7,8 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <job name="currency_rates_update" instance="Magento\Directory\Model\Observer" method="scheduledUpdateCurrencyRates" />
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Cron/etc/crontab.xsd">
+    <group id="default">
+        <job name="currency_rates_update" instance="Magento\Directory\Model\Observer" method="scheduledUpdateCurrencyRates" />
+    </group>
 </config>

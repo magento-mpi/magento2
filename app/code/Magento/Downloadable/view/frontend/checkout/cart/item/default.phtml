@@ -35,9 +35,10 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
                         <?php foreach ($_options as $_option) : ?>
                             <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option) ?>
                             <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
-                            <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated" data-mage-init="{truncateOptions:[]}"<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
+                            <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="tooltip box"<?php endif; ?>>
+                                <?php echo $_formatedOptionValue['value'] ?>
                                 <?php if (isset($_formatedOptionValue['full_view'])): ?>
-                                    <div class="truncated_full_value">
+                                    <div class="tooltip content">
                                         <dl class="item options">
                                             <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
                                             <dd><?php echo $_formatedOptionValue['full_view'] ?></dd>
@@ -48,17 +49,6 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
                         <?php endforeach; ?>
                     </dl>
                 <?php endif;?>
-                <?php /* downloadable */ ?>
-                <?php if ($links = $this->getLinks()): ?>
-                    <dl class="cart item options">
-                        <dt><?php echo $this->getLinksTitle() ?></dt>
-                        <?php foreach ($links as $link): ?>
-                            <dd><?php echo $this->escapeHtml($link->getTitle()) ?></dd>
-                        <?php endforeach; ?>
-                    </dl>
-                <?php endif; ?>
-                <?php echo $this->getChildHtml('item_extra'); ?>
-                <?php /* EOF downloadable */ ?>
                 <?php if ($messages = $this->getMessages()): ?>
                     <?php foreach ($messages as $message): ?>
                         <p class="cart item message <?php echo $message['type'] ?>">* <?php echo $this->escapeHtml($message['text']) ?></p>
@@ -85,7 +75,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
         </td>
     <?php else: ?>
         <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartPriceExclTax() || $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
-        <td class="col price excl tax">
+        <td class="col price excl tax" data-th="<?php echo __('Unit Price Excl. Tax'); ?>">
             <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
             <span class="cart tax total"
                   data-tax-toggle='{"itemTaxId" : "#eunit-item-tax-details<?php echo $_item->getId(); ?>"}'>
@@ -125,7 +115,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
         </td>
         <?php endif; ?>
         <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartPriceInclTax() || $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
-            <td class="col price incl tax">
+            <td class="col price incl tax" data-th="<?php echo __('Unit Price Incl. Tax'); ?>">
                 <?php $_incl = $this->helper('Magento\Checkout\Helper\Data')->getPriceInclTax($_item); ?>
                 <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                 <span class="cart tax total"
@@ -176,7 +166,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
             <?php $cols++; ?>
         </td>
     <?php if (($this->helper('Magento\Tax\Helper\Data')->displayCartPriceExclTax() || $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()) && !$_item->getNoSubtotal()): ?>
-        <td class="col subtotal excl tax">
+        <td class="col subtotal excl tax" data-th="<?php echo __('Subtotal Excl. Tax'); ?>">
             <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
             <span class="cart tax total"
                   data-tax-toggle='{"itemTaxId" : "#esubtotal-item-tax-details<?php echo $_item->getId(); ?>"}'>
@@ -224,7 +214,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
         </td>
     <?php endif; ?>
     <?php if (($this->helper('Magento\Tax\Helper\Data')->displayCartPriceInclTax() || $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()) && !$_item->getNoSubtotal()): ?>
-        <td class="col subtotal incl tax">
+        <td class="col subtotal incl tax" data-th="<?php echo __('Subtotal Incl. Tax'); ?>">
             <?php $_incl = $this->helper('Magento\Checkout\Helper\Data')->getSubtotalInclTax($_item); ?>
             <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
             <span class="cart tax total"
@@ -276,7 +266,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
             <div class="actions">
                 <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllowInCart()) : ?>
                     <?php if ($isVisibleProduct): ?>
-                        <a href="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getMoveFromCartUrl($_item->getId()); ?>" class="use-ajax action towishlist">
+                        <a href="#" data-post='<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getMoveFromCartParams($_item->getId()); ?>' class="use-ajax action towishlist">
                             <span><?php echo __('Move to Wishlist'); ?></span>
                         </a>
                     <?php endif ?>

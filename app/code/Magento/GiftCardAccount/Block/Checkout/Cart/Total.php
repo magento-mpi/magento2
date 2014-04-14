@@ -2,17 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\GiftCardAccount\Block\Checkout\Cart;
 
 class Total extends \Magento\Checkout\Block\Total\DefaultTotal
 {
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_GiftCardAccount::cart/total.phtml';
 
     /**
@@ -40,13 +39,22 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
         parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $salesConfig, $data);
+        $this->_isScopePrivate = true;
     }
 
+    /**
+     * Get sales quote
+     *
+     * @return \Magento\Sales\Model\Quote
+     */
     public function getQuote()
     {
         return $this->_checkoutSession->getQuote();
     }
 
+    /**
+     * @return mixed
+     */
     public function getQuoteGiftCards()
     {
         return $this->_giftCardAccountData->getCards($this->getQuote());

@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cache\Frontend\Adapter;
 
 /**
  * Adapter for Magento -> Zend cache frontend interfaces
  */
-namespace Magento\Cache\Frontend\Adapter;
-
 class Zend implements \Magento\Cache\FrontendInterface
 {
     /**
@@ -61,17 +60,23 @@ class Zend implements \Magento\Cache\FrontendInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \InvalidArgumentException \Exception is thrown when non-supported cleaning mode is specified
+     * @throws \InvalidArgumentException Exception is thrown when non-supported cleaning mode is specified
      */
     public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = array())
     {
         // Cleaning modes 'old' and 'notMatchingTag' are prohibited as a trade off for decoration reliability
-        if (!in_array($mode, array(
-            \Zend_Cache::CLEANING_MODE_ALL,
-            \Zend_Cache::CLEANING_MODE_MATCHING_TAG,
-            \Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG,
-        ))) {
-            throw new \InvalidArgumentException("Magento cache frontend does not support the cleaning mode '$mode'.");
+        if (!in_array(
+            $mode,
+            array(
+                \Zend_Cache::CLEANING_MODE_ALL,
+                \Zend_Cache::CLEANING_MODE_MATCHING_TAG,
+                \Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG
+            )
+        )
+        ) {
+            throw new \InvalidArgumentException(
+                "Magento cache frontend does not support the cleaning mode '{$mode}'."
+            );
         }
         return $this->_frontend->clean($mode, $this->_unifyIds($tags));
     }

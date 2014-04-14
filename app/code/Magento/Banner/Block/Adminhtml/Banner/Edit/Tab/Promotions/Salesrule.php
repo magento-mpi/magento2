@@ -7,42 +7,42 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
+
+use Magento\Backend\Block\Widget\Grid\Column;
 
 class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\SalesRule\Model\Resource\Rule\Collection $ruleCollection
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\SalesRule\Model\Resource\Rule\Collection $ruleCollection,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;
-        parent::__construct($context, $urlModel, $backendHelper, $data);
+        parent::__construct($context, $backendHelper, $data);
         $this->setCollection($ruleCollection);
     }
 
     /**
      * Initialize grid, set defaults
      *
+     * @return void
      */
     public function _construct()
     {
@@ -61,8 +61,8 @@ class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Set custom filter for in banner salesrule flag
      *
-     * @param string $column
-     * @return \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule
+     * @param Column $column
+     * @return $this
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -87,59 +87,62 @@ class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Create grid columns
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('in_banner_salesrule', array(
-            'header_css_class' => 'a-center',
-            'type'      => 'checkbox',
-            'name'      => 'in_banner_salesrule',
-            'values'    => $this->_getSelectedRules(),
-            'align'     => 'center',
-            'index'     => 'rule_id'
-        ));
-        $this->addColumn('salesrule_rule_id', array(
-            'header'    => __('ID'),
-            'align'     =>'right',
-            'width'     => '50px',
-            'index'     => 'rule_id',
-        ));
+        $this->addColumn(
+            'in_banner_salesrule',
+            array(
+                'header_css_class' => 'a-center',
+                'type' => 'checkbox',
+                'name' => 'in_banner_salesrule',
+                'values' => $this->_getSelectedRules(),
+                'align' => 'center',
+                'index' => 'rule_id'
+            )
+        );
+        $this->addColumn(
+            'salesrule_rule_id',
+            array('header' => __('ID'), 'align' => 'right', 'width' => '50px', 'index' => 'rule_id')
+        );
 
-        $this->addColumn('salesrule_name', array(
-            'header'    => __('Rule'),
-            'align'     =>'left',
-            'index'     => 'name',
-        ));
+        $this->addColumn('salesrule_name', array('header' => __('Rule'), 'align' => 'left', 'index' => 'name'));
 
-        $this->addColumn('salesrule_from_date', array(
-            'header'    => __('Start on'),
-            'align'     => 'left',
-            'width'     => '120px',
-            'type'      => 'date',
-            'index'     => 'from_date',
-        ));
+        $this->addColumn(
+            'salesrule_from_date',
+            array(
+                'header' => __('Start on'),
+                'align' => 'left',
+                'width' => '120px',
+                'type' => 'date',
+                'index' => 'from_date'
+            )
+        );
 
-        $this->addColumn('salesrule_to_date', array(
-            'header'    => __('End on'),
-            'align'     => 'left',
-            'width'     => '120px',
-            'type'      => 'date',
-            'default'   => '--',
-            'index'     => 'to_date',
-        ));
+        $this->addColumn(
+            'salesrule_to_date',
+            array(
+                'header' => __('End on'),
+                'align' => 'left',
+                'width' => '120px',
+                'type' => 'date',
+                'default' => '--',
+                'index' => 'to_date'
+            )
+        );
 
-        $this->addColumn('salesrule_is_active', array(
-            'header'    => __('Status'),
-            'align'     => 'left',
-            'width'     => '80px',
-            'index'     => 'is_active',
-            'type'      => 'options',
-            'options'   => array(
-                1 => 'Active',
-                0 => 'Inactive',
-            ),
-        ));
+        $this->addColumn(
+            'salesrule_is_active',
+            array(
+                'header' => __('Status'),
+                'align' => 'left',
+                'width' => '80px',
+                'index' => 'is_active',
+                'type' => 'options',
+                'options' => array(1 => 'Active', 0 => 'Inactive')
+            )
+        );
 
         return parent::_prepareColumns();
     }
@@ -147,6 +150,7 @@ class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Ajax grid URL getter
      *
+     * @return string
      */
     public function getGridUrl()
     {

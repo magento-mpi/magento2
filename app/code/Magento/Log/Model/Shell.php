@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Log\Model;
 
 /**
  * Shell model, used to work with logs via command line
@@ -15,9 +16,7 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Log\Model;
-
-class Shell extends \Magento\Core\Model\AbstractShell
+class Shell extends \Magento\App\AbstractShell
 {
     /**
      * @var \Magento\Log\Model\Shell\Command\Factory
@@ -25,12 +24,12 @@ class Shell extends \Magento\Core\Model\AbstractShell
     protected $_commandFactory;
 
     /**
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param string $entryPoint
-     * @param Shell\Command\Factory $commandFactory
+     * @param \Magento\Log\Model\Shell\Command\Factory $commandFactory
      */
     public function __construct(
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         $entryPoint,
         \Magento\Log\Model\Shell\Command\Factory $commandFactory
     ) {
@@ -41,7 +40,7 @@ class Shell extends \Magento\Core\Model\AbstractShell
     /**
      * Runs script
      *
-     * @return \Magento\Log\Model\Shell
+     * @return $this
      */
     public function run()
     {

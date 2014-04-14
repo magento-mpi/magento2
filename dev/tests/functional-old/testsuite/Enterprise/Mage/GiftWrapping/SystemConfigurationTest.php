@@ -103,7 +103,7 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
      */
     public function giftWrappingBackendWebsite($testData)
     {
-        $this->markTestIncomplete('BUG: Gift Options for item apply to all');
+        //$this->markTestSkipped('\BUG: data is duplicated for all item gift options');
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full', null, array(
             'product1' => $testData['sku_1'],

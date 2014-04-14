@@ -14,26 +14,33 @@ use PHPParser_Node;
 
 abstract class AbstractOperator extends AbstractSyntax
 {
+    /**
+     * @var bool
+     */
     protected $terminate = false;
 
+    /**
+     * The string text of this operator
+     *
+     * @return string
+     */
     abstract public function operator();
 
+    /**
+     * This operators associativity
+     * (-1 is left, 0 is nonassoc, 1 is right)
+     *
+     * @return int
+     */
     abstract public function associativity();
 
+    /**
+     * This operators precedence
+     *
+     * @return int
+     */
     abstract public function precedence();
 
-    /**
-     * Prints an expression node with the least amount of parentheses necessary to preserve the meaning.
-     *
-     * @param PHPParser_Node $node                Node to pretty print
-     * @param int            $parentPrecedence    Precedence of the parent operator
-     * @param int            $parentAssociativity Associativity of parent operator
-     *                                            (-1 is left, 0 is nonassoc, 1 is right)
-     * @param int            $childPosition       Position of the node relative to the operator
-     *                                            (-1 is left, 1 is right)
-     *
-     * @return string The pretty printed node
-     */
     /*
     protected function pPrec(PHPParser_Node $node, $parentPrecedence, $parentAssociativity, $childPosition) {
         $type = $node->getType();
@@ -49,6 +56,15 @@ abstract class AbstractOperator extends AbstractSyntax
         return $this->{'p' . $type}($node);
     }
     */
+    /**
+     * Prints an expression node with the least amount of parentheses necessary to preserve the meaning.
+     *
+     * @param PHPParser_Node $node Node to pretty print
+     * @param TreeNode $treeNode
+     * @param int $childPosition  Position of the node relative to the operator
+     *                               (-1 is left, 1 is right)
+     * @return string The pretty printed node
+     */
     protected function resolvePrecedence(PHPParser_Node $node, TreeNode $treeNode, $childPosition)
     {
         /** @var AbstractSyntax $child */

@@ -15,16 +15,16 @@ namespace Magento\Backend\App;
 class Config implements ConfigInterface
 {
     /**
-     * @var \Magento\Core\Model\Config\SectionPool
+     * @var \Magento\App\Config\ScopePool
      */
-    protected $_sectionPool;
+    protected $_scopePool;
 
     /**
-     * @param \Magento\Core\Model\Config\SectionPool $sectionPool
+     * @param \Magento\App\Config\ScopePool $scopePool
      */
-    public function __construct(\Magento\Core\Model\Config\SectionPool $sectionPool)
+    public function __construct(\Magento\App\Config\ScopePool $scopePool)
     {
-        $this->_sectionPool = $sectionPool;
+        $this->_scopePool = $scopePool;
     }
 
     /**
@@ -35,7 +35,7 @@ class Config implements ConfigInterface
      */
     public function getValue($path)
     {
-        return $this->_sectionPool->getSection('default', null)->getValue($path);
+        return $this->_scopePool->getScope(\Magento\App\ScopeInterface::SCOPE_DEFAULT, null)->getValue($path);
     }
 
     /**
@@ -43,20 +43,11 @@ class Config implements ConfigInterface
      *
      * @param string $path
      * @param mixed $value
+     * @return void
      */
     public function setValue($path, $value)
     {
-        $this->_sectionPool->getSection('default', null)->setValue($path, $value);
-    }
-
-    /**
-     * Reinitialize configuration
-     *
-     * @return \Magento\Core\Model\Config
-     */
-    public function reinit()
-    {
-        $this->_sectionPool->clean();
+        $this->_scopePool->getScope(\Magento\App\ScopeInterface::SCOPE_DEFAULT, null)->setValue($path, $value);
     }
 
     /**
@@ -65,8 +56,8 @@ class Config implements ConfigInterface
      * @param string $path
      * @return bool
      */
-    public function getFlag($path)
+    public function isSetFlag($path)
     {
-        return !!$this->_sectionPool->getSection('default', null)->getValue($path);
+        return !!$this->_scopePool->getScope(\Magento\App\ScopeInterface::SCOPE_DEFAULT, null)->getValue($path);
     }
 }

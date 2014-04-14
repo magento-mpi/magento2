@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cron\Model\Config\Converter;
 
 class XmlTest extends \PHPUnit_Framework_TestCase
@@ -49,18 +48,20 @@ class XmlTest extends \PHPUnit_Framework_TestCase
     public function testConvert()
     {
         $expected = array(
-            'job1' => array(
-                'name' => 'job1',
-                'schedule' => '30 2 * * *',
-                'instance' => 'Model1',
-                'method' => 'method1'
-            ),
-            'job2' => array(
-                'name' => 'job2',
-                'schedule' => '* * * * *',
-                'instance' => 'Model2',
-                'method' => 'method2'
-            ),
+            'default' => array(
+                'job1' => array(
+                    'name' => 'job1',
+                    'schedule' => '30 2 * * *',
+                    'instance' => 'Model1',
+                    'method' => 'method1'
+                ),
+                'job2' => array(
+                    'name' => 'job2',
+                    'schedule' => '* * * * *',
+                    'instance' => 'Model2',
+                    'method' => 'method2'
+                )
+            )
         );
 
         $xmlFile = __DIR__ . '/../_files/crontab_valid.xml';

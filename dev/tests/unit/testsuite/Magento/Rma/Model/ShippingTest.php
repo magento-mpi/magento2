@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Model;
 
 class ShippingTest extends \PHPUnit_Framework_TestCase
@@ -24,18 +23,26 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
 
         $orderFactory = $this->getMock('Magento\Sales\Model\OrderFactory', array('create'), array(), '', false);
         $regionFactory = $this->getMock('Magento\Directory\Model\RegionFactory', array('create'), array(), '', false);
-        $returnFactory = $this->getMock('Magento\Shipping\Model\Shipment\ReturnShipmentFactory',
-            array('create'), array(), '', false);
+        $returnFactory = $this->getMock(
+            'Magento\Shipping\Model\Shipment\ReturnShipmentFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
         $rmaFactory = $this->getMock('Magento\Rma\Model\RmaFactory', array('create'), array(), '', false);
-        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false, false);
+        $filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false, false);
 
-        $this->_model = $objectManagerHelper->getObject('Magento\Rma\Model\Shipping', array(
-            'orderFactory'  => $orderFactory,
-            'regionFactory' => $regionFactory,
-            'returnFactory' => $returnFactory,
-            'rmaFactory'    => $rmaFactory,
-            'filesystem'    => $filesystem
-        ));
+        $this->_model = $objectManagerHelper->getObject(
+            'Magento\Rma\Model\Shipping',
+            array(
+                'orderFactory' => $orderFactory,
+                'regionFactory' => $regionFactory,
+                'returnFactory' => $returnFactory,
+                'rmaFactory' => $rmaFactory,
+                'filesystem' => $filesystem
+            )
+        );
     }
 
     /**
@@ -56,7 +63,7 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(true, \Magento\Sales\Model\Order\Shipment\Track::CUSTOM_CARRIER_CODE),
-            array(false, 'ups'),
+            array(false, 'not-custom')
         );
     }
 }

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Checkout\Onepage\Payment;
 
 class Additional extends \Magento\View\Element\Template
@@ -31,6 +30,7 @@ class Additional extends \Magento\View\Element\Template
     ) {
         parent::__construct($context, $data);
         $this->_checkoutSession = $checkoutSession;
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -41,17 +41,23 @@ class Additional extends \Magento\View\Element\Template
         return $this->_checkoutSession->getQuote();
     }
 
+    /**
+     * @return mixed
+     */
     public function getAppliedGiftCardAmount()
     {
         return $this->getQuote()->getBaseGiftCardsAmountUsed();
     }
 
+    /**
+     * @return bool
+     */
     public function isFullyPaidAfterApplication()
     {
         // TODO remove dependences to other modules
-        if ($this->getQuote()->getBaseGrandTotal() > 0
-            || $this->getQuote()->getCustomerBalanceAmountUsed() > 0
-            || $this->getQuote()->getRewardPointsBalance() > 0
+        if ($this->getQuote()->getBaseGrandTotal() > 0 ||
+            $this->getQuote()->getCustomerBalanceAmountUsed() > 0 ||
+            $this->getQuote()->getRewardPointsBalance() > 0
         ) {
             return false;
         }

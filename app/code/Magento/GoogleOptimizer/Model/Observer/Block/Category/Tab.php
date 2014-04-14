@@ -9,6 +9,8 @@
  */
 namespace Magento\GoogleOptimizer\Model\Observer\Block\Category;
 
+use Magento\Event\Observer as EventObserver;
+
 class Tab
 {
     /**
@@ -25,10 +27,8 @@ class Tab
      * @param \Magento\GoogleOptimizer\Helper\Data $helper
      * @param \Magento\View\LayoutInterface $layout
      */
-    public function __construct(
-        \Magento\GoogleOptimizer\Helper\Data $helper,
-        \Magento\View\LayoutInterface $layout
-    ) {
+    public function __construct(\Magento\GoogleOptimizer\Helper\Data $helper, \Magento\View\LayoutInterface $layout)
+    {
         $this->_helper = $helper;
         $this->_layout = $layout;
     }
@@ -36,9 +36,10 @@ class Tab
     /**
      * Adds Google Experiment tab to the category edit page
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
-    public function addGoogleExperimentTab(\Magento\Event\Observer $observer)
+    public function addGoogleExperimentTab(EventObserver $observer)
     {
         if ($this->_helper->isGoogleExperimentActive()) {
             $block = $this->_layout->createBlock(
@@ -48,10 +49,10 @@ class Tab
 
             /** @var $tabs \Magento\Catalog\Block\Adminhtml\Category\Tabs */
             $tabs = $observer->getEvent()->getTabs();
-            $tabs->addTab('google-experiment-tab', array(
-                'label' => __('Category View Optimization'),
-                'content' => $block->toHtml(),
-            ));
+            $tabs->addTab(
+                'google-experiment-tab',
+                array('label' => __('Category View Optimization'), 'content' => $block->toHtml())
+            );
         }
     }
 }

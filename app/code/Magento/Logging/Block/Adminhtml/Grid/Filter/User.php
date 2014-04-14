@@ -22,13 +22,13 @@ class User extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\DB\Helper $resourceHelper
      * @param \Magento\Logging\Model\Resource\EventFactory $eventFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\DB\Helper $resourceHelper,
         \Magento\Logging\Model\Resource\EventFactory $eventFactory,
         array $data = array()
     ) {
@@ -53,7 +53,7 @@ class User extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
     /**
      * Filter condition getter
      *
-     * @string
+     * @return string
      */
     public function getCondition()
     {

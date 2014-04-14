@@ -65,9 +65,8 @@ class Session extends \Magento\Core\Helper\Data
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      * @param Data $persistentData
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -77,9 +76,8 @@ class Session extends \Magento\Core\Helper\Data
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Locale $locale,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -91,14 +89,7 @@ class Session extends \Magento\Core\Helper\Data
         $this->_checkoutSession = $checkoutSession;
         $this->_customerFactory = $customerFactory;
         $this->_sessionFactory = $sessionFactory;
-        parent::__construct(
-            $context,
-            $coreStoreConfig,
-            $storeManager,
-            $locale,
-            $appState,
-            $dbCompatibleMode
-        );
+        parent::__construct($context, $scopeConfig, $storeManager, $appState, $dbCompatibleMode);
     }
 
     /**
@@ -153,9 +144,9 @@ class Session extends \Magento\Core\Helper\Data
                 return $isRememberMeChecked;
             }
 
-            return $this->_persistentData->isEnabled()
-                && $this->_persistentData->isRememberMeEnabled()
-                && $this->_persistentData->isRememberMeCheckedDefault();
+            return $this->_persistentData->isEnabled() &&
+                $this->_persistentData->isRememberMeEnabled() &&
+                $this->_persistentData->isRememberMeCheckedDefault();
         }
 
         return (bool)$this->_isRememberMeChecked;
@@ -165,6 +156,7 @@ class Session extends \Magento\Core\Helper\Data
      * Set "Remember Me" checked or not
      *
      * @param bool $checked
+     * @return void
      */
     public function setRememberMeChecked($checked = true)
     {

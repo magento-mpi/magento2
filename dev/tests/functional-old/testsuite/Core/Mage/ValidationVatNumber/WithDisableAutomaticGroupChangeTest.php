@@ -25,7 +25,7 @@ class Core_Mage_ValidationVatNumber_WithDisableAutomaticGroupChangeTest extends 
         $this->clickControl('button', 'validate_vat_number', false);
         $this->pleaseWait();
         //Verifying
-        if (!$this->controlIsVisible('pageelement', 'vat_number_is_valid')){
+        if (!$this->controlIsVisible('message', 'vat_number_is_valid')){
             $this->skipTestWithScreenshot('VAT Number is not valid');
         }
     }

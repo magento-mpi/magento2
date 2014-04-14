@@ -18,8 +18,14 @@ namespace Magento\Tax\Block\Adminhtml\Rate;
 
 class Title extends \Magento\View\Element\Template
 {
+    /**
+     * @var array
+     */
     protected $_titles;
 
+    /**
+     * @var string
+     */
     protected $_template = 'rate/title.phtml';
 
     /**
@@ -28,19 +34,19 @@ class Title extends \Magento\View\Element\Template
     protected $_rate;
 
     /**
-     * @var \Magento\Core\Model\StoreFactory
+     * @var \Magento\Store\Model\StoreFactory
      */
     protected $_storeFactory;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\Tax\Model\Calculation\Rate $rate
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\Tax\Model\Calculation\Rate $rate,
         array $data = array()
     ) {
@@ -49,6 +55,9 @@ class Title extends \Magento\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return array
+     */
     public function getTitles()
     {
         if (is_null($this->_titles)) {
@@ -66,14 +75,14 @@ class Title extends \Magento\View\Element\Template
         return $this->_titles;
     }
 
+    /**
+     * @return mixed
+     */
     public function getStores()
     {
         $stores = $this->getData('stores');
         if (is_null($stores)) {
-            $stores = $this->_storeFactory->create()
-                ->getResourceCollection()
-                ->setLoadDefault(false)
-                ->load();
+            $stores = $this->_storeFactory->create()->getResourceCollection()->setLoadDefault(false)->load();
             $this->setData('stores', $stores);
         }
         return $stores;

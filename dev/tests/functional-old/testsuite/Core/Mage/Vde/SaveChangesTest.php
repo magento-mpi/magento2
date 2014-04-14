@@ -51,7 +51,6 @@ class Core_Mage_Vde_SaveChangesTest extends Mage_Selenium_TestCase
             ->expandPageHandle('All Pages')
             ->selectPageHandle('Quick Search Form');
 
-
         $dragBlock = $this->vdeHelper()->getBlock(self::DRAGGABLE_VDE_BLOCK_NAME, true);
         $destination = $this->vdeHelper()->getBlock(self::CONTENT_VDE_BLOCK_NAME, true);
 
@@ -61,7 +60,6 @@ class Core_Mage_Vde_SaveChangesTest extends Mage_Selenium_TestCase
         // Remove the block "Community Pool"
         $block = $this->vdeHelper()->getBlock(self::REMOVABLE_VDE_BLOCK_NAME, true);
         $this->vdeHelper()->removeBlock($block);
-
 
         $this->window('');
 

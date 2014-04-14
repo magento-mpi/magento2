@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
 
 /**
  * Form element renderer to display color picker element for VDE
@@ -18,8 +19,6 @@
  * @method string getNote()
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ColorPicker setCssClass($class)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
-
 class ColorPicker extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
@@ -29,6 +28,8 @@ class ColorPicker extends \Magento\Data\Form\Element\AbstractElement
 
     /**
      * Constructor helper
+     *
+     * @return void
      */
     public function _construct()
     {

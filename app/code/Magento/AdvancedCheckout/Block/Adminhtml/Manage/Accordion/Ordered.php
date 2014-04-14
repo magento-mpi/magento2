@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 
 /**
  * Accordion grid for recently ordered products
@@ -15,10 +18,7 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
-
-class Ordered
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
+class Ordered extends AbstractAccordion
 {
     /**
      * Collection field name for using in controls
@@ -28,11 +28,15 @@ class Ordered
 
     /**
      * Javascript list type name for this grid
+     *
+     * @var string
      */
     protected $_listType = 'ordered';
 
     /**
      * Url to configure this grid's items
+     *
+     * @var string
      */
     protected $_configureRoute = '*/checkout/configureOrderedItem';
 
@@ -47,7 +51,6 @@ class Ordered
     protected $_productFactory;
 
     /**
-     * @param \Magento\Data\CollectionFactory $collectionFactory
      * @var \Magento\Catalog\Model\Config
      */
     protected $_catalogConfig;
@@ -64,25 +67,23 @@ class Ordered
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory,
@@ -95,28 +96,27 @@ class Ordered
         $this->_ordersFactory = $ordersFactory;
         $this->_salesConfig = $salesConfig;
         $this->_productFactory = $productFactory;
-        parent::__construct($context, $urlModel, $backendHelper, $collectionFactory, $coreRegistry, $data);
+        parent::__construct($context, $backendHelper, $collectionFactory, $coreRegistry, $data);
     }
 
     /**
      * Initialize Grid
      *
+     * @return void
      */
     protected function _construct()
     {
         parent::_construct();
         $this->setId('source_ordered');
         if ($this->_getStore()) {
-            $this->setHeaderText(
-                __('Last ordered items (%1)', $this->getItemsCount())
-            );
+            $this->setHeaderText(__('Last ordered items (%1)', $this->getItemsCount()));
         }
     }
 
     /**
      * Returns custom last ordered products renderer for price column content
      *
-     * @return null|string
+     * @return string
      */
     protected function _getPriceRenderer()
     {
@@ -126,7 +126,7 @@ class Ordered
     /**
      * Prepare customer wishlist product collection
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {
@@ -135,14 +135,20 @@ class Ordered
             $storeIds = $this->_getStore()->getWebsite()->getStoreIds();
 
             // Load last order of a customer
-            /* @var $collection \Magento\Core\Model\Resource\Db\Collection\AbstractCollection */
-            $collection = $this->_ordersFactory
-                ->create()
-                ->addAttributeToFilter('customer_id', $this->_getCustomer()->getId())
-                ->addAttributeToFilter('store_id', array('in' => $storeIds))
-                ->addAttributeToSort('created_at', 'desc')
-                ->setPage(1, 1)
-                ->load();
+            /* @var $collection \Magento\Model\Resource\Db\Collection\AbstractCollection */
+            $collection = $this->_ordersFactory->create()->addAttributeToFilter(
+                'customer_id',
+                $this->_getCustomer()->getId()
+            )->addAttributeToFilter(
+                'store_id',
+                array('in' => $storeIds)
+            )->addAttributeToSort(
+                'created_at',
+                'desc'
+            )->setPage(
+                1,
+                1
+            )->load();
             foreach ($collection as $order) {
                 break;
             }
@@ -161,14 +167,23 @@ class Ordered
                 if ($productIds) {
                     // Load products collection
                     $attributes = $this->_catalogConfig->getProductAttributes();
-                    $products = $this->_productFactory->create()->getCollection()
-                        ->setStore($this->_getStore())
-                        ->addAttributeToSelect($attributes)
-                        ->addAttributeToSelect('sku')
-                        ->addAttributeToFilter('type_id', $this->_salesConfig->getAvailableProductTypes())
-                        ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
-                        ->addStoreFilter($this->_getStore())
-                        ->addIdFilter($productIds);
+                    $products = $this->_productFactory->create()->getCollection()->setStore(
+                        $this->_getStore()
+                    )->addAttributeToSelect(
+                        $attributes
+                    )->addAttributeToSelect(
+                        'sku'
+                    )->addAttributeToFilter(
+                        'type_id',
+                        $this->_salesConfig->getAvailableProductTypes()
+                    )->addAttributeToFilter(
+                        'status',
+                        ProductStatus::STATUS_ENABLED
+                    )->addStoreFilter(
+                        $this->_getStore()
+                    )->addIdFilter(
+                        $productIds
+                    );
                     $this->_stockStatus->addIsInStockFilterToCollection($products);
                     $products->addOptionsToResult();
 
@@ -196,6 +211,6 @@ class Ordered
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/viewOrdered', array('_current'=>true));
+        return $this->getUrl('checkout/*/viewOrdered', array('_current' => true));
     }
 }

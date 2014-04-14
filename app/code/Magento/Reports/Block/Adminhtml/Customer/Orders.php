@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Customer;
 
 /**
  * Backend customers by orders report content block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Reports\Block\Adminhtml\Customer;
-
 class Orders extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
@@ -27,6 +23,9 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Container
      */
     protected $_blockGroup = 'Magento_Reports';
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_blockGroup = 'Magento_Reports';

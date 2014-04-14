@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer\Address;
+
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Customer address type selector
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Customer\Address;
-
-class DefaultAddress
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class DefaultAddress extends AbstractCondition
 {
     /**
      * @var string
@@ -47,7 +48,7 @@ class DefaultAddress
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -65,23 +66,17 @@ class DefaultAddress
      */
     public function getNewChildSelectOptions()
     {
-        return array(
-            'value' => $this->getType(),
-            'label' => __('Default Address')
-        );
+        return array('value' => $this->getType(), 'label' => __('Default Address'));
     }
 
     /**
      * Init list of available values
      *
-     * @return array
+     * @return $this
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(
-            'default_billing'  => __('Billing'),
-            'default_shipping' => __('Shipping'),
-        ));
+        $this->setValueOption(array('default_billing' => __('Billing'), 'default_shipping' => __('Shipping')));
         return $this;
     }
 
@@ -102,26 +97,33 @@ class DefaultAddress
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Customer Address %1 Default %2 Address', $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Customer Address %1 Default %2 Address',
+            $this->getOperatorElementHtml(),
+            $this->getValueElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
      * Prepare is default billing/shipping condition for customer address
      *
-     * @param $customer
-     * @param $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
         $attribute = $this->_eavConfig->getAttribute('customer', $this->getValue());
-        $select->from(array('default'=>$attribute->getBackendTable()), array(new \Zend_Db_Expr(1)));
-        $select->where('default.attribute_id = ?', $attribute->getId())
-            ->where('default.value=customer_address.entity_id')
-            ->where($this->_createCustomerFilter($customer, 'default.entity_id'));
+        $select->from(array('default' => $attribute->getBackendTable()), array(new \Zend_Db_Expr(1)));
+        $select->where(
+            'default.attribute_id = ?',
+            $attribute->getId()
+        )->where(
+            'default.value=customer_address.entity_id'
+        )->where(
+            $this->_createCustomerFilter($customer, 'default.entity_id')
+        );
         $select->limit(1);
         return $select;
     }

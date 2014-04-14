@@ -17,12 +17,16 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Category\Tab;
 
+use Magento\Backend\Block\Widget\Grid;
+use Magento\Backend\Block\Widget\Grid\Column;
+use Magento\Backend\Block\Widget\Grid\Extended;
+
 class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -33,25 +37,26 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $urlModel, $backendHelper, $data);
+        parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -60,11 +65,18 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->setUseAjax(true);
     }
 
+    /**
+     * @return array|null
+     */
     public function getCategory()
     {
         return $this->_coreRegistry->registry('category');
     }
 
+    /**
+     * @param Column $column
+     * @return $this
+     */
     protected function _addColumnFilterToCollection($column)
     {
         // Set custom filter for in category flag
@@ -74,34 +86,40 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
                 $productIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
+                $this->getCollection()->addFieldToFilter('entity_id', array('in' => $productIds));
+            } elseif (!empty($productIds)) {
+                $this->getCollection()->addFieldToFilter('entity_id', array('nin' => $productIds));
             }
-            elseif(!empty($productIds)) {
-                $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
-            }
-        }
-        else {
+        } else {
             parent::_addColumnFilterToCollection($column);
         }
         return $this;
     }
 
+    /**
+     * @return Grid
+     */
     protected function _prepareCollection()
     {
         if ($this->getCategory()->getId()) {
-            $this->setDefaultFilter(array('in_category'=>1));
+            $this->setDefaultFilter(array('in_category' => 1));
         }
-        $collection = $this->_productFactory->create()->getCollection()
-            ->addAttributeToSelect('name')
-            ->addAttributeToSelect('sku')
-            ->addAttributeToSelect('price')
-            ->addStoreFilter($this->getRequest()->getParam('store'))
-            ->joinField('position',
-                'catalog_category_product',
-                'position',
-                'product_id=entity_id',
-                'category_id='.(int) $this->getRequest()->getParam('id', 0),
-                'left');
+        $collection = $this->_productFactory->create()->getCollection()->addAttributeToSelect(
+            'name'
+        )->addAttributeToSelect(
+            'sku'
+        )->addAttributeToSelect(
+            'price'
+        )->addStoreFilter(
+            $this->getRequest()->getParam('store')
+        )->joinField(
+            'position',
+            'catalog_category_product',
+            'position',
+            'product_id=entity_id',
+            'category_id=' . (int)$this->getRequest()->getParam('id', 0),
+            'left'
+        );
         $this->setCollection($collection);
 
         if ($this->getCategory()->getProductsReadonly()) {
@@ -109,63 +127,74 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
             if (empty($productIds)) {
                 $productIds = 0;
             }
-            $this->getCollection()->addFieldToFilter('entity_id', array('in'=>$productIds));
+            $this->getCollection()->addFieldToFilter('entity_id', array('in' => $productIds));
         }
 
         return parent::_prepareCollection();
     }
 
+    /**
+     * @return Extended
+     */
     protected function _prepareColumns()
     {
         if (!$this->getCategory()->getProductsReadonly()) {
-            $this->addColumn('in_category', array(
-                'header_css_class' => 'a-center',
-                'type'      => 'checkbox',
-                'name'      => 'in_category',
-                'values'    => $this->_getSelectedProducts(),
-                'align'     => 'center',
-                'index'     => 'entity_id'
-            ));
+            $this->addColumn(
+                'in_category',
+                array(
+                    'header_css_class' => 'a-center',
+                    'type' => 'checkbox',
+                    'name' => 'in_category',
+                    'values' => $this->_getSelectedProducts(),
+                    'align' => 'center',
+                    'index' => 'entity_id'
+                )
+            );
         }
-        $this->addColumn('entity_id', array(
-            'header'    => __('ID'),
-            'sortable'  => true,
-            'width'     => '60',
-            'index'     => 'entity_id'
-        ));
-        $this->addColumn('name', array(
-            'header'    => __('Name'),
-            'index'     => 'name'
-        ));
-        $this->addColumn('sku', array(
-            'header'    => __('SKU'),
-            'width'     => '80',
-            'index'     => 'sku'
-        ));
-        $this->addColumn('price', array(
-            'header'    => __('Price'),
-            'type'  => 'currency',
-            'width'     => '1',
-            'currency_code' => (string) $this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
-            'index'     => 'price'
-        ));
-        $this->addColumn('position', array(
-            'header'    => __('Position'),
-            'width'     => '1',
-            'type'      => 'number',
-            'index'     => 'position',
-            'editable'  => !$this->getCategory()->getProductsReadonly()
-            //'renderer'  => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Input'
-        ));
+        $this->addColumn(
+            'entity_id',
+            array('header' => __('ID'), 'sortable' => true, 'width' => '60', 'index' => 'entity_id')
+        );
+        $this->addColumn('name', array('header' => __('Name'), 'index' => 'name'));
+        $this->addColumn('sku', array('header' => __('SKU'), 'width' => '80', 'index' => 'sku'));
+        $this->addColumn(
+            'price',
+            array(
+                'header' => __('Price'),
+                'type' => 'currency',
+                'width' => '1',
+                'currency_code' => (string)$this->_scopeConfig->getValue(
+                    \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                ),
+                'index' => 'price'
+            )
+        );
+        $this->addColumn(
+            'position',
+            array(
+                'header' => __('Position'),
+                'width' => '1',
+                'type' => 'number',
+                'index' => 'position',
+                'editable' => !$this->getCategory()->getProductsReadonly()
+            )
+        );
 
         return parent::_prepareColumns();
     }
 
+    /**
+     * @return string
+     */
     public function getGridUrl()
     {
-        return $this->getUrl('catalog/*/grid', array('_current'=>true));
+        return $this->getUrl('catalog/*/grid', array('_current' => true));
     }
 
+    /**
+     * @return array
+     */
     protected function _getSelectedProducts()
     {
         $products = $this->getRequest()->getPost('selected_products');
@@ -175,6 +204,4 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
         }
         return $products;
     }
-
 }
-

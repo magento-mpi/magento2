@@ -25,26 +25,26 @@ class Shell
     protected $_resource;
 
     /**
-     * @var \Magento\Core\Model\Resource\HelperFactory
+     * @var \Magento\Log\Model\Resource\Helper
      */
-    protected $_helperPool;
+    protected $_resourceHelper;
 
     /**
-     * @param \Magento\Core\Model\Resource\HelperPool $helperPool
+     * @param \Magento\Log\Model\Resource\Helper $resourceHelper
      * @param \Magento\App\Resource $resource
      */
     public function __construct(
-        \Magento\Core\Model\Resource\HelperPool $helperPool,
+        \Magento\Log\Model\Resource\Helper $resourceHelper,
         \Magento\App\Resource $resource
     ) {
-        $this->_helperPool = $helperPool;
+        $this->_resourceHelper = $resourceHelper;
         $this->_resource = $resource;
     }
 
     /**
      * Retrieves information about log tables
      *
-     * @return array
+     * @return string[]
      */
     public function getTablesInfo()
     {
@@ -61,10 +61,9 @@ class Shell
             'catalog_compare_item'
         );
 
-        $resHelper = $this->_helperPool->get('Magento_Log');
         $result = array();
         foreach ($tables as $table) {
-            $info = $resHelper->getTableInfo($this->_resource->getTableName($table));
+            $info = $this->_resourceHelper->getTableInfo($this->_resource->getTableName($table));
             if (!$info) {
                 continue;
             }

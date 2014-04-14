@@ -7,27 +7,26 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <preference for="Magento\Core\Model\Resource\Setup\Migration" type="Magento\Enterprise\Model\Resource\Setup\Migration" />
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\Core\Model\View\Design">
-        <param name="themes">
-            <value>
-                <frontend>magento_plushe</frontend>
-                <adminhtml>magento_backend</adminhtml>
-                <install>magento_enterprise</install>
-            </value>
-        </param>
+        <arguments>
+            <argument name="themes" xsi:type="array">
+                <item name="frontend" xsi:type="string">Magento/blank</item>
+                <item name="adminhtml" xsi:type="string">Magento/backend</item>
+                <item name="install" xsi:type="string">Magento/enterprise</item>
+            </argument>
+        </arguments>
     </type>
     <type name="Magento\Install\Block\Begin">
-        <param name="eulaFile">
-            <value>LICENSE_EE.html</value>
-        </param>
+        <arguments>
+            <argument name="eulaFile" xsi:type="string">LICENSE_EE.html</argument>
+        </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <value>
-                <enterprise_setup>Magento\Enterprise\Model\Resource\Setup</enterprise_setup>
-            </value>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="enterprise_setup" xsi:type="string">Magento\Enterprise\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
     </type>
 </config>

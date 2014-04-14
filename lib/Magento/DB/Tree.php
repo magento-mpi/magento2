@@ -7,9 +7,14 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\DB;
- \Zend_Loader::loadClass('\Zend_Db_Select'); \Zend_Loader::loadClass('\Magento\DB\Tree\Node'); \Zend_Loader::loadClass('\Magento\DB\Tree\NodeSet');
+
+\Zend_Loader::loadClass('\Zend_Db_Select');
+\Zend_Loader::loadClass('\Magento\DB\Tree\Node');
+\Zend_Loader::loadClass('\Magento\DB\Tree\NodeSet');
+use Magento\DB\Tree\Node;
+use Magento\DB\Tree\NodeSet;
+use Magento\DB\Tree\TreeException;
 
 /**
  * Magento Library
@@ -17,11 +22,34 @@ namespace Magento\DB;
 require_once 'Tree/TreeException.php';
 class Tree
 {
+    /**
+     * @var string|int
+     */
     private $_id;
+
+    /**
+     * @var int
+     */
     private $_left;
+
+    /**
+     * @var int
+     */
     private $_right;
+
+    /**
+     * @var int
+     */
     private $_level;
+
+    /**
+     * @var int
+     */
     private $_pid;
+
+    /**
+     * @var array
+     */
     private $_nodesInfo = array();
 
     /**
@@ -45,11 +73,14 @@ class Tree
      */
     private $_db;
 
+    /**
+     * @var string
+     */
     private $_table;
 
     /**
      * @param array $config
-     * @throws \Magento\DB\Tree\TreeException
+     * @throws TreeException
      */
     public function __construct($config = array())
     {
@@ -61,22 +92,22 @@ class Tree
 
             // use an object from the registry?
             if (is_string($connection)) {
-                $connection = Zend::registry($connection);
+                $connection = \Zend::registry($connection);
             }
 
             // make sure it's a \Zend_Db_Adapter
-            if (! $connection instanceof \Zend_Db_Adapter_Abstract) {
-                throw new \Magento\DB\Tree\TreeException('db object does not implement \Zend_Db_Adapter_Abstract');
+            if (!$connection instanceof \Zend_Db_Adapter_Abstract) {
+                throw new TreeException('db object does not implement \Zend_Db_Adapter_Abstract');
             }
 
             // save the connection
             $this->_db = $connection;
             $conn = $this->_db->getConnection();
             if ($conn instanceof \PDO) {
-                $conn->setAttribute (\PDO::ATTR_EMULATE_PREPARES, true);
+                $conn->setAttribute(\PDO::ATTR_EMULATE_PREPARES, true);
             }
         } else {
-            throw new \Magento\DB\Tree\TreeException('db object is not set in config');
+            throw new TreeException('db object is not set in config');
         }
 
         if (!empty($config['table'])) {
@@ -118,7 +149,7 @@ class Tree
      * set name of id field
      *
      * @param string $name
-     * @return \Magento\DB\Tree
+     * @return $this
      */
     public function setIdField($name)
     {
@@ -130,7 +161,7 @@ class Tree
      * set name of left field
      *
      * @param string $name
-     * @return \Magento\DB\Tree
+     * @return $this
      */
     public function setLeftField($name)
     {
@@ -142,7 +173,7 @@ class Tree
      * set name of right field
      *
      * @param string $name
-     * @return \Magento\DB\Tree
+     * @return $this
      */
     public function setRightField($name)
     {
@@ -154,7 +185,7 @@ class Tree
      * set name of level field
      *
      * @param string $name
-     * @return \Magento\DB\Tree
+     * @return $this
      */
     public function setLevelField($name)
     {
@@ -166,7 +197,7 @@ class Tree
      * set name of pid Field
      *
      * @param string $name
-     * @return \Magento\DB\Tree
+     * @return $this
      */
     public function setPidField($name)
     {
@@ -178,7 +209,7 @@ class Tree
      * set table name
      *
      * @param string $name
-     * @return \Magento\DB\Tree
+     * @return $this
      */
     public function setTable($name)
     {
@@ -246,8 +277,8 @@ class Tree
 
     /**
      * @param string|int $nodeId
-     * @param mixed $data
-     * @return bool|string
+     * @param array $data
+     * @return false|string
      */
     public function appendChild($nodeId, $data)
     {
@@ -256,21 +287,41 @@ class Tree
             return false;
         }
 
-        $data[$this->_left]  = $info[$this->_right];
+        $data[$this->_left] = $info[$this->_right];
         $data[$this->_right] = $info[$this->_right] + 1;
         $data[$this->_level] = $info[$this->_level] + 1;
-        $data[$this->_pid]   = $nodeId;
+        $data[$this->_pid] = $nodeId;
 
         // creating a place for the record being inserted
         if ($nodeId) {
             $this->_db->beginTransaction();
             try {
-                $sql = 'UPDATE ' . $this->_table . ' SET'
-                    . ' `'.$this->_left . '` = IF( `' . $this->_left . '` > :left,'
-                    . ' `' . $this->_left . '`+2, `' . $this->_left.'`),'
-                    . ' `' . $this->_right . '` = IF( `' . $this->_right . '`>= :right,'
-                    . ' `' . $this->_right.'`+2, `' . $this->_right . '`)'
-                    . ' WHERE `' . $this->_right . '` >= :right';
+                $sql = 'UPDATE ' .
+                    $this->_table .
+                    ' SET' .
+                    ' `' .
+                    $this->_left .
+                    '` = IF( `' .
+                    $this->_left .
+                    '` > :left,' .
+                    ' `' .
+                    $this->_left .
+                    '`+2, `' .
+                    $this->_left .
+                    '`),' .
+                    ' `' .
+                    $this->_right .
+                    '` = IF( `' .
+                    $this->_right .
+                    '`>= :right,' .
+                    ' `' .
+                    $this->_right .
+                    '`+2, `' .
+                    $this->_right .
+                    '`)' .
+                    ' WHERE `' .
+                    $this->_right .
+                    '` >= :right';
 
                 $this->_db->query($sql, array('left' => $info[$this->_left], 'right' => $info[$this->_right]));
                 $this->_db->insert($this->_table, $data);
@@ -278,18 +329,18 @@ class Tree
             } catch (\PDOException $p) {
                 $this->_db->rollBack();
                 echo $p->getMessage();
-                exit();
+                exit;
             } catch (\Exception $e) {
                 $this->_db->rollBack();
                 echo $e->getMessage();
                 echo $sql;
-                exit();
+                exit;
             }
             // TODO: change to ZEND LIBRARY
             $res = $this->_db->fetchOne('select last_insert_id()');
             return $res;
         }
-        return  false;
+        return false;
     }
 
     /**
@@ -301,12 +352,20 @@ class Tree
         $sql->from(
             array('t1' => $this->_table),
             array('t1.' . $this->_id, new \Zend_Db_Expr('COUNT(t1.' . $this->_id . ') AS rep'))
-        )->from(array('t2' => $this->_table))
-        ->from(array('t3' => $this->_table), new \Zend_Db_Expr('MAX(t3.' . $this->_right . ') AS max_right'));
+        )->from(
+            array('t2' => $this->_table)
+        )->from(
+            array('t3' => $this->_table),
+            new \Zend_Db_Expr('MAX(t3.' . $this->_right . ') AS max_right')
+        );
 
-        $sql->where('t1.' . $this->_left . ' <> t2.' . $this->_left)
-        ->where('t1.' . $this->_left . ' <> t2.' . $this->_right)
-        ->where('t1.' . $this->_right . ' <> t2.' . $this->_right);
+        $sql->where(
+            't1.' . $this->_left . ' <> t2.' . $this->_left
+        )->where(
+            't1.' . $this->_left . ' <> t2.' . $this->_right
+        )->where(
+            't1.' . $this->_right . ' <> t2.' . $this->_right
+        );
 
         $sql->group('t1.' . $this->_id);
         $sql->having('max_right <> SQRT(4 * rep + 1) + 1');
@@ -315,7 +374,7 @@ class Tree
 
     /**
      * @param string|int $nodeId
-     * @return bool|\Magento\DB\Tree\Node
+     * @return bool|Node|void
      */
     public function removeNode($nodeId)
     {
@@ -332,24 +391,49 @@ class Tree
                  */
                 $this->_db->delete(
                     $this->_table,
-                    $this->_left . ' >= ' . $info[$this->_left]
-                        . ' AND ' . $this->_right . ' <= ' . $info[$this->_right]
+                    $this->_left .
+                    ' >= ' .
+                    $info[$this->_left] .
+                    ' AND ' .
+                    $this->_right .
+                    ' <= ' .
+                    $info[$this->_right]
                 );
                 /**
                  * UPDATE my_tree SET left_key = IF(left_key > $left_key, left_key – ($right_key - $left_key + 1),
                  *      left_key), right_key = right_key – ($right_key - $left_key + 1) WHERE right_key > $right_key
                  */
-                $sql = 'UPDATE ' . $this->_table
-                    . ' SET '
-                    . $this->_left . ' = IF(' . $this->_left . ' > ' . $info[$this->_left] . ', '
-                    . $this->_left . ' - ' . ($info[$this->_right] - $info[$this->_left] + 1)
-                    . ', ' . $this->_left . '), ' . $this->_right . ' = '.$this->_right . ' - '
-                    . ($info[$this->_right] - $info[$this->_left] + 1)
-                    . ' WHERE '
-                    . $this->_right . ' > ' . $info[$this->_right];
+                $sql = 'UPDATE ' .
+                    $this->_table .
+                    ' SET ' .
+                    $this->_left .
+                    ' = IF(' .
+                    $this->_left .
+                    ' > ' .
+                    $info[$this->_left] .
+                    ', ' .
+                    $this->_left .
+                    ' - ' .
+                    ($info[$this->_right] -
+                    $info[$this->_left] +
+                    1) .
+                    ', ' .
+                    $this->_left .
+                    '), ' .
+                    $this->_right .
+                    ' = ' .
+                    $this->_right .
+                    ' - ' .
+                    ($info[$this->_right] -
+                    $info[$this->_left] +
+                    1) .
+                    ' WHERE ' .
+                    $this->_right .
+                    ' > ' .
+                    $info[$this->_right];
                 $this->_db->query($sql);
                 $this->_db->commit();
-                return new \Magento\DB\Tree\Node($info, $this->getKeys());
+                return new Node($info, $this->getKeys());
             } catch (\Exception $e) {
                 $this->_db->rollBack();
                 echo $e->getMessage();
@@ -363,7 +447,8 @@ class Tree
      * @param string|int $aId
      * @return bool
      */
-    public function moveNode($eId, $pId, $aId = 0) {
+    public function moveNode($eId, $pId, $aId = 0)
+    {
 
         $eInfo = $this->getNodeInfo($eId);
         $pInfo = $this->getNodeInfo($pId);
@@ -377,61 +462,298 @@ class Tree
         $rightIdP = $pInfo[$this->_right];
         $levelP = $pInfo[$this->_level];
 
-        if ($eId == $pId || $leftId == $leftIdP || ($leftIdP >= $leftId && $leftIdP <= $rightId)
-            || ($level == $levelP + 1 && $leftId > $leftIdP && $rightId < $rightIdP)
+        if ($eId == $pId ||
+            $leftId == $leftIdP ||
+            $leftIdP >= $leftId && $leftIdP <= $rightId ||
+            $level == $levelP + 1 && $leftId > $leftIdP && $rightId < $rightIdP
         ) {
             echo "alert('cant_move_tree');";
-            return FALSE;
+            return false;
         }
 
         if ($leftIdP < $leftId && $rightIdP > $rightId && $levelP < $level - 1) {
-            $sql = 'UPDATE ' . $this->_table
-                . ' SET '
-                . $this->_level . ' = CASE WHEN ' . $this->_left . ' BETWEEN ' . $leftId . ' AND '
-                . $rightId . ' THEN ' . $this->_level . sprintf('%+d', - ($level - 1) + $levelP)
-                . ' ELSE ' . $this->_level . ' END, '
-                . $this->_right . ' = CASE WHEN ' . $this->_right . ' BETWEEN ' . ($rightId+1) . ' AND '
-                . ($rightIdP - 1) . ' THEN ' . $this->_right . '-' . ($rightId - $leftId + 1) . ' '
-                . 'WHEN ' . $this->_left . ' BETWEEN ' . $leftId . ' AND ' . $rightId . ' THEN ' . $this->_right
-                . '+' . ((($rightIdP - $rightId - $level + $levelP) / 2) * 2 + $level - $levelP - 1)
-                . ' ELSE ' . $this->_right . ' END, '
-                . $this->_left . ' = CASE WHEN ' . $this->_left . ' BETWEEN ' . ($rightId + 1)
-                . ' AND ' . ($rightIdP - 1) . ' THEN ' . $this->_left . '-' . ($rightId - $leftId+1) . ' '
-                . 'WHEN ' . $this->_left . ' BETWEEN ' . $leftId . ' AND ' . $rightId . ' THEN ' . $this->_left
-                . '+' . ((($rightIdP - $rightId - $level + $levelP) / 2) * 2 + $level - $levelP - 1)
-                . ' ELSE ' . $this->_left . ' END '
-                . 'WHERE ' . $this->_left . ' BETWEEN ' . ($leftIdP + 1) . ' AND ' . ($rightIdP - 1);
+            $sql = 'UPDATE ' .
+                $this->_table .
+                ' SET ' .
+                $this->_level .
+                ' = CASE WHEN ' .
+                $this->_left .
+                ' BETWEEN ' .
+                $leftId .
+                ' AND ' .
+                $rightId .
+                ' THEN ' .
+                $this->_level .
+                sprintf(
+                    '%+d',
+                    -($level - 1) + $levelP
+                ) .
+                ' ELSE ' .
+                $this->_level .
+                ' END, ' .
+                $this->_right .
+                ' = CASE WHEN ' .
+                $this->_right .
+                ' BETWEEN ' .
+                ($rightId +
+                1) .
+                ' AND ' .
+                ($rightIdP -
+                1) .
+                ' THEN ' .
+                $this->_right .
+                '-' .
+                ($rightId -
+                $leftId +
+                1) .
+                ' ' .
+                'WHEN ' .
+                $this->_left .
+                ' BETWEEN ' .
+                $leftId .
+                ' AND ' .
+                $rightId .
+                ' THEN ' .
+                $this->_right .
+                '+' .
+                (($rightIdP -
+                $rightId -
+                $level +
+                $levelP) / 2 * 2 +
+                $level -
+                $levelP -
+                1) .
+                ' ELSE ' .
+                $this->_right .
+                ' END, ' .
+                $this->_left .
+                ' = CASE WHEN ' .
+                $this->_left .
+                ' BETWEEN ' .
+                ($rightId +
+                1) .
+                ' AND ' .
+                ($rightIdP -
+                1) .
+                ' THEN ' .
+                $this->_left .
+                '-' .
+                ($rightId -
+                $leftId +
+                1) .
+                ' ' .
+                'WHEN ' .
+                $this->_left .
+                ' BETWEEN ' .
+                $leftId .
+                ' AND ' .
+                $rightId .
+                ' THEN ' .
+                $this->_left .
+                '+' .
+                (($rightIdP -
+                $rightId -
+                $level +
+                $levelP) / 2 * 2 +
+                $level -
+                $levelP -
+                1) .
+                ' ELSE ' .
+                $this->_left .
+                ' END ' .
+                'WHERE ' .
+                $this->_left .
+                ' BETWEEN ' .
+                ($leftIdP +
+                1) .
+                ' AND ' .
+                ($rightIdP -
+                1);
         } elseif ($leftIdP < $leftId) {
-            $sql = 'UPDATE ' . $this->_table . ' SET '
-                . $this->_level . ' = CASE WHEN ' . $this->_left . ' BETWEEN ' . $leftId . ' AND ' . $rightId
-                . ' THEN ' . $this->_level . sprintf('%+d', - ($level - 1) + $levelP)
-                . ' ELSE ' . $this->_level . ' END, '
-                . $this->_left . ' = CASE WHEN ' . $this->_left . ' BETWEEN ' . $rightIdP . ' AND ' . ($leftId - 1)
-                . ' THEN ' . $this->_left . '+' . ($rightId - $leftId + 1) . ' '
-                . 'WHEN ' . $this->_left . ' BETWEEN ' . $leftId . ' AND ' . $rightId
-                . ' THEN ' . $this->_left . '-' . ($leftId - $rightIdP) . ' ELSE ' . $this->_left . ' END, '
-                . $this->_right . ' = CASE WHEN ' . $this->_right . ' BETWEEN ' . $rightIdP . ' AND ' . $leftId
-                . ' THEN ' . $this->_right . '+' . ($rightId - $leftId + 1) . ' '
-                . 'WHEN ' . $this->_right . ' BETWEEN ' . $leftId . ' AND ' . $rightId
-                . ' THEN ' . $this->_right . '-' . ($leftId - $rightIdP) . ' ELSE ' . $this->_right . ' END '
-                . 'WHERE (' . $this->_left . ' BETWEEN ' . $leftIdP . ' AND ' . $rightId . ' '
-                . 'OR ' . $this->_right . ' BETWEEN ' . $leftIdP . ' AND ' . $rightId . ')';
+            $sql = 'UPDATE ' .
+                $this->_table .
+                ' SET ' .
+                $this->_level .
+                ' = CASE WHEN ' .
+                $this->_left .
+                ' BETWEEN ' .
+                $leftId .
+                ' AND ' .
+                $rightId .
+                ' THEN ' .
+                $this->_level .
+                sprintf(
+                    '%+d',
+                    -($level - 1) + $levelP
+                ) .
+                ' ELSE ' .
+                $this->_level .
+                ' END, ' .
+                $this->_left .
+                ' = CASE WHEN ' .
+                $this->_left .
+                ' BETWEEN ' .
+                $rightIdP .
+                ' AND ' .
+                ($leftId -
+                1) .
+                ' THEN ' .
+                $this->_left .
+                '+' .
+                ($rightId -
+                $leftId +
+                1) .
+                ' ' .
+                'WHEN ' .
+                $this->_left .
+                ' BETWEEN ' .
+                $leftId .
+                ' AND ' .
+                $rightId .
+                ' THEN ' .
+                $this->_left .
+                '-' .
+                ($leftId -
+                $rightIdP) .
+                ' ELSE ' .
+                $this->_left .
+                ' END, ' .
+                $this->_right .
+                ' = CASE WHEN ' .
+                $this->_right .
+                ' BETWEEN ' .
+                $rightIdP .
+                ' AND ' .
+                $leftId .
+                ' THEN ' .
+                $this->_right .
+                '+' .
+                ($rightId -
+                $leftId +
+                1) .
+                ' ' .
+                'WHEN ' .
+                $this->_right .
+                ' BETWEEN ' .
+                $leftId .
+                ' AND ' .
+                $rightId .
+                ' THEN ' .
+                $this->_right .
+                '-' .
+                ($leftId -
+                $rightIdP) .
+                ' ELSE ' .
+                $this->_right .
+                ' END ' .
+                'WHERE (' .
+                $this->_left .
+                ' BETWEEN ' .
+                $leftIdP .
+                ' AND ' .
+                $rightId .
+                ' ' .
+                'OR ' .
+                $this->_right .
+                ' BETWEEN ' .
+                $leftIdP .
+                ' AND ' .
+                $rightId .
+                ')';
         } else {
-            $sql = 'UPDATE ' . $this->_table . ' SET '
-                . $this->_level . ' = CASE WHEN ' . $this->_left . ' BETWEEN ' . $leftId . ' AND ' . $rightId
-                . ' THEN ' . $this->_level . sprintf('%+d', - ($level - 1) + $levelP)
-                . ' ELSE ' . $this->_level . ' END, '
-                . $this->_left . ' = CASE WHEN ' . $this->_left . ' BETWEEN ' . $rightId . ' AND ' . $rightIdP
-                . ' THEN ' . $this->_left . '-' . ($rightId - $leftId + 1) . ' '
-                . 'WHEN ' . $this->_left . ' BETWEEN ' . $leftId . ' AND ' . $rightId
-                . ' THEN ' . $this->_left . '+' . ($rightIdP - 1 - $rightId) . ' ELSE ' . $this->_left . ' END, '
-                . $this->_right . ' = CASE WHEN ' . $this->_right
-                . ' BETWEEN ' . ($rightId + 1) . ' AND ' . ($rightIdP - 1)
-                . ' THEN ' . $this->_right . '-' . ($rightId - $leftId + 1) . ' '
-                . 'WHEN ' . $this->_right . ' BETWEEN ' . $leftId . ' AND ' . $rightId
-                . ' THEN ' . $this->_right . '+' . ($rightIdP - 1 - $rightId) . ' ELSE ' . $this->_right . ' END '
-                . 'WHERE (' . $this->_left . ' BETWEEN ' . $leftId . ' AND ' . $rightIdP . ' '
-                . 'OR ' . $this->_right . ' BETWEEN ' . $leftId . ' AND ' . $rightIdP . ')';
+            $sql = 'UPDATE ' .
+                $this->_table .
+                ' SET ' .
+                $this->_level .
+                ' = CASE WHEN ' .
+                $this->_left .
+                ' BETWEEN ' .
+                $leftId .
+                ' AND ' .
+                $rightId .
+                ' THEN ' .
+                $this->_level .
+                sprintf(
+                    '%+d',
+                    -($level - 1) + $levelP
+                ) .
+                ' ELSE ' .
+                $this->_level .
+                ' END, ' .
+                $this->_left .
+                ' = CASE WHEN ' .
+                $this->_left .
+                ' BETWEEN ' .
+                $rightId .
+                ' AND ' .
+                $rightIdP .
+                ' THEN ' .
+                $this->_left .
+                '-' .
+                ($rightId -
+                $leftId +
+                1) .
+                ' ' .
+                'WHEN ' .
+                $this->_left .
+                ' BETWEEN ' .
+                $leftId .
+                ' AND ' .
+                $rightId .
+                ' THEN ' .
+                $this->_left .
+                '+' .
+                ($rightIdP -
+                1 -
+                $rightId) .
+                ' ELSE ' .
+                $this->_left .
+                ' END, ' .
+                $this->_right .
+                ' = CASE WHEN ' .
+                $this->_right .
+                ' BETWEEN ' .
+                ($rightId +
+                1) .
+                ' AND ' .
+                ($rightIdP -
+                1) .
+                ' THEN ' .
+                $this->_right .
+                '-' .
+                ($rightId -
+                $leftId +
+                1) .
+                ' ' .
+                'WHEN ' .
+                $this->_right .
+                ' BETWEEN ' .
+                $leftId .
+                ' AND ' .
+                $rightId .
+                ' THEN ' .
+                $this->_right .
+                '+' .
+                ($rightIdP -
+                1 -
+                $rightId) .
+                ' ELSE ' .
+                $this->_right .
+                ' END ' .
+                'WHERE (' .
+                $this->_left .
+                ' BETWEEN ' .
+                $leftId .
+                ' AND ' .
+                $rightIdP .
+                ' ' .
+                'OR ' .
+                $this->_right .
+                ' BETWEEN ' .
+                $leftId .
+                ' AND ' .
+                $rightIdP .
+                ')';
         }
 
         $this->_db->beginTransaction();
@@ -447,7 +769,7 @@ class Tree
             echo "<br>\r\n";
             echo $sql;
             echo "<br>\r\n";
-            exit();
+            exit;
         }
     }
 
@@ -455,6 +777,7 @@ class Tree
      * @param string|int $eId
      * @param string|int $pId
      * @param string|int $aId
+     * @return void
      */
     public function moveNodes($eId, $pId, $aId = 0)
     {
@@ -479,12 +802,15 @@ class Tree
         $rightKeyNear = 0;
         $leftKeyNear = 0;
 
-        if ($pId == 0) { //move to root
+        if ($pId == 0) {
+            //move to root
             $rightKeyNear = $this->_db->fetchOne('SELECT MAX(' . $this->_right . ') FROM ' . $this->_table);
-        } elseif ($aId != 0 && $pId == $eInfo[$this->_pid]) { // if we have after ID
+        } elseif ($aId != 0 && $pId == $eInfo[$this->_pid]) {
+            // if we have after ID
             $rightKeyNear = $aInfo[$this->_right];
             $leftKeyNear = $aInfo[$this->_left];
-        } elseif ($aId == 0 && $pId == $eInfo[$this->_pid]) { // if we do not have after ID
+        } elseif ($aId == 0 && $pId == $eInfo[$this->_pid]) {
+            // if we do not have after ID
             $rightKeyNear = $pInfo[$this->_left];
         } elseif ($pId != $eInfo[$this->_pid]) {
             $rightKeyNear = $pInfo[$this->_right] - 1;
@@ -496,34 +822,140 @@ class Tree
 
         echo "alert('" . $rightKeyNear . "');";
 
-        if ($rightKeyNear > $rightKey) { // up
+        if ($rightKeyNear > $rightKey) {
+            // up
             echo "alert('move up');";
             $skewEdit = $rightKeyNear - $leftKey + 1;
-            $sql = 'UPDATE ' . $this->_table
-                . ' SET '
-                . $this->_right .' = IF(' . $this->_left . ' >= ' . $eInfo[$this->_left] . ', ' . $this->_right
-                . ' + ' . $skewEdit . ', IF(' . $this->_right . ' < ' . $eInfo[$this->_left] . ', ' . $this->_right
-                . ' + ' . $skewTree . ', ' . $this->_right . ')), '
-                . $this->_level . ' = IF(' . $this->_left . ' >= ' . $eInfo[$this->_left] . ', ' . $this->_level
-                . ' + ' . $skewLevel . ', ' . $this->_level . '), ' . $this->_left
-                . ' = IF(' . $this->_left . ' >= ' . $eInfo[$this->_left] . ', ' . $this->_left . ' + '
-                . $skewEdit . ', IF(' . $this->_left . ' > ' . $rightKeyNear . ', ' . $this->_left
-                . ' + ' . $skewTree . ', ' . $this->_left . '))'
-                . ' WHERE ' . $this->_right . ' > ' . $rightKeyNear
-                . ' AND ' . $this->_left . ' < ' . $eInfo[$this->_right];
-        } elseif ($rightKeyNear < $rightKey) { // down
+            $sql = 'UPDATE ' .
+                $this->_table .
+                ' SET ' .
+                $this->_right .
+                ' = IF(' .
+                $this->_left .
+                ' >= ' .
+                $eInfo[$this->_left] .
+                ', ' .
+                $this->_right .
+                ' + ' .
+                $skewEdit .
+                ', IF(' .
+                $this->_right .
+                ' < ' .
+                $eInfo[$this->_left] .
+                ', ' .
+                $this->_right .
+                ' + ' .
+                $skewTree .
+                ', ' .
+                $this->_right .
+                ')), ' .
+                $this->_level .
+                ' = IF(' .
+                $this->_left .
+                ' >= ' .
+                $eInfo[$this->_left] .
+                ', ' .
+                $this->_level .
+                ' + ' .
+                $skewLevel .
+                ', ' .
+                $this->_level .
+                '), ' .
+                $this->_left .
+                ' = IF(' .
+                $this->_left .
+                ' >= ' .
+                $eInfo[$this->_left] .
+                ', ' .
+                $this->_left .
+                ' + ' .
+                $skewEdit .
+                ', IF(' .
+                $this->_left .
+                ' > ' .
+                $rightKeyNear .
+                ', ' .
+                $this->_left .
+                ' + ' .
+                $skewTree .
+                ', ' .
+                $this->_left .
+                '))' .
+                ' WHERE ' .
+                $this->_right .
+                ' > ' .
+                $rightKeyNear .
+                ' AND ' .
+                $this->_left .
+                ' < ' .
+                $eInfo[$this->_right];
+        } elseif ($rightKeyNear < $rightKey) {
+            // down
             echo "alert('move down');";
             $skewEdit = $rightKeyNear - $leftKey + 1 - $skewTree;
-            $sql = 'UPDATE ' . $this->_table
-                . ' SET ' . $this->_left . ' = IF(' . $this->_right . ' <= ' . $rightKey . ', ' . $this->_left
-                . ' + ' . $skewEdit . ', IF(' . $this->_left . ' > ' . $rightKey . ', '
-                . $this->_left . ' - ' . $skewTree . ', ' . $this->_left . ')), '
-                . $this->_level . ' = IF(' . $this->_right . ' <= ' . $rightKey . ', '
-                . $this->_level . ' + ' . $skewLevel . ', ' . $this->_level . '), '
-                . $this->_right . ' = IF(' . $this->_right . ' <= ' . $rightKey . ', '
-                . $this->_right . ' + ' . $skewEdit . ', IF(' . $this->_right . ' <= ' . $rightKeyNear . ', '
-                . $this->_right . ' - ' . $skewTree . ', ' . $this->_right . '))'
-                . ' WHERE ' . $this->_right . ' > ' . $leftKey . ' AND ' . $this->_left . ' <= ' . $rightKeyNear;
+            $sql = 'UPDATE ' .
+                $this->_table .
+                ' SET ' .
+                $this->_left .
+                ' = IF(' .
+                $this->_right .
+                ' <= ' .
+                $rightKey .
+                ', ' .
+                $this->_left .
+                ' + ' .
+                $skewEdit .
+                ', IF(' .
+                $this->_left .
+                ' > ' .
+                $rightKey .
+                ', ' .
+                $this->_left .
+                ' - ' .
+                $skewTree .
+                ', ' .
+                $this->_left .
+                ')), ' .
+                $this->_level .
+                ' = IF(' .
+                $this->_right .
+                ' <= ' .
+                $rightKey .
+                ', ' .
+                $this->_level .
+                ' + ' .
+                $skewLevel .
+                ', ' .
+                $this->_level .
+                '), ' .
+                $this->_right .
+                ' = IF(' .
+                $this->_right .
+                ' <= ' .
+                $rightKey .
+                ', ' .
+                $this->_right .
+                ' + ' .
+                $skewEdit .
+                ', IF(' .
+                $this->_right .
+                ' <= ' .
+                $rightKeyNear .
+                ', ' .
+                $this->_right .
+                ' - ' .
+                $skewTree .
+                ', ' .
+                $this->_right .
+                '))' .
+                ' WHERE ' .
+                $this->_right .
+                ' > ' .
+                $leftKey .
+                ' AND ' .
+                $this->_left .
+                ' <= ' .
+                $rightKeyNear;
         }
 
 
@@ -537,7 +969,7 @@ class Tree
             echo "<br>\r\n";
             echo $sql;
             echo "<br>\r\n";
-            exit();
+            exit;
         }
         echo "alert('node added')";
     }
@@ -546,17 +978,16 @@ class Tree
      * @param string $tableName
      * @param string $joinCondition
      * @param string $fields
+     * @return void
      */
     public function addTable($tableName, $joinCondition, $fields = '*')
     {
-        $this->_extTables[$tableName] = array(
-           'joinCondition' => $joinCondition,
-           'fields'        => $fields
-        );
+        $this->_extTables[$tableName] = array('joinCondition' => $joinCondition, 'fields' => $fields);
     }
 
     /**
      * @param \Zend_Db_Select $select
+     * @return void
      */
     protected function _addExtTablesToSelect(\Zend_Db_Select &$select)
     {
@@ -569,7 +1000,7 @@ class Tree
      * @param string|int $nodeId
      * @param int $startLevel
      * @param int $endLevel
-     * @return \Magento\DB\Tree\NodeSet
+     * @return NodeSet
      */
     public function getChildren($nodeId, $startLevel = 0, $endLevel = 0)
     {
@@ -581,10 +1012,15 @@ class Tree
         }
 
         $dbSelect = new \Zend_Db_Select($this->_db);
-        $dbSelect->from($this->_table)
-            ->where($this->_left  . ' >= :left')
-            ->where($this->_right . ' <= :right')
-            ->order($this->_left);
+        $dbSelect->from(
+            $this->_table
+        )->where(
+            $this->_left . ' >= :left'
+        )->where(
+            $this->_right . ' <= :right'
+        )->order(
+            $this->_left
+        );
 
         $this->_addExtTablesToSelect($dbSelect);
 
@@ -600,22 +1036,21 @@ class Tree
         //echo $dbSelect->__toString();
         $data = $this->_db->fetchAll($dbSelect, $data);
 
-        $nodeSet = new \Magento\DB\Tree\NodeSet();
+        $nodeSet = new NodeSet();
         foreach ($data as $node) {
-             $nodeSet->addNode(new \Magento\DB\Tree\Node($node, $this->getKeys()));
+            $nodeSet->addNode(new Node($node, $this->getKeys()));
         }
         return $nodeSet;
     }
 
     /**
      * @param string|int $nodeId
-     * @return \Magento\DB\Tree\Node
+     * @return Node
      */
     public function getNode($nodeId)
     {
         $dbSelect = new \Zend_Db_Select($this->_db);
-        $dbSelect->from($this->_table)
-            ->where($this->_table . '.' . $this->_id  . ' >= :id');
+        $dbSelect->from($this->_table)->where($this->_table . '.' . $this->_id . ' >= :id');
 
         $this->_addExtTablesToSelect($dbSelect);
 
@@ -624,6 +1059,6 @@ class Tree
 
         $data = $this->_db->fetchRow($dbSelect, $data);
 
-        return new \Magento\DB\Tree\Node($data, $this->getKeys());
+        return new Node($data, $this->getKeys());
     }
 }

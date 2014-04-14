@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cron\Model\Resource\Schedule;
 
 /**
  * Schedules Collection
@@ -16,13 +16,12 @@
  * @package     Magento_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cron\Model\Resource\Schedule;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource collection
      *
+     * @return void
      */
     public function _construct()
     {

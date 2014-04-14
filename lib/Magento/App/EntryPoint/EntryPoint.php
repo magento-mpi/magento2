@@ -9,10 +9,9 @@
  */
 namespace Magento\App\EntryPoint;
 
-use Magento\App\State,
-    Magento\App\EntryPointInterface,
-    Magento\ObjectManager;
-use Magento\Webapi\Exception;
+use Magento\App\State;
+use Magento\App\EntryPointInterface;
+use Magento\ObjectManager;
 
 class EntryPoint implements EntryPointInterface
 {
@@ -39,11 +38,8 @@ class EntryPoint implements EntryPointInterface
      * @param ObjectManager $objectManager
      * @SuppressWarnings(PHPMD.ExitExpression)
      */
-    public function __construct(
-        $rootDir,
-        array $parameters = array(),
-        ObjectManager $objectManager = null
-    ) {
+    public function __construct($rootDir, array $parameters = array(), ObjectManager $objectManager = null)
+    {
         $this->_rootDir = $rootDir;
         $this->_parameters = $parameters;
         $this->_locator = $objectManager;
@@ -54,22 +50,27 @@ class EntryPoint implements EntryPointInterface
      *
      * @param string $applicationName
      * @param array $arguments
-     * @return int
+     * @return void
      */
     public function run($applicationName, array $arguments = array())
     {
         try {
+            \Magento\Profiler::start('magento');
             if (!$this->_locator) {
                 $locatorFactory = new \Magento\App\ObjectManagerFactory();
                 $this->_locator = $locatorFactory->create($this->_rootDir, $this->_parameters);
             }
-            return $this->_locator->create($applicationName, $arguments)->execute();
+            $application = $this->_locator->create($applicationName, $arguments);
+            $response = $application->launch();
+            \Magento\Profiler::stop('magento');
+            $response->sendResponse();
         } catch (\Exception $exception) {
-            if (isset($this->_parameters[state::PARAM_MODE])
-                && $this->_parameters[State::PARAM_MODE] == State::MODE_DEVELOPER
+            if (isset(
+                $this->_parameters[state::PARAM_MODE]
+            ) && $this->_parameters[State::PARAM_MODE] == State::MODE_DEVELOPER
             ) {
-                print $exception->getMessage() . "\n\n";
-                print $exception->getTraceAsString();
+                echo $exception->getMessage() . "\n\n";
+                echo $exception->getTraceAsString();
             } else {
                 $message = "Error happened during application run.\n";
                 try {
@@ -80,9 +81,8 @@ class EntryPoint implements EntryPointInterface
                 } catch (\Exception $e) {
                     $message .= "Could not write error message to log. Please use developer mode to see the message.\n";
                 }
-                print $message;
+                echo $message;
             }
-            return 1;
         }
     }
 }

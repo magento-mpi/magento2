@@ -21,9 +21,12 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
     /**#@+
      * Available comparison modes. Used for composing queries to search by tags
      */
-    const COMPARISON_MODE_MATCHING_TAG     = \Zend_Cache::CLEANING_MODE_MATCHING_TAG;
+    const COMPARISON_MODE_MATCHING_TAG = \Zend_Cache::CLEANING_MODE_MATCHING_TAG;
+
     const COMPARISON_MODE_NOT_MATCHING_TAG = \Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG;
+
     const COMPARISON_MODE_MATCHING_ANY_TAG = \Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG;
+
     /**#@-*/
 
     /**
@@ -42,9 +45,9 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
         /** MongoDB connection options */
         'mongo_options' => array(),
         /** Name of a database to be used for cache storage */
-        'db'                => '',
+        'db' => '',
         /** Name of a collection to be used for cache storage */
-        'collection'        => 'cache',
+        'collection' => 'cache'
     );
 
     /**
@@ -81,7 +84,7 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
     /**
      * Return an array of stored cache ids
      *
-     * @return array array of stored cache ids (string)
+     * @return string[] array of stored cache ids (string)
      */
     public function getIds()
     {
@@ -91,7 +94,7 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
     /**
      * Return an array of stored tags
      *
-     * @return array array of stored tags (string)
+     * @return string[] array of stored tags (string)
      */
     public function getTags()
     {
@@ -104,8 +107,8 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
      *
      * In case of multiple tags, a logical AND is made between tags
      *
-     * @param array $tags array of tags
-     * @return array array of matching cache ids (string)
+     * @param string[] $tags array of tags
+     * @return string[] array of matching cache ids (string)
      */
     public function getIdsMatchingTags($tags = array())
     {
@@ -122,8 +125,8 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
      *
      * In case of multiple tags, a logical OR is made between tags
      *
-     * @param array $tags array of tags
-     * @return array array of not matching cache ids (string)
+     * @param string[] $tags array of tags
+     * @return string[] array of not matching cache ids (string)
      */
     public function getIdsNotMatchingTags($tags = array())
     {
@@ -140,8 +143,8 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
      *
      * In case of multiple tags, a logical AND is made between tags
      *
-     * @param array $tags array of tags
-     * @return array array of any matching cache ids (string)
+     * @param string[] $tags array of tags
+     * @return string[] array of any matching cache ids (string)
      */
     public function getIdsMatchingAnyTags($tags = array())
     {
@@ -156,19 +159,19 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
     /**
      * Get query to filter by specified tags and comparison mode
      *
-     * @param array $tags
+     * @param string[] $tags
      * @param string $comparisonMode
      * @return array
      */
     protected function _getQueryMatchingTags(array $tags, $comparisonMode)
     {
         $operators = array(
-            self::COMPARISON_MODE_MATCHING_TAG     => '$and',
+            self::COMPARISON_MODE_MATCHING_TAG => '$and',
             self::COMPARISON_MODE_NOT_MATCHING_TAG => '$nor',
             self::COMPARISON_MODE_MATCHING_ANY_TAG => '$or'
         );
         if (!isset($operators[$comparisonMode])) {
-            \Zend_Cache::throwException("Incorrect comparison mode specified: $comparisonMode");
+            \Zend_Cache::throwException("Incorrect comparison mode specified: {$comparisonMode}");
         }
         $operator = $operators[$comparisonMode];
         $query = array();
@@ -198,7 +201,7 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
      * - mtime : timestamp of last modification time
      *
      * @param string $cacheId cache id
-     * @return array array of metadatas (false if the cache id is not found)
+     * @return array|false array of metadatas (false if the cache id is not found)
      */
     public function getMetadatas($cacheId)
     {
@@ -219,18 +222,8 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
     public function touch($cacheId, $extraLifetime)
     {
         $time = time();
-        $condition = array(
-            '_id'    => $this->_quoteString($cacheId),
-            'expire' => array('$gt' => $time),
-        );
-        $update = array(
-            '$set' => array(
-                'mtime' => $time,
-            ),
-            '$inc' => array(
-                'expire' => (int)$extraLifetime,
-            ),
-        );
+        $condition = array('_id' => $this->_quoteString($cacheId), 'expire' => array('$gt' => $time));
+        $update = array('$set' => array('mtime' => $time), '$inc' => array('expire' => (int)$extraLifetime));
         return $this->_getCollection()->update($condition, $update);
     }
 
@@ -252,11 +245,11 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
     {
         return array(
             'automatic_cleaning' => true,
-            'tags'               => true,
-            'expired_read'       => true,
-            'priority'           => false,
-            'infinite_lifetime'  => true,
-            'get_list'           => true,
+            'tags' => true,
+            'expired_read' => true,
+            'priority' => false,
+            'infinite_lifetime' => true,
+            'get_list' => true
         );
     }
 
@@ -290,15 +283,16 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
      */
     public function test($cacheId)
     {
-        $result = $this->_getCollection()
-            ->findOne(array(
+        $result = $this->_getCollection()->findOne(
+            array(
                 '_id' => $this->_quoteString($cacheId),
                 '$or' => array(
                     array('expire' => self::EXPIRATION_TIME_INFINITE),
                     array('expire' => array('$gt' => time()))
                 )
             ),
-            array('mtime'));
+            array('mtime')
+        );
         return $result ? $result['mtime'] : false;
     }
 
@@ -310,7 +304,7 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
      *
      * @param  string $data            Datas to cache
      * @param  string $cacheId              Cache id
-     * @param  array $tags             Array of strings, the cache record will be tagged by each string entry
+     * @param  string[] $tags             Array of strings, the cache record will be tagged by each string entry
      * @param  int|bool $specificLifetime If != false, set a specific lifetime (null => infinite lifetime)
      * @return boolean true if no problem
      */
@@ -321,11 +315,11 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
         $expire = $lifetime === null ? self::EXPIRATION_TIME_INFINITE : $time + $lifetime;
         $tags = array_map(array($this, '_quoteString'), $tags);
         $document = array(
-            '_id'      => $this->_quoteString($cacheId),
-            'data'     => new \MongoBinData($this->_quoteString($data), \MongoBinData::BYTE_ARRAY),
-            'tags'     => $tags,
-            'mtime'    => $time,
-            'expire'   => $expire,
+            '_id' => $this->_quoteString($cacheId),
+            'data' => new \MongoBinData($this->_quoteString($data), \MongoBinData::BYTE_ARRAY),
+            'tags' => $tags,
+            'mtime' => $time,
+            'expire' => $expire
         );
         return $this->_getCollection()->save($document);
     }
@@ -355,8 +349,8 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
      *                                               ($tags can be an array of strings or a single string)
      *
      * @param  string $mode Clean mode
-     * @param  array  $tags Array of tags
-     * @return boolean true if no problem
+     * @param  string[] $tags Array of tags
+     * @return bool true if no problem
      */
     public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, $tags = array())
     {
@@ -374,7 +368,8 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
             case \Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG:
                 $query = $this->_getQueryMatchingTags((array)$tags, $mode);
                 break;
-            default: \Zend_Cache::throwException('Unsupported cleaning mode: ' . $mode);
+            default:
+                \Zend_Cache::throwException('Unsupported cleaning mode: ' . $mode);
         }
         if (!empty($query)) {
             $result = $this->_getCollection()->remove($query);
@@ -386,7 +381,7 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
     /**
      * Quote specified value to be used in query as string
      *
-     * @param $value
+     * @param string $value
      * @return string
      */
     protected function _quoteString($value)

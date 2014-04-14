@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
 
 /**
  * Composite 'font' element renderer
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
-
-class Font
-    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer
+class Font extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer
 {
     /**
      * Path to template file in theme.
@@ -26,7 +24,7 @@ class Font
     /**
      * Get element CSS classes
      *
-     * @return array
+     * @return string[]
      */
     public function getClasses()
     {

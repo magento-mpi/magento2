@@ -28,22 +28,9 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
         $categoryData = $this->loadDataSet('Category', 'sub_category_required');
         $categoryData['experiment_code'] = 'experiment_code';
         $this->categoryHelper()->createCategory($categoryData);
-
+        $this->assertMessagePresent('success', 'success_saved_category');
+        $this->flushCache();
         self::$_categoryData = $categoryData;
-    }
-
-    public function tearDownAfterTestClass()
-    {
-        $this->loginAdminUser();
-
-        // Delete fixture
-        $this->navigate('manage_categories', false);
-        $this->categoryHelper()->checkCategoriesPage();
-        $this->categoryHelper()->selectCategory(
-            sprintf('%s/%s', self::$_categoryData['parent_category'], self::$_categoryData['name'])
-        );
-        $this->categoryHelper()->deleteCategory('delete_category', 'confirm_delete');
-        $this->assertMessagePresent('success', 'success_deleted_category');
     }
 
     /**
@@ -57,8 +44,10 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->frontOpenCategory(self::$_categoryData['name']);
 
         // Check result
-        $this->assertTrue($this->textIsPresent(self::$_categoryData['experiment_code']),
-            'Experiment code is not found.');
+        $this->assertTrue(
+            $this->textIsPresent(self::$_categoryData['experiment_code']),
+            'Experiment code is not found.'
+        );
     }
 
     /**
@@ -80,14 +69,18 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
         self::$_categoryData['experiment_code'] = 'experiment_code_updated';
         $this->categoryHelper()->fillCategoryInfo(array('experiment_code' => self::$_categoryData['experiment_code']));
         $this->clickButton('save_category');
+        $this->assertMessagePresent('success', 'success_saved_category');
+        $this->flushCache();
 
         // Open category on frontend
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory(self::$_categoryData['name']);
 
         // Check result
-        $this->assertTrue($this->textIsPresent(self::$_categoryData['experiment_code']),
-            'Experiment code is not equal.');
+        $this->assertTrue(
+            $this->textIsPresent(self::$_categoryData['experiment_code']),
+            'Experiment code is not equal.'
+        );
     }
 
     /**
@@ -108,13 +101,17 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
         );
         $this->categoryHelper()->fillCategoryInfo(array('experiment_code' => ''));
         $this->clickButton('save_category');
+        $this->assertMessagePresent('success', 'success_saved_category');
+        $this->flushCache();
 
         // Open category on frontend
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory(self::$_categoryData['name']);
         // Check result
-        $this->assertFalse($this->textIsPresent(self::$_categoryData['experiment_code']),
-            'Experiment code is present.');
+        $this->assertFalse(
+            $this->textIsPresent(self::$_categoryData['experiment_code']),
+            'Experiment code is present.'
+        );
     }
 
     /**
@@ -128,13 +125,16 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
         // Disable in System Configuration
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GoogleApi/content_experiments_disable');
+        $this->flushCache();
 
         // Open category on frontend
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory(self::$_categoryData['name']);
 
         // Check result
-        $this->assertFalse($this->textIsPresent(self::$_categoryData['experiment_code']),
-            'Experiment code is not disabled.');
+        $this->assertFalse(
+            $this->textIsPresent(self::$_categoryData['experiment_code']),
+            'Experiment code is not disabled.'
+        );
     }
 }

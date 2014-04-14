@@ -16,7 +16,7 @@ class ValidationStateTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsValidated($appMode, $expectedResult)
     {
-        $model = new \Magento\App\Config\ValidationState($appMode);
+        $model = new \Magento\App\Arguments\ValidationState($appMode);
         $this->assertEquals($model->isValidated(), $expectedResult);
     }
 
@@ -26,18 +26,9 @@ class ValidationStateTest extends \PHPUnit_Framework_TestCase
     public function isValidatedDataProvider()
     {
         return array(
-            array(
-                \Magento\App\State::MODE_DEVELOPER,
-                true
-            ),
-            array(
-                \Magento\App\State::MODE_DEFAULT,
-                false
-            ),
-            array(
-                \Magento\App\State::MODE_PRODUCTION,
-                false
-            ),
+            array(\Magento\App\State::MODE_DEVELOPER, true),
+            array(\Magento\App\State::MODE_DEFAULT, false),
+            array(\Magento\App\State::MODE_PRODUCTION, false)
         );
     }
 }

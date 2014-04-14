@@ -7,43 +7,55 @@
  */
 namespace Magento\Reward\Model\Observer;
 
+use Magento\Event\Observer;
+
 class PlaceOrder
 {
     /**
+     * Reward place order restriction interface
+     *
      * @var \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface
      */
     protected $_restriction;
 
     /**
+     * Reward model factory
+     *
      * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_modelFactory;
 
     /**
+     * Reward resource model factory
+     *
      * @var \Magento\Reward\Model\Resource\RewardFactory
      */
     protected $_resourceFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * Core model store manager interface
+     *
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Reward balance validator
+     *
      * @var \Magento\Reward\Model\Reward\Balance\Validator
      */
     protected $_validator;
 
     /**
      * @param \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface $restriction
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\RewardFactory $modelFactory
      * @param \Magento\Reward\Model\Resource\RewardFactory $resourceFactory
      * @param \Magento\Reward\Model\Reward\Balance\Validator $validator
      */
     public function __construct(
         \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface $restriction,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $modelFactory,
         \Magento\Reward\Model\Resource\RewardFactory $resourceFactory,
         \Magento\Reward\Model\Reward\Balance\Validator $validator
@@ -58,9 +70,10 @@ class PlaceOrder
     /**
      * Reduce reward points if points was used during checkout
      *
-     * @param \Magento\Event\Observer $observer
+     * @param Observer $observer
+     * @return void
      */
-    public function dispatch(\Magento\Event\Observer $observer)
+    public function dispatch(Observer $observer)
     {
         if (false == $this->_restriction->isAllowed()) {
             return;

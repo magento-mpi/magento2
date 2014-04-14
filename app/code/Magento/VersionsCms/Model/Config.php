@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Model;
 
 /**
  * Enterprise cms page config model
  */
-namespace Magento\VersionsCms\Model;
-
 class Config
 {
     const XML_PATH_CONTENT_VERSIONING = 'cms/content/versioning';
@@ -33,7 +32,8 @@ class Config
             'custom_layout_update_xml',
             'custom_theme_from',
             'custom_theme_to'
-        ));
+        )
+    );
 
     /**
      * @var \Magento\AuthorizationInterface
@@ -43,9 +43,9 @@ class Config
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Backend\Model\Auth\Session
@@ -54,15 +54,15 @@ class Config
 
     /**
      * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      */
     public function __construct(
         \Magento\AuthorizationInterface $authorization,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_authorization = $authorization;
         $this->_backendAuthSession = $backendAuthSession;
     }
@@ -95,7 +95,7 @@ class Config
     /**
      * Returns array of access levels which can be viewed by current user.
      *
-     * @return array
+     * @return string|string[]
      */
     public function getAllowedAccessLevel()
     {
@@ -182,7 +182,7 @@ class Config
     /**
      * Compare current user with passed owner of version or author of revision.
      *
-     * @param $userId
+     * @param int $userId
      * @return bool
      */
     public function isCurrentUserOwner($userId)
@@ -197,6 +197,6 @@ class Config
      */
     public function getDefaultVersioningStatus()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CONTENT_VERSIONING);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_CONTENT_VERSIONING, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

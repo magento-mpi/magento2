@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Weee\Model\Attribute\Backend\Weee;
+
+use Magento\Model\Exception;
 
 class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
 {
@@ -18,7 +19,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
     protected $_attributeTax;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -30,18 +31,18 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
     /**
      * @param \Magento\Logger $logger
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param \Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax $attributeTax
      */
     public function __construct(
         \Magento\Logger $logger,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Config $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax $attributeTax
     ) {
@@ -51,6 +52,9 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
         parent::__construct($logger, $currencyFactory, $storeManager, $catalogData, $config);
     }
 
+    /**
+     * @return string
+     */
     public static function getBackendModelName()
     {
         return 'Magento\Weee\Model\Attribute\Backend\Weee\Tax';
@@ -60,7 +64,8 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
      * Validate data
      *
      * @param   \Magento\Catalog\Model\Product $object
-     * @return  this
+     * @return  $this
+     * @throws  Exception
      */
     public function validate($object)
     {
@@ -79,9 +84,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
             $key1 = implode('-', array($tax['website_id'], $tax['country'], $state));
 
             if (!empty($dup[$key1])) {
-                throw new \Magento\Core\Exception(
-                    __('We found a duplicate website, country, and state tax.')
-                );
+                throw new Exception(__('We found a duplicate website, country, and state tax.'));
             }
             $dup[$key1] = 1;
         }
@@ -92,30 +95,33 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
      * Assign WEEE taxes to product data
      *
      * @param   \Magento\Catalog\Model\Product $object
-     * @return  \Magento\Catalog\Model\Product\Attribute\Backend\Weee
+     * @return  $this
      */
     public function afterLoad($object)
     {
         $data = $this->_attributeTax->loadProductData($object, $this->getAttribute());
 
-        foreach ($data as $i=>$row) {
+        foreach ($data as $i => $row) {
             if ($data[$i]['website_id'] == 0) {
-                $rate = $this->_storeManager->getStore()
-                    ->getBaseCurrency()->getRate($this->_directoryHelper->getBaseCurrencyCode());
+                $rate = $this->_storeManager->getStore()->getBaseCurrency()->getRate(
+                    $this->_directoryHelper->getBaseCurrencyCode()
+                );
                 if ($rate) {
-                    $data[$i]['website_value'] = $data[$i]['value']/$rate;
+                    $data[$i]['website_value'] = $data[$i]['value'] / $rate;
                 } else {
                     unset($data[$i]);
                 }
             } else {
                 $data[$i]['website_value'] = $data[$i]['value'];
             }
-
         }
         $object->setData($this->getAttribute()->getName(), $data);
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function afterSave($object)
     {
         $orig = $object->getOrigData($this->getAttribute()->getName());
@@ -143,10 +149,10 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
             }
 
             $data = array();
-            $data['website_id']   = $tax['website_id'];
-            $data['country']      = $tax['country'];
-            $data['state']        = $state;
-            $data['value']        = $tax['price'];
+            $data['website_id'] = $tax['website_id'];
+            $data['country'] = $tax['country'];
+            $data['state'] = $state;
+            $data['value'] = $tax['price'];
             $data['attribute_id'] = $this->getAttribute()->getId();
 
             $this->_attributeTax->insertProductData($object, $data);
@@ -155,15 +161,20 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function afterDelete($object)
     {
         $this->_attributeTax->deleteProductData($object, $this->getAttribute());
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getTable()
     {
         return $this->_attributeTax->getTable('weee_tax');
     }
 }
-

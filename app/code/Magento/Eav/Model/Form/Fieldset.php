@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model\Form;
 
 /**
  * Eav Form Fieldset Model
@@ -24,9 +24,7 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Form;
-
-class Fieldset extends \Magento\Core\Model\AbstractModel
+class Fieldset extends \Magento\Model\AbstractModel
 {
     /**
      * Prefix of model events names
@@ -36,15 +34,23 @@ class Fieldset extends \Magento\Core\Model\AbstractModel
     protected $_eventPrefix = 'eav_form_fieldset';
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
+    /**
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -55,6 +61,7 @@ class Fieldset extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -84,13 +91,13 @@ class Fieldset extends \Magento\Core\Model\AbstractModel
     /**
      * Validate data before save data
      *
-     * @throws \Magento\Core\Exception
-     * @return \Magento\Eav\Model\Form\Fieldset
+     * @throws \Magento\Model\Exception
+     * @return $this
      */
     protected function _beforeSave()
     {
         if (!$this->getTypeId()) {
-            throw new \Magento\Core\Exception(__('Invalid form type.'));
+            throw new \Magento\Model\Exception(__('Invalid form type.'));
         }
         if (!$this->getStoreId() && $this->getLabel()) {
             $this->setStoreLabel($this->getStoreId(), $this->getLabel());
@@ -117,7 +124,7 @@ class Fieldset extends \Magento\Core\Model\AbstractModel
      * Input array where key - store_id and value = label
      *
      * @param array $labels
-     * @return \Magento\Eav\Model\Form\Fieldset
+     * @return $this
      */
     public function setLabels(array $labels)
     {
@@ -129,7 +136,7 @@ class Fieldset extends \Magento\Core\Model\AbstractModel
      *
      * @param int $storeId
      * @param string $label
-     * @return \Magento\Eav\Model\Form\Fieldset
+     * @return $this
      */
     public function setStoreLabel($storeId, $label)
     {

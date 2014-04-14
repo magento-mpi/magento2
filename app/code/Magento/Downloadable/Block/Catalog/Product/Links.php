@@ -7,22 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Block\Catalog\Product;
+
+use Magento\Downloadable\Model\Link;
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Downloadable Product Links part block
  *
- * @category    Magento
- * @package     Magento_Downloadable
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Block\Catalog\Product;
-
 class Links extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
      * @var \Magento\Tax\Model\Calculation
      */
-    protected $_calculationModel;
+    protected $calculationModel;
 
     /**
      * @var \Magento\Json\EncoderInterface
@@ -35,58 +34,38 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $coreData;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
-     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
-     * @param \Magento\Theme\Helper\Layout $layoutHelper
-     * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     */
+    protected $accountService;
+
+    /**
+     * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Tax\Model\Calculation $calculationModel
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
      * @param array $data
-     * 
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @param array $priceBlockTypes
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Catalog\Block\Product\Context $context,
         \Magento\Tax\Model\Calculation $calculationModel,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Helper\Data $coreData,
-        array $data = array()
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService,
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
-        $this->_calculationModel = $calculationModel;
+        $this->calculationModel = $calculationModel;
         $this->jsonEncoder = $jsonEncoder;
         $this->coreData = $coreData;
+        $this->accountService = $accountService;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
-            $data
+            $data,
+            $priceBlockTypes
         );
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -104,8 +83,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getLinkSelectionRequired()
     {
-        return $this->getProduct()->getTypeInstance()
-            ->getLinkSelectionRequired($this->getProduct());
+        return $this->getProduct()->getTypeInstance()->getLinkSelectionRequired($this->getProduct());
     }
 
     /**
@@ -113,8 +91,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function hasLinks()
     {
-        return $this->getProduct()->getTypeInstance()
-            ->hasLinks($this->getProduct());
+        return $this->getProduct()->getTypeInstance()->hasLinks($this->getProduct());
     }
 
     /**
@@ -122,12 +99,11 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getLinks()
     {
-        return $this->getProduct()->getTypeInstance()
-            ->getLinks($this->getProduct());
+        return $this->getProduct()->getTypeInstance()->getLinks($this->getProduct());
     }
 
     /**
-     * @param \Magento\Downloadable\Model\Link $link
+     * @param Link $link
      * @return string
      */
     public function getFormattedLinkPrice($link)
@@ -139,9 +115,12 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
             return '';
         }
 
-        $taxCalculation = $this->_calculationModel;
-        if (!$taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
-            $taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
+        if (!$this->calculationModel->getCustomerData()->getId()
+            && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
+        ) {
+            $customer = $this->accountService
+                ->getCustomer($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
+            $this->calculationModel->setCustomerData($customer);
         }
 
         $taxHelper = $this->_taxData;
@@ -157,8 +136,12 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         } elseif ($taxHelper->displayBothPrices()) {
             $priceStr .= $coreHelper->currencyByStore($_priceExclTax, $store);
             if ($_priceInclTax != $_priceExclTax) {
-                $priceStr .= ' (+'.$coreHelper
-                    ->currencyByStore($_priceInclTax, $store).' '.__('Incl. Tax').')';
+                $priceStr .= ' (+' . $coreHelper->currencyByStore(
+                    $_priceInclTax,
+                    $store
+                ) . ' ' . __(
+                    'Incl. Tax'
+                ) . ')';
             }
         }
         $priceStr .= '</span>';
@@ -192,6 +175,10 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         return $this->jsonEncoder->encode($config);
     }
 
+    /**
+     * @param Link $link
+     * @return string
+     */
     public function getLinkSamlpeUrl($link)
     {
         $store = $this->getProduct()->getStore();
@@ -208,7 +195,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         if ($this->getProduct()->getLinksTitle()) {
             return $this->getProduct()->getLinksTitle();
         }
-        return $this->_storeConfig->getConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE);
+        return $this->_scopeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -218,13 +205,13 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getIsOpenInNewWindow()
     {
-        return $this->_storeConfig->getConfigFlag(\Magento\Downloadable\Model\Link::XML_PATH_TARGET_NEW_WINDOW);
+        return $this->_scopeConfig->isSetFlag(\Magento\Downloadable\Model\Link::XML_PATH_TARGET_NEW_WINDOW, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
      * Returns whether link checked by default or not
      *
-     * @param \Magento\Downloadable\Model\Link $link
+     * @param Link $link
      * @return bool
      */
     public function getIsLinkChecked($link)
@@ -234,13 +221,13 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
             return false;
         }
 
-        return $configValue && (in_array($link->getId(), $configValue));
+        return $configValue && in_array($link->getId(), $configValue);
     }
 
     /**
      * Returns value for link's input checkbox - either 'checked' or ''
      *
-     * @param \Magento\Downloadable\Model\Link $link
+     * @param Link $link
      * @return string
      */
     public function getLinkCheckedValue($link)

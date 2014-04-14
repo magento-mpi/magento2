@@ -7,128 +7,185 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Page cache observer model
- *
- * @category    Magento
- * @package     Magento_PageCache
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\PageCache\Model;
 
+/**
+ * Class Observer
+ */
 class Observer
 {
-    const XML_NODE_ALLOWED_CACHE = 'frontend/cache/allowed_requests';
+    /**
+     * Application config object
+     *
+     * @var \Magento\PageCache\Model\Config
+     */
+    protected $_config;
 
     /**
-     * Page cache data
-     *
+     * @var \Magento\App\PageCache\Cache
+     */
+    protected $_cache;
+
+    /**
      * @var \Magento\PageCache\Helper\Data
      */
-    protected $_pageCacheData = null;
+    protected $_helper;
 
     /**
-     * @var array
+     * @var \Magento\App\Cache\TypeListInterface
      */
-    protected $_allowedCache;
+    protected $_typeList;
 
     /**
-     * @param \Magento\PageCache\Helper\Data $pageCacheData
-     * @param array $allowedCache
+     * @var \Magento\Session\Generic
      */
-    public function __construct(\Magento\PageCache\Helper\Data $pageCacheData, array $allowedCache = array())
-    {
-        $this->_pageCacheData = $pageCacheData;
-        $this->_allowedCache = $allowedCache;
-    }
+    protected $_session;
 
     /**
-     * Check if full page cache is enabled
+     * @var \Magento\App\PageCache\FormKey
+     */
+    protected $_formKey;
+
+    /**
+     * Constructor
      *
-     * @return bool
+     * @param Config $config
+     * @param \Magento\App\PageCache\Cache $cache
+     * @param \Magento\PageCache\Helper\Data $helper
+     * @param \Magento\App\Cache\TypeListInterface $typeList
+     * @param \Magento\Session\Generic $session
+     * @param \Magento\App\PageCache\FormKey $formKey
      */
-    public function isCacheEnabled()
-    {
-        return $this->_pageCacheData->isEnabled();
+    public function __construct(
+        \Magento\PageCache\Model\Config $config,
+        \Magento\App\PageCache\Cache $cache,
+        \Magento\PageCache\Helper\Data $helper,
+        \Magento\App\Cache\TypeListInterface $typeList,
+        \Magento\App\PageCache\FormKey $formKey,
+        \Magento\Session\Generic $session
+    ) {
+        $this->_config = $config;
+        $this->_cache = $cache;
+        $this->_helper = $helper;
+        $this->_typeList = $typeList;
+        $this->_session = $session;
+        $this->_formKey = $formKey;
     }
 
     /**
-     * Check when cache should be disabled
+     * Add comment cache containers to private blocks
+     * Blocks are wrapped only if page is cacheable
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
+     */
+    public function processLayoutRenderElement(\Magento\Event\Observer $observer)
+    {
+        $event = $observer->getEvent();
+        /** @var \Magento\View\Layout $layout */
+        $layout = $event->getLayout();
+        if ($layout->isCacheable() && $this->_config->isEnabled()) {
+            $name = $event->getElementName();
+            $block = $layout->getBlock($name);
+            $transport = $event->getTransport();
+            if ($block instanceof \Magento\View\Element\AbstractBlock) {
+                $blockTtl = $block->getTtl();
+                $varnishIsEnabledFlag = ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH);
+                $output = $transport->getData('output');
+                if ($varnishIsEnabledFlag && isset($blockTtl)) {
+                    $output = $this->_wrapEsi($block);
+                } elseif ($block->isScopePrivate()) {
+                    $output = sprintf(
+                        '<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->',
+                        $block->getNameInLayout(),
+                        $output
+                    );
+                }
+                $transport->setData('output', $output);
+            }
+        }
+    }
+
+    /**
+     * Replace the output of the block, containing ttl attribute, with ESI tag
+     *
+     * @param \Magento\View\Element\AbstractBlock $block
+     * @return string
+     */
+    protected function _wrapEsi(\Magento\View\Element\AbstractBlock $block)
+    {
+        $url = $block->getUrl(
+            'page_cache/block/esi',
+            array(
+                'blocks' => json_encode(array($block->getNameInLayout())),
+                'handles' => json_encode($this->_helper->getActualHandles())
+            )
+        );
+        return sprintf('<esi:include src="%s" />', $url);
+    }
+
+    /**
+     * If Built-In caching is enabled it collects array of tags
+     * of incoming object and asks to clean cache.
+     *
+     * @param \Magento\Event\Observer $observer
+     * @return void
+     */
+    public function flushCacheByTags(\Magento\Event\Observer $observer)
+    {
+        if ($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN && $this->_config->isEnabled()) {
+            $object = $observer->getEvent()->getObject();
+            if ($object instanceof \Magento\Object\IdentityInterface) {
+                $tags = $object->getIdentities();
+                foreach ($tags as $tag) {
+                    $tags[] = preg_replace("~_\\d+$~", '', $tag);
+                }
+                $this->_cache->clean(array_unique($tags));
+            }
+        }
+    }
+
+    /**
+     * Flash Built-In cache
+     *
+     * @param \Magento\Event\Observer $observer
+     * @return void
+     */
+    public function flushAllCache(\Magento\Event\Observer $observer)
+    {
+        if ($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
+            $this->_cache->clean();
+        }
+    }
+
+    /**
+     * Invalidate full page cache
+     *
      * @return \Magento\PageCache\Model\Observer
      */
-    public function processPreDispatch(\Magento\Event\Observer $observer)
+    public function invalidateCache()
     {
-        if (!$this->isCacheEnabled()) {
-            return $this;
+        if ($this->_config->isEnabled()) {
+            $this->_typeList->invalidate('full_page');
         }
-        $action = $observer->getEvent()->getControllerAction();
-        $request = $action->getRequest();
-        $needCaching = true;
-
-        if ($request->isPost()) {
-            $needCaching = false;
-        }
-
-        if (empty($this->_allowedCache)) {
-            $needCaching = false;
-        }
-
-        $module = $request->getModuleName();
-        $controller = $request->getControllerName();
-        $action = $request->getActionName();
-
-
-        if (!isset($this->_allowedCache[$module])) {
-            $needCaching = false;
-        }
-
-        if (isset($this->_allowedCache[$module]['controller'])
-            && $this->_allowedCache[$module]['controller'] != $controller
-        ) {
-            $needCaching = false;
-        }
-
-        if (isset($this->_allowedCache[$module]['action']) && $this->_allowedCache[$module]['action'] != $action) {
-            $needCaching = false;
-        }
-
-        if (!$needCaching) {
-            $this->_pageCacheData->setNoCacheCookie();
-        }
-
         return $this;
     }
 
     /**
-     * Temporary disabling full page caching by setting bo-cache cookie
+     * Register form key in session from cookie value
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\PageCache\Model\Observer
+     * @return void
      */
-    public function setNoCacheCookie(\Magento\Event\Observer $observer)
+    public function registerFormKeyFromCookie(\Magento\Event\Observer $observer)
     {
-        if (!$this->isCacheEnabled()) {
-            return $this;
+        if (!$this->_config->isEnabled()) {
+            return;
         }
-        $this->_pageCacheData->setNoCacheCookie(0)->lockNoCacheCookie();
-        return $this;
-    }
 
-    /**
-     * Activating full page cache aby deleting no-cache cookie
-     *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\PageCache\Model\Observer
-     */
-    public function deleteNoCacheCookie(\Magento\Event\Observer $observer)
-    {
-        if (!$this->isCacheEnabled()) {
-            return $this;
+        $formKeyFromCookie = $this->_formKey->get();
+        if ($formKeyFromCookie) {
+            $this->_session->setData(\Magento\Data\Form\FormKey::FORM_KEY, $formKeyFromCookie);
         }
-        $this->_pageCacheData->unlockNoCacheCookie()->removeNoCacheCookie();
-        return $this;
     }
 }

@@ -7,70 +7,73 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Model\Resource;
 
 /**
  * Rma resource setup model
  */
-namespace Magento\Rma\Model\Resource;
-
 class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
+     * Catalog model setup factory
+     *
      * @var \Magento\Catalog\Model\Resource\SetupFactory
      */
     protected $_catalogSetupFactory;
 
     /**
-     * @var \Magento\Enterprise\Model\Resource\Setup\MigrationFactory
+     * Rma refundable list
+     * 
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
-    protected $_entMigrationFactory;
+    protected $productTypeConfig;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Eav\Model\Entity\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
-     * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Eav\Model\Entity\Setup\Context $context,
         $resourceName,
         \Magento\App\CacheInterface $cache,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
-        \Magento\Core\Model\Config $config,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
-        \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         $moduleName = 'Magento_Rma',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_catalogSetupFactory = $catalogSetupFactory;
-        $this->_entMigrationFactory = $entMigrationFactory;
-        parent::__construct($context, $resourceName, $cache, $attrGrCollFactory, $config, $moduleName, $connectionName);
+        $this->productTypeConfig = $productTypeConfig;
+        parent::__construct(
+            $context,
+            $resourceName,
+            $cache,
+            $attrGroupCollectionFactory,
+            $config,
+            $moduleName,
+            $connectionName
+        );
     }
 
     /**
-     * Prepare RMA item attribute values to save in additional table
+     * Get refundable product types
      *
-     * @param array $attr
      * @return array
      */
-    protected function _prepareValues($attr)
+    public function getRefundableProducts()
     {
-        $data = parent::_prepareValues($attr);
-        $data = array_merge($data, array(
-            'is_visible'                => $this->_getValue($attr, 'visible', 1),
-            'is_system'                 => $this->_getValue($attr, 'system', 1),
-            'input_filter'              => $this->_getValue($attr, 'input_filter', null),
-            'multiline_count'           => $this->_getValue($attr, 'multiline_count', 0),
-            'validate_rules'            => $this->_getValue($attr, 'validate_rules', null),
-            'data_model'                => $this->_getValue($attr, 'data', null),
-            'sort_order'                => $this->_getValue($attr, 'position', 0)
-        ));
-        return $data;
+        return array_diff(
+            $this->productTypeConfig->filter('refundable'),
+            $this->productTypeConfig->filter('is_product_set')
+        );
     }
 
     /**
@@ -81,129 +84,129 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     public function getDefaultEntities()
     {
         $entities = array(
-            'rma_item'                           => array(
-                'entity_model'                   => 'Magento\Rma\Model\Resource\Item',
-                'attribute_model'                => 'Magento\Rma\Model\Item\Attribute',
-                'table'                          => 'magento_rma_item_entity',
-                'increment_model'                => 'Magento\Eav\Model\Entity\Increment\Numeric',
-                'additional_attribute_table'     => 'magento_rma_item_eav_attribute',
-                'entity_attribute_collection'    => null,
-                'increment_per_store'            => 1,
-                'attributes'                     => array(
-                    'rma_entity_id'          => array(
-                        'type'               => 'static',
-                        'label'              => 'RMA Id',
-                        'input'              => 'text',
-                        'required'           => true,
-                        'visible'            => false,
-                        'sort_order'         => 10,
-                        'position'           => 10,
+            'rma_item' => array(
+                'entity_model' => 'Magento\Rma\Model\Resource\Item',
+                'attribute_model' => 'Magento\Rma\Model\Item\Attribute',
+                'table' => 'magento_rma_item_entity',
+                'increment_model' => 'Magento\Eav\Model\Entity\Increment\Numeric',
+                'additional_attribute_table' => 'magento_rma_item_eav_attribute',
+                'entity_attribute_collection' => null,
+                'increment_per_store' => 1,
+                'attributes' => array(
+                    'rma_entity_id' => array(
+                        'type' => 'static',
+                        'label' => 'RMA Id',
+                        'input' => 'text',
+                        'required' => true,
+                        'visible' => false,
+                        'sort_order' => 10,
+                        'position' => 10
                     ),
-                    'order_item_id'          => array(
-                        'type'               => 'static',
-                        'label'              => 'Order Item Id',
-                        'input'              => 'text',
-                        'required'           => true,
-                        'visible'            => false,
-                        'sort_order'         => 20,
-                        'position'           => 20,
+                    'order_item_id' => array(
+                        'type' => 'static',
+                        'label' => 'Order Item Id',
+                        'input' => 'text',
+                        'required' => true,
+                        'visible' => false,
+                        'sort_order' => 20,
+                        'position' => 20
                     ),
-                    'qty_requested'          => array(
-                        'type'               => 'static',
-                        'label'              => 'Qty of requested for RMA items',
-                        'input'              => 'text',
-                        'required'           => true,
-                        'visible'            => false,
-                        'sort_order'         => 30,
-                        'position'           => 30,
+                    'qty_requested' => array(
+                        'type' => 'static',
+                        'label' => 'Qty of requested for RMA items',
+                        'input' => 'text',
+                        'required' => true,
+                        'visible' => false,
+                        'sort_order' => 30,
+                        'position' => 30
                     ),
-                    'qty_authorized'         => array(
-                        'type'               => 'static',
-                        'label'              => 'Qty of authorized items',
-                        'input'              => 'text',
-                        'visible'            => false,
-                        'sort_order'         => 40,
-                        'position'           => 40,
+                    'qty_authorized' => array(
+                        'type' => 'static',
+                        'label' => 'Qty of authorized items',
+                        'input' => 'text',
+                        'visible' => false,
+                        'sort_order' => 40,
+                        'position' => 40
                     ),
-                    'qty_approved'           => array(
-                        'type'               => 'static',
-                        'label'              => 'Qty of requested for RMA items',
-                        'input'              => 'text',
-                        'visible'            => false,
-                        'sort_order'         => 50,
-                        'position'           => 50,
+                    'qty_approved' => array(
+                        'type' => 'static',
+                        'label' => 'Qty of requested for RMA items',
+                        'input' => 'text',
+                        'visible' => false,
+                        'sort_order' => 50,
+                        'position' => 50
                     ),
-                    'status'                 => array(
-                        'type'               => 'static',
-                        'label'              => 'Status',
-                        'input'              => 'select',
-                        'source'             => 'Magento\Rma\Model\Item\Attribute\Source\Status',
-                        'visible'            => false,
-                        'sort_order'         => 60,
-                        'position'           => 60,
-                        'adminhtml_only'     => 1,
+                    'status' => array(
+                        'type' => 'static',
+                        'label' => 'Status',
+                        'input' => 'select',
+                        'source' => 'Magento\Rma\Model\Item\Attribute\Source\Status',
+                        'visible' => false,
+                        'sort_order' => 60,
+                        'position' => 60,
+                        'adminhtml_only' => 1
                     ),
-                    'product_name'           => array(
-                        'type'               => 'static',
-                        'label'              => 'Product Name',
-                        'input'              => 'text',
-                        'sort_order'         => 70,
-                        'position'           => 70,
-                        'visible'            => false,
-                        'adminhtml_only'     => 1,
+                    'product_name' => array(
+                        'type' => 'static',
+                        'label' => 'Product Name',
+                        'input' => 'text',
+                        'sort_order' => 70,
+                        'position' => 70,
+                        'visible' => false,
+                        'adminhtml_only' => 1
                     ),
-                    'product_sku'            => array(
-                        'type'               => 'static',
-                        'label'              => 'Product SKU',
-                        'input'              => 'text',
-                        'sort_order'         => 80,
-                        'position'           => 80,
-                        'visible'            => false,
-                        'adminhtml_only'     => 1,
+                    'product_sku' => array(
+                        'type' => 'static',
+                        'label' => 'Product SKU',
+                        'input' => 'text',
+                        'sort_order' => 80,
+                        'position' => 80,
+                        'visible' => false,
+                        'adminhtml_only' => 1
                     ),
-                    'resolution'             => array(
-                        'type'               => 'int',
-                        'label'              => 'Resolution',
-                        'input'              => 'select',
-                        'sort_order'         => 90,
-                        'position'           => 90,
-                        'source'             => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
-                        'system'             => false,
-                        'option'             => array('values' => array('Exchange', 'Refund', 'Store Credit')),
-                        'validate_rules'     => 'a:0:{}',
+                    'resolution' => array(
+                        'type' => 'int',
+                        'label' => 'Resolution',
+                        'input' => 'select',
+                        'sort_order' => 90,
+                        'position' => 90,
+                        'source' => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
+                        'system' => false,
+                        'option' => array('values' => array('Exchange', 'Refund', 'Store Credit')),
+                        'validate_rules' => 'a:0:{}'
                     ),
-                    'condition'              => array(
-                        'type'               => 'int',
-                        'label'              => 'Item Condition',
-                        'input'              => 'select',
-                        'sort_order'         => 100,
-                        'position'           => 100,
-                        'source'             => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
-                        'system'             => false,
-                        'option'             => array('values' => array('Unopened', 'Opened', 'Damaged')),
-                        'validate_rules'     => 'a:0:{}',
+                    'condition' => array(
+                        'type' => 'int',
+                        'label' => 'Item Condition',
+                        'input' => 'select',
+                        'sort_order' => 100,
+                        'position' => 100,
+                        'source' => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
+                        'system' => false,
+                        'option' => array('values' => array('Unopened', 'Opened', 'Damaged')),
+                        'validate_rules' => 'a:0:{}'
                     ),
-                    'reason'                 => array(
-                        'type'               => 'int',
-                        'label'              => 'Reason to Return',
-                        'input'              => 'select',
-                        'sort_order'         => 110,
-                        'position'           => 110,
-                        'source'             => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
-                        'system'             => false,
-                        'option'             => array('values' => array('Wrong Color', 'Wrong Size', 'Out of Service')),
-                        'validate_rules'     => 'a:0:{}',
+                    'reason' => array(
+                        'type' => 'int',
+                        'label' => 'Reason to Return',
+                        'input' => 'select',
+                        'sort_order' => 110,
+                        'position' => 110,
+                        'source' => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
+                        'system' => false,
+                        'option' => array('values' => array('Wrong Color', 'Wrong Size', 'Out of Service')),
+                        'validate_rules' => 'a:0:{}'
                     ),
-                    'reason_other'           => array(
-                        'type'               => 'varchar',
-                        'label'              => 'Other',
-                        'input'              => 'text',
-                        'validate_rules'     => 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}',
-                        'sort_order'         => 120,
-                        'position'           => 120,
-                    ),
+                    'reason_other' => array(
+                        'type' => 'varchar',
+                        'label' => 'Other',
+                        'input' => 'text',
+                        'validate_rules' => 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}',
+                        'sort_order' => 120,
+                        'position' => 120
+                    )
                 )
-            ),
+            )
         );
         return $entities;
     }
@@ -215,34 +218,31 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      */
     public function installForms()
     {
-        $rma_item           = (int)$this->getEntityTypeId('rma_item');
+        $rma_item = (int)$this->getEntityTypeId('rma_item');
 
-        $attributeIds       = array();
-        $select = $this->getConnection()->select()
-            ->from(
-                array('ea' => $this->getTable('eav_attribute')),
-                array('entity_type_id', 'attribute_code', 'attribute_id'))
-            ->where('ea.entity_type_id = ?', $rma_item);
+        $attributeIds = array();
+        $select = $this->getConnection()->select()->from(
+            array('ea' => $this->getTable('eav_attribute')),
+            array('entity_type_id', 'attribute_code', 'attribute_id')
+        )->where(
+            'ea.entity_type_id = ?',
+            $rma_item
+        );
         foreach ($this->getConnection()->fetchAll($select) as $row) {
             $attributeIds[$row['entity_type_id']][$row['attribute_code']] = $row['attribute_id'];
         }
 
-        $data       = array();
-        $entities   = $this->getDefaultEntities();
+        $data = array();
+        $entities = $this->getDefaultEntities();
         $attributes = $entities['rma_item']['attributes'];
         foreach ($attributes as $attributeCode => $attribute) {
             $attributeId = $attributeIds[$rma_item][$attributeCode];
             $attribute['system'] = isset($attribute['system']) ? $attribute['system'] : true;
             $attribute['visible'] = isset($attribute['visible']) ? $attribute['visible'] : true;
             if ($attribute['system'] != true || $attribute['visible'] != false) {
-                $usedInForms = array(
-                    'default',
-                );
+                $usedInForms = array('default');
                 foreach ($usedInForms as $formCode) {
-                    $data[] = array(
-                        'form_code'     => $formCode,
-                        'attribute_id'  => $attributeId
-                    );
+                    $data[] = array('form_code' => $formCode, 'attribute_id' => $attributeId);
                 }
             }
         }
@@ -253,6 +253,8 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     }
 
     /**
+     * Get catalog setup
+     *
      * @param array $data
      * @return \Magento\Catalog\Model\Resource\Setup
      */

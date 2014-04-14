@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Fallback\Rule;
 
 /**
@@ -28,6 +27,8 @@ class Simple implements RuleInterface
     protected $pattern;
 
     /**
+     * Constructor
+     *
      * @param string $pattern
      * @param array $optionalParams
      */
@@ -53,7 +54,7 @@ class Simple implements RuleInterface
                     if (in_array($placeholder, $this->optionalParams)) {
                         return array();
                     } else {
-                        throw new \InvalidArgumentException("Required parameter '$placeholder' was not passed");
+                        throw new \InvalidArgumentException("Required parameter '{$placeholder}' was not passed");
                     }
                 }
                 $pattern = str_replace('<' . $placeholder . '>', $params[$placeholder], $pattern);

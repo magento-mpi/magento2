@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Block\Adminhtml\Integration\Edit\Tab;
 
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
@@ -15,13 +14,13 @@ use Magento\Integration\Model\Integration as IntegrationModel;
 /**
  * Class for handling API section within integration.
  */
-class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Root ACL Resource
      *
-     * @var \Magento\Core\Model\Acl\RootResource
+     * @var \Magento\Acl\RootResource
      */
     protected $_rootResource;
 
@@ -30,7 +29,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * @var \Magento\User\Model\Resource\Rules\CollectionFactory
      */
-    protected $_rulesCollFactory;
+    protected $_rulesCollectionFactory;
 
     /**
      * Acl resource provider
@@ -48,32 +47,32 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Initialize dependencies.
      *
-     * TODO: Fix excessive number of arguments
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     *
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\Acl\RootResource $rootResource
-     * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory
+     * @param \Magento\Acl\RootResource $rootResource
+     * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory
      * @param \Magento\Acl\Resource\ProviderInterface $aclResourceProvider
      * @param \Magento\Webapi\Helper\Data $webapiData
      * @param \Magento\Integration\Helper\Data $integrationData
      * @param array $data
+     *
+     * @todo Fix excessive number of arguments
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\Acl\RootResource $rootResource,
-        \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory,
+        \Magento\Acl\RootResource $rootResource,
+        \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory,
         \Magento\Acl\Resource\ProviderInterface $aclResourceProvider,
         \Magento\Webapi\Helper\Data $webapiData,
         \Magento\Integration\Helper\Data $integrationData,
         array $data = array()
     ) {
         $this->_rootResource = $rootResource;
-        $this->_rulesCollFactory = $rulesCollFactory;
+        $this->_rulesCollectionFactory = $rulesCollectionFactory;
         $this->_aclResourceProvider = $aclResourceProvider;
         $this->_webapiData = $webapiData;
         $this->_integrationData = $integrationData;
@@ -108,8 +107,9 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
     public function canShowTab()
     {
         $integrationData = $this->_coreRegistry->registry(IntegrationController::REGISTRY_KEY_CURRENT_INTEGRATION);
-        return !isset($integrationData[Info::DATA_SETUP_TYPE])
-            || ($integrationData[Info::DATA_SETUP_TYPE] != IntegrationModel::TYPE_CONFIG);
+        return !isset(
+            $integrationData[Info::DATA_SETUP_TYPE]
+        ) || $integrationData[Info::DATA_SETUP_TYPE] != IntegrationModel::TYPE_CONFIG;
     }
 
     /**
@@ -124,6 +124,8 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * Class constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

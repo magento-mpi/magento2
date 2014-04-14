@@ -7,17 +7,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Controller\Adminhtml\Product;
 
 class Group extends \Magento\Backend\App\Action
 {
+    /**
+     * @return void
+     */
     public function saveAction()
     {
         $model = $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Group');
 
-        $model->setAttributeGroupName($this->getRequest()->getParam('attribute_group_name'))
-              ->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'));
+        $model->setAttributeGroupName(
+            $this->getRequest()->getParam('attribute_group_name')
+        )->setAttributeSetId(
+            $this->getRequest()->getParam('attribute_set_id')
+        );
 
         if ($model->itemExists()) {
             $this->messageManager->addError(__('A group with the same name already exists.'));
@@ -30,6 +35,9 @@ class Group extends \Magento\Backend\App\Action
         }
     }
 
+    /**
+     * @return bool
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Catalog::products');

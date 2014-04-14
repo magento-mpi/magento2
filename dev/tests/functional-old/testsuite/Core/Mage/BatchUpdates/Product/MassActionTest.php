@@ -117,7 +117,7 @@ class Core_Mage_BatchUpdates_Product_MassActionTest extends Mage_Selenium_TestCa
      */
     public function updateAllProductsFields()
     {
-        $this->markTestIncomplete('MAGETWO-8851');
+        $this->markTestIncomplete('BUG: "Use Default" jquery-widget does not work correct');
         $productQty = 2;
         $searchData = array();
         for ($i = 1; $i <= $productQty; $i++) {

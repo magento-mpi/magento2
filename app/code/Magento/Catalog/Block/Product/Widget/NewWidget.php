@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Product\Widget;
 
 /**
  * New products widget
@@ -15,31 +16,29 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Product\Widget;
-
-class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
-    implements \Magento\Widget\Block\BlockInterface
+class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Display products type
      */
-    const DISPLAY_TYPE_ALL_PRODUCTS         = 'all_products';
-    const DISPLAY_TYPE_NEW_PRODUCTS         = 'new_products';
+    const DISPLAY_TYPE_ALL_PRODUCTS = 'all_products';
+
+    const DISPLAY_TYPE_NEW_PRODUCTS = 'new_products';
 
     /**
      * Default value whether show pager or not
      */
-    const DEFAULT_SHOW_PAGER                = false;
+    const DEFAULT_SHOW_PAGER = false;
 
     /**
      * Default value for products per page
      */
-    const DEFAULT_PRODUCTS_PER_PAGE         = 5;
+    const DEFAULT_PRODUCTS_PER_PAGE = 5;
 
     /**
      * Name of request parameter for page number value
      */
-    const PAGE_VAR_NAME                     = 'np';
+    const PAGE_VAR_NAME = 'np';
 
     /**
      * Instance of pager block
@@ -50,6 +49,8 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
 
     /**
      * Initialize block's cache and template settings
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -90,12 +91,16 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
         $collection = $this->_productCollectionFactory->create();
         $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
 
-        $collection = $this->_addProductAttributesAndPrices($collection)
-            ->addStoreFilter()
-            ->addAttributeToSort('created_at', 'desc')
-            ->setPageSize($this->getProductsCount())
-            ->setCurPage(1)
-        ;
+        $collection = $this->_addProductAttributesAndPrices(
+            $collection
+        )->addStoreFilter()->addAttributeToSort(
+            'created_at',
+            'desc'
+        )->setPageSize(
+            $this->getProductsCount()
+        )->setCurPage(
+            1
+        );
         return $collection;
     }
 
@@ -106,11 +111,14 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
      */
     public function getCacheKeyInfo()
     {
-        return array_merge(parent::getCacheKeyInfo(), array(
-            $this->getDisplayType(),
-            $this->getProductsPerPage(),
-            intval($this->getRequest()->getParam(self::PAGE_VAR_NAME))
-        ));
+        return array_merge(
+            parent::getCacheKeyInfo(),
+            array(
+                $this->getDisplayType(),
+                $this->getProductsPerPage(),
+                intval($this->getRequest()->getParam(self::PAGE_VAR_NAME))
+            )
+        );
     }
 
     /**
@@ -174,16 +182,26 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
     {
         if ($this->showPager()) {
             if (!$this->_pager) {
-                $this->_pager = $this->getLayout()
-                    ->createBlock('Magento\Catalog\Block\Product\Widget\Html\Pager', 'widget.new.product.list.pager');
+                $this->_pager = $this->getLayout()->createBlock(
+                    'Magento\Catalog\Block\Product\Widget\Html\Pager',
+                    'widget.new.product.list.pager'
+                );
 
-                $this->_pager->setUseContainer(true)
-                    ->setShowAmounts(true)
-                    ->setShowPerPage(false)
-                    ->setPageVarName(self::PAGE_VAR_NAME)
-                    ->setLimit($this->getProductsPerPage())
-                    ->setTotalLimit($this->getProductsCount())
-                    ->setCollection($this->getProductCollection());
+                $this->_pager->setUseContainer(
+                    true
+                )->setShowAmounts(
+                    true
+                )->setShowPerPage(
+                    false
+                )->setPageVarName(
+                    self::PAGE_VAR_NAME
+                )->setLimit(
+                    $this->getProductsPerPage()
+                )->setTotalLimit(
+                    $this->getProductsCount()
+                )->setCollection(
+                    $this->getProductCollection()
+                );
             }
             if ($this->_pager instanceof \Magento\View\Element\AbstractBlock) {
                 return $this->_pager->toHtml();

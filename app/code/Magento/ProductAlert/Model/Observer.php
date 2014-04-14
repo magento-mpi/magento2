@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\ProductAlert\Model;
 
 /**
  * ProductAlert observer
@@ -16,36 +16,34 @@
  * @package    Magento_ProductAlert
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ProductAlert\Model;
-
 class Observer
 {
     /**
      * Error email template configuration
      */
-    const XML_PATH_ERROR_TEMPLATE   = 'catalog/productalert_cron/error_email_template';
+    const XML_PATH_ERROR_TEMPLATE = 'catalog/productalert_cron/error_email_template';
 
     /**
      * Error email identity configuration
      */
-    const XML_PATH_ERROR_IDENTITY   = 'catalog/productalert_cron/error_email_identity';
+    const XML_PATH_ERROR_IDENTITY = 'catalog/productalert_cron/error_email_identity';
 
     /**
      * 'Send error emails to' configuration
      */
-    const XML_PATH_ERROR_RECIPIENT  = 'catalog/productalert_cron/error_email';
+    const XML_PATH_ERROR_RECIPIENT = 'catalog/productalert_cron/error_email';
 
     /**
      * Allow price alert
      *
      */
-    const XML_PATH_PRICE_ALLOW      = 'catalog/productalert/allow_price';
+    const XML_PATH_PRICE_ALLOW = 'catalog/productalert/allow_price';
 
     /**
      * Allow stock alert
      *
      */
-    const XML_PATH_STOCK_ALLOW      = 'catalog/productalert/allow_stock';
+    const XML_PATH_STOCK_ALLOW = 'catalog/productalert/allow_stock';
 
     /**
      * Website collection array
@@ -71,12 +69,12 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -96,7 +94,7 @@ class Observer
     protected $_productFactory;
 
     /**
-     * @var \Magento\Core\Model\DateFactory
+     * @var \Magento\Stdlib\DateTime\DateTimeFactory
      */
     protected $_dateFactory;
 
@@ -106,14 +104,9 @@ class Observer
     protected $_stockColFactory;
 
     /**
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_translate;
-
-    /**
-     * @var \Magento\Email\Model\TemplateFactory
-     */
-    protected $_templateFactory;
+    protected $_transportBuilder;
 
     /**
      * @var \Magento\ProductAlert\Model\EmailFactory
@@ -121,42 +114,47 @@ class Observer
     protected $_emailFactory;
 
     /**
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\DateFactory $dateFactory
+     * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\ProductAlert\Model\Resource\Stock\CollectionFactory $stockColFactory
-     * @param \Magento\Core\Model\Translate $translate
-     * @param \Magento\Email\Model\TemplateFactory $templateFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\ProductAlert\Model\EmailFactory $emailFactory
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\DateFactory $dateFactory,
+        \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\ProductAlert\Model\Resource\Stock\CollectionFactory $stockColFactory,
-        \Magento\Core\Model\Translate $translate,
-        \Magento\Email\Model\TemplateFactory $templateFactory,
-        \Magento\ProductAlert\Model\EmailFactory $emailFactory
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\ProductAlert\Model\EmailFactory $emailFactory,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation
     ) {
         $this->_taxData = $taxData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_priceColFactory = $priceColFactory;
         $this->_customerFactory = $customerFactory;
         $this->_productFactory = $productFactory;
         $this->_dateFactory = $dateFactory;
         $this->_stockColFactory = $stockColFactory;
-        $this->_translate = $translate;
-        $this->_templateFactory = $templateFactory;
+        $this->_transportBuilder = $transportBuilder;
         $this->_emailFactory = $emailFactory;
+        $this->inlineTranslation = $inlineTranslation;
     }
 
     /**
@@ -169,8 +167,7 @@ class Observer
         if (is_null($this->_websites)) {
             try {
                 $this->_websites = $this->_storeManager->getWebsites();
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $this->_errors[] = $e->getMessage();
             }
         }
@@ -181,29 +178,30 @@ class Observer
      * Process price emails
      *
      * @param \Magento\ProductAlert\Model\Email $email
-     * @return \Magento\ProductAlert\Model\Observer
+     * @return $this
      */
     protected function _processPrice(\Magento\ProductAlert\Model\Email $email)
     {
         $email->setType('price');
         foreach ($this->_getWebsites() as $website) {
-            /* @var $website \Magento\Core\Model\Website */
+            /* @var $website \Magento\Store\Model\Website */
 
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
             }
-            if (!$this->_coreStoreConfig->getConfig(
+            if (!$this->_scopeConfig->getValue(
                 self::XML_PATH_PRICE_ALLOW,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $website->getDefaultGroup()->getDefaultStore()->getId()
-            )) {
+            )
+            ) {
                 continue;
             }
             try {
-                $collection = $this->_priceColFactory->create()
-                    ->addWebsiteFilter($website->getId())
-                    ->setCustomerOrder();
-            }
-            catch (\Exception $e) {
+                $collection = $this->_priceColFactory->create()->addWebsiteFilter(
+                    $website->getId()
+                )->setCustomerOrder();
+            } catch (\Exception $e) {
                 $this->_errors[] = $e->getMessage();
                 return $this;
             }
@@ -227,9 +225,11 @@ class Observer
                         $customer = $previousCustomer;
                     }
 
-                    $product = $this->_productFactory->create()
-                        ->setStoreId($website->getDefaultStore()->getId())
-                        ->load($alert->getProductId());
+                    $product = $this->_productFactory->create()->setStoreId(
+                        $website->getDefaultStore()->getId()
+                    )->load(
+                        $alert->getProductId()
+                    );
                     if (!$product) {
                         continue;
                     }
@@ -246,16 +246,14 @@ class Observer
                         $alert->setStatus(1);
                         $alert->save();
                     }
-                }
-                catch (\Exception $e) {
+                } catch (\Exception $e) {
                     $this->_errors[] = $e->getMessage();
                 }
             }
             if ($previousCustomer) {
                 try {
                     $email->send();
-                }
-                catch (\Exception $e) {
+                } catch (\Exception $e) {
                     $this->_errors[] = $e->getMessage();
                 }
             }
@@ -267,31 +265,33 @@ class Observer
      * Process stock emails
      *
      * @param \Magento\ProductAlert\Model\Email $email
-     * @return \Magento\ProductAlert\Model\Observer
+     * @return $this
      */
     protected function _processStock(\Magento\ProductAlert\Model\Email $email)
     {
         $email->setType('stock');
 
         foreach ($this->_getWebsites() as $website) {
-            /* @var $website \Magento\Core\Model\Website */
+            /* @var $website \Magento\Store\Model\Website */
 
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
             }
-            if (!$this->_coreStoreConfig->getConfig(
+            if (!$this->_scopeConfig->getValue(
                 self::XML_PATH_STOCK_ALLOW,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $website->getDefaultGroup()->getDefaultStore()->getId()
-            )) {
+            )
+            ) {
                 continue;
             }
             try {
-                $collection = $this->_stockColFactory->create()
-                    ->addWebsiteFilter($website->getId())
-                    ->addStatusFilter(0)
-                    ->setCustomerOrder();
-            }
-            catch (\Exception $e) {
+                $collection = $this->_stockColFactory->create()->addWebsiteFilter(
+                    $website->getId()
+                )->addStatusFilter(
+                    0
+                )->setCustomerOrder();
+            } catch (\Exception $e) {
                 $this->_errors[] = $e->getMessage();
                 return $this;
             }
@@ -315,9 +315,11 @@ class Observer
                         $customer = $previousCustomer;
                     }
 
-                    $product = $this->_productFactory->create()
-                        ->setStoreId($website->getDefaultStore()->getId())
-                        ->load($alert->getProductId());
+                    $product = $this->_productFactory->create()->setStoreId(
+                        $website->getDefaultStore()->getId()
+                    )->load(
+                        $alert->getProductId()
+                    );
                     /* @var $product \Magento\Catalog\Model\Product */
                     if (!$product) {
                         continue;
@@ -333,8 +335,7 @@ class Observer
                         $alert->setStatus(1);
                         $alert->save();
                     }
-                }
-                catch (\Exception $e) {
+                } catch (\Exception $e) {
                     $this->_errors[] = $e->getMessage();
                 }
             }
@@ -342,8 +343,7 @@ class Observer
             if ($previousCustomer) {
                 try {
                     $email->send();
-                }
-                catch (\Exception $e) {
+                } catch (\Exception $e) {
                     $this->_errors[] = $e->getMessage();
                 }
             }
@@ -355,28 +355,48 @@ class Observer
     /**
      * Send email to administrator if error
      *
-     * @return \Magento\ProductAlert\Model\Observer
+     * @return $this
      */
     protected function _sendErrorEmail()
     {
         if (count($this->_errors)) {
-            if (!$this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE)) {
+            if (!$this->_scopeConfig->getValue(
+                self::XML_PATH_ERROR_TEMPLATE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
+            ) {
                 return $this;
             }
 
-            $$this->_translate->setTranslateInline(false);
+            $this->inlineTranslation->suspend();
 
-            /* @var $emailTemplate \Magento\Email\Model\Template */
-            $this->_templateFactory->create()->setDesignConfig(array('area'  => 'backend'))
-                ->sendTransactional(
-                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE),
-                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_IDENTITY),
-                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT),
-                    null,
-                    array('warnings' => join("\n", $this->_errors))
-                );
+            $transport = $this->_transportBuilder->setTemplateIdentifier(
+                $this->_scopeConfig->getValue(
+                    self::XML_PATH_ERROR_TEMPLATE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            )->setTemplateOptions(
+                array(
+                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    'store' => $this->_storeManager->getStore()->getId()
+                )
+            )->setTemplateVars(
+                array('warnings' => join("\n", $this->_errors))
+            )->setFrom(
+                $this->_scopeConfig->getValue(
+                    self::XML_PATH_ERROR_IDENTITY,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            )->addTo(
+                $this->_scopeConfig->getValue(
+                    self::XML_PATH_ERROR_RECIPIENT,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            )->getTransport();
 
-            $$this->_translate->setTranslateInline(true);
+            $transport->sendMessage();
+
+            $this->inlineTranslation->resume();
             $this->_errors[] = array();
         }
         return $this;
@@ -385,7 +405,7 @@ class Observer
     /**
      * Run process send product alerts
      *
-     * @return \Magento\ProductAlert\Model\Observer
+     * @return $this
      */
     public function process()
     {

@@ -7,114 +7,103 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Helper;
+
+use Magento\App\Helper\Context;
+use Magento\CatalogPermissions\App\ConfigInterface;
+use Magento\Customer\Model\Session;
 
 /**
  * Base helper
  */
 class Data extends \Magento\App\Helper\AbstractHelper
 {
-    const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'catalog/magento_catalogpermissions/grant_catalog_category_view';
-    const XML_PATH_GRANT_CATALOG_PRODUCT_PRICE = 'catalog/magento_catalogpermissions/grant_catalog_product_price';
-    const XML_PATH_GRANT_CHECKOUT_ITEMS = 'catalog/magento_catalogpermissions/grant_checkout_items';
-    const XML_PATH_DENY_CATALOG_SEARCH = 'catalog/magento_catalogpermissions/deny_catalog_search';
-    const XML_PATH_LANDING_PAGE = 'catalog/magento_catalogpermissions/restricted_landing_page';
-
-    const GRANT_ALL             = 1;
-    const GRANT_CUSTOMER_GROUP  = 2;
-    const GRANT_NONE            = 0;
-
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var ConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $config;
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var Session
      */
-    protected $_customerSession;
+    protected $customerSession;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param Context $context
+     * @param Session $customerSession
+     * @param ConfigInterface $config
      */
-    public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-    ) {
-        $this->_customerSession = $customerSession;
-        $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context);
-    }
-
-    /**
-     * Retrieve config value for permission enabled
-     *
-     * @return boolean
-     */
-    public function isEnabled()
+    public function __construct(Context $context, Session $customerSession, ConfigInterface $config)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLED);
+        $this->customerSession = $customerSession;
+        $this->config = $config;
+        parent::__construct($context);
     }
 
     /**
      * Retrieve config value for category access permission
      *
-     * @param int $customerGroupId
      * @param int $storeId
-     * @return boolean
+     * @param int $customerGroupId
+     * @return bool
      */
     public function isAllowedCategoryView($storeId = null, $customerGroupId = null)
     {
-        return $this->_getIsAllowedGrant(self::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW, $storeId, $customerGroupId);
+        return $this->isAllowedGrant(
+            $this->config->getCatalogCategoryViewMode($storeId),
+            $this->config->getCatalogCategoryViewGroups($storeId),
+            $customerGroupId
+        );
     }
 
     /**
      * Retrieve config value for product price permission
      *
-     * @param int $customerGroupId
      * @param int $storeId
-     * @return boolean
+     * @param int $customerGroupId
+     * @return bool
      */
     public function isAllowedProductPrice($storeId = null, $customerGroupId = null)
     {
-        return $this->_getIsAllowedGrant(self::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE, $storeId, $customerGroupId);
+        return $this->isAllowedGrant(
+            $this->config->getCatalogProductPriceMode($storeId),
+            $this->config->getCatalogProductPriceGroups($storeId),
+            $customerGroupId
+        );
     }
 
     /**
      * Retrieve config value for checkout items permission
      *
-     * @param int $customerGroupId
      * @param int $storeId
-     * @return boolean
+     * @param int $customerGroupId
+     * @return bool
      */
     public function isAllowedCheckoutItems($storeId = null, $customerGroupId = null)
     {
-        return $this->_getIsAllowedGrant(self::XML_PATH_GRANT_CHECKOUT_ITEMS, $storeId, $customerGroupId);
+        return $this->isAllowedGrant(
+            $this->config->getCheckoutItemsMode($storeId),
+            $this->config->getCheckoutItemsGroups($storeId),
+            $customerGroupId
+        );
     }
-
 
     /**
      * Retrieve config value for catalog search availability
      *
-     * @return boolean
+     * @return bool
      */
     public function isAllowedCatalogSearch()
     {
-        $groups = trim($this->_coreStoreConfig->getConfig(self::XML_PATH_DENY_CATALOG_SEARCH));
+        $groups = $this->config->getCatalogSearchDenyGroups();
 
-        if ($groups === '') {
+        if (!$groups) {
             return true;
         }
 
-        $groups = explode(',', $groups);
-
-        return !in_array($this->_customerSession->getCustomerGroupId(), $groups);
+        return !in_array($this->customerSession->getCustomerGroupId(), $groups);
     }
 
     /**
@@ -124,36 +113,31 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getLandingPageUrl()
     {
-        return $this->_getUrl('', array('_direct' => $this->_coreStoreConfig->getConfig(self::XML_PATH_LANDING_PAGE)));
+        return $this->_getUrl('', array('_direct' => $this->config->getRestrictedLandingPage()));
     }
 
     /**
      * Retrieve is allowed grant from configuration
      *
-     * @param string $configPath
-     * @return boolean
+     * @param string $mode
+     * @param string[] $groups
+     * @param int|null $customerGroupId
+     * @return bool
      */
-    protected function _getIsAllowedGrant($configPath, $storeId = null, $customerGroupId = null)
+    protected function isAllowedGrant($mode, $groups, $customerGroupId = null)
     {
-        if ($this->_coreStoreConfig->getConfig($configPath, $storeId) == self::GRANT_CUSTOMER_GROUP) {
-            $groups = trim($this->_coreStoreConfig->getConfig($configPath . '_groups', $storeId));
-
-            if ($groups === '') {
+        if ($mode == ConfigInterface::GRANT_CUSTOMER_GROUP) {
+            if (!$groups) {
                 return false;
             }
 
-            $groups = explode(',', $groups);
-
             if ($customerGroupId === null) {
-                $customerGroupId = $this->_customerSession->getCustomerGroupId();
+                $customerGroupId = $this->customerSession->getCustomerGroupId();
             }
 
-            return in_array(
-                $customerGroupId,
-                $groups
-            );
+            return in_array($customerGroupId, $groups);
         }
 
-        return $this->_coreStoreConfig->getConfig($configPath) == self::GRANT_ALL;
+        return $mode == ConfigInterface::GRANT_ALL;
     }
 }

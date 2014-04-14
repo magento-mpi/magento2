@@ -7,25 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource\Order\Grid;
 
 /**
  * Sales orders statuses option array
  */
-namespace Magento\Sales\Model\Resource\Order\Grid;
-
-class StatusesArray implements \Magento\Core\Model\Option\ArrayInterface
+class StatusesArray implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Sales\Model\Resource\Order\Status\CollectionFactory
      */
-    protected $_statusCollFactory;
+    protected $_statusCollectionFactory;
 
     /**
-     * @param \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $statusCollFactory
+     * @param \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $statusCollectionFactory
      */
-    public function __construct(\Magento\Sales\Model\Resource\Order\Status\CollectionFactory $statusCollFactory)
+    public function __construct(\Magento\Sales\Model\Resource\Order\Status\CollectionFactory $statusCollectionFactory)
     {
-        $this->_statusCollFactory = $statusCollFactory;
+        $this->_statusCollectionFactory = $statusCollectionFactory;
     }
 
     /**
@@ -35,7 +34,7 @@ class StatusesArray implements \Magento\Core\Model\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $statuses = $this->_statusCollFactory->create()->toOptionHash();
+        $statuses = $this->_statusCollectionFactory->create()->toOptionHash();
         return $statuses;
     }
 }

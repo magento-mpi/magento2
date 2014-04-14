@@ -7,18 +7,19 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Event;
+
+use Magento\Event;
 
 class Observer extends \Magento\Object
 {
     /**
      * Checks the observer's event_regex against event's name
      *
-     * @param \Magento\Event $event
+     * @param Event $event
      * @return boolean
      */
-    public function isValidFor(\Magento\Event $event)
+    public function isValidFor(Event $event)
     {
         return $this->getEventName() === $event->getName();
     }
@@ -26,10 +27,10 @@ class Observer extends \Magento\Object
     /**
      * Dispatches an event to observer's callback
      *
-     * @param \Magento\Event $event
-     * @return \Magento\Event\Observer
+     * @param Event $event
+     * @return $this
      */
-    public function dispatch(\Magento\Event $event)
+    public function dispatch(Event $event)
     {
         if (!$this->isValidFor($event)) {
             return $this;
@@ -38,7 +39,11 @@ class Observer extends \Magento\Object
         $callback = $this->getCallback();
         $this->setEvent($event);
 
-        $_profilerKey = 'OBSERVER: '.(is_object($callback[0]) ? get_class($callback[0]) : (string)$callback[0]).' -> '.$callback[1];
+        $_profilerKey = 'OBSERVER: ' . (is_object(
+            $callback[0]
+        ) ? get_class(
+            $callback[0]
+        ) : (string)$callback[0]) . ' -> ' . $callback[1];
         \Magento\Profiler::start($_profilerKey);
         call_user_func($callback, $this);
         \Magento\Profiler::stop($_profilerKey);
@@ -46,31 +51,52 @@ class Observer extends \Magento\Object
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->getData('name');
     }
 
+    /**
+     * @param string $data
+     * @return \Magento\Object
+     */
     public function setName($data)
     {
         return $this->setData('name', $data);
     }
 
+    /**
+     * @return string
+     */
     public function getEventName()
     {
         return $this->getData('event_name');
     }
 
+    /**
+     * @param string $data
+     * @return \Magento\Object
+     */
     public function setEventName($data)
     {
         return $this->setData('event_name', $data);
     }
 
+    /**
+     * @return string
+     */
     public function getCallback()
     {
         return $this->getData('callback');
     }
 
+    /**
+     * @param string $data
+     * @return \Magento\Object
+     */
     public function setCallback($data)
     {
         return $this->setData('callback', $data);
@@ -79,13 +105,17 @@ class Observer extends \Magento\Object
     /**
      * Get observer event object
      *
-     * @return \Magento\Event
+     * @return Event
      */
     public function getEvent()
     {
         return $this->getData('event');
     }
 
+    /**
+     * @param mixed $data
+     * @return \Magento\Object
+     */
     public function setEvent($data)
     {
         return $this->setData('event', $data);

@@ -9,13 +9,19 @@
  */
 namespace Magento\Validator;
 
+use Magento\Validator\Constraint\Option;
+use Magento\Validator\Constraint\OptionInterface;
+use Magento\Validator\Constraint\Option\Callback;
+
 class Config extends \Magento\Config\AbstractXml
 {
     /**#@+
      * Constraints types
      */
     const CONSTRAINT_TYPE_ENTITY = 'entity';
+
     const CONSTRAINT_TYPE_PROPERTY = 'property';
+
     /**#@-*/
 
     /**
@@ -32,10 +38,8 @@ class Config extends \Magento\Config\AbstractXml
      * @param array $configFiles
      * @param \Magento\Validator\UniversalFactory $builderFactory
      */
-    public function __construct(
-        $configFiles,
-        \Magento\Validator\UniversalFactory $builderFactory
-    ) {
+    public function __construct($configFiles, \Magento\Validator\UniversalFactory $builderFactory)
+    {
         parent::__construct($configFiles);
         $this->_builderFactory = $builderFactory;
     }
@@ -56,12 +60,14 @@ class Config extends \Magento\Config\AbstractXml
         }
 
         if (!isset($this->_data[$entityName][$groupName])) {
-            throw new \InvalidArgumentException(sprintf('Unknown validation group "%s" in entity "%s"', $groupName,
-                $entityName));
+            throw new \InvalidArgumentException(
+                sprintf('Unknown validation group "%s" in entity "%s"', $groupName, $entityName)
+            );
         }
 
-        $builderClass = isset($this->_data[$entityName][$groupName]['builder'])
-            ? $this->_data[$entityName][$groupName]['builder'] : $this->_defaultBuilderClass;
+        $builderClass = isset(
+            $this->_data[$entityName][$groupName]['builder']
+        ) ? $this->_data[$entityName][$groupName]['builder'] : $this->_defaultBuilderClass;
 
         if (!class_exists($builderClass)) {
             throw new \InvalidArgumentException(sprintf('Builder class "%s" was not found', $builderClass));
@@ -92,9 +98,7 @@ class Config extends \Magento\Config\AbstractXml
      */
     public function createValidator($entityName, $groupName, array $builderConfig = null)
     {
-        return $this
-            ->createValidatorBuilder($entityName, $groupName, $builderConfig)
-            ->createValidator();
+        return $this->createValidatorBuilder($entityName, $groupName, $builderConfig)->createValidator();
     }
 
     /**
@@ -137,9 +141,7 @@ class Config extends \Magento\Config\AbstractXml
                 }
             }
 
-            $result[$group->getAttribute('name')] = array(
-                'constraints' => $groupConstraints
-            );
+            $result[$group->getAttribute('name')] = array('constraints' => $groupConstraints);
             if ($group->hasAttribute('builder')) {
                 $result[$group->getAttribute('name')]['builder'] = $group->getAttribute('builder');
             }
@@ -175,7 +177,7 @@ class Config extends \Magento\Config\AbstractXml
                             'class' => $constraint->getAttribute('class'),
                             'options' => $this->_extractConstraintOptions($constraint),
                             'property' => $property->getAttribute('name'),
-                            'type' => self::CONSTRAINT_TYPE_PROPERTY,
+                            'type' => self::CONSTRAINT_TYPE_PROPERTY
                         );
                     }
                 }
@@ -189,7 +191,7 @@ class Config extends \Magento\Config\AbstractXml
                         'alias' => $constraint->getAttribute('alias'),
                         'class' => $constraint->getAttribute('class'),
                         'options' => $this->_extractConstraintOptions($constraint),
-                        'type' => self::CONSTRAINT_TYPE_ENTITY,
+                        'type' => self::CONSTRAINT_TYPE_ENTITY
                     );
                 }
             }
@@ -280,7 +282,7 @@ class Config extends \Magento\Config\AbstractXml
      * Get arguments.
      *
      * @param array $children
-     * @return array|null
+     * @return OptionInterface[]|null
      */
     protected function _readArguments($children)
     {
@@ -297,9 +299,8 @@ class Config extends \Magento\Config\AbstractXml
                     $arguments[] = $options;
                 } else {
                     $argument = $node->textContent;
-                    $arguments[] = new \Magento\Validator\Constraint\Option(trim($argument));
+                    $arguments[] = new Option(trim($argument));
                 }
-
             }
             return $arguments;
         }
@@ -310,7 +311,7 @@ class Config extends \Magento\Config\AbstractXml
      * Get callback rules.
      *
      * @param array $children
-     * @return array|null
+     * @return Callback[]|null
      */
     protected function _readCallback($children)
     {
@@ -318,10 +319,11 @@ class Config extends \Magento\Config\AbstractXml
             $callbacks = array();
             /** @var $callbackData \DOMElement */
             foreach ($children['callback'] as $callbackData) {
-                $callbacks[] = new \Magento\Validator\Constraint\Option\Callback(array(
-                    trim($callbackData->getAttribute('class')),
-                    trim($callbackData->getAttribute('method'))
-                ), null, true);
+                $callbacks[] = new Callback(
+                    array(trim($callbackData->getAttribute('class')), trim($callbackData->getAttribute('method'))),
+                    null,
+                    true
+                );
             }
             return $callbacks;
         }
@@ -332,7 +334,7 @@ class Config extends \Magento\Config\AbstractXml
      * Get options array.
      *
      * @param array $children
-     * @return array|null
+     * @return Option|null
      */
     protected function _readOptions($children)
     {
@@ -347,7 +349,7 @@ class Config extends \Magento\Config\AbstractXml
                     $data[] = $value;
                 }
             }
-            return new \Magento\Validator\Constraint\Option($data);
+            return new Option($data);
         }
         return null;
     }
@@ -380,9 +382,7 @@ class Config extends \Magento\Config\AbstractXml
             foreach ($children['method'] as $method) {
                 $children = $this->_collectChildren($method);
                 $methodName = $method->getAttribute('name');
-                $methodOptions = array(
-                    'method' => $methodName
-                );
+                $methodOptions = array('method' => $methodName);
                 $arguments = $this->_readArguments($children);
                 if ($arguments) {
                     $methodOptions['arguments'] = $arguments;
@@ -411,7 +411,8 @@ class Config extends \Magento\Config\AbstractXml
      */
     protected function _getInitialXml()
     {
-        return '<?xml version="1.0" encoding="UTF-8"?><validation></validation>';
+        return '<?xml version="1.0" encoding="UTF-8"?>'.
+               '<validation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"></validation>';
     }
 
     /**
@@ -428,7 +429,7 @@ class Config extends \Magento\Config\AbstractXml
             '/validation/entity/rules/rule/property_constraints/property/constraint' => 'class',
             '/validation/entity/rules/rule/property_constraints/property' => 'name',
             '/validation/entity/groups/group' => 'name',
-            '/validation/entity/groups/group/uses/use' => 'rule',
+            '/validation/entity/groups/group/uses/use' => 'rule'
         );
     }
 }

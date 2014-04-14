@@ -7,18 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Tax\Model\Sales\Order\Tax;
 
 /**
  * @category    Magento
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Tax\Model\Sales\Order\Tax;
-
-class Item extends \Magento\Core\Model\AbstractModel
+class Item extends \Magento\Model\AbstractModel
 {
     /**
      * Initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

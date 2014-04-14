@@ -2,25 +2,35 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Tax\Model\TaxClass\Type;
 
 /**
  * Customer Tax Class
  */
-namespace Magento\Tax\Model\TaxClass\Type;
-
-class Customer
-    extends \Magento\Tax\Model\TaxClass\AbstractType
-    implements \Magento\Tax\Model\TaxClass\Type\TypeInterface
+class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
 {
     /**
      * @var \Magento\Customer\Model\Group
      */
     protected $_modelCustomerGroup;
+
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     */
+    protected $groupService;
+
+    /**
+     * @var \Magento\Service\V1\Data\FilterBuilder
+     */
+    protected $filterBuilder;
+
+    /**
+     * @var \Magento\Service\V1\Data\SearchCriteriaBuilder
+     */
+    protected $searchCriteriaBuilder;
 
     /**
      * Class Type
@@ -31,28 +41,36 @@ class Customer
 
     /**
      * @param \Magento\Tax\Model\Calculation\Rule $calculationRule
-     * @param \Magento\Customer\Model\Group $modelCustomerGroup
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
+     * @param \Magento\Service\V1\Data\FilterBuilder $filterBuilder
+     * @param \Magento\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param array $data
      */
     public function __construct(
         \Magento\Tax\Model\Calculation\Rule $calculationRule,
-        \Magento\Customer\Model\Group $modelCustomerGroup,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
+        \Magento\Service\V1\Data\FilterBuilder $filterBuilder,
+        \Magento\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
         array $data = array()
     ) {
         parent::__construct($calculationRule, $data);
-        $this->_modelCustomerGroup = $modelCustomerGroup;
+        $this->groupService = $groupService;
+        $this->filterBuilder = $filterBuilder;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
     /**
-     * Get Customer Groups with this tax class
-     *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * {@inheritdoc}
      */
-    public function getAssignedToObjects()
+    public function isAssignedToObjects()
     {
-        return $this->_modelCustomerGroup
-            ->getCollection()
-            ->addFieldToFilter('tax_class_id', $this->getId());
+        $searchCriteria = $this->searchCriteriaBuilder->addFilter(
+            [$this->filterBuilder->setField('tax_class_id')->setValue($this->getId())->create()]
+        )->create();
+
+        $result = $this->groupService->searchGroups($searchCriteria);
+        $items = $result->getItems();
+        return !empty($items);
     }
 
     /**

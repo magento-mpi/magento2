@@ -24,12 +24,17 @@ class Key extends \Magento\Backend\App\Action
     protected function _checkIsLocalXmlWriteable()
     {
         /** @var \Magento\Filesystem\Directory\Write $configDirectory */
-        $configDirectory = $this->_objectManager->get('Magento\Filesystem')
-            ->getDirectoryWrite(\Magento\Filesystem::CONFIG);
+        $configDirectory = $this->_objectManager->get(
+            'Magento\App\Filesystem'
+        )->getDirectoryWrite(
+            \Magento\App\Filesystem::CONFIG_DIR
+        );
         if (!$configDirectory->isWritable('local.xml')) {
             $this->messageManager->addError(
-                __('To enable a key change this file must be writable: %1.',
-                    $configDirectory->getAbsolutePath('local.xml'))
+                __(
+                    'To enable a key change this file must be writable: %1.',
+                    $configDirectory->getAbsolutePath('local.xml')
+                )
             );
             return false;
         }
@@ -39,6 +44,7 @@ class Key extends \Magento\Backend\App\Action
     /**
      * Render main page with form
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -48,8 +54,14 @@ class Key extends \Magento\Backend\App\Action
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Pci::system_crypt_key');
 
-        if (($formBlock = $this->_view->getLayout()->getBlock('pci.crypt.key.form'))
-            && $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true)) {
+        if (($formBlock = $this->_view->getLayout()->getBlock(
+            'pci.crypt.key.form'
+        )) && ($data = $this->_objectManager->get(
+            'Magento\Backend\Model\Session'
+        )->getFormData(
+            true
+        ))
+        ) {
             /* @var \Magento\Pci\Block\Adminhtml\Crypt\Key\Form $formBlock */
             $formBlock->setFormData($data);
         }
@@ -60,6 +72,7 @@ class Key extends \Magento\Backend\App\Action
     /**
      * Process saving new encryption key
      *
+     * @return void
      */
     public function saveAction()
     {
@@ -73,24 +86,22 @@ class Key extends \Magento\Backend\App\Action
                 if (empty($key)) {
                     throw new \Exception(__('Please enter an encryption key.'));
                 }
-                $this->_objectManager->get('Magento\Core\Helper\Data')->validateKey($key);
+                $this->_objectManager->get('Magento\Pci\Model\Encryption')->validateKey($key);
             }
 
-            $newKey = $this->_objectManager->get('Magento\Pci\Model\Resource\Key\Change')
-                ->changeEncryptionKey($key);
-            $this->_objectManager->get('Magento\Backend\Model\Session')
-                    ->addSuccess(
-                __('The encryption key has been changed.')
-            );
+            $newKey = $this->_objectManager->get('Magento\Pci\Model\Resource\Key\Change')->changeEncryptionKey($key);
+            $this->messageManager->addSuccess(__('The encryption key has been changed.'));
 
             if (!$key) {
                 $this->messageManager->addNotice(
-                    __('This is your new encryption key: <span style="font-family:monospace;">%1</span>. Be sure to write it down and take good care of it!', $newKey)
+                    __(
+                        'This is your new encryption key: <span style="font-family:monospace;">%1</span>. Be sure to write it down and take good care of it!',
+                        $newKey
+                    )
                 );
             }
-            $this->_objectManager->get('Magento\Core\Model\App')->cleanCache();
-        }
-        catch (\Exception $e) {
+            $this->_objectManager->get('Magento\App\CacheInterface')->clean();
+        } catch (\Exception $e) {
             if ($message = $e->getMessage()) {
                 $this->messageManager->addError($e->getMessage());
             }

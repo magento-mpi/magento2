@@ -9,22 +9,19 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Catalog\Test\Block\Product\Grouped;
 
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Tab;
-use Magento\Catalog\Test\Block\Product\Grouped\AssociatedProducts\ListAssociatedProducts;
 
+/**
+ * Class AssociatedProducts
+ *
+ * @package Magento\Catalog\Test\Block\Product\Grouped
+ */
 class AssociatedProducts extends Tab
 {
-    /**
-     * Tab where Grouped options section is placed
-     */
-    const GROUP_PRODUCT_DETAILS = '#product_info_tabs_product-details';
-
     /**
      * 'Create New Option' button
      *
@@ -33,47 +30,68 @@ class AssociatedProducts extends Tab
     protected $addNewOption = '#grouped-product-container>button';
 
     /**
+     * Associated products grid
+     *
+     * @var string
+     */
+    protected $productSearchGrid = '[role=dialog][style*="display: block;"]';
+
+    /**
+     * Associated products list block
+     *
+     * @var string
+     */
+    protected $associatedProductsBlock = '[data-role=grouped-product-grid]';
+
+    /**
+     * Get search grid
+     *
      * @param Element $context
      * @return AssociatedProducts\Search\Grid
      */
-    private function getSearchGridBlock(Element $context = null)
+    protected function getSearchGridBlock(Element $context = null)
     {
         $element = $context ? : $this->_rootElement;
 
-        return Factory::getBlockFactory()
-            ->getMagentoCatalogProductGroupedAssociatedProductsSearchGrid(
-                $element->find('[role=dialog][style*="display: block;"]')
-            );
+        return Factory::getBlockFactory()->getMagentoCatalogProductGroupedAssociatedProductsSearchGrid(
+            $element->find($this->productSearchGrid)
+        );
     }
 
     /**
+     * Get associated products list block
+     *
      * @param Element $context
-     * @return ListAssociatedProducts
+     * @return \Magento\Catalog\Test\Block\Product\Grouped\AssociatedProducts\ListAssociatedProducts
      */
-    private function getListAssociatedProductsBlock(Element $context = null)
+    protected function getListAssociatedProductsBlock(Element $context = null)
     {
         $element = $context ? : $this->_rootElement;
 
-        return Factory::getBlockFactory()
-            ->getMagentoCatalogProductGroupedAssociatedProductsListAssociatedProducts(
-                $element->find("[data-role=grouped-product-grid]")
-            );
+        return Factory::getBlockFactory()->getMagentoCatalogProductGroupedAssociatedProductsListAssociatedProducts(
+            $element->find($this->associatedProductsBlock)
+        );
     }
 
     /**
-     * Fill Grouped options
+     * Fill data to fields on tab
      *
      * @param array $fields
      * @param Element $element
+     * @return $this
      */
     public function fillFormTab(array $fields, Element $element)
     {
-        foreach ($fields['grouped_products']['value'] as $groupedProduct) {
-            $element->find($this->addNewOption)->click();
-            $searchBlock = $this->getSearchGridBlock($element);
-            $searchBlock->searchAndSelect($groupedProduct['search_data']);
-            $searchBlock->addProducts();
-            $this->getListAssociatedProductsBlock()->fillProductOptions($groupedProduct['data']);
+        if (isset($fields['grouped_products'])) {
+            foreach ($fields['grouped_products']['value'] as $groupedProduct) {
+                $element->find($this->addNewOption)->click();
+                $searchBlock = $this->getSearchGridBlock($element);
+                $searchBlock->searchAndSelect($groupedProduct['search_data']);
+                $searchBlock->addProducts();
+                $this->getListAssociatedProductsBlock()->fillProductOptions($groupedProduct['data']);
+            }
         }
+
+        return $this;
     }
 }

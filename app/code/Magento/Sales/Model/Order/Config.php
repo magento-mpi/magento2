@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order;
 
 /**
  * Order configuration model
  */
-namespace Magento\Sales\Model\Order;
-
 class Config
 {
     /**
@@ -33,27 +32,27 @@ class Config
     private $_states;
 
     /**
-     * @var \Magento\Sales\Model\Order\Status
+     * @var Status
      */
     protected $_orderStatusFactory;
 
     /**
      * @var \Magento\Sales\Model\Resource\Order\Status\CollectionFactory
      */
-    protected $_orderStatusCollFactory;
+    protected $_orderStatusCollectionFactory;
 
     /**
      * Constructor
      *
      * @param \Magento\Sales\Model\Order\StatusFactory $orderStatusFactory
-     * @param \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollFactory
+     * @param \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollectionFactory
      */
     public function __construct(
         \Magento\Sales\Model\Order\StatusFactory $orderStatusFactory,
-        \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollFactory
+        \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollectionFactory
     ) {
         $this->_orderStatusFactory = $orderStatusFactory;
-        $this->_orderStatusCollFactory = $orderStatusCollFactory;
+        $this->_orderStatusCollectionFactory = $orderStatusCollectionFactory;
     }
 
     /**
@@ -62,14 +61,14 @@ class Config
     protected function _getCollection()
     {
         if ($this->_collection == null) {
-            $this->_collection = $this->_orderStatusCollFactory->create()->joinStates();
+            $this->_collection = $this->_orderStatusCollectionFactory->create()->joinStates();
         }
         return $this->_collection;
     }
 
     /**
      * @param string $state
-     * @return \Magento\Sales\Model\Order\Status
+     * @return Status|null
      */
     protected function _getState($state)
     {
@@ -125,7 +124,6 @@ class Config
         return $state;
     }
 
-
     /**
      * Retrieve all statuses
      *
@@ -133,7 +131,7 @@ class Config
      */
     public function getStatuses()
     {
-        $statuses = $this->_orderStatusCollFactory->create()->toOptionHash();
+        $statuses = $this->_orderStatusCollectionFactory->create()->toOptionHash();
         return $statuses;
     }
 
@@ -150,7 +148,6 @@ class Config
         }
         return $states;
     }
-
 
     /**
      * Retrieve statuses available for state
@@ -175,9 +172,7 @@ class Config
         foreach ($state as $_state) {
             $stateNode = $this->_getState($_state);
             if ($stateNode) {
-                $collection = $this->_orderStatusCollFactory->create()
-                    ->addStateFilter($_state)
-                    ->orderByLabel();
+                $collection = $this->_orderStatusCollectionFactory->create()->addStateFilter($_state)->orderByLabel();
                 foreach ($collection as $item) {
                     $status = $item->getData('status');
                     if ($addLabels) {
@@ -221,11 +216,11 @@ class Config
     {
         $visibility = (bool)$visibility;
         if ($this->_states == null) {
-            foreach($this->_getCollection() as $item) {
+            foreach ($this->_getCollection() as $item) {
                 $visible = (bool)$item->getData('visible_on_front');
                 $this->_states[$visible][] = $item->getData('state');
             }
         }
-        return  $this->_states[$visibility];
+        return $this->_states[$visibility];
     }
 }

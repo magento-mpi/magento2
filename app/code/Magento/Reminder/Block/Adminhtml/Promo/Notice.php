@@ -17,6 +17,8 @@ class Notice extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry
+     *
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -29,13 +31,13 @@ class Notice extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Reminder\Model\Resource\Rule $resourceModel
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Reminder\Model\Resource\Rule $resourceModel,
         array $data = array()
     ) {
@@ -47,18 +49,23 @@ class Notice extends \Magento\Backend\Block\Template
     /**
      * Preparing block layout
      *
-     * @return \Magento\Reminder\Block\Adminhtml\Promo\Notice
+     * @return $this
      */
     protected function _prepareLayout()
     {
         if ($salesRule = $this->_coreRegistry->registry('current_promo_quote_rule')) {
             if ($count = $this->_resourceModel->getAssignedRulesCount($salesRule->getId())) {
-                $confirm = __('This rule is assigned to %1 automated reminder rule(s). Deleting this rule will automatically unassign it.',
-                    $count);
+                $confirm = __(
+                    'This rule is assigned to %1 automated reminder rule(s). Deleting this rule will automatically unassign it.',
+                    $count
+                );
                 $block = $this->getLayout()->getBlock('promo_quote_edit');
                 if ($block instanceof \Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit) {
                     $block->updateButton(
-                        'delete', 'onclick', 'deleteConfirm(\'' . $confirm . '\', \'' . $block->getDeleteUrl() . '\')');
+                        'delete',
+                        'onclick',
+                        'deleteConfirm(\'' . $confirm . '\', \'' . $block->getDeleteUrl() . '\')'
+                    );
                 }
             }
         }

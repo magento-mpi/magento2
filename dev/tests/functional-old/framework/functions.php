@@ -2,11 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 if (!function_exists('array_replace_recursive')) {
     function array_replace_recursive()
@@ -32,4 +29,25 @@ if (!function_exists('array_replace_recursive')) {
         }
         return $result;
     }
+}
+function array_diff_recursive($array1, $array2)
+{
+    $aReturn = array();
+    foreach ($array1 as $mKey => $mValue) {
+        if (array_key_exists($mKey, $array2)) {
+            if (is_array($mValue)) {
+                $aRecursiveDiff = array_diff_recursive($mValue, $array2[$mKey]);
+                if (count($aRecursiveDiff)) {
+                    $aReturn[$mKey] = $aRecursiveDiff;
+                }
+            } else {
+                if ($mValue != $array2[$mKey]) {
+                    $aReturn[$mKey] = $mValue;
+                }
+            }
+        } else {
+            $aReturn[$mKey] = $mValue;
+        }
+    }
+    return $aReturn;
 }

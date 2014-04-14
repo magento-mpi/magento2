@@ -1,7 +1,5 @@
 <?php
 /**
- * Factory of WSDL builders.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Webapi\Model\Soap\Wsdl;
 
+/**
+ * Factory of WSDL builders.
+ */
 class Factory
 {
     /**
@@ -35,10 +36,7 @@ class Factory
     {
         return $this->_objectManager->create(
             'Magento\Webapi\Model\Soap\Wsdl',
-            array(
-                'name' => $wsdlName,
-                'uri' => $endpointUrl,
-            )
+            array('name' => $wsdlName, 'uri' => $endpointUrl)
         );
     }
 }

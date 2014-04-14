@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GoogleShopping\Model;
 
 /**
@@ -18,9 +17,9 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Message\ManagerInterface
@@ -59,7 +58,7 @@ class Observer
      * @param \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory
      * @param \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\GoogleShopping\Model\Flag $flag
      */
@@ -67,14 +66,14 @@ class Observer
         \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory,
         \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\GoogleShopping\Model\Flag $flag
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_operationsFactory = $operationsFactory;
         $this->_inboxFactory = $inboxFactory;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->messageManager = $messageManager;
         $this->_flag = $flag;
     }
@@ -83,7 +82,7 @@ class Observer
      * Update product item in Google Content
      *
      * @param \Magento\Object $observer
-     * @return \Magento\GoogleShopping\Model\Observer
+     * @return $this
      */
     public function saveProductItem($observer)
     {
@@ -103,7 +102,7 @@ class Observer
      * Delete product item from Google Content
      *
      * @param \Magento\Object $observer
-     * @return \Magento\GoogleShopping\Model\Observer
+     * @return $this
      */
     public function deleteProductItem($observer)
     {
@@ -133,7 +132,7 @@ class Observer
         }
 
         foreach ($items as $item) {
-            if (!$this->_coreStoreConfig->getConfigFlag('google/googleshopping/observed', $item->getStoreId())) {
+            if (!$this->_scopeConfig->isSetFlag('google/googleshopping/observed', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $item->getStoreId())) {
                 $items->removeItemByKey($item->getId());
             }
         }
@@ -145,17 +144,17 @@ class Observer
      * Check if synchronize process is finished and generate notification message
      *
      * @param  \Magento\Event\Observer $observer
-     * @return \Magento\GoogleShopping\Model\Observer
+     * @return $this
      */
     public function checkSynchronizationOperations(\Magento\Event\Observer $observer)
     {
-        $flag = $this->_flag->loadSelf();
-        if ($flag->isExpired()) {
+        $this->_flag->loadSelf();
+        if ($this->_flag->isExpired()) {
             $this->_inboxFactory->create()->addMajor(
                 __('Google Shopping operation has expired.'),
                 __('One or more google shopping synchronization operations failed because of timeout.')
             );
-            $flag->unlock();
+            $this->_flag->unlock();
         }
         return $this;
     }

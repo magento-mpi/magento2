@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Helper\Product;
 
 class CompareTest extends \PHPUnit_Framework_TestCase
@@ -20,8 +19,9 @@ class CompareTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper =
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Helper\Product\Compare');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Catalog\Helper\Product\Compare'
+        );
     }
 
     /**
@@ -30,8 +30,9 @@ class CompareTest extends \PHPUnit_Framework_TestCase
     public function testGetListUrl()
     {
         /** @var $empty \Magento\Catalog\Helper\Product\Compare */
-        $empty = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Helper\Product\Compare');
+        $empty = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Helper\Product\Compare'
+        );
         $this->assertContains('/catalog/product_compare/index/', $empty->getListUrl());
 
         $this->_populateCompareList();
@@ -43,9 +44,21 @@ class CompareTest extends \PHPUnit_Framework_TestCase
         $this->_testGetProductUrl('getAddUrl', '/catalog/product_compare/add/');
     }
 
-    public function testGetAddToWishlistUrl()
+    public function testGetAddToWishlistParams()
     {
-        $this->_testGetProductUrl('getAddToWishlistUrl', '/wishlist/index/add/');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
+        $product->setId(10);
+        $json = $this->_helper->getAddToWishlistParams($product);
+        $params = (array)json_decode($json);
+        $data = (array)$params['data'];
+        $this->assertEquals('10', $data['product']);
+        $this->assertArrayHasKey('uenc', $data);
+        $this->assertStringEndsWith(
+            'wishlist/index/add/',
+            $params['action']
+        );
     }
 
     public function testGetAddToCartUrl()
@@ -55,12 +68,13 @@ class CompareTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRemoveUrl()
     {
-        $this->_testGetProductUrl('getRemoveUrl', '/catalog/product_compare/remove/');
+        $url = $this->_helper->getRemoveUrl();
+        $this->assertContains('/catalog/product_compare/remove/', $url);
     }
 
     public function testGetClearListUrl()
     {
-        $this->assertContains('/catalog/product_compare/clear/', $this->_helper->getClearListUrl());
+        $this->assertContains('\/catalog\/product_compare\/clear\/', $this->_helper->getPostDataClearList());
     }
 
     /**
@@ -69,7 +83,8 @@ class CompareTest extends \PHPUnit_Framework_TestCase
     public function testGetItemCollection()
     {
         $this->assertInstanceOf(
-            'Magento\Catalog\Model\Resource\Product\Compare\Item\Collection', $this->_helper->getItemCollection()
+            'Magento\Catalog\Model\Resource\Product\Compare\Item\Collection',
+            $this->_helper->getItemCollection()
         );
     }
 
@@ -81,7 +96,7 @@ class CompareTest extends \PHPUnit_Framework_TestCase
      */
     public function testCalculate()
     {
-         /** @var $session \Magento\Catalog\Model\Session */
+        /** @var $session \Magento\Catalog\Model\Session */
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Session');
         try {
             $session->unsCatalogCompareItemsCount();
@@ -109,13 +124,12 @@ class CompareTest extends \PHPUnit_Framework_TestCase
 
     protected function _testGetProductUrl($method, $expectedFullAction)
     {
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
         $product->setId(10);
-        $url = $this->_helper->$method($product);
+        $url = $this->_helper->{$method}($product);
         $this->assertContains($expectedFullAction, $url);
-        $this->assertContains('/product/10/', $url);
-        $this->assertContains('/uenc/', $url);
     }
 
     /**
@@ -123,15 +137,18 @@ class CompareTest extends \PHPUnit_Framework_TestCase
      */
     protected function _populateCompareList()
     {
-        $productOne = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
-        $productTwo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
+        $productOne = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
+        $productTwo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
         $productOne->load(10);
         $productTwo->load(11);
         /** @var $compareList \Magento\Catalog\Model\Product\Compare\ListCompare */
-        $compareList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product\Compare\ListCompare');
+        $compareList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product\Compare\ListCompare'
+        );
         $compareList->addProduct($productOne)->addProduct($productTwo);
     }
 }

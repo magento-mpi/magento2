@@ -1,12 +1,10 @@
 <?php
+
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 class Mage_Testlink_ListenerTest extends Unit_PHPUnit_TestCase
 {
@@ -18,17 +16,16 @@ class Mage_Testlink_ListenerTest extends Unit_PHPUnit_TestCase
 
     protected function setUp()
     {
-        $this->_listenerMock = $this->getMock('Mage_Testlink_Listener',
-                array("instantiateObservers", "notifyObservers"),
-                array("Test Project", "url", "key", "testplan", "build"), "", true);
+        $this->_listenerMock = $this->getMock(
+            'Mage_Testlink_Listener',
+            array("instantiateObservers", "notifyObservers"),
+            array("Test Project", "url", "key", "testplan", "build"),
+            '',
+            true
+        );
         $this->_listenerMock->expects($this->any())
-                           ->method('instantiateObservers')
-                ->will($this->returnValue('null'));
-    }
-
-    protected function tearDown()
-    {
-
+            ->method('instantiateObservers')
+            ->will($this->returnValue('null'));
     }
 
     /**

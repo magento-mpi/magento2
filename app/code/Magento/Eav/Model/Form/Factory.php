@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Eav\Model\Form;
 
 /**
@@ -39,10 +38,8 @@ class Factory
     public function create($form, array $data = array())
     {
         $formInstance = $this->_objectManager->create($form, $data);
-        if (false == ($formInstance instanceof \Magento\Eav\Model\Form)) {
-            throw new \InvalidArgumentException(
-                $form . ' is not instance of \Magento\Eav\Model\Form'
-            );
+        if (false == $formInstance instanceof \Magento\Eav\Model\Form) {
+            throw new \InvalidArgumentException($form . ' is not instance of \Magento\Eav\Model\Form');
         }
         return $formInstance;
     }

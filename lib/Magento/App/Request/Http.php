@@ -12,27 +12,50 @@ namespace Magento\App\Request;
 class Http extends \Zend_Controller_Request_Http implements \Magento\App\RequestInterface
 {
     const DEFAULT_HTTP_PORT = 80;
+
     const DEFAULT_HTTPS_PORT = 443;
 
     /**
      * ORIGINAL_PATH_INFO
      * @var string
      */
-    protected $_originalPathInfo= '';
-    protected $_requestString   = '';
+    protected $_originalPathInfo = '';
+
+    /**
+     * @var string
+     */
+    protected $_requestString = '';
 
     /**
      * Path info array used before applying rewrite from config
      *
-     * @var null || array
+     * @var null|array
      */
-    protected $_rewritedPathInfo= null;
+    protected $_rewritedPathInfo = null;
+
+    /**
+     * @var string
+     */
     protected $_requestedRouteName = null;
+
+    /**
+     * @var array
+     */
     protected $_routingInfo = array();
 
+    /**
+     * @var string
+     */
     protected $_route;
 
+    /**
+     * @var array
+     */
     protected $_directFrontNames;
+
+    /**
+     * @var string
+     */
     protected $_controllerModule = null;
 
     /**
@@ -62,13 +85,13 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
 
     /**
      * @param \Magento\App\Route\ConfigInterface $routeConfig
-     * @param \Magento\App\Request\PathInfoProcessorInterface $pathInfoProcessor
+     * @param PathInfoProcessorInterface $pathInfoProcessor
      * @param string $uri
      * @param array $directFrontNames
      */
     public function __construct(
         \Magento\App\Route\ConfigInterface $routeConfig,
-        \Magento\App\Request\PathInfoProcessorInterface $pathInfoProcessor,
+        PathInfoProcessorInterface $pathInfoProcessor,
         $uri = null,
         $directFrontNames = array()
     ) {
@@ -98,7 +121,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
      * Set the ORIGINAL_PATH_INFO string
      *
      * @param string|null $pathInfo
-     * @return \Zend_Controller_Request_Http
+     * @return $this
      */
     public function setPathInfo($pathInfo = null)
     {
@@ -116,7 +139,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
 
             $baseUrl = $this->getBaseUrl();
             $pathInfo = substr($requestUri, strlen($baseUrl));
-            if ((null !== $baseUrl) && (false === $pathInfo)) {
+            if (null !== $baseUrl && false === $pathInfo) {
                 $pathInfo = '';
             } elseif (null === $baseUrl) {
                 $pathInfo = $requestUri;
@@ -137,12 +160,12 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
      * Specify new path info
      * It happen when occur rewrite based on configuration
      *
-     * @param   string $pathInfo
-     * @return  \Magento\App\RequestInterface
+     * @param string $pathInfo
+     * @return $this
      */
     public function rewritePathInfo($pathInfo)
     {
-        if (($pathInfo != $this->getPathInfo()) && ($this->_rewritedPathInfo === null)) {
+        if ($pathInfo != $this->getPathInfo() && $this->_rewritedPathInfo === null) {
             $this->_rewritedPathInfo = explode('/', trim($this->getPathInfo(), '/'));
         }
         $this->setPathInfo($pathInfo);
@@ -226,6 +249,11 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
         return reset($pathParts);
     }
 
+    /**
+     * Retrieve route name
+     *
+     * @return string|null
+     */
     public function getRouteName()
     {
         return $this->_route;
@@ -234,10 +262,10 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
     /**
      * Retrieve HTTP HOST
      *
-     * @todo getHttpHost should return only string (currently method return boolean value too)
-     *
      * @param bool $trimPort
      * @return string
+     *
+     * @todo getHttpHost should return only string (currently method return boolean value too)
      */
     public function getHttpHost($trimPort = true)
     {
@@ -256,8 +284,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
      *
      * @param string|array $key
      * @param mixed $value
-     *
-     * @return \Magento\App\RequestInterface
+     * @return $this
      */
     public function setPost($key, $value = null)
     {
@@ -272,8 +299,8 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
     /**
      * Specify module name where was found currently used controller
      *
-     * @param   string $module
-     * @return  \Magento\App\RequestInterface
+     * @param string $module
+     * @return $this
      */
     public function setControllerModule($module)
     {
@@ -341,7 +368,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
     /**
      * Retrieve the list of all aliases
      *
-     * @return array
+     * @return array|string
      */
     public function getAliases()
     {
@@ -383,7 +410,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
         if (isset($this->_routingInfo['requested_controller'])) {
             return $this->_routingInfo['requested_controller'];
         }
-        if (($this->_rewritedPathInfo !== null) && isset($this->_rewritedPathInfo[1])) {
+        if ($this->_rewritedPathInfo !== null && isset($this->_rewritedPathInfo[1])) {
             return $this->_rewritedPathInfo[1];
         }
         return $this->getControllerName();
@@ -399,7 +426,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
         if (isset($this->_routingInfo['requested_action'])) {
             return $this->_routingInfo['requested_action'];
         }
-        if (($this->_rewritedPathInfo !== null) && isset($this->_rewritedPathInfo[2])) {
+        if ($this->_rewritedPathInfo !== null && isset($this->_rewritedPathInfo[2])) {
             return $this->_rewritedPathInfo[2];
         }
         return $this->getActionName();
@@ -409,7 +436,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
      * Set routing info data
      *
      * @param array $data
-     * @return \Magento\App\RequestInterface
+     * @return $this
      */
     public function setRoutingInfo($data)
     {
@@ -423,7 +450,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
      * Collect properties changed by _forward in protected storage
      * before _forward was called first time.
      *
-     * @return \Magento\App\ActionInterface
+     * @return $this
      */
     public function initForward()
     {
@@ -433,7 +460,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
                 'action_name' => $this->getActionName(),
                 'controller_name' => $this->getControllerName(),
                 'module_name' => $this->getModuleName(),
-                'route_name' => $this->getRouteName(),
+                'route_name' => $this->getRouteName()
             );
         }
 
@@ -495,8 +522,8 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
      * If no $key is passed, returns the entire $_FILES array.
      *
      * @param string $key
-     * @param mixed $default Default value to use if key not found
-     * @return mixed
+     * @param array $default Default value to use if key not found
+     * @return array
      */
     public function getFiles($key = null, $default = null)
     {
@@ -517,15 +544,16 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
     public function getDistroBaseUrl()
     {
         if (isset($_SERVER['SCRIPT_NAME']) && isset($_SERVER['HTTP_HOST'])) {
-            $secure = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] != 'off'))
-                || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443');
-            $scheme = ($secure ? 'https' : 'http') . '://' ;
+            $secure = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' || isset(
+                $_SERVER['SERVER_PORT']
+            ) && $_SERVER['SERVER_PORT'] == '443';
+            $scheme = ($secure ? 'https' : 'http') . '://';
 
             $hostArr = explode(':', $_SERVER['HTTP_HOST']);
             $host = $hostArr[0];
-            $port = isset($hostArr[1]) && (!$secure && $hostArr[1] != 80 || $secure && $hostArr[1] != 443)
-                ? ':'. $hostArr[1]
-                : '';
+            $port = isset(
+                $hostArr[1]
+            ) && (!$secure && $hostArr[1] != 80 || $secure && $hostArr[1] != 443) ? ':' . $hostArr[1] : '';
             $path = $this->getBasePath();
 
             return $scheme . $host . $port . rtrim($path, '/') . '/';
@@ -537,12 +565,22 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
      * Retrieve full action name
      *
      * @param string $delimiter
-     * @return mixed|string
+     * @return string
      */
     public function getFullActionName($delimiter = '_')
     {
-        return $this->getRequestedRouteName() . $delimiter .
-            $this->getRequestedControllerName() . $delimiter .
+        return $this->getRequestedRouteName() .
+            $delimiter .
+            $this->getRequestedControllerName() .
+            $delimiter .
             $this->getRequestedActionName();
+    }
+
+    /**
+     * @return array
+     */
+    public function __sleep()
+    {
+        return array();
     }
 }

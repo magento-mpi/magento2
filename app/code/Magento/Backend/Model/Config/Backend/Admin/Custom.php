@@ -18,66 +18,60 @@
  */
 namespace Magento\Backend\Model\Config\Backend\Admin;
 
-class Custom extends \Magento\Core\Model\Config\Value
+class Custom extends \Magento\App\Config\Value
 {
-    const CONFIG_SCOPE                      = 'stores';
-    const CONFIG_SCOPE_ID                   = 0;
+    const CONFIG_SCOPE = 'stores';
 
-    const XML_PATH_UNSECURE_BASE_URL        = 'web/unsecure/base_url';
-    const XML_PATH_SECURE_BASE_URL          = 'web/secure/base_url';
-    const XML_PATH_UNSECURE_BASE_LINK_URL   = 'web/unsecure/base_link_url';
-    const XML_PATH_SECURE_BASE_LINK_URL     = 'web/secure/base_link_url';
+    const CONFIG_SCOPE_ID = 0;
+
+    const XML_PATH_UNSECURE_BASE_URL = 'web/unsecure/base_url';
+
+    const XML_PATH_SECURE_BASE_URL = 'web/secure/base_url';
+
+    const XML_PATH_UNSECURE_BASE_LINK_URL = 'web/unsecure/base_link_url';
+
+    const XML_PATH_SECURE_BASE_LINK_URL = 'web/secure/base_link_url';
 
     /**
      * Writer of configuration storage
      *
-     * @var \Magento\Core\Model\Config\Storage\WriterInterface
+     * @var \Magento\App\Config\Storage\WriterInterface
      */
     protected $_configWriter;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Model\Config\Storage\WriterInterface $configWriter
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\App\Config\Storage\WriterInterface $configWriter
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\Config\Storage\WriterInterface $configWriter,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\App\Config\Storage\WriterInterface $configWriter,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_configWriter = $configWriter;
-        parent::__construct(
-            $context,
-            $registry,
-            $storeManager,
-            $config,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
      * Validate value before save
      *
-     * @return \Magento\Backend\Model\Config\Backend\Admin\Custom
+     * @return $this
      */
     protected function _beforeSave()
     {
         $value = $this->getValue();
 
         if (!empty($value) && substr($value, -2) !== '}}') {
-            $value = rtrim($value, '/').'/';
+            $value = rtrim($value, '/') . '/';
         }
 
         $this->setValue($value);
@@ -87,7 +81,7 @@ class Custom extends \Magento\Core\Model\Config\Value
     /**
      * Change secure/unsecure base_url after use_custom_url was modified
      *
-     * @return \Magento\Backend\Model\Config\Backend\Admin\Custom
+     * @return $this
      */
     public function _afterSave()
     {

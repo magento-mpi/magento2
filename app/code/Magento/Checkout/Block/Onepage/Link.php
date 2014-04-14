@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Onepage;
 
 /**
  * One page checkout cart link
@@ -15,8 +16,6 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Block\Onepage;
-
 class Link extends \Magento\View\Element\Template
 {
     /**
@@ -44,6 +43,7 @@ class Link extends \Magento\View\Element\Template
         $this->_checkoutHelper = $checkoutHelper;
         $this->_checkoutSession = $checkoutSession;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -51,7 +51,7 @@ class Link extends \Magento\View\Element\Template
      */
     public function getCheckoutUrl()
     {
-        return $this->getUrl('checkout/onepage', array('_secure'=>true));
+        return $this->getUrl('checkout/onepage', array('_secure' => true));
     }
 
     /**

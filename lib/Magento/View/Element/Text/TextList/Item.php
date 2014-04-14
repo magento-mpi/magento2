@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element\Text\TextList;
 
 use Magento\View\Element\Text;
@@ -16,6 +15,8 @@ use Magento\View\Element\Text;
 class Item extends \Magento\View\Element\Text
 {
     /**
+     * Set link
+     *
      * @param array|string $liParams
      * @param string $innerText
      * @return $this
@@ -39,7 +40,7 @@ class Item extends \Magento\View\Element\Text
 
         $params = $this->getLiParams();
         if (!empty($params) && is_array($params)) {
-            foreach ($params as $key=>$value) {
+            foreach ($params as $key => $value) {
                 $this->addText(' ' . $key . '="' . addslashes($value) . '"');
             }
         } elseif (is_string($params)) {

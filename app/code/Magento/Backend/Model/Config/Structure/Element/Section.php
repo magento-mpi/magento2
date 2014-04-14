@@ -7,11 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Element;
 
-class Section
-    extends \Magento\Backend\Model\Config\Structure\Element\AbstractComposite
+class Section extends AbstractComposite
 {
     /**
      * Authorization service
@@ -21,16 +19,16 @@ class Section
     protected $_authorization;
 
     /**
-     * @param \Magento\Core\Model\App $application
-     * @param \Magento\Backend\Model\Config\Structure\Element\Iterator $childrenIterator
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param Iterator $childrenIterator
      * @param \Magento\AuthorizationInterface $authorization
      */
     public function __construct(
-        \Magento\Core\Model\App $application,
-        \Magento\Backend\Model\Config\Structure\Element\Iterator $childrenIterator,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        Iterator $childrenIterator,
         \Magento\AuthorizationInterface $authorization
     ) {
-        parent::__construct($application, $childrenIterator);
+        parent::__construct($storeManager, $childrenIterator);
         $this->_authorization = $authorization;
     }
 

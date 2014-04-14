@@ -5,35 +5,36 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Integration\Model\Resource;
+
+use Magento\Integration\Model\Manager;
 
 /**
  * Resource Setup Model
  */
-class Setup extends \Magento\Core\Model\Resource\Setup
+class Setup extends \Magento\Module\Setup
 {
     /**
-     * @var  \Magento\Integration\Model\Manager
+     * @var  Manager
      */
     protected $_integrationManager;
 
     /**
      * Construct resource Setup Model
      *
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
-     * @param \Magento\Integration\Model\Manager $integrationManager
+     * @param \Magento\Module\Setup\Context $context
      * @param string $resourceName
-     * @param $moduleName
+     * @param Manager $integrationManager
+     * @param string $moduleName
      * @param string $connectionName
      *
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Module\Setup\Context $context,
         $resourceName,
-        \Magento\Integration\Model\Manager $integrationManager,
+        Manager $integrationManager,
         $moduleName = 'Magento_Integration',
-        $connectionName = ''
+        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_integrationManager = $integrationManager;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);

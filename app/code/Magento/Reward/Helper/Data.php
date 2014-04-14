@@ -21,41 +21,95 @@ namespace Magento\Reward\Helper;
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
-     * XML configuration paths
+     * XML configuration paths - section general
+     *
+     * @var string
      */
     const XML_PATH_SECTION_GENERAL = 'magento_reward/general/';
+
+    /**
+     * XML configuration paths - section points
+     *
+     * @var string
+     */
     const XML_PATH_SECTION_POINTS = 'magento_reward/points/';
+
+    /**
+     * XML configuration paths - section notifications
+     *
+     * @var string
+     */
     const XML_PATH_SECTION_NOTIFICATIONS = 'magento_reward/notification/';
+
+    /**
+     * XML configuration paths - path enabled
+     *
+     * @var string
+     */
     const XML_PATH_ENABLED = 'magento_reward/general/is_enabled';
+
+    /**
+     * XML configuration paths - landing page
+     *
+     * @var string
+     */
     const XML_PATH_LANDING_PAGE = 'magento_reward/general/landing_page';
+
+    /**
+     * XML configuration paths - auto refund
+     *
+     * @var string
+     */
     const XML_PATH_AUTO_REFUND = 'magento_reward/general/refund_automatically';
 
+    /**
+     * XML configuration paths - permission balance
+     *
+     * @var string
+     */
     const XML_PATH_PERMISSION_BALANCE = 'Magento_Reward::reward_balance';
+
+    /**
+     * XML configuration paths - permission affect
+     *
+     * @var string
+     */
     const XML_PATH_PERMISSION_AFFECT = 'Magento_Reward::reward_spend';
 
+    /**
+     * @var array
+     */
     protected $_expiryConfig;
+
+    /**
+     * @var bool $_hasRates
+     */
     protected $_hasRates = true;
+
+    /**
+     * @var null
+     */
     protected $_ratesArray = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\Locale
+     * @var \Magento\Locale\CurrencyInterface
      */
-    protected $_locale;
+    protected $_localeCurrency;
 
     /**
      * @var \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory
@@ -64,24 +118,24 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\Locale $locale,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
     ) {
         $this->_storeManager = $storeManager;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_config = $config;
-        $this->_locale = $locale;
+        $this->_localeCurrency = $localeCurrency;
         $this->_ratesFactory = $ratesFactory;
         parent::__construct($context);
     }
@@ -89,8 +143,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Setter for hasRates flag
      *
-     * @param boolean $flag
-     * @return \Magento\Reward\Helper\Data
+     * @param bool $flag
+     * @return $this
      */
     public function setHasRates($flag)
     {
@@ -101,7 +155,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Getter for hasRates flag
      *
-     * @return boolean
+     * @return bool
      */
     public function getHasRates()
     {
@@ -111,32 +165,32 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check whether reward module is enabled in system config
      *
-     * @return boolean
+     * @return bool
      */
     public function isEnabled()
     {
-        return $this->_storeConfig->getConfigFlag(self::XML_PATH_ENABLED);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
      * Check whether reward module is enabled in system config on front per website
      *
-     * @param integer $websiteId
-     * @return boolean
+     * @param int $websiteId
+     * @return bool
      */
     public function isEnabledOnFront($websiteId = null)
     {
         if ($websiteId === null) {
             $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         }
-        return ($this->isEnabled() && $this->getGeneralConfig('is_enabled_on_front', (int)$websiteId));
+        return $this->isEnabled() && $this->getGeneralConfig('is_enabled_on_front', (int)$websiteId);
     }
 
     /**
      * Check whether reward points can be gained for spending money
      *
-     * @param integer $websiteId
-     * @return boolean
+     * @param int $websiteId
+     * @return bool
      */
     public function isOrderAllowed($websiteId = null)
     {
@@ -151,8 +205,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @param string $section
      * @param string $field
-     * @param integer $websiteId
-     * @return mixed
+     * @param int $websiteId
+     * @return string
      */
     public function getConfigValue($section, $field, $websiteId = null)
     {
@@ -164,8 +218,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve config value from General section
      *
      * @param string $field
-     * @param integer $websiteId
-     * @return mixed
+     * @param int $websiteId
+     * @return string
      */
     public function getGeneralConfig($field, $websiteId = null)
     {
@@ -176,8 +230,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve config value from Points section
      *
      * @param string $field
-     * @param integer $websiteId
-     * @return mixed
+     * @param int $websiteId
+     * @return string
      */
     public function getPointsConfig($field, $websiteId = null)
     {
@@ -188,8 +242,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve config value from Notification section
      *
      * @param string $field
-     * @param integer $websiteId
-     * @return mixed
+     * @param int $websiteId
+     * @return string
      */
     public function getNotificationConfig($field, $websiteId = null)
     {
@@ -207,11 +261,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $result = array();
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $websiteId = $website->getId();
-                $result[$websiteId] = new \Magento\Object(array(
-                    'expiration_days' => $this->getGeneralConfig('expiration_days', $websiteId),
-                    'expiry_calculation' => $this->getGeneralConfig('expiry_calculation', $websiteId),
-                    'expiry_day_before' => $this->getNotificationConfig('expiry_day_before', $websiteId)
-                ));
+                $result[$websiteId] = new \Magento\Object(
+                    array(
+                        'expiration_days' => $this->getGeneralConfig('expiration_days', $websiteId),
+                        'expiry_calculation' => $this->getGeneralConfig('expiry_calculation', $websiteId),
+                        'expiry_day_before' => $this->getNotificationConfig('expiry_day_before', $websiteId)
+                    )
+                );
             }
             $this->_expiryConfig = $result;
         }
@@ -222,16 +278,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Format (add + or - sign) before given points count
      *
-     * @param integer $points
+     * @param int $points
      * @return string
      */
     public function formatPointsDelta($points)
     {
         $formatedPoints = $points;
         if ($points > 0) {
-            $formatedPoints = '+'.$points;
+            $formatedPoints = '+' . $points;
         } elseif ($points < 0) {
-            $formatedPoints = '-'.(-1*$points);
+            $formatedPoints = '-' . -1 * $points;
         }
         return $formatedPoints;
     }
@@ -243,7 +299,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getLandingPageUrl()
     {
-        $pageIdentifier = $this->_storeConfig->getConfig(self::XML_PATH_LANDING_PAGE);
+        $pageIdentifier = $this->_scopeConfig->getValue(self::XML_PATH_LANDING_PAGE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         return $this->_urlBuilder->getUrl('', array('_direct' => $pageIdentifier));
     }
 
@@ -255,11 +311,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param int|null $storeId
      * @param string $pointsFormat
      * @param string $amountFormat
+     * @return string
      */
     public function formatReward($points, $amount = null, $storeId = null, $pointsFormat = '%s', $amountFormat = '%s')
     {
         $points = sprintf($pointsFormat, $points);
-        if ((null !== $amount) && $this->getHasRates()) {
+        if (null !== $amount && $this->getHasRates()) {
             $amount = sprintf($amountFormat, $this->formatAmount($amount, true, $storeId));
             return __('%1 Reward points (%2)', $points, $amount);
         }
@@ -277,11 +334,18 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function formatAmount($amount, $asCurrency = true, $storeId = null)
     {
         if (null === $amount) {
-            return  null;
+            return null;
         }
-        return $asCurrency ?
-            $this->_storeManager->getStore($storeId)->convertPrice($amount, true, false) :
-            sprintf('%.2F', $amount);
+        return $asCurrency ? $this->_storeManager->getStore(
+            $storeId
+        )->convertPrice(
+            $amount,
+            true,
+            false
+        ) : sprintf(
+            '%.2F',
+            $amount
+        );
     }
 
     /**
@@ -325,7 +389,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if (!$currencyCode) {
             $amountFormatted = sprintf('%.2F', $amount);
         } else {
-            $amountFormatted = $this->_locale->currency($currencyCode)->toCurrency((float)$amount);
+            $amountFormatted = $this->_localeCurrency->getCurrency($currencyCode)->toCurrency((double)$amount);
         }
         return sprintf($format, $points, $amountFormatted);
     }
@@ -339,8 +403,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected function _loadRatesArray()
     {
         $ratesArray = array();
-        $collection = $this->_ratesFactory->create()
-            ->addFieldToFilter('direction', \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY);
+        $collection = $this->_ratesFactory->create()->addFieldToFilter(
+            'direction',
+            \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
+        );
         foreach ($collection as $rate) {
             $ratesArray[$rate->getCustomerGroupId()][$rate->getWebsiteId()] = $rate;
         }
@@ -352,7 +418,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param int $points
      * @param int $websiteId
      * @param int $customerGroupId
-     * return string|null
+     * @return string|null
      */
     public function getRateFromRatesArray($points, $websiteId, $customerGroupId)
     {
@@ -363,13 +429,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if (isset($this->_ratesArray[$customerGroupId])) {
             if (isset($this->_ratesArray[$customerGroupId][$websiteId])) {
                 $rate = $this->_ratesArray[$customerGroupId][$websiteId];
-            } else if (isset($this->_ratesArray[$customerGroupId][0])){
+            } elseif (isset($this->_ratesArray[$customerGroupId][0])) {
                 $rate = $this->_ratesArray[$customerGroupId][0];
             }
-        } else if (isset($this->_ratesArray[0])) {
+        } elseif (isset($this->_ratesArray[0])) {
             if (isset($this->_ratesArray[0][$websiteId])) {
                 $rate = $this->_ratesArray[0][$websiteId];
-            } else if (isset($this->_ratesArray[0][0])) {
+            } elseif (isset($this->_ratesArray[0][0])) {
                 $rate = $this->_ratesArray[0][0];
             }
         }
@@ -382,10 +448,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check if automatically refund is enabled
      *
-     * @return boolean
+     * @return bool
      */
     public function isAutoRefundEnabled()
     {
-        return $this->_storeConfig->getConfigFlag(self::XML_PATH_AUTO_REFUND);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_AUTO_REFUND, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

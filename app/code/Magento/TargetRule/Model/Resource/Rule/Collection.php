@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\TargetRule\Model\Resource\Rule;
 
 /**
  * Target rules resource collection model
@@ -16,12 +16,12 @@
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\TargetRule\Model\Resource\Rule;
-
 class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection
 {
     /**
      * Set resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -31,7 +31,7 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
     /**
      * Run "afterLoad" callback on items if it is applicable
      *
-     * @return \Magento\TargetRule\Model\Resource\Rule\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -50,8 +50,7 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      * Add Apply To Product List Filter to Collection
      *
      * @param int|array $applyTo
-     *
-     * @return \Magento\TargetRule\Model\Resource\Rule\Collection
+     * @return $this
      */
     public function addApplyToFilter($applyTo)
     {
@@ -63,8 +62,7 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      * Set Priority Sort order
      *
      * @param string $direction
-     *
-     * @return \Magento\TargetRule\Model\Resource\Rule\Collection
+     * @return $this
      */
     public function setPriorityOrder($direction = self::SORT_ORDER_ASC)
     {
@@ -76,8 +74,7 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      * Add filter by product id to collection
      *
      * @param int $productId
-     *
-     * @return \Magento\TargetRule\Model\Resource\Rule\Collection
+     * @return $this
      */
     public function addProductFilter($productId)
     {
@@ -85,28 +82,39 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
             array('product_idx' => $this->getTable('magento_targetrule_product')),
             'product_idx.rule_id = main_table.rule_id',
             array()
-        )
-        ->where('product_idx.product_id = ?', $productId);
+        )->where(
+            'product_idx.product_id = ?',
+            $productId
+        );
 
         return $this;
     }
+
     /**
      * Add filter by segment id to collection
      *
      * @param int $segmentId
-     *
-     * @return \Magento\TargetRule\Model\Resource\Rule\Collection
+     * @return $this
      */
     public function addSegmentFilter($segmentId)
     {
         if (!empty($segmentId)) {
             $this->getSelect()->join(
                 array('segement_idx' => $this->getTable('magento_targetrule_customersegment')),
-                'segement_idx.rule_id = main_table.rule_id', array())->where('segement_idx.segment_id = ?', $segmentId);
+                'segement_idx.rule_id = main_table.rule_id',
+                array()
+            )->where(
+                'segement_idx.segment_id = ?',
+                $segmentId
+            );
         } else {
             $this->getSelect()->joinLeft(
                 array('segement_idx' => $this->getTable('magento_targetrule_customersegment')),
-                'segement_idx.rule_id = main_table.rule_id', array())->where('segement_idx.segment_id IS NULL');
+                'segement_idx.rule_id = main_table.rule_id',
+                array()
+            )->where(
+                'segement_idx.segment_id IS NULL'
+            );
         }
         return $this;
     }

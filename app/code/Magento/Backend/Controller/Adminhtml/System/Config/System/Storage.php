@@ -48,25 +48,28 @@ class Storage extends \Magento\Backend\App\Action
     {
         session_write_close();
 
-        if (!isset($_REQUEST['storage'])) {
+        $requestStorage = $this->getRequest()->getParam('storage');
+        $requestConnection = $this->getRequest()->getParam('connection');
+        if (!isset($requestStorage)) {
             return;
         }
 
         $flag = $this->_getSyncFlag();
-        if ($flag && $flag->getState() == \Magento\Core\Model\File\Storage\Flag::STATE_RUNNING
-            && $flag->getLastUpdate()
-            && time() <= (strtotime($flag->getLastUpdate()) + \Magento\Core\Model\File\Storage\Flag::FLAG_TTL)
+        if ($flag &&
+            $flag->getState() == \Magento\Core\Model\File\Storage\Flag::STATE_RUNNING &&
+            $flag->getLastUpdate() &&
+            time() <= strtotime(
+                $flag->getLastUpdate()
+            ) + \Magento\Core\Model\File\Storage\Flag::FLAG_TTL
         ) {
             return;
         }
 
-        $flag->setState(\Magento\Core\Model\File\Storage\Flag::STATE_RUNNING)
-            ->setFlagData(array())
-            ->save();
+        $flag->setState(\Magento\Core\Model\File\Storage\Flag::STATE_RUNNING)->setFlagData(array())->save();
 
-        $storage = array('type' => (int) $_REQUEST['storage']);
-        if (isset($_REQUEST['connection']) && !empty($_REQUEST['connection'])) {
-            $storage['connection'] = $_REQUEST['connection'];
+        $storage = array('type' => $requestStorage);
+        if (isset($requestConnection) && !empty($requestConnection)) {
+            $storage['connection'] = $requestConnection;
         }
 
         try {
@@ -103,40 +106,51 @@ class Storage extends \Magento\Backend\App\Action
                     $state = \Magento\Core\Model\File\Storage\Flag::STATE_INACTIVE;
                     break;
                 case \Magento\Core\Model\File\Storage\Flag::STATE_RUNNING:
-                    if (!$flag->getLastUpdate()
-                        || time() <= (strtotime($flag->getLastUpdate())
-                            + \Magento\Core\Model\File\Storage\Flag::FLAG_TTL)
+                    if (!$flag->getLastUpdate() || time() <= strtotime(
+                        $flag->getLastUpdate()
+                    ) + \Magento\Core\Model\File\Storage\Flag::FLAG_TTL
                     ) {
                         $flagData = $flag->getFlagData();
-                        if (is_array($flagData)
-                            && isset($flagData['source']) && !empty($flagData['source'])
-                            && isset($flagData['destination']) && !empty($flagData['destination'])
+                        if (is_array(
+                            $flagData
+                        ) && isset(
+                            $flagData['source']
+                        ) && !empty($flagData['source']) && isset(
+                            $flagData['destination']
+                        ) && !empty($flagData['destination'])
                         ) {
-                            $result['message'] = __('Synchronizing %1 to %2', $flagData['source'],
-                                $flagData['destination']);
+                            $result['message'] = __(
+                                'Synchronizing %1 to %2',
+                                $flagData['source'],
+                                $flagData['destination']
+                            );
                         } else {
                             $result['message'] = __('Synchronizing...');
                         }
                         break;
                     } else {
                         $flagData = $flag->getFlagData();
-                        if (is_array($flagData)
-                            && !(isset($flagData['timeout_reached']) && $flagData['timeout_reached'])
+                        if (is_array(
+                            $flagData
+                        ) && !(isset(
+                            $flagData['timeout_reached']
+                        ) && $flagData['timeout_reached'])
                         ) {
-                            $this->_objectManager->get('Magento\Logger')
-                                ->logException(new \Magento\Exception(
-                                __('The timeout limit for response from synchronize process was reached.')
-                            ));
+                            $this->_objectManager->get(
+                                'Magento\Logger'
+                            )->logException(
+                                new \Magento\Exception(
+                                    __('The timeout limit for response from synchronize process was reached.')
+                                )
+                            );
 
                             $state = \Magento\Core\Model\File\Storage\Flag::STATE_FINISHED;
-                            $flagData['has_errors']         = true;
-                            $flagData['timeout_reached']    = true;
-                            $flag->setState($state)
-                                ->setFlagData($flagData)
-                                ->save();
+                            $flagData['has_errors'] = true;
+                            $flagData['timeout_reached'] = true;
+                            $flag->setState($state)->setFlagData($flagData)->save();
                         }
                     }
-                // fall-through intentional
+                    // fall-through intentional
                 case \Magento\Core\Model\File\Storage\Flag::STATE_FINISHED:
                 case \Magento\Core\Model\File\Storage\Flag::STATE_NOTIFIED:
                     $flagData = $flag->getFlagData();

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Invitation\Block;
 
 class FormTest extends \PHPUnit_Framework_TestCase
@@ -26,8 +25,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Invitation\Block\Form');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Invitation\Block\Form'
+        );
     }
 
     /**
@@ -53,12 +55,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function getMaxInvitationsPerSendDataProvider()
     {
-        return array(
-            array(1, 1),
-            array(3, 3),
-            array(100, 100),
-            array(0, 1)
-        );
+        return array(array(1, 1), array(3, 3), array(100, 100), array(0, 1));
     }
 
     /**
@@ -70,16 +67,23 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     protected function _changeConfig($path, $value)
     {
-        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getStore();
-        $oldValue = $store->getConfig($path);
-        $store->setConfig($path, $value);
+        $oldValue = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Config\MutableScopeConfigInterface'
+        )->getValue(
+            $path,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Config\MutableScopeConfigInterface'
+        )->setValue(
+            $path,
+            $value,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
 
         if (!$this->_rememberedConfig) {
-            $this->_rememberedConfig = array(
-                'path' => $path,
-                'old_value' => $oldValue
-            );
+            $this->_rememberedConfig = array('path' => $path, 'old_value' => $oldValue);
         }
         return $this;
     }
@@ -91,8 +95,13 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     protected function _restoreConfig()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setConfig($this->_rememberedConfig['path'], $this->_rememberedConfig['old_value']);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Config\MutableScopeConfigInterface'
+        )->setValue(
+            $this->_rememberedConfig['path'],
+            $this->_rememberedConfig['old_value'],
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         $this->_rememberedConfig = null;
         return $this;
     }
@@ -105,7 +114,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
             $this->_changeConfig(\Magento\Invitation\Model\Config::XML_PATH_USE_INVITATION_MESSAGE, 0);
             $this->assertEquals(false, $this->_block->isInvitationMessageAllowed());
-
         } catch (\Exception $e) {
             $this->_restoreConfig();
             throw $e;

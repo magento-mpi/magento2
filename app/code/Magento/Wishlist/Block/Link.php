@@ -11,8 +11,15 @@
  */
 namespace Magento\Wishlist\Block;
 
-class Link extends \Magento\View\Element\Html\Link
+class Link extends \Magento\View\Element\Html\Link implements \Magento\View\Block\IdentityInterface
 {
+    /**
+     * Template name
+     *
+     * @var string
+     */
+    protected $_template = 'Magento_Wishlist::link.phtml';
+
     /**
      * @var \Magento\Wishlist\Helper\Data
      */
@@ -56,7 +63,7 @@ class Link extends \Magento\View\Element\Html\Link
      */
     public function getLabel()
     {
-        return $this->_createLabel($this->_getItemCount());
+        return __('My Wish List');
     }
 
     /**
@@ -64,7 +71,15 @@ class Link extends \Magento\View\Element\Html\Link
      */
     public function getTitle()
     {
-        return $this->_createLabel($this->_getItemCount());
+        return $this->getLabel();
+    }
+
+    /**
+     * @return string
+     */
+    public function getCounter()
+    {
+        return $this->_createCounter($this->_getItemCount());
     }
 
     /**
@@ -81,16 +96,33 @@ class Link extends \Magento\View\Element\Html\Link
      * Create button label based on wishlist item quantity
      *
      * @param int $count
-     * @return string
+     * @return string|void
      */
-    protected function _createLabel($count)
+    protected function _createCounter($count)
     {
         if ($count > 1) {
-            return __('My Wish List (%1 items)', $count);
+            return __('%1 items', $count);
         } else if ($count == 1) {
-            return __('My Wish List (%1 item)', $count);
+            return __('1 item');
         } else {
-            return __('My Wish List');
+            return;
         }
+    }
+
+    /**
+     * Retrieve block cache tags
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        /** @var $wishlist \Magento\Wishlist\Model\Wishlist */
+        $wishlist = $this->_wishlistHelper->getWishlist();
+        $identities = $wishlist->getIdentities();
+        foreach ($wishlist->getItemCollection() as $item) {
+            /** @var $item \Magento\Wishlist\Model\Item */
+            $identities = array_merge($identities, $item->getProduct()->getIdentities());
+        }
+        return $identities;
     }
 }

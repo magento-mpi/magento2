@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DB;
 
 /**
  * TODO
@@ -15,9 +16,6 @@
  * @package     Magento_Db
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\DB;
-
-
-class DBException extends \Magento\Exception {
-
+class DBException extends \Magento\Exception
+{
 }

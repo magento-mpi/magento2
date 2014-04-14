@@ -228,7 +228,7 @@ GiftMessageSet.prototype = {
                 }
             }, this);
             $('gift_options_giftmessage').show();
-        } else {
+        } else if ($('gift_options_giftmessage')) {
             $('gift_options_giftmessage').hide();
         }
 

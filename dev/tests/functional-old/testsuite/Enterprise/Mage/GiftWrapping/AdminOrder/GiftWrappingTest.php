@@ -84,17 +84,27 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->doAdminCheckoutSteps($orderData);
         //Verifying
-        $this->assertFalse($this->controlIsVisible('pageelement', 'order_gift_message_block'),
-            'Gift Message for the Entire Order is available');
-        $this->assertFalse($this->controlIsVisible('pageelement', 'order_gift_wrapping_block'),
-            'Gift Wrapping for the Entire Order is available');
+        $this->assertFalse(
+            $this->controlIsVisible('pageelement', 'order_gift_message_block'),
+            'Gift Message for the Entire Order is available'
+        );
+        $this->assertFalse(
+            $this->controlIsVisible('pageelement', 'order_gift_wrapping_block'),
+            'Gift Wrapping for the Entire Order is available'
+        );
         $this->addParameter('sku', $testData['simple']);
-        $this->assertFalse($this->controlIsVisible('link', 'gift_options'),
-            'Link for adding Gift Options for Order Items is present');
-        $this->assertFalse($this->controlIsVisible('checkbox', 'add_printed_card'),
-            'Printed Card checkbox is present');
-        $this->assertFalse($this->controlIsVisible('checkbox', 'send_gift_receipt'),
-            'Gift Receipt checkbox is present');
+        $this->assertFalse(
+            $this->controlIsVisible('link', 'gift_options'),
+            'Link for adding Gift Options for Order Items is present'
+        );
+        $this->assertFalse(
+            $this->controlIsVisible('checkbox', 'add_printed_card'),
+            'Printed Card checkbox is present'
+        );
+        $this->assertFalse(
+            $this->controlIsVisible('checkbox', 'send_gift_receipt'),
+            'Gift Receipt checkbox is present'
+        );
     }
 
     /**
@@ -119,8 +129,10 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->doAdminCheckoutSteps($orderData);
-        $this->assertFalse($this->controlIsVisible('pageelement', 'order_gift_wrapping_block'),
-            'Gift Wrapping for the Entire Order is available');
+        $this->assertFalse(
+            $this->controlIsVisible('pageelement', 'order_gift_wrapping_block'),
+            'Gift Wrapping for the Entire Order is available'
+        );
         $this->orderHelper()->submitOrder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
@@ -151,10 +163,14 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->doAdminCheckoutSteps($orderData);
-        $this->assertFalse($this->controlIsVisible('pageelement', 'order_gift_message_block'),
-            'Gift Message for the Entire Order is available');
-        $this->assertTrue($this->controlIsVisible('pageelement', 'order_gift_wrapping_block'),
-            'Gift Wrapping for the Entire Order is not available');
+        $this->assertFalse(
+            $this->controlIsVisible('pageelement', 'order_gift_message_block'),
+            'Gift Message for the Entire Order is available'
+        );
+        $this->assertTrue(
+            $this->controlIsVisible('pageelement', 'order_gift_wrapping_block'),
+            'Gift Wrapping for the Entire Order is not available'
+        );
         $this->orderHelper()->submitOrder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
@@ -187,8 +203,10 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
         //Verifying
         $this->clickControl('link', 'gift_options', false);
         $this->waitForControlVisible('fieldset', 'gift_options');
-        $this->assertFalse($this->controlIsVisible('pageelement', 'item_gift_wrapping_block'),
-            'Gift Wrapping for Order Items is available');
+        $this->assertFalse(
+            $this->controlIsVisible('pageelement', 'item_gift_wrapping_block'),
+            'Gift Wrapping for Order Items is available'
+        );
         $this->clickButton('ok', false);
         $this->pleaseWait();
         //Steps
@@ -208,7 +226,6 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      */
     public function giftMessageForIndividualItemDisabledWrappingAllowed($testData)
     {
-        $this->markTestIncomplete('MAGETWO-11598');
         //Data
         $wrapping = $this->loadDataSet('SalesOrder', 'gift_wrapping_for_item',
             array('sku_product' => $testData['simple'], 'item_gift_wrapping_design' => $testData['wrapping']));
@@ -223,8 +240,10 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
         //Verifying
         $this->clickControl('link', 'gift_options', false);
         $this->waitForControlVisible('fieldset', 'gift_options');
-        $this->assertFalse($this->controlIsVisible('pageelement', 'item_gift_message_block'),
-            'Gift Messages for Order Items is available');
+        $this->assertFalse(
+            $this->controlIsVisible('pageelement', 'item_gift_message_block'),
+            'Gift Messages for Order Items is available'
+        );
         $this->clickButton('ok', false);
         $this->pleaseWait();
         //Steps
@@ -243,10 +262,17 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      */
     public function editOrderAllGiftOptionsAllowed($testData)
     {
-        $this->markTestIncomplete('MAGETWO-11766');
         //Data
-        $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full', null,
-            array('product1' => $testData['simple'], 'giftWrappingDesign' => $testData['wrapping']));
+        $itemOptions = $this->loadDataSet(
+            'SalesOrder', 'order_gift_options_full/gift_messages/individual',
+            array('product_2' => '%noValue%'),
+            array('product1' => $testData['simple'], 'giftWrappingDesign' => $testData['wrapping'])
+        );
+        $orderData = $this->loadDataSet(
+            'SalesOrder', 'order_gift_options_full',
+            array('individual' => $itemOptions),
+            array('product1' => $testData['simple'], 'giftWrappingDesign' => $testData['wrapping'])
+        );
         //Configuration
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_enable_all');
@@ -315,10 +341,14 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
         //Verification
         $this->assertMessagePresent('success', 'success_created_order');
         // Verification
-        $this->assertTrue($this->controlIsVisible('checkbox', 'send_gift_receipt'),
-            'Checkbox send_gift_receipt is absent');
-        $this->assertTrue($this->getControlAttribute('checkbox', 'send_gift_receipt', 'selectedValue'),
-            'Checkbox send_gift_receipt is unchecked');
+        $this->assertTrue(
+            $this->controlIsVisible('checkbox', 'send_gift_receipt'),
+            'Checkbox send_gift_receipt is absent'
+        );
+        $this->assertTrue(
+            $this->getControlAttribute('checkbox', 'send_gift_receipt', 'selectedValue'),
+            'Checkbox send_gift_receipt is unchecked'
+        );
     }
 
     /**
@@ -349,10 +379,14 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
         //Verification
-        $this->assertTrue($this->controlIsVisible('checkbox', 'add_printed_card'),
-            'Checkbox add_printed_card is absent');
-        $this->assertTrue($this->getControlAttribute('checkbox', 'add_printed_card', 'selectedValue'),
-            'Checkbox add_printed_card is unchecked');
+        $this->assertTrue(
+            $this->controlIsVisible('checkbox', 'add_printed_card'),
+            'Checkbox add_printed_card is absent'
+        );
+        $this->assertTrue(
+            $this->getControlAttribute('checkbox', 'add_printed_card', 'selectedValue'),
+            'Checkbox add_printed_card is unchecked'
+        );
         $this->assertEquals($price, $this->getControlAttribute('pageelement', 'printed_card_price', 'text'));
         $this->assertEquals($price, $this->getControlAttribute('pageelement', 'total_printed_card_price', 'text'));
     }

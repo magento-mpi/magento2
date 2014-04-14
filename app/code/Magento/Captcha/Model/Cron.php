@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Captcha\Model;
 
 /**
@@ -35,7 +34,7 @@ class Cron
     protected $_mediaDirectory;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Store\Model\StoreManager
      */
     protected $_storeManager;
 
@@ -48,20 +47,20 @@ class Cron
      * @param Resource\LogFactory $resLogFactory
      * @param \Magento\Captcha\Helper\Data $helper
      * @param \Magento\Captcha\Helper\Adminhtml\Data $adminHelper
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Store\Model\StoreManager $storeManager
      */
     public function __construct(
-        \Magento\Captcha\Model\Resource\LogFactory $resLogFactory,
+        Resource\LogFactory $resLogFactory,
         \Magento\Captcha\Helper\Data $helper,
         \Magento\Captcha\Helper\Adminhtml\Data $adminHelper,
-        \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\StoreManager $storeManager
+        \Magento\App\Filesystem $filesystem,
+        \Magento\Store\Model\StoreManager $storeManager
     ) {
         $this->_resLogFactory = $resLogFactory;
         $this->_helper = $helper;
         $this->_adminHelper = $adminHelper;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);
         $this->_storeManager = $storeManager;
     }
 
@@ -94,21 +93,26 @@ class Cron
      * Delete Expired Captcha Images for specific website
      *
      * @param \Magento\Captcha\Helper\Data $helper
-     * @param \Magento\Core\Model\Website|null $website
-     * @param \Magento\Core\Model\Store|null $store
-     * @return \Magento\Captcha\Model\Observer
+     * @param \Magento\Store\Model\Website|null $website
+     * @param \Magento\Store\Model\Store|null $store
+     * @return void
      */
     protected function _deleteExpiredImagesForWebsite(
         \Magento\Captcha\Helper\Data $helper,
-        \Magento\Core\Model\Website $website = null,
-        \Magento\Core\Model\Store $store = null
+        \Magento\Store\Model\Website $website = null,
+        \Magento\Store\Model\Store $store = null
     ) {
         $expire = time() - $helper->getConfig('timeout', $store) * 60;
         $imageDirectory = $this->_mediaDirectory->getRelativePath($helper->getImgDir($website));
         foreach ($this->_mediaDirectory->read($imageDirectory) as $filePath) {
-            if ($this->_mediaDirectory->isFile($filePath)
-                && pathinfo($filePath, PATHINFO_EXTENSION) == 'png'
-                && $this->_mediaDirectory->stat($filePath)['mtime'] < $expire
+            if ($this->_mediaDirectory->isFile(
+                $filePath
+            ) && pathinfo(
+                $filePath,
+                PATHINFO_EXTENSION
+            ) == 'png' && $this->_mediaDirectory->stat(
+                $filePath
+            )['mtime'] < $expire
             ) {
                 $this->_mediaDirectory->delete($filePath);
             }
@@ -124,6 +128,4 @@ class Cron
     {
         return $this->_resLogFactory->create();
     }
-
 }
-

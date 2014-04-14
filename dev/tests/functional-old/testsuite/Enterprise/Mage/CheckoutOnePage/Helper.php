@@ -22,89 +22,43 @@ class Enterprise_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_H
      * Adding gift message(gift wrapping) for entire order of each item
      *
      * @param array $giftOptions
-     *
      */
     public function frontAddGiftOptions(array $giftOptions)
     {
-        $this->assertTrue($this->controlIsPresent('checkbox', 'add_gift_options'),
-            'You can not add gift option for this order');
-        $this->fillCheckbox('add_gift_options', 'Yes');
-        $forItems = (isset($giftOptions['individual_items'])) ? $giftOptions['individual_items'] : array();
-        $forOrder = (isset($giftOptions['entire_order'])) ? $giftOptions['entire_order'] : array();
+        parent::frontAddGiftOptions($giftOptions);
         if (isset($giftOptions['send_gift_receipt'])) {
             $this->fillCheckbox('send_gift_receipt', $giftOptions['send_gift_receipt']);
         }
         if (isset($giftOptions['add_printed_card'])) {
             $this->fillCheckbox('add_printed_card', $giftOptions['add_printed_card']);
         }
-        $this->_addGiftOptionsForItems($forItems);
-        $this->_addGiftOptionsForOrder($forOrder);
     }
 
     /**
-     * Add gift options for items
+     * Add gift options for one product
      *
-     * @param $forItems
+     * @param array $oneItemData
      */
-    protected function _addGiftOptionsForItems($forItems)
+    protected function _addGiftOptionsForItem(array $oneItemData)
     {
-        foreach ($forItems as $data) {
-            $productName = (isset($data['product_name'])) ? $data['product_name'] : '';
-            $this->addParameter('productName', $productName);
+        parent::_addGiftOptionsForItem($oneItemData);
+        $this->addParameter('productName', $oneItemData['product_name']);
+        if (isset($oneItemData['item_gift_wrapping_design'])) {
             $this->fillCheckbox('gift_option_for_item', 'Yes');
-            $giftWrapping = (isset($data['item_gift_wrapping_design'])) ? $data['item_gift_wrapping_design'] : '';
-            $giftMessage = (isset($data['gift_message'])) ? $data['gift_message'] : array();
-            if ($giftWrapping) {
-                $this->fillDropdown('item_gift_wrapping_design', $giftWrapping);
-            }
-            if ($giftMessage) {
-                $this->clickControl('link', 'add_item_gift_message', false);
-                $this->fillFieldset($giftMessage, 'shipping_method');
-            }
+            $this->fillDropdown('item_gift_wrapping_design', $oneItemData['item_gift_wrapping_design']);
         }
     }
 
     /**
      * Add gift options for order
-     * @param $forOrder
+     * @param array $forOrder
      */
-    protected function _addGiftOptionsForOrder($forOrder)
+    protected function _addGiftOptionsForOrder(array $forOrder)
     {
-        if ($forOrder) {
+        parent::_addGiftOptionsForOrder($forOrder);
+        if (isset($forOrder['order_gift_wrapping_design'])) {
             $this->fillCheckbox('gift_option_for_order', 'Yes');
-            $giftWrapping =
-                (isset($forOrder['order_gift_wrapping_design'])) ? $forOrder['order_gift_wrapping_design'] : '';
-            $giftMessage = (isset($forOrder['gift_message'])) ? $forOrder['gift_message'] : array();
-            if ($giftWrapping) {
-                $this->fillDropdown('order_gift_wrapping_design', $giftWrapping);
-            }
-            if ($giftMessage) {
-                $this->clickControl('link', 'add_order_gift_message', false);
-                $this->fillFieldset($giftMessage, 'shipping_method');
-            }
+            $this->fillDropdown('order_gift_wrapping_design', $forOrder['order_gift_wrapping_design']);
         }
-    }
-
-    /**
-     * @param array $checkoutData
-     */
-    public function frontOrderReview(array $checkoutData)
-    {
-        parent::frontOrderReview($checkoutData);
-        $itemsGiftWrapping = (isset($checkoutData['shipping_data']['add_gift_options']['individual_items']))
-            ? $checkoutData['shipping_data']['add_gift_options']['individual_items']
-            : array();
-
-        foreach ($itemsGiftWrapping as $productData) {
-            if (isset($productData['product_name']) && isset($productData['item_gift_wrapping_design'])) {
-                $this->addParameter('productName', $productData['product_name']);
-                $this->addParameter('giftWrapping', $productData['item_gift_wrapping_design']);
-                if (!$this->controlIsPresent('pageelement', 'product_gift_wrapping')) {
-                    $this->addVerificationMessage('Gift Wrapping ' . $productData['item_gift_wrapping_design'] .
-                        ' is absent for ' . $productData['product_name']);
-                }
-            }
-        }
-        $this->assertEmptyVerificationErrors();
     }
 }

@@ -7,57 +7,60 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Model\Config\Backend\Address;
 
 /**
- * Customer Address Street Model
+ * Line count config model for customer address street attribute
  *
  * @method string getWebsiteCode
  */
-namespace Magento\Customer\Model\Config\Backend\Address;
-
-class Street extends \Magento\Core\Model\Config\Value
+class Street extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
+    /** @var \Magento\Store\Model\StoreManagerInterface */
+    protected $_storeManager;
+
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Config $config,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eavConfig = $eavConfig;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
+        $this->_storeManager = $storeManager;
     }
 
     /**
      * Actions after save
      *
-     * @return \Magento\Customer\Model\Config\Backend\Address\Street
+     * @return $this
      */
     protected function _afterSave()
     {
         $attribute = $this->_eavConfig->getAttribute('customer_address', 'street');
-        $value  = $this->getValue();
+        $value = $this->getValue();
         switch ($this->getScope()) {
-            case 'websites':
-                $website = $this->_storeManager->getWebsite($this->getWebsiteCode());
+            case \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES:
+                $website = $this->_storeManager->getWebsite($this->getScopeCode());
                 $attribute->setWebsite($website);
                 $attribute->load($attribute->getId());
                 if ($attribute->getData('multiline_count') != $value) {
@@ -65,7 +68,7 @@ class Street extends \Magento\Core\Model\Config\Value
                 }
                 break;
 
-            case 'default':
+            case \Magento\App\ScopeInterface::SCOPE_DEFAULT:
                 $attribute->setData('multiline_count', $value);
                 break;
         }
@@ -76,15 +79,15 @@ class Street extends \Magento\Core\Model\Config\Value
     /**
      * Processing object after delete data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     protected function _afterDelete()
     {
         $result = parent::_afterDelete();
 
-        if ($this->getScope() == 'websites') {
+        if ($this->getScope() == \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES) {
             $attribute = $this->_eavConfig->getAttribute('customer_address', 'street');
-            $website = $this->_storeManager->getWebsite($this->getWebsiteCode());
+            $website = $this->_storeManager->getWebsite($this->getScopeCode());
             $attribute->setWebsite($website);
             $attribute->load($attribute->getId());
             $attribute->setData('scope_multiline_count', null);

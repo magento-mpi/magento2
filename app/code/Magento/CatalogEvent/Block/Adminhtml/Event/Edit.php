@@ -13,30 +13,42 @@
  */
 namespace Magento\CatalogEvent\Block\Adminhtml\Event;
 
-class Edit
-    extends \Magento\Backend\Block\Widget\Form\Container
+use Magento\Backend\Block\Template\Context;
+use Magento\Backend\Block\Widget\Form\Container;
+use Magento\CatalogEvent\Model\Event;
+use Magento\Registry;
+
+class Edit extends Container
 {
+    /**
+     * @var string
+     */
     protected $_objectId = 'id';
+
+    /**
+     * @var string
+     */
     protected $_blockGroup = 'Magento_CatalogEvent';
+
+    /**
+     * @var string
+     */
     protected $_controller = 'adminhtml_event';
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param Context $context
+     * @param Registry $registry
      * @param array $data
      */
-    public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        array $data = array()
-    ) {
+    public function __construct(Context $context, Registry $registry, array $data = array())
+    {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
     }
@@ -44,7 +56,7 @@ class Edit
     /**
      * Prepare catalog event form or category selector
      *
-     * @return \Magento\CatalogEvent\Block\Adminhtml\Event\Edit
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -57,25 +69,29 @@ class Edit
                 array(
                     'label' => __('Save and Continue Edit'),
                     'class' => 'save',
-                    'data_attribute'  => array(
+                    'data_attribute' => array(
                         'mage-init' => array(
-                            'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
-                        ),
-                    ),
+                            'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form')
+                        )
+                    )
                 ),
                 1
             );
         }
 
-        parent::_prepareLayout();
-
         if (!$this->getEvent()->getId() && !$this->getEvent()->getCategoryId()) {
             $this->setChild(
                 'form',
-                $this->getLayout()->createBlock(str_replace('_', '\\', $this->_blockGroup)
-                    . '\\Block\\'
-                    . str_replace(' ', '\\', ucwords(str_replace('_', ' ', $this->_controller . '_' . $this->_mode)))
-                    . '\Category',
+                $this->getLayout()->createBlock(
+                    str_replace(
+                        '_',
+                        '\\',
+                        $this->_blockGroup
+                    ) . '\\Block\\' . str_replace(
+                        ' ',
+                        '\\',
+                        ucwords(str_replace('_', ' ', $this->_controller . '_' . $this->_mode))
+                    ) . '\Category',
                     $this->getNameInLayout() . 'catalog_event_form'
                 )
             );
@@ -95,9 +111,10 @@ class Edit
             $this->_removeButton('delete');
         }
 
+        parent::_prepareLayout();
+
         return $this;
     }
-
 
     /**
      * Retrieve form back url
@@ -112,15 +129,11 @@ class Edit
                 array('clear' => 1, 'id' => $this->getEvent()->getCategoryId())
             );
         } elseif ($this->getEvent() && !$this->getEvent()->getId() && $this->getEvent()->getCategoryId()) {
-            return $this->getUrl(
-                '*/*/new',
-                array('_current' => true, 'category_id' => null)
-            );
+            return $this->getUrl('*/*/new', array('_current' => true, 'category_id' => null));
         }
 
         return parent::getBackUrl();
     }
-
 
     /**
      * Retrieve form container header
@@ -139,7 +152,7 @@ class Edit
     /**
      * Retrieve catalog event model
      *
-     * @return \Magento\CatalogEvent\Model\Event
+     * @return Event
      */
     public function getEvent()
     {

@@ -7,43 +7,46 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Model;
 
 /**
  * Order archive config model
  *
  */
-namespace Magento\SalesArchive\Model;
-
 class Config
 {
     const XML_PATH_ARCHIVE_ACTIVE = 'sales/magento_salesarchive/active';
+
     const XML_PATH_ARCHIVE_AGE = 'sales/magento_salesarchive/age';
+
     const XML_PATH_ARCHIVE_ORDER_STATUSES = 'sales/magento_salesarchive/order_statuses';
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig
-    ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $scopeConfig)
+    {
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
      * Check archiving activity
      *
-     * @return boolean
+     * @return bool
      */
     public function isArchiveActive()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ARCHIVE_ACTIVE);
+        return $this->_scopeConfig->isSetFlag(
+            self::XML_PATH_ARCHIVE_ACTIVE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -53,17 +56,23 @@ class Config
      */
     public function getArchiveAge()
     {
-        return (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_ARCHIVE_AGE);
+        return (int)$this->_scopeConfig->getValue(
+            self::XML_PATH_ARCHIVE_AGE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
      * Retrieve order statuses for archiving
      *
-     * @return array
+     * @return array|string[]
      */
     public function getArchiveOrderStatuses()
     {
-        $statuses = $this->_coreStoreConfig->getConfig(self::XML_PATH_ARCHIVE_ORDER_STATUSES);
+        $statuses = $this->_scopeConfig->getValue(
+            self::XML_PATH_ARCHIVE_ORDER_STATUSES,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
 
         if (empty($statuses)) {
             return array();

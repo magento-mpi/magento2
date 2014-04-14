@@ -13,8 +13,8 @@
 # Manage Tax Rate and related pages
 # 'Manage Tax Zones and Rates' page
 manage_tax_zones_and_rates:
-    mca: tax_rate/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'tax_rate') and not(contains(@href, 'importExport'))]
+    mca: tax/rate/
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/tax/rate/') and not(contains(@href, 'importExport'))]
     title: Tax Zones and Rates / Taxes / Stores / Magento Admin
     uimap:
         form: &searchTaxRatesGrid
@@ -47,7 +47,7 @@ manage_tax_zones_and_rates:
 
 # 'New Tax Rate' Page
 create_tax_rate:
-    mca: tax_rate/add/
+    mca: tax/rate/add/
     title: New Tax Rate / Tax Zones and Rates / Taxes / Stores / Magento Admin
     uimap:
         form: &newTaxRatesForm
@@ -78,7 +78,7 @@ create_tax_rate:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_rate: //button[@data-ui-id='tax-rate-toolbar-save-savebutton']
+            save_rate: //button[@title='Save Rate']
         messages: &newTaxRateMessages
             code_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Code already exists.')]
             error_delete_tax_rate: //li[normalize-space(@class)='error-msg' and contains(.,'The tax rate cannot be removed. It exists in a tax rule.')]
@@ -90,7 +90,7 @@ create_tax_rate:
 
 # 'Edit Tax Rate' Page
 edit_tax_rate:
-    mca: tax_rate/edit/rate/%rate%/
+    mca: tax/rate/edit/rate/%rate%/
     title: %elementTitle% / Tax Zones and Rates / Taxes / Stores / Magento Admin
     uimap:
         form: &editTaxRatesForm
@@ -119,13 +119,13 @@ edit_tax_rate:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete_rate: //button[span='Delete Rate']
-            save_rate: //button[@data-ui-id='tax-rate-toolbar-save-savebutton']
+            save_rate: //button[@title='Save Rate']
         messages: *newTaxRateMessages
 
 #Import/Export Tax Rates
 manage_import_export_tax_rates:
-    mca: tax_rate/importExport/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'tax_rate/import')]
+    mca: tax/rate/importExport/
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/tax/rate/import')]
     title: Import and Export Tax Rates / Tax Zones and Rates / Data Transfer / System / Magento Admin
     uimap:
         form: &salesImportExportTaxRates
@@ -149,8 +149,8 @@ manage_import_export_tax_rates:
 # Manage Tax Rules and related pages
 # Manage Tax Rules page
 manage_tax_rule:
-    mca: tax_rule/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'tax_rule')]
+    mca: tax/rule/
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/tax/rule/')]
     title: Tax Rules / Taxes / Stores / Magento Admin
     uimap:
         form: &searchTaxRulesGrid
@@ -183,7 +183,7 @@ manage_tax_rule:
 
 # Add New Tax Rule page
 create_tax_rule:
-    mca: tax_rule/new/
+    mca: tax/rule/new/
     title: New Tax Rule / Tax Rules / Taxes / Stores / Magento Admin
     uimap:
         form: &create_tax_rule-form
@@ -238,7 +238,7 @@ create_tax_rule:
 
 # Edit Tax Rule page
 edit_tax_rule:
-    mca: tax_rule/edit/rule/%rule%/
+    mca: tax/rule/edit/rule/%rule%/
     title: %elementTitle% / Tax Rules / Taxes / Stores / Magento Admin
     uimap:
         form: *create_tax_rule-form

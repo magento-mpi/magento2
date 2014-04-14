@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css;
 
 /**
  * Block that renders group of files
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css;
-
 class Group extends \Magento\Backend\Block\Widget\Form
 {
     /**
@@ -43,16 +42,16 @@ class Group extends \Magento\Backend\Block\Widget\Form
      */
     public function getDownloadUrl($fileId, $themeId)
     {
-        return $this->getUrl('adminhtml/system_design_theme/downloadCss', array(
-            'theme_id' => $themeId,
-            'file'     => $this->_designEditorHelper->urlEncode($fileId)
-        ));
+        return $this->getUrl(
+            'adminhtml/system_design_theme/downloadCss',
+            array('theme_id' => $themeId, 'file' => $this->_designEditorHelper->urlEncode($fileId))
+        );
     }
 
     /**
      * Check if files group needs "add" button
      *
-     * @return bool
+     * @return false
      */
     public function hasAddButton()
     {
@@ -62,7 +61,7 @@ class Group extends \Magento\Backend\Block\Widget\Form
     /**
      * Check if files group needs download buttons next to each file
      *
-     * @return bool
+     * @return true
      */
     public function hasDownloadButton()
     {

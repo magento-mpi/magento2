@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Resource\Attribute;
 
+use Magento\Store\Model\Website;
 
 /**
  * EAV additional attribute resource collection (Using Forms)
@@ -16,10 +18,7 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource\Attribute;
-
-abstract class Collection
-    extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+abstract class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
 {
     /**
      * code of password hash in customer's EAV tables
@@ -29,7 +28,7 @@ abstract class Collection
     /**
      * Current website scope instance
      *
-     * @var \Magento\Core\Model\Website
+     * @var Website
      */
     protected $_website;
 
@@ -46,7 +45,7 @@ abstract class Collection
     protected $_eavConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -56,9 +55,9 @@ abstract class Collection
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -66,9 +65,9 @@ abstract class Collection
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;
         $this->_eavConfig = $eavConfig;
@@ -118,8 +117,8 @@ abstract class Collection
     /**
      * Set Website scope
      *
-     * @param \Magento\Core\Model\Website|int $website
-     * @return \Magento\Eav\Model\Resource\Attribute\Collection
+     * @param Website|int $website
+     * @return $this
      */
     public function setWebsite($website)
     {
@@ -131,7 +130,7 @@ abstract class Collection
     /**
      * Return current website scope instance
      *
-     * @return \Magento\Core\Model\Website
+     * @return Website
      */
     public function getWebsite()
     {
@@ -144,16 +143,16 @@ abstract class Collection
     /**
      * Initialize collection select
      *
-     * @return \Magento\Eav\Model\Resource\Attribute\Collection
+     * @return $this
      */
     protected function _initSelect()
     {
-        $select         = $this->getSelect();
-        $connection     = $this->getConnection();
-        $entityType     = $this->getEntityType();
-        $extraTable     = $entityType->getAdditionalAttributeTable();
-        $mainDescribe   = $this->getConnection()->describeTable($this->getResource()->getMainTable());
-        $mainColumns    = array();
+        $select = $this->getSelect();
+        $connection = $this->getConnection();
+        $entityType = $this->getEntityType();
+        $extraTable = $entityType->getAdditionalAttributeTable();
+        $mainDescribe = $this->getConnection()->describeTable($this->getResource()->getMainTable());
+        $mainColumns = array();
 
         foreach (array_keys($mainDescribe) as $columnName) {
             $mainColumns[$columnName] = $columnName;
@@ -162,8 +161,8 @@ abstract class Collection
         $select->from(array('main_table' => $this->getResource()->getMainTable()), $mainColumns);
 
         // additional attribute data table
-        $extraDescribe  = $connection->describeTable($this->getTable($extraTable));
-        $extraColumns   = array();
+        $extraDescribe = $connection->describeTable($this->getTable($extraTable));
+        $extraColumns = array();
         foreach (array_keys($extraDescribe) as $columnName) {
             if (isset($mainColumns[$columnName])) {
                 continue;
@@ -172,33 +171,36 @@ abstract class Collection
         }
 
         $this->addBindParam('mt_entity_type_id', (int)$entityType->getId());
-        $select
-            ->join(
-                array('additional_table' => $this->getTable($extraTable)),
-                'additional_table.attribute_id = main_table.attribute_id',
-                $extraColumns)
-            ->where('main_table.entity_type_id = :mt_entity_type_id');
+        $select->join(
+            array('additional_table' => $this->getTable($extraTable)),
+            'additional_table.attribute_id = main_table.attribute_id',
+            $extraColumns
+        )->where(
+            'main_table.entity_type_id = :mt_entity_type_id'
+        );
 
         // scope values
 
-        $scopeDescribe  = $connection->describeTable($this->_getEavWebsiteTable());
+        $scopeDescribe = $connection->describeTable($this->_getEavWebsiteTable());
         unset($scopeDescribe['attribute_id']);
-        $scopeColumns   = array();
+        $scopeColumns = array();
         foreach (array_keys($scopeDescribe) as $columnName) {
             if ($columnName == 'website_id') {
                 $scopeColumns['scope_website_id'] = $columnName;
             } else {
                 if (isset($mainColumns[$columnName])) {
                     $alias = sprintf('scope_%s', $columnName);
-                    $expression = $connection->getCheckSql('main_table.%s IS NULL',
-                        'scope_table.%s', 'main_table.%s');
+                    $expression = $connection->getCheckSql('main_table.%s IS NULL', 'scope_table.%s', 'main_table.%s');
                     $expression = sprintf($expression, $columnName, $columnName, $columnName);
                     $this->addFilterToMap($columnName, $expression);
                     $scopeColumns[$alias] = $columnName;
                 } elseif (isset($extraColumns[$columnName])) {
                     $alias = sprintf('scope_%s', $columnName);
-                    $expression = $connection->getCheckSql('additional_table.%s IS NULL',
-                        'scope_table.%s', 'additional_table.%s');
+                    $expression = $connection->getCheckSql(
+                        'additional_table.%s IS NULL',
+                        'scope_table.%s',
+                        'additional_table.%s'
+                    );
                     $expression = sprintf($expression, $columnName, $columnName, $columnName);
                     $this->addFilterToMap($columnName, $expression);
                     $scopeColumns[$alias] = $columnName;
@@ -222,7 +224,7 @@ abstract class Collection
      * Entity type is defined.
      *
      * @param  int $type
-     * @return \Magento\Eav\Model\Resource\Attribute\Collection
+     * @return $this
      */
     public function setEntityTypeFilter($type)
     {
@@ -232,7 +234,7 @@ abstract class Collection
     /**
      * Specify filter by "is_visible" field
      *
-     * @return \Magento\Eav\Model\Resource\Attribute\Collection
+     * @return $this
      */
     public function addVisibleFilter()
     {
@@ -242,13 +244,16 @@ abstract class Collection
     /**
      * Exclude system hidden attributes
      *
-     * @return \Magento\Eav\Model\Resource\Attribute\Collection
+     * @return $this
      */
     public function addSystemHiddenFilter()
     {
         $connection = $this->getConnection();
-        $expression = $connection->getCheckSql('additional_table.is_system = 1 AND additional_table.is_visible = 0',
-            '1', '0');
+        $expression = $connection->getCheckSql(
+            'additional_table.is_system = 1 AND additional_table.is_visible = 0',
+            '1',
+            '0'
+        );
         $this->getSelect()->where($connection->quoteInto($expression . ' = ?', 0));
         return $this;
     }
@@ -256,7 +261,7 @@ abstract class Collection
     /**
      * Exclude system hidden attributes but include password hash
      *
-     * @return \Magento\Customer\Model\Resource\Attribute\Collection
+     * @return $this
      */
     public function addSystemHiddenFilterWithPasswordHash()
     {
@@ -266,7 +271,8 @@ abstract class Collection
                 'additional_table.is_system = 1 AND additional_table.is_visible = 0 AND main_table.attribute_code != ?',
                 self::EAV_CODE_PASSWORD_HASH
             ),
-            '1', '0'
+            '1',
+            '0'
         );
         $this->getSelect()->where($connection->quoteInto($expression . ' = ?', 0));
         return $this;
@@ -275,7 +281,7 @@ abstract class Collection
     /**
      * Add exclude hidden frontend input attribute filter to collection
      *
-     * @return \Magento\Eav\Model\Resource\Attribute\Collection
+     * @return $this
      */
     public function addExcludeHiddenFrontendFilter()
     {

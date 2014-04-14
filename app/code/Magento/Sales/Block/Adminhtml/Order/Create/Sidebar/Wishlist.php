@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
 
 /**
  * Adminhtml sales order create sidebar wishlist block
@@ -15,10 +16,7 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
-
-class Wishlist
-    extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar
+class Wishlist extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar
 {
     /**
      * Storage action on selected item
@@ -27,6 +25,11 @@ class Wishlist
      */
     protected $_sidebarStorageAction = 'add_wishlist_item';
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -34,6 +37,11 @@ class Wishlist
         $this->setDataId('wishlist');
     }
 
+    /**
+     * Get header text
+     *
+     * @return string
+     */
     public function getHeaderText()
     {
         return __('Wish List');
@@ -77,8 +85,8 @@ class Wishlist
     /**
      * Retrieve product identifier linked with item
      *
-     * @param   \Magento\Wishlist\Model\Item $item
-     * @return  int
+     * @param \Magento\Wishlist\Model\Item $item
+     * @return int
      */
     public function getProductId($item)
     {
@@ -88,8 +96,8 @@ class Wishlist
     /**
      * Retrieve identifier of block item
      *
-     * @param   \Magento\Object $item
-     * @return  int
+     * @param \Magento\Object $item
+     * @return int
      */
     public function getIdentifierId($item)
     {
@@ -99,7 +107,7 @@ class Wishlist
     /**
      * Retrieve possibility to display quantity column in grid of wishlist block
      *
-     * @return bool
+     * @return true
      */
     public function canDisplayItemQty()
     {

@@ -7,16 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Controller\Adminhtml;
+
+use Magento\Backend\App\AbstractAction;
 
 /**
  * Auth backend controller
  */
-namespace Magento\Backend\Controller\Adminhtml;
-
-class Auth extends \Magento\Backend\App\AbstractAction
+class Auth extends AbstractAction
 {
     /**
      * Administrator login action
+     *
+     * @return void
      */
     public function loginAction()
     {
@@ -33,6 +36,8 @@ class Auth extends \Magento\Backend\App\AbstractAction
 
     /**
      * Administrator logout action
+     *
+     * @return void
      */
     public function logoutAction()
     {
@@ -43,6 +48,8 @@ class Auth extends \Magento\Backend\App\AbstractAction
 
     /**
      * Denied JSON action
+     *
+     * @return void
      */
     public function deniedJsonAction()
     {
@@ -56,14 +63,20 @@ class Auth extends \Magento\Backend\App\AbstractAction
      */
     protected function _getDeniedJson()
     {
-        return $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
-            'ajaxExpired' => 1,
-            'ajaxRedirect' => $this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl()
-        ));
+        return $this->_objectManager->get(
+            'Magento\Core\Helper\Data'
+        )->jsonEncode(
+            array(
+                'ajaxExpired' => 1,
+                'ajaxRedirect' => $this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl()
+            )
+        );
     }
 
     /**
      * Denied IFrame action
+     *
+     * @return void
      */
     public function deniedIframeAction()
     {
@@ -72,18 +85,20 @@ class Auth extends \Magento\Backend\App\AbstractAction
 
     /**
      * Retrieve response for deniedIframeAction()
+     *
      * @return string
      */
     protected function _getDeniedIframe()
     {
-        return '<script type="text/javascript">parent.window.location = \''
-            . $this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl() . '\';</script>';
+        return '<script type="text/javascript">parent.window.location = \'' . $this->_objectManager->get(
+            'Magento\Backend\Helper\Data'
+        )->getHomePageUrl() . '\';</script>';
     }
 
     /**
      * Check if user has permissions to access this controller
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

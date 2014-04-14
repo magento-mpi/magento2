@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Test\Tools\Di\Code\Scanner;
 
 class PluginScannerTest extends \PHPUnit_Framework_TestCase
@@ -16,7 +15,7 @@ class PluginScannerTest extends \PHPUnit_Framework_TestCase
         $this->_testDir = str_replace('\\', '/', realpath(__DIR__ . '/../../') . '/_files');
         $this->_testFiles = array(
             $this->_testDir . '/app/code/Magento/SomeModule/etc/di.xml',
-            $this->_testDir . '/app/etc/di/config.xml',
+            $this->_testDir . '/app/etc/di/config.xml'
         );
     }
 
@@ -28,11 +27,7 @@ class PluginScannerTest extends \PHPUnit_Framework_TestCase
     public function testCollectEntities()
     {
         $actual = $this->_model->collectEntities($this->_testFiles);
-        $expected = array(
-            'Magento\App\Cache\TagPlugin',
-            'Magento\Core\Model\Action\Plugin',
-            'Custom_PageCache_Model_Action_Plugin',
-        );
+        $expected = array('Magento\App\Cache\TagPlugin', 'Magento\Core\Model\Action\Plugin');
         $this->assertEquals($expected, $actual);
     }
 }

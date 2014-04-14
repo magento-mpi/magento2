@@ -17,35 +17,19 @@
  */
 class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCase
 {
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-        $this->reindexInvalidedData();
-        $this->navigate('system_configuration');
-        $flatCatalogData = $this->loadDataSet('FlatCatalog', 'flat_catalog_frontend',
-            array('use_flat_catalog_product' => 'Yes'));
-        $this->systemConfigurationHelper()->configure($flatCatalogData);
-        $this->reindexInvalidedData();
-    }
-
     protected function tearDownAfterTest()
     {
         $this->frontend();
-        if ($this->controlIsPresent('link', 'log_out')) {
-            $this->navigate('my_wishlist');
-            $this->wishlistHelper()->frontClearWishlist();
-            $this->shoppingCartHelper()->frontClearShoppingCart();
-            $this->logoutCustomer();
-        }
+        $this->wishlistHelper()->frontClearWishlist();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
     }
 
     public function tearDownAfterTestClass()
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $flatCatalogData = $this->loadDataSet('FlatCatalog', 'flat_catalog_frontend',
-            array('use_flat_catalog_product' => 'No'));
-        $this->systemConfigurationHelper()->configure($flatCatalogData);
+        $this->systemConfigurationHelper()->configure('FlatCatalog/flat_catalog_default');
         $this->reindexInvalidedData();
     }
 
@@ -90,12 +74,13 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
             'associated_3' => $download['general_sku']
         ));
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
-        $configurableOptionName = $attrData['option_1']['store_view_titles']['Default Store View'];
         $customOptions = $this->loadDataSet('Product', 'custom_options_data');
         $simpleWithCO = $this->loadDataSet('Product', 'simple_product_visible', array(
             'general_categories' => $catPath,
             'custom_options_data' => $customOptions
         ));
+        $flatCatalogData = $this->loadDataSet('FlatCatalog', 'flat_catalog_frontend',
+            array('use_flat_catalog_product' => 'Yes'));
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_attributes');
@@ -115,7 +100,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
         $this->assertMessagePresent('success', 'success_saved_category');
         //Steps
         $this->navigate('manage_products');
-        $this->runMassAction('Delete', 'all');
         $allProducts = array(
             'simple' => $simple,
             'virtual' => $virtual,
@@ -133,9 +117,12 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
         $this->productHelper()->createProduct($simpleWithCO);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->flushCache();
         $this->reindexInvalidedData();
-        $this->frontend('customer_login');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($flatCatalogData);
+        $this->reindexInvalidedData();
+        $this->flushCache();
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
         $this->logoutCustomer();
@@ -150,8 +137,8 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
                 'grouped' => $grouped['general_name']
             ),
             'configurableOption' => array(
-                'title'                  => $attrData['store_view_titles']['Default Store View'],
-                'custom_option_dropdown' => $configurableOptionName
+                'title' => $attrData['attribute_properties']['attribute_label'],
+                'custom_option_dropdown' => $attrData['option_1']['admin_option_name']
             ),
             'groupedOption' => array(
                 'subProduct_1' => $simple['general_name'],
@@ -193,7 +180,8 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
                 'Product ' . $productName . ' is not added to wishlist.');
         }
         //Verifying
-        $this->navigate('my_wishlist');
+        $this->clickControl('fieldset', 'customer_menu', false);
+        $this->clickControl('link', 'my_wishlist');
         foreach ($testData['productNames'] as $productName) {
             $this->assertTrue($this->wishlistHelper()->frontWishlistHasProducts($productName),
                 'Product ' . $productName . ' is not in the wishlist.');
@@ -218,7 +206,8 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
             $this->assertTrue($this->wishlistHelper()->frontWishlistHasProducts($productName),
                 'Product ' . $productName . ' is not added to wishlist.');
         }
-        $this->navigate('my_wishlist');
+        $this->clickControl('fieldset', 'customer_menu', false);
+        $this->clickControl('link', 'my_wishlist');
         foreach ($testData['productNames'] as $productName) {
             $this->assertTrue($this->wishlistHelper()->frontWishlistHasProducts($productName),
                 'Product ' . $productName . ' is not in the wishlist.');
@@ -247,7 +236,8 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
                 'Product ' . $productName . ' is not added to wishlist.');
         }
         foreach ($products as $productName) {
-            $this->navigate('my_wishlist');
+            $this->clickControl('fieldset', 'customer_menu', false);
+            $this->clickControl('link', 'my_wishlist');
             $this->assertTrue($this->wishlistHelper()->frontWishlistHasProducts($productName),
                 'Product ' . $productName . ' is not in the wishlist.');
             $this->wishlistHelper()->frontAddToShoppingCartFromWishlist($productName);
@@ -268,9 +258,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      */
     public function addProductsWithOptionsToShoppingCartFromWishlist($product, $option, $testData)
     {
-        if ($product == 'bundle' && $this->getBrowser() == 'chrome') {
-            $this->markTestIncomplete('MAGETWO-11557');
-        }
         //Data
         $productName = $testData['productNames'][$product];
         if (isset($testData[$product . 'Option'])) {
@@ -323,9 +310,6 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
      */
     public function addProductWithOptionsToWishlistFromShoppingCart($product, $option, $testData)
     {
-        if ($product == 'bundle' && $this->getBrowser() == 'chrome') {
-            $this->markTestIncomplete('MAGETWO-11557');
-        }
         //Data
         $productName = $testData['productNames'][$product];
         if (isset($testData[$product . 'Option'])) {
@@ -348,7 +332,8 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
                 $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts($name),
                     'Product ' . $name . ' is not in the shopping cart.');
                 $this->shoppingCartHelper()->frontMoveToWishlist($name);
-                $this->navigate('my_wishlist');
+                $this->clickControl('fieldset', 'customer_menu', false);
+                $this->clickControl('link', 'my_wishlist');
                 $this->assertTrue($this->wishlistHelper()->frontWishlistHasProducts($name),
                     'Product ' . $name . ' is not in the wishlist.');
             }
@@ -357,7 +342,8 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
             $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts($productName),
                 'Product ' . $productName . ' is not in the shopping cart.');
             $this->shoppingCartHelper()->frontMoveToWishlist($productName);
-            $this->navigate('my_wishlist');
+            $this->clickControl('fieldset', 'customer_menu', false);
+            $this->clickControl('link', 'my_wishlist');
             $this->assertTrue($this->wishlistHelper()->frontWishlistHasProducts($productName),
                 'Product ' . $productName . ' is not in the wishlist.');
         }
@@ -427,7 +413,8 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
         $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts($productName),
             'Product ' . $productName . ' is not in the shopping cart.');
         $this->shoppingCartHelper()->frontMoveToWishlist($productName);
-        $this->navigate('my_wishlist');
+        $this->clickControl('fieldset', 'customer_menu', false);
+        $this->clickControl('link', 'my_wishlist');
         //Verifying
         $this->assertTrue($this->wishlistHelper()->frontWishlistHasProducts($productName),
             'Product ' . $productName . ' is not in the wishlist.');

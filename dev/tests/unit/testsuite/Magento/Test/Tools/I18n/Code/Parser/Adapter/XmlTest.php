@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Test\Tools\I18n\Code\Parser\Adapter;
 
 class XmlTest extends \PHPUnit_Framework_TestCase
@@ -32,21 +31,9 @@ class XmlTest extends \PHPUnit_Framework_TestCase
     public function testParse()
     {
         $expectedResult = array(
-            array(
-                'phrase' => 'Phrase 2',
-                'file' => $this->_testFile,
-                'line' => '',
-            ),
-            array(
-                'phrase' => 'Phrase 3',
-                'file' => $this->_testFile,
-                'line' => '',
-            ),
-            array(
-                'phrase' => 'Phrase 1',
-                'file' => $this->_testFile,
-                'line' => '',
-            ),
+            array('phrase' => 'Phrase 2', 'file' => $this->_testFile, 'line' => '', 'quote' => ''),
+            array('phrase' => 'Phrase 3', 'file' => $this->_testFile, 'line' => '', 'quote' => ''),
+            array('phrase' => 'Phrase 1', 'file' => $this->_testFile, 'line' => '', 'quote' => '')
         );
 
         $this->_adapter->parse($this->_testFile);

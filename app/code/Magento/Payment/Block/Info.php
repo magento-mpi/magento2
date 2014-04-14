@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Block;
 
 /**
  * Base payment iformation block
  */
-namespace Magento\Payment\Block;
-
 class Info extends \Magento\View\Element\Template
 {
     /**
@@ -22,19 +21,22 @@ class Info extends \Magento\View\Element\Template
      */
     protected $_paymentSpecificInformation = null;
 
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_Payment::info/default.phtml';
 
     /**
      * Retrieve info model
      *
      * @return \Magento\Payment\Model\Info
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getInfo()
     {
         $info = $this->getData('info');
-        if (!($info instanceof \Magento\Payment\Model\Info)) {
-            throw new \Magento\Core\Exception(__('We cannot retrieve the payment info model object.'));
+        if (!$info instanceof \Magento\Payment\Model\Info) {
+            throw new \Magento\Model\Exception(__('We cannot retrieve the payment info model object.'));
         }
         return $info;
     }
@@ -42,7 +44,7 @@ class Info extends \Magento\View\Element\Template
     /**
      * Retrieve payment method model
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return \Magento\Payment\Model\MethodInterface
      */
     public function getMethod()
     {
@@ -134,28 +136,27 @@ class Info extends \Magento\View\Element\Template
         }
 
         $methodStore = $this->_storeManager->getStore($store);
-        return $methodStore->getCode() != \Magento\Core\Model\Store::ADMIN_CODE;
+        return $methodStore->getCode() != \Magento\Store\Model\Store::ADMIN_CODE;
     }
 
     /**
      * Prepare information specific to current payment method
      *
-     * @param \Magento\Object|array $transport
+     * @param null|\Magento\Object|array $transport
      * @return \Magento\Object
      */
     protected function _prepareSpecificInformation($transport = null)
     {
         if (null === $this->_paymentSpecificInformation) {
             if (null === $transport) {
-                $transport = new \Magento\Object;
+                $transport = new \Magento\Object();
             } elseif (is_array($transport)) {
                 $transport = new \Magento\Object($transport);
             }
-            $this->_eventManager->dispatch('payment_info_block_prepare_specific_information', array(
-                'transport' => $transport,
-                'payment'   => $this->getInfo(),
-                'block'     => $this,
-            ));
+            $this->_eventManager->dispatch(
+                'payment_info_block_prepare_specific_information',
+                array('transport' => $transport, 'payment' => $this->getInfo(), 'block' => $this)
+            );
             $this->_paymentSpecificInformation = $transport;
         }
         return $this->_paymentSpecificInformation;

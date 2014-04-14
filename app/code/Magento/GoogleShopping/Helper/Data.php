@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Helper;
 
 /**
  * Google Content Data Helper
@@ -15,8 +16,6 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -29,19 +28,19 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Stdlib\String $string,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->string = $string;
         $this->_storeManager = $storeManager;
@@ -63,8 +62,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Remove characters and words not allowed by Google Content in title and content (description).
      *
-     * (to avoid "Expected response code 200, got 400.
-     * Reason: There is a problem with the character encoding of this attribute")
+     * To avoid "Expected response code 200, got 400.
+     * Reason: There is a problem with the character encoding of this attribute"
      *
      * @param string $string
      * @return string
@@ -105,7 +104,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
             if (strip_tags($row) == $row) {
                 $row = preg_replace('/@ (.*)/', __("See '\\1'"), $row);
                 if (!is_null($product)) {
-                    $row .= ' ' . __("for product '%1' (in '%2' store)", $product->getName(), $this->_storeManager->getStore($product->getStoreId())->getName());
+                    $row .= ' ' . __(
+                        "for product '%1' (in '%2' store)",
+                        $product->getName(),
+                        $this->_storeManager->getStore($product->getStoreId())->getName()
+                    );
                 }
                 $result[] = $row;
                 continue;

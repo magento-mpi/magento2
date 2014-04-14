@@ -31,7 +31,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $_helperStorage;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -54,23 +54,31 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $directoryList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Filesystem\DirectoryList');
+        $directoryList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Filesystem\DirectoryList'
+        );
 
         $dirPath = ltrim(str_replace($directoryList->getRoot(), '', str_replace('\\', '/', __DIR__)) . '/_files', '/');
 
-        $tmpDirPath = ltrim(str_replace($directoryList->getRoot(), '',
-            str_replace('\\', '/', realpath(__DIR__ . '/../../../../../tmp'))), '/');
+        $tmpDirPath = ltrim(
+            str_replace(
+                $directoryList->getRoot(),
+                '',
+                str_replace('\\', '/', realpath(__DIR__ . '/../../../../../tmp'))
+            ),
+            '/'
+        );
 
-        $directoryList->addDirectory(\Magento\Filesystem::VAR_DIR, array('path' => $dirPath));
-        $directoryList->addDirectory(\Magento\Filesystem::TMP, array('path' => $tmpDirPath));
-        $directoryList->addDirectory(\Magento\Filesystem::MEDIA, array('path' => $tmpDirPath));
+        $directoryList->addDirectory(\Magento\App\Filesystem::VAR_DIR, array('path' => $dirPath));
+        $directoryList->addDirectory(\Magento\App\Filesystem::TMP_DIR, array('path' => $tmpDirPath));
+        $directoryList->addDirectory(\Magento\App\Filesystem::MEDIA_DIR, array('path' => $tmpDirPath));
 
         $this->_filesystem = $this->_objectManager->create(
-            'Magento\Filesystem', array('directoryList' => $directoryList)
+            'Magento\App\Filesystem',
+            array('directoryList' => $directoryList)
         );
-        $this->directoryVar = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
-        $this->directoryTmp = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::TMP);
+        $this->directoryVar = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $this->directoryTmp = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::TMP_DIR);
 
         /** @var $theme \Magento\View\Design\ThemeInterface */
         $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface')->getCollection()->getFirstItem();
@@ -78,15 +86,17 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         /** @var $request \Magento\App\Request\Http */
         $request = $this->_objectManager->get('Magento\App\Request\Http');
         $request->setParam(\Magento\Theme\Helper\Storage::PARAM_THEME_ID, $theme->getId());
-        $request->setParam(\Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE,
-            \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE);
+        $request->setParam(
+            \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE,
+            \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE
+        );
 
         $this->_helperStorage = $this->_objectManager->get('Magento\Theme\Helper\Storage');
 
-        $this->_storageModel = $this->_objectManager->create('Magento\Theme\Model\Wysiwyg\Storage', array(
-            'helper' => $this->_helperStorage,
-            'filesystem' => $this->_filesystem
-        ));
+        $this->_storageModel = $this->_objectManager->create(
+            'Magento\Theme\Model\Wysiwyg\Storage',
+            array('helper' => $this->_helperStorage, 'filesystem' => $this->_filesystem)
+        );
     }
 
     protected function tearDown()
@@ -108,8 +118,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $result = $method->invokeArgs($this->_storageModel, array($relativePath));
 
         $expectedResult = $this->directoryTmp->getRelativePath(
-            $this->_helperStorage->getThumbnailDirectory($tmpImagePath)
-            . '/' . $image);
+            $this->_helperStorage->getThumbnailDirectory($tmpImagePath) . '/' . $image
+        );
 
         $this->assertEquals($expectedResult, $result);
         $this->assertFileExists($this->directoryTmp->getAbsolutePath($result));
@@ -135,8 +145,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     protected function _copyFileToTmpCustomizationPath($sourceFile)
     {
-        $targetFile = $this->_helperStorage->getStorageRoot()
-            . '/' . basename($sourceFile);
+        $targetFile = $this->_helperStorage->getStorageRoot() . '/' . basename($sourceFile);
         $this->directoryTmp->create(pathinfo($targetFile, PATHINFO_DIRNAME));
         $this->directoryVar->copyFile(
             $this->directoryVar->getRelativePath($sourceFile),

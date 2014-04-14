@@ -25,6 +25,13 @@ use Mtf\Factory\Factory;
 class ListProduct extends Block
 {
     /**
+     * This member holds the class name of the regular price block.
+     *
+     * @var string
+     */
+    protected $regularPriceClass = ".regular-price";
+
+    /**
      * This member holds the class name for the price block found inside the product details.
      *
      * @var string
@@ -81,6 +88,16 @@ class ListProduct extends Block
     public function isProductVisible($productName)
     {
         return $this->getProductNameElement($productName)->isVisible();
+    }
+
+    /**
+     * Check if regular price is visible.
+     *
+     * @return bool
+     */
+    public function isRegularPriceVisible()
+    {
+        return $this->_rootElement->find($this->regularPriceClass)->isVisible();
     }
 
     /**

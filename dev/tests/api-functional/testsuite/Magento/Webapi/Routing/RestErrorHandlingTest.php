@@ -30,7 +30,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
          // TODO: check Http Status = 200, cannot do yet due to missing header info returned
 
-        $this->assertEquals('a good id', $item['id'], 'Success case is correct');
+        $this->assertEquals('a good id', $item['value'], 'Success case is correct');
     }
 
     public function testNotFound()
@@ -42,12 +42,11 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             ),
         );
 
-        // \Magento\Service\ResourceNotFoundException
+        // \Magento\Webapi\ServiceResourceNotFoundException
         $this->_errorTest(
             $serviceInfo,
             array(),
             \Magento\Webapi\Exception::HTTP_NOT_FOUND,
-            2345,
             "Resource with ID 'resourceY' not found."
         );
     }
@@ -61,12 +60,11 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             ),
         );
 
-        // \Magento\Service\AuthorizationException
+        // \Magento\Webapi\ServiceAuthorizationException
         $this->_errorTest(
             $serviceInfo,
             array(),
             \Magento\Webapi\Exception::HTTP_UNAUTHORIZED,
-            4567,
             "User with ID '30' is not authorized to access resource with ID 'resourceN'."
         );
     }
@@ -80,40 +78,37 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             ),
         );
 
-        // \Magento\Service\Exception
+        // \Magento\Webapi\ServiceException
         $this->_errorTest(
             $serviceInfo,
             array(),
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
-            3456,
             'Generic service exception'
         );
     }
 
     public function testServiceExceptionWithParameters()
     {
-        $this->markTestSkipped("Need to fix the REST client to use the parameters in oAuth signature correctly");
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/parameterizedserviceexception',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             )
         );
-        $details = array(
-            'key1' => 'value1',
-            'key2' => 'value2'
-        );
         $arguments = array(
-            'details' => $details
+            'parameters' => array(
+                array('name' => 'key1', 'value' => 'value1'),
+                array('name' => 'key2', 'value' => 'value2'),
+            )
         );
-        // \Magento\Service\Exception (with parameters)
+        $expectedExceptionParameters = array('key1' => 'value1', 'key2' => 'value2');
+        // \Magento\Webapi\ServiceException (with parameters)
         $this->_errorTest(
             $serviceInfo,
             $arguments,
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
-            1234,
             'Parameterized service exception',
-            $details
+            $expectedExceptionParameters
         );
     }
 
@@ -126,41 +121,70 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             ),
         );
 
-        $expectedCodes = array(5678, null);
         $expectedMessages = array(
             'Non service exception',
-            'Internal Error. Details are available in Magento log file. Report ID: %1'
+            'Internal Error. Details are available in Magento log file. Report ID: webapi-XXX'
         );
         $this->_errorTest(
             $serviceInfo,
             array(),
             \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,
-            $expectedCodes,
             $expectedMessages
         );
     }
 
-    public function testReturnIncompatibleDataType()
+    public function testEmptyInputException()
     {
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => '/V1/errortest/returnIncompatibleDataType',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-        );
-        $expectedMessages = array(
-            'Internal Error. Details are available in Magento log file. Report ID: %1',
-            'The method "returnIncompatibleDataType" of service '
-            . '"Magento\TestModule3\Service\ErrorV1Interface" must return an array.'
-        );
-        // \Magento\Service\Exception
+        $expectedWrappedErrors = [];
+        $this->_testWrappedError($expectedWrappedErrors);
+    }
+
+    public function testSingleWrappedErrorException()
+    {
+        $expectedWrappedErrors = [
+            ['fieldName' => 'key1', 'code' => 'code1', 'value' => 'value1']
+        ];
+        $this->_testWrappedError($expectedWrappedErrors);
+    }
+
+    public function testMultipleWrappedErrorException()
+    {
+        $expectedWrappedErrors = [
+            ['fieldName' => 'key1', 'code' => 'code1', 'value' => 'value1'],
+            ['fieldName' => 'key2', 'code' => 'code2', 'value' => 'value2']
+        ];
+        $this->_testWrappedError($expectedWrappedErrors);
+    }
+
+    protected function _testWrappedError($expectedWrappedErrors)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/errortest/inputException',
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+            ],
+        ];
+
+        $expectedException = new \Magento\Exception\InputException();
+        foreach ($expectedWrappedErrors as $error) {
+            $expectedException->addError(
+                $error['code'],
+                $error['fieldName'],
+                $error['value']
+            );
+        }
+
+        $arguments = [
+            'wrappedErrorParameters' => $expectedWrappedErrors
+        ];
+
         $this->_errorTest(
             $serviceInfo,
-            array(),
-            \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,
-            0,
-            $expectedMessages,
-            null
+            $arguments,
+            \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
+            $expectedException->getMessage(),
+            [],
+            $expectedWrappedErrors
         );
     }
 
@@ -170,17 +194,17 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
      * @param string $serviceInfo - REST Service information (i.e. resource path and HTTP method)
      * @param array $data - Data for the cal
      * @param int $httpStatus - Expected HTTP status
-     * @param int|array $errorCode - Expected error code
      * @param string|array $errorMessage - \Exception error message
      * @param array $parameters - Optional parameters array, or null if no parameters
+     * @param array $wrappedErrors - Optional wrappedErrors array, or null if no parameters
      */
     protected function _errorTest(
         $serviceInfo,
         $data,
         $httpStatus,
-        $errorCode,
         $errorMessage,
-        $parameters = array()
+        $parameters = array(),
+        $wrappedErrors = array()
     ) {
         // TODO: need to get header info instead of catching the exception
         try {
@@ -190,31 +214,35 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
             $body = json_decode($e->getMessage(), true);
 
-            $errorCodes = is_array($errorCode) ? $errorCode : array($errorCode);
-            if (isset($body['errors'][0]['code'])) {
-                $this->assertTrue(
-                    in_array(
-                        $body['errors'][0]['code'],
-                        $errorCodes
-                    ),
-                    sprintf(
-                        "Error code is invalid. Actual: {$body['errors'][0]['code']}, Expected one of: \n%s",
-                        implode("\n", $errorCodes)
-                    )
-                );
-            } else {
-                $this->assertTrue(in_array(0, $errorCodes), "Error code was expected");
-            }
-
             $errorMessages = is_array($errorMessage) ? $errorMessage : array($errorMessage);
-            $this->assertTrue(
-                in_array($body['errors'][0]['message'], $errorMessages),
-                "Message is invalid. Actual: {$body['errors'][0]['message']}. Expected one of:" .
-                implode("\n", $errorMessages)
+            $actualMessage = $body['errors'][0]['message'];
+            $matches = [];
+            //Report ID was created dynamically, so we need to replace it with some static value in order to test
+            if (preg_match('/.*Report\sID\:\s([a-zA-Z0-9\-]*)/', $actualMessage, $matches)) {
+                $actualMessage = str_replace($matches[1], 'webapi-XXX', $actualMessage);
+            }
+            $this->assertContains(
+                $actualMessage,
+                $errorMessages,
+                "Message is invalid. Actual: '$actualMessage'. Expected one of: {'"
+                . implode("', '", $errorMessages) . "'}"
             );
 
             if ($parameters) {
                 $this->assertEquals($parameters, $body['errors'][0]['parameters'], 'Checking body parameters');
+            }
+
+            if ($wrappedErrors) {
+                $this->assertEquals(
+                    $wrappedErrors,
+                    $body['errors'][0]['wrapped_errors'],
+                    'Checking body wrapped errors'
+                );
+            } else {
+                $this->assertFalse(
+                    isset($body['errors'][0]['wrapped_errors']),
+                    'Expected wrapped_errors not to be set'
+                );
             }
         }
     }

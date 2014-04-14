@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\System\Config\Source;
 
 /**
  * Source model for merchant countries supported by PayPal
  */
-namespace Magento\Paypal\Model\System\Config\Source;
-
-class MerchantCountry implements \Magento\Core\Model\Option\ArrayInterface
+class MerchantCountry implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Paypal\Model\ConfigFactory
@@ -23,30 +22,32 @@ class MerchantCountry implements \Magento\Core\Model\Option\ArrayInterface
     /**
      * @var \Magento\Directory\Model\Resource\Country\CollectionFactory
      */
-    protected $_countryCollFactory;
+    protected $_countryCollectionFactory;
 
     /**
      * @param \Magento\Paypal\Model\ConfigFactory $configFactory
-     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      */
     public function __construct(
         \Magento\Paypal\Model\ConfigFactory $configFactory,
-        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
     ) {
         $this->_configFactory = $configFactory;
-        $this->_countryCollFactory = $countryCollFactory;
+        $this->_countryCollectionFactory = $countryCollectionFactory;
     }
 
     /**
-     * @param bool $isMultiselect
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray($isMultiselect = false)
     {
         $supported = $this->_configFactory->create()->getSupportedMerchantCountryCodes();
-        $options = $this->_countryCollFactory->create()->addCountryCodeFilter($supported, 'iso2')
-            ->loadData()
-            ->toOptionArray($isMultiselect ? false : __('--Please Select--'));
+        $options = $this->_countryCollectionFactory->create()->addCountryCodeFilter(
+            $supported,
+            'iso2'
+        )->loadData()->toOptionArray(
+            $isMultiselect ? false : __('--Please Select--')
+        );
 
         return $options;
     }

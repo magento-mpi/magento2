@@ -7,11 +7,12 @@
  */
 namespace Magento\Search\Model\Resource\Search\Grid;
 
-class Collection
-    extends \Magento\CatalogSearch\Model\Resource\Query\Collection
+class Collection extends \Magento\CatalogSearch\Model\Resource\Query\Collection
 {
     /**
-     * @var \Magento\Core\Model\Registry
+     * Registry manager
+     *
+     * @var \Magento\Registry
      */
     protected $_registryManager;
 
@@ -20,9 +21,9 @@ class Collection
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param mixed $connection
      * @param mixed $resource
      */
@@ -31,9 +32,9 @@ class Collection
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         $connection = null,
         $resource = null
     ) {
@@ -51,7 +52,9 @@ class Collection
     }
 
     /**
-     * @return \Magento\Search\Model\Resource\Search\Grid\Collection
+     * Initialize select
+     *
+     * @return $this
      */
     protected function _initSelect()
     {

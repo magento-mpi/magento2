@@ -53,9 +53,10 @@ interface ViewInterface
      * Add layout updates handles associated with the action page
      *
      * @param array $parameters page parameters
+     * @param string $defaultHandle
      * @return bool
      */
-    public function addPageLayoutHandles(array $parameters = array());
+    public function addPageLayoutHandles(array $parameters = array(), $defaultHandle = null);
 
     /**
      * Generate layout blocks
@@ -82,7 +83,14 @@ interface ViewInterface
      * Set isLayoutLoaded flag
      *
      * @param bool $value
+     * @return void
      */
     public function setIsLayoutLoaded($value);
 
+    /**
+     * Returns is layout loaded
+     *
+     * @return bool
+     */
+    public function isLayoutLoaded();
 }

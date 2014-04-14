@@ -13,17 +13,12 @@ return array(
         'dependencies' => array(
             'modules' => array(),
             'extensions' => array(
-                'strict' => array(
-                    array('name' => 'spl'),
-                ),
+                'strict' => array(array('name' => 'spl')),
                 'alternatives' => array(
-                    array(
-                        array('name' => 'gd'),
-                        array('name' => 'imagick', 'minVersion' => '3.0.0'),
-                    ),
-                ),
-            ),
-        ),
+                    array(array('name' => 'gd'), array('name' => 'imagick', 'minVersion' => '3.0.0'))
+                )
+            )
+        )
     ),
     'Module_Two' => array(
         'name' => 'Module_Two',
@@ -31,12 +26,7 @@ return array(
         'active' => false,
         'dependencies' => array(
             'modules' => array('Module_One'),
-            'extensions' => array(
-                'strict' => array(
-                    array('name' => 'dom'),
-                ),
-                'alternatives' => array(),
-            ),
-        ),
-    ),
+            'extensions' => array('strict' => array(array('name' => 'dom')), 'alternatives' => array())
+        )
+    )
 );

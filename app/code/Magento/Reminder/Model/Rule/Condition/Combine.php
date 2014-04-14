@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule\Condition;
 
 /**
  * Rule conditions container
  */
-namespace Magento\Reminder\Model\Rule\Condition;
-
-class Combine
-    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
+class Combine extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
      * @param \Magento\Rule\Model\Condition\Context $context

@@ -7,8 +7,10 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <job name="magento_logging_rotate_logs" instance="Magento\Logging\Model\Observer" method="rotateLogs">
-        <schedule>1 2 * * *</schedule>
-    </job>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Cron/etc/crontab.xsd">
+    <group id="default">
+        <job name="magento_logging_rotate_logs" instance="Magento\Logging\Model\Observer" method="rotateLogs">
+            <schedule>1 2 * * *</schedule>
+        </job>
+    </group>
 </config>

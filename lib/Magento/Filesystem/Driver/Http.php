@@ -24,7 +24,7 @@ class Http extends File
     protected $scheme = 'http';
 
     /**
-     * @param $path
+     * @param string $path
      * @return bool
      * @throws FilesystemException
      */
@@ -48,27 +48,26 @@ class Http extends File
      *
      * @param string $path
      * @return array
-     * @throws \Magento\Filesystem\FilesystemException
      */
     public function stat($path)
     {
-        $headers = array_change_key_case(get_headers($path, 1), CASE_LOWER);
+        $headers = array_change_key_case(get_headers($this->getScheme() . $path, 1), CASE_LOWER);
 
         $result = array(
-            'dev'         => 0,
-            'ino'         => 0,
-            'mode'        => 0,
-            'nlink'       => 0,
-            'uid'         => 0,
-            'gid'         => 0,
-            'rdev'        => 0,
-            'atime'       => 0,
-            'ctime'       => 0,
-            'blksize'     => 0,
-            'blocks'      => 0,
-            'size'        => isset($headers['content-length']) ? $headers['content-length'] : 0,
-            'type'        => isset($headers['content-type']) ? $headers['content-type'] : '',
-            'mtime'       => isset($headers['last-modified']) ? $headers['last-modified'] : 0,
+            'dev' => 0,
+            'ino' => 0,
+            'mode' => 0,
+            'nlink' => 0,
+            'uid' => 0,
+            'gid' => 0,
+            'rdev' => 0,
+            'atime' => 0,
+            'ctime' => 0,
+            'blksize' => 0,
+            'blocks' => 0,
+            'size' => isset($headers['content-length']) ? $headers['content-length'] : 0,
+            'type' => isset($headers['content-type']) ? $headers['content-type'] : '',
+            'mtime' => isset($headers['last-modified']) ? $headers['last-modified'] : 0,
             'disposition' => isset($headers['content-disposition']) ? $headers['content-disposition'] : null
         );
         return $result;
@@ -86,14 +85,11 @@ class Http extends File
     public function fileGetContents($path, $flags = null, $context = null)
     {
         clearstatcache();
-        $result = @file_get_contents($path, $flags, $context);
-        if (!$result) {
+        $result = @file_get_contents($this->getScheme() . $path, $flags, $context);
+        if (false === $result) {
             throw new FilesystemException(
-                sprintf(
-                    'Cannot read contents from file "%s" %s',
-                    $path,
-                    $this->getWarningMessage()
-                ));
+                sprintf('Cannot read contents from file "%s" %s', $path, $this->getWarningMessage())
+            );
         }
         return $result;
     }
@@ -104,20 +100,17 @@ class Http extends File
      * @param string $path
      * @param string $content
      * @param string|null $mode
-     * @param string|null $context
+     * @param resource|null $context
      * @return int The number of bytes that were written
      * @throws FilesystemException
      */
     public function filePutContents($path, $content, $mode = null, $context = null)
     {
-        $result = @file_put_contents($path, $content, $mode, $context);
+        $result = @file_put_contents($this->getScheme() . $path, $content, $mode, $context);
         if (!$result) {
             throw new FilesystemException(
-                sprintf(
-                    'The specified "%s" file could not be written %s',
-                    $path,
-                    $this->getWarningMessage()
-                ));
+                sprintf('The specified "%s" file could not be written %s', $path, $this->getWarningMessage())
+            );
         }
         return $result;
     }
@@ -133,16 +126,13 @@ class Http extends File
     public function fileOpen($path, $mode)
     {
         $urlProp = parse_url($this->getScheme() . $path);
-        if (!isset($urlProp['scheme']) || strtolower($urlProp['scheme'] != 'http')) {
-            throw new FilesystemException(__('Please correct the download URL scheme.'));
-        }
 
-        if (!isset($urlProp['host'])) {
-            throw new FilesystemException(__('Please correct the download URL host.'));
+        if (false === $urlProp) {
+            throw new FilesystemException(__('Please correct the download URL.'));
         }
 
         $hostname = $urlProp['host'];
-        $port     = 80;
+        $port = 80;
         if (isset($urlProp['port'])) {
             $port = (int)$urlProp['port'];
         }
@@ -157,11 +147,7 @@ class Http extends File
             $query = '?' . $urlProp['query'];
         }
 
-        try {
-            $result = fsockopen($hostname, $port, $errorNumber, $errorMessage);
-        } catch (\Exception $e) {
-            throw new FilesystemException($e->getMessage());
-        }
+        $result = @fsockopen($hostname, $port, $errorNumber, $errorMessage);
 
         if ($result === false) {
             throw new FilesystemException(
@@ -169,11 +155,20 @@ class Http extends File
             );
         }
 
-        $headers = 'GET ' . $path . $query . ' HTTP/1.0' . "\r\n"
-            . 'Host: ' . $hostname . "\r\n"
-            . 'User-Agent: Magento ver/' . \Magento\Core\Model\App::VERSION . "\r\n"
-            . 'Connection: close' . "\r\n"
-            . "\r\n";
+        $headers = 'GET ' .
+            $path .
+            $query .
+            ' HTTP/1.0' .
+            "\r\n" .
+            'Host: ' .
+            $hostname .
+            "\r\n" .
+            'User-Agent: Magento ver/' .
+            \Magento\AppInterface::VERSION .
+            "\r\n" .
+            'Connection: close' .
+            "\r\n" .
+            "\r\n";
 
         fwrite($result, $headers);
 

@@ -2,22 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Account\Dashboard;
+
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Exception\NoSuchEntityException;
 
 /**
  * Dashboard Customer Info
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Customer\Block\Account\Dashboard;
-
 class Info extends \Magento\View\Element\Template
 {
     /**
@@ -28,38 +23,68 @@ class Info extends \Magento\View\Element\Template
     protected $_subscription;
 
     /**
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_customerSession;
-
-    /**
      * @var \Magento\Newsletter\Model\SubscriberFactory
      */
     protected $_subscriberFactory;
 
+    /** @var \Magento\Customer\Helper\View */
+    protected $_helperView;
+
     /**
+     * @var \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
+     */
+    protected $customerCurrentService;
+
+    /**
+     * Constructor
+     *
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\Customer\Helper\View $helperView
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        \Magento\Customer\Helper\View $helperView,
         array $data = array()
     ) {
-        $this->_customerSession = $customerSession;
+        $this->customerCurrentService = $customerCurrentService;
         $this->_subscriberFactory = $subscriberFactory;
+        $this->_helperView = $helperView;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
-
+    /**
+     * Returns the Magento Customer Model for this block
+     *
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
+     */
     public function getCustomer()
     {
-        return $this->_customerSession->getCustomer();
+        try {
+            return $this->customerCurrentService->getCustomer();
+        } catch (NoSuchEntityException $e) {
+            return null;
+        }
     }
 
+    /**
+     * Get the full name of a customer
+     *
+     * @return string full name
+     */
+    public function getName()
+    {
+        return $this->_helperView->getCustomerName($this->getCustomer());
+    }
+
+    /**
+     * @return string
+     */
     public function getChangePasswordUrl()
     {
         return $this->_urlBuilder->getUrl('*/account/edit/changepass/1');
@@ -74,7 +99,10 @@ class Info extends \Magento\View\Element\Template
     {
         if (!$this->_subscription) {
             $this->_subscription = $this->_createSubscriber();
-            $this->_subscription->loadByCustomer($this->_customerSession->getCustomer());
+            $customer = $this->getCustomer();
+            if ($customer) {
+                $this->_subscription->loadByEmail($customer->getEmail());
+            }
         }
         return $this->_subscription;
     }
@@ -83,6 +111,8 @@ class Info extends \Magento\View\Element\Template
      * Gets Customer subscription status
      *
      * @return bool
+     *
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getIsSubscribed()
     {
@@ -90,9 +120,9 @@ class Info extends \Magento\View\Element\Template
     }
 
     /**
-     *  Newsletter module availability
+     * Newsletter module availability
      *
-     *  @return	  boolean
+     * @return bool
      */
     public function isNewsletterEnabled()
     {

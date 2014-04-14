@@ -19,9 +19,6 @@ class Core_Mage_ValidationVatNumber_AdminOrderCreation_NewCustomerTest extends M
 {
     public function setUpBeforeTests()
     {
-        $this->markTestIncomplete(
-            'BUG: Order saving error: Rolled back transaction has not been completed correctly in creatingOrderForNewCustomer'
-        );
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
@@ -29,7 +26,7 @@ class Core_Mage_ValidationVatNumber_AdminOrderCreation_NewCustomerTest extends M
         $this->clickControl('button', 'validate_vat_number', false);
         $this->pleaseWait();
         //Verification
-        if (!$this->controlIsVisible('pageelement', 'vat_number_is_valid')){
+        if (!$this->controlIsVisible('message', 'vat_number_is_valid')){
             $this->skipTestWithScreenshot('VAT Number is not valid');
         }
     }
@@ -119,7 +116,6 @@ class Core_Mage_ValidationVatNumber_AdminOrderCreation_NewCustomerTest extends M
             $orderData['billing_addr_data']['billing_vat_number'],
             $successChange
         );
-        $this->pleaseWait();
         $this->orderHelper()->submitOrder();
         //Verification
         $this->assertMessagePresent('success', 'success_created_order');

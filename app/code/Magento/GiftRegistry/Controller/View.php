@@ -7,32 +7,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Gift registry frontend controller
- */
 namespace Magento\GiftRegistry\Controller;
 
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
 
+/**
+ * Gift registry frontend controller
+ */
 class View extends \Magento\App\Action\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -54,6 +51,8 @@ class View extends \Magento\App\Action\Action
 
     /**
      * View giftregistry list in 'My Account' section
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -81,6 +80,8 @@ class View extends \Magento\App\Action\Action
 
     /**
      * Add specified gift registry items to quote
+     *
+     * @return void
      */
     public function addToCartAction()
     {
@@ -98,10 +99,13 @@ class View extends \Magento\App\Action\Action
             $count = 0;
             foreach ($items as $itemId => $itemInfo) {
                 $item = $this->_objectManager->create('Magento\GiftRegistry\Model\Item')->load($itemId);
-                $optionCollection = $this->_objectManager->create('Magento\GiftRegistry\Model\Item\Option')->getCollection()
-                    ->addItemFilter($itemId);
+                $optionCollection = $this->_objectManager->create(
+                    'Magento\GiftRegistry\Model\Item\Option'
+                )->getCollection()->addItemFilter(
+                    $itemId
+                );
                 $item->setOptions($optionCollection->getOptionsByItem($item));
-                if (!$item->getId() || $itemInfo['qty'] < 1 || ($item->getQty() <= $item->getQtyFulfilled())) {
+                if (!$item->getId() || $itemInfo['qty'] < 1 || $item->getQty() <= $item->getQtyFulfilled()) {
                     continue;
                 }
                 $item->addToCart($cart, $itemInfo['qty']);
@@ -113,7 +117,7 @@ class View extends \Magento\App\Action\Action
                 $success = false;
                 $this->messageManager->addError(__('Please enter the quantity of items to add to cart.'));
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError(__($e->getMessage()));
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We cannot add this item to your shopping cart.'));

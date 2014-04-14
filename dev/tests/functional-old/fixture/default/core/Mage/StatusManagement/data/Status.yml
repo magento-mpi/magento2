@@ -14,5 +14,5 @@ generic_status:
     status_label: Generic Label(%randomize%)
 
 assign_status:
-    order_status: Generic Label
-    order_state: New
+    order_status: On Hold
+    order_state: On Hold

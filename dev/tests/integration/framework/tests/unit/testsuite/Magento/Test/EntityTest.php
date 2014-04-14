@@ -8,13 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test;
 
 class EntityTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\AbstractModel|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Model\AbstractModel|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -51,8 +50,8 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     public function crudDataProvider()
     {
         return array(
-            'successful CRUD'         => array('saveModelSuccessfully'),
-            'cleanup on update error' => array('saveModelAndFailOnUpdate', 'Magento\Exception'),
+            'successful CRUD' => array('saveModelSuccessfully'),
+            'cleanup on update error' => array('saveModelAndFailOnUpdate', 'Magento\Exception')
         );
     }
 
@@ -64,26 +63,31 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException($expectedException);
 
         $this->_model = $this->getMock(
-            'Magento\Core\Model\AbstractModel',
+            'Magento\Model\AbstractModel',
             array('load', 'save', 'delete', 'getIdFieldName', '__wakeup'),
             array(),
             '',
             false
         );
 
-        $this->_model->expects($this->atLeastOnce())
-            ->method('load');
-        $this->_model->expects($this->atLeastOnce())
-            ->method('save')
-            ->will($this->returnCallback(array($this, $saveCallback)));
+        $this->_model->expects($this->atLeastOnce())->method('load');
+        $this->_model->expects(
+            $this->atLeastOnce()
+        )->method(
+            'save'
+        )->will(
+            $this->returnCallback(array($this, $saveCallback))
+        );
         /* It's important that 'delete' should be always called to guarantee the cleanup */
-        $this->_model->expects($this->atLeastOnce())
-            ->method('delete')
-            ->will($this->returnCallback(array($this, 'deleteModelSuccessfully')));
+        $this->_model->expects(
+            $this->atLeastOnce()
+        )->method(
+            'delete'
+        )->will(
+            $this->returnCallback(array($this, 'deleteModelSuccessfully'))
+        );
 
-        $this->_model->expects($this->any())
-            ->method('getIdFieldName')
-            ->will($this->returnValue('id'));
+        $this->_model->expects($this->any())->method('getIdFieldName')->will($this->returnValue('id'));
 
         $test = $this->getMock(
             'Magento\TestFramework\Entity',
@@ -91,10 +95,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             array($this->_model, array('test' => 'test'))
         );
 
-        $test->expects($this->any())
-            ->method('_getEmptyModel')
-            ->will($this->returnValue($this->_model));
+        $test->expects($this->any())->method('_getEmptyModel')->will($this->returnValue($this->_model));
         $test->testCrud();
-
     }
 }

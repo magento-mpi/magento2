@@ -18,6 +18,8 @@
  */
 namespace Magento\DB\Statement\Pdo;
 
+use Magento\DB\Statement\Parameter;
+
 class Mysql extends \Zend_Db_Statement_Pdo
 {
     /**
@@ -41,13 +43,14 @@ class Mysql extends \Zend_Db_Statement_Pdo
 
         /* @var $statement \PDOStatement */
         $statement = $this->_stmt;
-        $bindValues = array(); // Separate array with values, as they are bound by reference
+        $bindValues = array();
+        // Separate array with values, as they are bound by reference
         foreach ($params as $name => $param) {
             $dataType = \PDO::PARAM_STR;
             $length = null;
             $driverOptions = null;
 
-            if ($param instanceof \Magento\DB\Statement\Parameter) {
+            if ($param instanceof Parameter) {
                 if ($param->getIsBlob()) {
                     // Nothing to do there - default options are fine for MySQL driver
                 } else {
@@ -60,14 +63,14 @@ class Mysql extends \Zend_Db_Statement_Pdo
                 $bindValues[$name] = $param;
             }
 
-            $paramName = $isPositionalBind ? ($name + 1) : $name;
+            $paramName = $isPositionalBind ? $name + 1 : $name;
             $statement->bindParam($paramName, $bindValues[$name], $dataType, $length, $driverOptions);
         }
 
         try {
             return $statement->execute();
         } catch (\PDOException $e) {
-            throw new \Zend_Db_Statement_Exception($e->getMessage(), (int) $e->getCode(), $e);
+            throw new \Zend_Db_Statement_Exception($e->getMessage(), (int)$e->getCode(), $e);
         }
     }
 
@@ -83,7 +86,7 @@ class Mysql extends \Zend_Db_Statement_Pdo
         $specialExecute = false;
         if ($params) {
             foreach ($params as $param) {
-                if ($param instanceof \Magento\DB\Statement\Parameter) {
+                if ($param instanceof Parameter) {
                     $specialExecute = true;
                     break;
                 }

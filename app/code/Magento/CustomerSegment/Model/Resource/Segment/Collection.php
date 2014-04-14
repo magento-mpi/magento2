@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerSegment\Model\Resource\Segment;
 
 /**
  * Enterprise CustomerSegment Model Resource Segment Collection
@@ -16,10 +16,7 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerSegment\Model\Resource\Segment;
-
-class Collection
-    extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection
+class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection
 {
     /**
      * Store associated with rule entities information map
@@ -29,13 +26,13 @@ class Collection
     protected $_associatedEntitiesMap = array(
         'website' => array(
             'associations_table' => 'magento_customersegment_website',
-            'rule_id_field'      => 'segment_id',
-            'entity_id_field'    => 'website_id'
+            'rule_id_field' => 'segment_id',
+            'entity_id_field' => 'website_id'
         ),
         'event' => array(
             'associations_table' => 'magento_customersegment_event',
-            'rule_id_field'      => 'segment_id',
-            'entity_id_field'    => 'event'
+            'rule_id_field' => 'segment_id',
+            'entity_id_field' => 'event'
         )
     );
 
@@ -49,14 +46,15 @@ class Collection
     /**
      * Store flag which determines if customer count data was added
      *
-     * @deprecated after 1.11.2.0 - use $this->getFlag('is_customer_count_added') instead
-     *
      * @var bool
+     * @deprecated after 1.11.2.0 - use $this->getFlag('is_customer_count_added') instead
      */
     protected $_customerCountAdded = false;
 
     /**
      * Set resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -67,7 +65,7 @@ class Collection
      * Limit segments collection by event name
      *
      * @param string $eventName
-     * @return \Magento\CustomerSegment\Model\Resource\Segment\Collection
+     * @return $this
      */
     public function addEventFilter($eventName)
     {
@@ -88,9 +86,8 @@ class Collection
      * Provide support for customer count filter
      *
      * @param string $field
-     * @param mixed $condition
-     *
-     * @return \Magento\CustomerSegment\Model\Resource\Segment\Collection
+     * @param int|string|array|null $condition
+     * @return $this
      */
     public function addFieldToFilter($field, $condition = null)
     {
@@ -134,7 +131,7 @@ class Collection
     /**
      * Aggregate customer count by each segment
      *
-     * @return \Magento\CustomerSegment\Model\Resource\Segment\Collection
+     * @return $this
      */
     public function addCustomerCountToSelect()
     {
@@ -144,28 +141,26 @@ class Collection
         $this->setFlag('is_customer_count_added', true);
         $this->_customerCountAdded = true;
 
-        $this->getSelect()
-            ->joinLeft(
-                array('customer_count_table' => $this->getTable('magento_customersegment_customer')),
-                'customer_count_table.segment_id = main_table.segment_id',
-                array('customer_count' => new \Zend_Db_Expr('COUNT(customer_count_table.customer_id)'))
-            )
-            ->group('main_table.segment_id');
+        $this->getSelect()->joinLeft(
+            array('customer_count_table' => $this->getTable('magento_customersegment_customer')),
+            'customer_count_table.segment_id = main_table.segment_id',
+            array('customer_count' => new \Zend_Db_Expr('COUNT(customer_count_table.customer_id)'))
+        )->group(
+            'main_table.segment_id'
+        );
         return $this;
     }
 
     /**
      * Add customer count filter
      *
-     * @param integer $customerCount
-     *
-     * @return \Magento\CustomerSegment\Model\Resource\Segment\Collection
+     * @param int $customerCount
+     * @return $this
      */
     public function addCustomerCountFilter($customerCount)
     {
         $this->addCustomerCountToSelect();
-        $this->getSelect()
-            ->having('customer_count = ?', $customerCount);
+        $this->getSelect()->having('customer_count = ?', $customerCount);
         return $this;
     }
 

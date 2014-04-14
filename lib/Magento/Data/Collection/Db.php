@@ -7,13 +7,16 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Data\Collection;
 
+use Magento\Data\Collection\Db\FetchStrategyInterface;
+use Magento\DB\Adapter\AdapterInterface;
+use Magento\DB\Select;
+use Magento\Logger;
 
 /**
  * Base items collection class
  */
-namespace Magento\Data\Collection;
-
 class Db extends \Magento\Data\Collection
 {
     /**
@@ -76,25 +79,25 @@ class Db extends \Magento\Data\Collection
     protected $_isOrdersRendered = false;
 
     /**
-     * @var \Magento\Logger
+     * @var Logger
      */
     protected $_logger;
 
     /**
-     * @var \Magento\Data\Collection\Db\FetchStrategyInterface
+     * @var FetchStrategyInterface
      */
     private $_fetchStrategy;
 
     /**
-     * @param \Magento\Data\Collection\EntityFactoryInterface $entityFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param mixed $connection
+     * @param EntityFactoryInterface $entityFactory
+     * @param Logger $logger
+     * @param FetchStrategyInterface $fetchStrategy
+     * @param \Zend_Db_Adapter_Abstract $connection
      */
     public function __construct(
-        \Magento\Data\Collection\EntityFactoryInterface $entityFactory,
-        \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        EntityFactoryInterface $entityFactory,
+        Logger $logger,
+        FetchStrategyInterface $fetchStrategy,
         $connection = null
     ) {
         parent::__construct($entityFactory);
@@ -110,7 +113,7 @@ class Db extends \Magento\Data\Collection
      *
      * @param string $name
      * @param mixed $value
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      */
     public function addBindParam($name, $value)
     {
@@ -122,7 +125,7 @@ class Db extends \Magento\Data\Collection
      * Specify collection objects id field name
      *
      * @param string $fieldName
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      */
     protected function _setIdFieldName($fieldName)
     {
@@ -158,7 +161,7 @@ class Db extends \Magento\Data\Collection
      * Set database connection adapter
      *
      * @param \Zend_Db_Adapter_Abstract $conn
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      * @throws \Zend_Exception
      */
     public function setConnection($conn)
@@ -176,7 +179,7 @@ class Db extends \Magento\Data\Collection
     /**
      * Get \Zend_Db_Select instance
      *
-     * @return \Magento\DB\Select
+     * @return Select
      */
     public function getSelect()
     {
@@ -186,7 +189,7 @@ class Db extends \Magento\Data\Collection
     /**
      * Retrieve connection object
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return AdapterInterface
      */
     public function getConnection()
     {
@@ -210,7 +213,7 @@ class Db extends \Magento\Data\Collection
     /**
      * Get SQL for get record count
      *
-     * @return \Magento\DB\Select
+     * @return Select
      */
     public function getSelectCountSql()
     {
@@ -246,7 +249,7 @@ class Db extends \Magento\Data\Collection
      *
      * @param   string $field
      * @param   string $direction
-     * @return  \Magento\Data\Collection\Db
+     * @return  $this
      */
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -258,7 +261,7 @@ class Db extends \Magento\Data\Collection
      *
      * @param string $field
      * @param string $direction
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      */
     public function addOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -270,7 +273,7 @@ class Db extends \Magento\Data\Collection
      *
      * @param string $field
      * @param string $direction
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      */
     public function unshiftOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -283,15 +286,16 @@ class Db extends \Magento\Data\Collection
      * @param string $field
      * @param string $direction
      * @param bool $unshift
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      */
     private function _setOrder($field, $direction, $unshift = false)
     {
         $this->_isOrdersRendered = false;
         $field = (string)$this->_getMappedField($field);
-        $direction = (strtoupper($direction) == self::SORT_ORDER_ASC) ? self::SORT_ORDER_ASC : self::SORT_ORDER_DESC;
+        $direction = strtoupper($direction) == self::SORT_ORDER_ASC ? self::SORT_ORDER_ASC : self::SORT_ORDER_DESC;
 
-        unset($this->_orders[$field]); // avoid ordering by the same field twice
+        unset($this->_orders[$field]);
+        // avoid ordering by the same field twice
         if ($unshift) {
             $orders = array($field => $direction);
             foreach ($this->_orders as $key => $dir) {
@@ -307,7 +311,7 @@ class Db extends \Magento\Data\Collection
     /**
      * Render sql select conditions
      *
-     * @return  \Magento\Data\Collection\Db
+     * @return  $this
      */
     protected function _renderFilters()
     {
@@ -319,22 +323,20 @@ class Db extends \Magento\Data\Collection
 
         foreach ($this->_filters as $filter) {
             switch ($filter['type']) {
-                case 'or' :
-                    $condition = $this->_conn->quoteInto($filter['field'].'=?', $filter['value']);
+                case 'or':
+                    $condition = $this->_conn->quoteInto($filter['field'] . '=?', $filter['value']);
                     $this->_select->orWhere($condition);
                     break;
-                case 'string' :
+                case 'string':
                     $this->_select->where($filter['value']);
                     break;
                 case 'public':
                     $field = $this->_getMappedField($filter['field']);
                     $condition = $filter['value'];
-                    $this->_select->where(
-                        $this->_getConditionSql($field, $condition), null, \Magento\DB\Select::TYPE_CONDITION
-                    );
+                    $this->_select->where($this->_getConditionSql($field, $condition), null, Select::TYPE_CONDITION);
                     break;
                 default:
-                    $condition = $this->_conn->quoteInto($filter['field'].'=?', $filter['value']);
+                    $condition = $this->_conn->quoteInto($filter['field'] . '=?', $filter['value']);
                     $this->_select->where($condition);
             }
         }
@@ -344,6 +346,7 @@ class Db extends \Magento\Data\Collection
 
     /**
      * Hook for operations before rendering filters
+     * @return void
      */
     protected function _renderFiltersBefore()
     {
@@ -356,7 +359,7 @@ class Db extends \Magento\Data\Collection
      *
      * @param string|array $field
      * @param null|string|array $condition
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      */
     public function addFieldToFilter($field, $condition = null)
     {
@@ -371,7 +374,7 @@ class Db extends \Magento\Data\Collection
             $resultCondition = $this->_translateCondition($field, $condition);
         }
 
-        $this->_select->where($resultCondition, null, \Magento\DB\Select::TYPE_CONDITION);
+        $this->_select->where($resultCondition, null, Select::TYPE_CONDITION);
 
         return $this;
     }
@@ -381,7 +384,6 @@ class Db extends \Magento\Data\Collection
      *
      * @param   string|array $field
      * @param   null|string|array $condition
-     *
      * @return  string
      */
     protected function _translateCondition($field, $condition)
@@ -401,12 +403,12 @@ class Db extends \Magento\Data\Collection
         $mapper = $this->_getMapper();
 
         if (isset($mapper['fields'][$field])) {
-            $mappedFiled = $mapper['fields'][$field];
+            $mappedField = $mapper['fields'][$field];
         } else {
-            $mappedFiled = $field;
+            $mappedField = $field;
         }
 
-        return $mappedFiled;
+        return $mappedField;
     }
 
     /**
@@ -459,6 +461,12 @@ class Db extends \Magento\Data\Collection
         return $this->getConnection()->prepareSqlCondition($fieldName, $condition);
     }
 
+    /**
+     * Return the field name for the condition.
+     *
+     * @param string $fieldName
+     * @return string
+     */
     protected function _getConditionFieldName($fieldName)
     {
         return $fieldName;
@@ -467,7 +475,7 @@ class Db extends \Magento\Data\Collection
     /**
      * Render sql select orders
      *
-     * @return  \Magento\Data\Collection\Db
+     * @return  $this
      */
     protected function _renderOrders()
     {
@@ -484,7 +492,7 @@ class Db extends \Magento\Data\Collection
     /**
      * Render sql select limit
      *
-     * @return  \Magento\Data\Collection\Db
+     * @return  $this
      */
     protected function _renderLimit()
     {
@@ -499,8 +507,7 @@ class Db extends \Magento\Data\Collection
      * Set select distinct
      *
      * @param   bool $flag
-     *
-     * @return  \Magento\Data\Collection\Db
+     * @return  $this
      */
     public function distinct($flag)
     {
@@ -511,7 +518,7 @@ class Db extends \Magento\Data\Collection
     /**
      * Before load action
      *
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      */
     protected function _beforeLoad()
     {
@@ -523,8 +530,7 @@ class Db extends \Magento\Data\Collection
      *
      * @param   bool $printQuery
      * @param   bool $logQuery
-     *
-     * @return  \Magento\Data\Collection\Db
+     * @return  $this
      */
     public function load($printQuery = false, $logQuery = false)
     {
@@ -534,9 +540,7 @@ class Db extends \Magento\Data\Collection
 
         $this->_beforeLoad();
 
-        $this->_renderFilters()
-             ->_renderOrders()
-             ->_renderLimit();
+        $this->_renderFilters()->_renderOrders()->_renderLimit();
 
         $this->printLogQuery($printQuery, $logQuery);
         $data = $this->getData();
@@ -567,11 +571,9 @@ class Db extends \Magento\Data\Collection
     public function fetchItem()
     {
         if (null === $this->_fetchStmt) {
-            $this->_renderOrders()
-                 ->_renderLimit();
+            $this->_renderOrders()->_renderLimit();
 
-            $this->_fetchStmt = $this->getConnection()
-                ->query($this->getSelect());
+            $this->_fetchStmt = $this->getConnection()->query($this->getSelect());
         }
         $data = $this->_fetchStmt->fetch();
         if (!empty($data) && is_array($data)) {
@@ -618,33 +620,6 @@ class Db extends \Magento\Data\Collection
     }
 
     /**
-     * Convert items array to hash for select options
-     * using fetchItem method
-     *
-     * The difference between _toOptionHash() and this one is that this
-     * method fetch items one by one and does not load all collection items at once
-     * return items hash
-     * array($value => $label)
-     *
-     * @see     fetchItem()
-     *
-     * @param   string $valueField
-     * @param   string $labelField
-     * @return  array
-     */
-    protected function _toOptionHashOptimized($valueField = null, $labelField = 'name')
-    {
-        if ($valueField === null) {
-            $valueField = $this->getIdFieldName();
-        }
-        $result = array();
-        while ($item = $this->fetchItem()) {
-            $result[$item->getData($valueField)] = $item->getData($labelField);
-        }
-        return $result;
-    }
-
-    /**
      * Get all data array for collection
      *
      * @return array
@@ -652,9 +627,7 @@ class Db extends \Magento\Data\Collection
     public function getData()
     {
         if ($this->_data === null) {
-            $this->_renderFilters()
-                 ->_renderOrders()
-                 ->_renderLimit();
+            $this->_renderFilters()->_renderOrders()->_renderLimit();
             $select = $this->getSelect();
             $this->_data = $this->_fetchAll($select);
             $this->_afterLoadData();
@@ -665,7 +638,7 @@ class Db extends \Magento\Data\Collection
     /**
      * Process loaded collection data
      *
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      */
     protected function _afterLoadData()
     {
@@ -675,7 +648,7 @@ class Db extends \Magento\Data\Collection
     /**
      * Reset loaded for collection data array
      *
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      */
     public function resetData()
     {
@@ -683,11 +656,23 @@ class Db extends \Magento\Data\Collection
         return $this;
     }
 
+    /**
+     * Process loaded collection
+     *
+     * @return $this
+     */
     protected function _afterLoad()
     {
         return $this;
     }
 
+    /**
+     * Load the data.
+     *
+     * @param bool $printQuery
+     * @param bool $logQuery
+     * @return $this
+     */
     public function loadData($printQuery = false, $logQuery = false)
     {
         return $this->load($printQuery, $logQuery);
@@ -699,8 +684,7 @@ class Db extends \Magento\Data\Collection
      * @param   bool $printQuery
      * @param   bool $logQuery
      * @param   string $sql
-     *
-     * @return  \Magento\Data\Collection\Db
+     * @return  $this
      */
     public function printLogQuery($printQuery = false, $logQuery = false, $sql = null)
     {
@@ -718,6 +702,7 @@ class Db extends \Magento\Data\Collection
      * Log query
      *
      * @param string $sql
+     * @return void
      */
     protected function _logQuery($sql)
     {
@@ -727,7 +712,7 @@ class Db extends \Magento\Data\Collection
     /**
      * Reset collection
      *
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      */
     protected function _reset()
     {
@@ -756,14 +741,13 @@ class Db extends \Magento\Data\Collection
      * @param string $filter
      * @param string $alias
      * @param string $group default 'fields'
-     *
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      */
     public function addFilterToMap($filter, $alias, $group = 'fields')
     {
         if (is_null($this->_map)) {
             $this->_map = array($group => array());
-        } elseif (is_null($this->_map[$group])) {
+        } elseif (empty($this->_map[$group])) {
             $this->_map[$group] = array();
         }
         $this->_map[$group][$filter] = $alias;
@@ -773,6 +757,8 @@ class Db extends \Magento\Data\Collection
 
     /**
      * Clone $this->_select during cloning collection, otherwise both collections will share the same $this->_select
+     *
+     * @return void
      */
     public function __clone()
     {
@@ -783,6 +769,8 @@ class Db extends \Magento\Data\Collection
 
     /**
      * Init select
+     *
+     * @return void
      */
     protected function _initSelect()
     {

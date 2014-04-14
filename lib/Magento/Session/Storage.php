@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Session;
 
 class Storage extends \Magento\Object implements StorageInterface
@@ -22,6 +21,8 @@ class Storage extends \Magento\Object implements StorageInterface
     protected $namespace;
 
     /**
+     * Constructor
+     *
      * @param string $namespace
      * @param array $data
      */
@@ -40,7 +41,7 @@ class Storage extends \Magento\Object implements StorageInterface
         if (isset($data[$namespace])) {
             $this->setData($data[$namespace]);
         }
-        $_SESSION[$namespace] = &$this->_data;
+        $_SESSION[$namespace] =& $this->_data;
     }
 
     /**

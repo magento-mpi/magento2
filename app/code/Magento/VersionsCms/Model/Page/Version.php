@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Model\Page;
 
 /**
  * Cms page version model
@@ -28,15 +29,15 @@
  * @method string getCreatedAt()
  * @method \Magento\VersionsCms\Model\Page\Version setCreatedAt(string $value)
  */
-namespace Magento\VersionsCms\Model\Page;
-
-class Version extends \Magento\Core\Model\AbstractModel
+class Version extends \Magento\Model\AbstractModel
 {
     /**
      * Access level constants
      */
     const ACCESS_LEVEL_PRIVATE = 'private';
+
     const ACCESS_LEVEL_PROTECTED = 'protected';
+
     const ACCESS_LEVEL_PUBLIC = 'public';
 
     /**
@@ -60,7 +61,7 @@ class Version extends \Magento\Core\Model\AbstractModel
     protected $_cmsIncrementFactory;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_coreDate;
 
@@ -80,28 +81,28 @@ class Version extends \Magento\Core\Model\AbstractModel
     protected $_pageRevisionFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory
-     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\VersionsCms\Model\Resource\Increment $cmsResourceIncrement
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory,
-        \Magento\Core\Model\Date $coreDate,
+        \Magento\Stdlib\DateTime\DateTime $coreDate,
         \Magento\VersionsCms\Model\Resource\Increment $cmsResourceIncrement,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -115,6 +116,8 @@ class Version extends \Magento\Core\Model\AbstractModel
 
     /**
      * Constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -125,8 +128,8 @@ class Version extends \Magento\Core\Model\AbstractModel
     /**
      * Preparing data before save
      *
-     * @return \Magento\VersionsCms\Model\Page\Version
-     * @throws \Magento\Core\Exception
+     * @return $this
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave()
     {
@@ -142,7 +145,7 @@ class Version extends \Magento\Core\Model\AbstractModel
         }
 
         if (!$this->getLabel()) {
-            throw new \Magento\Core\Exception(__('Please enter a version label.'));
+            throw new \Magento\Model\Exception(__('Please enter a version label.'));
         }
 
         // We cannot allow changing access level for some versions
@@ -152,7 +155,7 @@ class Version extends \Magento\Core\Model\AbstractModel
                 /* @var $resource \Magento\VersionsCms\Model\Resource\Page\Version */
 
                 if ($resource->isVersionLastPublic($this)) {
-                    throw new \Magento\Core\Exception(
+                    throw new \Magento\Model\Exception(
                         __('Cannot change version access level because it is the last public version for its page.')
                     );
                 }
@@ -165,7 +168,7 @@ class Version extends \Magento\Core\Model\AbstractModel
     /**
      * Processing some data after version saved
      *
-     * @return \Magento\VersionsCms\Model\Page\Version
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -181,12 +184,15 @@ class Version extends \Magento\Core\Model\AbstractModel
             if ($this->getInitialRevisionData()) {
                 $revision->setData($this->getInitialRevisionData());
             } else {
-                $revision->loadWithRestrictions($accessLevel, $userId, $this->getOrigData($this->getIdFieldName()), 'version_id');
+                $revision->loadWithRestrictions(
+                    $accessLevel,
+                    $userId,
+                    $this->getOrigData($this->getIdFieldName()),
+                    'version_id'
+                );
             }
 
-            $revision->setVersionId($this->getId())
-                ->setUserId($userId)
-                ->save();
+            $revision->setVersionId($this->getId())->setUserId($userId)->save();
 
             $this->setLastRevision($revision);
         }
@@ -196,8 +202,8 @@ class Version extends \Magento\Core\Model\AbstractModel
     /**
      * Checking some moments before we can actually delete version
      *
-     * @return \Magento\VersionsCms\Model\Page\Version
-     * @throws \Magento\Core\Exception
+     * @return $this
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeDelete()
     {
@@ -205,14 +211,14 @@ class Version extends \Magento\Core\Model\AbstractModel
         /* @var $resource \Magento\VersionsCms\Model\Resource\Page\Version */
         if ($this->isPublic()) {
             if ($resource->isVersionLastPublic($this)) {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     __('Version "%1" cannot be removed because it is the last public page version.', $this->getLabel())
                 );
             }
         }
 
         if ($resource->isVersionHasPublishedRevision($this)) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Version "%1" cannot be removed because its revision is published.', $this->getLabel())
             );
         }
@@ -223,7 +229,7 @@ class Version extends \Magento\Core\Model\AbstractModel
     /**
      * Removing unneeded data from increment table after version was removed.
      *
-     * @return \Magento\VersionsCms\Model\Page\Version
+     * @return $this
      */
     protected function _afterDelete()
     {
@@ -253,7 +259,7 @@ class Version extends \Magento\Core\Model\AbstractModel
      * @param int $userId
      * @param int|string $value
      * @param string|null $field
-     * @return \Magento\VersionsCms\Model\Page\Version
+     * @return $this
      */
     public function loadWithRestrictions($accessLevel, $userId, $value, $field = null)
     {

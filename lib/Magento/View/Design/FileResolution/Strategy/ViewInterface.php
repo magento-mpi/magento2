@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\FileResolution\Strategy;
 
 use Magento\View\Design\ThemeInterface;

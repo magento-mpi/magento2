@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <update handle="customer_account"/>
     <referenceBlock name="customer_account_navigation">
         <action method="setActive">
@@ -15,9 +15,9 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\Rma\Block\Returns\History" name="rma.returns.history">
+        <block class="Magento\Rma\Block\Returns\History" name="rma.returns.history" cacheable="false">
             <container name="rma.returns.history.info" as="info" label="Returns History Info"/>
         </block>
-        <block class="Magento\Customer\Block\Account\Dashboard" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
+        <block class="Magento\Customer\Block\Account\Dashboard" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml" cacheable="false"/>
     </referenceContainer>
 </layout>

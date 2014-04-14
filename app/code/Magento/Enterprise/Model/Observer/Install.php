@@ -7,13 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Enterprise\Model\Observer;
+
+use Magento\Event\Observer as EventObserver;
 
 /**
  * Installer observer
  *
  */
-namespace Magento\Enterprise\Model\Observer;
-
 class Install
 {
     /**
@@ -24,16 +25,16 @@ class Install
     /**
      * @param \Magento\Install\Model\Installer $installer
      */
-    public function __construct(
-        \Magento\Install\Model\Installer $installer
-    ) {
+    public function __construct(\Magento\Install\Model\Installer $installer)
+    {
         $this->_installer = $installer;
     }
 
     /**
      * Set Enterprise design theme and flag to hide iframe
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
     public function setDesignTheme($observer)
     {

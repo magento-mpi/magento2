@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\MultipleWishlist\Helper;
 
 /**
@@ -41,22 +40,26 @@ class Data extends \Magento\Wishlist\Helper\Data
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterfac $storeManager
+     * @param \Magento\Core\Helper\PostData $postDataHelper
+     * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Registry $coreRegistry,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\PostData $postDataHelper,
+        \Magento\Customer\Helper\View $customerViewHelper,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
     ) {
@@ -66,10 +69,12 @@ class Data extends \Magento\Wishlist\Helper\Data
             $context,
             $coreData,
             $coreRegistry,
-            $coreStoreConfig,
+            $scopeConfig,
             $customerSession,
             $wishlistFactory,
-            $storeManager
+            $storeManager,
+            $postDataHelper,
+            $customerViewHelper
         );
     }
 
@@ -81,10 +86,11 @@ class Data extends \Magento\Wishlist\Helper\Data
     protected function _createWishlistItemCollection()
     {
         if ($this->isMultipleEnabled()) {
-            return $this->_itemCollectionFactory->create()
-                ->addCustomerIdFilter($this->getCustomer()->getId())
-                ->addStoreFilter($this->_storeManager->getWebsite()->getStoreIds())
-                ->setVisibilityFilter();
+            return $this->_itemCollectionFactory->create()->addCustomerIdFilter(
+                $this->getCustomer()->getId()
+            )->addStoreFilter(
+                $this->_storeManager->getWebsite()->getStoreIds()
+            )->setVisibilityFilter();
         } else {
             return parent::_createWishlistItemCollection();
         }
@@ -97,9 +103,13 @@ class Data extends \Magento\Wishlist\Helper\Data
      */
     public function isMultipleEnabled()
     {
-        return $this->isModuleOutputEnabled()
-            && $this->_coreStoreConfig->getConfig('wishlist/general/active')
-            && $this->_coreStoreConfig->getConfig('wishlist/general/multiple_enabled');
+        return $this->isModuleOutputEnabled() && $this->_scopeConfig->getValue(
+            'wishlist/general/active',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) && $this->_scopeConfig->getValue(
+            'wishlist/general/multiple_enabled',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -126,7 +136,7 @@ class Data extends \Magento\Wishlist\Helper\Data
         }
         if (!isset($this->_defaultWishlistsByCustomer[$customerId])) {
             $this->_defaultWishlistsByCustomer[$customerId] = $this->_wishlistFactory->create();
-            $this->_defaultWishlistsByCustomer[$customerId]->loadByCustomer($customerId, false);
+            $this->_defaultWishlistsByCustomer[$customerId]->loadByCustomerId($customerId, false);
         }
         return $this->_defaultWishlistsByCustomer[$customerId];
     }
@@ -138,7 +148,10 @@ class Data extends \Magento\Wishlist\Helper\Data
      */
     public function getWishlistLimit()
     {
-        return $this->_coreStoreConfig->getConfig('wishlist/general/multiple_wishlist_number');
+        return $this->_scopeConfig->getValue(
+            'wishlist/general/multiple_wishlist_number',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -183,7 +196,11 @@ class Data extends \Magento\Wishlist\Helper\Data
     public function getWishlistItemCount(\Magento\Wishlist\Model\Wishlist $wishlist)
     {
         $collection = $wishlist->getItemCollection();
-        if ($this->_coreStoreConfig->getConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY)) {
+        if ($this->_scopeConfig->getValue(
+            self::XML_PATH_WISHLIST_LINK_USE_QTY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )
+        ) {
             $count = $collection->getItemsQty();
         } else {
             $count = $collection->getSize();

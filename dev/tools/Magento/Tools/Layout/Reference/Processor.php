@@ -5,9 +5,10 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Layout\Reference;
+
 use Magento\Tools\Layout\Formatter;
+
 /**
  * Processor
  */
@@ -34,7 +35,7 @@ class Processor
     protected $_referencePattern = array(
         'reference' => '//reference[@name]',
         'block' => '//block[@name]',
-        'container' => '//container[@name]',
+        'container' => '//container[@name]'
     );
 
     /**
@@ -52,7 +53,6 @@ class Processor
         $this->_referenceList = new \SimpleXMLElement($contents);
     }
 
-
     /**
      * Create list from array
      *
@@ -62,13 +62,16 @@ class Processor
      */
     protected function _addElements($data, $type)
     {
-        array_walk_recursive($data, function ($value) use ($type) {
-            if (!$this->_referenceList->xpath("//item[@type='$type' and @value='$value']")) {
-                $element = $this->_referenceList->addChild('item');
-                $element->addAttribute('type', $type);
-                $element->addAttribute('value', $value);
+        array_walk_recursive(
+            $data,
+            function ($value) use ($type) {
+                if (!$this->_referenceList->xpath("//item[@type='{$type}' and @value='{$value}']")) {
+                    $element = $this->_referenceList->addChild('item');
+                    $element->addAttribute('type', $type);
+                    $element->addAttribute('value', $value);
+                }
             }
-        });
+        );
 
         return $this;
     }
@@ -76,8 +79,8 @@ class Processor
     /**
      * Get layout file from Magento root directory
      *
-     * @param $path
-     * @return array
+     * @param string $path
+     * @return string[]
      */
     public function getLayoutFiles($path)
     {
@@ -92,7 +95,7 @@ class Processor
             '/app/code/*/*/*/*/layout/*/*.xml',
             '/app/code/*/*/*/*/layout/*/*/*/*.xml',
             '/app/code/*/*/*/*/layout/*/*/*/*/*.xml',
-            '/app/code/*/*/*/*/layout/*/*/*/*/*/*.xml',
+            '/app/code/*/*/*/*/layout/*/*/*/*/*/*.xml'
         );
 
         foreach ($patterns as $pattern) {
@@ -131,7 +134,7 @@ class Processor
         $conflictReferences = $references['reference'];
         foreach ($references as $key => $names) {
             $this->_addElements($names, $key);
-            if ($key!='reference') {
+            if ($key != 'reference') {
                 $conflictReferences = array_diff($conflictReferences, $names);
             }
         }
@@ -146,6 +149,7 @@ class Processor
      * @param array $layouts
      * @param string $processor
      * @param bool $overwrite
+     * @return void
      */
     public function updateReferences($layouts, $processor = '', $overwrite = true)
     {

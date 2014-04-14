@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Order\PrintOrder;
 
 class InvoiceTest extends \PHPUnit_Framework_TestCase
@@ -18,13 +17,13 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetInvoiceTotalsHtml()
     {
-        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->register('current_order', $order);
-        $payment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Order\Payment');
+        $objectManager->get('Magento\Registry')->register('current_order', $order);
+        $payment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Sales\Model\Order\Payment'
+        );
         $payment->setMethod('checkmo');
         $order->setPayment($payment);
 
@@ -33,8 +32,9 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
         $childBlock = $layout->addBlock('Magento\View\Element\Text', 'invoice_totals', 'block');
 
         $expectedHtml = '<b>Any html</b>';
-        $invoice = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Order\Invoice');
+        $invoice = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Sales\Model\Order\Invoice'
+        );
         $this->assertEmpty($childBlock->getInvoice());
         $this->assertNotEquals($expectedHtml, $block->getInvoiceTotalsHtml($invoice));
 

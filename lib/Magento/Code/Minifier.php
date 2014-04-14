@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Code;
 
 use Magento\Filesystem\Directory\Read;
@@ -34,17 +33,17 @@ class Minifier
 
     /**
      * @param \Magento\Code\Minifier\StrategyInterface $strategy
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param string $directoryName
      */
     public function __construct(
         \Magento\Code\Minifier\StrategyInterface $strategy,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         $directoryName
     ) {
         $this->_strategy = $strategy;
-        $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
-        $this->pubViewCacheDir = $filesystem->getDirectoryRead(\Magento\Filesystem::PUB_VIEW_CACHE);
+        $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
+        $this->pubViewCacheDir = $filesystem->getDirectoryRead(\Magento\App\Filesystem::PUB_VIEW_CACHE_DIR);
         $this->directoryName = $directoryName;
     }
 
@@ -61,13 +60,13 @@ class Minifier
         }
         $originalFileRelative = $this->rootDirectory->getRelativePath($originalFile);
         $minifiedFile = $this->_findOriginalMinifiedFile($originalFileRelative);
-        if (!$minifiedFile) {
-            $minifiedFile = $this->directoryName . '/' . $this->_generateMinifiedFileName($originalFile);
-            $this->_strategy->minifyFile($originalFileRelative, $minifiedFile);
+        if ($minifiedFile) {
+            return $this->rootDirectory->getAbsolutePath($minifiedFile);
         }
+        $minifiedFile = $this->directoryName . '/' . $this->_generateMinifiedFileName($originalFile);
+        $this->_strategy->minifyFile($originalFileRelative, $minifiedFile);
 
-        $minifiedFile = $this->pubViewCacheDir->getRelativePath($minifiedFile);
-        return $this->pubViewCacheDir->getAbsolutePath($minifiedFile);
+        return $minifiedFile;
     }
 
     /**

@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
+
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Customer attributes condition
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
-
-class Attributes
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Attributes extends AbstractCondition
 {
     /**
      * @var \Magento\Eav\Model\Config
@@ -50,7 +51,7 @@ class Attributes
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -86,13 +87,11 @@ class Attributes
     /**
      * Load condition options for castomer attributes
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Customer\Attributes
+     * @return $this
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = $this->_resourceCustomer
-            ->loadAllAttributes()
-            ->getAttributesByCode();
+        $productAttributes = $this->_resourceCustomer->loadAllAttributes()->getAttributesByCode();
 
         $attributes = array();
 
@@ -212,7 +211,7 @@ class Attributes
     }
 
     /**
-     * Chechk if attribute value should be explicit
+     * Check if attribute value should be explicit
      *
      * @return bool
      */
@@ -271,14 +270,8 @@ class Attributes
     protected function _getOptionsForAttributeDefaultAddress()
     {
         return array(
-            array(
-                'value' => 'is_exists',
-                'label' => __('exists')
-            ),
-            array(
-                'value' => 'is_not_exists',
-                'label' => __('does not exist')
-            ),
+            array('value' => 'is_exists', 'label' => __('exists')),
+            array('value' => 'is_not_exists', 'label' => __('does not exist'))
         );
     }
 
@@ -295,14 +288,23 @@ class Attributes
     /**
      * Return values of start and end datetime for date if operator is equal
      *
-     * @return array|string
+     * @return array
      */
     public function getDateValue()
     {
         if ($this->getOperator() == '==') {
-            $dateObj = $this->_locale
-                ->date($this->getValue(), \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT, null, false)
-                ->setHour(0)->setMinute(0)->setSecond(0);
+            $dateObj = $this->_localeDate->date(
+                $this->getValue(),
+                \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                null,
+                false
+            )->setHour(
+                0
+            )->setMinute(
+                0
+            )->setSecond(
+                0
+            );
             $value = array(
                 'start' => $dateObj->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT),
                 'end' => $dateObj->addDay(1)->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
@@ -328,8 +330,8 @@ class Attributes
     /**
      * Create SQL condition select for customer attribute
      *
-     * @param $customer
-     * @param $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
@@ -337,12 +339,12 @@ class Attributes
         $attribute = $this->getAttributeObject();
         $table = $attribute->getBackendTable();
         $select = $this->getResource()->createSelect();
-        $select->from(array('main'=>$table), array(new \Zend_Db_Expr(1)));
+        $select->from(array('main' => $table), array(new \Zend_Db_Expr(1)));
         $select->where($this->_createCustomerFilter($customer, 'main.entity_id'));
         $select->limit(1);
 
-        if (!in_array($attribute->getAttributeCode(), array('default_billing', 'default_shipping')) ) {
-            $value    = $this->getValue();
+        if (!in_array($attribute->getAttributeCode(), array('default_billing', 'default_shipping'))) {
+            $value = $this->getValue();
             $operator = $this->getOperator();
             if ($attribute->isStatic()) {
                 $field = "main.{$attribute->getAttributeCode()}";
@@ -353,7 +355,7 @@ class Attributes
             $field = $select->getAdapter()->quoteColumnAs($field, null);
 
             if ($attribute->getFrontendInput() == 'date') {
-                $value    = $this->getDateValue();
+                $value = $this->getDateValue();
                 $operator = $this->getDateOperator();
             }
             $condition = $this->getResource()->createConditionSql($field, $operator, $value);

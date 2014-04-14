@@ -7,17 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit;
+
+use Magento\Backend\Block\Widget\Form as WidgetForm;
 
 /**
  * Reminder rules edit form block
  */
-namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit;
-
-class Form
-    extends \Magento\Backend\Block\Widget\Form\Generic
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * Intialize form
+     * Initialize form
      *
      * @return void
      */
@@ -31,17 +31,13 @@ class Form
     /**
      * Prepare edit form
      *
-     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Form
+     * @return WidgetForm
      */
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'data' => array(
-                'id' => 'edit_form',
-                'action' => $this->getData('action'),
-                'method' => 'post',
-            ))
+        $form = $this->_formFactory->create(
+            array('data' => array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'))
         );
         $form->setUseContainer(true);
         $this->setForm($form);

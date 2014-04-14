@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Code;
 
 class Validator implements ValidatorInterface
@@ -19,6 +18,7 @@ class Validator implements ValidatorInterface
      * Add validator
      *
      * @param ValidatorInterface $validator
+     * @return void
      */
     public function add(ValidatorInterface $validator)
     {

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Theme;
 
 /**
@@ -28,6 +27,8 @@ class ImageFactory
     protected $_instanceName;
 
     /**
+     * Constructor
+     *
      * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      */

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
 
 /**
@@ -23,7 +22,7 @@ class Observer
     private $_cacheFrontendPool;
 
     /**
-     * @var \Magento\Core\Model\Theme
+     * @var Theme
      */
     private $_currentTheme;
 
@@ -33,7 +32,7 @@ class Observer
     private $_pageAssets;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\Config\ReinitableConfigInterface
      */
     protected $_config;
 
@@ -45,7 +44,7 @@ class Observer
     /**
      * @var \Magento\Core\Model\Theme\Registration
      */
-    protected  $_registration;
+    protected $_registration;
 
     /**
      * @var \Magento\Logger
@@ -56,16 +55,16 @@ class Observer
      * @param \Magento\App\Cache\Frontend\Pool $cacheFrontendPool
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\View\Asset\GroupedCollection $assets
-     * @param \Magento\Core\Model\ConfigInterface $config
+     * @param \Magento\App\Config\ReinitableConfigInterface $config
      * @param \Magento\View\Asset\PublicFileFactory $assetFileFactory
-     * @param \Magento\Core\Model\Theme\Registration $registration
+     * @param Theme\Registration $registration
      * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\App\Cache\Frontend\Pool $cacheFrontendPool,
         \Magento\View\DesignInterface $design,
         \Magento\View\Asset\GroupedCollection $assets,
-        \Magento\Core\Model\ConfigInterface $config,
+        \Magento\App\Config\ReinitableConfigInterface $config,
         \Magento\View\Asset\PublicFileFactory $assetFileFactory,
         \Magento\Core\Model\Theme\Registration $registration,
         \Magento\Logger $logger
@@ -73,7 +72,6 @@ class Observer
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_currentTheme = $design->getDesignTheme();
         $this->_pageAssets = $assets;
-        $this->_config = $config;
         $this->_assetFileFactory = $assetFileFactory;
         $this->_registration = $registration;
         $this->_logger = $logger;
@@ -83,6 +81,7 @@ class Observer
      * Cron job method to clean old cache resources
      *
      * @param \Magento\Cron\Model\Schedule $schedule
+     * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function cleanCache(\Magento\Cron\Model\Schedule $schedule)
@@ -98,14 +97,14 @@ class Observer
      * Theme registration
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Core\Model\Observer
+     * @return $this
      */
     public function themeRegistration(\Magento\Event\Observer $observer)
     {
         $pathPattern = $observer->getEvent()->getPathPattern();
         try {
             $this->_registration->register($pathPattern);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->_logger->logException($e);
         }
         return $this;
@@ -115,6 +114,7 @@ class Observer
      * Apply customized static files to frontend
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function applyThemeCustomization(\Magento\Event\Observer $observer)
@@ -124,28 +124,14 @@ class Observer
             try {
                 $service = $themeFile->getCustomizationService();
                 if ($service instanceof \Magento\View\Design\Theme\Customization\FileAssetInterface) {
-                    $asset = $this->_assetFileFactory->create(array(
-                        'file'        => $themeFile->getFullPath(),
-                        'contentType' => $service->getContentType()
-                    ));
+                    $asset = $this->_assetFileFactory->create(
+                        array('file' => $themeFile->getFullPath(), 'contentType' => $service->getContentType())
+                    );
                     $this->_pageAssets->add($themeFile->getData('file_path'), $asset);
                 }
             } catch (\InvalidArgumentException $e) {
                 $this->_logger->logException($e);
             }
         }
-    }
-
-    /**
-     * Rebuild whole config and save to fast storage
-     *
-     * @param  \Magento\Event\Observer $observer
-     * @return \Magento\Core\Model\Observer
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function processReinitConfig(\Magento\Event\Observer $observer)
-    {
-        $this->_config->reinit();
-        return $this;
     }
 }

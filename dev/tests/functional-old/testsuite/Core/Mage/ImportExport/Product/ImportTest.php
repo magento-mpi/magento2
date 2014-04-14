@@ -77,7 +77,6 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
         $csv = $this->importExportHelper()->export();
         //Verify export result
         $this->assertNotNull($csv, 'Export has not been finished successfully');
-        //$csv = array_slice($csv, 0, 1);
         //Remove custom options columns from export csv
         $fieldsPosition = array_search("_custom_option_store", array_keys($csv[0]));
         $csv[0] = array_slice($csv[0], 0, $fieldsPosition);

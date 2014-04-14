@@ -23,11 +23,6 @@ class End extends \Magento\Install\Block\AbstractBlock
     protected $_template = 'end.phtml';
 
     /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-
-    /**
      * @var \Magento\AdminNotification\Model\Survey
      */
     protected $_survey;
@@ -44,9 +39,8 @@ class End extends \Magento\Install\Block\AbstractBlock
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
      * @param \Magento\Session\Generic $session
-     * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\AdminNotification\Model\Survey $survey
-     * @param $cryptKey
+     * @param string $cryptKey
      * @param array $data
      */
     public function __construct(
@@ -54,14 +48,12 @@ class End extends \Magento\Install\Block\AbstractBlock
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
         \Magento\Session\Generic $session,
-        \Magento\Core\Model\Config $coreConfig,
         \Magento\AdminNotification\Model\Survey $survey,
         $cryptKey,
         array $data = array()
     ) {
         $this->_cryptKey = $cryptKey;
         parent::__construct($context, $installer, $installWizard, $session, $data);
-        $this->_coreConfig = $coreConfig;
         $this->_survey = $survey;
     }
 
@@ -85,8 +77,7 @@ class End extends \Magento\Install\Block\AbstractBlock
      */
     public function getIframeSourceUrl()
     {
-        if (!$this->_survey->isSurveyUrlValid()
-            || $this->_installer->getHideIframe()) {
+        if (!$this->_survey->isSurveyUrlValid() || $this->_installer->getHideIframe()) {
             return null;
         }
         return $this->_survey->getSurveyUrl();

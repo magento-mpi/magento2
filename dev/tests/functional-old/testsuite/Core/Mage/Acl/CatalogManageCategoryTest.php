@@ -69,7 +69,7 @@ class Core_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCase
      */
     public function rootCategoryWithRequiredFieldsOnly($loginData)
     {
-        $this->adminUserHelper()->loginAdmin($loginData);
+        $this->adminUserHelper()->loginAdmin($loginData, false);
         $this->pleaseWait();
         $this->categoryHelper()->checkCategoriesPage();
         //Data
@@ -96,7 +96,7 @@ class Core_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCase
      */
     public function deleteSubCategory($loginData)
     {
-        $this->adminUserHelper()->loginAdmin($loginData);
+        $this->adminUserHelper()->loginAdmin($loginData, false);
         $this->pleaseWait();
         $this->categoryHelper()->checkCategoriesPage();
         //Data

@@ -7,15 +7,22 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Data;
+
+use Magento\Data\Form\Element\AbstractElement;
+use Magento\Data\Form\Element\Collection as ElementCollection;
+use Magento\Data\Form\Element\CollectionFactory as ElementCollectionFactory;
+use Magento\Data\Form\Element\Factory;
+use Magento\Data\Form\Element\Renderer\RendererInterface;
+use Magento\Data\Form\FormKey;
+use Magento\Profiler;
 
 class Form extends \Magento\Data\Form\AbstractForm
 {
     /**
      * All form elements collection
      *
-     * @var \Magento\Data\Form\Element\Collection
+     * @var ElementCollection
      */
     protected $_allElements;
 
@@ -27,24 +34,35 @@ class Form extends \Magento\Data\Form\AbstractForm
     protected $_elementsIndex;
 
     /**
-     * @var Form\FormKey
+     * @var FormKey
      */
     protected $formKey;
 
-    static protected $_defaultElementRenderer;
-    static protected $_defaultFieldsetRenderer;
-    static protected $_defaultFieldsetElementRenderer;
+    /**
+     * @var RendererInterface
+     */
+    protected static $_defaultElementRenderer;
 
     /**
-     * @param Form\Element\Factory $factoryElement
-     * @param Form\Element\CollectionFactory $factoryCollection
-     * @param Form\FormKey $formKey
+     * @var RendererInterface
+     */
+    protected static $_defaultFieldsetRenderer;
+
+    /**
+     * @var RendererInterface
+     */
+    protected static $_defaultFieldsetElementRenderer;
+
+    /**
+     * @param Factory $factoryElement
+     * @param ElementCollectionFactory $factoryCollection
+     * @param FormKey $formKey
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Data\Form\FormKey $formKey,
+        Factory $factoryElement,
+        ElementCollectionFactory $factoryCollection,
+        FormKey $formKey,
         $data = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $data);
@@ -52,31 +70,52 @@ class Form extends \Magento\Data\Form\AbstractForm
         $this->formKey = $formKey;
     }
 
-    public static function setElementRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
+    /**
+     * @param RendererInterface $renderer
+     * @return void
+     */
+    public static function setElementRenderer(RendererInterface $renderer = null)
     {
         self::$_defaultElementRenderer = $renderer;
     }
 
-    public static function setFieldsetRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
+    /**
+     * @param RendererInterface $renderer
+     * @return void
+     */
+    public static function setFieldsetRenderer(RendererInterface $renderer = null)
     {
         self::$_defaultFieldsetRenderer = $renderer;
     }
 
-    public static function setFieldsetElementRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
+    /**
+     * @param RendererInterface $renderer
+     * @return void
+     */
+    public static function setFieldsetElementRenderer(RendererInterface $renderer = null)
     {
         self::$_defaultFieldsetElementRenderer = $renderer;
     }
 
+    /**
+     * @return RendererInterface
+     */
     public static function getElementRenderer()
     {
         return self::$_defaultElementRenderer;
     }
 
+    /**
+     * @return RendererInterface
+     */
     public static function getFieldsetRenderer()
     {
         return self::$_defaultFieldsetRenderer;
     }
 
+    /**
+     * @return RendererInterface
+     */
     public static function getFieldsetElementRenderer()
     {
         return self::$_defaultFieldsetElementRenderer;
@@ -84,7 +123,8 @@ class Form extends \Magento\Data\Form\AbstractForm
 
     /**
      * Return allowed HTML form attributes
-     * @return array
+     *
+     * @return string[]
      */
     public function getHtmlAttributes()
     {
@@ -94,11 +134,11 @@ class Form extends \Magento\Data\Form\AbstractForm
     /**
      * Add form element
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param AbstractElement $element
      * @param bool $after
-     * @return \Magento\Data\Form
+     * @return $this
      */
-    public function addElement(\Magento\Data\Form\Element\AbstractElement $element, $after = false)
+    public function addElement(AbstractElement $element, $after = false)
     {
         $this->checkElementId($element->getId());
         parent::addElement($element, $after);
@@ -118,7 +158,7 @@ class Form extends \Magento\Data\Form\AbstractForm
     }
 
     /**
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param AbstractElement $element
      * @return $this
      */
     public function addElementToCollection($element)
@@ -153,7 +193,7 @@ class Form extends \Magento\Data\Form\AbstractForm
      * Retrieve form element by id
      *
      * @param string $elementId
-     * @return null|\Magento\Data\Form\Element\AbstractElement
+     * @return null|AbstractElement
      */
     public function getElement($elementId)
     {
@@ -201,7 +241,7 @@ class Form extends \Magento\Data\Form\AbstractForm
      * Add suffix to name of all elements
      *
      * @param string $suffix
-     * @return \Magento\Data\Form
+     * @return $this
      */
     public function addFieldNameSuffix($suffix)
     {
@@ -237,7 +277,7 @@ class Form extends \Magento\Data\Form\AbstractForm
 
     /**
      * @param string $elementId
-     * @return $this|Form\AbstractForm
+     * @return $this
      */
     public function removeField($elementId)
     {
@@ -270,31 +310,32 @@ class Form extends \Magento\Data\Form\AbstractForm
      */
     public function toHtml()
     {
-        \Magento\Profiler::start('form/toHtml');
+        Profiler::start('form/toHtml');
         $html = '';
         $useContainer = $this->getUseContainer();
         if ($useContainer) {
             $html .= '<form ' . $this->serialize($this->getHtmlAttributes()) . '>';
             $html .= '<div>';
             if (strtolower($this->getData('method')) == 'post') {
-                $html .= '<input name="form_key" type="hidden" value="'
-                    . $this->formKey->getFormKey()
-                    . '" />';
+                $html .= '<input name="form_key" type="hidden" value="' . $this->formKey->getFormKey() . '" />';
             }
             $html .= '</div>';
         }
 
         foreach ($this->getElements() as $element) {
-            $html.= $element->toHtml();
+            $html .= $element->toHtml();
         }
 
         if ($useContainer) {
-            $html.= '</form>';
+            $html .= '</form>';
         }
-        \Magento\Profiler::stop('form/toHtml');
+        Profiler::stop('form/toHtml');
         return $html;
     }
 
+    /**
+     * @return string
+     */
     public function getHtml()
     {
         return $this->toHtml();

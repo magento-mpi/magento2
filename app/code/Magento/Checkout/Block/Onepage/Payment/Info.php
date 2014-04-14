@@ -7,16 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Onepage\Payment;
 
 /**
- * Multishipping checkout payment information data
+ * Checkout payment information data
  *
  * @category   Magento
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Block\Onepage\Payment;
-
 class Info extends \Magento\Payment\Block\Info\AbstractContainer
 {
     /**
@@ -38,12 +37,13 @@ class Info extends \Magento\Payment\Block\Info\AbstractContainer
     ) {
         $this->_checkoutSession = $checkoutSession;
         parent::__construct($context, $paymentData, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
      * Retrieve payment info model
      *
-     * @return \Magento\Payment\Model\Info
+     * @return \Magento\Payment\Model\Info|false
      */
     public function getPaymentInfo()
     {
@@ -54,6 +54,9 @@ class Info extends \Magento\Payment\Block\Info\AbstractContainer
         return false;
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         $html = '';

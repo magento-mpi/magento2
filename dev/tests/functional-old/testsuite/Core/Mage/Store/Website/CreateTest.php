@@ -82,7 +82,6 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      */
     public function withCodeThatAlreadyExists(array $websiteData)
     {
-        $this->markTestIncomplete('BUG: There is no "website_code_exist" message on the page');
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
@@ -168,7 +167,6 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      */
     public function withInvalidCode($invalidCode)
     {
-        $this->markTestIncomplete('BUG: There is no "wrong_website_code" message on the page');
         //Data
         $websiteData = $this->loadDataSet('Website', 'generic_website', array('website_code' => $invalidCode));
         //Steps

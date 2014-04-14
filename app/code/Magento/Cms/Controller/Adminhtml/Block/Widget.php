@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cms\Controller\Adminhtml\Block;
 
 /**
  * Controller for CMS Block Widget plugin
@@ -16,19 +16,21 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Controller\Adminhtml\Block;
-
 class Widget extends \Magento\Backend\App\Action
 {
     /**
      * Chooser Source action
+     *
+     * @return void
      */
     public function chooserAction()
     {
         $uniqId = $this->getRequest()->getParam('uniq_id');
-        $pagesGrid = $this->_view->getLayout()->createBlock('Magento\Cms\Block\Adminhtml\Block\Widget\Chooser', '', array(
-            'data' => array('id' => $uniqId)
-        ));
+        $pagesGrid = $this->_view->getLayout()->createBlock(
+            'Magento\Cms\Block\Adminhtml\Block\Widget\Chooser',
+            '',
+            array('data' => array('id' => $uniqId))
+        );
         $this->getResponse()->setBody($pagesGrid->toHtml());
     }
 }

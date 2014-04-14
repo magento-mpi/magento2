@@ -7,16 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Order\Address;
+
+use Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine;
 
 /**
  * Order address attribute conditions combine
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Order\Address;
-
-class Combine
-    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
+class Combine extends AbstractCombine
 {
-
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
@@ -40,14 +39,14 @@ class Combine
      */
     public function getNewChildSelectOptions()
     {
-        $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
+        $result = array_merge_recursive(
+            parent::getNewChildSelectOptions(),
             array(
-                'value' => $this->getType(),
-                'label' => __('Conditions Combination'),
-            ),
-            $this->_conditionFactory->create('Order\Address\Type')->getNewChildSelectOptions(),
-            $this->_conditionFactory->create('Order\Address\Attributes')->getNewChildSelectOptions(),
-        ));
+                array('value' => $this->getType(), 'label' => __('Conditions Combination')),
+                $this->_conditionFactory->create('Order\Address\Type')->getNewChildSelectOptions(),
+                $this->_conditionFactory->create('Order\Address\Attributes')->getNewChildSelectOptions()
+            )
+        );
         return $result;
     }
 }

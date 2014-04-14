@@ -13,6 +13,8 @@
  */
 namespace Magento\VersionsCms\Model;
 
+use Magento\Event\Observer as EventObserver;
+
 class Observer
 {
     /**
@@ -25,7 +27,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -35,12 +37,12 @@ class Observer
     protected $_hierarchyNodeFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_coreUrl;
 
@@ -51,18 +53,18 @@ class Observer
 
     /**
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Url $coreUrl
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\UrlInterface $coreUrl
      * @param \Magento\App\ViewInterface $view
      */
     public function __construct(
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Url $coreUrl,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\UrlInterface $coreUrl,
         \Magento\App\ViewInterface $view
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -76,13 +78,14 @@ class Observer
     /**
      * Add Hierarchy Menu layout handle to Cms page rendering
      *
-     * @param $observer
-     * @return \Magento\VersionsCms\Model\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function affectCmsPageRender(\Magento\Event\Observer $observer)
+    public function affectCmsPageRender(EventObserver $observer)
     {
-        if (!is_object($this->_coreRegistry->registry('current_cms_hierarchy_node'))
-            || !$this->_cmsHierarchy->isEnabled()
+        if (!is_object(
+            $this->_coreRegistry->registry('current_cms_hierarchy_node')
+        ) || !$this->_cmsHierarchy->isEnabled()
         ) {
             return $this;
         }
@@ -118,27 +121,29 @@ class Observer
     /**
      * Adds CMS hierarchy menu item to top menu
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
-    public function addCmsToTopmenuItems(\Magento\Event\Observer $observer)
+    public function addCmsToTopmenuItems(EventObserver $observer)
     {
         /**
          * @var $topMenuRootNode \Magento\Data\Tree\Node
          */
         $topMenuRootNode = $observer->getMenu();
 
-        $hierarchyModel = $this->_hierarchyNodeFactory->create(array(
-            'data' => array(
-                'scope' => \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE,
-                'scope_id' => $this->_storeManager->getStore()->getId(),
-            )))->getHeritage();
+        $hierarchyModel = $this->_hierarchyNodeFactory->create(
+            array(
+                'data' => array(
+                    'scope' => \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE,
+                    'scope_id' => $this->_storeManager->getStore()->getId()
+                )
+            )
+        )->getHeritage();
 
         $nodes = $hierarchyModel->getNodesData();
         $tree = $topMenuRootNode->getTree();
 
-        $nodesFlatList = array(
-            $topMenuRootNode->getId() => $topMenuRootNode
-        );
+        $nodesFlatList = array($topMenuRootNode->getId() => $topMenuRootNode);
 
         $nodeModel = $this->_hierarchyNodeFactory->create();
 
@@ -146,9 +151,10 @@ class Observer
 
             $nodeData = $nodeModel->load($node['node_id']);
 
-            if (!$nodeData || ($nodeData->getParentNodeId() == null && !$nodeData->getTopMenuVisibility())
-                || ($nodeData->getParentNodeId() != null && $nodeData->getTopMenuExcluded())
-                || ($nodeData->getPageId() && !$nodeData->getPageIsActive())
+            if (!$nodeData ||
+                $nodeData->getParentNodeId() == null && !$nodeData->getTopMenuVisibility() ||
+                $nodeData->getParentNodeId() != null && $nodeData->getTopMenuExcluded() ||
+                $nodeData->getPageId() && !$nodeData->getPageIsActive()
             ) {
                 continue;
             }
@@ -161,8 +167,9 @@ class Observer
                 'is_active' => $this->_isCmsNodeActive($nodeData)
             );
 
-            $parentNodeId = !isset($node['parent_node_id']) ? $topMenuRootNode->getId()
-                : 'cms-hierarchy-node-' . $node['parent_node_id'];
+            $parentNodeId = !isset(
+                $node['parent_node_id']
+            ) ? $topMenuRootNode->getId() : 'cms-hierarchy-node-' . $node['parent_node_id'];
             $parentNode = isset($nodesFlatList[$parentNodeId]) ? $nodesFlatList[$parentNodeId] : null;
 
             if (!$parentNode) {
@@ -179,10 +186,10 @@ class Observer
     /**
      * Validate and render Cms hierarchy page
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\VersionsCms\Model\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function cmsControllerRouterMatchBefore(\Magento\Event\Observer $observer)
+    public function cmsControllerRouterMatchBefore(EventObserver $observer)
     {
         if (!$this->_cmsHierarchy->isEnabled()) {
             return $this;
@@ -194,11 +201,14 @@ class Observer
          * Validate Request and modify router match condition
          */
         /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
-        $node = $this->_hierarchyNodeFactory->create(array(
-            'data' => array(
-                'scope' => \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE,
-                'scope_id' => $this->_storeManager->getStore()->getId(),
-            )))->getHeritage();
+        $node = $this->_hierarchyNodeFactory->create(
+            array(
+                'data' => array(
+                    'scope' => \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE,
+                    'scope_id' => $this->_storeManager->getStore()->getId()
+                )
+            )
+        )->getHeritage();
         $requestUrl = $condition->getIdentifier();
         $node->loadByRequestUrl($requestUrl);
 
@@ -213,7 +223,6 @@ class Observer
                         break;
                     }
                 }
-
             }
         }
         if (!$node->getId()) {
@@ -222,16 +231,14 @@ class Observer
 
         if (!$node->getPageId()) {
             /* @var $child \Magento\VersionsCms\Model\Hierarchy\Node */
-            $child = $this->_hierarchyNodeFactory->create(array(
-                'data' => array(
-                    'scope' => $node->getScope(),
-                    'scope_id' => $node->getScopeId(),
-                )));
+            $child = $this->_hierarchyNodeFactory->create(
+                array('data' => array('scope' => $node->getScope(), 'scope_id' => $node->getScopeId()))
+            );
             $child->loadFirstChildByParent($node->getId());
             if (!$child->getId()) {
                 return $this;
             }
-            $url   = $this->_coreUrl->getUrl('', array('_direct' => $child->getRequestUrl()));
+            $url = $this->_coreUrl->getUrl('', array('_direct' => $child->getRequestUrl()));
             $condition->setRedirectUrl($url);
         } else {
             if (!$node->getPageIsActive()) {

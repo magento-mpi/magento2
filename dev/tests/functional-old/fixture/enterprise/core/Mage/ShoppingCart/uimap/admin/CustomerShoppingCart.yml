@@ -13,8 +13,8 @@
 
 # 'Shopping Cart' page
 customer_shopping_cart:
-    mca: checkout/index/store/%store%/customer/%customer%/
-    title: Shopping Cart / %elementTitle% / Customers / Customers / Magento Admin
+    mca: checkout/index/index/store/%store%/customer/%customer%/
+    title: Shopping Cart for %elementTitle% in Default Store View / %elementTitle% / Customers / Customers / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -93,7 +93,7 @@ customer_shopping_cart:
             out_of_stock: //*[@class='error' and contains(.,'This product is out of stock.')]
             sku_assigned_another_website: //*[@class='notice']//div[contains(.,'The product is assigned to another website.')]
             sku_not_found: //*[@class='notice']//div[contains(.,'SKU not found in catalog.')]
-            qty_sku_invalid_number: //*[@class='notice']//div[contains(.,'Please enter a valid number in the "Qty" field.')]
+            enter_valid_qty_number: //*[@class='notice']//div[contains(.,'Please enter a valid number in the "Qty" field.')]
             specify_options: //*[@class='notice']//div[contains(.,"Please specify the product's options.")]
             error_product_require_attention: //*[@class='icon-head'][contains(.,'%lastRow% product(s) require attention.')]
             disabled_product: //div[@class='notice']/div[contains(.,'You can add only enabled products.')]

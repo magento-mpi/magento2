@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model\Resource\Form\Attribute;
 
 /**
  * EAV Form Attribute Resource Collection
@@ -16,9 +16,7 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource\Form\Attribute;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Current module pathname
@@ -37,7 +35,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Current store instance
      *
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
@@ -49,7 +47,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_entityType;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -64,9 +62,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -74,9 +72,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;
         $this->_eavConfig = $eavConfig;
@@ -86,15 +84,16 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Resource initialization
      *
-     * @throws \Magento\Core\Exception
+     * @return void
+     * @throws \Magento\Model\Exception
      */
     protected function _construct()
     {
         if (empty($this->_moduleName)) {
-            throw new \Magento\Core\Exception(__('Current module pathname is undefined'));
+            throw new \Magento\Model\Exception(__('Current module pathname is undefined'));
         }
         if (empty($this->_entityTypeCode)) {
-            throw new \Magento\Core\Exception(__('Current module EAV entity is undefined'));
+            throw new \Magento\Model\Exception(__('Current module EAV entity is undefined'));
         }
     }
 
@@ -114,8 +113,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Set current store to collection
      *
-     * @param \Magento\Core\Model\Store|string|int $store
-     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
+     * @param \Magento\Store\Model\Store|string|int $store
+     * @return $this
      */
     public function setStore($store)
     {
@@ -126,7 +125,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Return current store instance
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {
@@ -140,7 +139,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set entity type instance to collection
      *
      * @param \Magento\Eav\Model\Entity\Type|string|int $entityType
-     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
+     * @return $this
      */
     public function setEntityType($entityType)
     {
@@ -165,7 +164,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add Form Code filter to collection
      *
      * @param string $code
-     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
+     * @return $this
      */
     public function addFormCodeFilter($code)
     {
@@ -176,7 +175,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set order by attribute sort order
      *
      * @param string $direction
-     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
+     * @return $this
      */
     public function setSortOrder($direction = self::SORT_ORDER_ASC)
     {
@@ -187,18 +186,18 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add joins to select
      *
-     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
+     * @return $this
      */
     protected function _beforeLoad()
     {
-        $select     = $this->getSelect();
+        $select = $this->getSelect();
         $connection = $this->getConnection();
         $entityType = $this->getEntityType();
         $this->setItemObjectClass($entityType->getAttributeModel());
 
-        $eaColumns  = array();
-        $caColumns  = array();
-        $saColumns  = array();
+        $eaColumns = array();
+        $caColumns = array();
+        $saColumns = array();
 
         $eaDescribe = $connection->describeTable($this->getTable('eav_attribute'));
         unset($eaDescribe['attribute_id']);
@@ -239,34 +238,34 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                     if (isset($eaColumns[$columnName])) {
                         $code = sprintf('scope_%s', $columnName);
                         $expression = $connection->getCheckSql('sa.%s IS NULL', 'ea.%s', 'sa.%s');
-                        $saColumns[$code] = new \Zend_Db_Expr(sprintf($expression,
-                            $columnName, $columnName, $columnName));
+                        $saColumns[$code] = new \Zend_Db_Expr(
+                            sprintf($expression, $columnName, $columnName, $columnName)
+                        );
                     } elseif (isset($caColumns[$columnName])) {
                         $code = sprintf('scope_%s', $columnName);
                         $expression = $connection->getCheckSql('sa.%s IS NULL', 'ca.%s', 'sa.%s');
-                        $saColumns[$code] = new \Zend_Db_Expr(sprintf($expression,
-                            $columnName, $columnName, $columnName));
+                        $saColumns[$code] = new \Zend_Db_Expr(
+                            sprintf($expression, $columnName, $columnName, $columnName)
+                        );
                     }
                 }
             }
 
             $store = $this->getStore();
-            $joinWebsiteExpression = $connection
-                ->quoteInto(
-                    'sa.attribute_id = main_table.attribute_id AND sa.website_id = ?', (int)$store->getWebsiteId()
-                );
-            $select->joinLeft(
-                array('sa' => $this->_getEavWebsiteTable()),
-                $joinWebsiteExpression,
-                $saColumns
+            $joinWebsiteExpression = $connection->quoteInto(
+                'sa.attribute_id = main_table.attribute_id AND sa.website_id = ?',
+                (int)$store->getWebsiteId()
             );
+            $select->joinLeft(array('sa' => $this->_getEavWebsiteTable()), $joinWebsiteExpression, $saColumns);
         }
 
 
         // add store attribute label
         $storeLabelExpr = $connection->getCheckSql('al.value IS NULL', 'ea.frontend_label', 'al.value');
-        $joinExpression = $connection
-            ->quoteInto('al.attribute_id = main_table.attribute_id AND al.store_id = ?', (int)$store->getId());
+        $joinExpression = $connection->quoteInto(
+            'al.attribute_id = main_table.attribute_id AND al.store_id = ?',
+            (int)$store->getId()
+        );
         $select->joinLeft(
             array('al' => $this->getTable('eav_attribute_label')),
             $joinExpression,

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element\Html;
 
 /**
@@ -14,6 +13,8 @@ namespace Magento\View\Element\Html;
 class Links extends \Magento\View\Element\Template
 {
     /**
+     * Get links
+     *
      * @return \Magento\View\Element\Html\Link[]
      */
     public function getLinks()
@@ -45,7 +46,9 @@ class Links extends \Magento\View\Element\Template
 
         $html = '';
         if ($this->getLinks()) {
-            $html = '<ul' . ($this->hasCssClass()?' class="' . $this->escapeHtml($this->getCssClass()) . '"':'') . '>';
+            $html = '<ul' . ($this->hasCssClass() ? ' class="' . $this->escapeHtml(
+                $this->getCssClass()
+            ) . '"' : '') . '>';
             foreach ($this->getLinks() as $link) {
                 $html .= $this->renderLink($link);
             }

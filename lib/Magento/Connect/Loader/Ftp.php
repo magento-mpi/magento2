@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Connect\Loader;
+
+use Magento\Connect\Ftp as ConnectFtp;
 
 /**
  * Class for ftp loader which using in the Rest
@@ -15,11 +18,8 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Connect\Loader;
-
 class Ftp
 {
-
     const TEMPORARY_DIR = 'var/package/tmp';
 
     const FTP_USER = 'magconnect';
@@ -27,10 +27,10 @@ class Ftp
     const FTP_PASS = '4SyTUxPts0o2';
 
     /**
-    * Object of Ftp
-    *
-    * @var \Magento\Connect\Ftp
-    */
+     * Object of Ftp
+     *
+     * @var ConnectFtp
+     */
     protected $_ftp = null;
 
     /**
@@ -46,32 +46,35 @@ class Ftp
     protected $_responseStatus = 0;
 
     /**
-    * Constructor
-    */
+     * Constructor
+     */
     public function __construct()
     {
-        $this->_ftp = new \Magento\Connect\Ftp();
+        $this->_ftp = new ConnectFtp();
     }
 
+    /**
+     * @return ConnectFtp
+     */
     public function getFtp()
     {
         return $this->_ftp;
     }
 
     /**
-    * Retrieve file from URI
-    *
-    * @param mixed $uri
-    * @return bool
-    */
+     * Retrieve file from URI
+     *
+     * @param string $uri
+     * @return bool
+     */
     public function get($uri)
     {
         $remoteFile = basename($uri);
         $uri = dirname($uri);
         $uri = str_replace('http://', '', $uri);
         $uri = str_replace('ftp://', '', $uri);
-        $uri = self::FTP_USER.":".self::FTP_PASS."@".$uri;
-        $this->getFtp()->connect("ftp://".$uri);
+        $uri = self::FTP_USER . ":" . self::FTP_PASS . "@" . $uri;
+        $this->getFtp()->connect("ftp://" . $uri);
         $this->getFtp()->pasv(true);
         $localFile = self::TEMPORARY_DIR . '/' . time() . '.xml';
 
@@ -95,13 +98,12 @@ class Ftp
     }
 
     /**
-    * put your comment there...
-    *
-    * @return string
-    */
+     * TODO: put your comment there...
+     *
+     * @return string
+     */
     public function getBody()
     {
         return $this->_responseBody;
     }
-
 }

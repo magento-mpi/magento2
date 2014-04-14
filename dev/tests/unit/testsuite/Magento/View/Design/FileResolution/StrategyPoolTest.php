@@ -30,7 +30,7 @@ class StrategyPoolTest extends \PHPUnit_Framework_TestCase
     protected $appState;
 
     /**
-     * @var \Magento\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $filesystem;
 
@@ -43,20 +43,14 @@ class StrategyPoolTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
         $this->appState = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $this->filesystem = $this->getMock('Magento\Filesystem', array('getPath'), array(), '', false);
+        $this->filesystem = $this->getMock('Magento\App\Filesystem', array('getPath'), array(), '', false);
         $pathMap = array(
-            array(\Magento\Filesystem::VAR_DIR, 'base_dir/var'),
-            array(\Magento\Filesystem::ROOT, 'base_dir')
+            array(\Magento\App\Filesystem::VAR_DIR, 'base_dir/var'),
+            array(\Magento\App\Filesystem::ROOT_DIR, 'base_dir')
         );
-        $this->filesystem->expects($this->any())
-            ->method('getPath')
-            ->will($this->returnValueMap($pathMap));
+        $this->filesystem->expects($this->any())->method('getPath')->will($this->returnValueMap($pathMap));
 
-        $this->model = new StrategyPool(
-            $this->objectManager,
-            $this->appState,
-            $this->filesystem
-        );
+        $this->model = new StrategyPool($this->objectManager, $this->appState, $this->filesystem);
     }
 
     /**
@@ -69,26 +63,20 @@ class StrategyPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStrategy($mode)
     {
-        $this->appState->expects($this->exactly(3)) // 3 similar methods tested at once
-            ->method('getMode')
-            ->will($this->returnValue($mode));
+        // 3 similar methods tested at once
+        $this->appState->expects($this->exactly(3))->method('getMode')->will($this->returnValue($mode));
 
-        $strategy = new \StdClass;
+        $strategy = new \StdClass();
         $mapDir = 'base_dir/var/' . StrategyPool::FALLBACK_MAP_DIR;
         $map = array(
             array(
                 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
-                array(
-                    'mapDir' => $mapDir,
-                    'baseDir' => 'base_dir'
-                ),
+                array('mapDir' => $mapDir, 'baseDir' => 'base_dir'),
                 $strategy
             ),
-            array('Magento\View\Design\FileResolution\Strategy\Fallback', array(), $strategy),
+            array('Magento\View\Design\FileResolution\Strategy\Fallback', array(), $strategy)
         );
-        $this->objectManager->expects($this->atLeastOnce())
-            ->method('create')
-            ->will($this->returnValueMap($map));
+        $this->objectManager->expects($this->atLeastOnce())->method('create')->will($this->returnValueMap($map));
 
         // Test
         $this->assertSame($strategy, $this->model->getFileStrategy());
@@ -102,9 +90,9 @@ class StrategyPoolTest extends \PHPUnit_Framework_TestCase
     public static function getStrategyDataProvider()
     {
         return array(
-            'default mode'    => array(State::MODE_DEFAULT),
+            'default mode' => array(State::MODE_DEFAULT),
             'production mode' => array(State::MODE_PRODUCTION),
-            'developer mode'  => array(State::MODE_DEVELOPER),
+            'developer mode' => array(State::MODE_DEVELOPER)
         );
     }
 }

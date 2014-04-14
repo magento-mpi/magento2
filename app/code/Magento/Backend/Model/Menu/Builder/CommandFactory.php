@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Menu\Builder;
 
 /**
  * Menu builder command factory
  */
-namespace Magento\Backend\Model\Menu\Builder;
-
 class CommandFactory
 {
     /**
@@ -35,7 +34,9 @@ class CommandFactory
      */
     public function create($commandName, array $data = array())
     {
-        return $this->_objectManager->
-            create('Magento\Backend\Model\Menu\Builder\Command\\' . ucfirst($commandName), $data);
+        return $this->_objectManager->create(
+            'Magento\Backend\Model\Menu\Builder\Command\\' . ucfirst($commandName),
+            $data
+        );
     }
 }

@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Accordion;
+
+use Magento\Backend\Block\Widget\Accordion;
 
 /**
  * Accordion item
@@ -15,33 +18,48 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Widget\Accordion;
-
 class Item extends \Magento\Backend\Block\Widget
 {
+    /**
+     * @var Accordion
+     */
     protected $_accordion;
 
+    /**
+     * @param Accordion $accordion
+     * @return $this
+     */
     public function setAccordion($accordion)
     {
         $this->_accordion = $accordion;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getTarget()
     {
-        return ($this->getAjax()) ? 'ajax' : '';
+        return $this->getAjax() ? 'ajax' : '';
     }
 
+    /**
+     * @return string
+     */
     public function getTitle()
     {
         $title = $this->getData('title');
         $url = $this->getContentUrl() ? $this->getContentUrl() : '#';
-        $title = '<a href="' . $url . '" class="' . $this->getTarget() . '"' . $this->getUiId('title-link') . '>'
-            . $title . '</a>';
+        $title = '<a href="' . $url . '" class="' . $this->getTarget() . '"' . $this->getUiId(
+            'title-link'
+        ) . '>' . $title . '</a>';
 
         return $title;
     }
 
+    /**
+     * @return null|string
+     */
     public function getContent()
     {
         $content = $this->getData('content');
@@ -54,15 +72,21 @@ class Item extends \Magento\Backend\Block\Widget
         return null;
     }
 
+    /**
+     * @return string
+     */
     public function getClass()
     {
         $class = $this->getData('class');
         if ($this->getOpen()) {
-            $class.= ' open';
+            $class .= ' open';
         }
         return $class;
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         $content = $this->getContent();

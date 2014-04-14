@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Install\Model;
 
 class InstallerTest extends \PHPUnit_Framework_TestCase
@@ -30,9 +29,9 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        /** @var \Magento\Filesystem $filesystem */
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem');
-        self::$_varDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+        /** @var \Magento\App\Filesystem $filesystem */
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem');
+        self::$_varDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
         self::$_tmpDir = self::$_varDirectory->getAbsolutePath('InstallerTest');
         self::$_tmpConfigFile = self::$_tmpDir . '/local.xml';
         self::$_varDirectory->create(self::$_varDirectory->getRelativePath(self::$_tmpDir));
@@ -54,22 +53,21 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $directoryList = $objectManager->create(
-                'Magento\Filesystem\DirectoryList',
-                    array(
-                        'root' => __DIR__,
-                        'directories' => array(
-                            \Magento\Filesystem::CONFIG => array('path' => self::$_tmpDir)
-                        )
-                    )
-                );
-        $filesystem = $objectManager->create('Magento\Filesystem', array('directoryList' => $directoryList));
+            'Magento\App\Filesystem\DirectoryList',
+            array(
+                'root' => __DIR__,
+                'directories' => array(\Magento\App\Filesystem::CONFIG_DIR => array('path' => self::$_tmpDir))
+            )
+        );
+        $objectManager->get('\Magento\App\Filesystem\DirectoryList\Configuration')->configure($directoryList);
+        $filesystem = $objectManager->create('Magento\App\Filesystem', array('directoryList' => $directoryList));
 
         if ($emulateConfig) {
             $installerConfig = new \Magento\Install\Model\Installer\Config(
                 $objectManager->get('Magento\Install\Model\Installer'),
                 $objectManager->get('Magento\App\RequestInterface'),
                 $filesystem,
-                $objectManager->get('Magento\Core\Model\StoreManager'),
+                $objectManager->get('Magento\Store\Model\StoreManager'),
                 $objectManager->get('Magento\Message\Manager')
             );
             $objectManager->addSharedInstance($installerConfig, 'Magento\Install\Model\Installer\Config');
@@ -86,15 +84,14 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         $userName = 'installer_test';
         $userPassword = '123123q';
         $userData = array(
-            'username'  => $userName,
+            'username' => $userName,
             'firstname' => 'First Name',
-            'lastname'  => 'Last Name',
-            'email'     => 'installer_test@example.com',
+            'lastname' => 'Last Name',
+            'email' => 'installer_test@example.com'
         );
 
         /** @var $user \Magento\User\Model\User */
-        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\User\Model\User');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\User');
         $user->loadByUsername($userName);
         $this->assertEmpty($user->getId());
 
@@ -105,7 +102,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($userData, array_intersect_assoc($user->getData(), $userData));
         $this->assertNotEmpty($user->getPassword(), 'Password hash is expected to be loaded.');
         $this->assertNotEquals(
-            $userPassword, $user->getPassword(),
+            $userPassword,
+            $user->getPassword(),
             'Original password should not be stored/loaded as is for security reasons.'
         );
         $this->assertInstanceOf('Magento\User\Model\Role', $user->getRole());
@@ -118,7 +116,7 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
     public function testInstallEncryptionKey()
     {
         $keyPlaceholder = \Magento\Install\Model\Installer\Config::TMP_ENCRYPT_KEY_VALUE;
-        $fixtureConfigData = "<key>$keyPlaceholder</key>";
+        $fixtureConfigData = "<key>{$keyPlaceholder}</key>";
         $expectedConfigData = '<key>d41d8cd98f00b204e9800998ecf8427e</key>';
 
         file_put_contents(self::$_tmpConfigFile, $fixtureConfigData);
@@ -176,20 +174,42 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         $configFile = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir() . '/etc/local.xml';
         copy($configFile, self::$_tmpConfigFile);
 
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
+        /**
+         * @var $cache \Magento\App\Cache
+         */
+        $cache = $objectManager->create('Magento\App\Cache');
+        /**
+         * @var $appState \Magento\App\State
+         */
+        $appState = $objectManager->get('Magento\App\State');
+
+        $cache->save('testValue', 'testName');
+        $this->assertEquals('testValue', $cache->load('testName'));
+
+        //to test it works - set state to uninstalled
+        $appState->setInstallDate(null);
+        $this->assertFalse($appState->isInstalled());
+
         $this->_getModel(true)->finish();
 
+        $this->assertFalse($cache->load('testName'), 'Cache was not cleaned');
+        $this->assertTrue(
+            $appState->isInstalled(),
+            'In-memory application installation state was not changed right after finishing installation phase'
+        );
+
         /** @var $cacheState \Magento\App\Cache\StateInterface */
-        $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\App\Cache\StateInterface');
+        $cacheState = $objectManager->create('Magento\App\Cache\StateInterface');
 
         /** @var \Magento\App\Cache\TypeListInterface $cacheTypeList */
-        $cacheTypeList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\App\Cache\TypeListInterface');
+        $cacheTypeList = $objectManager->create('Magento\App\Cache\TypeListInterface');
         $types = array_keys($cacheTypeList->getTypes());
         foreach ($types as $type) {
             $this->assertTrue(
                 $cacheState->isEnabled($type),
-                "'$type' cache type has not been enabled after installation"
+                "'{$type}' cache type has not been enabled after installation"
             );
         }
     }

@@ -5,11 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Payment\Model\Config\Source;
 
-class Allowedmethods
-    extends \Magento\Payment\Model\Config\Source\Allmethods
+class Allowedmethods extends \Magento\Payment\Model\Config\Source\Allmethods
 {
     /**
      * Payment config model
@@ -32,6 +30,11 @@ class Allowedmethods
         $this->_paymentConfig = $paymentConfig;
     }
 
+    /**
+     * Get payment methods
+     *
+     * @return array
+     */
     protected function _getPaymentMethods()
     {
         return $this->_paymentConfig->getActiveMethods();

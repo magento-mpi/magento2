@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout;
 
 use Magento\View\Design\ThemeInterface;
@@ -16,21 +15,36 @@ use Magento\View\Design\ThemeInterface;
 class File
 {
     /**
+     * File name
+     *
      * @var string
      */
-    private $filename;
+    protected $filename;
 
     /**
+     * Module
+     *
      * @var string
      */
-    private $module;
+    protected $module;
 
     /**
+     * Theme
+     *
      * @var ThemeInterface
      */
-    private $theme;
+    protected $theme;
 
     /**
+     * Identifier
+     *
+     * @var string
+     */
+    protected $identifier;
+
+    /**
+     * Constructor
+     *
      * @param string $filename
      * @param string $module
      * @param ThemeInterface $theme
@@ -90,5 +104,19 @@ class File
     public function isBase()
     {
         return is_null($this->theme);
+    }
+
+    /**
+     * Calculate unique identifier for a layout file
+     *
+     * @return string
+     */
+    public function getFileIdentifier()
+    {
+        if (null === $this->identifier) {
+            $theme = $this->getTheme() ? 'theme:' . $this->theme->getFullPath() : 'base';
+            $this->identifier = $theme . '|module:' . $this->getModule() . '|file:' . $this->getName();
+        }
+        return $this->identifier;
     }
 }

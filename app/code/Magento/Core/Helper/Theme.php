@@ -18,7 +18,7 @@ class Theme extends \Magento\App\Helper\AbstractHelper
     /**
      * Filesystem facade
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -43,14 +43,14 @@ class Theme extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory
      * @param \Magento\Core\Model\Resource\Theme\Collection $themeCollection
      * @param \Magento\View\FileSystem $viewFileSystem
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory,
         \Magento\Core\Model\Resource\Theme\Collection $themeCollection,
         \Magento\View\FileSystem $viewFileSystem
@@ -82,35 +82,28 @@ class Theme extends \Magento\App\Helper\AbstractHelper
         /**
          * XPath selector to get CSS files from layout added for HEAD block directly
          */
-        $xpathSelectorBlocks = '//block[@class="Magento\Theme\Block\Html\Head"]'
-            . '/block[@class="Magento\Theme\Block\Html\Head\Css"]/arguments/argument[@name="file"]';
+        $xpathSelectorBlocks = '//block[@class="Magento\Theme\Block\Html\Head"]' .
+            '/block[@class="Magento\Theme\Block\Html\Head\Css"]/arguments/argument[@name="file"]';
 
         /**
          * XPath selector to get CSS files from layout added for HEAD block using reference
          */
-        $xpathSelectorRefs = '//referenceBlock[@name="head"]'
-            . '/block[@class="Magento\Theme\Block\Html\Head\Css"]/arguments/argument[@name="file"]';
+        $xpathSelectorRefs = '//referenceBlock[@name="head"]' .
+            '/block[@class="Magento\Theme\Block\Html\Head\Css"]/arguments/argument[@name="file"]';
 
         $elements = array_merge(
             $layoutElement->xpath($xpathSelectorBlocks) ?: array(),
             $layoutElement->xpath($xpathSelectorRefs) ?: array()
         );
 
-        $params = array(
-            'area'       => $theme->getArea(),
-            'themeModel' => $theme,
-            'skipProxy'  => true
-        );
+        $params = array('area' => $theme->getArea(), 'themeModel' => $theme, 'skipProxy' => true);
 
-        $rootDirectory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
+        $rootDirectory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         $files = array();
         foreach ($elements as $fileId) {
             $fileId = (string)$fileId;
             $path = $this->_viewFileSystem->getViewFile($fileId, $params);
-            $file = array(
-                'id'       => $fileId,
-                'path'     => $path,
-            );
+            $file = array('id' => $fileId, 'path' => $path);
             $file['safePath'] = $rootDirectory->getRelativePath($file['path']);
 
             //keys are used also to remove duplicates
@@ -129,9 +122,9 @@ class Theme extends \Magento\App\Helper\AbstractHelper
      */
     public function getGroupedCssFiles($theme)
     {
-        $jsDir = $this->_filesystem->getPath(\Magento\Filesystem::PUB_LIB);
-        $codeDir = $this->_filesystem->getPath(\Magento\Filesystem::MODULES);
-        $designDir = $this->_filesystem->getPath(\Magento\Filesystem::THEMES);
+        $jsDir = $this->_filesystem->getPath(\Magento\App\Filesystem::PUB_LIB_DIR);
+        $codeDir = $this->_filesystem->getPath(\Magento\App\Filesystem::MODULES_DIR);
+        $designDir = $this->_filesystem->getPath(\Magento\App\Filesystem::THEMES_DIR);
 
         $groups = array();
         $themes = array();
@@ -160,10 +153,16 @@ class Theme extends \Magento\App\Helper\AbstractHelper
             $themes = $this->_sortThemesByHierarchy($themes);
         }
 
-        $order = array_merge(array($codeDir, $jsDir), array_map(function ($fileTheme) {
-            /** @var $fileTheme \Magento\View\Design\ThemeInterface */
-            return $fileTheme->getThemeId();
-        }, $themes));
+        $order = array_merge(
+            array($codeDir, $jsDir),
+            array_map(
+                function ($fileTheme) {
+                    /** @var $fileTheme \Magento\View\Design\ThemeInterface */
+                    return $fileTheme->getThemeId();
+                },
+                $themes
+            )
+        );
         $groups = $this->_sortArrayByArray($groups, $order);
 
         $labels = $this->_getGroupLabels($themes, $jsDir, $codeDir);
@@ -178,9 +177,9 @@ class Theme extends \Magento\App\Helper\AbstractHelper
     /**
      * Detect theme view file belongs to and set it to file data under "theme" key
      *
-     * @param array $file
+     * @param array &$file
      * @param string $designDir
-     * @return \Magento\Core\Helper\Theme
+     * @return $this
      * @throws \LogicException
      */
     protected function _detectTheme(&$file, $designDir)
@@ -205,9 +204,7 @@ class Theme extends \Magento\App\Helper\AbstractHelper
         );
 
         if (!$themeModel || !$themeModel->getThemeId()) {
-            throw new \LogicException(
-                __('Invalid theme loaded by theme path "%1/%2"', $area, $theme)
-            );
+            throw new \LogicException(__('Invalid theme loaded by theme path "%1/%2"', $area, $theme));
         }
 
         $file['theme'] = $themeModel;
@@ -218,11 +215,11 @@ class Theme extends \Magento\App\Helper\AbstractHelper
     /**
      * Detect group where file should be placed and set it to file data under "group" key
      *
-     * @param array $file
+     * @param array &$file
      * @param string $designDir
      * @param string $jsDir
      * @param string $codeDir
-     * @return \Magento\Core\Helper\Theme
+     * @return $this
      * @throws \LogicException
      */
     protected function _detectGroup(&$file, $designDir, $jsDir, $codeDir)
@@ -298,10 +295,7 @@ class Theme extends \Magento\App\Helper\AbstractHelper
      */
     protected function _getGroupLabels(array $themes, $jsDir, $codeDir)
     {
-        $labels = array(
-            $jsDir => (string)__('Library files'),
-            $codeDir => (string)__('Framework files')
-        );
+        $labels = array($jsDir => (string)__('Library files'), $codeDir => (string)__('Framework files'));
         foreach ($themes as $theme) {
             /** @var $theme \Magento\View\Design\ThemeInterface */
             $labels[$theme->getThemeId()] = (string)__('"%1" Theme files', $theme->getThemeTitle());

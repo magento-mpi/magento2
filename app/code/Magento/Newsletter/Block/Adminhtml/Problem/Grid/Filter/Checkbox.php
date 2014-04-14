@@ -15,16 +15,25 @@
  * @package    Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Newsletter\Block\Adminhtml\Problem\Grid\Filter;
 
 class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
-     public function getCondition()
+    /**
+     * Get the condition of grid filter checkbox
+     *
+     * @return array
+     */
+    public function getCondition()
     {
         return array();
     }
 
+    /**
+     * Get html code for grid filter checkbox
+     *
+     * @return string
+     */
     public function getHtml()
     {
         return '<input type="checkbox" onclick="problemController.checkCheckboxes(this)"/>';

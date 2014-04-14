@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset;
 
 /**
@@ -14,11 +13,15 @@ namespace Magento\View\Asset;
 class PropertyGroup extends Collection
 {
     /**
+     * Properties
+     *
      * @var array
      */
     protected $properties = array();
 
     /**
+     * Constructor
+     *
      * @param array $properties
      */
     public function __construct(array $properties)
@@ -29,7 +32,7 @@ class PropertyGroup extends Collection
     /**
      * Retrieve values of all properties
      *
-     * @return array()
+     * @return array
      */
     public function getProperties()
     {

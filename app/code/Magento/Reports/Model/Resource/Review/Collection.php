@@ -23,6 +23,7 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
     /**
      * Resource initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -30,10 +31,10 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
     }
 
     /**
-     * add product filter
+     * Add product filter
      *
-     * @param unknown_type $productId
-     * @return \Magento\Reports\Model\Resource\Review\Collection
+     * @param string $productId
+     * @return $this
      */
     public function addProductFilter($productId)
     {
@@ -45,7 +46,7 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
     /**
      * Reset select
      *
-     * @return \Magento\Reports\Model\Resource\Review\Collection
+     * @return $this
      */
     public function resetSelect()
     {
@@ -76,7 +77,7 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
      *
      * @param string $attribute
      * @param string $dir
-     * @return \Magento\Reports\Model\Resource\Review\Collection
+     * @return $this
      */
     public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {

@@ -48,6 +48,7 @@ class Button extends \Magento\View\Element\Template
         $this->_wishlistData = $wishlistData;
         $this->_wishlistConfig = $wishlistConfig;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

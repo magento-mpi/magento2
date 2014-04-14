@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Source\Image;
 
-class Adapter implements \Magento\Core\Model\Option\ArrayInterface
+class Adapter implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Image\Adapter\ConfigInterface

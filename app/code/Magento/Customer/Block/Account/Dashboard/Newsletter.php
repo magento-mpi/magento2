@@ -2,40 +2,42 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Dashboard neswletter info
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
 namespace Magento\Customer\Block\Account\Dashboard;
 
+use Magento\Newsletter\Model\Subscriber;
+
+/**
+ * Dashboard newsletter info
+ */
 class Newsletter extends \Magento\View\Element\Template
 {
     /**
-     * @var \Magento\Newsletter\Model\Subscriber
+     * The subscriber.
+     *
+     * @var Subscriber
      */
     protected $_subscription;
 
     /**
+     * Session model.
+     *
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
+     * Factory for creating new Subscriber instances.
+     *
      * @var \Magento\Newsletter\Model\SubscriberFactory
      */
     protected $_subscriberFactory;
 
     /**
+     * Initialize the Dashboard\Newsletter instance.
+     *
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
@@ -50,18 +52,27 @@ class Newsletter extends \Magento\View\Element\Template
         $this->_customerSession = $customerSession;
         $this->_subscriberFactory = $subscriberFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
+    /**
+     * Fetch the subscription object. Create the subscriber by loading using the customerId.
+     *
+     * @return Subscriber
+     */
     public function getSubscriptionObject()
     {
-        if(is_null($this->_subscription)) {
-            $this->_subscription = $this->_createSubscriber()->loadByCustomer($this->_customerSession->getCustomer());
+        if (is_null($this->_subscription)) {
+            $this->_subscription =
+                $this->_createSubscriber()->loadByCustomerId($this->_customerSession->getCustomerId());
         }
         return $this->_subscription;
     }
 
     /**
-     * @return \Magento\Newsletter\Model\Subscriber
+     * Use the factory to create an empty Subscriber model instance.
+     *
+     * @return Subscriber
      */
     protected function _createSubscriber()
     {

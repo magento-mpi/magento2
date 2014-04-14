@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Config\Backend\Admin;
 
-class Robots extends \Magento\Core\Model\Config\Value
+class Robots extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Filesystem\Directory\Write
@@ -26,35 +26,25 @@ class Robots extends \Magento\Core\Model\Config\Value
     protected $_file;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Config $config,
-        \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\App\Filesystem $filesystem,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct(
-            $context,
-            $registry,
-            $storeManager,
-            $config,
-            $resource,
-            $resourceCollection,
-            $data
-        );
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $this->_file = 'robots.txt';
     }
 
@@ -74,7 +64,7 @@ class Robots extends \Magento\Core\Model\Config\Value
     /**
      * Load default content from robots.txt if customer does not define own
      *
-     * @return \Magento\Backend\Model\Config\Backend\Admin\Robots
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -88,7 +78,7 @@ class Robots extends \Magento\Core\Model\Config\Value
     /**
      * Check and process robots file
      *
-     * @return \Magento\Backend\Model\Config\Backend\Admin\Robots
+     * @return $this
      */
     protected function _afterSave()
     {

@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element;
 
-use Magento\Filesystem;
+use Magento\App\Filesystem;
 
 /**
  * Base html block
@@ -29,11 +28,15 @@ class Template extends AbstractBlock
     protected $_viewVars = array();
 
     /**
+     * Base URL
+     *
      * @var string
      */
     protected $_baseUrl;
 
     /**
+     * JS URL
+     *
      * @var string
      */
     protected $_jsUrl;
@@ -53,6 +56,8 @@ class Template extends AbstractBlock
     protected $_filesystem;
 
     /**
+     * View file system
+     *
      * @var \Magento\View\FileSystem
      */
     protected $_viewFileSystem;
@@ -65,16 +70,22 @@ class Template extends AbstractBlock
     protected $_template;
 
     /**
+     * Template engine pool
+     *
      * @var \Magento\View\TemplateEnginePool
      */
     protected $templateEnginePool;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * Store manager
+     *
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Application state
+     *
      * @var \Magento\App\State
      */
     protected $_appState;
@@ -91,26 +102,46 @@ class Template extends AbstractBlock
      *
      * @var \Magento\Filesystem\Directory\ReadInterface
      */
-    protected $mediaDirectory;
+    private $mediaDirectory;
 
     /**
+     * Template context
+     *
+     * @var \Magento\View\Element\BlockInterface
+     */
+    protected $templateContext;
+
+    /**
+     * Constructor
+     *
      * @param Template\Context $context
      * @param array $data
      */
-    public function __construct(
-        Template\Context $context,
-        array $data = array()
-    ) {
+    public function __construct(Template\Context $context, array $data = array())
+    {
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
         $this->templateEnginePool = $context->getEnginePool();
         $this->_storeManager = $context->getStoreManager();
         $this->_appState = $context->getAppState();
+        $this->templateContext = $this;
         parent::__construct($context, $data);
     }
 
     /**
+     * Set template context. Sets the object that should represent $this in template
+     *
+     * @param \Magento\View\Element\BlockInterface $templateContext
+     * @return void
+     */
+    public function setTemplateContext($templateContext)
+    {
+        $this->templateContext = $templateContext;
+    }
+
+    /**
      * Internal constructor, that is called from real constructor
+     * @return void
      */
     protected function _construct()
     {
@@ -141,7 +172,7 @@ class Template extends AbstractBlock
      * Set path to template used for generating block's output.
      *
      * @param string $template
-     * @return \Magento\View\Element\Template
+     * @return $this
      */
     public function setTemplate($template)
     {
@@ -180,13 +211,13 @@ class Template extends AbstractBlock
      *
      * @param   string|array $key
      * @param   mixed $value
-     * @return  \Magento\View\Element\Template
+     * @return  $this
      */
-    public function assign($key, $value=null)
+    public function assign($key, $value = null)
     {
         if (is_array($key)) {
-            foreach ($key as $k=>$v) {
-                $this->assign($k, $v);
+            foreach ($key as $subKey => $subValue) {
+                $this->assign($subKey, $subValue);
             }
         } else {
             $this->_viewVars[$key] = $value;
@@ -204,13 +235,14 @@ class Template extends AbstractBlock
     {
         $relativeFilePath = $this->getRootDirectory()->getRelativePath($fileName);
         \Magento\Profiler::start(
-            'TEMPLATE:' . $fileName, array('group' => 'TEMPLATE', 'file_name' => $relativeFilePath)
+            'TEMPLATE:' . $fileName,
+            array('group' => 'TEMPLATE', 'file_name' => $relativeFilePath)
         );
 
         if ($this->isTemplateFileValid($fileName)) {
             $extension = pathinfo($fileName, PATHINFO_EXTENSION);
             $templateEngine = $this->templateEnginePool->get($extension);
-            $html = $templateEngine->render($this, $fileName, $this->_viewVars);
+            $html = $templateEngine->render($this->templateContext, $fileName, $this->_viewVars);
         } else {
             $html = '';
             $this->_logger->log("Invalid template file: '{$fileName}'", \Zend_Log::CRIT);
@@ -281,7 +313,10 @@ class Template extends AbstractBlock
     protected function isAllowSymlinks()
     {
         if (null === $this->_allowSymlinks) {
-            $this->_allowSymlinks = $this->_storeConfig->getConfigFlag(self::XML_PATH_TEMPLATE_ALLOW_SYMLINK);
+            $this->_allowSymlinks = $this->_scopeConfig->isSetFlag(
+                self::XML_PATH_TEMPLATE_ALLOW_SYMLINK,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         }
         return $this->_allowSymlinks;
     }
@@ -294,7 +329,7 @@ class Template extends AbstractBlock
     protected function getRootDirectory()
     {
         if (null === $this->directory) {
-            $this->directory = $this->_filesystem->getDirectoryRead(Filesystem::ROOT);
+            $this->directory = $this->_filesystem->getDirectoryRead(Filesystem::ROOT_DIR);
         }
 
         return $this->directory;
@@ -308,7 +343,7 @@ class Template extends AbstractBlock
     protected function getMediaDirectory()
     {
         if (!$this->mediaDirectory) {
-            $this->mediaDirectory = $this->_filesystem->getDirectoryRead(Filesystem::MEDIA);
+            $this->mediaDirectory = $this->_filesystem->getDirectoryRead(Filesystem::MEDIA_DIR);
         }
         return $this->mediaDirectory;
     }
@@ -328,13 +363,17 @@ class Template extends AbstractBlock
     {
         $fileName = str_replace('\\', '/', $fileName);
 
-        $themesDir = str_replace('\\', '/', $this->_filesystem->getPath(Filesystem::THEMES));
-        $appDir = str_replace('\\', '/', $this->_filesystem->getPath(Filesystem::APP));
-        return (
-            $this->isPathInDirectory($fileName, $appDir)
-            || $this->isPathInDirectory($fileName, $themesDir)
-            || $this->isAllowSymlinks()
-        ) && $this->getRootDirectory()->isFile($this->getRootDirectory()->getRelativePath($fileName));
+        $themesDir = str_replace('\\', '/', $this->_filesystem->getPath(Filesystem::THEMES_DIR));
+        $appDir = str_replace('\\', '/', $this->_filesystem->getPath(Filesystem::APP_DIR));
+        return ($this->isPathInDirectory(
+            $fileName,
+            $appDir
+        ) || $this->isPathInDirectory(
+            $fileName,
+            $themesDir
+        ) || $this->isAllowSymlinks()) && $this->getRootDirectory()->isFile(
+            $this->getRootDirectory()->getRelativePath($fileName)
+        );
     }
 
     /**

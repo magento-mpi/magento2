@@ -40,7 +40,7 @@ class Design implements \Magento\View\DesignInterface
     /**
      * Store list manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -55,19 +55,14 @@ class Design implements \Magento\View\DesignInterface
     protected $_themeFactory;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_config;
+    private $_scopeConfig;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Locale\ResolverInterface
      */
-    private $_storeConfig;
-
-    /**
-     * @var \Magento\Core\Model\App
-     */
-    protected $_app;
+    protected $_locale;
 
     /**
      * @var \Magento\App\State
@@ -75,41 +70,38 @@ class Design implements \Magento\View\DesignInterface
     protected $_appState;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\Design\Theme\FlyweightFactory $flyweightFactory
-     * @param \Magento\Core\Model\ConfigInterface $config
-     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\ThemeFactory $themeFactory
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Locale\ResolverInterface $locale
      * @param \Magento\App\State $appState
      * @param array $themes
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\View\Design\Theme\FlyweightFactory $flyweightFactory,
-        \Magento\Core\Model\ConfigInterface $config,
-        \Magento\Core\Model\Store\ConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\ThemeFactory $themeFactory,
-        \Magento\Core\Model\App $app,
+        \Magento\Locale\ResolverInterface $locale,
         \Magento\App\State $appState,
         array $themes
     ) {
         $this->_storeManager = $storeManager;
         $this->_flyweightFactory = $flyweightFactory;
         $this->_themeFactory = $themeFactory;
-        $this->_config = $config;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_appState = $appState;
         $this->_themes = $themes;
-        $this->_app = $app;
+        $this->_locale = $locale;
     }
 
     /**
      * Set package area
      *
-     * @deprecated
      * @param string $area
-     * @return \Magento\Core\Model\View\Design
+     * @return $this
+     * @deprecated
      */
     public function setArea($area)
     {
@@ -133,7 +125,7 @@ class Design implements \Magento\View\DesignInterface
      *
      * @param \Magento\View\Design\ThemeInterface|string $theme
      * @param string $area
-     * @return \Magento\Core\Model\View\Design
+     * @return $this
      */
     public function setDesignTheme($theme, $area = null)
     {
@@ -157,7 +149,7 @@ class Design implements \Magento\View\DesignInterface
      *
      * Write default theme to core_config_data
      *
-     * @param string $area
+     * @param string|null $area
      * @param array $params
      * @return string|int
      */
@@ -171,9 +163,14 @@ class Design implements \Magento\View\DesignInterface
         $store = isset($params['store']) ? $params['store'] : null;
 
         if ($this->_isThemePerStoveView($area)) {
-            $theme = $this->_storeManager->isSingleStoreMode()
-                ? $this->_config->getValue(self::XML_PATH_THEME_ID, 'default')
-                : (string)$this->_storeConfig->getConfig(self::XML_PATH_THEME_ID, $store);
+            $theme = $this->_storeManager->isSingleStoreMode() ? $this->_scopeConfig->getValue(
+                self::XML_PATH_THEME_ID,
+                \Magento\App\ScopeInterface::SCOPE_DEFAULT
+            ) : (string)$this->_scopeConfig->getValue(
+                self::XML_PATH_THEME_ID,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $store
+            );
         }
 
         if (!$theme && isset($this->_themes[$area])) {
@@ -197,7 +194,7 @@ class Design implements \Magento\View\DesignInterface
     /**
      * Set default design theme
      *
-     * @return \Magento\Core\Model\View\Design
+     * @return $this
      */
     public function setDefaultDesignTheme()
     {
@@ -224,9 +221,9 @@ class Design implements \Magento\View\DesignInterface
     public function getDesignParams()
     {
         $params = array(
-            'area'       => $this->getArea(),
+            'area' => $this->getArea(),
             'themeModel' => $this->getDesignTheme(),
-            'locale'     => $this->_app->getLocale()->getLocaleCode()
+            'locale' => $this->_locale->getLocaleCode()
         );
 
         return $params;

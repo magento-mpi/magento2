@@ -9,11 +9,11 @@
  */
 namespace Magento\Core\App;
 
-use Magento\App\State,
-    Magento\AppInterface,
-    Magento\ObjectManager,
-    Magento\Core\Model\File\Storage\Request,
-    Magento\Core\Model\File\Storage\Response;
+use Magento\App\State;
+use Magento\AppInterface;
+use Magento\ObjectManager;
+use Magento\Core\Model\File\Storage\Request;
+use Magento\Core\Model\File\Storage\Response;
 
 class Media implements AppInterface
 {
@@ -35,7 +35,7 @@ class Media implements AppInterface
     /**
      * Authorization function
      *
-     * @var callable
+     * @var \Closure
      */
     protected $_isAllowed;
 
@@ -73,7 +73,7 @@ class Media implements AppInterface
     protected $_response;
 
     /**
-     * @var \Magento\Filesystem $filesystem
+     * @var \Magento\App\Filesystem $filesystem
      */
     protected $filesystem;
 
@@ -87,12 +87,12 @@ class Media implements AppInterface
      * @param ObjectManager $objectManager
      * @param Request $request
      * @param Response $response
-     * @param callable $isAllowed
-     * @param $workingDirectory
-     * @param $mediaDirectory
-     * @param $configCacheFile
-     * @param $relativeFileName
-     * @param \Magento\Filesystem $filesytem
+     * @param \Closure $isAllowed
+     * @param string $workingDirectory
+     * @param string $mediaDirectory
+     * @param string $configCacheFile
+     * @param string $relativeFileName
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         State $applicationState,
@@ -104,7 +104,7 @@ class Media implements AppInterface
         $mediaDirectory,
         $configCacheFile,
         $relativeFileName,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->_applicationState = $applicationState;
         $this->_objectManager = $objectManager;
@@ -116,56 +116,58 @@ class Media implements AppInterface
         $this->_configCacheFile = $configCacheFile;
         $this->_relativeFileName = $relativeFileName;
         $this->filesystem = $filesystem;
-        $this->directory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
+        $this->directory = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
     }
 
     /**
-     * Execute application
+     * Run application
      *
-     * @return int
+     * @return \Magento\App\ResponseInterface
      */
-    public function execute()
+    public function launch()
     {
         try {
             if (!$this->_applicationState->isInstalled()) {
-                $this->_response->sendNotFound();
-                return -1;
+                $this->_response->setHttpResponseCode(404);
+                return $this->_response;
             }
             if (!$this->_mediaDirectory) {
                 $config = $this->_objectManager->create(
-                    'Magento\Core\Model\File\Storage\Config', array('cacheFile' => $this->_configCacheFile)
+                    'Magento\Core\Model\File\Storage\Config',
+                    array('cacheFile' => $this->_configCacheFile)
                 );
                 $config->save();
                 $this->_mediaDirectory = str_replace($this->_workingDirectory, '', $config->getMediaDirectory());
                 $allowedResources = $config->getAllowedResources();
                 $this->_relativeFileName = str_replace(
-                    $this->_mediaDirectory . '/', '', $this->_request->getPathInfo()
+                    $this->_mediaDirectory . '/',
+                    '',
+                    $this->_request->getPathInfo()
                 );
                 $isAllowed = $this->_isAllowed;
                 if (!$isAllowed($this->_relativeFileName, $allowedResources)) {
-                    $this->_response->sendNotFound();
-                    return -1;
+                    $this->_response->setHttpResponseCode(404);
+                    return $this->_response;
                 }
             }
 
             if (0 !== stripos($this->_request->getPathInfo(), $this->_mediaDirectory . '/')) {
-                $this->_response->sendNotFound();
-                return -1;
+                $this->_response->setHttpResponseCode(404);
+                return $this->_response;
             }
 
             $sync = $this->_objectManager->get('Magento\Core\Model\File\Storage\Synchronization');
             $sync->synchronize($this->_relativeFileName, $this->_request->getFilePath());
 
             if ($this->directory->isReadable($this->directory->getRelativePath($this->_request->getFilePath()))) {
-                $this->_response->sendFile($this->_request->getFilePath());
-                return 0;
+                $this->_response->setFilePath($this->_request->getFilePath());
             } else {
-                $this->_response->sendNotFound();
-                return -1;
+                $this->_response->setHttpResponseCode(404);
             }
-        } catch (\Magento\Core\Model\Store\Exception $e) {
-            $this->_response->sendNotFound();
-            return -1;
+            return $this->_response;
+        } catch (\Exception $e) {
+            $this->_response->setHttpResponseCode(404);
+            return $this->_response;
         }
     }
 }

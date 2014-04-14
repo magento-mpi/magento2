@@ -9,8 +9,7 @@
  */
 namespace Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Options;
 
-class Frequency
-    implements \Magento\Core\Model\Option\ArrayInterface
+class Frequency implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data
@@ -26,11 +25,10 @@ class Frequency
     }
 
     /**
-     * Return frequency array
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {
-        return  $this->_modelData->getFrequencyOptionArray();
+        return $this->_modelData->getFrequencyOptionArray();
     }
 }

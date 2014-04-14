@@ -21,14 +21,17 @@ class Integration extends AbstractRepository
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,
             'data' => $defaultData
         );
         $this->_data[self::INTEGRATION_TAB] = $this->_getIntegrationTabData();
-        $this->_data[self::ALL_INTEGRATION_TABS] = array_replace_recursive($this->_getIntegrationTabData(), $this->_getApiTabData());
+        $this->_data[self::ALL_INTEGRATION_TABS] = array_replace_recursive(
+            $this->_getIntegrationTabData(),
+            $this->_getApiTabData()
+        );
     }
 
     /**

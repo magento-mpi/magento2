@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition;
+
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Date range combo
@@ -14,10 +17,7 @@
  * @method \Magento\CustomerSegment\Model\Segment\Condition\Daterange setType(string $type)
  * @method \Magento\CustomerSegment\Model\Segment\Condition\Daterange setValue(string $value)
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition;
-
-class Daterange
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Daterange extends AbstractCondition
 {
     /**
      * Input type for operator options
@@ -66,10 +66,7 @@ class Daterange
      */
     public function getNewChildSelectOptions()
     {
-        return array(
-            'value' => $this->getType(),
-            'label' => __('Date Range'),
-        );
+        return array('value' => $this->getType(), 'label' => __('Date Range'));
     }
 
     /**
@@ -109,10 +106,12 @@ class Daterange
      */
     public function getValueAfterElementHtml()
     {
-        return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
-            . $this->_viewUrl->getViewFileUrl('images/rule_chooser_trigger.gif')
-            . '" alt="" class="v-middle rule-chooser-trigger"'
-            . 'title="' . __('Open Chooser') . '" /></a>';
+        return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="' .
+            $this->_viewUrl->getViewFileUrl(
+                'images/rule_chooser_trigger.gif'
+            ) . '" alt="" class="v-middle rule-chooser-trigger"' . 'title="' . __(
+                'Open Chooser'
+            ) . '" /></a>';
     }
 
     /**
@@ -122,9 +121,10 @@ class Daterange
      */
     public function getValueElementChooserUrl()
     {
-        return $this->_adminhtmlData->getUrl('customersegment/index/chooserDaterange', array(
-            'value_element_id' => $this->_valueElement->getId(),
-        ));
+        return $this->_adminhtmlData->getUrl(
+            'customersegment/index/chooserDaterange',
+            array('value_element_id' => $this->_valueElement->getId())
+        );
     }
 
     /**
@@ -137,10 +137,15 @@ class Daterange
     public function asHtml()
     {
         $this->_valueElement = $this->getValueElement();
-        return $this->getTypeElementHtml()
-            . __('Date Range %1 within %2', $this->getOperatorElementHtml(), $this->_valueElement->getHtml())
-            . $this->getRemoveLinkHtml()
-            . '<div class="rule-chooser no-split" url="' . $this->getValueElementChooserUrl() . '"></div>';
+        return $this->getTypeElementHtml() . __(
+            'Date Range %1 within %2',
+            $this->getOperatorElementHtml(),
+            $this->_valueElement->getHtml()
+        ) .
+            $this->getRemoveLinkHtml() .
+            '<div class="rule-chooser no-split" url="' .
+            $this->getValueElementChooserUrl() .
+            '"></div>';
     }
 
     /**
@@ -158,8 +163,8 @@ class Daterange
      *
      * @param string $fieldName base query field name
      * @param bool $requireValid strict validation flag
-     * @param $website
-     * @return string
+     * @param int|\Zend_Db_Expr $website
+     * @return string|false
      */
     public function getSubfilterSql($fieldName, $requireValid, $website)
     {
@@ -180,7 +185,7 @@ class Daterange
             return false;
         }
 
-        $inOperator = (($requireValid && $this->getOperator() == '==') ? 'BETWEEN' : 'NOT BETWEEN');
+        $inOperator = $requireValid && $this->getOperator() == '==' ? 'BETWEEN' : 'NOT BETWEEN';
         return sprintf("%s %s '%s' AND '%s'", $fieldName, $inOperator, $start, $end);
     }
 }

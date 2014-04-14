@@ -13,7 +13,7 @@
 # Manage Attribute Sets page
 manage_attribute_sets:
     mca: catalog/product_set/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_set/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/catalog/product_set/')]
     title: Product Templates / Attributes / Stores / Magento Admin
     uimap:
         form: &searchAttributeSetsGrid
@@ -54,10 +54,9 @@ add_new_attribute_set:
                         dropdowns:
                             based_on: //select[@name='skeleton_set']
         buttons:
-            save_attribute_set: //*[@data-ui-id='catalog-product-attribute-set-toolbar-add-save-button']
-            back: //*[@data-ui-id='catalog-product-attribute-set-toolbar-add-back-button']
+            save_attribute_set: //button[@title='Save Attribute Set']
+            back: //button[@title='Back']
         messages: *messages
-
 
 edit_attribute_set:
     mca: catalog/product_set/edit/id/%id%/
@@ -91,8 +90,8 @@ edit_attribute_set:
                         pageelements:
                             unassigned_placeholder: //div[@id='tree-div2']//span[contains(@id,'extdd')]
         buttons: &editAttributeButtons
-            save_attribute_set: //*[@data-ui-id='catalog-product-attribute-set-main-save-button']
-            delete_attribute_set: //*[@data-ui-id='catalog-product-attribute-set-main-delete-button']
-            reset: //*[@data-ui-id='catalog-product-attribute-set-main-reset-button']
-            back: //*[@data-ui-id='catalog-product-attribute-set-main-back-button']
+            save_attribute_set: //button[@title='Save Attribute Set']
+            delete_attribute_set: //button[@title='Delete Attribute Set']
+            reset: //button[@title='Reset']
+            back: //button[@title='Back']
         messages: *messages

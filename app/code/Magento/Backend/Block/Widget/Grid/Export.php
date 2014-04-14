@@ -7,20 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\Widget\Grid;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Export
-    extends \Magento\Backend\Block\Widget
-    implements \Magento\Backend\Block\Widget\Grid\ExportInterface
+class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\Block\Widget\Grid\ExportInterface
 {
     /**
      * Grid export types
      *
-     * @var array
+     * @var  \Magento\Object[]
      */
     protected $_exportTypes = array();
 
@@ -69,18 +66,22 @@ class Export
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     * @throws \Magento\Model\Exception
+     */
     protected function _construct()
     {
         parent::_construct();
         if ($this->hasData('exportTypes')) {
             foreach ($this->getData('exportTypes') as $type) {
                 if (!isset($type['urlPath']) || !isset($type['label'])) {
-                    throw new \Magento\Core\Exception('Invalid export type supplied for grid export block');
+                    throw new \Magento\Model\Exception('Invalid export type supplied for grid export block');
                 }
                 $this->addExportType($type['urlPath'], $type['label']);
             }
         }
-        $this->_directory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+        $this->_directory = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -106,7 +107,7 @@ class Export
     /**
      * Return count totals
      *
-     * @return mixed
+     * @return bool
      */
     public function getCountTotals()
     {
@@ -126,7 +127,7 @@ class Export
     /**
      * Retrieve grid export types
      *
-     * @return array|bool
+     * @return  \Magento\Object[]|false
      */
     public function getExportTypes()
     {
@@ -146,17 +147,21 @@ class Export
     /**
      * Prepare export button
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {
-        $this->setChild('export_button',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(array(
-                'label'     => __('Export'),
-                'onclick'   => $this->getParentBlock()->getJsObjectName().'.doExport()',
-                'class'   => 'task'
-            ))
+        $this->setChild(
+            'export_button',
+            $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Button'
+            )->setData(
+                array(
+                    'label' => __('Export'),
+                    'onclick' => $this->getParentBlock()->getJsObjectName() . '.doExport()',
+                    'class' => 'task'
+                )
+            )
         );
         return parent::_prepareLayout();
     }
@@ -176,15 +181,12 @@ class Export
      *
      * @param   string $url
      * @param   string $label
-     * @return  \Magento\Backend\Block\Widget\Grid
+     * @return  $this
      */
     public function addExportType($url, $label)
     {
         $this->_exportTypes[] = new \Magento\Object(
-            array(
-                'url'   => $this->getUrl($url, array('_current'=>true)),
-                'label' => $label
-            )
+            array('url' => $this->getUrl($url, array('_current' => true)), 'label' => $label)
         );
         return $this;
     }
@@ -203,7 +205,7 @@ class Export
     /**
      * Retrieve Headers row array for Export
      *
-     * @return array
+     * @return string[]
      */
     protected function _getExportHeaders()
     {
@@ -219,7 +221,7 @@ class Export
     /**
      * Retrieve Totals row array for Export
      *
-     * @return array
+     * @return string[]
      */
     protected function _getExportTotals()
     {
@@ -227,7 +229,7 @@ class Export
         $row = array();
         foreach ($this->_getColumns() as $column) {
             if (!$column->getIsSystem()) {
-                $row[] = ($column->hasTotalsLabel()) ? $column->getTotalsLabel() : $column->getRowFieldExport($totals);
+                $row[] = $column->hasTotalsLabel() ? $column->getTotalsLabel() : $column->getRowFieldExport($totals);
             }
         }
         return $row;
@@ -239,14 +241,14 @@ class Export
      *
      * @param string $callback
      * @param array $args additional arguments for callback method
-     * @return \Magento\Backend\Block\Widget\Grid
+     * @return void
      */
     public function _exportIterateCollection($callback, array $args)
     {
         /** @var $originalCollection \Magento\Data\Collection */
         $originalCollection = $this->getParentBlock()->getPreparedCollection();
         $count = null;
-        $page  = 1;
+        $page = 1;
         $lPage = null;
         $break = false;
 
@@ -261,7 +263,7 @@ class Export
             if ($lPage == $page) {
                 $break = true;
             }
-            $page ++;
+            $page++;
 
             $collection = $this->_getRowCollection($originalCollection);
             foreach ($collection as $item) {
@@ -275,6 +277,7 @@ class Export
      *
      * @param \Magento\Object $item
      * @param \Magento\Filesystem\File\WriteInterface $stream
+     * @return void
      */
     protected function _exportCsvItem(\Magento\Object $item, \Magento\Filesystem\File\WriteInterface $stream)
     {
@@ -312,9 +315,9 @@ class Export
         $stream->close();
 
         return array(
-            'type'  => 'filename',
+            'type' => 'filename',
             'value' => $file,
-            'rm'    => true // can delete file after use
+            'rm' => true  // can delete file after use
         );
     }
 
@@ -340,22 +343,28 @@ class Export
             $data = array();
             foreach ($this->_getColumns() as $column) {
                 if (!$column->getIsSystem()) {
-                    $data[] = '"' . str_replace(array('"', '\\'), array('""', '\\\\'),
-                        $column->getRowFieldExport($item)) . '"';
+                    $data[] = '"' . str_replace(
+                        array('"', '\\'),
+                        array('""', '\\\\'),
+                        $column->getRowFieldExport($item)
+                    ) . '"';
                 }
             }
-            $csv .= implode(',', $data)."\n";
+            $csv .= implode(',', $data) . "\n";
         }
 
         if ($this->getCountTotals()) {
             $data = array();
             foreach ($this->_getColumns() as $column) {
                 if (!$column->getIsSystem()) {
-                    $data[] = '"' . str_replace(array('"', '\\'), array('""', '\\\\'),
-                        $column->getRowFieldExport($this->_getTotals())) . '"';
+                    $data[] = '"' . str_replace(
+                        array('"', '\\'),
+                        array('""', '\\\\'),
+                        $column->getRowFieldExport($this->_getTotals())
+                    ) . '"';
                 }
             }
-            $csv .= implode(',', $data)."\n";
+            $csv .= implode(',', $data) . "\n";
         }
 
         return $csv;
@@ -392,7 +401,7 @@ class Export
      *  Get a row data of the particular columns
      *
      * @param \Magento\Object $data
-     * @return array
+     * @return string[]
      */
     public function getRowRecord(\Magento\Object $data)
     {
@@ -436,9 +445,9 @@ class Export
         $stream->close();
 
         return array(
-            'type'  => 'filename',
+            'type' => 'filename',
             'value' => $file,
-            'rm'    => true // can delete file after use
+            'rm' => true  // can delete file after use
         );
     }
 
@@ -533,6 +542,9 @@ class Export
         return $this->_getRowCollection($collection);
     }
 
+    /**
+     * @return int
+     */
     public function getExportPageSize()
     {
         return $this->_exportPageSize;

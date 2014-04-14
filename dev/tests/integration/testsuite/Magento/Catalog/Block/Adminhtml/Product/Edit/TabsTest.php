@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit;
 
 /**
@@ -24,15 +23,15 @@ class TabsTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
-        $objectManager->get('Magento\View\DesignInterface')
-            ->setDefaultDesignTheme();
+        $objectManager->get('Magento\View\DesignInterface')->setDefaultDesignTheme();
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $objectManager->create('Magento\Catalog\Model\Product');
-        $product->load(1); // fixture
-        $objectManager->get('Magento\Core\Model\Registry')->register('product', $product);
+        $product->load(1);
+        // fixture
+        $objectManager->get('Magento\Registry')->register('product', $product);
 
         $objectManager->get('Magento\App\State')->setAreaCode('nonexisting');
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = $objectManager->get('Magento\View\LayoutInterface');
         $layout->addBlock('Magento\View\Element\Text', 'head');
         /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs */

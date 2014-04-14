@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
+namespace Magento\Io;
 
 /**
  * FTP client
@@ -16,16 +16,20 @@
  * @package    Magento_Io
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Io;
-
-class Ftp extends \Magento\Io\AbstractIo
+class Ftp extends AbstractIo
 {
     const ERROR_EMPTY_HOST = 1;
+
     const ERROR_INVALID_CONNECTION = 2;
+
     const ERROR_INVALID_LOGIN = 3;
+
     const ERROR_INVALID_PATH = 4;
+
     const ERROR_INVALID_MODE = 5;
+
     const ERROR_INVALID_DESTINATION = 6;
+
     const ERROR_INVALID_SOURCE = 7;
 
     /**
@@ -49,6 +53,9 @@ class Ftp extends \Magento\Io\AbstractIo
      */
     protected $_error;
 
+    /**
+     * @var string
+     */
     protected $_tmpFilename;
 
     /**
@@ -66,13 +73,14 @@ class Ftp extends \Magento\Io\AbstractIo
      * - file_mode   default FTP_BINARY
      *
      * @param array $args
-     * @return boolean
+     * @return true
+     * @throws IoException
      */
-    public function open(array $args=array())
+    public function open(array $args = array())
     {
         if (empty($args['host'])) {
             $this->_error = self::ERROR_EMPTY_HOST;
-            throw new \Magento\Io\IoException('Empty host specified');
+            throw new IoException('Empty host specified');
         }
 
         if (empty($args['port'])) {
@@ -105,20 +113,20 @@ class Ftp extends \Magento\Io\AbstractIo
         }
         if (!$this->_conn) {
             $this->_error = self::ERROR_INVALID_CONNECTION;
-            throw new \Magento\Io\IoException('Could not establish FTP connection, invalid host or port');
+            throw new IoException('Could not establish FTP connection, invalid host or port');
         }
 
         if (!@ftp_login($this->_conn, $this->_config['user'], $this->_config['password'])) {
             $this->_error = self::ERROR_INVALID_LOGIN;
             $this->close();
-            throw new \Magento\Io\IoException('Invalid user name or password');
+            throw new IoException('Invalid user name or password');
         }
 
         if (!empty($this->_config['path'])) {
             if (!@ftp_chdir($this->_conn, $this->_config['path'])) {
                 $this->_error = self::ERROR_INVALID_PATH;
                 $this->close();
-                throw new \Magento\Io\IoException('Invalid path');
+                throw new IoException('Invalid path');
             }
         }
 
@@ -126,7 +134,7 @@ class Ftp extends \Magento\Io\AbstractIo
             if (!@ftp_pasv($this->_conn, true)) {
                 $this->_error = self::ERROR_INVALID_MODE;
                 $this->close();
-                throw new \Magento\Io\IoException('Invalid file transfer mode');
+                throw new IoException('Invalid file transfer mode');
             }
         }
 
@@ -136,7 +144,7 @@ class Ftp extends \Magento\Io\AbstractIo
     /**
      * Close a connection
      *
-     * @return boolean
+     * @return bool
      */
     public function close()
     {
@@ -149,10 +157,10 @@ class Ftp extends \Magento\Io\AbstractIo
      * @todo implement $mode and $recursive
      * @param string $dir
      * @param int $mode
-     * @param boolean $recursive
-     * @return boolean
+     * @param bool $recursive
+     * @return bool
      */
-    public function mkdir($dir, $mode=0777, $recursive=true)
+    public function mkdir($dir, $mode = 0777, $recursive = true)
     {
         return @ftp_mkdir($this->_conn, $dir);
     }
@@ -161,9 +169,10 @@ class Ftp extends \Magento\Io\AbstractIo
      * Delete a directory
      *
      * @param string $dir
-     * @return boolean
+     * @param bool $recursive
+     * @return bool
      */
-    public function rmdir($dir, $recursive=false)
+    public function rmdir($dir, $recursive = false)
     {
         return @ftp_rmdir($this->_conn, $dir);
     }
@@ -182,7 +191,7 @@ class Ftp extends \Magento\Io\AbstractIo
      * Change current working directory
      *
      * @param string $dir
-     * @return boolean
+     * @return bool
      */
     public function cd($dir)
     {
@@ -194,9 +203,9 @@ class Ftp extends \Magento\Io\AbstractIo
      *
      * @param string $filename
      * @param string|resource|null $dest destination file name, stream, or if null will return file contents
-     * @return string
+     * @return false|string
      */
-    public function read($filename, $dest=null)
+    public function read($filename, $dest = null)
     {
         if (is_string($dest)) {
             $result = ftp_get($this->_conn, $dest, $filename, $this->_config['file_mode']);
@@ -215,7 +224,8 @@ class Ftp extends \Magento\Io\AbstractIo
             if (is_null($dest)) {
                 fseek($stream, 0);
                 $result = '';
-                for ($result = ''; $s = fread($stream, 4096); $result .= $s);
+                for ($result = ''; $s = fread($stream, 4096); $result .= $s) {
+                }
                 fclose($stream);
             }
         }
@@ -227,9 +237,10 @@ class Ftp extends \Magento\Io\AbstractIo
      *
      * @param string $filename
      * @param string|resource $src filename, string data or source stream
-     * @return int|boolean
+     * @param null $mode
+     * @return bool
      */
-    public function write($filename, $src, $mode=null)
+    public function write($filename, $src, $mode = null)
     {
         if (is_string($src) && is_readable($src)) {
             return @ftp_put($this->_conn, $filename, $src, $this->_config['file_mode']);
@@ -257,7 +268,7 @@ class Ftp extends \Magento\Io\AbstractIo
      * Delete a file
      *
      * @param string $filename
-     * @return boolean
+     * @return bool
      */
     public function rm($filename)
     {
@@ -269,7 +280,7 @@ class Ftp extends \Magento\Io\AbstractIo
      *
      * @param string $src
      * @param string $dest
-     * @return boolean
+     * @return bool
      */
     public function mv($src, $dest)
     {
@@ -281,32 +292,37 @@ class Ftp extends \Magento\Io\AbstractIo
      *
      * @param string $filename
      * @param int $mode
-     * @return boolean
+     * @return bool
      */
     public function chmod($filename, $mode)
     {
         return @ftp_chmod($this->_conn, $mode, $filename);
     }
 
-    public function ls($grep=null)
+    /**
+     * @param null $grep ignored parameter
+     * @return array
+     */
+    public function ls($grep = null)
     {
         $ls = @ftp_nlist($this->_conn, '.');
 
         $list = array();
         foreach ($ls as $file) {
-            $list[] = array(
-                'text'=>$file,
-                'id'=>$this->pwd().'/'.$file,
-            );
+            $list[] = array('text' => $file, 'id' => $this->pwd() . '/' . $file);
         }
 
         return $list;
     }
 
-    protected function _tmpFilename($new=false)
+    /**
+     * @param bool $new
+     * @return string
+     */
+    protected function _tmpFilename($new = false)
     {
         if ($new || !$this->_tmpFilename) {
-            $this->_tmpFilename = tempnam( md5(uniqid(rand(), TRUE)), '' );
+            $this->_tmpFilename = tempnam(md5(uniqid(rand(), true)), '');
         }
         return $this->_tmpFilename;
     }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset;
 
 /**
@@ -14,26 +13,36 @@ namespace Magento\View\Asset;
 class MinifyService
 {
     /**
+     * Config
+     *
      * @var ConfigInterface
      */
     protected $config;
 
     /**
+     * ObjectManager
+     *
      * @var \Magento\ObjectManager
      */
     protected $objectManager;
 
     /**
+     * Enabled
+     *
      * @var array
      */
     protected $enabled = array();
 
     /**
+     * Minfiers
+     *
      * @var \Magento\Code\Minifier[]
      */
     protected $minifiers = array();
 
     /**
+     * Applicaiton State
+     *
      * @var \Magento\App\State
      */
     protected $appState;
@@ -41,21 +50,23 @@ class MinifyService
     /**
      * Filesystem instance
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
     /**
+     * Constructor
+     *
      * @param ConfigInterface $config
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\State $appState
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         ConfigInterface $config,
         \Magento\ObjectManager $objectManager,
         \Magento\App\State $appState,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->config = $config;
         $this->objectManager = $objectManager;
@@ -77,11 +88,10 @@ class MinifyService
         foreach ($assets as $asset) {
             $contentType = $asset->getContentType();
             if ($this->isEnabled($contentType)) {
-                $asset = $this->objectManager
-                    ->create('Magento\View\Asset\Minified', array(
-                        'asset' => $asset,
-                        'minifier' => $this->getMinifier($contentType)
-                    ));
+                $asset = $this->objectManager->create(
+                    'Magento\View\Asset\Minified',
+                    array('asset' => $asset, 'minifier' => $this->getMinifier($contentType))
+                );
             }
             $resultAssets[] = $asset;
         }
@@ -98,26 +108,26 @@ class MinifyService
     {
         if (!isset($this->minifiers[$contentType])) {
             $adapter = $this->getAdapter($contentType);
-            $strategyParams = array(
-                'adapter' => $adapter,
-            );
+            $strategyParams = array('adapter' => $adapter);
             switch ($this->appState->getMode()) {
                 case \Magento\App\State::MODE_PRODUCTION:
                     $strategy = $this->objectManager->create('Magento\Code\Minifier\Strategy\Lite', $strategyParams);
                     break;
                 default:
-                    $strategy = $this->objectManager
-                        ->create('Magento\Code\Minifier\Strategy\Generate', $strategyParams);
+                    $strategy = $this->objectManager->create(
+                        'Magento\Code\Minifier\Strategy\Generate',
+                        $strategyParams
+                    );
             }
-            $baseDir = $this->_filesystem
-                ->getDirectoryRead(\Magento\Filesystem::PUB_VIEW_CACHE)
-                ->getAbsolutePath('minify');
+            $baseDir = $this->_filesystem->getDirectoryRead(
+                \Magento\App\Filesystem::PUB_VIEW_CACHE_DIR
+            )->getAbsolutePath(
+                'minify'
+            );
 
-            $this->minifiers[$contentType] = $this->objectManager->create('Magento\Code\Minifier',
-                array(
-                    'strategy' => $strategy,
-                    'directoryName' => $baseDir
-                )
+            $this->minifiers[$contentType] = $this->objectManager->create(
+                'Magento\Code\Minifier',
+                array('strategy' => $strategy, 'directoryName' => $baseDir)
             );
         }
         return $this->minifiers[$contentType];
@@ -126,7 +136,7 @@ class MinifyService
     /**
      * Check if minification is enabled for specified content type
      *
-     * @param $contentType
+     * @param string $contentType
      * @return bool
      */
     protected function isEnabled($contentType)
@@ -140,7 +150,7 @@ class MinifyService
     /**
      * Get minification adapter by specified content type
      *
-     * @param $contentType
+     * @param string $contentType
      * @return mixed
      * @throws \Magento\Exception
      */
@@ -148,9 +158,7 @@ class MinifyService
     {
         $adapterClass = $this->config->getAssetMinificationAdapter($contentType);
         if (!$adapterClass) {
-            throw new \Magento\Exception(
-                "Minification adapter is not specified for '$contentType' content type"
-            );
+            throw new \Magento\Exception("Minification adapter is not specified for '{$contentType}' content type");
         }
 
         $adapter = $this->objectManager->create($adapterClass);

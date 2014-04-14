@@ -11,19 +11,15 @@
 
 namespace Magento\Catalog\Test\Block\Backend;
 
-use Mtf\Fixture;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Widget\FormTabs;
-use Magento\Bundle\Test\Fixture\Bundle;
+use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\Product;
-use Magento\Catalog\Test\Fixture\GroupedProduct;
+use Magento\Catalog\Test\Fixture\Category;
+use Magento\Backend\Test\Block\Widget\Tab;
+use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
-use Magento\Downloadable\Test\Fixture\DownloadableProduct;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Crosssell;
 
 /**
  * Class ProductForm
@@ -69,18 +65,37 @@ class ProductForm extends FormTabs
     protected $affectedAttributeSet = "//div[div/@data-id='affected-attribute-set-selector']";
 
     /**
-     * @var array
+     * Category name selector
+     *
+     * @var string
      */
-    protected $tabClasses = array(
-        Bundle::GROUP => '\Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle',
-        ConfigurableProduct::GROUP => '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config',
-        GroupedProduct::GROUP => '\Magento\Catalog\Test\Block\Product\Grouped\AssociatedProducts',
-        DownloadableProduct::GROUP => '\Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable',
-        Product::GROUP_CUSTOM_OPTIONS => '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab',
-        Related::GROUP => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related',
-        Upsell::GROUP => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell',
-        Crosssell::GROUP => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Crosssell'
-    );
+    protected $categoryName = '//*[contains(@class, "mage-suggest-choice")]/*[text()="%categoryName%"]';
+
+    /**
+     * 'Advanced Settings' tab
+     *
+     * @var string
+     */
+    protected $advancedSettings = '#ui-accordion-product_info_tabs-advanced-header-0[aria-selected="false"]';
+
+    /**
+     * Advanced tab list
+     *
+     * @var string
+     */
+    protected $advancedTabList = '#product_info_tabs-advanced[role="tablist"]';
+
+    /**
+     * Advanced tab panel
+     *
+     * @var string
+     */
+    protected $advancedTabPanel = '[role="tablist"] [role="tabpanel"][aria-expanded="true"]:not("overflow")';
+
+    /**
+     * @var Category
+     */
+    protected $category;
 
     /**
      * Get choose affected attribute set dialog popup window
@@ -95,41 +110,59 @@ class ProductForm extends FormTabs
     }
 
     /**
+     * @param Category $category
+     */
+    public function setCategory(Category $category)
+    {
+        $this->category = $category;
+    }
+
+    /**
      * Fill the product form
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @param Element $element
-     * @return \Magento\Backend\Test\Block\Widget\FormTabs|void
+     * @return $this
      */
-    public function fill(Fixture $fixture, Element $element = null)
+    public function fill(FixtureInterface $fixture, Element $element = null)
     {
-        // Open tab "Advanced Settings" to make all nested tabs visible and available to interact
-        $this->showAdvanced();
-        /** @var $fixture \Magento\Catalog\Test\Fixture\Product */
-        if ($fixture->getCategoryName()) {
-            $this->fillCategory($fixture->getCategoryName());
-        }
-        parent::fill($fixture);
+        $this->fillCategory($fixture);
+        return parent::fill($fixture);
     }
 
     /**
      * Select category
      *
-     * @param string $name
+     * @param FixtureInterface $fixture
+     * @return void
      */
-    protected function fillCategory($name)
+    protected function fillCategory(FixtureInterface $fixture)
     {
         // TODO should be removed after suggest widget implementation as typified element
-        $this->fillCategoryField($name, 'category_ids-suggest', '//*[@id="attribute-category_ids-container"]');
+        $categoryName = $this->category
+            ? $this->category->getCategoryName()
+            : ($fixture->getCategoryName() ? $fixture->getCategoryName() : '');
+
+        if (!$categoryName) {
+            return;
+        }
+        $category = $this->_rootElement->find(
+            str_replace('%categoryName%', $categoryName, $this->categoryName), Locator::SELECTOR_XPATH
+        );
+        if (!$category->isVisible()) {
+            $this->fillCategoryField(
+                $categoryName, 'category_ids-suggest', '//*[@id="attribute-category_ids-container"]'
+            );
+        }
     }
 
     /**
      * Save product
      *
-     * @param Fixture|\Magento\Catalog\Test\Fixture\ConfigurableProduct $fixture
+     * @param FixtureInterface $fixture
      * @return \Magento\Backend\Test\Block\Widget\Form|void
      */
-    public function save(Fixture $fixture = null)
+    public function save(FixtureInterface $fixture = null)
     {
         parent::save($fixture);
         if ($this->getAffectedAttributeSetBlock()->isVisible()) {
@@ -197,17 +230,6 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * show the Advanced block.
-     */
-    public function showAdvanced()
-    {
-        $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
-        $this->waitForElementVisible(
-            '[aria-labelledby="ui-accordion-product_info_tabs-advanced-header-0"] [role="tab"]:last-child'
-        );
-    }
-
-    /**
      * Clear category field
      */
     public function clearCategorySelect()
@@ -258,4 +280,52 @@ class ProductForm extends FormTabs
         $this->waitForElementVisible('input#new_category_name');
     }
 
+    /**
+     * Open tab
+     *
+     * @param string $tabName
+     * @return Tab|bool
+     */
+    public function openTab($tabName)
+    {
+        $rootElement = $this->_rootElement;
+        $selector = $this->tabs[$tabName]['selector'];
+        $strategy = isset($this->tabs[$tabName]['strategy'])
+            ? $this->tabs[$tabName]['strategy']
+            : Locator::SELECTOR_CSS;
+        $advancedTabList = $this->advancedTabList;
+        $tab = $this->_rootElement->find($selector, $strategy);
+        $advancedSettings = $this->_rootElement->find($this->advancedSettings);
+
+        // Wait until all tabs will load
+        $this->_rootElement->waitUntil(
+            function () use ($rootElement, $advancedTabList) {
+                return $rootElement->find($advancedTabList)->isVisible();
+            }
+        );
+
+        if ($tab->isVisible()) {
+            $tab->click();
+        } elseif ($advancedSettings->isVisible()) {
+            $advancedSettings->click();
+            // Wait for open tab animation
+            $tabPanel = $this->advancedTabPanel;
+            $this->_rootElement->waitUntil(
+                function () use ($rootElement, $tabPanel) {
+                    return $rootElement->find($tabPanel)->isVisible();
+                }
+            );
+            // Wait until needed tab will appear
+            $this->_rootElement->waitUntil(
+                function () use ($rootElement, $selector, $strategy) {
+                    return $rootElement->find($selector, $strategy)->isVisible();
+                }
+            );
+            $tab->click();
+        } else {
+            return false;
+        }
+
+        return $this;
+    }
 }

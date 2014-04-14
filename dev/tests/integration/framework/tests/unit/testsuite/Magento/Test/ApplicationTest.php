@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test;
 
 use Magento\App\State;
@@ -25,17 +24,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $dbInstance = $this->getMockForAbstractClass('Magento\TestFramework\Db\AbstractDb', array(), '', false);
         $installDir = '/install/dir';
         $appMode = \Magento\App\State::MODE_DEVELOPER;
-        $directoryList = new \Magento\Filesystem\DirectoryList(BP);
-        $filesystem = new \Magento\Filesystem(
+        $directoryList = new \Magento\App\Filesystem\DirectoryList(BP);
+        $filesystem = new \Magento\App\Filesystem(
             $directoryList,
             new \Magento\Filesystem\Directory\ReadFactory(),
             new \Magento\Filesystem\Directory\WriteFactory(),
-            new \Magento\Filesystem\File\ReadFactory(
-                new \Magento\Filesystem\DriverFactory($directoryList)
-            ),
-            new \Magento\Filesystem\File\WriteFactory(
-                new \Magento\Filesystem\DriverFactory($directoryList)
-            )
+            new \Magento\Filesystem\File\ReadFactory(new \Magento\Filesystem\DriverFactory($directoryList)),
+            new \Magento\Filesystem\File\WriteFactory(new \Magento\Filesystem\DriverFactory($directoryList))
         );
 
         $object = new \Magento\TestFramework\Application(
@@ -53,10 +48,12 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $initParams = $object->getInitParams();
         $this->assertInternalType('array', $initParams, 'Wrong initialization parameters type');
-        $this->assertArrayHasKey(\Magento\Filesystem::PARAM_APP_DIRS, $initParams,
-            'Directories are not configured');
-        $this->assertArrayHasKey(State::PARAM_MODE, $initParams,
-            'Application mode is not configured');
+        $this->assertArrayHasKey(
+            \Magento\App\Filesystem::PARAM_APP_DIRS,
+            $initParams,
+            'Directories are not configured'
+        );
+        $this->assertArrayHasKey(State::PARAM_MODE, $initParams, 'Application mode is not configured');
         $this->assertEquals(
             \Magento\App\State::MODE_DEVELOPER,
             $initParams[State::PARAM_MODE],

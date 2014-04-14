@@ -1,0 +1,4 @@
+"IPN postback HTTP error: %s","IPN Postback HTTP Fehler: %s"
+"IPN postback Validation error: %s","IPN Postback Validierungsfehler: %s"
+"Original gateway transaction id: #%s.","Ursprüngliche Gateway-Transaktions-ID: #%s."
+"Payflow PNREF: #%s.","Payflow PNREF: #%s."

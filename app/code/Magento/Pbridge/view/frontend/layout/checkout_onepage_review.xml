@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="checkout.onepage.review.button">
         <action method="setTemplate">
             <argument name="template" xsi:type="helper" helper="Magento\Pbridge\Helper\Data::getReviewButtonTemplate">
@@ -17,6 +17,6 @@
         </action>
     </referenceBlock>
     <referenceContainer name="checkout.onepage.review.info.items.after">
-        <block class="Magento\Pbridge\Block\Checkout\Payment\Review\Container" name="pbridge.checkout.payment.review.iframe" template="Magento_Pbridge::checkout/review/iframe.phtml"/>
+        <block class="Magento\Pbridge\Block\Checkout\Payment\Review\Container" name="pbridge.checkout.payment.review.iframe" template="Magento_Pbridge::checkout/review/iframe.phtml" cacheable="false"/>
     </referenceContainer>
 </layout>

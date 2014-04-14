@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Customer\Edit;
 
 /**
  * Customer giftregistry list block
@@ -14,9 +15,7 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-namespace Magento\GiftRegistry\Block\Customer\Edit;
-
-class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
+class Registrants extends AbstractEdit
 {
     /**
      * Scope Selector 'registry/registrant'
@@ -37,9 +36,9 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\App\Cache\Type\Config $configCacheType
-     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
-     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
+     * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
@@ -50,9 +49,9 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\App\Cache\Type\Config $configCacheType,
-        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
-        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
+        \Magento\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
@@ -64,8 +63,8 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
             $coreData,
             $jsonEncoder,
             $configCacheType,
-            $regionCollFactory,
-            $countryCollFactory,
+            $regionCollectionFactory,
+            $countryCollectionFactory,
             $registry,
             $customerSession,
             $attributeConfig,
@@ -98,7 +97,8 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
      *
      * @return \Magento\GiftRegistry\Model\Resource\Person\Collection
      */
-    public function getRegistrantList() {
+    public function getRegistrantList()
+    {
         return $this->getEntity->getRegistrantCollection();
     }
 
@@ -112,7 +112,7 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
     {
         $grouped = array();
         if (is_array($attributes)) {
-            foreach ($attributes as $field => $fdata){
+            foreach ($attributes as $field => $fdata) {
                 if (is_array($fdata)) {
                     $grouped[$field] = $fdata;
                     $grouped[$field]['id'] = $this->_getElementId($field);
@@ -131,8 +131,8 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
      */
     protected function _getElementName($code)
     {
-        $custom = ($this->isAttributeStatic($code)) ? '' : '[custom]';
-        return $this->_prefix . '[${_index_}]'. $custom . '[' . $code . ']';
+        $custom = $this->isAttributeStatic($code) ? '' : '[custom]';
+        return $this->_prefix . '[${_index_}]' . $custom . '[' . $code . ']';
     }
 
     /**
@@ -143,14 +143,14 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
      */
     protected function _getElementId($code)
     {
-        $custom = ($this->isAttributeStatic($code)) ? '' : 'custom:';
-        return $this->_prefix . ':'. $custom . $code . '${_index_}';
+        $custom = $this->isAttributeStatic($code) ? '' : 'custom:';
+        return $this->_prefix . ':' . $custom . $code . '${_index_}';
     }
 
     /**
      * Get current registrant info , formatted in php array of JSON data
      *
-     * @param int - id of the giftregistry entity
+     * @param int $entityId id of the giftregistry entity
      * @return array
      */
     public function getRegistrantPresets($entityId)

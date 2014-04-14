@@ -1,12 +1,10 @@
 <?php
+
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 class Mage_Listener_EventListenerTest extends Unit_PHPUnit_TestCase
 {
@@ -62,11 +60,10 @@ class Mage_Listener_EventListenerTest extends Unit_PHPUnit_TestCase
     }
 
     /**
-     * @covers Mage_Listener_EventListener::autoAttach
-     *
      * @param string $path Input parameter for autoAttach()
      * @param $attachTimes Number of times attach() should be invoked
      *
+     * @covers       Mage_Listener_EventListener::autoAttach
      * @dataProvider testAutoAttachDataProvider
      */
     public function testAutoAttach($path, $attachTimes)
@@ -79,8 +76,7 @@ class Mage_Listener_EventListenerTest extends Unit_PHPUnit_TestCase
     public function testAutoAttachDataProvider()
     {
         return array(
-            array(SELENIUM_TESTS_BASEDIR . implode('/',
-                array('', 'framework', 'Mage', 'Listener', 'Observers', '*.php')), 2),
+            array(SELENIUM_TESTS_BASEDIR . '/framework/Mage/Listener/Observers/*.php', 2),
             array('foo', 0),
         );
     }

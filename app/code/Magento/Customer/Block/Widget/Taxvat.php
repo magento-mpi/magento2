@@ -2,57 +2,63 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Widget;
 
-class Taxvat extends \Magento\Customer\Block\Widget\AbstractWidget
+/**
+ * Customer Value Added Tax Widget
+ *
+ */
+class Taxvat extends AbstractWidget
 {
     /**
-     * @var \Magento\Customer\Model\Resource\Customer
-     */
-    protected $_customerResource;
-
-    /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param array $data
+     * Constructor.
+     *
+     * @param \Magento\View\Element\Template\Context                        $context
+     * @param \Magento\Customer\Helper\Address                              $addressHelper
+     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata
+     * @param array                                                         $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Helper\Address $addressHelper,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata,
         array $data = array()
     ) {
-        $this->_customerSession = $customerSession;
-        parent::__construct($context, $eavConfig, $addressHelper, $data);
+        parent::__construct($context, $addressHelper, $attributeMetadata, $data);
+        $this->_isScopePrivate = true;
     }
 
+    /**
+     * Sets the template
+     *
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
         $this->setTemplate('widget/taxvat.phtml');
     }
 
+    /**
+     * Get is enabled.
+     *
+     * @return bool
+     */
     public function isEnabled()
     {
-        return (bool)$this->_getAttribute('taxvat')->getIsVisible();
+        return $this->_getAttribute('taxvat') ? (bool)$this->_getAttribute('taxvat')->isVisible() : false;
     }
 
+    /**
+     * Get is required.
+     *
+     * @return bool
+     */
     public function isRequired()
     {
-        return (bool)$this->_getAttribute('taxvat')->getIsRequired();
-    }
-
-    public function getCustomer()
-    {
-        return $this->_customerSession->getCustomer();
+        return $this->_getAttribute('taxvat') ? (bool)$this->_getAttribute('taxvat')->isRequired() : false;
     }
 }

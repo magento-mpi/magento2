@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Account;
 
 class Link extends \Magento\View\Element\Html\Link
@@ -27,6 +26,7 @@ class Link extends \Magento\View\Element\Html\Link
     ) {
         $this->_customerHelper = $customerHelper;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

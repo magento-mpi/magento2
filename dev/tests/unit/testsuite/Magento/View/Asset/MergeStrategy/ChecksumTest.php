@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset\MergeStrategy;
 
 class ChecksumTest extends \PHPUnit_Framework_TestCase
@@ -33,7 +32,17 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
+    protected $_mergedFileAbs = 'absolutePath/destination_file.js';
+
+    /**
+     * @var string
+     */
     protected $_mergedFile = 'destination_file.js';
+
+    /**
+     * @var string
+     */
+    protected $_mergedMetaFileAbs = 'absolutePath/destination_file.js.dat';
 
     /**
      * @var string
@@ -43,31 +52,40 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $_filesArray = array('file1.js', 'file2.js');
+    protected $_filesArray = array('absolutePath/file1.js', 'absolutePath/file2.js');
 
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\App\Filesystem', array('getDirectoryWrite'), array(), '', false);
         $this->_directory = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
-        $this->_filesystem->expects($this->once())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($this->_directory));
-        $this->_directory->expects($this->exactly(2))
-            ->method('stat')
-            ->will($this->returnValueMap(
-                array(
-                    array('file1.js', array('mtime' => '123')),
-                    array('file2.js', array('mtime' => '456')),
-                )
-            ));
-        $this->_directory->expects($this->any())
-            ->method('getRelativePath')
-            ->will($this->returnArgument(0));
+        $this->_filesystem->expects(
+            $this->once()
+        )->method(
+            'getDirectoryWrite'
+        )->will(
+            $this->returnValue($this->_directory)
+        );
+        $this->_directory->expects(
+            $this->exactly(2)
+        )->method(
+            'stat'
+        )->will(
+            $this->returnValueMap(
+                array(array('file1.js', array('mtime' => '123')), array('file2.js', array('mtime' => '456')))
+            )
+        );
+        $this->_directory->expects($this->any())->method('getRelativePath')->will(
+            $this->returnCallback(
+                function ($path) {
+                    $parts = explode('/', $path);
+                    return end($parts);
+                }
+            )
+        );
 
         $this->_strategy = $this->getMock('Magento\View\Asset\MergeStrategyInterface');
 
-        $this->_object = new \Magento\View\Asset\MergeStrategy\Checksum($this->_strategy,
-            $this->_filesystem);
+        $this->_object = new \Magento\View\Asset\MergeStrategy\Checksum($this->_strategy, $this->_filesystem);
     }
 
     /**
@@ -75,26 +93,23 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
      */
     public function testMergeFilesNoMergeRequired()
     {
-        $this->_directory
-            ->expects($this->exactly(2))
-            ->method('isExist')
-            ->will($this->returnValue(true));
+        $this->_directory->expects($this->exactly(2))->method('isExist')->will($this->returnValue(true));
 
-        $this->_directory
-            ->expects($this->once())
-            ->method('readFile')
-            ->with($this->_mergedMetaFile)
-            ->will($this->returnValue('123456'));
+        $this->_directory->expects(
+            $this->once()
+        )->method(
+            'readFile'
+        )->with(
+            $this->_mergedMetaFile
+        )->will(
+            $this->returnValue('123456')
+        );
 
-        $this->_directory
-            ->expects($this->never())
-            ->method('writeFile');
+        $this->_directory->expects($this->never())->method('writeFile');
 
-        $this->_strategy
-            ->expects($this->never())
-            ->method('mergeFiles');
+        $this->_strategy->expects($this->never())->method('mergeFiles');
 
-        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile, 'contentType');
+        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFileAbs, 'contentType');
     }
 
     /**
@@ -104,24 +119,30 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
      */
     public function testMergeFilesFilesDoNotExist($isFileExists, $isMetaFileExists)
     {
-        $this->_directory
-            ->expects($this->any())
-            ->method('isExist')
-            ->will($this->returnValueMap(
-                array(array($this->_mergedFile, $isFileExists), array($this->_mergedMetaFile, $isMetaFileExists))));
+        $this->_directory->expects(
+            $this->any()
+        )->method(
+            'isExist'
+        )->will(
+            $this->returnValueMap(
+                array(array($this->_mergedFile, $isFileExists), array($this->_mergedMetaFile, $isMetaFileExists))
+            )
+        );
 
 
-        $this->_strategy
-            ->expects($this->once())
-            ->method('mergeFiles')
-            ->with($this->_filesArray, $this->_mergedFile, 'contentType');
+        $this->_strategy->expects(
+            $this->once()
+        )->method(
+            'mergeFiles'
+        )->with(
+            $this->_filesArray,
+            $this->_mergedFileAbs,
+            'contentType'
+        );
 
-        $this->_directory
-            ->expects($this->once())
-            ->method('writeFile')
-            ->with($this->_mergedMetaFile, '123456');
+        $this->_directory->expects($this->once())->method('writeFile')->with($this->_mergedMetaFile, '123456');
 
-        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile, 'contentType');
+        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFileAbs, 'contentType');
     }
 
     /**
@@ -129,10 +150,7 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
      */
     public function mergeFilesFilesDoNotExistDataProvider()
     {
-        return array(
-            'no file' => array(false, true),
-            'no meta file' => array(true, false)
-        );
+        return array('no file' => array(false, true), 'no meta file' => array(true, false));
     }
 
     /**
@@ -140,26 +158,29 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
      */
     public function testMergeFilesExistWrongChecksum()
     {
-        $this->_directory
-            ->expects($this->exactly(2))
-            ->method('isExist')
-            ->will($this->returnValue(true));
+        $this->_directory->expects($this->exactly(2))->method('isExist')->will($this->returnValue(true));
 
-        $this->_directory
-            ->expects($this->once())
-            ->method('readFile')
-            ->with($this->_mergedMetaFile)
-            ->will($this->returnValue('000000'));
+        $this->_directory->expects(
+            $this->once()
+        )->method(
+            'readFile'
+        )->with(
+            $this->_mergedMetaFile
+        )->will(
+            $this->returnValue('000000')
+        );
 
-        $this->_strategy
-            ->expects($this->once())
-            ->method('mergeFiles')
-            ->with($this->_filesArray, $this->_mergedFile, 'contentType');
+        $this->_strategy->expects(
+            $this->once()
+        )->method(
+            'mergeFiles'
+        )->with(
+            $this->_filesArray,
+            $this->_mergedFile,
+            'contentType'
+        );
 
-        $this->_directory
-            ->expects($this->once())
-            ->method('writeFile')
-            ->with($this->_mergedMetaFile, '123456');
+        $this->_directory->expects($this->once())->method('writeFile')->with($this->_mergedMetaFile, '123456');
 
         $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile, 'contentType');
     }

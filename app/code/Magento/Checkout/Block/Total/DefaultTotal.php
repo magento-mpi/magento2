@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Checkout\Block\Total;
 
 /**
  * Default Total Row Renderer
  */
-namespace Magento\Checkout\Block\Total;
-
 class DefaultTotal extends \Magento\Checkout\Block\Cart\Totals
 {
     /**
@@ -22,10 +20,13 @@ class DefaultTotal extends \Magento\Checkout\Block\Cart\Totals
     protected $_template = 'Magento_Checkout::total/default.phtml';
 
     /**
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -43,7 +44,7 @@ class DefaultTotal extends \Magento\Checkout\Block\Cart\Totals
     }
 
     /**
-     * @param $total
+     * @param float $total
      * @return $this
      */
     public function setTotal($total)
@@ -56,7 +57,7 @@ class DefaultTotal extends \Magento\Checkout\Block\Cart\Totals
     }
 
     /**
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {

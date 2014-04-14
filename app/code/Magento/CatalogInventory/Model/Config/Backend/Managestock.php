@@ -18,8 +18,7 @@
  */
 namespace Magento\CatalogInventory\Model\Config\Backend;
 
-class Managestock
-    extends \Magento\Core\Model\Config\Value
+class Managestock extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\CatalogInventory\Model\Stock\Status
@@ -27,33 +26,31 @@ class Managestock
     protected $_stockStatus;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Config $config,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_stockStatus = $stockStatus;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
      * After change Catalog Inventory Manage value process
      *
-     * @return \Magento\CatalogInventory\Model\Config\Backend\Managestock
+     * @return $this
      */
     protected function _afterSave()
     {

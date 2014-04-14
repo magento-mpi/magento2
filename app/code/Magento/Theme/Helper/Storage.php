@@ -67,7 +67,7 @@ class Storage extends \Magento\App\Helper\AbstractHelper
     /**
      * Magento filesystem
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
@@ -88,13 +88,13 @@ class Storage extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Backend\Model\Session $session,
         \Magento\View\Design\Theme\FlyweightFactory $themeFactory
     ) {
@@ -102,7 +102,7 @@ class Storage extends \Magento\App\Helper\AbstractHelper
         $this->filesystem = $filesystem;
         $this->_session = $session;
         $this->_themeFactory = $themeFactory;
-        $this->mediaDirectoryWrite = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
+        $this->mediaDirectoryWrite = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);
         $this->mediaDirectoryWrite->create($this->getStorageRoot());
     }
 
@@ -153,9 +153,9 @@ class Storage extends \Magento\App\Helper\AbstractHelper
     public function getStorageRoot()
     {
         if (null === $this->_storageRoot) {
-            $this->_storageRoot = implode('/', array(
-                $this->_getTheme()->getCustomization()->getCustomizationPath(),
-                $this->getStorageType())
+            $this->_storageRoot = implode(
+                '/',
+                array($this->_getTheme()->getCustomization()->getCustomizationPath(), $this->getStorageType())
             );
         }
         return $this->_storageRoot;
@@ -227,9 +227,7 @@ class Storage extends \Magento\App\Helper\AbstractHelper
             if ($path && $path !== self::NODE_ROOT) {
                 $path = $this->convertIdToPath($path);
 
-                if ($this->mediaDirectoryWrite->isDirectory($path)
-                    && 0 === strpos($path, $currentPath)
-                ) {
+                if ($this->mediaDirectoryWrite->isDirectory($path) && 0 === strpos($path, $currentPath)) {
                     $currentPath = $this->mediaDirectoryWrite->getRelativePath($path);
                 }
             }
@@ -246,27 +244,23 @@ class Storage extends \Magento\App\Helper\AbstractHelper
      */
     public function getThumbnailDirectory($path)
     {
-        return pathinfo($path, PATHINFO_DIRNAME) . '/'
-            . \Magento\Theme\Model\Wysiwyg\Storage::THUMBNAIL_DIRECTORY;
+        return pathinfo($path, PATHINFO_DIRNAME) . '/' . \Magento\Theme\Model\Wysiwyg\Storage::THUMBNAIL_DIRECTORY;
     }
 
     /**
      * Get thumbnail path in current directory by image name
      *
-     * @param $imageName
+     * @param string $imageName
      * @return string
      * @throws \InvalidArgumentException
      */
     public function getThumbnailPath($imageName)
     {
         $imagePath = $this->getCurrentPath() . '/' . $imageName;
-        if (!$this->mediaDirectoryWrite->isExist($imagePath)
-            || 0 !== strpos($imagePath, $this->getStorageRoot())
-        ) {
+        if (!$this->mediaDirectoryWrite->isExist($imagePath) || 0 !== strpos($imagePath, $this->getStorageRoot())) {
             throw new \InvalidArgumentException('The image not found.');
         }
-        return $this->getThumbnailDirectory($imagePath) . '/'
-            . pathinfo($imageName, PATHINFO_BASENAME);
+        return $this->getThumbnailDirectory($imagePath) . '/' . pathinfo($imageName, PATHINFO_BASENAME);
     }
 
     /**
@@ -280,16 +274,16 @@ class Storage extends \Magento\App\Helper\AbstractHelper
         $contentType = $this->_getRequest()->getParam(self::PARAM_CONTENT_TYPE);
         $node = $this->_getRequest()->getParam(self::PARAM_NODE);
         return array(
-            self::PARAM_THEME_ID     => $themeId,
+            self::PARAM_THEME_ID => $themeId,
             self::PARAM_CONTENT_TYPE => $contentType,
-            self::PARAM_NODE         => $node
+            self::PARAM_NODE => $node
         );
     }
 
     /**
      * Get allowed extensions by type
      *
-     * @return array
+     * @return string[]
      * @throws \Magento\Exception
      */
     public function getAllowedExtensionsByType()

@@ -42,20 +42,18 @@ class Core_Mage_OrderCreditMemo_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         if (!$verify && $validate) {
-            $productCount = $this->getControlCount('fieldset', 'product_line_to_refund');
-            for ($i = 1; $i <= $productCount; $i++) {
-                $this->addParameter('productNumber', $i);
-                $qtyXpath = $this->_getControlXpath('field', 'product_qty');
-                $prodSku = $this->getControlAttribute('field', 'product_sku', 'text');
-                $pointer = 'SKU: ';
-                $prodSku = substr($prodSku, strpos($prodSku, $pointer) + strlen($pointer));
-                $this->addParameter('tableLineXpath', $qtyXpath);
-                if ($this->controlIsPresent('pageelement', 'table_line_input')) {
-                    $prodQty = $this->getControlAttribute('pageelement', 'table_line_input', 'selectedValue');
-                } else {
-                    $prodQty = $this->getControlAttribute('field', 'product_qty', 'text');
+            /** $var $productElement PHPUnit_Extensions_Selenium2TestCase_Element*/
+            foreach ($this->getControlElements('fieldset', 'product_line_to_refund') as $productElement) {
+                $prodSku = $this->getChildElement($productElement, "//*[strong='SKU:']")->text();
+                if ($options = $this->childElementIsPresent($productElement, '//td[@class="col-product"]/dl')) {
+                    $prodSku = str_replace($options->text(), '', $prodSku);
                 }
-                $verify[$prodSku] = $prodQty;
+                list(, $prodSku) = explode('SKU: ', $prodSku);
+                list($prodSku) = explode("\n", $prodSku);
+                $qtyElement = $this->getChildElement($productElement, '//td[5]');
+                $qtyInput = $this->childElementIsPresent($qtyElement, 'input');
+                $prodQty = $qtyInput ? $qtyInput->value() : $qtyElement->text();
+                $verify[trim($prodSku)] = trim($prodQty);
             }
         }
         $this->addParameter('elementXpath', $this->_getControlXpath('button', 'update_qty'));
@@ -65,8 +63,6 @@ class Core_Mage_OrderCreditMemo_Helper extends Mage_Selenium_AbstractHelper
         }
         $this->clickButton($refundButton, false);
         $this->waitForPageToLoad();
-        //@TODO
-        //Remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         $this->paypalHelper()->verifyMagentoPayPalErrors();
         $this->orderHelper()->defineOrderId();
         $this->validatePage();

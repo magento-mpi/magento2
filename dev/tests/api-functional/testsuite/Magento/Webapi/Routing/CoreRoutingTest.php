@@ -17,13 +17,13 @@ class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
     {
         $itemId = 1;
         $serviceInfo = array(
-            'serviceInterface' => 'Magento\TestModule1\Service\AllSoapAndRestV1Interface',
+            'serviceInterface' => 'Magento\TestModule1\Service\V1\AllSoapAndRestInterface',
             'method' => 'item',
             'entityId' => $itemId
         );
-        $requestData = array('id' => $itemId);
+        $requestData = array('itemId' => $itemId);
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($itemId, $item['id'], "Item was retrieved unsuccessfully");
+        $this->assertEquals('testProduct1', $item['name'], "Item was retrieved unsuccessfully");
     }
 
     public function testBasicRoutingExplicitPath()
@@ -39,9 +39,9 @@ class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
                 'operation' => 'testModule1AllSoapAndRestV1Item'
             )
         );
-        $requestData = array('id' => $itemId);
+        $requestData = array('itemId' => $itemId);
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($itemId, $item['id'], "Item was retrieved unsuccessfully");
+        $this->assertEquals('testProduct1', $item['name'], "Item was retrieved unsuccessfully");
     }
 
     public function testDisabledIntegrationAuthorizationException()
@@ -57,7 +57,7 @@ class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
                 'operation' => 'testModule1AllSoapAndRestV1Item'
             )
         );
-        $requestData = array('id' => $itemId);
+        $requestData = array('itemId' => $itemId);
 
         /** Disable integration associated with active OAuth credentials. */
         $credentials = \Magento\TestFramework\Authentication\OauthHelper::getApiAccessCredentials();
@@ -80,13 +80,10 @@ class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
     {
         $this->_markTestAsSoapOnly();
         $serviceInfo = array(
-            'serviceInterface' => 'Magento\TestModule3\Service\ErrorV1Interface',
-            'method' => 'serviceException',
+            'serviceInterface' => 'Magento\TestModule3\Service\V1\ErrorInterface',
+            'method' => 'serviceException'
         );
-        $this->setExpectedException(
-            'SoapFault',
-            'Generic service exception'
-        );
+        $this->setExpectedException('SoapFault', 'Generic service exception');
         $this->_webApiCall($serviceInfo);
     }
 }

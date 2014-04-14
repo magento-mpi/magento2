@@ -18,12 +18,12 @@
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit;
 
-class Tabs
-    extends \Magento\Backend\Block\Widget\Tabs
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Initialize edit tabs
      *
+     * @return void
      */
     protected function _construct()
     {

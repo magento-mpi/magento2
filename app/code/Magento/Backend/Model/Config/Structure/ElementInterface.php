@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure;
 
 interface ElementInterface
@@ -17,6 +16,7 @@ interface ElementInterface
      *
      * @param array $data
      * @param string $scope
+     * @return void
      */
     public function setData(array $data, $scope);
 
@@ -56,4 +56,3 @@ interface ElementInterface
      */
     public function getAttribute($key);
 }
-

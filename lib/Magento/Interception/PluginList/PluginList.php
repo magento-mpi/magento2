@@ -9,68 +9,95 @@
  */
 namespace Magento\Interception\PluginList;
 
+use Magento\Config\ReaderInterface;
+use Magento\Config\ScopeInterface;
+use Magento\Config\CacheInterface;
+use Magento\Config\Data\Scoped;
+use Magento\Interception\Definition;
+use Magento\Interception\PluginList as InterceptionPluginList;
+use Magento\Interception\ObjectManager\Config;
+use Magento\ObjectManager\Relations;
+use Magento\ObjectManager\Definition as ClassDefinitions;
+use Magento\ObjectManager;
 use Zend\Soap\Exception\InvalidArgumentException;
 
-class PluginList
-    extends \Magento\Config\Data\Scoped
-    implements \Magento\Interception\PluginList
+class PluginList extends Scoped implements InterceptionPluginList
 {
+    /**
+     * Inherited plugin data
+     *
+     * @var array
+     */
+    protected $_inherited;
+
+    /**
+     * Inherited plugin data, preprocessed for read
+     *
+     * @var array
+     */
+    protected $_processed;
+
     /**
      * Type config
      *
-     * @var \Magento\ObjectManager\Config
+     * @var Config
      */
     protected $_omConfig;
 
     /**
      * Class relations information provider
      *
-     * @var \Magento\ObjectManager\Relations
+     * @var Relations
      */
     protected $_relations;
 
     /**
      * List of interception methods per plugin
      *
-     * @var \Magento\Interception\Definition
+     * @var Definition
      */
     protected $_definitions;
 
     /**
      * List of interceptable application classes
      *
-     * @var \Magento\ObjectManager\Definition\Compiled
+     * @var ClassDefinitions
      */
     protected $_classDefinitions;
 
     /**
-     * Scope inheritance scheme
-     *
-     * @var array
+     * @var \Magento\ObjectManager
      */
-    protected $_scopePriorityScheme = array('global');
+    protected $_objectManager;
 
     /**
-     * @param \Magento\Config\ReaderInterface $reader
-     * @param \Magento\Config\ScopeInterface $configScope
-     * @param \Magento\Config\CacheInterface $cache
-     * @param \Magento\ObjectManager\Relations $relations
-     * @param \Magento\ObjectManager\Config $omConfig
-     * @param \Magento\Interception\Definition $definitions
+     * @var array
+     */
+    protected $_pluginInstances = array();
+
+    /**
+     * @param ReaderInterface $reader
+     * @param ScopeInterface $configScope
+     * @param CacheInterface $cache
+     * @param Relations $relations
+     * @param Config $omConfig
+     * @param Definition $definitions
+     * @param ObjectManager $objectManager
+     * @param ClassDefinitions $classDefinitions
      * @param array $scopePriorityScheme
      * @param string $cacheId
-     * @param \Magento\ObjectManager\Definition\Compiled $classDefinitions
      */
     public function __construct(
-        \Magento\Config\ReaderInterface $reader,
-        \Magento\Config\ScopeInterface $configScope,
-        \Magento\Config\CacheInterface $cache,
-        \Magento\ObjectManager\Relations $relations,
-        \Magento\ObjectManager\Config $omConfig,
-        \Magento\Interception\Definition $definitions,
-        array $scopePriorityScheme,
-        $cacheId = 'plugins',
-        \Magento\ObjectManager\Definition\Compiled $classDefinitions = null
+        ReaderInterface $reader,
+        ScopeInterface $configScope,
+        CacheInterface $cache,
+        Relations $relations,
+        Config $omConfig,
+        Definition $definitions,
+        ObjectManager $objectManager,
+        ClassDefinitions $classDefinitions,
+        array $scopePriorityScheme = array('global'),
+        $cacheId = 'plugins'
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);
         $this->_omConfig = $omConfig;
@@ -78,6 +105,7 @@ class PluginList
         $this->_definitions = $definitions;
         $this->_classDefinitions = $classDefinitions;
         $this->_scopePriorityScheme = $scopePriorityScheme;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -85,13 +113,13 @@ class PluginList
      *
      * @param string $type
      * @return array
-     * @throws \Zend\Soap\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _inheritPlugins($type)
     {
-        if (!isset($this->_data['inherited'][$type])) {
-            $realType = $this->_omConfig->getInstanceType($type);
+        if (!array_key_exists($type, $this->_inherited)) {
+            $realType = $this->_omConfig->getOriginalInstanceType($type);
 
             if ($realType !== $type) {
                 $plugins = $this->_inheritPlugins($realType);
@@ -109,36 +137,47 @@ class PluginList
             } else {
                 $plugins = array();
             }
-            if (isset($this->_data[$type]['plugins'])) {
+            if (isset($this->_data[$type])) {
                 if (!$plugins) {
-                    $plugins = $this->_data[$type]['plugins'];
+                    $plugins = $this->_data[$type];
                 } else {
-                    $plugins = array_replace_recursive($plugins, $this->_data[$type]['plugins']);
+                    $plugins = array_replace_recursive($plugins, $this->_data[$type]);
                 }
             }
-            uasort($plugins, array($this, '_sort'));
-            if (count($plugins)) {
-                $this->_data['inherited'][$type] = $plugins;
+            $this->_inherited[$type] = null;
+            if (is_array($plugins) && count($plugins)) {
+                uasort($plugins, array($this, '_sort'));
+                $this->_inherited[$type] = $plugins;
+                $lastPerMethod = array();
                 foreach ($plugins as $key => $plugin) {
                     // skip disabled plugins
                     if (isset($plugin['disabled']) && $plugin['disabled']) {
                         unset($plugins[$key]);
                         continue;
                     }
-                    $pluginType = $this->_omConfig->getInstanceType($plugin['instance']);
+                    $pluginType = $this->_omConfig->getOriginalInstanceType($plugin['instance']);
                     if (!class_exists($pluginType)) {
                         throw new InvalidArgumentException('Plugin class ' . $pluginType . ' doesn\'t exist');
                     }
-                    foreach ($this->_definitions->getMethodList($pluginType) as $pluginMethod) {
-                        $this->_data['processed'][$type][$pluginMethod][] = $plugin['instance'];
+                    foreach ($this->_definitions->getMethodList($pluginType) as $pluginMethod => $methodTypes) {
+                        $current = isset($lastPerMethod[$pluginMethod]) ? $lastPerMethod[$pluginMethod] : '__self';
+                        $currentKey = $type . '_' . $pluginMethod . '_' . $current;
+                        if ($methodTypes & Definition::LISTENER_AROUND) {
+                            $this->_processed[$currentKey][Definition::LISTENER_AROUND] = $key;
+                            $lastPerMethod[$pluginMethod] = $key;
+                        }
+                        if ($methodTypes & Definition::LISTENER_BEFORE) {
+                            $this->_processed[$currentKey][Definition::LISTENER_BEFORE][] = $key;
+                        }
+                        if ($methodTypes & Definition::LISTENER_AFTER) {
+                            $this->_processed[$currentKey][Definition::LISTENER_AFTER][] = $key;
+                        }
                     }
                 }
-            } else {
-                $this->_data['inherited'][$type] = null;
             }
             return $plugins;
         }
-        return $this->_data['inherited'][$type];
+        return $this->_inherited[$type];
     }
 
     /**
@@ -163,25 +202,44 @@ class PluginList
     }
 
     /**
-     * {@inheritdoc}
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * Retrieve plugin Instance
+     *
+     * @param string $type
+     * @param string $code
+     * @return mixed
      */
-    public function getPlugins($type, $method, $scenario)
+    public function getPlugin($type, $code)
+    {
+        if (!isset($this->_pluginInstances[$type][$code])) {
+            $this->_pluginInstances[$type][$code] = $this->_objectManager->get(
+                $this->_inherited[$type][$code]['instance']
+            );
+        }
+        return $this->_pluginInstances[$type][$code];
+    }
+
+    /**
+     * Retrieve next plugins in chain
+     *
+     * @param string $type
+     * @param string $method
+     * @param string $code
+     * @return array
+     */
+    public function getNext($type, $method, $code = '__self')
     {
         $this->_loadScopedData();
-        $pluginMethodName = $scenario . ucfirst($method);
-        $realType = $this->_omConfig->getInstanceType($type);
-        if (!isset($this->_data['inherited'][$realType])) {
+        if (!array_key_exists($type, $this->_inherited)) {
             $this->_inheritPlugins($type);
         }
-        return isset($this->_data['processed'][$realType][$pluginMethodName])
-            ? $this->_data['processed'][$realType][$pluginMethodName]
-            : array();
+        $key = $type . '_' . lcfirst($method) . '_' . $code;
+        return isset($this->_processed[$key]) ? $this->_processed[$key] : null;
     }
 
     /**
      * Load configuration for current scope
      *
+     * @return void
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _loadScopedData()
@@ -194,32 +252,61 @@ class PluginList
             $cacheId = implode('|', $this->_scopePriorityScheme) . "|" . $this->_cacheId;
             $data = $this->_cache->load($cacheId);
             if ($data) {
-                $this->_data = unserialize($data);
+                list($this->_data, $this->_inherited, $this->_processed) = unserialize($data);
                 foreach ($this->_scopePriorityScheme as $scope) {
                     $this->_loadedScopes[$scope] = true;
                 }
             } else {
+                $virtualTypes = array();
                 foreach ($this->_scopePriorityScheme as $scopeCode) {
                     if (false == isset($this->_loadedScopes[$scopeCode])) {
                         $data = $this->_reader->read($scopeCode);
+                        unset($data['preferences']);
                         if (!count($data)) {
                             continue;
                         }
-                        unset($this->_data['inherited']);
-                        unset($this->_data['processed']);
+                        $this->_inherited = array();
+                        $this->_processed = array();
                         $this->merge($data);
                         $this->_loadedScopes[$scopeCode] = true;
+                        foreach ($data as $class => $config) {
+                            if (isset($config['type'])) {
+                                $virtualTypes[] = $class;
+                            }
+                        }
                     }
                     if ($scopeCode == $scope) {
                         break;
                     }
                 }
-                if ($this->_classDefinitions) {
-                    foreach ($this->_classDefinitions->getClasses() as $class) {
-                        $this->_inheritPlugins($class);
-                    }
+                foreach ($virtualTypes as $class) {
+                    $this->_inheritPlugins(ltrim($class, '\\'));
                 }
-                $this->_cache->save(serialize($this->_data), $cacheId);
+                foreach ($this->_classDefinitions->getClasses() as $class) {
+                    $this->_inheritPlugins($class);
+                }
+                $this->_cache->save(serialize(array($this->_data, $this->_inherited, $this->_processed)), $cacheId);
+            }
+            $this->_pluginInstances = array();
+        }
+    }
+
+    /**
+     * Merge configuration
+     *
+     * @param array $config
+     * @return void
+     */
+    public function merge(array $config)
+    {
+        foreach ($config as $type => $typeConfig) {
+            if (isset($typeConfig['plugins'])) {
+                $type = ltrim($type, '\\');
+                if (isset($this->_data[$type])) {
+                    $this->_data[$type] = array_replace_recursive($this->_data[$type], $typeConfig['plugins']);
+                } else {
+                    $this->_data[$type] = $typeConfig['plugins'];
+                }
             }
         }
     }

@@ -22,12 +22,15 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      */
     protected $_attributeTabBlock = 'Magento\Catalog\Block\Adminhtml\Category\Tab\Attributes';
 
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_Backend::widget/tabshoriz.phtml';
 
-   /**
+    /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry|null
      */
     protected $_coreRegistry = null;
 
@@ -49,7 +52,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory
      * @param \Magento\Catalog\Helper\Catalog $helperCatalog
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -58,7 +61,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory,
         \Magento\Catalog\Helper\Catalog $helperCatalog,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -69,6 +72,8 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
 
     /**
      * Initialize Tabs
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -76,11 +81,10 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         $this->setId('category_info_tabs');
         $this->setDestElementId('category_tab_content');
         $this->setTitle(__('Category Data'));
-
     }
 
     /**
-     * Retrieve cattegory object
+     * Retrieve category object
      *
      * @return \Magento\Catalog\Model\Category
      */
@@ -105,7 +109,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     /**
      * Prepare Layout Content
      *
-     * @return \Magento\Catalog\Block\Adminhtml\Category\Tabs
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -119,12 +123,11 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
             }
         }
 
-        $attributeSetId     = $this->getCategory()->getDefaultAttributeSetId();
+        $attributeSetId = $this->getCategory()->getDefaultAttributeSetId();
         /** @var $groupCollection \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection */
-        $groupCollection = $this->_collectionFactory->create()
-            ->setAttributeSetFilter($attributeSetId)
-            ->setSortOrder()
-            ->load();
+        $groupCollection = $this->_collectionFactory->create()->setAttributeSetFilter(
+            $attributeSetId
+        )->setSortOrder()->load();
         $defaultGroupId = 0;
         foreach ($groupCollection as $group) {
             /* @var $group \Magento\Eav\Model\Entity\Attribute\Group */
@@ -148,37 +151,41 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
                 continue;
             }
 
-            $active  = $defaultGroupId == $group->getId();
-            $block = $this->getLayout()->createBlock($this->getAttributeTabBlock(), $this->getNameInLayout() . '_tab_'
-                . $group->getAttributeGroupName())
-                ->setGroup($group)
-                ->setAttributes($attributes)
-                ->setAddHiddenFields($active)
-                ->toHtml();
-            $this->addTab('group_' . $group->getId(), array(
-                'label'     => __($group->getAttributeGroupName()),
-                'content'   => $block,
-                'active'    => $active
-            ));
+            $active = $defaultGroupId == $group->getId();
+            $block = $this->getLayout()->createBlock(
+                $this->getAttributeTabBlock(),
+                $this->getNameInLayout() . '_tab_' . $group->getAttributeGroupName()
+            )->setGroup(
+                $group
+            )->setAttributes(
+                $attributes
+            )->setAddHiddenFields(
+                $active
+            )->toHtml();
+            $this->addTab(
+                'group_' . $group->getId(),
+                array('label' => __($group->getAttributeGroupName()), 'content' => $block, 'active' => $active)
+            );
         }
 
-        $this->addTab('products', array(
-            'label'     => __('Category Products'),
-            'content'   => $this->getLayout()->createBlock(
-                'Magento\Catalog\Block\Adminhtml\Category\Tab\Product',
-                'category.product.grid'
-            )->toHtml(),
-        ));
+        $this->addTab(
+            'products',
+            array(
+                'label' => __('Category Products'),
+                'content' => $this->getLayout()->createBlock(
+                    'Magento\Catalog\Block\Adminhtml\Category\Tab\Product',
+                    'category.product.grid'
+                )->toHtml()
+            )
+        );
 
         // dispatch event add custom tabs
-        $this->_eventManager->dispatch('adminhtml_catalog_category_tabs', array(
-            'tabs'  => $this
-        ));
+        $this->_eventManager->dispatch('adminhtml_catalog_category_tabs', array('tabs' => $this));
 
         /*$this->addTab('features', array(
-            'label'     => __('Feature Products'),
-            'content'   => 'Feature Products'
-        ));        */
+          'label'     => __('Feature Products'),
+          'content'   => 'Feature Products'
+          ));        */
         return parent::_prepareLayout();
     }
 }

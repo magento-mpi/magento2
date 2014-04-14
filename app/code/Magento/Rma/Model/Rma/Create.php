@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Model\Rma;
 
 /**
  * RMA create model
  */
-namespace Magento\Rma\Model\Rma;
-
 class Create extends \Magento\Object
 {
     /**
@@ -30,11 +29,15 @@ class Create extends \Magento\Object
     protected $_order = null;
 
     /**
+     * Customer factory
+     *
      * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
+     * Sales order factory
+     *
      * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;

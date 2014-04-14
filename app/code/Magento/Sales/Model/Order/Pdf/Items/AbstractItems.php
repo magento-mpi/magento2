@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Pdf\Items;
 
 /**
  * Sales Order Pdf Items renderer Abstract
  */
-namespace Magento\Sales\Model\Order\Pdf\Items;
-
-abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
+abstract class AbstractItems extends \Magento\Model\AbstractModel
 {
     /**
      * Order model
@@ -25,7 +24,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     /**
      * Source model (invoice, shipment, creditmemo)
      *
-     * @var \Magento\Core\Model\AbstractModel
+     * @var \Magento\Model\AbstractModel
      */
     protected $_source;
 
@@ -55,7 +54,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
      *
      * @var \Magento\Tax\Helper\Data
      */
-    protected $_taxData = null;
+    protected $_taxData;
 
     /**
      * @var \Magento\Filesystem\Directory\ReadInterface
@@ -63,25 +62,33 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     protected $_rootDirectory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @var \Magento\Filter\FilterManager
+     */
+    protected $filterManager;
+
+    /**
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Filesystem $filesystem,
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\App\Filesystem $filesystem ,
+     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\App\Filesystem $filesystem,
+        \Magento\Filter\FilterManager $filterManager,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->filterManager = $filterManager;
         $this->_taxData = $taxData;
-        $this->_rootDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
+        $this->_rootDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -89,7 +96,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
      * Set order model
      *
      * @param  \Magento\Sales\Model\Order $order
-     * @return \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
+     * @return $this
      */
     public function setOrder(\Magento\Sales\Model\Order $order)
     {
@@ -100,10 +107,10 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     /**
      * Set Source model
      *
-     * @param  \Magento\Core\Model\AbstractModel $source
-     * @return \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
+     * @param  \Magento\Model\AbstractModel $source
+     * @return $this
      */
-    public function setSource(\Magento\Core\Model\AbstractModel $source)
+    public function setSource(\Magento\Model\AbstractModel $source)
     {
         $this->_source = $source;
         return $this;
@@ -113,7 +120,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
      * Set item object
      *
      * @param  \Magento\Object $item
-     * @return \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
+     * @return $this
      */
     public function setItem(\Magento\Object $item)
     {
@@ -125,7 +132,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
      * Set Pdf model
      *
      * @param  \Magento\Sales\Model\Order\Pdf\AbstractPdf $pdf
-     * @return \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
+     * @return $this
      */
     public function setPdf(\Magento\Sales\Model\Order\Pdf\AbstractPdf $pdf)
     {
@@ -137,7 +144,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
      * Set current page
      *
      * @param  \Zend_Pdf_Page $page
-     * @return \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
+     * @return $this
      */
     public function setPage(\Zend_Pdf_Page $page)
     {
@@ -148,13 +155,13 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve order object
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        if (is_null($this->_order)) {
-            throw new \Magento\Core\Exception(__('The order object is not specified.'));
+        if (null === $this->_order) {
+            throw new \Magento\Model\Exception(__('The order object is not specified.'));
         }
         return $this->_order;
     }
@@ -162,13 +169,13 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve source object
      *
-     * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Model\AbstractModel
+     * @throws \Magento\Model\Exception
+     * @return \Magento\Model\AbstractModel
      */
     public function getSource()
     {
-        if (is_null($this->_source)) {
-            throw new \Magento\Core\Exception(__('The source object is not specified.'));
+        if (null === $this->_source) {
+            throw new \Magento\Model\Exception(__('The source object is not specified.'));
         }
         return $this->_source;
     }
@@ -176,13 +183,13 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve item object
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return \Magento\Object
      */
     public function getItem()
     {
-        if (is_null($this->_item)) {
-            throw new \Magento\Core\Exception(__('An item object is not specified.'));
+        if (null === $this->_item) {
+            throw new \Magento\Model\Exception(__('An item object is not specified.'));
         }
         return $this->_item;
     }
@@ -190,13 +197,13 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve Pdf model
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return \Magento\Sales\Model\Order\Pdf\AbstractPdf
      */
     public function getPdf()
     {
-        if (is_null($this->_pdf)) {
-            throw new \Magento\Core\Exception(__('A PDF object is not specified.'));
+        if (null === $this->_pdf) {
+            throw new \Magento\Model\Exception(__('A PDF object is not specified.'));
         }
         return $this->_pdf;
     }
@@ -204,13 +211,13 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve Pdf page object
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return \Zend_Pdf_Page
      */
     public function getPage()
     {
-        if (is_null($this->_pdfPage)) {
-            throw new \Magento\Core\Exception(__('A PDF page object is not specified.'));
+        if (null === $this->_pdfPage) {
+            throw new \Magento\Model\Exception(__('A PDF page object is not specified.'));
         }
         return $this->_pdfPage;
     }
@@ -218,13 +225,14 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     /**
      * Draw item line
      *
+     * @return void
      */
     abstract public function draw();
 
     /**
      * Format option value process
      *
-     * @param  $value
+     * @param array|string $value
      * @return string
      */
     protected function _formatOptionValue($value)
@@ -234,7 +242,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
         $resultValue = '';
         if (is_array($value)) {
             if (isset($value['qty'])) {
-                $resultValue .= sprintf('%d', $value['qty']) . ' x ';
+                $resultValue .= $this->filterManager->sprintf($value['qty'], array('format' => '%d')) . ' x ';
             }
 
             $resultValue .= $value['title'];
@@ -242,7 +250,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
             if (isset($value['price'])) {
                 $resultValue .= " " . $order->formatPrice($value['price']);
             }
-            return  $resultValue;
+            return $resultValue;
         } else {
             return $value;
         }
@@ -251,7 +259,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     /**
      * Get array of arrays with item prices information for display in PDF
      *
-     * array(
+     * Format: array(
      *  $index => array(
      *      'label'    => $label,
      *      'price'    => $price,
@@ -264,30 +272,34 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     public function getItemPricesForDisplay()
     {
         $order = $this->getOrder();
-        $item  = $this->getItem();
+        $item = $this->getItem();
         if ($this->_taxData->displaySalesBothPrices()) {
             $prices = array(
                 array(
-                    'label'    => __('Excl. Tax') . ':',
-                    'price'    => $order->formatPriceTxt($item->getPrice()),
+                    'label' => __('Excl. Tax') . ':',
+                    'price' => $order->formatPriceTxt($item->getPrice()),
                     'subtotal' => $order->formatPriceTxt($item->getRowTotal())
                 ),
                 array(
-                    'label'    => __('Incl. Tax') . ':',
-                    'price'    => $order->formatPriceTxt($item->getPriceInclTax()),
+                    'label' => __('Incl. Tax') . ':',
+                    'price' => $order->formatPriceTxt($item->getPriceInclTax()),
                     'subtotal' => $order->formatPriceTxt($item->getRowTotalInclTax())
-                ),
+                )
             );
         } elseif ($this->_taxData->displaySalesPriceInclTax()) {
-            $prices = array(array(
-                'price' => $order->formatPriceTxt($item->getPriceInclTax()),
-                'subtotal' => $order->formatPriceTxt($item->getRowTotalInclTax()),
-            ));
+            $prices = array(
+                array(
+                    'price' => $order->formatPriceTxt($item->getPriceInclTax()),
+                    'subtotal' => $order->formatPriceTxt($item->getRowTotalInclTax())
+                )
+            );
         } else {
-            $prices = array(array(
-                'price' => $order->formatPriceTxt($item->getPrice()),
-                'subtotal' => $order->formatPriceTxt($item->getRowTotal()),
-            ));
+            $prices = array(
+                array(
+                    'price' => $order->formatPriceTxt($item->getPrice()),
+                    'subtotal' => $order->formatPriceTxt($item->getRowTotal())
+                )
+            );
         }
         return $prices;
     }
@@ -297,7 +309,8 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
      *
      * @return array
      */
-    public function getItemOptions() {
+    public function getItemOptions()
+    {
         $result = array();
         $options = $this->getItem()->getOrderItem()->getProductOptions();
         if ($options) {
@@ -362,7 +375,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     /**
      * Return item Sku
      *
-     * @param  $item
+     * @param mixed $item
      * @return mixed
      */
     public function getSku($item)

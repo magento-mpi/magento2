@@ -44,7 +44,6 @@
  * @method array                    checkMessage(string $message)
  * @method array                    checkMessageByXpath(string $locator)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element|null childElementIsPresent(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
- * @method void                     clearActiveFocus()
  * @method array|bool               clearDataArray(array $dataArray)
  * @method void                     clearInvalidedCache()
  * @method void                     clearMessages(string $type = null)
@@ -84,7 +83,7 @@
  * @method array|string             getBasicXpathMessagesExcludeCurrent($types)
  * @method int                      getColumnIdByName(string $columnName, string $tableXpath = '//table[@id]')
  * @method Mage_Selenium_Helper_Config getConfigHelper()
- * @method string                   getControlAttribute(string $controlType, string $controlName, string $attribute)
+ * @method string|int               getControlAttribute(string $controlType, string $controlName, string $attribute)
  * @method int                      getControlCount(string $controlType, string $controlName, $locator = null)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element getControlElement($controlType, $controlName, $uimap = null)
  * @method array                    getControlElements($controlType, $controlName, $uimap = null, $failIfEmpty = true)
@@ -117,6 +116,7 @@
  * @method Mage_Selenium_TestCase   goToArea(string $area = 'frontend', string $page = '', bool $validatePage = true)
  * @method bool                     isControlExpanded(string $controlType, string $controlName)
  * @method Mage_Selenium_TestCase   helper(string $className)
+ * @method void                     hidePageActionsPanel()
  * @method bool                     httpResponseIsOK(string $url)
  * @method array                    loadDataSet(string $dataFile, string $dataSource, $overrideByKey = null, $overrideByValueParam = null)
  * @method Mage_Selenium_TestCase   loginAdminUser()
@@ -166,6 +166,7 @@
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForElementNotVisible($locator, int $timeout = null)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForControl($controlType, $controlName, $timeout = null)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForControlEditable($controlType, $controlName, $timeout = null)
+ * @method void                     waitForControlStopsMoving($controlType, $controlName, $timeout = null)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForControlVisible($controlType, $controlName, $timeout = null)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForControlNotVisible($controlType, $controlName, $timeout = null)
  * @method void                     waitForWindowToClose()
@@ -181,6 +182,7 @@
  * @method Core_Mage_Category_Helper|Enterprise_Mage_Category_Helper                                   categoryHelper()
  * @method Core_Mage_CheckoutMultipleAddresses_Helper|Enterprise_Mage_CheckoutMultipleAddresses_Helper checkoutMultipleAddressesHelper()
  * @method Core_Mage_CheckoutOnePage_Helper|Enterprise_Mage_CheckoutOnePage_Helper                     checkoutOnePageHelper()
+ * @method void                                                                                        clearActiveFocus()
  * @method Core_Mage_CmsPages_Helper                                                                   cmsPagesHelper()
  * @method Core_Mage_CmsStaticBlocks_Helper                                                            cmsStaticBlocksHelper()
  * @method Core_Mage_CmsWidgets_Helper|Enterprise_Mage_CmsWidgets_Helper                               cmsWidgetsHelper()
@@ -207,7 +209,7 @@
  * @method Core_Mage_Reports_Helper                                                                    reportsHelper()
  * @method Core_Mage_Review_Helper                                                                     reviewHelper()
  * @method Core_Mage_RssFeeds_Helper                                                                   rssFeedsHelper()
- * @method Core_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper                           shoppingCartHelper()
+ * @method Core_Mage_ShoppingCart_Helper                                                               shoppingCartHelper()
  * @method Core_Mage_Store_Helper                                                                      storeHelper()
  * @method Core_Mage_SystemConfiguration_Helper                                                        systemConfigurationHelper()
  * @method Core_Mage_Tax_Helper                                                                        taxHelper()
@@ -217,10 +219,11 @@
  * @method Core_Mage_TransactionalEmails_Helper                                                        transactionalEmailsHelper()
  * @method Core_Mage_UrlRewrite_Helper                                                                 urlRewriteHelper()
  * @method Core_Mage_Vde_Helper                                                                        vdeHelper()
- * @method Core_Mage_Wishlist_Helper|Enterprise_Mage_Wishlist_Helper                                   wishlistHelper()
+ * @method Core_Mage_Wishlist_Helper                                                                   wishlistHelper()
  * @method Core_Mage_XmlSitemap_Helper                                                                 xmlSitemapHelper()
  * @method Enterprise_Mage_AddBySku_Helper                                                             addBySkuHelper()
  * @method Enterprise_Mage_Attributes_Helper                                                           attributesHelper()
+ * @method Enterprise_Mage_Backup_Helper                                                               backupHelper()
  * @method Enterprise_Mage_CacheStorageManagement_Helper                                               cacheStorageManagementHelper()
  * @method Enterprise_Mage_CmsBanners_Helper                                                           cmsBannersHelper()
  * @method Enterprise_Mage_CustomerSegment_Helper                                                      customerSegmentHelper()
@@ -229,7 +232,6 @@
  * @method Enterprise_Mage_ImportExportScheduled_Helper                                                importExportScheduledHelper()
  * @method Enterprise_Mage_Invitation_Helper                                                           invitationHelper()
  * @method Enterprise_Mage_Rma_Helper                                                                  rmaHelper()
- * @method Enterprise_Mage_Rollback_Helper                                                             rollbackHelper()
  * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
  *
  * @method fail($message)
@@ -312,7 +314,7 @@ class Mage_Selenium_AbstractHelper
      * Delegate method calls to Mage_Selenium_TestCase class.
      *
      * @param string $command   Command (method) name to call
-     * @param array  $arguments Arguments to be sent to the called command (method)
+     * @param array $arguments Arguments to be sent to the called command (method)
      *
      * @return mixed
      */

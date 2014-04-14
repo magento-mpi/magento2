@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Controller;
 
 class Index extends \Magento\App\Action\Action
 {
-    function indexAction()
+    /**
+     * @return void
+     */
+    public function indexAction()
     {
-        $this->_redirect('checkout/onepage', array('_secure'=>true));
+        $this->_redirect('checkout/onepage', array('_secure' => true));
     }
 }

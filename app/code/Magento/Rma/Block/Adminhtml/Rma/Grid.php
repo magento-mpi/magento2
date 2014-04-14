@@ -7,27 +7,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Rma;
 
 /**
  * RMA Grid
  */
-namespace Magento\Rma\Block\Adminhtml\Rma;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
+     * Rma grid collection
+     *
      * @var \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
+     * Rma model
+     *
      * @var \Magento\Rma\Model\RmaFactory
      */
     protected $_rmaFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
@@ -35,7 +37,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
@@ -43,11 +44,13 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_rmaFactory = $rmaFactory;
-        parent::__construct($context, $urlModel, $backendHelper, $data);
+        parent::__construct($context, $backendHelper, $data);
     }
 
     /**
      * Initialize grid
+     *
+     * @return void
      */
     public function _construct()
     {
@@ -72,7 +75,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Configuring and setting collection
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
+     * @return $this
      */
     protected function _beforePrepareCollection()
     {
@@ -91,76 +94,96 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('increment_id', array(
-            'header' => __('RMA'),
-            'type'   => 'number',
-            'index'  => 'increment_id',
-            'header_css_class'  => 'col-rma-number',
-            'column_css_class'  => 'col-rma-number'
-        ));
+        $this->addColumn(
+            'increment_id',
+            array(
+                'header' => __('RMA'),
+                'type' => 'number',
+                'index' => 'increment_id',
+                'header_css_class' => 'col-rma-number',
+                'column_css_class' => 'col-rma-number'
+            )
+        );
 
-        $this->addColumn('date_requested', array(
-            'header' => __('Requested Date'),
-            'index' => 'date_requested',
-            'type' => 'datetime',
-            'html_decorators' => array('nobr'),
-            'header_css_class'  => 'col-period',
-            'column_css_class'  => 'col-period'
-        ));
+        $this->addColumn(
+            'date_requested',
+            array(
+                'header' => __('Requested Date'),
+                'index' => 'date_requested',
+                'type' => 'datetime',
+                'html_decorators' => array('nobr'),
+                'header_css_class' => 'col-period',
+                'column_css_class' => 'col-period'
+            )
+        );
 
-        $this->addColumn('order_increment_id', array(
-            'header' => __('Order'),
-            'type'   => 'number',
-            'index'  => 'order_increment_id',
-            'header_css_class'  => 'col-order-number',
-            'column_css_class'  => 'col-order-number'
-        ));
+        $this->addColumn(
+            'order_increment_id',
+            array(
+                'header' => __('Order'),
+                'type' => 'number',
+                'index' => 'order_increment_id',
+                'header_css_class' => 'col-order-number',
+                'column_css_class' => 'col-order-number'
+            )
+        );
 
-        $this->addColumn('order_date', array(
-            'header' => __('Order Date'),
-            'index' => 'order_date',
-            'type' => 'datetime',
-            'html_decorators' => array('nobr'),
-            'header_css_class'  => 'col-period',
-            'column_css_class'  => 'col-period'
-        ));
+        $this->addColumn(
+            'order_date',
+            array(
+                'header' => __('Order Date'),
+                'index' => 'order_date',
+                'type' => 'datetime',
+                'html_decorators' => array('nobr'),
+                'header_css_class' => 'col-period',
+                'column_css_class' => 'col-period'
+            )
+        );
 
-        $this->addColumn('customer_name', array(
-            'header' => __('Customer'),
-            'index' => 'customer_name',
-            'header_css_class'  => 'col-name',
-            'column_css_class'  => 'col-name'
-        ));
+        $this->addColumn(
+            'customer_name',
+            array(
+                'header' => __('Customer'),
+                'index' => 'customer_name',
+                'header_css_class' => 'col-name',
+                'column_css_class' => 'col-name'
+            )
+        );
         /** @var $rmaModel \Magento\Rma\Model\Rma */
         $rmaModel = $this->_rmaFactory->create();
-        $this->addColumn('status', array(
-            'header'  => __('Status'),
-            'index'   => 'status',
-            'type'    => 'options',
-            'options' => $rmaModel->getAllStatuses(),
-            'header_css_class'  => 'col-status',
-            'column_css_class'  => 'col-status'
-        ));
-
-        $this->addColumn('action',
+        $this->addColumn(
+            'status',
             array(
-                'header'    =>  __('Action'),
-                'type'      => 'action',
-                'getter'    => 'getId',
-                'actions'   => array(
+                'header' => __('Status'),
+                'index' => 'status',
+                'type' => 'options',
+                'options' => $rmaModel->getAllStatuses(),
+                'header_css_class' => 'col-status',
+                'column_css_class' => 'col-status'
+            )
+        );
+
+        $this->addColumn(
+            'action',
+            array(
+                'header' => __('Action'),
+                'type' => 'action',
+                'getter' => 'getId',
+                'actions' => array(
                     array(
-                        'caption'   => __('View'),
-                        'url'       => array('base'=> $this->_getControllerUrl('edit')),
-                        'field'     => 'id'
+                        'caption' => __('View'),
+                        'url' => array('base' => $this->_getControllerUrl('edit')),
+                        'field' => 'id'
                     )
                 ),
-                'filter'    => false,
-                'sortable'  => false,
-                'index'     => 'stores',
+                'filter' => false,
+                'sortable' => false,
+                'index' => 'stores',
                 'is_system' => true,
-                'header_css_class'  => 'col-actions',
-                'column_css_class'  => 'col-actions'
-        ));
+                'header_css_class' => 'col-actions',
+                'column_css_class' => 'col-actions'
+            )
+        );
 
         return parent::_prepareColumns();
     }
@@ -168,18 +191,23 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare massaction
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
+     * @return $this
      */
     protected function _prepareMassaction()
     {
         $this->setMassactionIdField('entity_id');
         $this->getMassactionBlock()->setFormFieldName('entity_ids');
 
-        $this->getMassactionBlock()->addItem('status', array(
-            'label'=> __('Close'),
-            'url'  => $this->getUrl($this->_getControllerUrl('close')),
-            'confirm'  => __("You have chosen to change status(es) of the selected RMA requests to Close. Are you sure you want to proceed?")
-        ));
+        $this->getMassactionBlock()->addItem(
+            'status',
+            array(
+                'label' => __('Close'),
+                'url' => $this->getUrl($this->_getControllerUrl('close')),
+                'confirm' => __(
+                    "You have chosen to change status(es) of the selected RMA requests to Close. Are you sure you want to proceed?"
+                )
+            )
+        );
 
         return $this;
     }
@@ -198,13 +226,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Retrieve row url
      *
-     * @param $row
+     * @param \Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl($this->_getControllerUrl('edit'), array(
-            'id' => $row->getId()
-        ));
+        return $this->getUrl($this->_getControllerUrl('edit'), array('id' => $row->getId()));
     }
 }

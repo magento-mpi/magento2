@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Model\Rma\Source;
 
 /**
  * RMA Item attribute source abstract model
  *
- * @category   Magento
- * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Model\Rma\Source;
-
 abstract class AbstractSource extends \Magento\Eav\Model\Entity\Attribute\Source\Table
 {
     /**
@@ -31,13 +28,9 @@ abstract class AbstractSource extends \Magento\Eav\Model\Entity\Attribute\Source
         if ($withLabels) {
             $result = array();
             foreach ($values as $item) {
-                $result[] = array(
-                    'label' => $this->getItemLabel($item),
-                    'value' => $item
-                );
+                $result[] = array('label' => $this->getItemLabel($item), 'value' => $item);
             }
             return $result;
-
         }
         return $values;
     }

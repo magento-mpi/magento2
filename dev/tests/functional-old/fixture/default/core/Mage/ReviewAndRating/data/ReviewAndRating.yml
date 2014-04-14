@@ -34,7 +34,7 @@ rating_special_symbols:
     visible_in: %noValue%
 
 default_rating:
-    default_value: %randomize%
+    default_value: %randomize%_rating_name
     store_view_titles:
         store_view_1:
             store_view_name: Default Store View
@@ -44,7 +44,7 @@ default_rating:
     visible_in: %noValue%
 
 rating_required_fields:
-    default_value: %randomize%
+    default_value: %randomize%_rating_name
 
 #<----------------------------------------------------Reviews---------------------------------------------------------->
 search_fields: &searchReview
@@ -127,25 +127,25 @@ review_with_rating:
     nickname: %randomize% Nickname
     summary_of_review: %randomize% Review Summary
     review: %randomize% Review Text
-    ratings:
+    product_rating:
         rating_1:
             rating_name: %noValue%
-            stars: 3
+            stars: 1
 
 frontend_review:
     nickname: %randomize% Test Nickname
     summary_of_review: %randomize% Test Review Summary
     review: %randomize% Test Review Text
-    ratings: %noValue%
+    product_rating: %noValue%
 
 review_long_values:
     nickname: %longValue50%
     summary_of_review: %longValue255%
     review: %longValue255%
-    ratings: %noValue%
+    product_rating: %noValue%
 
 review_special_symbols:
     nickname: %specialValue32%
     summary_of_review: %specialValue32%
     review: %specialValue32%
-    ratings: %noValue%
+    product_rating: %noValue%

@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Oauth;
 
 /**
@@ -42,6 +41,7 @@ interface NonceGeneratorInterface
      * @param ConsumerInterface $consumer
      * @param string $nonce - The nonce value.
      * @param int $timestamp - The 'oauth_timestamp' value.
+     * @return void
      * @throws \Magento\Oauth\Exception - Exceptions are thrown for validation errors.
      */
     public function validateNonce(ConsumerInterface $consumer, $nonce, $timestamp);

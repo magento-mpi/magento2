@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Resource\Customer;
 
 /**
  * Customer storage
@@ -14,10 +15,7 @@
  * @category    Magento
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
- *
  */
-namespace Magento\ImportExport\Model\Resource\Customer;
-
 class Storage
 {
     /**
@@ -72,15 +70,19 @@ class Storage
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $colIteratorFactory,
         array $data = array()
     ) {
-        $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : $collectionFactory->create();
+        $this->_customerCollection = isset(
+            $data['customer_collection']
+        ) ? $data['customer_collection'] : $collectionFactory->create();
         $this->_pageSize = isset($data['page_size']) ? $data['page_size'] : 0;
-        $this->_byPagesIterator = isset($data['collection_by_pages_iterator']) ? $data['collection_by_pages_iterator']
-            : $colIteratorFactory->create();
+        $this->_byPagesIterator = isset(
+            $data['collection_by_pages_iterator']
+        ) ? $data['collection_by_pages_iterator'] : $colIteratorFactory->create();
     }
 
     /**
      * Load needed data from customer collection
+     *
+     * @return void
      */
     public function load()
     {
@@ -90,7 +92,9 @@ class Storage
             $tableName = $collection->getResource()->getEntityTable();
             $collection->getSelect()->from($tableName, array('entity_id', 'website_id', 'email'));
 
-            $this->_byPagesIterator->iterate($this->_customerCollection, $this->_pageSize,
+            $this->_byPagesIterator->iterate(
+                $this->_customerCollection,
+                $this->_pageSize,
                 array(array($this, 'addCustomer'))
             );
 
@@ -102,7 +106,7 @@ class Storage
      * Add customer to array
      *
      * @param \Magento\Object|\Magento\Customer\Model\Customer $customer
-     * @return \Magento\ImportExport\Model\Resource\Customer\Storage
+     * @return $this
      */
     public function addCustomer(\Magento\Object $customer)
     {

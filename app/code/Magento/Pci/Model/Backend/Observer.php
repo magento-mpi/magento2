@@ -7,64 +7,85 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Pci\Model\Backend;
+
+use Magento\Event\Observer as EventObserver;
 
 /**
  * Pci backend observer model
  *
  * Implements hashes upgrading
  */
-namespace Magento\Pci\Model\Backend;
-
 class Observer
 {
     const ADMIN_USER_LOCKED = 243;
 
     /**
+     * Authorization interface
+     *
      * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
+     * Backend configuration interface
+     *
      * @var \Magento\Backend\App\ConfigInterface
      */
     protected $_backendConfig;
 
     /**
-     * @var \Magento\Pci\Model\Resource\Admin\User
+     * Admin user resource model
      *
+     * @var \Magento\Pci\Model\Resource\Admin\User
      */
     protected $_userResource;
+
     /**
-     * @var \Magento\Backend\Model\Url
+     * Backend url interface
+     *
+     * @var \Magento\Backend\Model\UrlInterface
      */
     protected $_url;
 
     /**
+     * Backend session
+     *
      * @var \Magento\Backend\Model\Session
      */
     protected $_session;
 
     /**
+     * Backend authorization session
+     *
      * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
+     * Factory class for user model
+     *
      * @var \Magento\User\Model\UserFactory
      */
     protected $_userFactory;
 
     /**
+     * Pci encryption model
+     *
      * @var \Magento\Pci\Model\Encryption
      */
     protected $_encryptor;
 
     /**
+     * Action flag
+     *
      * @var \Magento\App\ActionFlag
      */
     protected $_actionFlag;
 
     /**
+     * Message manager interface
+     *
      * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
@@ -73,7 +94,7 @@ class Observer
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
      * @param \Magento\Pci\Model\Resource\Admin\User $userResource
-     * @param \Magento\Backend\Model\Url $url
+     * @param \Magento\Backend\Model\UrlInterface $url
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\User\Model\UserFactory $userFactory
@@ -85,7 +106,7 @@ class Observer
         \Magento\AuthorizationInterface $authorization,
         \Magento\Backend\App\ConfigInterface $backendConfig,
         \Magento\Pci\Model\Resource\Admin\User $userResource,
-        \Magento\Backend\Model\Url $url,
+        \Magento\Backend\Model\UrlInterface $url,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\User\Model\UserFactory $userFactory,
@@ -108,18 +129,19 @@ class Observer
     /**
      * Admin locking and password hashing upgrade logic implementation
      *
-     * @param \Magento\Event\Observer $observer
-     * @throws \Magento\Core\Exception
+     * @param EventObserver $observer
+     * @return void
+     * @throws \Magento\Model\Exception
      */
     public function adminAuthenticate($observer)
     {
         $password = $observer->getEvent()->getPassword();
-        $user     = $observer->getEvent()->getUser();
+        $user = $observer->getEvent()->getUser();
         $resource = $this->_userResource;
         $authResult = $observer->getEvent()->getResult();
 
         // update locking information regardless whether user locked or not
-        if ((!$authResult) && ($user->getId())) {
+        if (!$authResult && $user->getId()) {
             $now = time();
             $lockThreshold = $this->getAdminLockThreshold();
             $maxFailures = (int)$this->_backendConfig->getValue('admin/security/lockout_failures');
@@ -128,18 +150,20 @@ class Observer
             }
             $failuresNum = (int)$user->getFailuresNum() + 1;
             if ($firstFailureDate = $user->getFirstFailure()) {
-                $firstFailureDate = new \Zend_Date($firstFailureDate, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+                $firstFailureDate = new \Magento\Stdlib\DateTime\Date(
+                    $firstFailureDate,
+                    \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
+                );
                 $firstFailureDate = $firstFailureDate->toValue();
             }
 
             $updateFirstFailureDate = false;
-            $updateLockExpires      = false;
+            $updateLockExpires = false;
             // set first failure date when this is first failure or last first failure expired
-            if (1 === $failuresNum || !$firstFailureDate || (($now - $firstFailureDate) > $lockThreshold)) {
+            if (1 === $failuresNum || !$firstFailureDate || $now - $firstFailureDate > $lockThreshold) {
                 $updateFirstFailureDate = $now;
-            }
-            // otherwise lock user
-            elseif ($failuresNum >= $maxFailures) {
+                // otherwise lock user
+            } elseif ($failuresNum >= $maxFailures) {
                 $updateLockExpires = $now + $lockThreshold;
             }
             $resource->updateFaiure($user, $updateLockExpires, $updateFirstFailureDate);
@@ -147,13 +171,13 @@ class Observer
 
         // check whether user is locked
         if ($lockExpires = $user->getLockExpires()) {
-            $lockExpires = new \Zend_Date($lockExpires, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $lockExpires = new \Magento\Stdlib\DateTime\Date(
+                $lockExpires,
+                \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
+            );
             $lockExpires = $lockExpires->toValue();
             if ($lockExpires > time()) {
-                throw new \Magento\Core\Exception(
-                    __('This account is locked.'),
-                    self::ADMIN_USER_LOCKED
-                );
+                throw new \Magento\Model\Exception(__('This account is locked.'), self::ADMIN_USER_LOCKED);
             }
         }
 
@@ -187,9 +211,13 @@ class Observer
 
         // upgrade admin password
         if (!$this->_encryptor->validateHashByVersion($password, $user->getPassword())) {
-            $this->_userFactory->create()->load($user->getId())
-                ->setNewPassword($password)->setForceNewPassword(true)
-                ->save();
+            $this->_userFactory->create()->load(
+                $user->getId()
+            )->setNewPassword(
+                $password
+            )->setForceNewPassword(
+                true
+            )->save();
         }
     }
 
@@ -218,8 +246,9 @@ class Observer
      * New password must be minimum 7 chars length and include alphanumeric characters
      * The password is compared to at least last 4 previous passwords to prevent setting them again
      *
-     * @param \Magento\Event\Observer $observer
-     * @throws \Magento\Core\Exception
+     * @param EventObserver $observer
+     * @return void
+     * @throws \Magento\Model\Exception
      */
     public function checkAdminPasswordChange($observer)
     {
@@ -234,7 +263,7 @@ class Observer
 
         if ($password && !$user->getForceNewPassword() && $user->getId()) {
             if ($this->_encryptor->validateHash($password, $user->getOrigData('password'))) {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     __('Sorry, but this password has already been used. Please create another.')
                 );
             }
@@ -244,7 +273,7 @@ class Observer
             $passwordHash = $this->_encryptor->getHash($password, false);
             foreach ($resource->getOldPasswords($user) as $oldPasswordHash) {
                 if ($passwordHash === $oldPasswordHash) {
-                    throw new \Magento\Core\Exception(
+                    throw new \Magento\Model\Exception(
                         __('Sorry, but this password has already been used. Please create another.')
                     );
                 }
@@ -255,7 +284,8 @@ class Observer
     /**
      * Save new admin password
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
     public function trackAdminNewPassword($observer)
     {
@@ -297,7 +327,8 @@ class Observer
     /**
      * Force admin to change password
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
     public function forceAdminPasswordChange($observer)
     {
@@ -308,17 +339,18 @@ class Observer
         if (!$session->isLoggedIn()) {
             return;
         }
-        $actionList = array('adminhtml_system_account_index', 'adminhtml_system_account_save',
-            'adminhtml_auth_logout');
+        $actionList = array(
+            'adminhtml_system_account_index',
+            'adminhtml_system_account_save',
+            'adminhtml_auth_logout'
+        );
         $controller = $observer->getEvent()->getControllerAction();
         /** @var \Magento\App\RequestInterface $request */
         $request = $observer->getEvent()->getRequest();
         if ($this->_authSession->getPciAdminUserIsPasswordExpired()) {
             if (!in_array($request->getFullActionName(), $actionList)) {
                 if ($this->_authorization->isAllowed('Magento_Adminhtml::myaccount')) {
-                    $controller->getResponse()->setRedirect(
-                        $this->_url->getUrl('adminhtml/system_account/')
-                    );
+                    $controller->getResponse()->setRedirect($this->_url->getUrl('adminhtml/system_account/'));
                     $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
                     $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_POST_DISPATCH, true);
                 } else {

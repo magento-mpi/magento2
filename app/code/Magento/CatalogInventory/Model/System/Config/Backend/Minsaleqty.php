@@ -14,7 +14,7 @@
  */
 namespace Magento\CatalogInventory\Model\System\Config\Backend;
 
-class Minsaleqty extends \Magento\Core\Model\Config\Value
+class Minsaleqty extends \Magento\App\Config\Value
 {
     /**
      * Catalog inventory minsaleqty
@@ -24,31 +24,31 @@ class Minsaleqty extends \Magento\Core\Model\Config\Value
     protected $_catalogInventoryMinsaleqty = null;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Config $config,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogInventoryMinsaleqty = $catalogInventoryMinsaleqty;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
      * Process data after load
+     *
+     * @return void
      */
     protected function _afterLoad()
     {
@@ -59,6 +59,8 @@ class Minsaleqty extends \Magento\Core\Model\Config\Value
 
     /**
      * Prepare data before save
+     *
+     * @return void
      */
     protected function _beforeSave()
     {

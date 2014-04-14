@@ -17,24 +17,25 @@ class ExportConfigFilesTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var $filesystem \Magento\Filesystem */
-        $filesystem = $objectManager->get('Magento\Filesystem');
-        $appDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::APP);
+        /** @var $filesystem \Magento\App\Filesystem */
+        $filesystem = $objectManager->get('Magento\App\Filesystem');
+        $modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
         $fileIteratorFactory = $objectManager->get('Magento\Config\FileIteratorFactory');
-        $xmlFiles = $fileIteratorFactory->create($appDirectory, $appDirectory->search('#/export\.xml$#'));
+        $xmlFiles = $fileIteratorFactory->create(
+            $modulesDirectory,
+            $modulesDirectory->search('/*/*/etc/{*/export.xml,export.xml}')
+        );
 
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
-        $validationStateMock->expects($this->any())->method('isValidated')
-            ->will($this->returnValue(true));
+        $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
         $fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
-        $fileResolverMock->expects($this->any())->method('get')
-            ->will($this->returnValue($xmlFiles));
+        $fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($xmlFiles));
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $this->_model = $objectManager->create('Magento\ImportExport\Model\Export\Config\Reader', array(
-            'fileResolver' => $fileResolverMock,
-            'validationState' => $validationStateMock,
-        ));
+        $this->_model = $objectManager->create(
+            'Magento\ImportExport\Model\Export\Config\Reader',
+            array('fileResolver' => $fileResolverMock, 'validationState' => $validationStateMock)
+        );
     }
 
     public function testExportXmlFiles()

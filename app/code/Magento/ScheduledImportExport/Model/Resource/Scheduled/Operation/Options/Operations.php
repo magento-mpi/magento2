@@ -9,8 +9,7 @@
  */
 namespace Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Options;
 
-class Operations
-    implements \Magento\Core\Model\Option\ArrayInterface
+class Operations implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data
@@ -26,11 +25,10 @@ class Operations
     }
 
     /**
-     * Return operations array
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {
-        return  $this->_modelData->getOperationsOptionArray();
+        return $this->_modelData->getOperationsOptionArray();
     }
 }

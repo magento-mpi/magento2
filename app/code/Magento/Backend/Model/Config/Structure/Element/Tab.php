@@ -7,13 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Element;
 
-class Tab
-    extends \Magento\Backend\Model\Config\Structure\Element\AbstractComposite
+class Tab extends AbstractComposite
 {
-
     /**
      * Check whether tab is visible
      *

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery;
 
 /**
@@ -18,13 +17,10 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetUploader()
     {
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery\Content */
-        $block = $layout->createBlock(
-            'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery\Content',
-            'block'
-        );
+        $block = $layout->createBlock('Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery\Content', 'block');
 
         $this->assertInstanceOf('Magento\Backend\Block\Media\Uploader', $block->getUploader());
     }

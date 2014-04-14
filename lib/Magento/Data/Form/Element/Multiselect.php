@@ -17,18 +17,20 @@
  */
 namespace Magento\Data\Form\Element;
 
-class Multiselect extends \Magento\Data\Form\Element\AbstractElement
+use Magento\Escaper;
+
+class Multiselect extends AbstractElement
 {
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param Factory $factoryElement
+     * @param CollectionFactory $factoryCollection
+     * @param Escaper $escaper
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        Factory $factoryElement,
+        CollectionFactory $factoryCollection,
+        Escaper $escaper,
         $data = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
@@ -37,15 +39,25 @@ class Multiselect extends \Magento\Data\Form\Element\AbstractElement
         $this->setSize(10);
     }
 
+    /**
+     * Get the name
+     *
+     * @return string
+     */
     public function getName()
     {
         $name = parent::getName();
         if (strpos($name, '[]') === false) {
-            $name.= '[]';
+            $name .= '[]';
         }
         return $name;
     }
 
+    /**
+     * Get the element as HTML
+     *
+     * @return string
+     */
     public function getElementHtml()
     {
         $this->addClass('select multiselect');
@@ -53,8 +65,9 @@ class Multiselect extends \Magento\Data\Form\Element\AbstractElement
         if ($this->getCanBeEmpty()) {
             $html .= '<input type="hidden" name="' . parent::getName() . '" value="" />';
         }
-        $html .= '<select id="' . $this->getHtmlId() . '" name="' . $this->getName() . '" ' .
-            $this->serialize($this->getHtmlAttributes()) . $this->_getUiId() . ' multiple="multiple">' . "\n";
+        $html .= '<select id="' . $this->getHtmlId() . '" name="' . $this->getName() . '" ' . $this->serialize(
+            $this->getHtmlAttributes()
+        ) . $this->_getUiId() . ' multiple="multiple">' . "\n";
 
         $value = $this->getValue();
         if (!is_array($value)) {
@@ -82,60 +95,86 @@ class Multiselect extends \Magento\Data\Form\Element\AbstractElement
         return $html;
     }
 
+    /**
+     * Get the HTML attributes
+     *
+     * @return string[]
+     */
     public function getHtmlAttributes()
     {
         return array('title', 'class', 'style', 'onclick', 'onchange', 'disabled', 'size', 'tabindex');
     }
 
+    /**
+     * Get the default HTML
+     *
+     * @return string
+     */
     public function getDefaultHtml()
     {
         $result = $this->getNoSpan() === true ? '' : '<span class="field-row">' . "\n";
-        $result.= $this->getLabelHtml();
-        $result.= $this->getElementHtml();
+        $result .= $this->getLabelHtml();
+        $result .= $this->getElementHtml();
 
 
         if ($this->getSelectAll() && $this->getDeselectAll()) {
-            $result .= '<a href="#" onclick="return ' . $this->getJsObjectName() . '.selectAll()">' .
-                $this->getSelectAll() . '</a> <span class="separator">&nbsp;|&nbsp;</span>';
-            $result .= '<a href="#" onclick="return ' . $this->getJsObjectName() . '.deselectAll()">' .
-                $this->getDeselectAll() . '</a>';
+            $result .= '<a href="#" onclick="return ' .
+                $this->getJsObjectName() .
+                '.selectAll()">' .
+                $this->getSelectAll() .
+                '</a> <span class="separator">&nbsp;|&nbsp;</span>';
+            $result .= '<a href="#" onclick="return ' .
+                $this->getJsObjectName() .
+                '.deselectAll()">' .
+                $this->getDeselectAll() .
+                '</a>';
         }
 
-        $result.= ( $this->getNoSpan() === true ) ? '' : '</span>'."\n";
+        $result .= $this->getNoSpan() === true ? '' : '</span>' . "\n";
 
 
-        $result.= '<script type="text/javascript">' . "\n";
-        $result.= '   var ' . $this->getJsObjectName() . ' = {' . "\n";
-        $result.= '     selectAll: function() { ' . "\n";
-        $result.= '         var sel = $("' . $this->getHtmlId() . '");' . "\n";
-        $result.= '         for(var i = 0; i < sel.options.length; i ++) { ' . "\n";
-        $result.= '             sel.options[i].selected = true; ' . "\n";
-        $result.= '         } ' . "\n";
-        $result.= '         return false; ' . "\n";
-        $result.= '     },' . "\n";
-        $result.= '     deselectAll: function() {' . "\n";
-        $result.= '         var sel = $("' . $this->getHtmlId() . '");' . "\n";
-        $result.= '         for(var i = 0; i < sel.options.length; i ++) { ' . "\n";
-        $result.= '             sel.options[i].selected = false; ' . "\n";
-        $result.= '         } ' . "\n";
-        $result.= '         return false; ' . "\n";
-        $result.= '     }' . "\n";
-        $result.= '  }' . "\n";
-        $result.= "\n" . '</script>';
+        $result .= '<script type="text/javascript">' . "\n";
+        $result .= '   var ' . $this->getJsObjectName() . ' = {' . "\n";
+        $result .= '     selectAll: function() { ' . "\n";
+        $result .= '         var sel = $("' . $this->getHtmlId() . '");' . "\n";
+        $result .= '         for(var i = 0; i < sel.options.length; i ++) { ' . "\n";
+        $result .= '             sel.options[i].selected = true; ' . "\n";
+        $result .= '         } ' . "\n";
+        $result .= '         return false; ' . "\n";
+        $result .= '     },' . "\n";
+        $result .= '     deselectAll: function() {' . "\n";
+        $result .= '         var sel = $("' . $this->getHtmlId() . '");' . "\n";
+        $result .= '         for(var i = 0; i < sel.options.length; i ++) { ' . "\n";
+        $result .= '             sel.options[i].selected = false; ' . "\n";
+        $result .= '         } ' . "\n";
+        $result .= '         return false; ' . "\n";
+        $result .= '     }' . "\n";
+        $result .= '  }' . "\n";
+        $result .= "\n" . '</script>';
 
         return $result;
     }
 
+    /**
+     * Get the  name of the JS object
+     *
+     * @return string
+     */
     public function getJsObjectName()
     {
-         return $this->getHtmlId() . 'ElementControl';
+        return $this->getHtmlId() . 'ElementControl';
     }
 
+    /**
+     * @param array $option
+     * @param array $selected
+     * @return string
+     */
     protected function _optionToHtml($option, $selected)
     {
-        $html = '<option value="'.$this->_escape($option['value']).'"';
-        $html.= isset($option['title']) ? 'title="' . $this->_escape($option['title']) . '"' : '';
-        $html.= isset($option['style']) ? 'style="' . $option['style'] . '"' : '';
+        $html = '<option value="' . $this->_escape($option['value']) . '"';
+        $html .= isset($option['title']) ? 'title="' . $this->_escape($option['title']) . '"' : '';
+        $html .= isset($option['style']) ? 'style="' . $option['style'] . '"' : '';
         if (in_array((string)$option['value'], $selected)) {
             $html .= ' selected="selected"';
         }

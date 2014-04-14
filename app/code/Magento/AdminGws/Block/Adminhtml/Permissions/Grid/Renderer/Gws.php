@@ -7,15 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer;
 
 /**
  * Website permissions column grid
  *
  */
-namespace Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer;
-
-class Gws
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Gws extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * @var array
@@ -23,18 +21,18 @@ class Gws
     public static $websites = array();
 
     /**
-     * @var \Magento\Core\Model\Resource\Store\Group\Collection
+     * @var \Magento\Store\Model\Resource\Group\Collection
      */
     protected $_storeGroupCollection;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Core\Model\Resource\Store\Group\Collection $storeGroupCollection
+     * @param \Magento\Store\Model\Resource\Group\Collection $storeGroupCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Core\Model\Resource\Store\Group\Collection $storeGroupCollection,
+        \Magento\Store\Model\Resource\Group\Collection $storeGroupCollection,
         array $data = array()
     ) {
         $this->_storeGroupCollection = $storeGroupCollection;
@@ -61,7 +59,7 @@ class Gws
         // lookup websites and store groups in system
         if (!self::$websites) {
             foreach ($this->_storeGroupCollection as $storeGroup) {
-                /* @var $storeGroup \Magento\Core\Model\Store\Group */
+                /* @var $storeGroup \Magento\Store\Model\Group */
                 $website = $storeGroup->getWebsite();
                 $websiteId = (string)$storeGroup->getWebsiteId();
                 self::$websites[$websiteId]['name'] = $website->getName();
@@ -72,15 +70,14 @@ class Gws
         // analyze current row values
         $storeGroupIds = array();
         if ($websiteIds = $row->getData('gws_websites')) {
-            $websiteIds = explode(',', $websiteIds);
+            $websiteIds = !is_array($websiteIds) ? explode(',', $websiteIds) : $websiteIds;
             foreach (self::$websites as $websiteId => $website) {
                 if (in_array($websiteId, $websiteIds)) {
                     unset($website['name']);
                     $storeGroupIds = array_merge($storeGroupIds, array_keys($website));
                 }
             }
-        }
-        else {
+        } else {
             $websiteIds = array();
             if ($ids = $row->getData('gws_store_groups')) {
                 $storeGroupIds = explode(',', $ids);
@@ -114,9 +111,14 @@ class Gws
      */
     protected function _formatName($name, $isStoreGroup = false, $isActive = true)
     {
-        return '<span style="' . (!$isActive ? 'color:#999;text-decoration:line-through;' : '')
-            . ($isStoreGroup ? 'padding-left:2em;' : '')
-            . '">' . str_replace(' ', '&nbsp;', $name) . '</span>'
-        ;
+        return '<span style="' .
+            (!$isActive ? 'color:#999;text-decoration:line-through;' : '') .
+            ($isStoreGroup ? 'padding-left:2em;' : '') .
+            '">' .
+            str_replace(
+                ' ',
+                '&nbsp;',
+                $name
+            ) . '</span>';
     }
 }

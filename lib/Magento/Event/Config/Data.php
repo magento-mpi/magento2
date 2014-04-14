@@ -27,8 +27,8 @@ class Data extends \Magento\Config\Data\Scoped
      * @param \Magento\Event\Config\Reader $reader
      * @param \Magento\Config\ScopeInterface $configScope
      * @param \Magento\Config\CacheInterface $cache
-     * @param string $cacheId
      * @param \Magento\App\State $appState
+     * @param string $cacheId
      */
     public function __construct(
         \Magento\Event\Config\Reader $reader,
@@ -44,14 +44,16 @@ class Data extends \Magento\Config\Data\Scoped
     /**
      * Get config value by key
      *
-     * @param string $path
-     * @param mixed $default
-     * @return mixed
+     * @param null|string $path
+     * @param null|mixed $default
+     * @return null|mixed
      */
     public function get($path = null, $default = null)
     {
-        if (!$this->_appState->isInstalled()
-            && !in_array($this->_configScope->getCurrentScope(), array('global', 'install'))
+        if (!$this->_appState->isInstalled() && !in_array(
+            $this->_configScope->getCurrentScope(),
+            array('global', 'install')
+        )
         ) {
             return $default;
         }

@@ -18,12 +18,28 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     {
         $fileResolver = $this->getFileResolver(__DIR__ . '/../FileResolver/_files');
         $converter = new \Magento\Module\Declaration\Converter\Dom();
-        $schemaLocatorMock = $this->getMock(
-            'Magento\Module\Declaration\SchemaLocator', array(), array(), '', false
-        );
+        $schemaLocatorMock = $this->getMock('Magento\Module\Declaration\SchemaLocator', array(), array(), '', false);
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
+
+        $appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
+        $appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
+
+        $dependencyManager = $this->getMock('Magento\Module\DependencyManagerInterface');
+        $dependencyManager->expects(
+            $this->any()
+        )->method(
+            'getExtendedModuleDependencies'
+        )->will(
+            $this->returnValue(array())
+        );
+
         $this->_model = new \Magento\Module\Declaration\Reader\Filesystem(
-            $fileResolver, $converter, $schemaLocatorMock, $validationStateMock
+            $fileResolver,
+            $converter,
+            $schemaLocatorMock,
+            $validationStateMock,
+            $appStateMock,
+            $dependencyManager
         );
     }
 
@@ -37,15 +53,12 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
                 'dependencies' => array(
                     'modules' => array(),
                     'extensions' => array(
-                        'strict' => array(
-                            array('name' => 'simplexml'),
-                        ),
-                        'alternatives' => array(array(
-                            array('name' => 'gd'),
-                            array('name' => 'imagick', 'minVersion' => '3.0.0'),
-                        )),
-                    ),
-                ),
+                        'strict' => array(array('name' => 'simplexml')),
+                        'alternatives' => array(
+                            array(array('name' => 'gd'), array('name' => 'imagick', 'minVersion' => '3.0.0'))
+                        )
+                    )
+                )
             ),
             'Module_Four' => array(
                 'name' => 'Module_Four',
@@ -53,11 +66,8 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
                 'active' => true,
                 'dependencies' => array(
                     'modules' => array('Module_One'),
-                    'extensions' => array(
-                        'strict' => array(),
-                        'alternatives' => array(),
-                    ),
-                ),
+                    'extensions' => array('strict' => array(), 'alternatives' => array())
+                )
             ),
             'Module_Three' => array(
                 'name' => 'Module_Three',
@@ -65,12 +75,9 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
                 'active' => true,
                 'dependencies' => array(
                     'modules' => array('Module_Four'),
-                    'extensions' => array(
-                        'strict' => array(),
-                        'alternatives' => array(),
-                    ),
-                ),
-            ),
+                    'extensions' => array('strict' => array(), 'alternatives' => array())
+                )
+            )
         );
         $this->assertEquals($expectedResult, $this->_model->read('global'));
     }
@@ -83,13 +90,13 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     protected function getFileResolver($baseDir)
     {
-        $filesystem = new \Magento\Filesystem(
-            new \Magento\Filesystem\DirectoryList($baseDir),
+        $filesystem = new \Magento\App\Filesystem(
+            new \Magento\App\Filesystem\DirectoryList($baseDir),
             new \Magento\Filesystem\Directory\ReadFactory(),
             new \Magento\Filesystem\Directory\WriteFactory()
         );
         $iteratorFactory = new \Magento\Config\FileIteratorFactory();
 
-        return  new \Magento\Module\Declaration\FileResolver($filesystem, $iteratorFactory);
+        return new \Magento\Module\Declaration\FileResolver($filesystem, $iteratorFactory);
     }
 }

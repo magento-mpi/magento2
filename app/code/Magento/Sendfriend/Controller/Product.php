@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sendfriend\Controller;
+
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
 
 /**
  * Email to a Friend Product Controller
@@ -15,17 +19,12 @@
  * @package     Magento_Sedfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sendfriend\Controller;
-
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
-
 class Product extends \Magento\App\Action\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -36,12 +35,12 @@ class Product extends \Magento\App\Action\Action
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -71,13 +70,19 @@ class Product extends \Magento\App\Action\Action
         if (!$helper->isAllowForGuest() && !$session->authenticate($this)) {
             $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             if ($this->getRequest()->getActionName() == 'sendemail') {
-                $session->setBeforeAuthUrl($this->_objectManager
-                    ->create('Magento\Core\Model\Url')
-                    ->getUrl('*/*/send', array(
-                        '_current' => true
-                    )));
-                $this->_objectManager->get('Magento\Catalog\Model\Session')
-                    ->setSendfriendFormData($request->getPost());
+                $session->setBeforeAuthUrl(
+                    $this->_objectManager->create(
+                        'Magento\UrlInterface'
+                    )->getUrl(
+                        '*/*/send',
+                        array('_current' => true)
+                    )
+                );
+                $this->_objectManager->get(
+                    'Magento\Catalog\Model\Session'
+                )->setSendfriendFormData(
+                    $request->getPost()
+                );
             }
         }
         return parent::dispatch($request);
@@ -90,12 +95,11 @@ class Product extends \Magento\App\Action\Action
      */
     protected function _initProduct()
     {
-        $productId  = (int)$this->getRequest()->getParam('id');
+        $productId = (int)$this->getRequest()->getParam('id');
         if (!$productId) {
             return false;
         }
-        $product = $this->_objectManager->create('Magento\Catalog\Model\Product')
-            ->load($productId);
+        $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             return false;
         }
@@ -117,11 +121,11 @@ class Product extends \Magento\App\Action\Action
         /** @var \Magento\Stdlib\Cookie $cookie */
         $cookie = $this->_objectManager->get('Magento\Stdlib\Cookie');
 
-        /** @var \Magento\Core\Model\StoreManagerInterface $store */
-        $store = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface');
+        /** @var \Magento\Store\Model\StoreManagerInterface $store */
+        $store = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
 
         /** @var \Magento\Sendfriend\Model\Sendfriend $model */
-        $model  = $this->_objectManager->create('Magento\Sendfriend\Model\Sendfriend');
+        $model = $this->_objectManager->create('Magento\Sendfriend\Model\Sendfriend');
         $model->setRemoteAddr($remoteAddress->getRemoteAddress(true));
         $model->setCookie($cookie);
         $model->setWebsiteId($store->getStore()->getWebsiteId());
@@ -134,11 +138,12 @@ class Product extends \Magento\App\Action\Action
     /**
      * Show Send to a Friend Form
      *
+     * @return void
      */
     public function sendAction()
     {
-        $product    = $this->_initProduct();
-        $model      = $this->_initSendToFriendModel();
+        $product = $this->_initProduct();
+        $model = $this->_initSendToFriendModel();
 
         if (!$product) {
             $this->_forward('noroute');
@@ -172,6 +177,7 @@ class Product extends \Magento\App\Action\Action
     /**
      * Send Email Post Action
      *
+     * @return void
      */
     public function sendmailAction()
     {
@@ -179,9 +185,9 @@ class Product extends \Magento\App\Action\Action
             return $this->_redirect('*/*/send', array('_current' => true));
         }
 
-        $product    = $this->_initProduct();
-        $model      = $this->_initSendToFriendModel();
-        $data       = $this->getRequest()->getPost();
+        $product = $this->_initProduct();
+        $model = $this->_initSendToFriendModel();
+        $data = $this->getRequest()->getPost();
 
         if (!$product || !$data) {
             $this->_forward('noroute');
@@ -190,8 +196,7 @@ class Product extends \Magento\App\Action\Action
 
         $categoryId = $this->getRequest()->getParam('cat_id', null);
         if ($categoryId) {
-            $category = $this->_objectManager->create('Magento\Catalog\Model\Category')
-                ->load($categoryId);
+            $category = $this->_objectManager->create('Magento\Catalog\Model\Category')->load($categoryId);
             $product->setCategory($category);
             $this->_coreRegistry->register('current_category', $category);
         }
@@ -210,8 +215,7 @@ class Product extends \Magento\App\Action\Action
                 $url = $product->getProductUrl();
                 $this->getResponse()->setRedirect($this->_redirect->success($url));
                 return;
-            }
-            else {
+            } else {
                 if (is_array($validate)) {
                     foreach ($validate as $errorMessage) {
                         $this->messageManager->addError($errorMessage);
@@ -220,7 +224,7 @@ class Product extends \Magento\App\Action\Action
                     $this->messageManager->addError(__('We found some problems with the data.'));
                 }
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Some emails were not sent.'));
@@ -229,9 +233,7 @@ class Product extends \Magento\App\Action\Action
         // save form data
         $catalogSession->setSendfriendFormData($data);
 
-        $url = $this->_objectManager
-            ->create('Magento\Core\Model\Url')
-            ->getUrl('*/*/send', array('_current' => true));
+        $url = $this->_objectManager->create('Magento\UrlInterface')->getUrl('*/*/send', array('_current' => true));
         $this->getResponse()->setRedirect($this->_redirect->error($url));
     }
 }

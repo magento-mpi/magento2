@@ -7,14 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+use Magento\DB\Select;
 
 /**
  * Cart product qty condition
  */
-namespace Magento\Reminder\Model\Rule\Condition\Cart;
-
-class Totalquantity
-    extends \Magento\Reminder\Model\Condition\AbstractCondition
+class Totalquantity extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * @var string
@@ -43,8 +43,7 @@ class Totalquantity
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(),
-            'label' => __('Items Quantity'));
+        return array('value' => $this->getType(), 'label' => __('Items Quantity'));
     }
 
     /**
@@ -54,17 +53,19 @@ class Totalquantity
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Total shopping cart items quantity %1 %2:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Total shopping cart items quantity %1 %2:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
      * Get SQL select for matching shopping cart products count
      *
-     * @param $customer
+     * @param null|int|\Zend_Db_Expr $customer
      * @param int|Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return Select
      */
     public function getConditionsSql($customer, $website)
     {

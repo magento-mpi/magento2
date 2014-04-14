@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
 
 /**
@@ -62,9 +61,7 @@ class DesignAbstraction extends \Magento\View\Element\Html\Select
     {
         if (!$this->getOptions()) {
             $this->addOption('', __('-- Please Select --'));
-            $layoutUpdateParams = array(
-                'theme' => $this->_getThemeInstance($this->getTheme()),
-            );
+            $layoutUpdateParams = array('theme' => $this->_getThemeInstance($this->getTheme()));
             $designAbstractions = $this->_appState->emulateAreaCode(
                 'frontend',
                 array($this->_getLayoutProcessor($layoutUpdateParams), 'getAllDesignAbstractions')
@@ -102,13 +99,14 @@ class DesignAbstraction extends \Magento\View\Element\Html\Select
      * Add design abstractions information to the options
      *
      * @param array $designAbstractions
+     * @return void
      */
     protected function _addDesignAbstractionOptions(array $designAbstractions)
     {
         $label = array();
         // Sort list of design abstractions by label
         foreach ($designAbstractions as $key => $row) {
-            $label[$key]  = $row['label'];
+            $label[$key] = $row['label'];
         }
         array_multisort($label, SORT_STRING, $designAbstractions);
 
@@ -119,7 +117,7 @@ class DesignAbstraction extends \Magento\View\Element\Html\Select
         $layoutProcessor = $this->_layoutProcessorFactory->create();
         foreach ($designAbstractions as $pageTypeName => $pageTypeInfo) {
             if ($layoutProcessor->isPageLayoutDesignAbstraction($pageTypeInfo)) {
-                    $pageLayouts[] = array('value' => $pageTypeName, 'label' => $pageTypeInfo['label']);
+                $pageLayouts[] = array('value' => $pageTypeName, 'label' => $pageTypeInfo['label']);
             } else {
                 $customLayouts[] = array('value' => $pageTypeName, 'label' => $pageTypeInfo['label']);
             }

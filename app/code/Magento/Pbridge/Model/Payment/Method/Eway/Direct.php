@@ -27,23 +27,57 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
      */
     protected $_code = 'eway_direct';
 
-    protected $_isGateway               = true;
-    protected $_canAuthorize            = false;
-    protected $_canCapture              = true;
-    protected $_canCapturePartial       = false;
-    protected $_canRefund               = false;
-    protected $_canVoid                 = false;
-    protected $_canUseInternal          = true;
-    protected $_canUseCheckout          = true;
-    protected $_canUseForMultishipping  = true;
-    protected $_canSaveCc               = true;
+    /**
+     * @var bool
+     */
+    protected $_isGateway = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canAuthorize = false;
+
+    /**
+     * @var bool
+     */
+    protected $_canCapture = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canCapturePartial = false;
+
+    /**
+     * @var bool
+     */
+    protected $_canRefund = false;
+
+    /**
+     * @var bool
+     */
+    protected $_canVoid = false;
+
+    /**
+     * @var bool
+     */
+    protected $_canUseInternal = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canUseCheckout = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canSaveCc = true;
 
     /**
      * Capturing method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
+     * @return $this
      */
     public function capture(\Magento\Object $payment, $amount)
     {

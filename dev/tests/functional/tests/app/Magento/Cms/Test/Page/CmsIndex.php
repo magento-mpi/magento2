@@ -61,14 +61,7 @@ class CmsIndex extends Page
      *
      * @var string
      */
-    protected $linksBlock = '.header .content .links';
-
-    /**
-     * Page Top Customer menu block
-     *
-     * @var string
-     */
-    protected $customerBlock = '.header .content .links';
+    protected $linksBlock = '.header .links';
 
     /**
      * Store switcher block path
@@ -144,25 +137,13 @@ class CmsIndex extends Page
     }
 
     /**
-     * Get customer menu block
-     *
-     * @return \Magento\Customer\Test\Block\Account\Customer
-     */
-    public function getCustomerMenuBlock()
-    {
-        return Factory::getBlockFactory()->getMagentoCustomerAccountCustomer(
-            $this->_browser->find($this->customerBlock, Locator::SELECTOR_CSS)
-        );
-    }
-
-    /**
      * Get store switcher
      *
-     * @return \Magento\Core\Test\Block\Switcher
+     * @return \Magento\Store\Test\Block\Switcher
      */
     public function getStoreSwitcherBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCoreSwitcher(
+        return Factory::getBlockFactory()->getMagentoStoreSwitcher(
             $this->_browser->find($this->storeSwitcherBlock, Locator::SELECTOR_XPATH)
         );
     }

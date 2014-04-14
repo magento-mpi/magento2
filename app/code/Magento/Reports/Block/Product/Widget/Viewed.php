@@ -7,23 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Product\Widget;
 
 /**
  * Reports Recently Viewed Products Widget
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Product\Widget;
-
-class Viewed
-    extends \Magento\Reports\Block\Product\Viewed
-    implements \Magento\Widget\Block\BlockInterface
+class Viewed extends \Magento\Reports\Block\Product\Viewed implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Internal constructor
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,10 +28,5 @@ class Viewed
             ->addColumnCountLayoutDepend('two_columns_left', 4)
             ->addColumnCountLayoutDepend('two_columns_right', 4)
             ->addColumnCountLayoutDepend('three_columns', 3);
-        $this->addPriceBlockType(
-            'bundle',
-            'Magento\Bundle\Block\Catalog\Product\Price',
-            'catalog/product/price.phtml'
-        );
     }
 }

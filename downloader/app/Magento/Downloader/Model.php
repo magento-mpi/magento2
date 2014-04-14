@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloader;
 
 /**
  * Class Model
@@ -15,21 +16,18 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloader;
-
 class Model
 {
-
     /**
-    * Internal cache
-    *
-    * @var array
-    */
+     * Internal cache
+     *
+     * @var array
+     */
     protected $_data;
 
     /**
-    * Constructor
-    */
+     * Constructor
+     */
     public function __construct()
     {
         $args = func_get_args();
@@ -42,29 +40,31 @@ class Model
     }
 
     /**
-    * Constructor for covering
-    */
+     * Constructor for covering
+     *
+     * @return void
+     */
     protected function _construct()
     {
-
     }
 
     /**
-    * Retrieve controller
-    * @return \Magento\Downloader\Controller
-    */
+     * Retrieve controller
+     *
+     * @return \Magento\Downloader\Controller
+     */
     public function controller()
     {
         return \Magento\Downloader\Controller::singleton();
     }
 
     /**
-    * Set value for key
-    *
-    * @param string $key
-    * @param mixed $value
-    * @return \Magento\Downloader\Model
-    */
+     * Set value for key
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return \Magento\Downloader\Model
+     */
     public function set($key, $value)
     {
         $this->_data[$key] = $value;
@@ -72,11 +72,11 @@ class Model
     }
 
     /**
-    * Get value by key
-    *
-    * @param string $key
-    * @return mixed
-    */
+     * Get value by key
+     *
+     * @param string $key
+     * @return mixed
+     */
     public function get($key)
     {
         return isset($this->_data[$key]) ? $this->_data[$key] : null;

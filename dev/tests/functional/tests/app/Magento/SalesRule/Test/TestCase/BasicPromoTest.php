@@ -48,21 +48,21 @@ class BasicPromoTest extends Functional
         $salesRulePage = Factory::getPageFactory()->getSalesRulePromoQuote();
         $salesRulePage->open();
         // Click on Plus Sign
-        $salesRulePage->getPromoQuoteGrid()->clickAddNew();
+        $salesRulePage->getActionsBlock()->addNew();
         $salesRulePageNew = Factory::getPageFactory()->getSalesRulePromoQuoteNew();
         $newSalesRuleForm = $salesRulePageNew->getPromoQuoteForm();
         // Use fixture to populate
         $newSalesRuleForm->fill($fixture);
         // Setup Condition open tab
-        $salesRulePageNew->getConditionsFormTab()->openTab($salesRulePageNew->getConditionsTabId());
+        $newSalesRuleForm->openTab('conditions');
         // Add New Condition
         $salesRulePageNew->getConditionsTab()->addCustomerSegmentCondition($fixture, $customerSegmentId);
         // Setup Discount
-        $salesRulePageNew->getActionsFormTab()->openTab($salesRulePageNew->getActionsTabId());
+        $newSalesRuleForm->openTab('actions');
         $conditionsFixture = Factory::getFixtureFactory()->getMagentoSalesRuleSalesRule();
         $conditionsFixture->switchData(Repository::ACTIONS);
         $salesRulePageNew->getPromoQuoteForm()->fill($conditionsFixture);
-        $newSalesRuleForm->save();
+        $salesRulePageNew->getPageActionsBlock()->save();
         // Verify success message
         $this->assertContains(
             'The rule has been saved.',

@@ -7,28 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit;
 
 /**
  * RMA Items Attributes Edit JavaScript Block
  *
- * @category    Magento
- * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit;
-
-class Js
-    extends \Magento\Backend\Block\Template
+class Js extends \Magento\Backend\Block\Template
 {
     /**
      * Rma eav
      *
-     * @var \Magento\CustomAttribute\Helper\Data
+     * @var \Magento\CustomAttributeManagement\Helper\Data
      */
     protected $_attributeHelper = null;
 
     /**
+     * Json encoder interface
+     *
      * @var \Magento\Json\EncoderInterface
      */
     protected $_jsonEncoder;
@@ -36,13 +33,13 @@ class Js
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\CustomAttribute\Helper\Data $attributeHelper
+     * @param \Magento\CustomAttributeManagement\Helper\Data $attributeHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\CustomAttribute\Helper\Data $attributeHelper,
+        \Magento\CustomAttributeManagement\Helper\Data $attributeHelper,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
@@ -57,9 +54,7 @@ class Js
      */
     public function getValidateFiltersJson()
     {
-        return $this->_jsonEncoder->encode(
-            $this->_attributeHelper->getAttributeValidateFilters()
-        );
+        return $this->_jsonEncoder->encode($this->_attributeHelper->getAttributeValidateFilters());
     }
 
     /**
@@ -69,9 +64,7 @@ class Js
      */
     public function getFilteTypesJson()
     {
-        return $this->_jsonEncoder->encode(
-            $this->_attributeHelper->getAttributeFilterTypes()
-        );
+        return $this->_jsonEncoder->encode($this->_attributeHelper->getAttributeFilterTypes());
     }
 
     /**

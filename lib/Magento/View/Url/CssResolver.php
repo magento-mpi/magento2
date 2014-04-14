@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\View\Url;
 
 /**
@@ -16,27 +15,31 @@ class CssResolver
     /**
      * PCRE that matches non-absolute URLs in CSS content
      */
-    const REGEX_CSS_RELATIVE_URLS
-        = '#url\s*\(\s*(?(?=\'|").)(?!http\://|https\://|/|data\:)(.+?)(?:[\#\?].*?|[\'"])?\s*\)#';
+    const REGEX_CSS_RELATIVE_URLS =
+        '#url\s*\(\s*(?(?=\'|").)(?!http\://|https\://|/|data\:)(.+?)(?:[\#\?].*?|[\'"])?\s*\)#';
 
     /**
-     * @var \Magento\Filesystem
+     * File system
+     *
+     * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
     /**
+     * View file system
+     *
      * @var \Magento\View\FileSystem
      */
     protected $viewFileSystem;
 
     /**
-     * @param \Magento\Filesystem $filesystem
+     * Constructor
+     *
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\FileSystem $viewFileSystem
      */
-    public function __construct(
-        \Magento\Filesystem $filesystem,
-        \Magento\View\FileSystem $viewFileSystem
-    ) {
+    public function __construct(\Magento\App\Filesystem $filesystem, \Magento\View\FileSystem $viewFileSystem)
+    {
         $this->filesystem = $filesystem;
         $this->viewFileSystem = $viewFileSystem;
     }
@@ -50,23 +53,19 @@ class CssResolver
      * @param string $originalPath
      * @param string $newPath
      * @param callable|null $cbRelUrlToPublicPath Optional custom callback to resolve relative urls to file paths
-     * @return mixed
+     * @return string
      */
     public function replaceCssRelativeUrls($cssContent, $originalPath, $newPath, $cbRelUrlToPublicPath = null)
     {
-        $originalPath = $this->viewFileSystem->normalizePath($originalPath);
-        $newPath = $this->viewFileSystem->normalizePath($newPath);
         $relativeUrls = $this->_extractCssRelativeUrls($cssContent);
         foreach ($relativeUrls as $urlNotation => $originalRelativeUrl) {
             if ($cbRelUrlToPublicPath) {
-                $filePath = call_user_func($cbRelUrlToPublicPath, $originalRelativeUrl, $originalPath);
+                $filePath = call_user_func($cbRelUrlToPublicPath, $originalRelativeUrl);
             } else {
                 $filePath = dirname($originalPath) . '/' . $originalRelativeUrl;
             }
             $filePath = $this->viewFileSystem->normalizePath(str_replace('\\', '/', $filePath));
-            $relativePath = $this->_getFileRelativePath(
-                str_replace('\\', '/', $newPath), $filePath
-            );
+            $relativePath = $this->_getFileRelativePath(str_replace('\\', '/', $newPath), $filePath);
             $urlNotationNew = str_replace($originalRelativeUrl, $relativePath, $urlNotation);
             $cssContent = str_replace($urlNotation, $urlNotationNew, $cssContent);
         }
@@ -108,7 +107,7 @@ class CssResolver
          * Thus, calculating relative path is not possible in general case. So we just assume,
          * that urls follow the structure of directory paths.
          */
-        $topDir = $this->filesystem->getPath(\Magento\Filesystem::ROOT);
+        $topDir = $this->filesystem->getPath(\Magento\App\Filesystem::ROOT_DIR);
         if (strpos($file, $topDir) !== 0 || strpos($referencedFile, $topDir) !== 0) {
             throw new \Magento\Exception('Offset can be calculated for internal resources only.');
         }

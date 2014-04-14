@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Report\Collection;
 
 /**
  * Report collection abstract model
@@ -16,17 +16,14 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Report\Collection;
-
-class AbstractCollection
-    extends \Magento\Reports\Model\Resource\Report\Collection\AbstractCollection
+class AbstractCollection extends \Magento\Reports\Model\Resource\Report\Collection\AbstractCollection
 {
     /**
      * Order status
      *
      * @var string
      */
-    protected $_orderStatus        = null;
+    protected $_orderStatus = null;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -34,7 +31,7 @@ class AbstractCollection
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Resource\Report $resource
-     * @param mixed $connection
+     * @param \Zend_Db_Adapter_Abstract $connection
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -52,7 +49,7 @@ class AbstractCollection
      * Set status filter
      *
      * @param string $orderStatus
-     * @return \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
+     * @return $this
      */
     public function addOrderStatusFilter($orderStatus)
     {
@@ -63,7 +60,7 @@ class AbstractCollection
     /**
      * Apply order status filter
      *
-     * @return \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
+     * @return $this
      */
     protected function _applyOrderStatusFilter()
     {
@@ -81,7 +78,7 @@ class AbstractCollection
     /**
      * Order status filter is custom for this collection
      *
-     * @return \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
+     * @return $this
      */
     protected function _applyCustomFilter()
     {

@@ -28,28 +28,66 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
     protected $_code = 'payone_gate';
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $_allowCurrencyCode = array('EUR');
 
-    protected $_isGateway               = true;
-    protected $_canAuthorize            = true;
-    protected $_canCapture              = true;
-    protected $_canCapturePartial       = false;
-    protected $_canRefund               = true;
+    /**
+     * @var bool
+     */
+    protected $_isGateway = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canAuthorize = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canCapture = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canCapturePartial = false;
+
+    /**
+     * @var bool
+     */
+    protected $_canRefund = true;
+
+    /**
+     * @var bool
+     */
     protected $_canRefundInvoicePartial = false;
-    protected $_canVoid                 = false;
-    protected $_canUseInternal          = true;
-    protected $_canUseCheckout          = true;
-    protected $_canUseForMultishipping  = false;
-    protected $_canSaveCc               = false;
+
+    /**
+     * @var bool
+     */
+    protected $_canVoid = false;
+
+    /**
+     * @var bool
+     */
+    protected $_canUseInternal = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canUseCheckout = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canSaveCc = false;
 
     /**
      * Authorization method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
+     * @return $this
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -63,7 +101,7 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
+     * @return $this
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -80,7 +118,7 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
+     * @return $this
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -93,7 +131,7 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
      * Voiding method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
-     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
+     * @return $this
      */
     public function void(\Magento\Object $payment)
     {

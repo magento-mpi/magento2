@@ -11,36 +11,45 @@
  */
 namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
 
-class Form extends \Magento\Backend\Block\Widget\Form\Generic
+use Magento\Backend\Block\Template\Context;
+use Magento\Backend\Block\Widget\Form\Generic;
+use Magento\Backend\Helper\Data;
+use Magento\Catalog\Model\Category as ModelCategory;
+use Magento\Catalog\Model\CategoryFactory;
+use Magento\CatalogEvent\Model\Event;
+use Magento\Registry;
+use Magento\Data\FormFactory;
+
+class Form extends Generic
 {
     /**
      * Adminhtml data
      *
-     * @var \Magento\Backend\Helper\Data
+     * @var Data
      */
     protected $_adminhtmlData = null;
 
     /**
      * Category model factory
      *
-     * @var \Magento\Catalog\Model\CategoryFactory
+     * @var CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Backend\Helper\Data $adminhtmlData
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param Context $context
+     * @param Registry $registry
+     * @param FormFactory $formFactory
+     * @param Data $adminhtmlData
+     * @param CategoryFactory $categoryFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Backend\Helper\Data $adminhtmlData,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        Context $context,
+        Registry $registry,
+        FormFactory $formFactory,
+        Data $adminhtmlData,
+        CategoryFactory $categoryFactory,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
@@ -79,110 +88,123 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepares event edit form
      *
-     * @return \Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'data' => array(
-                'id'      => 'edit_form',
-                'action'  => $this->getActionUrl(),
-                'method'  => 'post',
-                'field_name_suffix' => 'catalogevent',
-                'enctype' => 'multipart/form-data',
-            ))
+        $form = $this->_formFactory->create(
+            array(
+                'data' => array(
+                    'id' => 'edit_form',
+                    'action' => $this->getActionUrl(),
+                    'method' => 'post',
+                    'field_name_suffix' => 'catalogevent',
+                    'enctype' => 'multipart/form-data'
+                )
+            )
         );
 
         $form->setHtmlIdPrefix('event_edit_');
 
-        $fieldset = $form->addFieldset('general_fieldset',
-            array(
-                'legend' => __('Catalog Event Information'),
-                'class'  => 'fieldset-wide'
-            )
+        $fieldset = $form->addFieldset(
+            'general_fieldset',
+            array('legend' => __('Catalog Event Information'), 'class' => 'fieldset-wide')
         );
 
         $this->_addElementTypes($fieldset);
 
-        /** @var \Magento\Catalog\Model\Category $currentCategory */
+        /** @var ModelCategory $currentCategory */
         $currentCategory = $this->_categoryFactory->create()->load($this->getEvent()->getCategoryId());
 
-        $fieldset->addField('category_name', 'note',
+        $fieldset->addField('category_name', 'note', array('id' => 'category_span', 'label' => __('Category')));
+
+        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        $timeFormat = $this->_localeDate->getTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+
+        $fieldset->addField(
+            'date_start',
+            'date',
             array(
-                'id'    => 'category_span',
-                'label' => __('Category')
+                'label' => __('Start Date'),
+                'name' => 'date_start',
+                'required' => true,
+                'image' => $this->getViewFileUrl('images/grid-cal.gif'),
+                'date_format' => $dateFormat,
+                'time_format' => $timeFormat
             )
         );
 
-        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
-        $timeFormat = $this->_locale->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
-
-        $fieldset->addField('date_start', 'date', array(
-                'label'        => __('Start Date'),
-                'name'         => 'date_start',
-                'required'     => true,
-                'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
-                'date_format'  => $dateFormat,
-                'time_format'  => $timeFormat
-            ));
-
-        $fieldset->addField('date_end', 'date', array(
-                'label'        => __('End Date'),
-                'name'         => 'date_end', 'required' => true,
-                'image'        => $this->getViewFileUrl('images/grid-cal.gif'),
-                'date_format'  => $dateFormat,
-                'time_format'  => $timeFormat
-            ));
-
-        $fieldset->addField('image', 'image', array(
-                'label' => __('Image'),
-                'scope' => 'store',
-                'name'  => 'image'
-             )
+        $fieldset->addField(
+            'date_end',
+            'date',
+            array(
+                'label' => __('End Date'),
+                'name' => 'date_end',
+                'required' => true,
+                'image' => $this->getViewFileUrl('images/grid-cal.gif'),
+                'date_format' => $dateFormat,
+                'time_format' => $timeFormat
+            )
         );
 
-        $fieldset->addField('sort_order', 'text', array(
-                'label' => __('Sort Order'),
-                'name'  => 'sort_order',
-                'class' => 'validate-num qty'
-             )
+        $fieldset->addField('image', 'image', array('label' => __('Image'), 'scope' => 'store', 'name' => 'image'));
+
+        $fieldset->addField(
+            'sort_order',
+            'text',
+            array('label' => __('Sort Order'), 'name' => 'sort_order', 'class' => 'validate-num qty')
         );
 
         $statuses = array(
-            \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING => __('Upcoming'),
-            \Magento\CatalogEvent\Model\Event::STATUS_OPEN => __('Open'),
-            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED => __('Closed')
+            Event::STATUS_UPCOMING => __('Upcoming'),
+            Event::STATUS_OPEN => __('Open'),
+            Event::STATUS_CLOSED => __('Closed')
         );
 
-        $fieldset->addField('display_state_array', 'checkboxes', array(
-                'label'  => __('Display Countdown Ticker On'),
-                'name'   => 'display_state[]',
+        $fieldset->addField(
+            'display_state_array',
+            'checkboxes',
+            array(
+                'label' => __('Display Countdown Ticker On'),
+                'name' => 'display_state[]',
                 'values' => array(
-                    \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE => __('Category Page'),
-                    \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE => __('Product Page')
+                    Event::DISPLAY_CATEGORY_PAGE => __('Category Page'),
+                    Event::DISPLAY_PRODUCT_PAGE => __('Product Page')
                 )
-            ));
+            )
+        );
 
         if ($this->getEvent()->getId()) {
-            $fieldset->addField('status', 'note', array(
+            $fieldset->addField(
+                'status',
+                'note',
+                array(
                     'label' => __('Status'),
-                    'text'  => ($this->getEvent()->getStatus() ? $statuses[$this->getEvent()->getStatus()] : $statuses[\Magento\CatalogEvent\Model\Event::STATUS_UPCOMING])
-            ));
+                    'text' => $this->getEvent()
+                        ->getStatus() ? $statuses[$this
+                        ->getEvent()
+                        ->getStatus()] : $statuses[\Magento\CatalogEvent\Model\Event::STATUS_UPCOMING]
+                )
+            );
         }
 
         $form->setValues($this->getEvent()->getData());
 
         if ($currentCategory && $this->getEvent()->getId()) {
-            $form->getElement('category_name')->setText(
-                '<a href="' . $this->_adminhtmlData->getUrl('catalog/category/edit',
-                                                            array('clear' => 1, 'id' => $currentCategory->getId()))
-                . '">' . $currentCategory->getName() . '</a>'
+            $form->getElement(
+                'category_name'
+            )->setText(
+                '<a href="' . $this->_adminhtmlData->getUrl(
+                    'catalog/category/edit',
+                    array('clear' => 1, 'id' => $currentCategory->getId())
+                ) . '">' . $currentCategory->getName() . '</a>'
             );
         } else {
-            $form->getElement('category_name')->setText(
-                '<a href="' . $this->getParentBlock()->getBackUrl()
-                . '">' . $currentCategory->getName() . '</a>'
+            $form->getElement(
+                'category_name'
+            )->setText(
+                '<a href="' . $this->getParentBlock()->getBackUrl() . '">' . $currentCategory->getName() . '</a>'
             );
         }
 
@@ -214,7 +236,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Retrieve catalog event model
      *
-     * @return \Magento\CatalogEvent\Model\Event
+     * @return Event
      */
     public function getEvent()
     {

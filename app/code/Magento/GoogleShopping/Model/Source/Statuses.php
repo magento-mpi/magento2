@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Model\Source;
 
 /**
  * Google Content Item statues Source
@@ -15,8 +16,6 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Model\Source;
-
 class Statuses
 {
     /**
@@ -26,9 +25,6 @@ class Statuses
      */
     public function getStatuses()
     {
-        return array(
-            '0' => __('Yes'),
-            '1' => __('No')
-        );
+        return array('0' => __('Yes'), '1' => __('No'));
     }
 }

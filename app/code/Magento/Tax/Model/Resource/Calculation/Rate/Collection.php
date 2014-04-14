@@ -14,10 +14,10 @@
  */
 namespace Magento\Tax\Model\Resource\Calculation\Rate;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -26,18 +26,18 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
@@ -45,6 +45,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -54,7 +56,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Join country table to result
      *
-     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
+     * @return $this
      */
     public function joinCountryTable()
     {
@@ -70,7 +72,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Join Region Table
      *
-     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
+     * @return $this
      */
     public function joinRegionTable()
     {
@@ -85,15 +87,18 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Join rate title for specified store
      *
-     * @param \Magento\Core\Model\Store|string|int $store
-     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
+     * @param \Magento\Store\Model\Store|string|int $store
+     * @return $this
      */
     public function joinTitle($store = null)
     {
         $storeId = (int)$this->_storeManager->getStore($store)->getId();
         $this->_select->joinLeft(
             array('title_table' => $this->getTable('tax_calculation_rate_title')),
-            $this->getConnection()->quoteInto('main_table.tax_calculation_rate_id = title_table.tax_calculation_rate_id AND title_table.store_id = ?', $storeId),
+            $this->getConnection()->quoteInto(
+                'main_table.tax_calculation_rate_id = title_table.tax_calculation_rate_id AND title_table.store_id = ?',
+                $storeId
+            ),
             array('title' => 'value')
         );
 
@@ -103,17 +108,20 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Joins store titles for rates
      *
-     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
+     * @return $this
      */
     public function joinStoreTitles()
     {
-        $storeCollection =  $this->_storeManager->getStores(true);
+        $storeCollection = $this->_storeManager->getStores(true);
         foreach ($storeCollection as $store) {
-            $tableAlias    = sprintf('title_table_%s', $store->getId());
-            $joinCondition = implode(' AND ', array(
-                "main_table.tax_calculation_rate_id = {$tableAlias}.tax_calculation_rate_id",
-                $this->getConnection()->quoteInto($tableAlias . '.store_id = ?', $store->getId())
-            ));
+            $tableAlias = sprintf('title_table_%s', $store->getId());
+            $joinCondition = implode(
+                ' AND ',
+                array(
+                    "main_table.tax_calculation_rate_id = {$tableAlias}.tax_calculation_rate_id",
+                    $this->getConnection()->quoteInto($tableAlias . '.store_id = ?', $store->getId())
+                )
+            );
             $this->_select->joinLeft(
                 array($tableAlias => $this->getTable('tax_calculation_rate_title')),
                 $joinCondition,
@@ -127,7 +135,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add rate filter
      *
      * @param int $rateId
-     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Collection
+     * @return $this
      */
     public function addRateFilter($rateId)
     {
@@ -160,15 +168,18 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Convert items array to hash for select options
-     * unsing fetchItem method
+     * using fetchItem method
      *
-     * @see     _toOptionHashOptimized()
+     * @see fetchItem()
      *
-     * @return  array
+     * @return array
      */
     public function toOptionHashOptimized()
     {
-        return $this->_toOptionHashOptimized('tax_calculation_rate_id', 'code');
+        $result = array();
+        while ($item = $this->fetchItem()) {
+            $result[$item->getData('tax_calculation_rate_id')] = $item->getData('code');
+        }
+        return $result;
     }
 }
-

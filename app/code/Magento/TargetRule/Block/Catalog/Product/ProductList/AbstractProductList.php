@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
+
+use Magento\Model\Exception;
 
 /**
  * TargetRule Catalog Product List Abstract Block
@@ -17,8 +18,8 @@ namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
  * @package    Magento_TargetRule
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-abstract class AbstractProductList
-    extends \Magento\TargetRule\Block\Product\AbstractProduct
+abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\AbstractProduct implements
+    \Magento\View\Block\IdentityInterface
 {
     /**
      * TargetRule Index instance
@@ -57,66 +58,36 @@ abstract class AbstractProductList
     protected $_productCollectionFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
-     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
-     * @param \Magento\Theme\Helper\Layout $layoutHelper
-     * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\TargetRule\Model\Resource\Index $index
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param array $data
-     * 
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @param array $priceBlockTypes
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Catalog\Block\Product\Context $context,
         \Magento\TargetRule\Model\Resource\Index $index,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_visibility = $visibility;
         $this->_indexFactory = $indexFactory;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
             $index,
             $targetRuleData,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
-
 
     /**
      * Retrieve current product instance (if actual and available)
@@ -133,6 +104,7 @@ abstract class AbstractProductList
      * without last underscore
      *
      * @return string
+     * @throws Exception
      */
     protected function _getTypePrefix()
     {
@@ -146,7 +118,7 @@ abstract class AbstractProductList
                 break;
 
             default:
-                throw new \Magento\Core\Exception(__('Undefined Catalog Product List Type'));
+                throw new Exception(__('Undefined Catalog Product List Type'));
         }
         return $prefix;
     }
@@ -192,7 +164,8 @@ abstract class AbstractProductList
     public function getPositionLimit()
     {
         $limit = $this->getProduct()->getData($this->_getPositionLimitField());
-        if (is_null($limit)) { // use configuration settings
+        if (is_null($limit)) {
+            // use configuration settings
             $limit = $this->_targetRuleData->getMaximumNumberOfProduct($this->getProductListType());
             $this->getProduct()->setData($this->_getPositionLimitField(), $limit);
         }
@@ -207,7 +180,8 @@ abstract class AbstractProductList
     public function getPositionBehavior()
     {
         $behavior = $this->getProduct()->getData($this->_getPositionBehaviorField());
-        if (is_null($behavior)) { // use configuration settings
+        if (is_null($behavior)) {
+            // use configuration settings
             $behavior = $this->_targetRuleData->getShowProducts($this->getProductListType());
             $this->getProduct()->setData($this->_getPositionBehaviorField(), $behavior);
         }
@@ -230,26 +204,24 @@ abstract class AbstractProductList
     /**
      * Get link collection with limit parameter
      *
-     * @throws \Magento\Core\Exception
      * @param null|int $limit
      * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection|null
+     * @throws Exception
      */
     protected function _getPreparedTargetLinkCollection($limit = null)
     {
         $linkCollection = null;
         switch ($this->getProductListType()) {
             case \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS:
-                $linkCollection = $this->getProduct()
-                    ->getRelatedProductCollection();
+                $linkCollection = $this->getProduct()->getRelatedProductCollection();
                 break;
 
             case \Magento\TargetRule\Model\Rule::UP_SELLS:
-                $linkCollection = $this->getProduct()
-                    ->getUpSellProductCollection();
+                $linkCollection = $this->getProduct()->getUpSellProductCollection();
                 break;
 
             default:
-                throw new \Magento\Core\Exception(__('Undefined Catalog Product List Type'));
+                throw new Exception(__('Undefined Catalog Product List Type'));
         }
 
         if (!is_null($limit)) {
@@ -257,9 +229,12 @@ abstract class AbstractProductList
             $linkCollection->setPageSize($limit);
         }
 
-        $linkCollection
-            ->setVisibility($this->_visibility->getVisibleInCatalogIds())
-            ->setFlag('do_not_use_category_id', true);
+        $linkCollection->setVisibility(
+            $this->_visibility->getVisibleInCatalogIds()
+        )->setFlag(
+            'do_not_use_category_id',
+            true
+        );
 
         $excludeProductIds = $this->getExcludeProductIds();
         if ($excludeProductIds) {
@@ -276,7 +251,7 @@ abstract class AbstractProductList
      */
     protected function _getTargetLinkCollection()
     {
-        return $this->_getPreparedTargetLinkCollection($this->getPositionLimit());
+        return $this->_getPreparedTargetLinkCollection($this->_targetRuleData->getMaxProductsListResult());
     }
 
     /**
@@ -301,11 +276,15 @@ abstract class AbstractProductList
         if (!is_null($this->_items)) {
             $excludeProductIds = array_merge(array_keys($this->_items), $excludeProductIds);
         }
-        $indexModel = $this->_getTargetRuleIndex()
-            ->setType($this->getProductListType())
-            ->setLimit($limit)
-            ->setProduct($this->getProduct())
-            ->setExcludeProductIds($excludeProductIds);
+        $indexModel = $this->_getTargetRuleIndex()->setType(
+            $this->getProductListType()
+        )->setLimit(
+            $limit
+        )->setProduct(
+            $this->getProduct()
+        )->setExcludeProductIds(
+            $excludeProductIds
+        );
         if (!is_null($limit)) {
             $indexModel->setLimit($limit);
         }
@@ -320,7 +299,7 @@ abstract class AbstractProductList
      */
     protected function _getTargetRuleProducts()
     {
-        $limit = $this->getPositionLimit();
+        $limit = $this->_targetRuleData->getMaxProductsListResult();
 
         $productIds = $this->_getTargetRuleProductIds($limit);
 
@@ -331,9 +310,14 @@ abstract class AbstractProductList
             $collection->addFieldToFilter('entity_id', array('in' => $productIds));
             $this->_addProductAttributesAndPrices($collection);
 
-            $collection->setPageSize($limit)
-                ->setFlag('do_not_use_category_id', true)
-                ->setVisibility($this->_visibility->getVisibleInCatalogIds());
+            $collection->setPageSize(
+                $limit
+            )->setFlag(
+                'do_not_use_category_id',
+                true
+            )->setVisibility(
+                $this->_visibility->getVisibleInCatalogIds()
+            );
 
             foreach ($collection as $item) {
                 $items[$item->getEntityId()] = $item;
@@ -387,5 +371,29 @@ abstract class AbstractProductList
         }
 
         return $this->_allProductIds;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $identities = array();
+        foreach ($this->getItemCollection() as $item) {
+            $identities = array_merge($identities, $item->getIdentities());
+        }
+        return $identities;
+    }
+
+    /**
+     * Get all items
+     *
+     * @return array
+     */
+    public function getAllItems()
+    {
+        return $this->getItemCollection();
     }
 }

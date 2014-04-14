@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Rma\Create;
 
 /**
  * Admin RMA create form header
@@ -15,26 +16,23 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Rma\Block\Adminhtml\Rma\Create;
-
 abstract class AbstractCreate extends \Magento\Backend\Block\Widget
 {
-     /**
+    /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -105,6 +103,7 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
      * Set Customer Id
      *
      * @param int $id
+     * @return void
      */
     public function setCustomerId($id)
     {
@@ -115,10 +114,10 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
      * Set Order Id
      *
      * @param int $id
+     * @return mixed
      */
     public function setOrderId($id)
     {
         return $this->getCreateRmaModel()->setOrderId($id);
     }
-
 }

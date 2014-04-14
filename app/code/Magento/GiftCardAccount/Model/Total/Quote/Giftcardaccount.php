@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Model\Total\Quote;
+
+use Magento\Sales\Model\Quote;
 
 class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
@@ -45,7 +46,7 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
      * Collect giftcertificate totals for specified address
      *
      * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\GiftCardAccount\Model\Total\Quote\Giftcardaccount
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -121,6 +122,10 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
         return $this;
     }
 
+    /**
+     * @param Quote $quote
+     * @return void
+     */
     protected function _collectQuoteGiftCards($quote)
     {
         if (!$quote->getGiftCardsTotalCollected()) {
@@ -133,7 +138,7 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
             $baseAmount = 0;
             $amount = 0;
             $cards = $this->_giftCardAccountData->getCards($quote);
-            foreach ($cards as $k=>&$card) {
+            foreach ($cards as $k => &$card) {
                 $model = $this->_giftCAFactory->create()->load($card['i']);
                 if ($model->isExpired() || $model->getBalance() == 0) {
                     unset($cards[$k]);
@@ -158,7 +163,7 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
      * Return shopping cart total row items
      *
      * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\GiftCardAccount\Model\Total\Quote\Giftcardaccount
+     * @return $this
      */
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -167,27 +172,38 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
         } else {
             $giftCards = $this->_giftCardAccountData->getCards($address);
         }
-        $address->addTotal(array(
-            'code'=>$this->getCode(),
-            'title'=>__('Gift Cards'),
-            'value'=>-$address->getGiftCardsAmount(),
-            'gift_cards'=>$giftCards,
-        ));
+        $address->addTotal(
+            array(
+                'code' => $this->getCode(),
+                'title' => __('Gift Cards'),
+                'value' => -$address->getGiftCardsAmount(),
+                'gift_cards' => $giftCards
+            )
+        );
 
         return $this;
     }
 
+    /**
+     * @param array $in
+     * @return mixed
+     */
     protected function _sortGiftCards($in)
     {
         usort($in, array($this, 'compareGiftCards'));
         return $in;
     }
 
+    /**
+     * @param array $a
+     * @param array $b
+     * @return int
+     */
     public static function compareGiftCards($a, $b)
     {
         if ($a['ba'] == $b['ba']) {
             return 0;
         }
-        return ($a['ba'] > $b['ba']) ? 1 : -1;
+        return $a['ba'] > $b['ba'] ? 1 : -1;
     }
 }

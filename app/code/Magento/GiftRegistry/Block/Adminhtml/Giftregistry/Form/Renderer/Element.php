@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Form\Renderer;
 
 /**
  * Gift registry form fieldset element renderer
@@ -14,11 +15,11 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Form\Renderer;
-
-class Element
-    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
+class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
+    /**
+     * @var string
+     */
     protected $_template = 'form/renderer/element.phtml';
 
     /**
@@ -39,11 +40,12 @@ class Element
     public function canDisplayUseDefault()
     {
         if ($element = $this->getElement()) {
-            if ($element->getScope() != 'global'
-                && $element->getScope() != null
-                && $this->getDataObject()
-                && $this->getDataObject()->getId()
-                && $this->getDataObject()->getStoreId()) {
+            if ($element->getScope() != 'global' &&
+                $element->getScope() != null &&
+                $this->getDataObject() &&
+                $this->getDataObject()->getId() &&
+                $this->getDataObject()->getStoreId()
+            ) {
                 return true;
             }
         }
@@ -64,7 +66,7 @@ class Element
     /**
      * Disable field in default value using case
      *
-     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Form\Renderer\Element
+     * @return $this
      */
     public function checkFieldDisable()
     {

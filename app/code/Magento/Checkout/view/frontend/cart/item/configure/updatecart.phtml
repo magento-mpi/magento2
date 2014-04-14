@@ -6,12 +6,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var $this \Magento\Catalog\Block\Product\View */
 ?>
 <?php $_product = $this->getProduct(); ?>
 <?php $buttonTitle = __('Update Cart'); ?>
 <?php if ($_product->isSaleable()): ?>
     <div class="box tocart update">
-        <?php if (!$_product->isGrouped()): ?>
+        <?php if ($this->shouldRenderQuantity()): ?>
         <div class="field qty">
             <label class="label" for="qty"><span><?php echo __('Qty') ?></span></label>
             <div class="control">

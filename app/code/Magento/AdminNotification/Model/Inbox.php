@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdminNotification\Model;
 
 /**
  * AdminNotification Inbox model
@@ -32,15 +33,19 @@
  * @package     Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdminNotification\Model;
-
-class Inbox extends \Magento\Core\Model\AbstractModel
+class Inbox extends \Magento\Model\AbstractModel
 {
     const SEVERITY_CRITICAL = 1;
-    const SEVERITY_MAJOR    = 2;
-    const SEVERITY_MINOR    = 3;
-    const SEVERITY_NOTICE   = 4;
 
+    const SEVERITY_MAJOR = 2;
+
+    const SEVERITY_MINOR = 3;
+
+    const SEVERITY_NOTICE = 4;
+
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\AdminNotification\Model\Resource\Inbox');
@@ -49,15 +54,16 @@ class Inbox extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve Severity collection array
      *
-     * @return array|string
+     * @param int|null $severity
+     * @return array|string|null
      */
     public function getSeverities($severity = null)
     {
         $severities = array(
             self::SEVERITY_CRITICAL => __('critical'),
-            self::SEVERITY_MAJOR    => __('major'),
-            self::SEVERITY_MINOR    => __('minor'),
-            self::SEVERITY_NOTICE   => __('notice'),
+            self::SEVERITY_MAJOR => __('major'),
+            self::SEVERITY_MINOR => __('minor'),
+            self::SEVERITY_NOTICE => __('notice')
         );
 
         if (!is_null($severity)) {
@@ -73,7 +79,7 @@ class Inbox extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve Latest Notice
      *
-     * @return \Magento\AdminNotification\Model\Inbox
+     * @return $this
      */
     public function loadLatestNotice()
     {
@@ -96,7 +102,7 @@ class Inbox extends \Magento\Core\Model\AbstractModel
      * Parse and save new data
      *
      * @param array $data
-     * @return \Magento\AdminNotification\Model\Inbox
+     * @return $this
      */
     public function parse(array $data)
     {
@@ -108,29 +114,33 @@ class Inbox extends \Magento\Core\Model\AbstractModel
      *
      * @param int $severity
      * @param string $title
-     * @param string|array $description
+     * @param string|string[] $description
      * @param string $url
      * @param bool $isInternal
-     * @throws \Magento\Core\Exception
-     * @return \Magento\AdminNotification\Model\Inbox
+     * @throws \Magento\Model\Exception
+     * @return $this
      */
     public function add($severity, $title, $description, $url = '', $isInternal = true)
     {
         if (!$this->getSeverities($severity)) {
-            throw new \Magento\Core\Exception(__('Wrong message type'));
+            throw new \Magento\Model\Exception(__('Wrong message type'));
         }
         if (is_array($description)) {
             $description = '<ul><li>' . implode('</li><li>', $description) . '</li></ul>';
         }
         $date = date('Y-m-d H:i:s');
-        $this->parse(array(array(
-            'severity'    => $severity,
-            'date_added'  => $date,
-            'title'       => $title,
-            'description' => $description,
-            'url'         => $url,
-            'internal'    => $isInternal
-        )));
+        $this->parse(
+            array(
+                array(
+                    'severity' => $severity,
+                    'date_added' => $date,
+                    'title' => $title,
+                    'description' => $description,
+                    'url' => $url,
+                    'internal' => $isInternal
+                )
+            )
+        );
         return $this;
     }
 
@@ -138,10 +148,10 @@ class Inbox extends \Magento\Core\Model\AbstractModel
      * Add critical severity message
      *
      * @param string $title
-     * @param string|array $description
+     * @param string|string[] $description
      * @param string $url
      * @param bool $isInternal
-     * @return \Magento\AdminNotification\Model\Inbox
+     * @return $this
      */
     public function addCritical($title, $description, $url = '', $isInternal = true)
     {
@@ -153,10 +163,10 @@ class Inbox extends \Magento\Core\Model\AbstractModel
      * Add major severity message
      *
      * @param string $title
-     * @param string|array $description
+     * @param string|string[] $description
      * @param string $url
      * @param bool $isInternal
-     * @return \Magento\AdminNotification\Model\Inbox
+     * @return $this
      */
     public function addMajor($title, $description, $url = '', $isInternal = true)
     {
@@ -168,10 +178,10 @@ class Inbox extends \Magento\Core\Model\AbstractModel
      * Add minor severity message
      *
      * @param string $title
-     * @param string|array $description
+     * @param string|string[] $description
      * @param string $url
      * @param bool $isInternal
-     * @return \Magento\AdminNotification\Model\Inbox
+     * @return $this
      */
     public function addMinor($title, $description, $url = '', $isInternal = true)
     {
@@ -183,10 +193,10 @@ class Inbox extends \Magento\Core\Model\AbstractModel
      * Add notice
      *
      * @param string $title
-     * @param string|array $description
+     * @param string|string[] $description
      * @param string $url
      * @param bool $isInternal
-     * @return \Magento\AdminNotification\Model\Inbox
+     * @return $this
      */
     public function addNotice($title, $description, $url = '', $isInternal = true)
     {

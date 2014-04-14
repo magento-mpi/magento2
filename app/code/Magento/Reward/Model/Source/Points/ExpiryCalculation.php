@@ -7,20 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Source model for list of Expiry Calculation algorythms
- */
 namespace Magento\Reward\Model\Source\Points;
 
-class ExpiryCalculation implements \Magento\Core\Model\Option\ArrayInterface
+/**
+ * Source model for list of Expiry Calculation algorithms
+ */
+class ExpiryCalculation implements \Magento\Option\ArrayInterface
 {
+    /**
+     * Expiry calculation options
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(
             array('value' => 'static', 'label' => __('Static')),
-            array('value' => 'dynamic', 'label' => __('Dynamic')),
+            array('value' => 'dynamic', 'label' => __('Dynamic'))
         );
     }
 }

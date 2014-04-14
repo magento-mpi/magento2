@@ -10,13 +10,19 @@
  */
 namespace Magento\ObjectManager;
 
+use Magento\Filesystem\DriverInterface;
+use Magento\ObjectManager\Definition\Runtime;
+use Magento\ObjectManager\Relations;
+use Magento\ObjectManager\Code\Generator;
+use Magento\Interception\Code\Generator as InterceptionGenerator;
+
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class DefinitionFactory
 {
     /**
-     * Directory containig compiled class metadata
+     * Directory containing compiled class metadata
      *
      * @var string
      */
@@ -39,12 +45,12 @@ class DefinitionFactory
     /**
      * Filesystem Driver
      *
-     * @var \Magento\Filesystem\DriverInterface
+     * @var DriverInterface
      */
     protected $_filesystemDriver;
 
     /**
-     * List of defintion models
+     * List of definition models
      *
      * @var array
      */
@@ -54,17 +60,13 @@ class DefinitionFactory
     );
 
     /**
-     * @param \Magento\Filesystem\DriverInterface $filesystemDriver
+     * @param DriverInterface $filesystemDriver
      * @param string $definitionDir
      * @param string $generationDir
      * @param string  $definitionFormat
      */
-    public function __construct(
-        \Magento\Filesystem\DriverInterface $filesystemDriver,
-        $definitionDir,
-        $generationDir,
-        $definitionFormat
-    ) {
+    public function __construct(DriverInterface $filesystemDriver, $definitionDir, $generationDir, $definitionFormat)
+    {
         $this->_filesystemDriver = $filesystemDriver;
         $this->_definitionDir = $definitionDir;
         $this->_generationDir = $generationDir;
@@ -72,8 +74,10 @@ class DefinitionFactory
     }
 
     /**
-     * @param $definitions
-     * @return \Magento\ObjectManager\Definition\Runtime
+     * Create class definition based
+     *
+     * @param mixed $definitions
+     * @return Runtime
      */
     public function createClassDefinition($definitions)
     {
@@ -96,11 +100,19 @@ class DefinitionFactory
                 $autoloader,
                 $this->_generationDir
             );
-            $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo);
+            $generator = new \Magento\Code\Generator(
+                $autoloader,
+                $generatorIo,
+                array(
+                    Generator\Factory::ENTITY_TYPE => '\Magento\ObjectManager\Code\Generator\Factory',
+                    Generator\Proxy::ENTITY_TYPE => '\Magento\ObjectManager\Code\Generator\Proxy',
+                    InterceptionGenerator\Interceptor::ENTITY_TYPE => '\Magento\Interception\Code\Generator\Interceptor'
+                )
+            );
             $autoloader = new \Magento\Code\Generator\Autoloader($generator);
             spl_autoload_register(array($autoloader, 'load'));
 
-            $result =  new \Magento\ObjectManager\Definition\Runtime();
+            $result = new Runtime();
         }
         return $result;
     }
@@ -123,7 +135,9 @@ class DefinitionFactory
     }
 
     /**
-     * @return \Magento\ObjectManager\Relations
+     * Create relations
+     *
+     * @return Relations
      */
     public function createRelations()
     {
@@ -138,7 +152,7 @@ class DefinitionFactory
     }
 
     /**
-     * Uncompress definitions
+     * Un-compress definitions
      *
      * @param string $definitions
      * @return mixed

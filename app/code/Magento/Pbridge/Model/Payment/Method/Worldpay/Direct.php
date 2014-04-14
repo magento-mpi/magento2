@@ -23,7 +23,7 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
      * Payment method code
      * @var string
      */
-    protected $_code  = 'worldpay_direct';
+    protected $_code = 'worldpay_direct';
 
     /**
      * @var array
@@ -31,26 +31,61 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     protected $_allowCurrencyCode = array('USD');
 
     /**
-     * Availability options
+     * @var bool
      */
-    protected $_isGateway               = true;
-    protected $_canAuthorize            = true;
-    protected $_canCapture              = true;
-    protected $_canCapturePartial       = false;
-    protected $_canRefund               = true;
+    protected $_isGateway = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canAuthorize = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canCapture = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canCapturePartial = false;
+
+    /**
+     * @var bool
+     */
+    protected $_canRefund = true;
+
+    /**
+     * @var bool
+     */
     protected $_canRefundInvoicePartial = true;
-    protected $_canVoid                 = true;
-    protected $_canUseInternal          = true;
-    protected $_canUseCheckout          = true;
-    protected $_canUseForMultishipping  = true;
-    protected $_canSaveCc               = false;
+
+    /**
+     * @var bool
+     */
+    protected $_canVoid = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canUseInternal = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canUseCheckout = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canSaveCc = false;
 
     /**
      * PSi Gate method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Worldpay\Direct
+     * @return $this
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -58,12 +93,13 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
         $payment->addData((array)$response);
         return $this;
     }
+
     /**
      * Capturing method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Worldpay\Direct
+     * @return $this
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -80,7 +116,7 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Worldpay\Direct
+     * @return $this
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -94,7 +130,7 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
      * Voiding method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
-     * @return \Magento\Pbridge\Model\Payment\Method\Worldpay\Direct
+     * @return $this
      */
     public function void(\Magento\Object $payment)
     {
@@ -103,11 +139,12 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
         $payment->setIsTransactionClosed(1);
         return $this;
     }
+
     /**
      * Cancel method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
-     * @return \Magento\Pbridge\Model\Payment\Method\Worldpay\Direct
+     * @return $this
      */
     public function cancel(\Magento\Object $payment)
     {

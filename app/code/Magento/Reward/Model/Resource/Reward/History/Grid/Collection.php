@@ -1,18 +1,19 @@
 <?php
-    /**
-     * Reward rate collection for customer edit tab history grid
-     *
-     * {license_notice}
-     *
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * Reward rate collection for customer edit tab history grid
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Reward\Model\Resource\Reward\History\Grid;
 
-class Collection
-    extends \Magento\Reward\Model\Resource\Reward\History\Collection
+class Collection extends \Magento\Reward\Model\Resource\Reward\History\Collection
 {
     /**
+     * Reward data
+     *
      * @var \Magento\Reward\Helper\Data
      */
     protected $_helper;
@@ -22,24 +23,24 @@ class Collection
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Reward\Helper\Data $helper
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Locale $locale,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Reward\Helper\Data $helper,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_helper = $helper;
         parent::__construct(
@@ -47,7 +48,7 @@ class Collection
             $logger,
             $fetchStrategy,
             $eventManager,
-            $locale,
+            $localeResolver,
             $customerFactory,
             $dateTime,
             $connection,
@@ -56,15 +57,15 @@ class Collection
     }
 
     /**
-     * @return \Magento\Reward\Model\Resource\Reward\History\Grid\Collection
+     * Initialize select
+     *
+     * @return $this
      */
     protected function _initSelect()
     {
         parent::_initSelect();
         /** @var $collection \Magento\Reward\Model\Resource\Reward\History\Collection */
-        $this->setExpiryConfig($this->_helper->getExpiryConfig())
-            ->addExpirationDate()
-            ->setOrder('history_id', 'desc');
+        $this->setExpiryConfig($this->_helper->getExpiryConfig())->addExpirationDate()->setOrder('history_id', 'desc');
         $this->setDefaultOrder();
         return $this;
     }
@@ -74,9 +75,9 @@ class Collection
      *
      * @param array|string $field
      * @param null $condition
-     * @return \Magento\Reward\Model\Resource\Reward\History\Grid\Collection
+     * @return $this
      */
-    public  function addFieldToFilter($field, $condition = null)
+    public function addFieldToFilter($field, $condition = null)
     {
         if ($field == 'website_id' || $field == 'points_balance') {
             if ($field && isset($condition)) {

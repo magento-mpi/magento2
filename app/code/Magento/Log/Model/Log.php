@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Log\Model;
 
 /**
  * Log Model
@@ -29,57 +29,64 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Log\Model;
-
-class Log extends \Magento\Core\Model\AbstractModel
+class Log extends \Magento\Model\AbstractModel
 {
-    const XML_LOG_CLEAN_DAYS    = 'system/log/clean_after_day';
+    const XML_LOG_CLEAN_DAYS = 'system/log/clean_after_day';
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
      * Init Resource Model
      *
+     * @return void
      */
     protected function _construct()
     {
         $this->_init('Magento\Log\Model\Resource\Log');
     }
 
+    /**
+     * Return log clean time in seconds
+     *
+     * @return null|string
+     */
     public function getLogCleanTime()
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_LOG_CLEAN_DAYS) * 60 * 60 * 24;
+        return $this->_scopeConfig->getValue(
+            self::XML_LOG_CLEAN_DAYS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) * 60 * 60 * 24;
     }
 
     /**
      * Clean Logs
      *
-     * @return \Magento\Log\Model\Log
+     * @return $this
      */
     public function clean()
     {

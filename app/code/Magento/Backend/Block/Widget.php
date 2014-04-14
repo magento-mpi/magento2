@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block;
 
 /**
  * Base widget class
@@ -15,14 +16,13 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  *
- */
-namespace Magento\Backend\Block;
-
-/**
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class Widget extends \Magento\Backend\Block\Template
 {
+    /**
+     * @return string
+     */
     public function getId()
     {
         if (null === $this->getData('id')) {
@@ -42,6 +42,9 @@ class Widget extends \Magento\Backend\Block\Template
         return "{$this->getId()}_{$suffix}";
     }
 
+    /**
+     * @return string
+     */
     public function getHtmlId()
     {
         return $this->getId();
@@ -61,7 +64,13 @@ class Widget extends \Magento\Backend\Block\Template
         return $this->getUrl('*/*/*', $params);
     }
 
-    protected function _addBreadcrumb($label, $title=null, $link=null)
+    /**
+     * @param string $label
+     * @param string|null $title
+     * @param string|null $link
+     * @return void
+     */
+    protected function _addBreadcrumb($label, $title = null, $link = null)
     {
         $this->getLayout()->getBlock('breadcrumbs')->addLink($label, $title, $link);
     }
@@ -78,24 +87,26 @@ class Widget extends \Magento\Backend\Block\Template
      */
     public function getButtonHtml($label, $onclick, $class = '', $buttonId = null, $dataAttr = array())
     {
-        return $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-                'label'     => $label,
-                'onclick'   => $onclick,
-                'class'     => $class,
-                'type'      => 'button',
-                'id'        => $buttonId,
-            ))
-            ->setDataAttribute($dataAttr)
-            ->toHtml();
+        return $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array('label' => $label, 'onclick' => $onclick, 'class' => $class, 'type' => 'button', 'id' => $buttonId)
+        )->setDataAttribute(
+            $dataAttr
+        )->toHtml();
     }
 
+    /**
+     * @return string
+     */
     public function getGlobalIcon()
     {
-        return '<img src="' . $this->getViewFileUrl('images/fam_link.gif')
-            . '" alt="' . __('Global Attribute')
-            . '" title="' . __('This attribute shares the same value in all stores.')
-            . '" class="attribute-global"/>';
+        return '<img src="' . $this->getViewFileUrl(
+            'images/fam_link.gif'
+        ) . '" alt="' . __(
+            'Global Attribute'
+        ) . '" title="' . __(
+            'This attribute shares the same value in all stores.'
+        ) . '" class="attribute-global"/>';
     }
 }
-

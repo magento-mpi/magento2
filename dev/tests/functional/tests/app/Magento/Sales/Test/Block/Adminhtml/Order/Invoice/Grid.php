@@ -38,12 +38,37 @@ class Grid extends GridInterface
     protected $invoiceAmount = 'td.col-qty.col-base_grand_total';
 
     /**
+     * An element locator which allows to select entities in grid
+     *
+     * @var string
+     */
+    protected $selectItem = 'tbody tr .col-invoice-number';
+
+    /**
      * Get first invoice amount
      *
      * @return array|string
      */
     public function getInvoiceAmount()
     {
-        return $this->_rootElement->find($this->invoiceAmount)->getText();
+        return $this->getInvoiceAmountElement()->getText();
+    }
+
+    /**
+     * Click the first invoice amount
+     *
+     * @return void
+     */
+    public function clickInvoiceAmount()
+    {
+        $this->getInvoiceAmountElement()->click();
+    }
+
+    /**
+     * @return mixed|\Mtf\Client\Element
+     */
+    private function getInvoiceAmountElement()
+    {
+        return $this->_rootElement->find($this->invoiceAmount);
     }
 }

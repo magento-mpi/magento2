@@ -7,16 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Helper;
+
+use Magento\App\Helper\AbstractHelper;
 
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends AbstractHelper
 {
-    const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'admin/url/use_custom';
+    const XML_PATH_USE_CUSTOM_ADMIN_URL = 'admin/url/use_custom';
 
+    /**
+     * @var string
+     */
     protected $_pageHelpUrl;
 
     /**
@@ -25,12 +29,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_routeConfig;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_app;
+    protected $_locale;
 
     /**
-     * @var \Magento\Backend\Model\Url
+     * @var \Magento\Backend\Model\UrlInterface
      */
     protected $_backendUrl;
 
@@ -52,8 +56,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\App\Route\Config $routeConfig
-     * @param \Magento\Core\Model\AppInterface $app
-     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Locale\ResolverInterface $locale
+     * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
      * @param \Magento\Math\Random $mathRandom
@@ -61,21 +65,24 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\App\Route\Config $routeConfig,
-        \Magento\Core\Model\AppInterface $app,
-        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Locale\ResolverInterface $locale,
+        \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver,
         \Magento\Math\Random $mathRandom
     ) {
         parent::__construct($context);
         $this->_routeConfig = $routeConfig;
-        $this->_app = $app;
+        $this->_locale = $locale;
         $this->_backendUrl = $backendUrl;
         $this->_auth = $auth;
         $this->_frontNameResolver = $frontNameResolver;
         $this->mathRandom = $mathRandom;
     }
 
+    /**
+     * @return string
+     */
     public function getPageHelpUrl()
     {
         if (!$this->_pageHelpUrl) {
@@ -84,10 +91,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
         return $this->_pageHelpUrl;
     }
 
+    /**
+     * @param string|null $url
+     * @return $this
+     */
     public function setPageHelpUrl($url = null)
     {
         if (is_null($url)) {
-            $request = $this->_app->getRequest();
+            $request = $this->_request;
             $frontModule = $request->getControllerModule();
             if (!$frontModule) {
                 $frontModule = $this->_routeConfig->getModulesByFrontName($request->getModuleName());
@@ -98,10 +109,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 }
             }
             $url = 'http://www.magentocommerce.com/gethelp/';
-            $url.= $this->_app->getLocale()->getLocaleCode().'/';
-            $url.= $frontModule.'/';
-            $url.= $request->getControllerName().'/';
-            $url.= $request->getActionName().'/';
+            $url .= $this->_locale->getLocaleCode() . '/';
+            $url .= $frontModule . '/';
+            $url .= $request->getControllerName() . '/';
+            $url .= $request->getActionName() . '/';
 
             $this->_pageHelpUrl = $url;
         }
@@ -110,17 +121,29 @@ class Data extends \Magento\App\Helper\AbstractHelper
         return $this;
     }
 
+    /**
+     * @param string $suffix
+     * @return $this
+     */
     public function addPageHelpUrl($suffix)
     {
-        $this->_pageHelpUrl = $this->getPageHelpUrl().$suffix;
+        $this->_pageHelpUrl = $this->getPageHelpUrl() . $suffix;
         return $this;
     }
 
+    /**
+     * @param string $route
+     * @param array $params
+     * @return string
+     */
     public function getUrl($route = '', $params = array())
     {
         return $this->_backendUrl->getUrl($route, $params);
     }
 
+    /**
+     * @return int|bool
+     */
     public function getCurrentUserId()
     {
         if ($this->_auth->getUser()) {
@@ -147,7 +170,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Decode URL encoded filter value recursive callback method
      *
-     * @param string $value
+     * @param string &$value
+     * @return void
      */
     public function decodeFilter(&$value)
     {

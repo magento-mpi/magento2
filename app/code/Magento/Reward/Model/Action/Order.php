@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reward\Model\Action;
 
 /**
  * Reward action for using points to purchase order
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model\Action;
-
 class Order extends \Magento\Reward\Model\Action\AbstractAction
 {
     /**
@@ -32,18 +29,15 @@ class Order extends \Magento\Reward\Model\Action\AbstractAction
     }
 
     /**
-     *
      * Setter for $_entity and add some extra data to history
      *
      * @param \Magento\Object $entity
-     * @return \Magento\Reward\Model\Action\AbstractAction
+     * @return $this
      */
     public function setEntity($entity)
     {
         parent::setEntity($entity);
-        $this->getHistory()->addAdditionalData(array(
-            'increment_id' => $this->getEntity()->getIncrementId()
-        ));
+        $this->getHistory()->addAdditionalData(array('increment_id' => $this->getEntity()->getIncrementId()));
         return $this;
     }
 }

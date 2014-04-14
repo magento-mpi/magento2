@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model\Resource\Entity\Attribute\Option;
 
 /**
  * Entity attribute option collection
@@ -16,9 +16,7 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource\Entity\Attribute\Option;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Option value table
@@ -33,7 +31,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_coreResource;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -43,9 +41,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\App\Resource $coreResource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -53,9 +51,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\App\Resource $coreResource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;
         $this->_coreResource = $coreResource;
@@ -64,10 +62,15 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
-        $this->_init('Magento\Eav\Model\Entity\Attribute\Option', 'Magento\Eav\Model\Resource\Entity\Attribute\Option');
+        $this->_init(
+            'Magento\Eav\Model\Entity\Attribute\Option',
+            'Magento\Eav\Model\Resource\Entity\Attribute\Option'
+        );
         $this->_optionValueTable = $this->_coreResource->getTableName('eav_attribute_option_value');
     }
 
@@ -75,20 +78,19 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set attribute filter
      *
      * @param int $setId
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
+     * @return $this
      */
     public function setAttributeFilter($setId)
     {
         return $this->addFieldToFilter('attribute_id', $setId);
     }
 
-
     /**
      * Add store filter to collection
      *
      * @param int $storeId
-     * @param boolean $useDefaultValue
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
+     * @param bool $useDefaultValue
+     * @return $this
      */
     public function setStoreFilter($storeId = null, $useDefaultValue = true)
     {
@@ -100,26 +102,30 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $joinCondition = $adapter->quoteInto('tsv.option_id = main_table.option_id AND tsv.store_id = ?', $storeId);
 
         if ($useDefaultValue) {
-            $this->getSelect()
-                ->join(
-                    array('tdv' => $this->_optionValueTable),
-                    'tdv.option_id = main_table.option_id',
-                    array('default_value' => 'value'))
-                ->joinLeft(
-                    array('tsv' => $this->_optionValueTable),
-                    $joinCondition,
-                    array(
-                        'store_default_value' => 'value',
-                        'value'               => $adapter->getCheckSql('tsv.value_id > 0', 'tsv.value', 'tdv.value')
-                    ))
-                ->where('tdv.store_id = ?', 0);
+            $this->getSelect()->join(
+                array('tdv' => $this->_optionValueTable),
+                'tdv.option_id = main_table.option_id',
+                array('default_value' => 'value')
+            )->joinLeft(
+                array('tsv' => $this->_optionValueTable),
+                $joinCondition,
+                array(
+                    'store_default_value' => 'value',
+                    'value' => $adapter->getCheckSql('tsv.value_id > 0', 'tsv.value', 'tdv.value')
+                )
+            )->where(
+                'tdv.store_id = ?',
+                0
+            );
         } else {
-            $this->getSelect()
-                ->joinLeft(
-                    array('tsv' => $this->_optionValueTable),
-                    $joinCondition,
-                    'value')
-                ->where('tsv.store_id = ?', $storeId);
+            $this->getSelect()->joinLeft(
+                array('tsv' => $this->_optionValueTable),
+                $joinCondition,
+                'value'
+            )->where(
+                'tsv.store_id = ?',
+                $storeId
+            );
         }
 
         $this->setOrder('value', self::SORT_ORDER_ASC);
@@ -128,14 +134,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     }
 
     /**
-     * Add option id(s) frilter to collection
+     * Add option id(s) filter to collection
      *
      * @param int|array $optionId
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
+     * @return $this
      */
     public function setIdFilter($optionId)
     {
-        return $this->addFieldToFilter('option_id', array('in' => $optionId));
+        return $this->addFieldToFilter('main_table.option_id', array('in' => $optionId));
     }
 
     /**
@@ -153,19 +159,19 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set order by position or alphabetically by values in admin
      *
      * @param string $dir direction
-     * @param boolean $sortAlpha sort alphabetically by values in admin
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
+     * @param bool $sortAlpha sort alphabetically by values in admin
+     * @return $this
      */
     public function setPositionOrder($dir = self::SORT_ORDER_ASC, $sortAlpha = false)
     {
         $this->setOrder('main_table.sort_order', $dir);
         // sort alphabetically by values in admin
         if ($sortAlpha) {
-            $this->getSelect()
-                ->joinLeft(
-                    array('sort_alpha_value' => $this->_optionValueTable),
-                    'sort_alpha_value.option_id = main_table.option_id AND sort_alpha_value.store_id = 0',
-                    array('value'));
+            $this->getSelect()->joinLeft(
+                array('sort_alpha_value' => $this->_optionValueTable),
+                'sort_alpha_value.option_id = main_table.option_id AND sort_alpha_value.store_id = 0',
+                array('value')
+            );
             $this->setOrder('sort_alpha_value.value', $dir);
         }
 

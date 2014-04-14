@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Model\Attribute;
+
+use Magento\Catalog\Model\Product;
+use Magento\Gdata\Gshopping\Entry;
 
 /**
  * Price attribute model
@@ -15,8 +19,6 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Model\Attribute;
-
 class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
     /**
@@ -27,9 +29,9 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Config
@@ -41,36 +43,41 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @var \Magento\Catalog\Model\Product\CatalogPrice
+     */
+    protected $catalogPrice;
+
+    /**
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
-     * @param \Magento\GoogleShopping\Helper\Price $gsPrice
+     * @param \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GoogleShopping\Helper\Data $gsData,
         \Magento\GoogleShopping\Helper\Product $gsProduct,
-        \Magento\GoogleShopping\Helper\Price $gsPrice,
+        \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice,
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -78,14 +85,15 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         $this->_storeManager = $storeManager;
         $this->_config = $config;
         $this->_taxData = $taxData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
+        $this->catalogPrice = $catalogPrice;
         parent::__construct(
             $context,
             $registry,
             $productFactory,
             $gsData,
             $gsProduct,
-            $gsPrice,
+            $catalogPrice,
             $resource,
             $resourceCollection,
             $data
@@ -95,25 +103,29 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     /**
      * Set current attribute to entry (for specified product)
      *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param \Magento\Gdata\Gshopping\Entry $entry
-     * @return \Magento\Gdata\Gshopping\Entry
+     * @param Product $product
+     * @param Entry $entry
+     * @return Entry
      */
     public function convertAttribute($product, $entry)
     {
         $product->setWebsiteId($this->_storeManager->getStore($product->getStoreId())->getWebsiteId());
         $product->setCustomerGroupId(
-            $this->_coreStoreConfig->getConfig(\Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID, $product->getStoreId())
+            $this->_scopeConfig->getValue(
+                \Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $product->getStoreId()
+            )
         );
 
         $store = $this->_storeManager->getStore($product->getStoreId());
         $targetCountry = $this->_config->getTargetCountry($product->getStoreId());
-        $isSalePriceAllowed = ($targetCountry == 'US');
+        $isSalePriceAllowed = $targetCountry == 'US';
 
         // get tax settings
         $taxHelp = $this->_taxData;
         $priceDisplayType = $taxHelp->getPriceDisplayType($product->getStoreId());
-        $inclTax = ($priceDisplayType == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX);
+        $inclTax = $priceDisplayType == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX;
 
         // calculate sale_price attribute value
         $salePriceAttribute = $this->getGroupAttributeSalePrice();
@@ -124,11 +136,21 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         }
         if (!is_null($salePriceMapValue) && floatval($salePriceMapValue) > .0001) {
             $finalPrice = $salePriceMapValue;
-        } else if ($isSalePriceAllowed) {
-            $finalPrice = $this->_gsPrice->getCatalogPrice($product, $store, $inclTax);
+        } else {
+            if ($isSalePriceAllowed) {
+                $finalPrice = $this->catalogPrice->getCatalogPrice($product, $store, $inclTax);
+            }
         }
         if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
-            $finalPrice = $taxHelp->getPrice($product, $finalPrice, $inclTax, null, null, null, $product->getStoreId());
+            $finalPrice = $taxHelp->getPrice(
+                $product,
+                $finalPrice,
+                $inclTax,
+                null,
+                null,
+                null,
+                $product->getStoreId()
+            );
         }
 
         // calculate price attribute value
@@ -136,11 +158,13 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         $price = null;
         if (!is_null($priceMapValue) && floatval($priceMapValue) > .0001) {
             $price = $priceMapValue;
-        } else if ($isSalePriceAllowed) {
-            $price = $this->_gsPrice->getCatalogRegularPrice($product, $store);
         } else {
-            $inclTax = ($priceDisplayType != \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX);
-            $price = $this->_gsPrice->getCatalogPrice($product, $store, $inclTax);
+            if ($isSalePriceAllowed) {
+                $price = $this->catalogPrice->getCatalogRegularPrice($product, $store);
+            } else {
+                $inclTax = $priceDisplayType != \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX;
+                $price = $this->catalogPrice->getCatalogPrice($product, $store, $inclTax);
+            }
         }
         if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             $price = $taxHelp->getPrice($product, $price, $inclTax, null, null, null, $product->getStoreId());
@@ -148,17 +172,20 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 
         if ($isSalePriceAllowed) {
             // set sale_price and effective dates for it
-            if ($price && ($price - $finalPrice) > .0001) {
+            if ($price && $price - $finalPrice > .0001) {
                 $this->_setAttributePrice($entry, $product, $targetCountry, $price);
                 $this->_setAttributePrice($entry, $product, $targetCountry, $finalPrice, 'sale_price');
 
                 $effectiveDate = $this->getGroupAttributeSalePriceEffectiveDate();
                 if (!is_null($effectiveDate)) {
                     $effectiveDate->setGroupAttributeSalePriceEffectiveDateFrom(
-                            $this->getGroupAttributeSalePriceEffectiveDateFrom()
-                        )
-                        ->setGroupAttributeSalePriceEffectiveDateTo($this->getGroupAttributeSalePriceEffectiveDateTo())
-                        ->convertAttribute($product, $entry);
+                        $this->getGroupAttributeSalePriceEffectiveDateFrom()
+                    )->setGroupAttributeSalePriceEffectiveDateTo(
+                        $this->getGroupAttributeSalePriceEffectiveDateTo()
+                    )->convertAttribute(
+                        $product,
+                        $entry
+                    );
                 }
             } else {
                 $this->_setAttributePrice($entry, $product, $targetCountry, $finalPrice);
@@ -181,18 +208,19 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     /**
      * Custom setter for 'price' attribute
      *
-     * @param \Magento\Gdata\Gshopping\Entry $entry
-     * @param string $attribute Google Content attribute name
+     * @param Entry $entry
+     * @param Product $product
+     * @param string $targetCountry
      * @param mixed $value Fload price value
-     * @param string $type Google Content attribute type
      * @param string $name Google Content attribute name
-     * @return \Magento\Gdata\Gshopping\Entry
+     * @return Entry
      */
     protected function _setAttributePrice($entry, $product, $targetCountry, $value, $name = 'price')
     {
         $store = $this->_storeManager->getStore($product->getStoreId());
         $price = $store->convertPrice($value);
-        return $this->_setAttribute($entry,
+        return $this->_setAttribute(
+            $entry,
             $name,
             self::ATTRIBUTE_TYPE_FLOAT,
             sprintf('%.2f', $store->roundPrice($price)),

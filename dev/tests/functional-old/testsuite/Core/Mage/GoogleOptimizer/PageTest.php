@@ -26,9 +26,9 @@ class Core_Mage_GoogleOptimizer_PageTest extends Mage_Selenium_TestCase
         // Create page with experiment_code
         $pageData = $this->loadDataSet('CmsPage', 'new_cms_page_req');
         $pageData['additional_tabs']['google_experiment'] = array('experiment_code' => 'experiment_code');
-        unset($pageData['content']['widgets']);
         $this->cmsPagesHelper()->createCmsPage($pageData);
         $this->assertMessagePresent('success', 'success_saved_cms_page');
+        $this->flushCache();
 
         self::$_pageData = $pageData;
     }
@@ -75,10 +75,14 @@ class Core_Mage_GoogleOptimizer_PageTest extends Mage_Selenium_TestCase
         $this->navigate('manage_cms_pages');
 
         // Update experiment_code
-        $this->cmsPagesHelper()->openCmsPage(self::$_pageData);
-        self::$_pageData['additional_tabs']['google_experiment']['experiment_code'] = 'experiment_code_updated';
-        $this->fillTab(self::$_pageData['additional_tabs']['google_experiment'], 'google_experiment');
+        $this->cmsPagesHelper()->openCmsPage(
+            array('filter_url_key' => self::$_pageData['page_information']['url_key'])
+        );
+        $this->openTab('google_experiment');
+        $this->fillField('experiment_code', 'experiment_code_updated');
         $this->saveForm('save_page');
+        $this->assertMessagePresent('success', 'success_saved_cms_page');
+        $this->flushCache();
 
         // Open page on frontend
         $this->frontend();
@@ -86,7 +90,7 @@ class Core_Mage_GoogleOptimizer_PageTest extends Mage_Selenium_TestCase
 
         // Check result
         $this->assertTrue(
-            $this->textIsPresent(self::$_pageData['additional_tabs']['google_experiment']['experiment_code']),
+            $this->textIsPresent('experiment_code_updated'),
             'Experiment code is not found.'
         );
     }
@@ -102,6 +106,7 @@ class Core_Mage_GoogleOptimizer_PageTest extends Mage_Selenium_TestCase
         // Disable in System Configuration
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GoogleApi/content_experiments_disable');
+        $this->flushCache();
 
         // Open page on frontend
         $this->frontend();

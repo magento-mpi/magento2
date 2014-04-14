@@ -43,19 +43,21 @@ class XsdTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedError, $actualError);
     }
 
+    /**
+     * Get array of invalid xml strings
+     *
+     * @return array
+     */
+    public function schemaCorrectlyIdentifiesInvalidXmlDataProvider()
+    {
+        return include __DIR__ . '/_files/invalidConfigXmlArray.php';
+    }
+
     public function testSchemaCorrectlyIdentifiesValidXml()
     {
         $xmlString = file_get_contents(__DIR__ . '/_files/valid_config.xml');
         $actualResult = $this->_xsdValidator->validate($this->_xsdSchema, $xmlString);
 
-        $this->assertEmpty($actualResult);
-    }
-
-    /**
-     * Data provider with invalid xml array according to events.xsd
-     */
-    public function schemaCorrectlyIdentifiesInvalidXmlDataProvider()
-    {
-        return include(__DIR__ . '/_files/invalidConfigXmlArray.php');
+        $this->assertEmpty($actualResult, join("\n", $actualResult));
     }
 }

@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogRule\Model;
+
+use Magento\Catalog\Model\Product;
 
 /**
  * Catalog Rule data model
@@ -105,7 +106,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_relatedCacheTypes;
 
     /**
-     * @var \Magento\Core\Model\Resource\Iterator
+     * @var \Magento\Model\Resource\Iterator
      */
     protected $_resourceIterator;
 
@@ -127,7 +128,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * @var \Magento\CatalogRule\Model\Rule\Action\CollectionFactory
      */
-    protected $_actionCollFactory;
+    protected $_actionCollectionFactory;
 
     /**
      * @var \Magento\Catalog\Model\ProductFactory
@@ -135,14 +136,14 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_productFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
-    protected $_productCollFactory;
+    protected $_productCollectionFactory;
 
     /**
      * @var \Magento\Stdlib\DateTime
@@ -150,51 +151,51 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogRule\Model\Rule\Condition\CombineFactory $combineFactory
-     * @param \Magento\CatalogRule\Model\Rule\Action\CollectionFactory $actionCollFactory
+     * @param \Magento\CatalogRule\Model\Rule\Action\CollectionFactory $actionCollectionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Model\Resource\Iterator $resourceIterator
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
      * @param \Magento\App\Cache\TypeListInterface $cacheTypesList
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $relatedCacheTypes
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogRule\Model\Rule\Condition\CombineFactory $combineFactory,
-        \Magento\CatalogRule\Model\Rule\Action\CollectionFactory $actionCollFactory,
+        \Magento\CatalogRule\Model\Rule\Action\CollectionFactory $actionCollectionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\Resource\Iterator $resourceIterator,
+        \Magento\Model\Resource\Iterator $resourceIterator,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\CatalogRule\Helper\Data $catalogRuleData,
         \Magento\App\Cache\TypeListInterface $cacheTypesList,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $relatedCacheTypes = array(),
         array $data = array()
     ) {
-        $this->_productCollFactory = $productCollFactory;
+        $this->_productCollectionFactory = $productCollectionFactory;
         $this->_storeManager = $storeManager;
         $this->_combineFactory = $combineFactory;
-        $this->_actionCollFactory = $actionCollFactory;
+        $this->_actionCollectionFactory = $actionCollectionFactory;
         $this->_productFactory = $productFactory;
         $this->_resourceIterator = $resourceIterator;
         $this->_indexer = $indexer;
@@ -203,11 +204,13 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->_cacheTypesList = $cacheTypesList;
         $this->_relatedCacheTypes = $relatedCacheTypes;
         $this->dateTime = $dateTime;
-        parent::__construct($context, $registry, $formFactory, $locale, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $formFactory, $localeDate, $resource, $resourceCollection, $data);
     }
 
     /**
      * Init resource model and id field
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -219,7 +222,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Getter for rule conditions collection
      *
-     * @return \Magento\CatalogRule\Model\Rule\Condition\Combine
+     * @return \Magento\Rule\Model\Condition\Combine
      */
     public function getConditionsInstance()
     {
@@ -233,13 +236,13 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getActionsInstance()
     {
-        return $this->_actionCollFactory->create();
+        return $this->_actionCollectionFactory->create();
     }
 
     /**
      * Get catalog rule customer group Ids
      *
-     * @return array
+     * @return array|null
      */
     public function getCustomerGroupIds()
     {
@@ -267,6 +270,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * Set current date for current rule
      *
      * @param string $now
+     * @return void
      */
     public function setNow($now)
     {
@@ -286,7 +290,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
             if ($this->getWebsiteIds()) {
                 /** @var $productCollection \Magento\Catalog\Model\Resource\Product\Collection */
-                $productCollection = $this->_productCollFactory->create();
+                $productCollection = $this->_productCollectionFactory->create();
                 $productCollection->addWebsiteFilter($this->getWebsiteIds());
                 if ($this->_productsFilter) {
                     $productCollection->addIdFilter($this->_productsFilter);
@@ -298,7 +302,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
                     array(array($this, 'callbackValidateProduct')),
                     array(
                         'attributes' => $this->getCollectedAttributes(),
-                        'product'    => $this->_productFactory->create(),
+                        'product' => $this->_productFactory->create()
                     )
                 );
             }
@@ -310,7 +314,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Callback function for product matching
      *
-     * @param $args
+     * @param array $args
      * @return void
      */
     public function callbackValidateProduct($args)
@@ -326,7 +330,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Apply rule to product
      *
-     * @param int|\Magento\Catalog\Model\Product $product
+     * @param int|Product $product
      * @param array|null $websiteIds
      *
      * @return void
@@ -345,65 +349,47 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Apply all price rules, invalidate related cache and refresh price index
      *
-     * @return \Magento\CatalogRule\Model\Rule
+     * @return void
      */
     public function applyAll()
     {
         $this->getResourceCollection()->walk(array($this->_getResource(), 'updateRuleProductData'));
         $this->_getResource()->applyAllRulesForDateRange();
         $this->_invalidateCache();
-        $indexProcess = $this->_indexer->getProcessByCode('catalog_product_price');
-        if ($indexProcess) {
-            $indexProcess->reindexAll();
-        }
     }
 
     /**
      * Apply all price rules to product
      *
-     * @param  int|\Magento\Catalog\Model\Product $product
-     * @return \Magento\CatalogRule\Model\Rule
+     * @param  int|Product $product
+     * @return void
      */
     public function applyAllRulesToProduct($product)
     {
         $this->_getResource()->applyAllRulesForDateRange(null, null, $product);
         $this->_invalidateCache();
-
-        if ($product instanceof \Magento\Catalog\Model\Product) {
-            $productId = $product->getId();
-        } else {
-            $productId = $product;
-        }
-
-        if ($productId) {
-            $this->_indexer->processEntityAction(
-                new \Magento\Object(array('id' => $productId)),
-                \Magento\Catalog\Model\Product::ENTITY,
-                \Magento\Catalog\Model\Product\Indexer\Price::EVENT_TYPE_REINDEX_PRICE
-            );
-        }
     }
 
     /**
      * Calculate price using catalog price rule of product
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @param float $price
      * @return float|null
      */
-    public function calcProductPriceRule(\Magento\Catalog\Model\Product $product, $price)
+    public function calcProductPriceRule(Product $product, $price)
     {
         $priceRules = null;
-        $productId  = $product->getId();
-        $storeId    = $product->getStoreId();
-        $websiteId  = $this->_storeManager->getStore($storeId)->getWebsiteId();
+        $productId = $product->getId();
+        $storeId = $product->getStoreId();
+        $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
         if ($product->hasCustomerGroupId()) {
             $customerGroupId = $product->getCustomerGroupId();
         } else {
             $customerGroupId = $this->_customerSession->getCustomerGroupId();
         }
-        $dateTs     = $this->_locale->storeTimeStamp($storeId);
-        $cacheKey   = date('Y-m-d', $dateTs) . "|$websiteId|$customerGroupId|$productId|$price";
+        $dateTs = $this->_localeDate->scopeTimeStamp($storeId);
+        $cacheKey = date('Y-m-d', $dateTs) . "|{$websiteId}|{$customerGroupId}|{$productId}|{$price}";
 
         if (!array_key_exists($cacheKey, self::$_priceRulesData)) {
             $rulesData = $this->_getRulesFromProduct($dateTs, $websiteId, $customerGroupId, $productId);
@@ -461,6 +447,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * Filtering products that must be checked for matching with rule
      *
      * @param  int|array $productIds
+     * @return void
      */
     public function setProductsFilter($productIds)
     {
@@ -480,7 +467,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Invalidate related cache types
      *
-     * @return \Magento\CatalogRule\Model\Rule
+     * @return $this
      */
     protected function _invalidateCache()
     {

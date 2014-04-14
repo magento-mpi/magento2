@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Catalog product SKU backend attribute model
  *
@@ -17,6 +16,8 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+use Magento\Catalog\Model\Product;
 
 class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
@@ -38,10 +39,8 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      * @param \Magento\Logger $logger
      * @param \Magento\Stdlib\String $string
      */
-    public function __construct(
-        \Magento\Logger $logger,
-        \Magento\Stdlib\String $string
-    ) {
+    public function __construct(\Magento\Logger $logger, \Magento\Stdlib\String $string)
+    {
         $this->string = $string;
         parent::__construct($logger);
     }
@@ -49,8 +48,8 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Validate SKU
      *
-     * @param \Magento\Catalog\Model\Product $object
-     * @throws \Magento\Core\Exception
+     * @param Product $object
+     * @throws \Magento\Model\Exception
      * @return bool
      */
     public function validate($object)
@@ -62,9 +61,7 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         }
 
         if ($this->string->strlen($object->getSku()) > self::SKU_MAX_LENGTH) {
-            throw new \Magento\Core\Exception(
-                __('SKU length should be %1 characters maximum.', self::SKU_MAX_LENGTH)
-            );
+            throw new \Magento\Model\Exception(__('SKU length should be %1 characters maximum.', self::SKU_MAX_LENGTH));
         }
         return true;
     }
@@ -72,7 +69,8 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Generate and set unique SKU to product
      *
-     * @param $object \Magento\Catalog\Model\Product
+     * @param Product $object
+     * @return void
      */
     protected function _generateUniqueSku($object)
     {
@@ -93,8 +91,8 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Make SKU unique before save
      *
-     * @param \Magento\Object $object
-     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Sku
+     * @param Product $object
+     * @return $this
      */
     public function beforeSave($object)
     {
@@ -106,7 +104,7 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      * Return increment needed for SKU uniqueness
      *
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
-     * @param \Magento\Catalog\Model\Product $object
+     * @param Product $object
      * @return int
      */
     protected function _getLastSimilarAttributeValueIncrement($attribute, $object)
@@ -114,17 +112,20 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         $adapter = $this->getAttribute()->getEntity()->getReadConnection();
         $select = $adapter->select();
         $value = $object->getData($attribute->getAttributeCode());
-        $bind = array(
-            'entity_type_id' => $attribute->getEntityTypeId(),
-            'attribute_code' => trim($value) . '-%'
-        );
+        $bind = array('entity_type_id' => $attribute->getEntityTypeId(), 'attribute_code' => trim($value) . '-%');
 
-        $select
-            ->from($this->getTable(), $attribute->getAttributeCode())
-            ->where('entity_type_id = :entity_type_id')
-            ->where($attribute->getAttributeCode() . ' LIKE :attribute_code')
-            ->order(array('entity_id DESC', $attribute->getAttributeCode() . ' ASC'))
-            ->limit(1);
+        $select->from(
+            $this->getTable(),
+            $attribute->getAttributeCode()
+        )->where(
+            'entity_type_id = :entity_type_id'
+        )->where(
+            $attribute->getAttributeCode() . ' LIKE :attribute_code'
+        )->order(
+            array('entity_id DESC', $attribute->getAttributeCode() . ' ASC')
+        )->limit(
+            1
+        );
         $data = $adapter->fetchOne($select, $bind);
         return abs((int)str_replace($value, '', $data));
     }

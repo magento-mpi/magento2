@@ -7,18 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model;
 
 /**
  * PayPal Standard Checkout Module
  */
-namespace Magento\Paypal\Model;
-
 class Standard extends \Magento\Payment\Model\Method\AbstractMethod
 {
     /**
      * @var string
      */
-    protected $_code  = \Magento\Paypal\Model\Config::METHOD_WPS;
+    protected $_code = \Magento\Paypal\Model\Config::METHOD_WPS;
 
     /**
      * @var string
@@ -30,9 +29,15 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      */
     protected $_infoBlockType = 'Magento\Paypal\Block\Payment\Info';
 
-    protected $_isInitializeNeeded      = true;
-    protected $_canUseInternal          = false;
-    protected $_canUseForMultishipping  = false;
+    /**
+     * @var bool
+     */
+    protected $_isInitializeNeeded = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canUseInternal = false;
 
     /**
      * Config instance
@@ -57,7 +62,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_urlBuilder;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -84,12 +89,12 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Session\Generic $paypalSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\UrlInterface $urlBuilder
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Paypal\Model\Api\StandardFactory $apiStandardFactory
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
@@ -101,12 +106,12 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Session\Generic $paypalSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\UrlInterface $urlBuilder,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Paypal\Model\Api\StandardFactory $apiStandardFactory,
         \Magento\Paypal\Model\CartFactory $cartFactory,
@@ -121,7 +126,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
         $this->_apiStandardFactory = $apiStandardFactory;
         $this->_cartFactory = $cartFactory;
         $this->_configFactory = $configFactory;
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
+        parent::__construct($eventManager, $paymentData, $scopeConfig, $logAdapterFactory, $data);
     }
 
     /**
@@ -168,13 +173,21 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Create main block for standard form
      *
+     * @param string $name
+     * @return \Magento\View\Element\AbstractBlock
      */
     public function createFormBlock($name)
     {
-        $block = $this->getLayout()->createBlock('Magento\Paypal\Block\Standard\Form', $name)
-            ->setMethod('paypal_standard')
-            ->setPayment($this->getPayment())
-            ->setTemplate('standard/form.phtml');
+        $block = $this->getLayout()->createBlock(
+            'Magento\Paypal\Block\Standard\Form',
+            $name
+        )->setMethod(
+            'paypal_standard'
+        )->setPayment(
+            $this->getPayment()
+        )->setTemplate(
+            'standard/form.phtml'
+        );
 
         return $block;
     }
@@ -186,7 +199,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getOrderPlaceRedirectUrl()
     {
-          return $this->_urlBuilder->getUrl('paypal/standard/redirect', array('_secure' => true));
+        return $this->_urlBuilder->getUrl('paypal/standard/redirect', array('_secure' => true));
     }
 
     /**
@@ -200,13 +213,19 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
         $order = $this->_orderFactory->create()->loadByIncrementId($orderIncrementId);
         /* @var $api \Magento\Paypal\Model\Api\Standard */
         $api = $this->_apiStandardFactory->create()->setConfigObject($this->getConfig());
-        $api->setOrderId($orderIncrementId)
-            ->setCurrencyCode($order->getBaseCurrencyCode())
-            //->setPaymentAction()
-            ->setOrder($order)
-            ->setNotifyUrl($this->_urlBuilder->getUrl('paypal/ipn/'))
-            ->setReturnUrl($this->_urlBuilder->getUrl('paypal/standard/success'))
-            ->setCancelUrl($this->_urlBuilder->getUrl('paypal/standard/cancel'));
+        $api->setOrderId(
+            $orderIncrementId
+        )->setCurrencyCode($order->getBaseCurrencyCode())
+        //->setPaymentAction()
+        ->setOrder(
+            $order
+        )->setNotifyUrl(
+            $this->_urlBuilder->getUrl('paypal/ipn/')
+        )->setReturnUrl(
+            $this->_urlBuilder->getUrl('paypal/standard/success')
+        )->setCancelUrl(
+            $this->_urlBuilder->getUrl('paypal/standard/cancel')
+        );
 
         // export address
         $isOrderVirtual = $order->getIsVirtual();
@@ -218,9 +237,8 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
         }
 
         // add cart totals and line items
-        $parameters = array('params' => array($order));
-        $api->setPaypalCart($this->_cartFactory->create($parameters))
-            ->setIsLineItemsEnabled($this->_config->lineItemsEnabled);
+        $cart = $this->_cartFactory->create(array('salesModel' => $order));
+        $api->setPaypalCart($cart)->setIsLineItemsEnabled($this->_config->lineItemsEnabled);
         $api->setCartSummary($this->_getAggregatedCartSummary());
         $api->setLocale($api->getLocaleCode());
         $result = $api->getStandardCheckoutRequest();
@@ -232,7 +250,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param string $paymentAction
      * @param object $stateObject
-     * @return \Magento\Payment\Model\Method\AbstractMethod|void
+     * @return void
      */
     public function initialize($paymentAction, $stateObject)
     {
@@ -261,7 +279,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Check whether payment method can be used
-     * @param \Magento\Sales\Model\Quote
+     * @param \Magento\Sales\Model\Quote|null $quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -276,12 +294,12 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      * Custom getter for payment configuration
      *
      * @param string $field
-     * @param int $storeId
+     * @param int|null $storeId
      * @return mixed
      */
     public function getConfigData($field, $storeId = null)
     {
-        return $this->getConfig()->$field;
+        return $this->getConfig()->{$field};
     }
 
     /**

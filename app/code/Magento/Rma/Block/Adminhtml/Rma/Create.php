@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Rma;
 
 /**
  * Admin RMA create
@@ -15,11 +16,11 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Rma\Block\Adminhtml\Rma;
-
 class Create extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_objectId = 'id';
@@ -34,6 +35,11 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
         $this->removeButton('reset');
     }
 
+    /**
+     * Get header html
+     *
+     * @return string
+     */
     public function getHeaderHtml()
     {
         return $this->getLayout()->createBlock('Magento\Rma\Block\Adminhtml\Rma\Create\Header')->toHtml();

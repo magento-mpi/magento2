@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
+
+use Magento\Rma\Model\Item as ModelItem;
 
 /**
  * User-attributes block for RMA Item  in Admin RMA edit
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
-
 class Item extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -23,18 +24,22 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_rmaData;
 
     /**
+     * Rma item form model
+     *
      * @var \Magento\Rma\Model\Item\FormFactory
      */
     protected $_itemFormFactory;
 
     /**
+     * Sales order item model
+     *
      * @var \Magento\Sales\Model\Order\ItemFactory
      */
     protected $_itemFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
@@ -43,7 +48,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
@@ -59,7 +64,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Preparing form - container, which contains all attributes
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Item
+     * @return $this
      */
     public function initForm()
     {
@@ -77,27 +82,23 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
 
         /* @var $customerForm \Magento\Rma\Model\Item\Form */
         $customerForm = $this->_itemFormFactory->create();
-        $customerForm->setEntity($item)
-            ->setFormCode('default')
-            ->initDefaultValues();
+        $customerForm->setEntity($item)->setFormCode('default')->initDefaultValues();
 
-        $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>__('RMA Item Details'))
-        );
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('RMA Item Details')));
 
         $fieldset->setProductName($this->escapeHtml($item->getProductAdminName()));
-        $okButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-                'label'   => __('OK'),
-                'class'   => 'ok_button',
-            ));
+        $okButton = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array('label' => __('OK'), 'class' => 'ok_button')
+        );
         $fieldset->setOkButton($okButton->toHtml());
 
-        $cancelButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-                'label'   => __('Cancel'),
-                'class'   => 'cancel_button',
-            ));
+        $cancelButton = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array('label' => __('Cancel'), 'class' => 'cancel_button')
+        );
         $fieldset->setCancelButton($cancelButton->toHtml());
 
 
@@ -118,7 +119,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * You can redefine this method in child classes for changin layout
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -154,14 +155,15 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
         return array(
             'text' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Text',
             'textarea' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Textarea',
-            'image' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Image',
+            'image' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Image'
         );
     }
 
     /**
      * Add needed data (Product name) to RMA item during create process
      *
-     * @param \Magento\Rma\Model\Item $item
+     * @param ModelItem $item
+     * @return void
      */
     protected function _populateItemWithProductData($item)
     {

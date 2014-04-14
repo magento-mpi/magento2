@@ -7,15 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create;
 
 /**
  * Customer balance block for order creation page
- *
  */
-namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create;
-
-class Payment
-extends \Magento\View\Element\Template
+class Payment extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\CustomerBalance\Model\Balance
@@ -78,7 +75,7 @@ extends \Magento\View\Element\Template
     /**
      * Return store manager instance
      *
-     * @return \Magento\Core\Model\StoreManagerInterface
+     * @return \Magento\Store\Model\StoreManagerInterface
      */
     protected function _getStoreManagerModel()
     {
@@ -88,7 +85,7 @@ extends \Magento\View\Element\Template
     /**
      * Format value as price
      *
-     * @param double $value
+     * @param float $value
      * @return string
      */
     public function formatPrice($value)
@@ -104,15 +101,15 @@ extends \Magento\View\Element\Template
      */
     public function getBalance($convertPrice = false)
     {
-        if (
-            !$this->_customerBalanceHelper->isEnabled()
-            || !$this->_getBalanceInstance()
-        ) {
+        if (!$this->_customerBalanceHelper->isEnabled() || !$this->_getBalanceInstance()) {
             return 0.0;
         }
         if ($convertPrice) {
-            return $this->_getStoreManagerModel()->getStore($this->_getOrderCreateModel()->getQuote()->getStoreId())
-                ->convertPrice($this->_getBalanceInstance()->getAmount());
+            return $this->_getStoreManagerModel()->getStore(
+                $this->_getOrderCreateModel()->getQuote()->getStoreId()
+            )->convertPrice(
+                $this->_getBalanceInstance()->getAmount()
+            );
         }
         return $this->_getBalanceInstance()->getAmount();
     }
@@ -164,10 +161,11 @@ extends \Magento\View\Element\Template
             }
 
             $store = $this->_storeManager->getStore($quote->getStoreId());
-            $this->_balanceInstance = $this->_balanceFactory->create()
-                ->setCustomerId($quote->getCustomerId())
-                ->setWebsiteId($store->getWebsiteId())
-                ->loadByCustomer();
+            $this->_balanceInstance = $this->_balanceFactory->create()->setCustomerId(
+                $quote->getCustomerId()
+            )->setWebsiteId(
+                $store->getWebsiteId()
+            )->loadByCustomer();
         }
         return $this->_balanceInstance;
     }
@@ -180,6 +178,6 @@ extends \Magento\View\Element\Template
     public function canUseCustomerBalance()
     {
         $quote = $this->_orderCreate->getQuote();
-        return $this->getBalance() && ($quote->getBaseGrandTotal() + $quote->getBaseCustomerBalanceAmountUsed() > 0);
+        return $this->getBalance() && $quote->getBaseGrandTotal() + $quote->getBaseCustomerBalanceAmountUsed() > 0;
     }
 }

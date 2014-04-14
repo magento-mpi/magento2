@@ -13,7 +13,7 @@ namespace Magento\Catalog\Test\Page\Product;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
-use Mtf\Fixture\DataFixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element\Locator;
 
 /**
@@ -58,13 +58,6 @@ class CatalogProductNew extends Page
     protected $messagesBlock = '#messages .messages';
 
     /**
-     * Selector for message block
-     *
-     * @var string
-     */
-    protected $messagesSelector = '#messages.messages .messages';
-
-    /**
      * Custom constructor
      */
     protected function _init()
@@ -73,9 +66,9 @@ class CatalogProductNew extends Page
     }
 
     /**
-     * @param DataFixture $fixture
+     * @param FixtureInterface $fixture
      */
-    public function init(DataFixture $fixture)
+    public function init(FixtureInterface $fixture)
     {
         $dataConfig = $fixture->getDataConfig();
 

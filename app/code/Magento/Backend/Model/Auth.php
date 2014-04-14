@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model;
 
 /**
  * Backend Auth model
  */
-namespace Magento\Backend\Model;
-
 class Auth
 {
     /**
@@ -40,7 +39,7 @@ class Auth
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
 
@@ -54,7 +53,7 @@ class Auth
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Backend\Model\Auth\StorageInterface $authStorage
      * @param \Magento\Backend\Model\Auth\Credential\StorageInterface $credentialStorage
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Core\Model\Factory $modelFactory
      */
     public function __construct(
@@ -62,7 +61,7 @@ class Auth
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Backend\Model\Auth\StorageInterface $authStorage,
         \Magento\Backend\Model\Auth\Credential\StorageInterface $credentialStorage,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Core\Model\Factory $modelFactory
     ) {
         $this->_eventManager = $eventManager;
@@ -77,12 +76,12 @@ class Auth
      * Set auth storage if it is instance of \Magento\Backend\Model\Auth\StorageInterface
      *
      * @param \Magento\Backend\Model\Auth\StorageInterface $storage
-     * @return \Magento\Backend\Model\Auth
+     * @return $this
      * @throw \Magento\Backend\Model\Auth\Exception if $storage is not correct
      */
     public function setAuthStorage($storage)
     {
-        if (!($storage instanceof \Magento\Backend\Model\Auth\StorageInterface)) {
+        if (!$storage instanceof \Magento\Backend\Model\Auth\StorageInterface) {
             self::throwException('Authentication storage is incorrect.');
         }
         $this->_authStorage = $storage;
@@ -126,7 +125,7 @@ class Auth
     /**
      * Return credential storage object
      *
-     * @return null | \Magento\Backend\Model\Auth\Credential\StorageInterface
+     * @return null|\Magento\Backend\Model\Auth\Credential\StorageInterface
      */
     public function getCredentialStorage()
     {
@@ -138,14 +137,13 @@ class Auth
      *
      * @param string $username
      * @param string $password
+     * @return void
      * @throws \Exception|\Magento\Backend\Model\Auth\Plugin\Exception
      */
     public function login($username, $password)
     {
         if (empty($username) || empty($password)) {
-            self::throwException(
-                __('Please correct the user name or password.')
-            );
+            self::throwException(__('Please correct the user name or password.'));
         }
 
         try {
@@ -156,26 +154,27 @@ class Auth
                 $this->getAuthStorage()->setUser($this->getCredentialStorage());
                 $this->getAuthStorage()->processLogin();
 
-                $this->_eventManager
-                    ->dispatch('backend_auth_user_login_success', array('user' => $this->getCredentialStorage()));
-            }
-
-            if (!$this->getAuthStorage()->getUser()) {
-                self::throwException(
-                    __('Please correct the user name or password.')
+                $this->_eventManager->dispatch(
+                    'backend_auth_user_login_success',
+                    array('user' => $this->getCredentialStorage())
                 );
             }
 
+            if (!$this->getAuthStorage()->getUser()) {
+                self::throwException(__('Please correct the user name or password.'));
+            }
         } catch (\Magento\Backend\Model\Auth\Plugin\Exception $e) {
-            $this->_eventManager
-                ->dispatch('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
-            throw $e;
-        } catch (\Magento\Core\Exception $e) {
-            $this->_eventManager
-                ->dispatch('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
-            self::throwException(
-                __('Please correct the user name or password.')
+            $this->_eventManager->dispatch(
+                'backend_auth_user_login_failed',
+                array('user_name' => $username, 'exception' => $e)
             );
+            throw $e;
+        } catch (\Magento\Model\Exception $e) {
+            $this->_eventManager->dispatch(
+                'backend_auth_user_login_failed',
+                array('user_name' => $username, 'exception' => $e)
+            );
+            self::throwException(__('Please correct the user name or password.'));
         }
     }
 
@@ -192,7 +191,7 @@ class Auth
     /**
      * Check if current user is logged in
      *
-     * @return boolean
+     * @return bool
      */
     public function isLoggedIn()
     {
@@ -202,10 +201,11 @@ class Auth
     /**
      * Throws specific Backend Authentication \Exception
      *
-     * @static
      * @param string $msg
      * @param string $code
+     * @return void
      * @throws \Magento\Backend\Model\Auth\Exception
+     * @static
      */
     public static function throwException($msg = null, $code = null)
     {

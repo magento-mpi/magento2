@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\SalesRule\Helper\Coupon">
-        <param name="couponParameters">
-            <value>
-                <separator>-</separator>
-                <charset>
-                    <alphanum>ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</alphanum>
-                    <alpha>ABCDEFGHIJKLMNOPQRSTUVWXYZ</alpha>
-                    <num>0123456789</num>
-                </charset>
-            </value>
-        </param>
+        <arguments>
+            <argument name="couponParameters" xsi:type="array">
+                <item name="separator" xsi:type="string">-</item>
+                <item name="charset" xsi:type="array">
+                    <item name="alphanum" xsi:type="string">ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</item>
+                    <item name="alpha" xsi:type="string">ABCDEFGHIJKLMNOPQRSTUVWXYZ</item>
+                    <item name="num" xsi:type="string">0123456789</item>
+                </item>
+            </argument>
+        </arguments>
     </type>
 </config>

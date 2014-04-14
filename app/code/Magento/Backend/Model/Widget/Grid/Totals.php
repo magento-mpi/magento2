@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Widget\Grid;
 
 class Totals extends \Magento\Backend\Model\Widget\Grid\AbstractTotals
@@ -28,7 +27,6 @@ class Totals extends \Magento\Backend\Model\Widget\Grid\AbstractTotals
             } else {
                 $sum += $this->_countSum($index, $item->getChildren());
             }
-
         }
         return $sum;
     }
@@ -53,5 +51,4 @@ class Totals extends \Magento\Backend\Model\Widget\Grid\AbstractTotals
 
         return $itemsCount ? $this->_countSum($index, $collection) / $itemsCount : $itemsCount;
     }
-
 }

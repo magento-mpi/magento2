@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset;
 
 class ViewFileTest extends \PHPUnit_Framework_TestCase
@@ -41,12 +40,15 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
     public function testGetUrl()
     {
         $url = 'http://127.0.0.1/magento/test/script.js';
-        $this->_viewUrl
-            ->expects($this->once())
-            ->method('getViewFileUrl')
-            ->with('test/script.js')
-            ->will($this->returnValue($url))
-        ;
+        $this->_viewUrl->expects(
+            $this->once()
+        )->method(
+            'getViewFileUrl'
+        )->with(
+            'test/script.js'
+        )->will(
+            $this->returnValue($url)
+        );
         $this->assertEquals($url, $this->_object->getUrl());
     }
 
@@ -58,12 +60,15 @@ class ViewFileTest extends \PHPUnit_Framework_TestCase
     public function testGetSourceFile()
     {
         $sourcePath = '/source_dir/test/script.js';
-        $this->_viewUrl
-            ->expects($this->once())
-            ->method('getViewFilePublicPath')
-            ->with('test/script.js')
-            ->will($this->returnValue($sourcePath))
-        ;
+        $this->_viewUrl->expects(
+            $this->once()
+        )->method(
+            'getViewFilePublicPath'
+        )->with(
+            'test/script.js'
+        )->will(
+            $this->returnValue($sourcePath)
+        );
         $this->assertEquals($sourcePath, $this->_object->getSourceFile());
     }
 }
