@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertSitemapSuccessSaveMessage module="Magento_Sitemap">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertSitemapSuccessSaveMessage>
+    <assertSitemapInGrid module="Magento_Sitemap">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertSitemapInGrid>
+    <assertSitemapFailSaveMessage module="Magento_Sitemap">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertSitemapFailSaveMessage>
+</constraint>
