@@ -58,7 +58,7 @@ class Group extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Initialize unique fields
      *
-     * @return \Magento\Customer\Model\Resource\Group
+     * @return $this
      */
     protected function _initUniqueFields()
     {
@@ -71,7 +71,7 @@ class Group extends \Magento\Model\Resource\Db\AbstractDb
      * Check if group uses as default
      *
      * @param  \Magento\Model\AbstractModel $group
-     * @return \Magento\Customer\Model\Resource\Group
+     * @return $this
      * @throws \Magento\Model\Exception
      */
     protected function _beforeDelete(\Magento\Model\AbstractModel $group)
@@ -86,7 +86,7 @@ class Group extends \Magento\Model\Resource\Db\AbstractDb
      * Method set default group id to the customers collection
      *
      * @param \Magento\Model\AbstractModel $group
-     * @return \Magento\Customer\Model\Resource\Group
+     * @return $this
      */
     protected function _afterDelete(\Magento\Model\AbstractModel $group)
     {
@@ -94,8 +94,8 @@ class Group extends \Magento\Model\Resource\Db\AbstractDb
             'group_id',
             $group->getId()
         )->load();
-        /** @var $customer \Magento\Customer\Model\Customer */
         foreach ($customerCollection as $customer) {
+            /** @var $customer \Magento\Customer\Model\Customer */
             $customer->load($customer->getId());
             $defaultGroupId = $this->_customerData->getDefaultCustomerGroupId($customer->getStoreId());
             $customer->setGroupId($defaultGroupId);

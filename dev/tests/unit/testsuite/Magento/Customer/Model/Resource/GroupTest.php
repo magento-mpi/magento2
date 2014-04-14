@@ -15,9 +15,6 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Resource\Group */
     protected $groupResourceModel;
 
-    /** @var ObjectManagerHelper */
-    protected $objectManagerHelper;
-
     /** @var \Magento\App\Resource|\PHPUnit_Framework_MockObject_MockObject */
     protected $resource;
 
@@ -43,8 +40,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         );
         $this->groupModel = $this->getMock('Magento\Customer\Model\Group', [], [], '', false);
 
-        $this->objectManagerHelper = new ObjectManagerHelper($this);
-        $this->groupResourceModel = $this->objectManagerHelper->getObject(
+        $this->groupResourceModel = (new ObjectManagerHelper($this))->getObject(
             'Magento\Customer\Model\Resource\Group',
             [
                 'resource' => $this->resource,
@@ -59,9 +55,6 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         $dbAdapter = $this->getMock('Magento\DB\Adapter\AdapterInterface');
         $this->resource->expects($this->once())->method('getConnection')->will($this->returnValue($dbAdapter));
 
-        $customerCollection = $this->getMock('Magento\Customer\Model\Resource\Customer\Collection', [], [], '', false);
-        $customerCollection->expects($this->once())->method('addAttributeToFilter')->will($this->returnSelf());
-        $customerCollection->expects($this->once())->method('load')->will($this->returnSelf());
         $customer = $this->getMock(
             'Magento\Customer\Model\Customer',
             ['__wakeup', 'load', 'getId', 'getStoreId', 'setGroupId', 'save'],
@@ -76,8 +69,9 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         $this->customerHelper->expects($this->once())->method('getDefaultCustomerGroupId')
             ->will($this->returnValue($defaultCustomerGroup));
         $customer->expects($this->once())->method('setGroupId')->with($defaultCustomerGroup);
-        $iterator = $this->onConsecutiveCalls(new \ArrayIterator(array($customer)));
-        $customerCollection->expects($this->once())->method('getIterator')->will($iterator);
+        $customerCollection = $this->getMock('Magento\Customer\Model\Resource\Customer\Collection', [], [], '', false);
+        $customerCollection->expects($this->once())->method('addAttributeToFilter')->will($this->returnSelf());
+        $customerCollection->expects($this->once())->method('load')->will($this->returnValue([$customer]));
         $this->customersFactory->expects($this->once())->method('create')
             ->will($this->returnValue($customerCollection));
 
