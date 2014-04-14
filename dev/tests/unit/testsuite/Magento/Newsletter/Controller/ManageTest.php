@@ -7,6 +7,8 @@
  */
 namespace Magento\Newsletter\Controller;
 
+use Magento\Exception\NoSuchEntityException;
+
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -137,8 +139,8 @@ class ManageTest extends \PHPUnit_Framework_TestCase
         $this->customerAccountServiceMock->expects($this->any())
             ->method('getCustomer')
             ->will($this->throwException(
-                    new \Magento\Exception\NoSuchEntityException(
-                        'No such entity with %fieldName = %value',
+                    new NoSuchEntityException(
+                        NoSuchEntityException::MESSAGE_SINGLE_FIELD,
                         ['fieldName' => 'customerId', 'value' => 'value']
                     )
                 )
