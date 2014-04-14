@@ -75,7 +75,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_websiteFactoryMock = $this->getMock(
-            'Magento\Store\Model\Website\Factory',
+            'Magento\Store\Model\WebsiteFactory',
             array('create'),
             array(),
             '',
@@ -90,7 +90,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_websiteMock)
         );
         $this->_groupFactoryMock = $this->getMock(
-            'Magento\Store\Model\Group\Factory',
+            'Magento\Store\Model\GroupFactory',
             array('create'),
             array(),
             '',

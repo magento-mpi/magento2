@@ -12,10 +12,9 @@ namespace Magento\Store\Model\Storage;
 use Magento\App\State;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\Group;
-use Magento\Store\Model\Group\Factory;
 use Magento\Store\Model\StoreFactory;
 use Magento\Store\Model\Website;
-use Magento\Store\Model\Website\Factory as WebsiteFactory;
+use Magento\Store\Model\WebsiteFactory as WebsiteFactory;
 
 class Db implements \Magento\Store\Model\StoreManagerInterface
 {
@@ -130,7 +129,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
     public function __construct(
         StoreFactory $storeFactory,
         WebsiteFactory $websiteFactory,
-        Factory $groupFactory,
+        \Magento\Store\Model\GroupFactory $groupFactory,
         \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\Cookie $cookie,
         State $appState,

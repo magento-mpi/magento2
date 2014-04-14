@@ -1621,4 +1621,7 @@ return array(
     ['_getThemeInstance', 'Magento\View\Layout'],
     ['getArea', 'Magento\View\Layout'],
     ['setArea', 'Magento\View\Layout'],
+    ['getCurrentStore', 'Magento\Store\Model\StoreManagerInterface'],
+    ['getAnyStoreView', 'Magento\Store\Model\StoreManagerInterface'],
+    ['throwStoreException', 'Magento\Store\Model\StoreManagerInterface'],
 );
