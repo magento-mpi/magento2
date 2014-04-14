@@ -205,6 +205,12 @@
             <resource ref="Magento_Customer::customer"/>
         </resources>
     </route>
+    <route url="/V1/customerAccounts" method="GET">
+        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="getCustomerByEmail"/>
+        <resources>
+            <resource ref="Magento_Customer::customer"/>
+        </resources>
+    </route>
     <route url="/V1/customerAccounts/:customerId/canDelete" method="GET">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="canDelete"/>
         <resources>
@@ -263,12 +269,6 @@
         <service class="Magento\Customer\Service\V1\CustomerAddressServiceInterface" method="saveAddresses"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>
-        </resources>
-    </route>
-    <route url="/V1/customerAccounts/:customerEmail/customerEmail" method="GET">
-        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="getCustomerByEmail"/>
-        <resources>
-            <resource ref="Magento_Customer::customer"/>
         </resources>
     </route>
     <route url="/V1/customerAccounts/:customerEmail/CustomerDetailsByEmail" method="GET">
