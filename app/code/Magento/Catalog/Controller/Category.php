@@ -148,6 +148,11 @@ class Category extends \Magento\App\Action\Action
                 $this->_view->addPageLayoutHandles(array('type' => $parentType));
             }
             $this->_view->addPageLayoutHandles(array('type' => $type, 'id' => $category->getId()));
+
+            // apply custom layout (page) template once the blocks are generated
+            if ($settings->getPageLayout()) {
+                $this->_objectManager->get('Magento\Theme\Helper\Layout')->applyHandle($settings->getPageLayout());
+            }
             $this->_view->loadLayoutUpdates();
 
             // apply custom layout update once layout is loaded
@@ -160,10 +165,6 @@ class Category extends \Magento\App\Action\Action
 
             $this->_view->generateLayoutXml();
             $this->_view->generateLayoutBlocks();
-            // apply custom layout (page) template once the blocks are generated
-            if ($settings->getPageLayout()) {
-                $this->_objectManager->get('Magento\Theme\Helper\Layout')->applyTemplate($settings->getPageLayout());
-            }
 
             $root = $this->_view->getLayout()->getBlock('root');
             if ($root) {
