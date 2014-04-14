@@ -160,7 +160,7 @@ class Dbp extends \Magento\Data\Tree
     /**
      * Load tree
      *
-     * @param   int|Node $parentNode
+     * @param   int|Node|string $parentNode
      * @param   int $recursionLevel
      * @return  $this
      */
@@ -184,7 +184,7 @@ class Dbp extends \Magento\Data\Tree
                 $parentNode = null;
             } elseif (is_string($parentNode)) {
                 $parentPath = $parentNode;
-                $startLevel = count(explode($parentPath)) - 1;
+                $startLevel = count(explode(',', $parentPath)) - 1;
                 $parentNode = null;
             }
 
