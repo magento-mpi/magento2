@@ -63,7 +63,7 @@ class Replacer extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
             );
 
             $restoreUrl = $this->getUrl(
-                'adminhtml/sales_archive/remove',
+                'sales/archive/remove',
                 array('order_id' => $this->getOrder()->getId())
             );
             if ($this->_authorization->isAllowed('Magento_SalesArchive::remove')) {
@@ -82,7 +82,7 @@ class Replacer extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
             $isActive = $this->_configModel->isArchiveActive();
             if ($isActive) {
                 $archiveUrl = $this->getUrl(
-                    'adminhtml/sales_archive/add',
+                    'sales/archive/add',
                     array('order_id' => $this->getOrder()->getId())
                 );
                 if ($this->_authorization->isAllowed('Magento_SalesArchive::add')) {

@@ -37,7 +37,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
-        \Magento\Sales\Model\Resource\Order\Invoice\Grid\CollectionFactory $collectionFactory,
+        \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory,
         array $data = array()
     ) {
         $this->_invoiceFactory = $invoiceFactory;
@@ -77,7 +77,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_collectionFactory->create();
+        $collection = $this->_collectionFactory->create($this->_getCollectionClass());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

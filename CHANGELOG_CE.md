@@ -59,6 +59,8 @@
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
   * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)
   * Refactor RecurringPayment module to use customer service (MAGETWO-22521)
+  * Refactor Multishipping module to use Customer Services (MAGETWO-20874)
+  * Refactor PayPal module to use Customer Service (MAGETWO-20477)
 * GitHub requests:
   * [#520] (https://github.com/magento/magento2/issues/520) -- Fixed spelling in Magento\Payment\Model\Method\AbstractMethod
   * [#481] (https://github.com/magento/magento2/issues/481) -- GD2 Adapter PHP memory_limit
@@ -81,18 +83,27 @@
   * Fixed: Wrong special price calculating for Bundle Product (MAGETWO-22562)
   * Fixed: Fatal error when try create Shipment for Order if install Magento without USPS module (MAGETWO-22341)
   * Fixed: Admin Dashboard - 'Lifetime Sales' and 'Average Orders' sections are missing (MAGETWO-18733)
+  * Fixed: Tax class ID is displayed on "Customer Groups" grid instead of tax class name (MAGETWO-21826)
+  * Fixed: Unable to save Fontend App, information about Layout Updates is not saved (MAGETWO-21735)
+  * Fixed: Configurable product base image disappears on selecting product variations (MAGETWO-22973)
+  * Fixed: Unable to login to frontend, save customer address if FPC is disabled (MAGETWO-23149)
+  * Fixed: Compare products link and widget is absent on frontend (MAGETWO-22465)
+  * Fixed: Inability to create shipping label with FedEx (MAGETWO-22600)
+  * Fixed: Error message blocks are absent during installation wizard pages (MAGETWO-22318)
   * Fixed: Blank theme - fixed bugs and added improvements
   * Fixed an issue with active tab is changed to upper one after attribute set has been changed (MAGETWO-10611)
   * Fixed Flat Rate shipping method to be enabled by default (MAGETWO-21702)
   * Fixed an issue with uncorrect order of products in Add Product split button (MAGETWO-13160)
   * Fixed an issue with tier price attribute save (MAGETWO-19371)
+  * Fixed possibility creating integration from config file (MAGETWO-22311)
 * JavaScript improvements:
   * Upgraded frontend jQuery library to version 1.11
   * Upgraded frontend jQuery UI library to version 1.10.4
   * Modified loader widget to render content using handlebars
   * Added use strict mode to accordian widget
   * Added use strict mode to tab widget
-  * Fixed possibility creating integration from config file (MAGETWO-22311)
+* GitHub requests:
+  * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
 
 2.0.0.0-dev72
 =============
