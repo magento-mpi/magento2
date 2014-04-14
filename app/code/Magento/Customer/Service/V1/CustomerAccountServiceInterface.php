@@ -100,7 +100,8 @@ interface CustomerAccountServiceInterface
      * @param string $confirmationKey Sent to customer in an confirmation e-mail.
      * @return \Magento\Customer\Service\V1\Data\Customer
      * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
-     * @throws \Magento\Exception\StateException  if account already active
+     * @throws \Magento\Exception\State\InputMismatchException if the token is invalid
+     * @throws \Magento\Exception\State\InvalidTransitionException if account already active
      */
     public function activateCustomer($customerId, $confirmationKey);
 
