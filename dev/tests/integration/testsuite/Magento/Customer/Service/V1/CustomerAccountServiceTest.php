@@ -643,7 +643,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($customerDetails->getCustomer()->getId());
         $this->_customerAccountService->updateCustomer($customerDetails);
 
-        $newCustomerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
+        $this->_customerAccountService->getCustomerDetails($customerId);
     }
 
     /**

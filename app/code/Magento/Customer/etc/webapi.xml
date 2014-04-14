@@ -217,7 +217,7 @@
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
-    <route url="/V1/customerAccounts?customerEmail=:customerEmail" method="DELETE">
+    <route url="/V1/customerAccounts" method="DELETE">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="deleteCustomerByEmail"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>
