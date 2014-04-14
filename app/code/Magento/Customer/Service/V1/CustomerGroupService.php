@@ -9,15 +9,17 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Core\Model\Store\Config as StoreConfig;
-use Magento\Core\Model\StoreManagerInterface;
 use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Model\GroupFactory;
+use Magento\Customer\Model\GroupRegistry;
 use Magento\Customer\Model\Resource\Group\Collection;
+use Magento\Customer\Service\V1\Data\CustomerGroup;
+use Magento\Service\V1\Data\Search\FilterGroup;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
 use Magento\Service\V1\Data\Filter;
+use Magento\Service\V1\Data\SearchCriteria;
 use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Model\ClassModelFactory as TaxClassModelFactory;
 
@@ -34,14 +36,9 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     private $_groupFactory;
 
     /**
-     * @var StoreConfig
+     * @var Scope Config
      */
-    private $_storeConfig;
-
-    /**
-     * @var StoreManagerInterface
-     */
-    private $_storeManager;
+    private $_scopeConfig;
 
     /**
      * @var Data\SearchResultsBuilder
@@ -59,32 +56,37 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     private $_taxClassModelFactory;
 
     /**
+     * @var GroupRegistry
+     */
+    private $_groupRegistry;
+
+    /**
      * The default tax class id if no tax class id is specified
      */
     const DEFAULT_TAX_CLASS_ID = 3;
 
     /**
      * @param GroupFactory $groupFactory
-     * @param StoreConfig $storeConfig
-     * @param StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerGroupBuilder $customerGroupBuilder
-     * @param TaxClassModelFactory $taxClassModel
+     * @param TaxClassModelFactory $taxClassModelFactory
+     * @param GroupRegistry $groupRegistry
      */
     public function __construct(
         GroupFactory $groupFactory,
-        StoreConfig $storeConfig,
-        StoreManagerInterface $storeManager,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         Data\SearchResultsBuilder $searchResultsBuilder,
         Data\CustomerGroupBuilder $customerGroupBuilder,
-        TaxClassModelFactory $taxClassModelFactory
+        TaxClassModelFactory $taxClassModelFactory,
+        GroupRegistry $groupRegistry
     ) {
         $this->_groupFactory = $groupFactory;
-        $this->_storeConfig = $storeConfig;
-        $this->_storeManager = $storeManager;
+        $this->_scopeConfig = $scopeConfig;
         $this->_searchResultsBuilder = $searchResultsBuilder;
         $this->_customerGroupBuilder = $customerGroupBuilder;
         $this->_taxClassModelFactory = $taxClassModelFactory;
+        $this->_groupRegistry = $groupRegistry;
     }
 
     /**
@@ -99,7 +101,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             $collection->setRealGroupsFilter();
         }
         if (!is_null($taxClassId)) {
-            $collection->addFieldToFilter('tax_class_id', $taxClassId);
+            $collection->addFieldToFilter(CustomerGroup::TAX_CLASS_ID, $taxClassId);
         }
         /** @var CustomerGroupModel $group */
         foreach ($collection as $group) {
@@ -114,20 +116,23 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function searchGroups(Data\SearchCriteria $searchCriteria)
+    public function searchGroups(SearchCriteria $searchCriteria)
     {
         $this->_searchResultsBuilder->setSearchCriteria($searchCriteria);
 
         $groups = array();
         /** @var Collection $collection */
         $collection = $this->_groupFactory->create()->getCollection();
-        $this->addFiltersFromRootToCollection($searchCriteria->getAndGroup(), $collection);
+        //Add filters from root filter group to the collection
+        foreach ($searchCriteria->getFilterGroups() as $group) {
+            $this->addFilterGroupToCollection($group, $collection);
+        }
         $this->_searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
             foreach ($searchCriteria->getSortOrders() as $field => $direction) {
                 $field = $this->translateField($field);
-                $collection->addOrder($field, $direction == Data\SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+                $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
             }
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
@@ -135,9 +140,13 @@ class CustomerGroupService implements CustomerGroupServiceInterface
 
         /** @var CustomerGroupModel $group */
         foreach ($collection as $group) {
-            $this->_customerGroupBuilder->setId($group->getId())
-                ->setCode($group->getCode())
-                ->setTaxClassId($group->getTaxClassId());
+            $this->_customerGroupBuilder->setId(
+                $group->getId()
+            )->setCode(
+                $group->getCode()
+            )->setTaxClassId(
+                $group->getTaxClassId()
+            );
             $groups[] = $this->_customerGroupBuilder->create();
         }
         $this->_searchResultsBuilder->setItems($groups);
@@ -145,55 +154,18 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     }
 
     /**
-     * Adds some filters from a root filter group to a collection.
+     * Helper function that adds a FilterGroup to the collection.
      *
-     * @param Data\Search\AndGroup $rootAndGroup
+     * @param FilterGroup $filterGroup
      * @param Collection $collection
      * @return void
      * @throws \Magento\Exception\InputException
      */
-    protected function addFiltersFromRootToCollection(Data\Search\AndGroup $rootAndGroup, Collection $collection)
-    {
-        if (count($rootAndGroup->getAndGroups())) {
-            throw new InputException('Only OR groups are supported as nested groups.');
-        }
-
-        foreach ($rootAndGroup->getFilters() as $filter) {
-            $this->addFilterToCollection($collection, $filter);
-        }
-
-        foreach ($rootAndGroup->getOrGroups() as $group) {
-            $this->addOrFilterGroupToCollection($collection, $group);
-        }
-    }
-
-    /**
-     * Helper function that adds a filter to the collection
-     *
-     * @param Collection $collection
-     * @param Filter $filter
-     * @return void
-     */
-    protected function addFilterToCollection(Collection $collection, Filter $filter)
-    {
-        $field = $this->translateField($filter->getField());
-        $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-        $collection->addFieldToFilter($field, [$condition => $filter->getValue()]);
-    }
-
-    /**
-     * Helper function that adds a OrGroup to the collection.
-     *
-     * @param Collection $collection
-     * @param Data\Search\OrGroup $orGroup
-     * @return void
-     * @throws \Magento\Exception\InputException
-     */
-    protected function addOrFilterGroupToCollection(Collection $collection, Data\Search\OrGroup $orGroup)
+    protected function addFilterGroupToCollection(FilterGroup $filterGroup, Collection $collection)
     {
         $fields = [];
         $conditions = [];
-        foreach ($orGroup->getFilters() as $filter) {
+        foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
             $fields[] = $this->translateField($filter->getField());
             $conditions[] = [$condition => $filter->getValue()];
@@ -212,9 +184,9 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     protected function translateField($field)
     {
         switch ($field) {
-            case 'code':
+            case CustomerGroup::CODE:
                 return 'customer_group_code';
-            case 'id':
+            case CustomerGroup::ID:
                 return 'customer_group_id';
             default:
                 return $field;
@@ -226,12 +198,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function getGroup($groupId)
     {
-        $customerGroup = $this->_groupFactory->create();
-        $customerGroup->load($groupId);
-        // Throw exception if a customer group does not exist
-        if (is_null($customerGroup->getId())) {
-            throw new NoSuchEntityException('groupId', $groupId);
-        }
+        $customerGroup = $this->_groupRegistry->retrieve($groupId);
         $this->_customerGroupBuilder->setId($customerGroup->getId())
             ->setCode($customerGroup->getCode())
             ->setTaxClassId($customerGroup->getTaxClassId());
@@ -244,12 +211,14 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     public function getDefaultGroup($storeId)
     {
         try {
-            $this->_storeManager->getStore($storeId);
-        } catch (\Exception $e) {
+            $groupId = $this->_scopeConfig->getValue(
+                CustomerGroupModel::XML_PATH_DEFAULT_ID,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
+        } catch (\Magento\Model\Exception $e) {
             throw new NoSuchEntityException('storeId', $storeId);
         }
-
-        $groupId = $this->_storeConfig->getConfig(CustomerGroupModel::XML_PATH_DEFAULT_ID, $storeId);
         try {
             return $this->getGroup($groupId);
         } catch (NoSuchEntityException $e) {
@@ -263,14 +232,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function canDelete($groupId)
     {
-        $customerGroup = $this->_groupFactory->create();
-        $customerGroup->load($groupId);
-
-        // Throw exception if a customer group does not exist
-        if (is_null($customerGroup->getId())) {
-            throw new NoSuchEntityException('groupId', $groupId);
-        }
-
+        $customerGroup = $this->_groupRegistry->retrieve($groupId);
         return $groupId > 0 && !$customerGroup->usesAsDefault();
     }
 
@@ -283,15 +245,20 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             throw InputException::create(InputException::INVALID_FIELD_VALUE, 'code', $group->getCode());
         }
 
-        $customerGroup = $this->_groupFactory->create();
-        if ($group->getId()) {
-            $customerGroup->load($group->getId());
+        $customerGroup = null;
 
-            // Throw exception if the customer group does not exist
-            if (is_null($customerGroup->getId())) {
+        if ($group->getId()) {
+            try {
+                $customerGroup = $this->_groupRegistry->retrieve($group->getId());
+            } catch (NoSuchEntityException $e) {
                 throw new NoSuchEntityException('id', $group->getId());
             }
         }
+
+        if (!$customerGroup) {
+            $customerGroup = $this->_groupFactory->create();
+        }
+
         $customerGroup->setCode($group->getCode());
 
         $taxClassId = $group->getTaxClassId();
@@ -352,6 +319,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $customerGroup = $this->_groupFactory->create();
         $customerGroup->setId($groupId);
         $customerGroup->delete();
+        $this->_groupRegistry->remove($groupId);
         return true;
     }
 }

@@ -9,14 +9,11 @@
  */
 ?>
 <?php /** @var $this \Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info\Content */ ?>
-<fieldset>
+
+<div id="wrapping-container">
     <?php if ($this->isGiftWrappingForEntireOrder()): ?>
-        <legend><?php echo __('Gift Wrapping for the Entire Order') ?></legend>
-        <br />
-    <?php endif; ?>
-    <div id="wrapping-container">
-        <?php if ($this->isGiftWrappingForEntireOrder()): ?>
         <p><?php echo __('You can leave a box blank if you don\'t wish to add a gift wrap for whole order') ?></p>
+
         <div class="gift-wrapping-form">
             <label><?php echo __('Gift Wrapping Design') ?></label><?php echo $this->getDesignSelectHtml() ?>
             <div id="wrapping-price-box" class="gift-wrapping-design no-display">
@@ -38,24 +35,25 @@
                 <?php endif; ?>
             </div>
         </div>
-        <?php endif; ?>
+    <?php endif; ?>
 
-        <div class="no-display">
-            <input type="hidden" value="quote" name="giftwrapping[<?php echo $this->getEntityId() ?>][type]" />
-        </div>
+    <div class="no-display">
+        <input type="hidden" value="quote" name="giftwrapping[<?php echo $this->getEntityId() ?>][type]" />
+    </div>
 
-        <?php if ($this->getAllowGiftReceipt()): ?>
+    <?php if ($this->getAllowGiftReceipt()): ?>
         <p>
             <input type="checkbox" id="allow-gift-receipt" class="checkbox" value="1" name="giftwrapping[<?php echo $this->getEntityId() ?>][allow_gift_receipt]" />
             <label for="allow-gift-receipt"><?php echo __('Send Gift Receipt') ?></label>
         </p>
-        <?php endif; ?>
+    <?php endif; ?>
 
-        <?php if ($this->getAllowPrintedCard()): ?>
+    <?php if ($this->getAllowPrintedCard()): ?>
         <p>
             <input type="checkbox" id="add-printed-card" class="checkbox" value="1" name="giftwrapping[<?php echo $this->getEntityId() ?>][add_printed_card]" />
             <label for="add-printed-card"><?php echo __('Add Printed Card') ?></label>
         </p>
+
         <div id="card-price-box" class="no-display">
         <?php if ($this->getDisplayCardBothPrices()): ?>
             <div>
@@ -73,6 +71,5 @@
             </div>
         <?php endif; ?>
         </div>
-        <?php endif; ?>
-    </div>
-</fieldset>
+    <?php endif; ?>
+</div>

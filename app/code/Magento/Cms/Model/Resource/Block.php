@@ -22,7 +22,7 @@ class Block extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -31,12 +31,12 @@ class Block extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\App\Resource $resource
      * @param \Magento\Stdlib\DateTime\DateTime $date
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Stdlib\DateTime\DateTime $date,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($resource);
         $this->_storeManager = $storeManager;
@@ -171,7 +171,7 @@ class Block extends \Magento\Model\Resource\Db\AbstractDb
         $select = parent::_getLoadSelect($field, $value, $object);
 
         if ($object->getStoreId()) {
-            $stores = array((int)$object->getStoreId(), \Magento\Core\Model\Store::DEFAULT_STORE_ID);
+            $stores = array((int)$object->getStoreId(), \Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
             $select->join(
                 array('cbs' => $this->getTable('cms_block_store')),
@@ -202,7 +202,7 @@ class Block extends \Magento\Model\Resource\Db\AbstractDb
     public function getIsUniqueBlockToStores(\Magento\Model\AbstractModel $object)
     {
         if ($this->_storeManager->hasSingleStore()) {
-            $stores = array(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
+            $stores = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
         } else {
             $stores = (array)$object->getData('stores');
         }

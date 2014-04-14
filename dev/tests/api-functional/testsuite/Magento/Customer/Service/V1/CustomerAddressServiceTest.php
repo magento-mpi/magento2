@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Service\V1;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -257,6 +258,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
             'lastname' => 'Smith',
             'city' => 'CityM',
             'country_id' => 'US',
+            'company' => 'CompanyName',
             'postcode' => '75477',
             'telephone' => '3468676',
             'street' => ['Green str, 67'],

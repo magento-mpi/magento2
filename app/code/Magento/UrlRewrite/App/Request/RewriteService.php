@@ -15,7 +15,7 @@ class RewriteService
     protected $_rewriteFactory;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
@@ -27,12 +27,12 @@ class RewriteService
     /**
      * @param \Magento\App\RouterList $routerList
      * @param \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
         \Magento\App\RouterList $routerList,
         \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory,
-        \Magento\App\ConfigInterface $config
+        \Magento\App\Config\ScopeConfigInterface $config
     ) {
         $this->_rewriteFactory = $rewriteFactory;
         $this->_config = $config;

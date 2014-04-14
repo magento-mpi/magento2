@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 namespace Magento\Backend\Block\Widget\Grid;
-use Magento\Core\Model\StoreManager;
+use Magento\Store\Model\StoreManager;
 /**
  * @magentoDataFixture Magento/Backend/Block/_files/backend_theme.php
  *

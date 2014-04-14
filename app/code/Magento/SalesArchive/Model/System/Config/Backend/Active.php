@@ -26,8 +26,7 @@ class Active extends \Magento\Backend\Model\Config\Backend\Cache implements
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\SalesArchive\Model\Archive $archive
      * @param \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection
      * @param \Magento\Model\Resource\AbstractResource $resource
@@ -37,8 +36,7 @@ class Active extends \Magento\Backend\Model\Config\Backend\Cache implements
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\SalesArchive\Model\Archive $archive,
         \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection,
         \Magento\Model\Resource\AbstractResource $resource = null,
@@ -47,7 +45,7 @@ class Active extends \Magento\Backend\Model\Config\Backend\Cache implements
     ) {
         $this->_archive = $archive;
         $this->_orderCollection = $orderCollection;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**

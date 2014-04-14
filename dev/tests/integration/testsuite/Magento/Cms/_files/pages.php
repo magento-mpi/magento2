@@ -39,5 +39,5 @@ $page->setTitle(
 )->setRootTemplate(
     'one_column'
 )->setCustomTheme(
-    'magento_blank'
+    'Magento/blank'
 )->save();

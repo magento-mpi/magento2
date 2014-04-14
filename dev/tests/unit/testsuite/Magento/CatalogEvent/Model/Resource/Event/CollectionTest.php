@@ -89,10 +89,16 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
 
-        $store = $this->getMock('Magento\Core\Model\Store', array('getId', '__sleep', '__wakeup'), array(), '', false);
+        $store = $this->getMock(
+            'Magento\Store\Model\Store',
+            array('getId', '__sleep', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $store->expects($this->once())->method('getId')->will($this->returnValue(self::CURRENT_STORE_ID));
 
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array('getStore'), array(), '', false);
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array('getStore'), array(), '', false);
         $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($store));
 
         $select = $this->getMock('Magento\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
@@ -123,10 +129,15 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 function ($text, $value) {
                     return str_replace('?', $value, $text);
                 }
-            ));
-        $adapter->expects($this->exactly(1))
-            ->method('getCheckSql')
-            ->will($this->returnCallback(array($this, 'verifyGetCheckSql')));
+            )
+        );
+        $adapter->expects(
+            $this->exactly(1)
+        )->method(
+            'getCheckSql'
+        )->will(
+            $this->returnCallback(array($this, 'verifyGetCheckSql'))
+        );
 
         $adapter->expects(
             $this->exactly(1)

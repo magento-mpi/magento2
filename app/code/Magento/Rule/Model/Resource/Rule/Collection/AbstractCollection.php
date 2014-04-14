@@ -84,7 +84,7 @@ abstract class AbstractCollection extends \Magento\Model\Resource\Db\Collection\
     /**
      * Limit rules collection by specific websites
      *
-     * @param int|int[]|\Magento\Core\Model\Website $websiteId
+     * @param int|int[]|\Magento\Store\Model\Website $websiteId
      * @return $this
      */
     public function addWebsiteFilter($websiteId)
@@ -92,7 +92,7 @@ abstract class AbstractCollection extends \Magento\Model\Resource\Db\Collection\
         $entityInfo = $this->_getAssociatedEntityInfo('website');
         if (!$this->getFlag('is_website_table_joined')) {
             $this->setFlag('is_website_table_joined', true);
-            if ($websiteId instanceof \Magento\Core\Model\Website) {
+            if ($websiteId instanceof \Magento\Store\Model\Website) {
                 $websiteId = $websiteId->getId();
             }
 

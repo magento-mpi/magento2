@@ -31,7 +31,7 @@ class Bar extends \Magento\Backend\Block\Dashboard\AbstractDashboard
     /**
      * @return array
      */
-    protected function getTotals()
+    public function getTotals()
     {
         return $this->_totals;
     }

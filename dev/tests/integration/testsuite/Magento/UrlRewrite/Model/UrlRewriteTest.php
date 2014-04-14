@@ -26,7 +26,7 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->setStoreId(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Core\Model\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->getDefaultStoreView()->getId()
         )->setRequestPath(
             'fancy/url.html'
@@ -44,7 +44,7 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
             );
             $read->setStoreId(
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Core\Model\StoreManagerInterface'
+                    'Magento\Store\Model\StoreManagerInterface'
                 )->getDefaultStoreView()->getId()
             )->loadByRequestPath(
                 'fancy/url.html'
@@ -66,7 +66,7 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->setStoreId(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Core\Model\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->getDefaultStoreView()->getId()
         )->setRequestPath(
             'product1.html'
@@ -86,7 +86,7 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
             );
             $read->setStoreId(
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Core\Model\StoreManagerInterface'
+                    'Magento\Store\Model\StoreManagerInterface'
                 )->getDefaultStoreView()->getId()
             )->loadByIdPath(
                 'product/1'
@@ -155,7 +155,7 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
     {
         $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\App\RequestInterface');
         $_GET['___from_store'] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->getDefaultStoreView()->getCode();
         $this->assertFalse($this->_model->rewrite($request));
     }
@@ -170,7 +170,7 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->setStoreId(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Core\Model\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->getDefaultStoreView()->getId()
         )->setRequestPath(
             'fancy/url.html'
