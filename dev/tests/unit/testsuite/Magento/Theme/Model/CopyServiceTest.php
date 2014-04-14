@@ -155,7 +155,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem =
             $this->getMock('Magento\Framework\App\Filesystem', array('getDirectoryWrite'), array(), '', false);
         $this->_dirWriteMock = $this->getMock(
-            'Magento\Filesystem\Directory\Write',
+            'Magento\Framework\Filesystem\Directory\Write',
             array('isDirectory', 'search', 'copy', 'delete', 'read', 'copyFile', 'isExist'),
             array(),
             '',

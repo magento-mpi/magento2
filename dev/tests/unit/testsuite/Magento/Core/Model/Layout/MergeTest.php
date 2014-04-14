@@ -94,10 +94,10 @@ class MergeTest extends \PHPUnit_Framework_TestCase
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false, false);
-        $directory = $this->getMock('Magento\Filesystem\Directory\Read', array(), array(), '', false, false);
+        $directory = $this->getMock('Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false, false);
         $directory->expects($this->any())->method('getRelativePath')->will($this->returnArgument(0));
 
-        $fileDriver = $objectHelper->getObject('Magento\Filesystem\Driver\File');
+        $fileDriver = $objectHelper->getObject('Magento\Framework\Filesystem\Driver\File');
         $directory->expects($this->any())->method('readFile')->will(
             $this->returnCallback(
                 function ($filename) use ($fileDriver) {

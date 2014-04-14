@@ -49,7 +49,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
         $appStateProperty->setAccessible(true);
         $appStateProperty->setValue($this->_theme, $this->_appState);
         $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
-        $this->_directory = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '', false);
+        $this->_directory = $this->getMock('\Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false);
         $filesystem->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($this->_directory));
         $this->_directory->expects($this->once())->method('getAbsolutePath')->will($this->returnArgument(0));
         $this->_model = new \Magento\View\Design\Theme\Customization\Path($filesystem);

@@ -32,7 +32,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected $_filePath;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $rootDirectory;
 
@@ -53,7 +53,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $schemaFile = $this->_filePath . 'config.xsd';
         $schemaLocatorMock->expects($this->once())->method('getSchema')->will($this->returnValue($schemaFile));
         $this->rootDirectory = $this->getMock(
-            'Magento\Filesystem\Directory\Read',
+            'Magento\Framework\Filesystem\Directory\Read',
             array('readFile', 'getRelativePath'),
             array(),
             '',

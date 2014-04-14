@@ -35,7 +35,7 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
-        $directory = $this->getMock('Magento\Filesystem\Directory\Read', array(), array(), '', false);
+        $directory = $this->getMock('Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false);
         $filesystem->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($directory));
         $directory->expects($this->any())->method('getAbsolutePath')->will($this->returnArgument(0));
         $this->_model = new \Magento\View\Asset\MinifyService(

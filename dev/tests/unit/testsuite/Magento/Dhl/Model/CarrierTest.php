@@ -115,7 +115,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
 
         $httpClientFactory->expects($this->any())->method('create')->will($this->returnValue($httpClient));
         $modulesDirectory = $this->getMockBuilder(
-            '\Magento\Filesystem\Directory\Read'
+            '\Magento\Framework\Filesystem\Directory\Read'
         )->disableOriginalConstructor()->setMethods(
             array('getRelativePath', 'readFile')
         )->getMock();

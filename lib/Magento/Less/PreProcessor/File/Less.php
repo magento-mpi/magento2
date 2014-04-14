@@ -90,14 +90,14 @@ class Less
      * Return source path of file if it's exist
      *
      * @return string
-     * @throws \Magento\Filesystem\FilesystemException
+     * @throws \Magento\Framework\Filesystem\FilesystemException
      */
     public function getSourcePath()
     {
         if ($this->sourcePath === null) {
             $this->sourcePath = $this->viewFileSystem->getViewFile($this->getFilePath(), $this->getViewParams());
             if (!$this->getDirectoryRead()->isExist($this->getDirectoryRead()->getRelativePath($this->sourcePath))) {
-                throw new \Magento\Filesystem\FilesystemException("File '{$this->sourcePath}' isn't exist");
+                throw new \Magento\Framework\Filesystem\FilesystemException("File '{$this->sourcePath}' isn't exist");
             }
         }
         return $this->sourcePath;
@@ -165,7 +165,7 @@ class Less
     /**
      * Get base directory with source of less files
      *
-     * @return \Magento\Filesystem\Directory\ReadInterface
+     * @return \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     public function getDirectoryRead()
     {
@@ -175,7 +175,7 @@ class Less
     /**
      * Get directory for publication temporary less files
      *
-     * @return \Magento\Filesystem\Directory\WriteInterface
+     * @return \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     public function getDirectoryWrite()
     {

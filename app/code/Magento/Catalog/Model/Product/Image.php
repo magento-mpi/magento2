@@ -118,7 +118,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
     protected $_watermarkImageOpacity = 70;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_mediaDirectory;
 

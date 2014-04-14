@@ -107,7 +107,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $filesystem = new \Magento\Filesystem\Driver\File();
+        $filesystem = new \Magento\Framework\Filesystem\Driver\File();
         if ($filesystem->isExists($this->_tmpDir)) {
             $filesystem->deleteDirectory($this->_tmpDir);
         }
@@ -317,7 +317,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     {
         $autoloader = new \Magento\Autoload\IncludePath();
         $generatorIo = new \Magento\Code\Generator\Io(
-            new \Magento\Filesystem\Driver\File(),
+            new \Magento\Framework\Filesystem\Driver\File(),
             $autoloader,
             $this->_generationDir
         );

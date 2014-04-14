@@ -18,7 +18,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $isProductionMode = true;
         $isSigned = false;
-        //NOTE: If going to test with signature enabled mock \Magento\Filesystem::getMTime()
+        //NOTE: If going to test with signature enabled mock \Magento\Framework\Filesystem::getMTime()
         $expected = 'http://example.com/public_dir/a/t/m/file.js';
 
         // 1. Get fileSystem model

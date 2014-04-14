@@ -31,7 +31,7 @@ class Gallery extends \Magento\Backend\App\Action
             $uploader->addValidateCallback('catalog_product_image', $imageAdapter, 'validateUploadFile');
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
-            /** @var \Magento\Filesystem\Directory\Read $mediaDirectory */
+            /** @var \Magento\Framework\Filesystem\Directory\Read $mediaDirectory */
             $mediaDirectory = $this->_objectManager->get(
                 'Magento\Framework\App\Filesystem'
             )->getDirectoryRead(

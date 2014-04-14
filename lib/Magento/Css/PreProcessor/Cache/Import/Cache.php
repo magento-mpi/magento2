@@ -51,7 +51,7 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     protected $fileFactory;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $readDirectory;
 

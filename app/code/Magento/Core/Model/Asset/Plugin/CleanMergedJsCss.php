@@ -44,7 +44,7 @@ class CleanMergedJsCss
     {
         $proceed();
 
-        /** @var \Magento\Filesystem\Directory\ReadInterface $pubCacheDirectory */
+        /** @var \Magento\Framework\Filesystem\Directory\ReadInterface $pubCacheDirectory */
         $pubCacheDirectory = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::PUB_VIEW_CACHE_DIR);
         $mergedDir = $pubCacheDirectory->getAbsolutePath() . '/' . \Magento\View\Asset\Merged::PUBLIC_MERGE_DIR;
         $this->database->deleteFolder($mergedDir);

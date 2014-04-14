@@ -37,8 +37,8 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $lessPreProcessor \Magento\Css\PreProcessor\Less */
         $lessPreProcessor = $this->objectManager->create('Magento\Css\PreProcessor\Less');
-        /** @var $filesystem \Magento\Filesystem */
-        $filesystem = $this->objectManager->get('Magento\Filesystem');
+        /** @var $filesystem \Magento\Framework\Filesystem */
+        $filesystem = $this->objectManager->get('Magento\Framework\Filesystem');
         $targetDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::TMP_DIR);
         $designParams = array('area' => 'frontend', 'theme' => 'test_pre_process');
         /** @var \Magento\View\Service $viewService */

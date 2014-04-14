@@ -57,7 +57,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\File\Csv */
     protected $_csvParser;
 
-    /** @var \Magento\Filesystem\Directory\ReadInterface */
+    /** @var \Magento\Framework\Filesystem\Directory\ReadInterface */
     protected $_directory;
 
     public function setUp()
@@ -75,7 +75,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $this->_request = $this->getMock('\Magento\Framework\App\RequestInterface', [], [], '', false);
         $this->_csvParser = $this->getMock('\Magento\File\Csv', [], [], '', false);
 
-        $this->_directory = $this->getMock('\Magento\Filesystem\Directory\ReadInterface', [], [], '', false);
+        $this->_directory = $this->getMock('\Magento\Framework\Filesystem\Directory\ReadInterface', [], [], '', false);
         $filesystem = $this->getMock('\Magento\Framework\App\Filesystem', [], [], '', false);
         $filesystem->expects($this->once())->method('getDirectoryRead')->will($this->returnValue($this->_directory));
 

@@ -20,7 +20,7 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
     protected $_filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Write | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_directory;
 
@@ -53,7 +53,7 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_directory = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
+        $this->_directory = $this->getMock('Magento\Framework\Filesystem\Directory\Write', array(), array(), '', false);
         $this->_filesystem->expects(
             $this->any()
         )->method(

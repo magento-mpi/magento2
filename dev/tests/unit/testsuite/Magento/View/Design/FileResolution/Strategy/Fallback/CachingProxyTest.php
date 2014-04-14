@@ -51,7 +51,7 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
     /**
      * Direcoty with write permissions
      *
-     * @var \Magento\Filesystem\Directory\Write | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Write | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $directoryWrite;
 
@@ -95,7 +95,7 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        $filesystemDriver = new \Magento\Filesystem\Driver\File();
+        $filesystemDriver = new \Magento\Framework\Filesystem\Driver\File();
         $filesystemDriver->deleteDirectory($this->tmpDir);
     }
 
@@ -251,7 +251,7 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
     protected function getFilesystemMock($isDirectory = true)
     {
         $directoryRead = $this->getMock(
-            'Magento\Filesystem\Directory\Read',
+            'Magento\Framework\Filesystem\Directory\Read',
             array('isDirectory', 'getRelativePath'),
             array(),
             '',
@@ -260,7 +260,7 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
         $directoryRead->expects($this->once())->method('isDirectory')->will($this->returnValue($isDirectory));
         $directoryRead->expects($this->any())->method('getRelativePath')->will($this->returnArgument(0));
         $this->directoryWrite = $this->getMock(
-            'Magento\Filesystem\Directory\Write',
+            'Magento\Framework\Filesystem\Directory\Write',
             array('getRelativePath', 'isFile', 'readFile', 'isDirectory', 'create', 'writeFile'),
             array(),
             '',

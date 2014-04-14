@@ -15,7 +15,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $_directoryMock;
 
@@ -28,7 +28,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     {
         $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array('getDirectoryRead'), array(), '', false);
         $this->_directoryMock = $this->getMock(
-            '\Magento\Filesystem\Directory\Read',
+            '\Magento\Framework\Filesystem\Directory\Read',
             array('isExist', 'search'),
             array(),
             '',

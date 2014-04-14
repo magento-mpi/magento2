@@ -18,7 +18,7 @@ use Magento\View\Design\ThemeInterface;
 class CopyService
 {
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $_directory;
 

@@ -35,7 +35,7 @@ class File extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Media Directory object (writable).
      *
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_mediaDirectory;
 

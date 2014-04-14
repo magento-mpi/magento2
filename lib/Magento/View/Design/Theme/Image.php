@@ -7,7 +7,7 @@
  */
 namespace Magento\View\Design\Theme;
 
-use Magento\Filesystem\Directory\WriteInterface;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 /**
  * Theme Image model class

@@ -14,7 +14,7 @@ use Magento\View\Design\FileResolution\Strategy\LocaleInterface;
 use Magento\View\Design\FileResolution\Strategy\View\NotifiableInterface;
 use Magento\View\Design\FileResolution\Strategy\ViewInterface;
 use Magento\View\Design\ThemeInterface;
-use Magento\Filesystem\Directory\Write;
+use Magento\Framework\Filesystem\Directory\Write;
 
 /**
  * Caching Proxy

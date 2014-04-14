@@ -7,7 +7,7 @@
  */
 namespace Magento\View;
 
-use Magento\Filesystem\Directory\WriteInterface;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 /**
  * Magento view file publisher

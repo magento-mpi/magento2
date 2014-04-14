@@ -93,14 +93,14 @@ class Template extends AbstractBlock
     /**
      * Root directory instance
      *
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $directory;
 
     /**
      * Media directory instance
      *
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     private $mediaDirectory;
 
@@ -324,7 +324,7 @@ class Template extends AbstractBlock
     /**
      * Instantiates filesystem directory
      *
-     * @return \Magento\Filesystem\Directory\ReadInterface
+     * @return \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected function getRootDirectory()
     {
@@ -338,7 +338,7 @@ class Template extends AbstractBlock
     /**
      * Get media directory
      *
-     * @return \Magento\Filesystem\Directory\Read
+     * @return \Magento\Framework\Filesystem\Directory\Read
      */
     protected function getMediaDirectory()
     {

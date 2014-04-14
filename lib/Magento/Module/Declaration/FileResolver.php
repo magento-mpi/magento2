@@ -10,7 +10,7 @@
 namespace Magento\Module\Declaration;
 
 use Magento\Framework\App\Filesystem;
-use Magento\Filesystem\Directory\ReadInterface;
+use Magento\Framework\Filesystem\Directory\ReadInterface;
 
 class FileResolver implements \Magento\Framework\Config\FileResolverInterface
 {

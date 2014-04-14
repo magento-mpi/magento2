@@ -23,7 +23,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Css\PreProcessor\Cache\Import\ImportEntityFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $importEntityFactoryMock;
 
-    /** @var \Magento\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $rootDirectory;
 
     protected function setUp()
@@ -36,7 +36,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->rootDirectory = $this->getMock(
-            'Magento\Filesystem\Directory\ReadInterface',
+            'Magento\Framework\Filesystem\Directory\ReadInterface',
             array(),
             array(),
             '',
@@ -226,7 +226,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             }
         );
         foreach ($filesData as $fileData) {
-            $readDirectory = $this->getMock('Magento\Filesystem\Directory\ReadInterface', array(), array(), '', false);
+            $readDirectory = $this->getMock('Magento\Framework\Filesystem\Directory\ReadInterface', array(), array(), '', false);
             $readDirectory->expects(
                 $this->any()
             )->method(

@@ -30,12 +30,12 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
     protected $minifyDir = 'pub/cache/minify';
 
     /**
-     * @var \Magento\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $rootDirectory;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $pubViewCacheDir;
 
@@ -53,14 +53,14 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->rootDirectory = $this->getMock(
-            'Magento\Filesystem\Directory\Read',
+            'Magento\Framework\Filesystem\Directory\Read',
             array('getRelativePath', 'isExist', 'getAbsolutePath'),
             array(),
             '',
             false
         );
         $this->pubViewCacheDir = $this->getMock(
-            'Magento\Filesystem\Directory\Read',
+            'Magento\Framework\Filesystem\Directory\Read',
             array('getAbsolutePath', 'getRelativePath'),
             array(),
             '',

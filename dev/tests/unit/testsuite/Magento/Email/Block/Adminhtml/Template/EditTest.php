@@ -245,7 +245,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
             array(\Magento\Framework\App\Filesystem::THEMES_DIR, 'var\www/magento\rootdir\app/themes/')
         );
 
-        $this->directoryMock = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '', false);
+        $this->directoryMock = $this->getMock('\Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false);
         $this->directoryMock->expects($this->any())->method('isFile')->will($this->returnValue(false));
         $this->directoryMock->expects($this->any())->method('getRelativePath')->will($this->returnValue(''));
 

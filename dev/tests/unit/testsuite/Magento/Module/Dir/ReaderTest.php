@@ -112,7 +112,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ),
         );
         $configPath = 'app/code/Test/Module/etc/config.xml';
-        $modulesDirectoryMock = $this->getMock('Magento\Filesystem\Directory\ReadInterface');
+        $modulesDirectoryMock = $this->getMock('Magento\Framework\Filesystem\Directory\ReadInterface');
         $modulesDirectoryMock->expects($this->any())->method('getRelativePath')->will($this->returnArgument(0));
         $modulesDirectoryMock->expects($this->any())->method('isExist')
             ->with($configPath)

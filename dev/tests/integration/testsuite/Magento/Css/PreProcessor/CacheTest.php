@@ -23,7 +23,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     protected $preProcessorLess;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -31,7 +31,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->preProcessorLess = $this->objectManager->create('Magento\Css\PreProcessor\Less');
-        $this->filesystem = $this->objectManager->get('Magento\Filesystem');
+        $this->filesystem = $this->objectManager->get('Magento\Framework\Filesystem');
 
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
@@ -96,7 +96,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     protected function clearCache()
     {
-        /** @var \Magento\Filesystem\Directory\WriteInterface $mapsDirectory */
+        /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $mapsDirectory */
         $mapsDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
 
         if ($mapsDirectory->isDirectory(Storage::MAPS_DIR)) {

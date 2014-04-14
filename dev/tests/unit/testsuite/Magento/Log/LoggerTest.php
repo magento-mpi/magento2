@@ -7,7 +7,7 @@
  */
 namespace Magento\Log;
 
-use Magento\Filesystem\Directory\Write;
+use Magento\Framework\Filesystem\Directory\Write;
 
 class LoggerTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,7 +35,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     {
         $logDir = TESTS_TEMP_DIR . '/var/log';
         $this->_filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
-        $this->_directory = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
+        $this->_directory = $this->getMock('Magento\Framework\Filesystem\Directory\Write', array(), array(), '', false);
         $this->_filesystemMock->expects(
             $this->any()
         )->method(

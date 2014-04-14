@@ -7,7 +7,7 @@
  */
 namespace Magento\View\Publisher;
 
-use Magento\Filesystem\Directory\WriteInterface;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 /**
  * Abstract publisher file type

@@ -35,7 +35,7 @@ class Csv extends \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
     /**
      * Source file handler.
      *
-     * @var \Magento\Filesystem\File\Write
+     * @var \Magento\Framework\Filesystem\File\Write
      */
     protected $_fileHandler;
 

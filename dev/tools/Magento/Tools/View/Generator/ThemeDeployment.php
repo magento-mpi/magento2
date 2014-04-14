@@ -67,7 +67,7 @@ class ThemeDeployment
     private $fileFactory;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     private $tmpDirectory;
 

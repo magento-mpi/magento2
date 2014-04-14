@@ -82,7 +82,7 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
 
         $objectManager->configure($this->_primaryConfigData);
         $objectManager->addSharedInstance($directoryList, 'Magento\Framework\App\Filesystem\DirectoryList');
-        $objectManager->addSharedInstance($directoryList, 'Magento\Filesystem\DirectoryList');
+        $objectManager->addSharedInstance($directoryList, 'Magento\Framework\Filesystem\DirectoryList');
 
         $appArguments = parent::createAppArguments($directoryList, $arguments);
         $this->appArgumentsProxy->setSubject($appArguments);

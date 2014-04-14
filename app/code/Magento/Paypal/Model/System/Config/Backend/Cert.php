@@ -25,7 +25,7 @@ class Cert extends \Magento\Framework\App\Config\Value
     protected $_encryptor;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $_tmpDirectory;
 

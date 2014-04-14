@@ -57,7 +57,7 @@ abstract class AbstractItems extends \Magento\Framework\Model\AbstractModel
     protected $_taxData;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $_rootDirectory;
 
