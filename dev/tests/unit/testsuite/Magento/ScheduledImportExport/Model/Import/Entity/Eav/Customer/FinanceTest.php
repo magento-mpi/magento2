@@ -798,7 +798,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * Test Finance::validateRow()
      * with different values in case when add/update behavior is performed
      *
-     * @covers       Finance::_validateRowForUpdate
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_validateRowForUpdate
      * @dataProvider validateRowDataProvider
      *
      * @param array $rowData
@@ -823,7 +823,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * Test Finance::validateRow()
      * with 2 rows with identical PKs in case when add/update behavior is performed
      *
-     * @covers Finance::_validateRowForUpdate
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_validateRowForUpdate
      */
     public function testValidateRowForUpdateDuplicateRows()
     {
@@ -857,7 +857,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * Test Finance::validateRow()
      * with different values in case when delete behavior is performed
      *
-     * @covers       Finance::_validateRowForDelete
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_validateRowForDelete
      * @dataProvider validateRowDataProvider
      *
      * @param array $rowData
@@ -881,7 +881,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test entity type code getter
      *
-     * @covers Finance::getEntityTypeCode
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::getEntityTypeCode
      */
     public function testGetEntityTypeCode()
     {
@@ -891,7 +891,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test data import
      *
-     * @covers Finance::importData
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::importData
      */
     public function testImportDataCustomBehavior()
     {

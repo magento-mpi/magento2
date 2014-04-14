@@ -27,6 +27,15 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
     }
 
+    public function tearDown()
+    {
+        /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
+        $customerRegistry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Model\CustomerRegistry');
+        //Cleanup customer from registry
+        $customerRegistry->remove(1);
+    }
+
     /**
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Newsletter/_files/subscribers.php

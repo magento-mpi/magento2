@@ -156,7 +156,7 @@ class Archive extends \Magento\Backend\App\Action
      */
     public function massCancelAction()
     {
-        $this->_forward('massCancel', 'sales_order', null, array('origin' => 'archive'));
+        $this->_forward('massCancel', 'order', null, array('origin' => 'archive'));
     }
 
     /**
@@ -166,7 +166,7 @@ class Archive extends \Magento\Backend\App\Action
      */
     public function massHoldAction()
     {
-        $this->_forward('massHold', 'sales_order', null, array('origin' => 'archive'));
+        $this->_forward('massHold', 'order', null, array('origin' => 'archive'));
     }
 
     /**
@@ -176,7 +176,7 @@ class Archive extends \Magento\Backend\App\Action
      */
     public function massUnholdAction()
     {
-        $this->_forward('massUnhold', 'sales_order', null, array('origin' => 'archive'));
+        $this->_forward('massUnhold', 'order', null, array('origin' => 'archive'));
     }
 
     /**
@@ -197,7 +197,7 @@ class Archive extends \Magento\Backend\App\Action
         } else {
             // selected orders is not available for removing from archive
         }
-        $this->_redirect('adminhtml/*/orders');
+        $this->_redirect('sales/archive/orders');
     }
 
     /**
@@ -262,7 +262,7 @@ class Archive extends \Magento\Backend\App\Action
      */
     public function massPrintInvoicesAction()
     {
-        $this->_forward('pdfinvoices', 'sales_order', null, array('origin' => 'archive'));
+        $this->_forward('pdfinvoices', 'order', null, array('origin' => 'archive'));
     }
 
     /**
@@ -272,7 +272,7 @@ class Archive extends \Magento\Backend\App\Action
      */
     public function massPrintCreditMemosAction()
     {
-        $this->_forward('pdfcreditmemos', 'sales_order', null, array('origin' => 'archive'));
+        $this->_forward('pdfcreditmemos', 'order', null, array('origin' => 'archive'));
     }
 
     /**
@@ -282,7 +282,7 @@ class Archive extends \Magento\Backend\App\Action
      */
     public function massPrintAllDocumentsAction()
     {
-        $this->_forward('pdfdocs', 'sales_order', null, array('origin' => 'archive'));
+        $this->_forward('pdfdocs', 'order', null, array('origin' => 'archive'));
     }
 
     /**
@@ -292,7 +292,7 @@ class Archive extends \Magento\Backend\App\Action
      */
     public function massPrintPackingSlipsAction()
     {
-        $this->_forward('pdfshipments', 'sales_order', null, array('origin' => 'archive'));
+        $this->_forward('pdfshipments', 'order', null, array('origin' => 'archive'));
     }
 
     /**
@@ -302,7 +302,7 @@ class Archive extends \Magento\Backend\App\Action
      */
     public function massPrintShippingLabelAction()
     {
-        $this->_forward('massPrintShippingLabel', 'sales_order_shipment', null, array('origin' => 'archive'));
+        $this->_forward('massPrintShippingLabel', 'order_shipment', 'admin', array('origin' => 'archive'));
     }
 
     /**
