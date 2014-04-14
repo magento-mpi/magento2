@@ -34,7 +34,7 @@ class File extends \Magento\Framework\App\Config\Value
     protected $_filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_mediaDirectory;
 

@@ -61,7 +61,7 @@ class Less implements PreProcessorInterface
      * Process LESS file content
      *
      * @param \Magento\View\Publisher\FileInterface $publisherFile
-     * @param \Magento\Filesystem\Directory\WriteInterface $targetDirectory
+     * @param \Magento\Framework\Filesystem\Directory\WriteInterface $targetDirectory
      * @return \Magento\View\Publisher\FileInterface
      */
     public function process(\Magento\View\Publisher\FileInterface $publisherFile, $targetDirectory)
@@ -81,7 +81,7 @@ class Less implements PreProcessorInterface
             if (empty($cssTrimmedContent)) {
                 return $publisherFile;
             }
-        } catch (\Magento\Filesystem\FilesystemException $e) {
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
             $this->logger->logException($e);
             // It has 'null' source path
             return $publisherFile;

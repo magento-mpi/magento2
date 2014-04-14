@@ -25,7 +25,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected $_moduleDirResolver;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystemDirectoryMock;
 
@@ -71,7 +71,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
         $this->_moduleDirResolver = $this->getMock('Magento\Module\Dir\ReverseResolver', array(), array(), '', false);
         $this->_filesystemDirectoryMock = $this->getMock(
-            '\Magento\Filesystem\Directory\Read',
+            '\Magento\Framework\Filesystem\Directory\Read',
             array(),
             array(),
             '',

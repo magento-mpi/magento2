@@ -39,7 +39,7 @@ class SynchronizationTest extends \PHPUnit_Framework_TestCase
         $storageMock->expects($this->once())->method('loadByFilename');
 
         $file = $this->getMock(
-            'Magento\Filesystem\File\Write',
+            'Magento\Framework\Filesystem\File\Write',
             array('lock', 'write', 'unlock', 'close'),
             array(),
             '',
@@ -50,7 +50,7 @@ class SynchronizationTest extends \PHPUnit_Framework_TestCase
         $file->expects($this->once())->method('unlock');
         $file->expects($this->once())->method('close');
         $directory = $this->getMock(
-            'Magento\Filesystem\Direcoty\Write',
+            'Magento\Framework\Filesystem\Direcoty\Write',
             array('openFile', 'getRelativePath'),
             array(),
             '',

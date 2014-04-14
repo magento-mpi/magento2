@@ -21,7 +21,7 @@ class Service
     protected $_filePath;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $_tmpDirectory;
 

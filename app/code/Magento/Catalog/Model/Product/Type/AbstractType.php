@@ -494,8 +494,8 @@ abstract class AbstractType
                         try {
                             $rootDir = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
                             $rootDir->create($rootDir->getRelativePath($path));
-                        } catch (\Magento\Filesystem\FilesystemException $e) {
-                            throw new \Magento\Framework\Model\Exception(
+                        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
+                            throw new \Magento\Model\Exception(
                                 __("We can't create writeable directory \"%1\".", $path)
                             );
                         }

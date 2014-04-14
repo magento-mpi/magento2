@@ -218,7 +218,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     protected function getFileSystemMock($targetFile)
     {
         $directoryMock = $this->getMock(
-            'Magento\Filesystem\Directory\Read',
+            'Magento\Framework\Filesystem\Directory\Read',
             array('isExist', 'getRelativePath'),
             array(),
             '',

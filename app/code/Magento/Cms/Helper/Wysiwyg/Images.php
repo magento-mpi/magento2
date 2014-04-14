@@ -34,7 +34,7 @@ class Images extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_storeId = null;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $_directory;
 
@@ -218,7 +218,7 @@ class Images extends \Magento\Framework\App\Helper\AbstractHelper
                 if (!$this->_directory->isExist($currentDir)) {
                     $this->_directory->create($currentDir);
                 }
-            } catch (\Magento\Filesystem\FilesystemException $e) {
+            } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
                 $message = __('The directory %1 is not writable by server.', $currentPath);
                 throw new \Magento\Framework\Model\Exception($message);
             }

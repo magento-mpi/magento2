@@ -7,7 +7,7 @@
  */
 namespace Magento\View;
 
-use Magento\Filesystem\Directory\ReadInterface;
+use Magento\Framework\Filesystem\Directory\ReadInterface;
 
 /**
  * Handles theme view.xml files

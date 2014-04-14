@@ -709,7 +709,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
      */
     protected function _createPdfPageFromImageString($imageString)
     {
-        /** @var \Magento\Filesystem\Directory\Write $directory */
+        /** @var \Magento\Framework\Filesystem\Directory\Write $directory */
         $directory = $this->_objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(

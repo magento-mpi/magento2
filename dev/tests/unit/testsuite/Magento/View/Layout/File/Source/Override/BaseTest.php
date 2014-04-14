@@ -7,7 +7,7 @@
  */
 namespace Magento\View\Layout\File\Source\Override;
 
-use Magento\Filesystem\Directory\Read;
+use Magento\Framework\Filesystem\Directory\Read;
 use Magento\View\Layout\File\Factory;
 
 class BaseTest extends \PHPUnit_Framework_TestCase
@@ -30,7 +30,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->directory = $this->getMock(
-            'Magento\Filesystem\Directory\Read',
+            'Magento\Framework\Filesystem\Directory\Read',
             array('getAbsolutePath', 'search'),
             array(),
             '',

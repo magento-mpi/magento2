@@ -9,7 +9,7 @@
  */
 namespace Magento\GiftWrapping\Model;
 
-use Magento\Filesystem\Directory\WriteInterface;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 /**
  * Gift Wrapping model

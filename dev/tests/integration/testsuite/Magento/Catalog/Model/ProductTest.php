@@ -38,7 +38,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Catalog\Model\Product\Media\Config $config */
         $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
 
-        /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
+        /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $mediaDirectory */
         $mediaDirectory = $objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
@@ -139,7 +139,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Catalog\Model\Product\Media\Config $config */
         $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
 
-        /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
+        /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $mediaDirectory */
         $mediaDirectory = $objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(

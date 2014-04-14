@@ -92,7 +92,7 @@ class HeadTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('scopeConfig')
         );
 
-        $mediaDirMock = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '', false);
+        $mediaDirMock = $this->getMock('\Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false);
         $mediaDirMock->expects(
             $this->any()
         )->method(

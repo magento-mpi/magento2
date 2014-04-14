@@ -101,7 +101,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     protected $filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $modulesDir;
 

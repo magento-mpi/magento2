@@ -9,8 +9,8 @@
 namespace Magento\Install\App\Action\Plugin;
 
 use Magento\Framework\App\Filesystem;
-use Magento\Filesystem\FilesystemException;
-use Magento\Filesystem\Directory\Write;
+use Magento\Framework\Filesystem\FilesystemException;
+use Magento\Framework\Filesystem\Directory\Write;
 use Magento\Framework\App\State;
 use Magento\Logger;
 

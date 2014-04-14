@@ -20,7 +20,7 @@ class Storage
     const MAPS_DIR = "maps/less";
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $mapsDirectory;
 

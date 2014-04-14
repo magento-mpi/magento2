@@ -51,7 +51,7 @@ class Import extends \Magento\Object
     protected $_uploaderFactory = null;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $varDirectory;
 

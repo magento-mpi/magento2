@@ -29,7 +29,7 @@ class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Filesystem directory write interface
      *
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_directory;
 

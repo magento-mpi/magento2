@@ -85,12 +85,12 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $_backendUrlMock;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Write|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_directoryMock;
 
     /**
-     * @var \Magento\Filesystem\DriverInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\DriverInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_driverMock;
 
@@ -102,7 +102,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     {
         $this->_filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->_driverMock = $this->getMockForAbstractClass(
-            'Magento\Filesystem\DriverInterface',
+            'Magento\Framework\Filesystem\DriverInterface',
             array(),
             '',
             false,
@@ -113,7 +113,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->_driverMock->expects($this->any())->method('getRealPath')->will($this->returnArgument(0));
 
         $this->_directoryMock = $this->getMock(
-            'Magento\Filesystem\Directory\Write',
+            'Magento\Framework\Filesystem\Directory\Write',
             array('delete', 'getDriver'),
             array(),
             '',

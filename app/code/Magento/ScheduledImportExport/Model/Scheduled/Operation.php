@@ -488,8 +488,8 @@ class Operation extends \Magento\Framework\Model\AbstractModel
         try {
             $contents = $varDirectory->readFile($varDirectory->getRelativePath($filePath));
             $tmpDirectory->writeFile($tmpFile, $contents);
-        } catch (\Magento\Filesystem\FilesystemException $e) {
-            throw new \Magento\Framework\Model\Exception(__("We couldn't read the import file."));
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
+            throw new \Magento\Model\Exception(__("We couldn't read the import file."));
         }
         $operation->addLogComment(__('Save history file content "%1"', $this->getHistoryFilePath()));
         $this->_saveOperationHistory($tmpFilePath);
@@ -516,8 +516,8 @@ class Operation extends \Magento\Framework\Model\AbstractModel
         try {
             $varDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
             $varDirectory->writeFile($fileInfo['file_path'] . '/' . $fileName, $fileContent);
-        } catch (\Magento\Filesystem\FilesystemException $e) {
-            throw new \Magento\Framework\Model\Exception(
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
+            throw new \Magento\Model\Exception(
                 __(
                     'We couldn\'t write file "%1" to "%2" with the "%3" driver.',
                     $fileName,
@@ -590,8 +590,8 @@ class Operation extends \Magento\Framework\Model\AbstractModel
 
         try {
             $logDirectory->writeFile($filePath, $source);
-        } catch (\Magento\Filesystem\FilesystemException $e) {
-            throw new \Magento\Framework\Model\Exception(__("We couldn't save the file history file."));
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
+            throw new \Magento\Model\Exception(__("We couldn't save the file history file."));
         }
         return $this;
     }

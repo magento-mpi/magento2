@@ -157,7 +157,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     protected $_template = 'Magento_Backend::widget/grid/extended.phtml';
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_directory;
 
@@ -963,10 +963,10 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
      * Write item data to csv export file
      *
      * @param \Magento\Object $item
-     * @param \Magento\Filesystem\File\WriteInterface $stream
+     * @param \Magento\Framework\Filesystem\File\WriteInterface $stream
      * @return void
      */
-    protected function _exportCsvItem(\Magento\Object $item, \Magento\Filesystem\File\WriteInterface $stream)
+    protected function _exportCsvItem(\Magento\Object $item, \Magento\Framework\Filesystem\File\WriteInterface $stream)
     {
         $row = array();
         foreach ($this->getColumns() as $column) {

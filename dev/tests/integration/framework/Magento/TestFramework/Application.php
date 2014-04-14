@@ -206,7 +206,7 @@ class Application
         $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList(BP, $directories);
 
         $objectManager->addSharedInstance($directoryList, 'Magento\Framework\App\Filesystem\DirectoryList');
-        $objectManager->addSharedInstance($directoryList, 'Magento\Filesystem\DirectoryList');
+        $objectManager->addSharedInstance($directoryList, 'Magento\Framework\Filesystem\DirectoryList');
         $objectManager->removeSharedInstance('Magento\Framework\App\Filesystem');
         $objectManager->removeSharedInstance('Magento\Framework\App\Filesystem\DirectoryList\Verification');
 

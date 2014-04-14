@@ -19,7 +19,7 @@ class FileResolver implements \Magento\Framework\Config\FileResolverInterface
     protected $_moduleReader;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $themesDirectory;
 
@@ -29,7 +29,7 @@ class FileResolver implements \Magento\Framework\Config\FileResolverInterface
     protected $iteratorFactory;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $modulesDirectory;
 

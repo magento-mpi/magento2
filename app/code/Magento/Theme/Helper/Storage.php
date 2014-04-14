@@ -82,7 +82,7 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_themeFactory;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $mediaDirectoryWrite;
 

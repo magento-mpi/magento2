@@ -105,7 +105,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
     protected $mathRandom;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $_directory;
 

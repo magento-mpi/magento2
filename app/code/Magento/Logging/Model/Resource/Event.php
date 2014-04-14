@@ -13,7 +13,7 @@ namespace Magento\Logging\Model\Resource;
 class Event extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $directory;
 

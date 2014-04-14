@@ -14,7 +14,7 @@ $installer = $this;
 /** @var $this \Magento\Catalog\Model\Resource\Setup */
 $installFile = __DIR__ . '/upgrade-1.6.0.0-1.6.0.0.1.php';
 
-/** @var \Magento\Filesystem\Directory\Read $modulesDirectory */
+/** @var \Magento\Framework\Filesystem\Directory\Read $modulesDirectory */
 $modulesDirectory = $this->getFilesystem()->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
 
 if ($modulesDirectory->isExist($modulesDirectory->getRelativePath($installFile))) {

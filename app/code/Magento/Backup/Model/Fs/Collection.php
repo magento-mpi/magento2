@@ -13,7 +13,7 @@ namespace Magento\Backup\Model\Fs;
 class Collection extends \Magento\Framework\Data\Collection\Filesystem
 {
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_varDirectory;
 

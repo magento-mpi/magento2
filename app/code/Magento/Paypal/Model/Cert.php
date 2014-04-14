@@ -9,7 +9,7 @@
  */
 namespace Magento\Paypal\Model;
 
-use Magento\Filesystem\Directory\WriteInterface;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 /**
  * PayPal specific model for certificate based authentication

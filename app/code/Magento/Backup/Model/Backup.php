@@ -29,7 +29,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
     /**
      * Gz file pointer
      *
-     * @var \Magento\Filesystem\File\WriteInterface
+     * @var \Magento\Framework\Filesystem\File\WriteInterface
      */
     protected $_stream = null;
 
@@ -63,7 +63,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
     protected $_encryptor;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $varDirectory;
 
@@ -289,14 +289,14 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
         $mode = $write ? 'wb' . self::COMPRESS_RATE : 'rb';
 
         try {
-            /** @var \Magento\Filesystem\Directory\WriteInterface $varDirectory */
+            /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $varDirectory */
             $varDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
             $this->_stream = $varDirectory->openFile(
                 $this->_getFilePath(),
                 $mode,
                 \Magento\Framework\App\Filesystem::WRAPPER_CONTENT_ZLIB
             );
-        } catch (\Magento\Filesystem\FilesystemException $e) {
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
             throw new \Magento\Backup\Exception\NotEnoughPermissions(
                 __('Sorry, but we cannot read from or write to backup file "%1".', $this->getFileName())
             );
@@ -308,7 +308,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
     /**
      * Get zlib handler
      *
-     * @return \Magento\Filesystem\File\WriteInterface
+     * @return \Magento\Framework\Filesystem\File\WriteInterface
      * @throws \Magento\Backup\Exception
      */
     protected function _getStream()
@@ -351,7 +351,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
     {
         try {
             $this->_getStream()->write($string);
-        } catch (\Magento\Filesystem\FilesystemException $e) {
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
             throw new \Magento\Backup\Exception(
                 __('Something went wrong writing to the backup file "%1".', $this->getFileName())
             );
@@ -384,7 +384,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
             return;
         }
 
-        /** @var \Magento\Filesystem\Directory\ReadInterface $directory */
+        /** @var \Magento\Framework\Filesystem\Directory\ReadInterface $directory */
         $directory = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         $directory = $directory->readFile($this->_getFilePath());
 

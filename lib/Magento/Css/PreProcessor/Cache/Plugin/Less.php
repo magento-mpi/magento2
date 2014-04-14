@@ -7,7 +7,7 @@
  */
 namespace Magento\Css\PreProcessor\Cache\Plugin;
 
-use Magento\Filesystem;
+use Magento\Framework\Filesystem;
 use Magento\Css\PreProcessor\Cache\CacheManager;
 use Magento\Css\PreProcessor\Cache\Import\Cache;
 

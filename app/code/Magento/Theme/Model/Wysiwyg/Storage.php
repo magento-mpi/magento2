@@ -63,7 +63,7 @@ class Storage
     protected $_imageFactory;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $mediaWriteDirectory;
 
@@ -145,7 +145,7 @@ class Storage
             $image->keepAspectRatio(true);
             $image->resize(self::THUMBNAIL_WIDTH, self::THUMBNAIL_HEIGHT);
             $image->save($this->mediaWriteDirectory->getAbsolutePath($thumbnailPath));
-        } catch (\Magento\Filesystem\FilesystemException $e) {
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             return false;
         }

@@ -38,14 +38,14 @@ class Path
     /**
      * Media directory read
      *
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $mediaDirectoryRead;
 
     /**
      * Theme directory read
      *
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $themeDirectoryRead;
 

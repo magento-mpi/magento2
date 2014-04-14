@@ -73,7 +73,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testFetchView()
     {
         $this->expectOutputString('');
-        $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '', false);
+        $directoryMock = $this->getMock('\Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false);
         $directoryMock->expects($this->any())->method('getRelativePath')->will($this->returnArgument(0));
         $this->_filesystem->expects(
             $this->once()
@@ -102,7 +102,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
     public function testSetTemplateContext()
     {
-        $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '', false);
+        $directoryMock = $this->getMock('\Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false);
         $directoryMock->expects($this->any())->method('getRelativePath')->will($this->returnArgument(0));
         $this->_filesystem->expects(
             $this->once()

@@ -46,7 +46,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $_imageFactory;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Write|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $directoryWrite;
 
@@ -56,7 +56,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->_helperStorage = $this->getMock('Magento\Theme\Helper\Storage', array(), array(), '', false);
         $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
         $this->_imageFactory = $this->getMock('Magento\Image\AdapterFactory', array(), array(), '', false);
-        $this->directoryWrite = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
+        $this->directoryWrite = $this->getMock('Magento\Framework\Filesystem\Directory\Write', array(), array(), '', false);
 
         $this->_filesystem->expects(
             $this->once()

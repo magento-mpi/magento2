@@ -15,14 +15,14 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     /**
      * Path to the public directory for view files
      *
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected static $_themePublicDir;
 
     /**
      * Path to the public directory for merged view files
      *
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected static $_viewPublicMergedDir;
 

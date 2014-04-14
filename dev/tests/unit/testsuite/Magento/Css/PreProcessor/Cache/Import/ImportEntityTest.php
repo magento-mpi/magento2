@@ -15,14 +15,14 @@ class ImportEntityTest extends \PHPUnit_Framework_TestCase
     protected $importEntity;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $rootDirectory;
 
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
 
-    /** @var \Magento\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
     protected $filesystemMock;
 
     /** @var \Magento\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject */
@@ -48,7 +48,7 @@ class ImportEntityTest extends \PHPUnit_Framework_TestCase
         $this->absoluteFilePath = 'some_absolute_path';
 
         $this->rootDirectory = $this->getMock(
-            'Magento\Filesystem\Directory\ReadInterface',
+            'Magento\Framework\Filesystem\Directory\ReadInterface',
             array(),
             array(),
             '',

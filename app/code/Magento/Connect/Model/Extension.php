@@ -46,7 +46,7 @@ class Extension extends \Magento\Object
     protected $_session;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $writeDirectory;
 
@@ -307,7 +307,7 @@ class Extension extends \Magento\Object
                 $this->writeDirectory->create(sprintf('connect/%s', $directoryPath));
             }
             $this->writeDirectory->writeFile(sprintf('connect/%s.xml', $fileName), $xml->asNiceXml());
-        } catch (\Magento\Filesystem\FilesystemException $e) {
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
             $this->logger->addStreamLog(\Magento\Logger::LOGGER_EXCEPTION);
             $this->logger->log($e->getMessage());
             return false;
@@ -324,7 +324,7 @@ class Extension extends \Magento\Object
     {
         try {
             $this->writeDirectory->create('connect/');
-        } catch (\Magento\Filesystem\FilesystemException $e) {
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
             $this->logger->addStreamLog(\Magento\Logger::LOGGER_EXCEPTION);
             $this->logger->log($e->getMessage());
             return false;
@@ -345,7 +345,7 @@ class Extension extends \Magento\Object
     {
         try {
             $this->writeDirectory->create('pear/');
-        } catch (\Magento\Filesystem\FilesystemException $e) {
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
             $this->logger->addStreamLog(\Magento\Logger::LOGGER_EXCEPTION);
             $this->logger->log($e->getMessage());
             return false;

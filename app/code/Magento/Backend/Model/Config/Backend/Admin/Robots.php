@@ -16,7 +16,7 @@ namespace Magento\Backend\Model\Config\Backend\Admin;
 class Robots extends \Magento\Framework\App\Config\Value
 {
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $_directory;
 

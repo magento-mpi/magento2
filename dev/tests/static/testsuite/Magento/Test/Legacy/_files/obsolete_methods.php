@@ -1034,7 +1034,7 @@ return array(
     array('_createForm', '\Magento\Core\Helper\Data'),
     array('assocToXml', '\Magento\Core\Helper\Data', '\Magento\Convert\ConvertArray::assocToXml'),
     array('xmlToAssoc', '\Magento\Core\Helper\Data', '\Magento\Convert\Xml::xmlToAssoc'),
-    array('checkLfiProtection', '\Magento\Core\Helper\Data', '\Magento\Filesystem::checkLfiProtection'),
+    array('checkLfiProtection', '\Magento\Core\Helper\Data', '\Magento\Framework\Filesystem::checkLfiProtection'),
     array(
         'getProtectedFileExtensions',
         '\Magento\Core\Helper\Data',
@@ -1262,7 +1262,7 @@ return array(
     array('getDisplayMode', '\Magento\Catalog\Model\Session'),
     array('setEscapeMessageFlag', 'Magento\View\Block\Messages'),
     array('shouldEscapeMessage', 'Magento\View\Block\Messages'),
-    array('isPathInDirectory', 'Magento\Filesystem\Directory\ReadInterface'),
+    array('isPathInDirectory', 'Magento\Framework\Filesystem\Directory\ReadInterface'),
     array('isSuper', '\Magento\Catalog\Model\Product'),
     array('isSuperGroup', '\Magento\Catalog\Model\Product'),
     array('isGrouped', '\Magento\Catalog\Model\Product'),

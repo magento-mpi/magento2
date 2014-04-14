@@ -41,7 +41,7 @@ class Collection extends \Magento\Framework\Data\Collection\Filesystem
     protected $filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $connectDirectory;
 
