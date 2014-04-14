@@ -11,6 +11,7 @@
   * An issue with quantity_and_stock_status dropdown is disabled for bundle product was fixed (MAGETWO-22346)
   * An issue with 'Related Products Rule' with inactive status still shows on frontend (Related Products, Up-sell) was fixed (MAGETWO-22672)
   * An issue with clickjacking vulnerability was fixed (MAGETWO-22696)
+  * An issue with setting memory_limit to -1 causes install failure (MAGETWO-23201)
 * Framework Improvements:
   * StoreConfig class and ability to work with Configuration through the Store object has been eliminated. Scope Config has been introduced instead. (MAGETWO-21584)
   * Fixed performance degradation caused by DI argument processors (MAGETWO-20078)
@@ -59,6 +60,9 @@
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
   * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)
   * Refactor RecurringPayment module to use customer service (MAGETWO-22521)
+  * Implement Service Context Provider (MAGETWO-11084)
+  * Restructure webapi.xml (MAGETWO-22665)
+  * Renamed createAccount to createCustomer in CustomerAccountService (MAGETWO-22830)
 * GitHub requests:
   * [#520] (https://github.com/magento/magento2/issues/520) -- Fixed spelling in Magento\Payment\Model\Method\AbstractMethod
   * [#481] (https://github.com/magento/magento2/issues/481) -- GD2 Adapter PHP memory_limit
