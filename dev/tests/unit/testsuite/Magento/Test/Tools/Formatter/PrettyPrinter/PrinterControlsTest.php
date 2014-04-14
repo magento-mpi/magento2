@@ -714,7 +714,7 @@ FS0;
             array($originalCodeSnippet2, $formattedCodeSnippet2),
             array($originalCodeSnippet3, $formattedCodeSnippet3),
             array($originalCodeSnippet4, $formattedCodeSnippet4),
-            array($originalCodeSnippet5, $formattedCodeSnippet5),//!!!
+            array($originalCodeSnippet5, $formattedCodeSnippet5),
             array($originalClosure, $formattedClosure),
             array($originalClosure2, $formattedClosure2),
             array($originalClosure3, $formattedClosure3),
