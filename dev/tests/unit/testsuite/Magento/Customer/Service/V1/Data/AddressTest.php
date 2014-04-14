@@ -77,6 +77,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\CustomerMetadataService */
     private $_customerMetadataService;
 
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $objectManagerHelper;
+
     protected function setUp()
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -99,8 +104,15 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->_addressBuilder =
-            new AddressBuilder(new AttributeValueBuilder(), $regionBuilder, $this->_customerMetadataService);
+        $valueBuilder = $objectManagerHelper->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
+        $this->_addressBuilder = $objectManagerHelper->getObject(
+            'Magento\Customer\Service\V1\Data\AddressBuilder',
+            [
+                'valueBuilder' => $valueBuilder,
+                'regionBuilder' => $regionBuilder,
+                'metadataService' => $this->_customerMetadataService
+            ]
+        );
     }
 
     public function testMinimalAddress()

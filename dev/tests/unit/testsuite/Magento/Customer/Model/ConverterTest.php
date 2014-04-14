@@ -22,8 +22,15 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject | CustomerMetadataServiceInterface */
     private $_metadataService;
 
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $_objectManager;
+
     public function setUp()
     {
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+
         $this->_metadataService = $this->getMockForAbstractClass(
             'Magento\Customer\Service\V1\CustomerMetadataServiceInterface',
             array(),
@@ -110,7 +117,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         );
         $customerModelMock->expects($this->any())->method('getData')->will($this->returnValueMap($map));
 
-        $customerBuilder = new CustomerBuilder(new AttributeValueBuilder(), $this->_metadataService);
+        $customerBuilder = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            ['metadataService' => $this->_metadataService]
+        );
+
         $customerFactory = $this->getMockBuilder(
             'Magento\Customer\Model\CustomerFactory'
         )->disableOriginalConstructor()->getMock();
@@ -118,7 +129,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $converter = new Converter($customerBuilder, $customerFactory);
         $customerDataObject = $converter->createCustomerFromModel($customerModelMock);
 
-        $customerBuilder = new CustomerBuilder(new AttributeValueBuilder(), $this->_metadataService);
+        $customerBuilder = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            ['metadataService' => $this->_metadataService]
+        );
+
         $customerData = array(
             'firstname' => 'Tess',
             'email' => 'ttester@example.com',

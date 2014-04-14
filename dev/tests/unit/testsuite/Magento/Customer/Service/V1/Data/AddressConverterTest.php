@@ -91,14 +91,18 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
         );
 
         $addressData = $this->_sampleAddressDataObject();
-        $addressData = (new AddressBuilder(
-            new AttributeValueBuilder(),
-            new RegionBuilder(),
-            $this->_customerMetadataService
-        ))->mergeDataObjectWithArray(
-            $addressData,
-            $updatedAddressData
-        );
+        $valueBuilder = $this->_objectManager->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
+        $addressData = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\Data\AddressBuilder',
+            [
+                'valueBuilder' => $valueBuilder,
+                'regionBuilder' => new RegionBuilder(),
+                'metadataService' => $this->_customerMetadataService
+            ]
+        )->mergeDataObjectWithArray(
+                $addressData,
+                $updatedAddressData
+            );
 
         $result = AddressConverter::toFlatArray($addressData);
         $this->assertEquals($expected, $result);
@@ -109,28 +113,32 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
      */
     protected function _sampleAddressDataObject()
     {
-        $regionData = (new RegionBuilder())->setRegion('Texas')->setRegionId(1)->setRegionCode('TX');
-        $addressData = (new AddressBuilder(
-            new AttributeValueBuilder(),
-            $regionData,
-            $this->_customerMetadataService
-        ))->setId(
-            '1'
-        )->setDefaultBilling(
-            true
-        )->setDefaultShipping(
-            false
-        )->setCity(
-            'Austin'
-        )->setFirstname(
-            'John'
-        )->setLastname(
-            'Doe'
-        )->setCountryId(
-            'US'
-        )->setStreet(
-            array('7700 W Parmer Ln')
-        );
+        $regionBuilder = (new RegionBuilder())->setRegion('Texas')->setRegionId(1)->setRegionCode('TX');
+        $valueBuilder = $this->_objectManager->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
+        $addressData = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\Data\AddressBuilder',
+            [
+                'valueBuilder' => $valueBuilder,
+                'regionBuilder' => $regionBuilder,
+                'metadataService' => $this->_customerMetadataService
+            ]
+        )->setId(
+                '1'
+            )->setDefaultBilling(
+                true
+            )->setDefaultShipping(
+                false
+            )->setCity(
+                'Austin'
+            )->setFirstname(
+                'John'
+            )->setLastname(
+                'Doe'
+            )->setCountryId(
+                'US'
+            )->setStreet(
+                array('7700 W Parmer Ln')
+            );
 
         return $addressData->create();
     }

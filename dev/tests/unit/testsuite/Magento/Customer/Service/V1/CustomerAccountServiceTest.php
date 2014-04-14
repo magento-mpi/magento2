@@ -225,10 +225,17 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ['metadataService' => $this->_customerMetadataService]
         );
 
-        $this->_customerDetailsBuilder = new Data\CustomerDetailsBuilder(
-            $this->_customerBuilder,
-            new Data\AddressBuilder(new AttributeValueBuilder(), new Data\RegionBuilder(),
-                $this->_customerMetadataService)
+        $addressBuilder = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\Data\AddressBuilder',
+            ['metadataService' => $this->_customerMetadataService]
+        );
+
+        $this->_customerDetailsBuilder = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\Data\CustomerDetailsBuilder',
+            [
+                'customerBuilder' => $this->_customerBuilder,
+                'addressBuilder' => $addressBuilder
+            ]
         );
 
         $this->_converter = new Converter($this->_customerBuilder, $this->_customerFactoryMock);

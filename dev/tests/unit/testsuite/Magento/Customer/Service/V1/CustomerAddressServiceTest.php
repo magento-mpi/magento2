@@ -242,7 +242,10 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             array('regionBuilder' => $regionBuilder, 'metadataService' => $metadataService)
         );
 
-        $customerBuilder = new CustomerBuilder(new AttributeValueBuilder(), $metadataService);
+        $customerBuilder = $objectManagerHelper->getObject(
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            ['metadataService' => $metadataService]
+        );
 
         $this->_customerConverter = new \Magento\Customer\Model\Converter(
             $customerBuilder,

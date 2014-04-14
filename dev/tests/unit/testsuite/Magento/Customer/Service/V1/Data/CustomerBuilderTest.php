@@ -24,6 +24,9 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\CustomerMetadataService */
     private $_customerMetadataService;
 
+    /** @var \Magento\Service\Data\Eav\AttributeValueBuilder */
+    private $_valueBuilder;
+
     protected function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -45,7 +48,14 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->_customerBuilder = new CustomerBuilder(new AttributeValueBuilder(), $this->_customerMetadataService);
+        $this->_valueBuilder = $this->_objectManager->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
+        $this->_customerBuilder = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            [
+                'valueBuilder' => $this->_valueBuilder,
+                'metadataService' => $this->_customerMetadataService
+            ]
+        );
         parent::setUp();
     }
 
@@ -135,17 +145,34 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
     // @codingStandardsIgnoreEnd
     public function testPopulateException()
     {
-        $addressData =
-            (new AddressBuilder(new AttributeValueBuilder(), new RegionBuilder(), $this->_customerMetadataService))
-                ->create();
+        $addressData = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\Data\AddressBuilder',
+            [
+                'valueBuilder' => $this->_valueBuilder,
+                'regionBuilder' => new RegionBuilder(),
+                'metadataService' => $this->_customerMetadataService
+            ]
+        )->create();
         $this->_customerBuilder->populate($addressData);
     }
 
     public function testPopulate()
     {
         $email = 'test@example.com';
-        $customerBuilder1 = new CustomerBuilder(new AttributeValueBuilder(), $this->_customerMetadataService);
-        $customerBuilder2 = new CustomerBuilder(new AttributeValueBuilder(), $this->_customerMetadataService);
+        $customerBuilder1 = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            [
+                'valueBuilder' => $this->_valueBuilder,
+                'metadataService' => $this->_customerMetadataService
+            ]
+        );
+        $customerBuilder2 = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            [
+                'valueBuilder' => $this->_valueBuilder,
+                'metadataService' => $this->_customerMetadataService
+            ]
+        );
         $customer = $customerBuilder1->setEmail($email)->create();
         $customerBuilder2->setFirstname('fname')->setLastname('lname')->create();
         //Make sure email is not populated as yet

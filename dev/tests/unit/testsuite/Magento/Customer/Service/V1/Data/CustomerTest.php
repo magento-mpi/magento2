@@ -80,9 +80,13 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                 new \Magento\Object(['attribute_code' => 'locale'])
             ])
         );
+        $valueBuilder = $this->_objectManager->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
         $this->_customerBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\CustomerBuilder',
-            array('valueBuilder' => new AttributeValueBuilder(), 'metadataService' => $customerMetadataService)
+            [
+                'valueBuilder' => $valueBuilder,
+                'metadataService' => $customerMetadataService
+            ]
         );
     }
 
