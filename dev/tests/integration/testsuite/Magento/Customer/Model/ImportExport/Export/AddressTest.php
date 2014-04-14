@@ -8,9 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Export\Entity\Eav\Customer;
+namespace Magento\Customer\Model\ImportExport\Export;
+
 use \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address as ImportAddress;
-use \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address;
 /**
  * Test for customer address export model
  *
@@ -34,7 +34,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address'
+            'Magento\Customer\Model\ImportExport\Export\Address'
         );
 
         $websites = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(

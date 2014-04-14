@@ -12,19 +12,19 @@
 /**
  * Test for customer export model
  */
-namespace Magento\ImportExport\Model\Export\Entity\Eav;
+namespace Magento\Customer\Model\ImportExport\Export;
 
 class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ImportExport\Model\Export\Entity\Eav\Customer
+     * @var \Magento\Customer\Model\ImportExport\Export\Customer
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\ImportExport\Model\Export\Entity\Eav\Customer'
+            'Magento\Customer\Model\ImportExport\Export\Customer'
         );
     }
 

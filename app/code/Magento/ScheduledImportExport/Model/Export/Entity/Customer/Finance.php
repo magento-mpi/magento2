@@ -113,7 +113,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
         \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollectionFactory,
-        \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory,
+        \Magento\Customer\Model\ImportExport\Export\CustomerFactory $eavCustomerFactory,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
         array $data = array()
     ) {

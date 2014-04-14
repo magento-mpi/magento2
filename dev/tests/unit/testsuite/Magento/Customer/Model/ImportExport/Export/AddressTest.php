@@ -63,7 +63,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Customer address export model
      *
-     * @var \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address
+     * @var \Magento\Customer\Model\ImportExport\Export\Address
      */
     protected $_model;
 
@@ -80,7 +80,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = new \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address(
+        $this->_model = new \Magento\Customer\Model\ImportExport\Export\Address(
             $this->getMock('Magento\App\Config\ScopeConfigInterface'),
             $storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
@@ -95,7 +95,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\Resource\Customer\CollectionFactory', array(), array(), '', false),
             $this->getMock(
-                'Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory',
+                'Magento\Customer\Model\ImportExport\Export\CustomerFactory',
                 array(),
                 array(),
                 '',
@@ -251,7 +251,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method exportItem()
      *
-     * @covers \Magento\ImportExport\Model\Export\Entity\Eav\Customer::exportItem
+     * @covers \Magento\Customer\Model\ImportExport\Export\Address::exportItem
      */
     public function testExportItem()
     {
@@ -289,19 +289,19 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     public function validateWriteRow(array $row)
     {
-        $billingColumn = \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address::COLUMN_NAME_DEFAULT_BILLING;
+        $billingColumn = \Magento\Customer\Model\ImportExport\Export\Address::COLUMN_NAME_DEFAULT_BILLING;
         $this->assertEquals($this->_customerData['default_billing'], $row[$billingColumn]);
 
-        $shippingColumn = \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address::COLUMN_NAME_DEFAULT_SHIPPING;
+        $shippingColumn = \Magento\Customer\Model\ImportExport\Export\Address::COLUMN_NAME_DEFAULT_SHIPPING;
         $this->assertEquals($this->_customerData['default_shipping'], $row[$shippingColumn]);
 
-        $idColumn = \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID;
+        $idColumn = \Magento\Customer\Model\ImportExport\Export\Address::COLUMN_ADDRESS_ID;
         $this->assertEquals($this->_addressData['id'], $row[$idColumn]);
 
-        $emailColumn = \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address::COLUMN_EMAIL;
+        $emailColumn = \Magento\Customer\Model\ImportExport\Export\Address::COLUMN_EMAIL;
         $this->assertEquals($this->_customerData['email'], $row[$emailColumn]);
 
-        $websiteColumn = \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address::COLUMN_WEBSITE;
+        $websiteColumn = \Magento\Customer\Model\ImportExport\Export\Address::COLUMN_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$websiteColumn]);
 
         $this->assertEquals($this->_addressData[self::ATTRIBUTE_CODE], $row[self::ATTRIBUTE_CODE]);

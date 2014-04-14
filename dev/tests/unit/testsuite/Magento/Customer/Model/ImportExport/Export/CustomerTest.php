@@ -50,7 +50,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /**
      * Customer export model
      *
-     * @var \Magento\ImportExport\Model\Export\Entity\Eav\Customer
+     * @var \Magento\Customer\Model\ImportExport\Export\Customer
      */
     protected $_model;
 
@@ -74,7 +74,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $this->returnCallback(array($this, 'getStores'))
         );
 
-        $this->_model = new \Magento\ImportExport\Model\Export\Entity\Eav\Customer(
+        $this->_model = new \Magento\Customer\Model\ImportExport\Export\Customer(
             $this->getMock('Magento\App\Config\ScopeConfigInterface'),
             $storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
@@ -189,7 +189,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method exportItem()
      *
-     * @covers \Magento\ImportExport\Model\Export\Entity\Eav\Customer::exportItem
+     * @covers \Magento\Customer\Model\ImportExport\Export\Customer::exportItem
      */
     public function testExportItem()
     {
@@ -229,8 +229,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function validateWriteRow(array $row)
     {
-        $websiteColumn = \Magento\ImportExport\Model\Export\Entity\Eav\Customer::COLUMN_WEBSITE;
-        $storeColumn = \Magento\ImportExport\Model\Export\Entity\Eav\Customer::COLUMN_STORE;
+        $websiteColumn = \Magento\Customer\Model\ImportExport\Export\Customer::COLUMN_WEBSITE;
+        $storeColumn = \Magento\Customer\Model\ImportExport\Export\Customer::COLUMN_STORE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$websiteColumn]);
         $this->assertEquals($this->_stores[$this->_customerData['store_id']], $row[$storeColumn]);
         $this->assertEquals($this->_customerData[self::ATTRIBUTE_CODE], $row[self::ATTRIBUTE_CODE]);
