@@ -272,21 +272,18 @@ class Account extends \Magento\App\Action\Action
                     $customer = $this->_customerAccountService->authenticate($login['username'], $login['password']);
                     $this->_getSession()->setCustomerDataAsLoggedIn($customer);
                     $this->_getSession()->regenerateId();
-                } catch (AuthenticationException $e) {
-                    switch ($e->getCode()) {
-                        case AuthenticationException::EMAIL_NOT_CONFIRMED:
-                            $value = $this->_customerHelperData->getEmailConfirmationUrl($login['username']);
-                            $message = __(
-                                'This account is not confirmed.' .
-                                ' <a href="%1">Click here</a> to resend confirmation email.',
-                                $value
-                            );
-                            break;
-                        case AuthenticationException::INVALID_EMAIL_OR_PASSWORD:
-                        default:
-                            $message = __('Invalid login or password.');
-                            break;
-                    }
+                } catch (EmailNotConfirmedException $e) {
+                    $value = $this->_customerHelperData->getEmailConfirmationUrl($login['username']);
+                    $message = __(
+                        'This account is not confirmed.' .
+                        ' <a href="%1">Click here</a> to resend confirmation email.',
+                        $value
+                    );
+                    $this->messageManager->addError($message);
+                    $this->_getSession()->setUsername($login['username']);
+                }
+                catch (AuthenticationException $e) {
+                    $message = __('Invalid login or password.');
                     $this->messageManager->addError($message);
                     $this->_getSession()->setUsername($login['username']);
                 } catch (\Exception $e) {

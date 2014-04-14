@@ -12,11 +12,9 @@ class AuthorizationExceptionTest extends \PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $authorizationException = new AuthorizationException(
-            'No access to delete this record.',
-            AuthorizationException::NO_RECORD_ACCESS
+            AuthorizationException::NOT_AUTHORIZED,
+            ['consumer_id' => 1, 'resources' => 'record2']
         );
-
-        $this->assertSame(AuthorizationException::NO_RECORD_ACCESS, $authorizationException->getCode());
-        $this->assertStringStartsWith('No access', $authorizationException->getMessage());
+        $this->assertSame('Consumer ID 1 is not authorized to access record2', $authorizationException->getMessage());
     }
 }

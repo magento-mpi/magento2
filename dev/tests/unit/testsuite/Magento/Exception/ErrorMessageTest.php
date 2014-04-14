@@ -65,7 +65,7 @@ class ErrorMessageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->renderedMessage, $errorMessage->getMessage());
         $this->assertEquals($message, $errorMessage->getRawMessage());
         $this->assertEquals($expectedLogMessage, $errorMessage->getLogMessage());
-        $this->assertEquals($params, $errorMessage->getParams());
+        $this->assertEquals($params, $errorMessage->getParameters());
     }
 
     /**

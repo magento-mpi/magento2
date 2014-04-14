@@ -14,6 +14,8 @@ use Magento\Customer\Model\CustomerFactory;
 use Magento\Customer\Model\Metadata\Validator;
 use Magento\Customer\Model\Resource\Customer\Collection;
 use Magento\Event\ManagerInterface;
+use Magento\Exception\EmailNotConfirmedException;
+use Magento\Exception\InvalidEmailOrPasswordException;
 use Magento\Exception\State\ExpiredException;
 use Magento\Exception\InputException;
 use Magento\Exception\AuthenticationException;
@@ -212,15 +214,14 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         } catch (\Magento\Model\Exception $e) {
             switch ($e->getCode()) {
                 case CustomerModel::EXCEPTION_EMAIL_NOT_CONFIRMED:
-                    $code = AuthenticationException::EMAIL_NOT_CONFIRMED;
+                    throw new EmailNotConfirmedException($e->getMessage());
                     break;
                 case CustomerModel::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
-                    $code = AuthenticationException::INVALID_EMAIL_OR_PASSWORD;
+                    throw new InvalidEmailOrPasswordException($e->getMessage());
                     break;
                 default:
-                    $code = AuthenticationException::UNKNOWN;
+                    throw new AuthenticationException($e->getMessage());
             }
-            throw new AuthenticationException($e->getMessage(), $code, $e);
         }
 
         $this->_eventManager->dispatch('customer_login', array('customer' => $customerModel));
@@ -579,9 +580,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     {
         $customerModel = $this->_converter->getCustomerModel($customerId);
         if (!$customerModel->validatePassword($currentPassword)) {
-            throw new AuthenticationException(
-                __("Password doesn't match for this account."),
-                AuthenticationException::INVALID_EMAIL_OR_PASSWORD
+            throw new InvalidEmailOrPasswordException(
+                __("Password doesn't match for this account.")
             );
         }
         $customerModel->setRpToken(null);

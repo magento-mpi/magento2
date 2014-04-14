@@ -11,4 +11,5 @@ namespace Magento\Exception;
 
 class AuthenticationException extends LocalizedException
 {
+    const AUTHENTICATION_ERROR = 'An authentication error occurred.';
 }
