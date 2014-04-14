@@ -95,7 +95,7 @@ class Message extends \Magento\Core\Helper\Data
      */
     public function getInline($type, \Magento\Object $entity, $dontDisplayContainer = false)
     {
-        if ('onepage_checkout' != $type && !$this->isMessagesAvailable($type, $entity)) {
+        if (!$this->skipMessageCheck($type) && !$this->isMessagesAvailable($type, $entity)) {
             return '';
         }
         return $this->_layoutFactory->create()->createBlock(
@@ -109,6 +109,17 @@ class Message extends \Magento\Core\Helper\Data
         )->setType(
             $type
         )->toHtml();
+    }
+
+    /**
+     * @param $pageType
+     * @return bool
+     */
+    protected function skipMessageCheck($pageType)
+    {
+        $skippedPages = array('onepage_checkout');
+
+        return in_array($pageType, $skippedPages);
     }
 
     /**
