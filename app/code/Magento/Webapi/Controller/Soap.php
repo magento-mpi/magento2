@@ -9,8 +9,9 @@
  */
 namespace Magento\Webapi\Controller;
 
-use Magento\Service\AuthorizationException;
+use Magento\Webapi\ServiceAuthorizationException;
 use Magento\Webapi\Exception as WebapiException;
+use Magento\Webapi\Model\PathProcessor;
 
 /**
  * TODO: Consider warnings suppression removal
@@ -60,6 +61,11 @@ class Soap implements \Magento\App\FrontControllerInterface
     protected $_localeResolver;
 
     /**
+     * @var PathProcessor
+     */
+    protected $_pathProcessor;
+
+    /**
      * @var \Magento\App\AreaList
      */
     protected $areaList;
@@ -74,6 +80,7 @@ class Soap implements \Magento\App\FrontControllerInterface
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param PathProcessor $pathProcessor
      * @param \Magento\App\AreaList $areaList
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -88,6 +95,7 @@ class Soap implements \Magento\App\FrontControllerInterface
         \Magento\View\LayoutInterface $layout,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Locale\ResolverInterface $localeResolver,
+        PathProcessor $pathProcessor,
         \Magento\App\AreaList $areaList
     ) {
         $this->_request = $request;
@@ -99,6 +107,7 @@ class Soap implements \Magento\App\FrontControllerInterface
         $this->_oauthService = $oauthService;
         $this->_localeResolver = $localeResolver;
         $this->_layout = $layout;
+        $this->_pathProcessor = $pathProcessor;
         $this->areaList = $areaList;
     }
 
@@ -110,10 +119,9 @@ class Soap implements \Magento\App\FrontControllerInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
-        $pathParts = explode('/', trim($request->getPathInfo(), '/'));
-        array_shift($pathParts);
-        $request->setPathInfo('/' . implode('/', $pathParts));
-        $this->areaList->getArea($this->_layout->getArea())
+        $path = $this->_pathProcessor->process($request->getPathInfo());
+        $this->_request->setPathInfo($path);
+        $this->areaList->getArea($this->_appState->getAreaCode())
             ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         try {
             if (!$this->_appState->isInstalled()) {
@@ -151,7 +159,7 @@ class Soap implements \Magento\App\FrontControllerInterface
      * Parse the Authorization header and return the access token e.g. Authorization: Bearer <access-token>
      *
      * @return string Access token
-     * @throws AuthorizationException
+     * @throws ServiceAuthorizationException
      */
     protected function _getAccessToken()
     {
@@ -161,9 +169,9 @@ class Soap implements \Magento\App\FrontControllerInterface
             if (isset($token[1]) && is_string($token[1])) {
                 return $token[1];
             }
-            throw new AuthorizationException(__('Authentication header format is invalid.'));
+            throw new ServiceAuthorizationException(__('Authentication header format is invalid.'));
         }
-        throw new AuthorizationException(__('Authentication header is absent.'));
+        throw new ServiceAuthorizationException(__('Authentication header is absent.'));
     }
 
     /**

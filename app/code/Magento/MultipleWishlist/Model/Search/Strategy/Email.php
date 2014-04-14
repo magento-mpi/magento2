@@ -28,7 +28,7 @@ class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyI
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -43,11 +43,11 @@ class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyI
      * Construct
      *
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_storeManager = $storeManager;
@@ -80,7 +80,7 @@ class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyI
         $customer = $this->_customerFactory->create();
         $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())->loadByEmail($this->_email);
 
-        $collection->filterByCustomer($customer);
+        $collection->filterByCustomerId($customer->getId());
         foreach ($collection as $item) {
             $item->setCustomer($customer);
         }

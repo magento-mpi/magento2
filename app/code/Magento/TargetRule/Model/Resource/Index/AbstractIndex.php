@@ -203,7 +203,7 @@ abstract class AbstractIndex extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Remove all data from index
      *
-     * @param \Magento\Core\Model\Store|int|array|null $store
+     * @param \Magento\Store\Model\Store|int|array|null $store
      * @return $this
      */
     public function cleanIndex($store = null)
@@ -212,7 +212,7 @@ abstract class AbstractIndex extends \Magento\Model\Resource\Db\AbstractDb
             $this->_getWriteAdapter()->delete($this->getMainTable());
             return $this;
         }
-        if ($store instanceof \Magento\Core\Model\Store) {
+        if ($store instanceof \Magento\Store\Model\Store) {
             $store = $store->getId();
         }
         $where = array('store_id IN(?)' => $store);

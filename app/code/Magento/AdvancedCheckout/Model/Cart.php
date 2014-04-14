@@ -91,14 +91,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Instance of current store
      *
-     * @var null|\Magento\Core\Model\Store
+     * @var null|\Magento\Store\Model\Store
      */
     protected $_currentStore = null;
-
-    /**
-     * @var \Magento\Customer\Helper\Data
-     */
-    protected $_customerData = null;
 
     /**
      * @var \Magento\AdvancedCheckout\Helper\Data
@@ -158,7 +153,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_optionFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -188,22 +183,27 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $productConfiguration;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $customerSession;
+
+    /**
      * @param \Magento\Checkout\Model\Cart $cart
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
-     * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param string $itemFailedStatus
      * @param array $data
      */
@@ -213,17 +213,17 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Message\Factory $messageFactory,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
-        \Magento\Customer\Helper\Data $customerData,
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration,
+        \Magento\Customer\Model\Session $customerSession,
         $itemFailedStatus = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU,
         array $data = array()
     ) {
@@ -232,7 +232,6 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $this->messageFactory = $messageFactory;
         $this->_eventManager = $eventManager;
         $this->_checkoutData = $checkoutData;
-        $this->_customerData = $customerData;
         $this->_optionFactory = $optionFactory;
         $this->_stockItemFactory = $stockItemFactory;
         $this->_wishlistFactory = $wishlistFactory;
@@ -244,6 +243,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $this->messageManager = $messageManager;
         $this->productTypeConfig = $productTypeConfig;
         $this->productConfiguration = $productConfiguration;
+        $this->customerSession = $customerSession;
     }
 
     /**
@@ -286,7 +286,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Return quote store
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {
@@ -337,7 +337,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     public function getActualQuote()
     {
         if (!$this->getCustomer()) {
-            $customer = $this->_customerData->getCustomer();
+            $customer = $this->customerSession->getCustomer();
             if ($customer) {
                 $this->setCustomer($customer);
             }
@@ -407,7 +407,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     {
         $quote = $this->getQuote();
         $customer = $this->getCustomer();
-        $defaultStoreId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+        $defaultStoreId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         if ($quote->getId() && $quote->getStoreId()) {
             $storeId = $quote->getStoreId();
         } elseif ($customer !== null && $customer->getStoreId() && $customer->getStoreId() != $defaultStoreId) {
@@ -1660,7 +1660,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Retrieve instance of current store
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getCurrentStore()
     {

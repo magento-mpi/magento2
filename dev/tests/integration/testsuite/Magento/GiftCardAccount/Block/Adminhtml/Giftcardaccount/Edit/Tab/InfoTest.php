@@ -108,7 +108,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         )->setArea(
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         )->setDefaultDesignTheme();
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         $block = $layout->addBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info');
 

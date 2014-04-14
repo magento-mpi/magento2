@@ -62,7 +62,7 @@ class History extends \Magento\Model\AbstractModel
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -92,7 +92,7 @@ class History extends \Magento\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\Resource\Reward\History $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\Reward $reward
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Reward\Model\Reward\Rate $rewardRate
@@ -104,7 +104,7 @@ class History extends \Magento\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\Resource\Reward\History $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\Reward $reward,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Reward\Model\Reward\Rate $rewardRate,

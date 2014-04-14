@@ -27,4 +27,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Module\Setup\Migration">
+        <arguments>
+            <argument name="compositeModules" xsi:type="array">
+                <item name="magento_giftcardaccount" xsi:type="string">Magento_GiftCardAccount</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

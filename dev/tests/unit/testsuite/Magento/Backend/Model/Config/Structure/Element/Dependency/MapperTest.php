@@ -44,11 +44,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeManagerMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_configStructureMock;
 
     /**
@@ -72,11 +67,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             'field_y' => array('id' => self::FIELD_ID2)
         );
 
-        $this->_storeManagerMock = $this->getMockBuilder(
-            'Magento\Core\Model\StoreManager'
-        )->setMethods(
-            array('getStore')
-        )->disableOriginalConstructor()->getMock();
         $this->_configStructureMock = $this->getMockBuilder(
             'Magento\Backend\Model\Config\Structure'
         )->setMethods(
@@ -87,10 +77,13 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         )->setMethods(
             array('create')
         )->disableOriginalConstructor()->getMock();
+        $this->_scopeConfigMock = $this->getMockBuilder(
+            '\Magento\App\Config\ScopeConfigInterface'
+        )->disableOriginalConstructor()->getMock();
         $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper(
-            $this->_storeManagerMock,
             $this->_configStructureMock,
-            $this->_fieldFactoryMock
+            $this->_fieldFactoryMock,
+            $this->_scopeConfigMock
         );
     }
 
@@ -98,7 +91,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     {
         unset($this->_model);
         unset($this->_configStructureMock);
-        unset($this->_storeManagerMock);
         unset($this->_fieldFactoryMock);
         unset($this->_testData);
     }
@@ -109,17 +101,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDependenciesWhenDependentIsInvisible($isValueSatisfy)
     {
-        $storeMock = $this->getMockBuilder('Magento\Core\Model\Store')->disableOriginalConstructor()->getMock();
-        $this->_storeManagerMock->expects(
-            $this->exactly(count($this->_testData))
-        )->method(
-            'getStore'
-        )->with(
-            self::STORE_CODE
-        )->will(
-            $this->returnValue($storeMock)
-        );
-
         $expected = array();
         $rowData = array_values($this->_testData);
         for ($i = 0; $i < count($this->_testData); ++$i) {
@@ -154,12 +135,14 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             )->will(
                 $this->returnValue($dependencyField)
             );
-            $storeMock->expects(
+            $this->_scopeConfigMock->expects(
                 $this->at($i)
             )->method(
-                'getConfig'
+                'getValue'
             )->with(
-                $dependentPath
+                $dependentPath,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                self::STORE_CODE
             )->will(
                 $this->returnValue(self::VALUE_IN_STORE)
             );
@@ -178,8 +161,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDependenciesIsVisible()
     {
-        $this->_storeManagerMock->expects($this->never())->method('getStore');
-
         $expected = array();
         $rowData = array_values($this->_testData);
         for ($i = 0; $i < count($this->_testData); ++$i) {

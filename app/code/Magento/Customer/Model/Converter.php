@@ -65,7 +65,6 @@ class Converter
     public function getCustomerModel($customerId)
     {
         $customer = $this->_customerFactory->create()->load($customerId);
-
         if (!$customer->getId()) {
             // customer does not exist
             throw new NoSuchEntityException('customerId', $customerId);
@@ -91,14 +90,17 @@ class Converter
      * @param string $customerEmail
      * @param int $websiteId
      * @throws NoSuchEntityException If customer with the specified customer email not found.
+     * @throws \Magento\Model\Exception If website was not specified
      * @return Customer
      */
     public function getCustomerModelByEmail($customerEmail, $websiteId = null)
     {
         $customer = $this->_customerFactory->create();
-        if (isset($websiteId)) {
-            $customer->setWebsiteId($websiteId);
+        if (!isset($websiteId)) {
+            $websiteId = $this->_storeManager->getWebsiteId();
         }
+        $customer->setWebsiteId($websiteId);
+
         $customer->loadByEmail($customerEmail);
         if (!$customer->getId()) {
             throw new NoSuchEntityException('email', $customerEmail);

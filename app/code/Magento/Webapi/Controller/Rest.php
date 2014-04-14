@@ -8,9 +8,12 @@
 namespace Magento\Webapi\Controller;
 
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
+use Magento\Service\Data\AbstractObject;
 use Magento\Webapi\Controller\Rest\Request as RestRequest;
 use Magento\Webapi\Controller\Rest\Response as RestResponse;
 use Magento\Webapi\Controller\Rest\Router;
+use Magento\Webapi\Model\PathProcessor;
+use Magento\Webapi\Model\Config\Converter;
 
 /**
  * Front controller for WebAPI REST area.
@@ -54,14 +57,17 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var ErrorProcessor */
     protected $_errorProcessor;
 
+    /** @var PathProcessor */
+    protected $_pathProcessor;
+
     /**
-     * Initialize dependencies
-     *
      * @var \Magento\App\AreaList
      */
     protected $areaList;
 
     /**
+     * Initialize dependencies
+     *
      * @param RestRequest $request
      * @param RestResponse $response
      * @param Router $router
@@ -73,6 +79,7 @@ class Rest implements \Magento\App\FrontControllerInterface
      * @param AuthorizationService $authorizationService
      * @param ServiceArgsSerializer $serializer
      * @param ErrorProcessor $errorProcessor
+     * @param PathProcessor $pathProcessor
      * @param \Magento\App\AreaList $areaList
      *
      * TODO: Consider removal of warning suppression
@@ -90,6 +97,7 @@ class Rest implements \Magento\App\FrontControllerInterface
         AuthorizationService $authorizationService,
         ServiceArgsSerializer $serializer,
         ErrorProcessor $errorProcessor,
+        PathProcessor $pathProcessor,
         \Magento\App\AreaList $areaList
     ) {
         $this->_router = $router;
@@ -103,6 +111,7 @@ class Rest implements \Magento\App\FrontControllerInterface
         $this->_authorizationService = $authorizationService;
         $this->_serializer = $serializer;
         $this->_errorProcessor = $errorProcessor;
+        $this->_pathProcessor = $pathProcessor;
         $this->areaList = $areaList;
     }
 
@@ -114,10 +123,9 @@ class Rest implements \Magento\App\FrontControllerInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
-        $pathParts = explode('/', trim($request->getPathInfo(), '/'));
-        array_shift($pathParts);
-        $request->setPathInfo('/' . implode('/', $pathParts));
-        $this->areaList->getArea($this->_layout->getArea())
+        $path = $this->_pathProcessor->process($request->getPathInfo());
+        $this->_request->setPathInfo($path);
+        $this->areaList->getArea($this->_appState->getAreaCode())
             ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         try {
             if (!$this->_appState->isInstalled()) {
@@ -134,7 +142,7 @@ class Rest implements \Magento\App\FrontControllerInterface
 
             if (!$this->_authorizationService->isAllowed($route->getAclResources())) {
                 // TODO: Consider passing Integration ID instead of Consumer ID
-                throw new \Magento\Service\AuthorizationException(
+                throw new \Magento\Webapi\ServiceAuthorizationException(
                     "Not Authorized.",
                     0,
                     null,
@@ -152,10 +160,11 @@ class Rest implements \Magento\App\FrontControllerInterface
             $inputData = $this->_request->getRequestData();
             $serviceMethodName = $route->getServiceMethod();
             $serviceClassName = $route->getServiceClass();
+            $inputData = $this->_overrideParams($inputData, $route->getParameters());
             $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
             $service = $this->_objectManager->get($serviceClassName);
             /** @var \Magento\Service\Data\AbstractObject $outputData */
-            $outputData = call_user_func_array(array($service, $serviceMethodName), $inputParams);
+            $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
             $outputArray = $this->_processServiceOutput($outputData);
             $this->_response->prepareResponse($outputArray);
         } catch (\Exception $e) {
@@ -180,18 +189,18 @@ class Rest implements \Magento\App\FrontControllerInterface
     protected function _processServiceOutput($data)
     {
         if (is_array($data)) {
-            $result = array();
+            $result = [];
             foreach ($data as $datum) {
-                if (is_object($datum)) {
-                    $result[] = $this->_convertDataObjectToArray($datum);
+                if ($datum instanceof AbstractObject) {
+                    $result[] = $datum->__toArray();
                 } else {
                     $result[] = $datum;
                 }
             }
-        } else if (is_object($data)) {
-            $result = $this->_convertDataObjectToArray($data);
-        } elseif (is_null($data)) {
-            $result = array();
+        } else if ($data instanceof AbstractObject) {
+            $result = $data->__toArray();
+        } else if (is_null($data)) {
+            $result = [];
         } else {
             /** No processing is required for scalar types */
             $result = $data;
@@ -200,17 +209,19 @@ class Rest implements \Magento\App\FrontControllerInterface
     }
 
     /**
-     * Convert Data Object to array.
+     * Override parameter values based on webapi.xml
      *
-     * @param object $dataObject
-     * @return array
-     * @throws \InvalidArgumentException
+     * @param array $inputData Incoming data from request
+     * @param array $parameters Contains parameters to replace or default
+     * @return array Data in same format as $inputData with appropriate parameters added or changed
      */
-    protected function _convertDataObjectToArray($dataObject)
+    protected function _overrideParams(array $inputData, array $parameters)
     {
-        if (!is_object($dataObject) || !method_exists($dataObject, '__toArray')) {
-            throw new \InvalidArgumentException("All objects returned by service must implement __toArray().");
+        foreach ($parameters as $name => $paramData) {
+            if ($paramData[Converter::KEY_FORCE] || !isset($inputData[$name])) {
+                $inputData[$name] = $paramData[Converter::KEY_VALUE];
+            }
         }
-        return $dataObject->__toArray();
+        return $inputData;
     }
 }

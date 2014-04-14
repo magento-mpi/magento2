@@ -49,8 +49,9 @@ class Store extends \Magento\Backend\Block\Widget\Grid\Container
             array(
                 'label' => __('Create Store'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('adminhtml/*/newGroup') . '\')',
-                'class' => 'add'
-            )
+                'class' => 'add add-store'
+            ),
+            1
         );
 
         /* Add Store button */
@@ -59,7 +60,7 @@ class Store extends \Magento\Backend\Block\Widget\Grid\Container
             array(
                 'label' => __('Create Store View'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('adminhtml/*/newStore') . '\')',
-                'class' => 'add'
+                'class' => 'add add-store-view'
             )
         );
 

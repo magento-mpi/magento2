@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -41,14 +41,14 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
             array('getId', 'getState', '__wakeup')
         );
         $this->model = new StoreView($this->indexerMock);
-        $this->subject = $this->getMock('Magento\Core\Model\Resource\Store\Group', array(), array(), '', false);
+        $this->subject = $this->getMock('Magento\Store\Model\Resource\Group', array(), array(), '', false);
     }
 
     public function testAroundSaveNewObject()
     {
         $this->mockIndexerMethods();
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store',
+            'Magento\Store\Model\Store',
             array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
             array(),
             '',
@@ -62,7 +62,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     public function testAroundSaveHasChanged()
     {
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store',
+            'Magento\Store\Model\Store',
             array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
             array(),
             '',
@@ -84,7 +84,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     public function testAroundSaveNoNeed()
     {
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store',
+            'Magento\Store\Model\Store',
             array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
             array(),
             '',

@@ -16,20 +16,15 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      * Auto tear down options in setFixture
      */
     const AUTO_TEAR_DOWN_DISABLED = 0;
-
     const AUTO_TEAR_DOWN_AFTER_METHOD = 1;
-
     const AUTO_TEAR_DOWN_AFTER_CLASS = 2;
-
     /**#@-*/
 
     /**#@+
      * Web API adapters that are used to perform actual calls.
      */
     const ADAPTER_SOAP = 'soap';
-
     const ADAPTER_REST = 'rest';
-
     /**#@-*/
 
     /**
@@ -120,11 +115,8 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         }
 
         $fixtureNamespace = self::_getFixtureNamespace();
-        if (isset(
-            self::$_classLevelFixtures[$fixtureNamespace]
-        ) && count(
-            self::$_classLevelFixtures[$fixtureNamespace]
-        )
+        if (isset(self::$_classLevelFixtures[$fixtureNamespace])
+            && count(self::$_classLevelFixtures[$fixtureNamespace])
         ) {
             self::_deleteFixtures(self::$_classLevelFixtures[$fixtureNamespace]);
         }
@@ -144,11 +136,8 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $fixtureNamespace = self::_getFixtureNamespace();
-        if (isset(
-            self::$_methodLevelFixtures[$fixtureNamespace]
-        ) && count(
-            self::$_methodLevelFixtures[$fixtureNamespace]
-        )
+        if (isset(self::$_methodLevelFixtures[$fixtureNamespace])
+            && count(self::$_methodLevelFixtures[$fixtureNamespace])
         ) {
             self::_deleteFixtures(self::$_methodLevelFixtures[$fixtureNamespace]);
         }
@@ -215,11 +204,13 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
                 self::$_methodLevelFixtures[$fixturesNamespace] = array();
             }
             self::$_methodLevelFixtures[$fixturesNamespace][] = $key;
-        } else if ($tearDown == self::AUTO_TEAR_DOWN_AFTER_CLASS) {
-            if (!isset(self::$_classLevelFixtures[$fixturesNamespace])) {
-                self::$_classLevelFixtures[$fixturesNamespace] = array();
+        } else {
+            if ($tearDown == self::AUTO_TEAR_DOWN_AFTER_CLASS) {
+                if (!isset(self::$_classLevelFixtures[$fixturesNamespace])) {
+                    self::$_classLevelFixtures[$fixturesNamespace] = array();
+                }
+                self::$_classLevelFixtures[$fixturesNamespace][] = $key;
             }
-            self::$_classLevelFixtures[$fixturesNamespace][] = $key;
         }
     }
 
@@ -419,8 +410,8 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         if (null === $this->_appCache) {
             //set application path
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-            /** @var \Magento\App\ConfigInterface $config */
-            $config = $objectManager->get('Magento\App\ConfigInterface');
+            /** @var \Magento\App\Config\ScopeConfigInterface $config */
+            $config = $objectManager->get('Magento\App\Config\ScopeConfigInterface');
             $options = $config->getOptions();
             $currentCacheDir = $options->getCacheDir();
             $currentEtcDir = $options->getEtcDir();
@@ -482,7 +473,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
 
         if ($restore && !isset($this->_origConfigValues[$path])) {
             $this->_origConfigValues[$path] = (string)$objectManager->get(
-                'Magento\App\ConfigInterface'
+                'Magento\App\Config\ScopeConfigInterface'
             )->getNode(
                 $path,
                 'default'
@@ -492,8 +483,8 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         //refresh local cache
         if ($cleanAppCache) {
             if ($updateLocalConfig) {
-                $objectManager->get('Magento\App\ReinitableConfigInterface')->reinit();
-                $objectManager->get('Magento\Core\Model\StoreManagerInterface')->reinitStores();
+                $objectManager->get('Magento\App\Config\ReinitableConfigInterface')->reinit();
+                $objectManager->get('Magento\Store\Model\StoreManagerInterface')->reinitStores();
             }
 
             if (!$this->_cleanAppConfigCache()) {
@@ -512,20 +503,5 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         foreach ($this->_origConfigValues as $configPath => $origValue) {
             $this->_updateAppConfig($configPath, $origValue, true, true);
         }
-    }
-
-    /**
-     * Transform an array. Convert all camelCase keys to snake_case.
-     *
-     * @param array $objectData An array of data.
-     * @return array The array with all camelCase keys converted to snake_case.
-     */
-    protected function decamelize($objectData)
-    {
-        $data = array();
-        foreach ($objectData as $key => $value) {
-            $data[strtolower(preg_replace("/(?<=\\w)(?=[A-Z])/", "_$1", $key))] = $value;
-        }
-        return $data;
     }
 }

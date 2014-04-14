@@ -21,10 +21,12 @@
         </block>
     </referenceBlock>
     <update handle="adminhtml_sku_errors_block"/>
+    <referenceContainer name="page.main.actions">
+        <block class="Magento\Backend\Block\Store\Switcher" name="checkout.store.switcher"/>
+    </referenceContainer>
     <referenceContainer name="content">
         <block class="Magento\Catalog\Block\Adminhtml\Product\Composite\Configure" name="configure.popup"/>
         <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage" name="ID" template="manage.phtml">
-            <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Store\Switcher" name="checkout.store.switcher"/>
             <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Messages" name="checkout.message"/>
             <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Items" name="checkout.items" template="manage/items.phtml"/>
             <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Sku\Errors" name="errors"/>
