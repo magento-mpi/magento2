@@ -23,6 +23,11 @@ use Magento\Pricing\PriceInfoInterface;
 abstract class AbstractPrice implements PriceInterface
 {
     /**
+     * Default price type
+     */
+    const PRICE_TYPE_CODE = 'abstract_price';
+
+    /**
      * @var AmountInterface
      */
     protected $amount;

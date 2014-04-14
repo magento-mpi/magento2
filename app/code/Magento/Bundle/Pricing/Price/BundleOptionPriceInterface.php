@@ -13,11 +13,6 @@ namespace Magento\Bundle\Pricing\Price;
 interface BundleOptionPriceInterface
 {
     /**
-     * Price model code
-     */
-    const PRICE_TYPE_CODE = 'bundle_option';
-
-    /**
      * Return calculated options
      *
      * @return array

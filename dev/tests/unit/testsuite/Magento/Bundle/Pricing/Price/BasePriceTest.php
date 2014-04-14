@@ -96,9 +96,9 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
         $this->priceInfo->expects($this->any())
             ->method('getPrice')
             ->will($this->returnValueMap([
-                [CatalogPrice\TierPriceInterface::PRICE_TYPE_CODE, $this->quantity, $tearPrice],
-                [CatalogPrice\GroupPriceInterface::PRICE_TYPE_CODE, $this->quantity, $groupPrice],
-                [CatalogPrice\SpecialPriceInterface::PRICE_TYPE_CODE, $this->quantity, $specialPrice],
+                [CatalogPrice\TierPrice::PRICE_TYPE_CODE, $this->quantity, $tearPrice],
+                [CatalogPrice\GroupPrice::PRICE_TYPE_CODE, $this->quantity, $groupPrice],
+                [CatalogPrice\SpecialPrice::PRICE_TYPE_CODE, $this->quantity, $specialPrice],
             ]));
 
         $this->assertEquals($result, $this->model->getValue());

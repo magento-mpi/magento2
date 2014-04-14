@@ -18,6 +18,11 @@ use Magento\Customer\Model\Session;
 class GroupPrice extends \Magento\Catalog\Pricing\Price\GroupPrice
 {
     /**
+     * Price type group
+     */
+    const PRICE_TYPE_CODE = 'group_price';
+
+    /**
      * @return float|bool
      */
     public function getValue()

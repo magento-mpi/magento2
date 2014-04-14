@@ -16,8 +16,13 @@ use Magento\Pricing\Object\SaleableInterface;
 /**
  * Final price model
  */
-class FinalPrice extends AbstractPrice implements FinalPriceInterface
+class FinalPrice extends AbstractPrice
 {
+    /**
+     * Price type final
+     */
+    const PRICE_TYPE_CODE = 'final_price';
+
     /**
      * @var BasePrice
      */

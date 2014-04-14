@@ -20,6 +20,11 @@ use Magento\Pricing\Object\SaleableInterface;
 class MsrpPrice extends FinalPrice implements MsrpPriceInterface
 {
     /**
+     * Price type MSRP
+     */
+    const PRICE_TYPE_CODE = 'msrp_price';
+
+    /**
      * @var \Magento\Catalog\Helper\Data
      */
     protected $catalogDataHelper;

@@ -117,7 +117,7 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
                     ->with($this->expectedResult)
                     ->will($this->returnArgument(0));
                 return $this->basePriceMock;
-            case CatalogPrice\FinalPriceInterface::PRICE_TYPE_CODE:
+            case CatalogPrice\FinalPrice::PRICE_TYPE_CODE:
                 $this->finalPriceMock = $this->getMock(
                     'Magento\Catalog\Pricing\Price\FinalPrice',
                     [],

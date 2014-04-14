@@ -13,15 +13,19 @@ namespace Magento\GroupedProduct\Pricing\Price;
 use Magento\Catalog\Pricing\Price\AbstractPrice;
 use Magento\Pricing\Adjustment\Calculator;
 use Magento\Pricing\Object\SaleableInterface;
-use Magento\Catalog\Pricing\Price\FinalPriceInterface;
 use Magento\GroupedProduct\Model\Product\Type\Grouped;
 use Magento\Catalog\Model\ProductFactory;
 
 /**
  * Final price model
  */
-class FinalPrice extends AbstractPrice implements FinalPriceInterface
+class FinalPrice extends AbstractPrice
 {
+    /**
+     * Price type final
+     */
+    const PRICE_TYPE_CODE = 'final_price';
+
     /**
      * @var SaleableInterface
      */
@@ -47,7 +51,7 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
     public function getValue()
     {
         return $this->getMinProduct()->getPriceInfo()
-            ->getPrice(\Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_CODE)->getValue();
+            ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_TYPE_CODE)->getValue();
     }
 
     /**
@@ -64,7 +68,7 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
                 $product = clone $item;
                 $product->setQty(\Magento\Pricing\PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT);
                 $price = $product->getPriceInfo()
-                    ->getPrice(FinalPriceInterface::PRICE_TYPE_CODE)
+                    ->getPrice(FinalPrice::PRICE_TYPE_CODE)
                     ->getValue();
                 if (($price !== false) && ($price <= (is_null($minPrice) ? $price : $minPrice))) {
                     $this->minProduct = $product;

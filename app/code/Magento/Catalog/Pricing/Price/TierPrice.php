@@ -21,6 +21,11 @@ use Magento\Pricing\Amount\AmountInterface;
 class TierPrice extends AbstractPrice implements TierPriceInterface
 {
     /**
+     * Price type tier
+     */
+    const PRICE_TYPE_CODE = 'tier_price';
+
+    /**
      * @var Session
      */
     protected $customerSession;

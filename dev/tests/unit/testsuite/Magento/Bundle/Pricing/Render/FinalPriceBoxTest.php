@@ -50,7 +50,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
         $priceInfo->expects($this->atLeastOnce())
             ->method('getPrice')
-            ->with(Price\BundleOptionPriceInterface::PRICE_TYPE_CODE)
+            ->with(Price\BundleOptionPrice::PRICE_TYPE_CODE)
             ->will($this->returnValue($optionPrice));
 
         $optionPrice->expects($this->once())

@@ -20,6 +20,11 @@ use Magento\Customer\Model\Session;
 class GroupPrice extends AbstractPrice implements GroupPriceInterface
 {
     /**
+     * Price type group
+     */
+    const PRICE_TYPE_CODE = 'group_price';
+
+    /**
      * @var Session
      */
     protected $customerSession;

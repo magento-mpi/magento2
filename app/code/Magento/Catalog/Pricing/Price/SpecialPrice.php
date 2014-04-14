@@ -20,6 +20,11 @@ use Magento\Stdlib\DateTime\TimezoneInterface;
 class SpecialPrice extends AbstractPrice implements SpecialPriceInterface
 {
     /**
+     * Price type special
+     */
+    const PRICE_TYPE_CODE = 'special_price';
+
+    /**
      * @var TimezoneInterface
      */
     protected $localeDate;

@@ -17,6 +17,11 @@ use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
 class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterface
 {
     /**
+     * Price model code
+     */
+    const PRICE_TYPE_CODE = 'bundle_option';
+
+    /**
      * @var array
      */
     protected $priceOptions;
@@ -93,7 +98,7 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
 
     /**
      * @param \Magento\Bundle\Model\Selection $selection
-     * @return \Magento\Bundle\Pricing\Price\BundleSelectionPriceInterface
+     * @return \Magento\Bundle\Pricing\Price\BundleSelectionPrice
      */
     protected function createSelection($selection)
     {

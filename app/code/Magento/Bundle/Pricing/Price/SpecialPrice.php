@@ -16,6 +16,11 @@ namespace Magento\Bundle\Pricing\Price;
 class SpecialPrice extends \Magento\Catalog\Pricing\Price\SpecialPrice
 {
     /**
+     * Price type special
+     */
+    const PRICE_TYPE_CODE = 'special_price';
+
+    /**
      * @return bool|float
      */
     public function getValue()

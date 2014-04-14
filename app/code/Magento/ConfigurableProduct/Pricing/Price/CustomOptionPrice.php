@@ -22,6 +22,11 @@ use Magento\Catalog\Model\Product\PriceModifierInterface;
 class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterface
 {
     /**
+     * Default price type
+     */
+    const PRICE_TYPE_CODE = 'custom_option_price';
+
+    /**
      * @var PriceModifierInterface
      */
     protected $priceModifier;

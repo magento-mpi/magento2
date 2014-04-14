@@ -17,11 +17,6 @@ use Magento\Downloadable\Model\Link;
 interface LinkPriceInterface
 {
     /**
-     * Default price type
-     */
-    const PRICE_TYPE_CODE = 'link_price';
-
-    /**
      * @param Link $link
      * @return \Magento\Pricing\Amount\AmountInterface
      */

@@ -99,7 +99,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
 
         $this->priceInfoMock->expects($this->exactly(2))
             ->method('getPrice')
-            ->with($this->equalTo(\Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_CODE))
+            ->with($this->equalTo(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_TYPE_CODE))
             ->will($this->returnValue($this->priceTypeMock));
 
         $this->priceTypeMock->expects($this->exactly(2))

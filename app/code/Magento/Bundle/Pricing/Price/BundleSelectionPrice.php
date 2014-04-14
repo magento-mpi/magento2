@@ -12,14 +12,18 @@ namespace Magento\Bundle\Pricing\Price;
 use Magento\Catalog\Pricing\Price as CatalogPrice;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Bundle\Model\Product\Price;
-use Magento\Catalog\Pricing\Price\FinalPriceInterface;
 use Magento\Pricing\Adjustment\CalculatorInterface;
 
 /**
  * Bundle option price
  */
-class BundleSelectionPrice extends CatalogPrice\AbstractPrice implements BundleSelectionPriceInterface
+class BundleSelectionPrice extends CatalogPrice\AbstractPrice
 {
+    /**
+     * Price model code
+     */
+    const PRICE_TYPE_CODE = 'bundle_selection';
+
     /**
      * @var \Magento\Catalog\Model\Product
      */
@@ -62,7 +66,7 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice implements BundleS
 
         if ($this->bundleProduct->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
             $value = $this->priceInfo
-                ->getPrice(FinalPriceInterface::PRICE_TYPE_CODE, $this->quantity)
+                ->getPrice(FinalPrice::PRICE_TYPE_CODE, $this->quantity)
                 ->getValue();
         } else {
             if ($this->salableItem->getSelectionPriceType()) {

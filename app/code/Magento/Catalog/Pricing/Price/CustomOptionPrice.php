@@ -20,6 +20,11 @@ use Magento\Catalog\Model\Product\Option\Value;
 class CustomOptionPrice extends AbstractPrice implements CustomOptionPriceInterface
 {
     /**
+     * Price model code
+     */
+    const PRICE_TYPE_CODE = 'custom_option_price';
+
+    /**
      * @var array
      */
     protected $priceOptions;

@@ -19,6 +19,11 @@ use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
 class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
 {
     /**
+     * Price type final
+     */
+    const PRICE_TYPE_CODE = 'final_price';
+
+    /**
      * @var BundleCalculatorInterface
      */
     protected $calculator;
@@ -74,6 +79,6 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
      */
     protected function getBundleOptionPrice()
     {
-        return $this->priceInfo->getPrice(BundleOptionPriceInterface::PRICE_TYPE_CODE, $this->quantity);
+        return $this->priceInfo->getPrice(BundleOptionPrice::PRICE_TYPE_CODE, $this->quantity);
     }
 }

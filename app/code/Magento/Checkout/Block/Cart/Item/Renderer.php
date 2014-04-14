@@ -488,7 +488,7 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
         $price = '';
         if ($priceRender) {
             $price = $priceRender->render(
-                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_CODE,
+                \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_TYPE_CODE,
                 $product,
                 [
                     'include_container' => true,
