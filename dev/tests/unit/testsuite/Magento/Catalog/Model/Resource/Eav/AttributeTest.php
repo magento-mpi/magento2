@@ -51,7 +51,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $contextMock->expects($this->any())->method('getActionValidator')
             ->will($this->returnValue($actionValidatorMock));
 
-        $dbAdapterMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
+        $dbAdapterMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
 
         $dbAdapterMock->expects($this->any())->method('getTransactionLevel')->will($this->returnValue(1));
 

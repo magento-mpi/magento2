@@ -60,7 +60,7 @@ abstract class AbstractTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function _getResource(\Zend_Db_Select $select)
     {
-        $connection = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
+        $connection = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         $connection->expects($this->once())->method('select')->will($this->returnValue($select));
         $connection->expects($this->any())->method('quoteIdentifier')->will($this->returnArgument(0));
 

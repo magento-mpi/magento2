@@ -17,7 +17,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
     /**
      * Mysql PDO DB adapter mock
      *
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\DB\Adapter\Pdo\Mysql
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\DB\Adapter\Pdo\Mysql
      */
     protected $connectionMock;
 
@@ -27,7 +27,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
     protected $resourceMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\DB\Ddl\TriggerFactory
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\DB\Ddl\TriggerFactory
      */
     protected $triggerFactoryMock;
 
@@ -43,14 +43,14 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->connectionMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', [], [], '', false);
+        $this->connectionMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', [], [], '', false);
 
         $this->resourceMock = $this->getMock(
             'Magento\Framework\App\Resource', array('getConnection', 'getTableName'), [], '', false, false
         );
         $this->mockGetConnection($this->connectionMock);
         $this->triggerFactoryMock = $this->getMock(
-            'Magento\DB\Ddl\TriggerFactory', [], [], '', false, false
+            'Magento\Framework\DB\Ddl\TriggerFactory', [], [], '', false, false
         );
         $this->viewCollectionMock = $this->getMockForAbstractClass(
             'Magento\Mview\View\CollectionInterface', [], '', false, false, true, []
@@ -93,7 +93,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
     {
         $this->mockGetTableName();
 
-        $triggerMock = $this->getMock('Magento\DB\Ddl\Trigger', [], [], '', false, false);
+        $triggerMock = $this->getMock('Magento\Framework\DB\Ddl\Trigger', [], [], '', false, false);
         $triggerMock->expects($this->exactly(3))
             ->method('setName')
             ->will($this->returnSelf());
@@ -102,7 +102,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('triggerName'));
         $triggerMock->expects($this->exactly(3))
             ->method('setTime')
-            ->with(\Magento\DB\Ddl\Trigger::TIME_AFTER)
+            ->with(\Magento\Framework\DB\Ddl\Trigger::TIME_AFTER)
             ->will($this->returnSelf());
         $triggerMock->expects($this->exactly(3))
             ->method('setEvent')
@@ -182,7 +182,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
     {
         $this->mockGetTableName();
 
-        $triggerMock = $this->getMock('Magento\DB\Ddl\Trigger', [], [], '', false, false);
+        $triggerMock = $this->getMock('Magento\Framework\DB\Ddl\Trigger', [], [], '', false, false);
         $triggerMock->expects($this->exactly(3))
             ->method('setName')
             ->will($this->returnSelf());
@@ -191,7 +191,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('triggerName'));
         $triggerMock->expects($this->exactly(3))
             ->method('setTime')
-            ->with(\Magento\DB\Ddl\Trigger::TIME_AFTER)
+            ->with(\Magento\Framework\DB\Ddl\Trigger::TIME_AFTER)
             ->will($this->returnSelf());
         $triggerMock->expects($this->exactly(3))
             ->method('setEvent')

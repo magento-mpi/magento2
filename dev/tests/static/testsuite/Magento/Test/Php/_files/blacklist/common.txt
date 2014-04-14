@@ -19,7 +19,7 @@ app/code/Magento/RecurringPayment/view
 dev/tests/integration/framework/Magento/TestFramework/Db/Mysql.php
 dev/tests/integration/framework/Magento/TestFramework/Db/Adapter/Mysql.php
 dev/tests/integration/framework/Magento/TestFramework/Db/ConnectionAdapter.php
-dev/tests/integration/testsuite/Magento/DB/Adapter/Pdo/MysqlTest.php
+dev/tests/integration/testsuite/Magento/Framework/DB/Adapter/Pdo/MysqlTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/TemplateFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Theme/TemplateFilesTest.php
 dev/tests/integration/testsuite/Magento/Backend/Block/System/Config/FormStub.php

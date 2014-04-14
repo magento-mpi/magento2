@@ -21,7 +21,7 @@ if ($modulesDirectory->isExist($modulesDirectory->getRelativePath($installFile))
     include $installFile;
 }
 
-/** @var $connection \Magento\DB\Adapter\Pdo\Mysql */
+/** @var $connection \Magento\Framework\DB\Adapter\Pdo\Mysql */
 $connection = $installer->getConnection();
 $memoryTables = array(
     'catalog_category_anc_categs_index_tmp',
@@ -39,5 +39,5 @@ $memoryTables = array(
 );
 
 foreach ($memoryTables as $table) {
-    $connection->changeTableEngine($this->getTable($table), \Magento\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY);
+    $connection->changeTableEngine($this->getTable($table), \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY);
 }

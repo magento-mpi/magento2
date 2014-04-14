@@ -54,7 +54,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $string = $this->getMock('Magento\Stdlib\String', array(), array(), '', false);
         $dateTime = $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true);
-        $connection = new \Magento\DB\Adapter\Pdo\Mysql(
+        $connection = new \Magento\Framework\DB\Adapter\Pdo\Mysql(
             $filesystem,
             $string,
             $dateTime,

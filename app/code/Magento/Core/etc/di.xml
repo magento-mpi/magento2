@@ -266,7 +266,7 @@
             <argument name="reader" xsi:type="object">Magento\Locale\Hierarchy\Config\Reader</argument>
         </arguments>
     </type>
-    <type name="Magento\DB\Helper">
+    <type name="Magento\Framework\DB\Helper">
         <arguments>
             <argument name="modulePrefix" xsi:type="string">core</argument>
         </arguments>

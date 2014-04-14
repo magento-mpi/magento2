@@ -107,7 +107,7 @@ class Event extends AbstractDb
     {
         $rootCategoryId = $this->_storeManager->getStore($storeId)->getRootCategoryId();
 
-        /* @var $select \Magento\DB\Select */
+        /* @var $select \Magento\Framework\DB\Select */
         $select = $this->_categoryCollectionFactory->create()->setStoreId(
             $this->_storeManager->getStore($storeId)->getId()
         )->addIsActiveFilter()->addPathsFilter(

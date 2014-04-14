@@ -193,7 +193,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * Get SQL for get record count.
      * Extra GROUP BY strip added.
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {

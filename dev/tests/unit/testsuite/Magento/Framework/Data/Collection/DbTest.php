@@ -208,7 +208,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('email LIKE \'%value?%\'')
         );
-        $adapter->expects($this->once())->method('select')->will($this->returnValue(new \Magento\DB\Select($adapter)));
+        $adapter->expects($this->once())->method('select')->will($this->returnValue(new \Magento\Framework\DB\Select($adapter)));
         $this->collection->setConnection($adapter);
 
         $select = $this->collection->getSelect()->from('test');
@@ -347,7 +347,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
         $adapterMock = $this->getMock('Zend_Db_Adapter_Pdo_Mysql',
             array('select', 'query'), array(), '', false);
         $selectMock = $this->getMock(
-            'Magento\DB\Select', array(), array('adapter' => $adapterMock)
+            'Magento\Framework\DB\Select', array(), array('adapter' => $adapterMock)
         );
         $adapterMock->expects($this->once())
             ->method('query')
@@ -383,7 +383,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
             false
         );
         $selectMock = $this->getMock(
-            'Magento\DB\Select', array('orWhere', 'where', 'reset', 'columns'), array('adapter' => $adapterMock)
+            'Magento\Framework\DB\Select', array('orWhere', 'where', 'reset', 'columns'), array('adapter' => $adapterMock)
         );
         $selectMock->expects($this->exactly(4))
             ->method('reset');
@@ -406,7 +406,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
             ->method('where')
             ->will($this->returnValueMap(array(
                 array('testValue2', $this->returnSelf()),
-                array('testField3 = testValue3', null, \Magento\DB\Select::TYPE_CONDITION, $this->returnSelf()),
+                array('testField3 = testValue3', null, \Magento\Framework\DB\Select::TYPE_CONDITION, $this->returnSelf()),
                 array('testField4=testValue4', $this->returnSelf()),
             )));
         $adapterMock->expects($this->once())
@@ -431,7 +431,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
     {
         $adapterMock = $this->getMock('Zend_Db_Adapter_Pdo_Mysql', array('select'), array(), '', false);
         $selectMock = $this->getMock(
-            'Magento\DB\Select', array('__toString'), array('adapter' => $adapterMock)
+            'Magento\Framework\DB\Select', array('__toString'), array('adapter' => $adapterMock)
         );
         $adapterMock->expects($this->once())
             ->method('select')
@@ -457,11 +457,11 @@ class DbTest extends \PHPUnit_Framework_TestCase
             false
         );
         $selectMock = $this->getMock(
-            'Magento\DB\Select', array('orWhere', 'where', 'reset', 'columns'), array('adapter' => $adapterMock)
+            'Magento\Framework\DB\Select', array('orWhere', 'where', 'reset', 'columns'), array('adapter' => $adapterMock)
         );
         $selectMock->expects($this->once())
             ->method('where')
-            ->with('aliasField3 = testValue3', null, \Magento\DB\Select::TYPE_CONDITION)
+            ->with('aliasField3 = testValue3', null, \Magento\Framework\DB\Select::TYPE_CONDITION)
             ->will($this->returnSelf());
 
         $adapterMock->expects($this->once())
@@ -486,7 +486,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
     public function testDistinct($flag, $expectedFlag)
     {
         $adapterMock = $this->getMock('Zend_Db_Adapter_Pdo_Mysql', array('select'), array(), '', false);
-        $selectMock = $this->getMock('Magento\DB\Select', array('distinct'), array('adapter' => $adapterMock));
+        $selectMock = $this->getMock('Magento\Framework\DB\Select', array('distinct'), array('adapter' => $adapterMock));
         $adapterMock->expects($this->once())
             ->method('select')
             ->will($this->returnValue($selectMock));
@@ -512,7 +512,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
         $adapterMock = $this->getMock('Zend_Db_Adapter_Pdo_Mysql',
             array('select', 'query'), array(), '', false);
         $selectMock = $this->getMock(
-            'Magento\DB\Select', array(), array('adapter' => $adapterMock)
+            'Magento\Framework\DB\Select', array(), array('adapter' => $adapterMock)
         );
         $adapterMock->expects($this->once())
             ->method('select')

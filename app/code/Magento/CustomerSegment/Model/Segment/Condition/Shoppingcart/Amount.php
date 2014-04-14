@@ -130,7 +130,7 @@ class Amount extends AbstractCondition
      * @param Customer|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
      * @throws \Magento\Framework\Model\Exception
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

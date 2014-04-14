@@ -733,7 +733,7 @@ class Category extends AbstractResource
             $category->getChildren()
         )->setOrder(
             'position',
-            \Magento\DB\Select::SQL_ASC
+            \Magento\Framework\DB\Select::SQL_ASC
         )->joinUrlRewrite()->load();
 
         return $collection;

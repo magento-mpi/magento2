@@ -1809,7 +1809,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * DB connection getter.
      *
-     * @return \Magento\DB\Adapter\Pdo\Mysql
+     * @return \Magento\Framework\DB\Adapter\Pdo\Mysql
      */
     public function getConnection()
     {

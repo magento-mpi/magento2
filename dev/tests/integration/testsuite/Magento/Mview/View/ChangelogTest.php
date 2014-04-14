@@ -26,7 +26,7 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
     /**
      * Write connection adapter
      *
-     * @var \Magento\DB\Adapter\AdapterInterface
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $connection;
 

@@ -29,14 +29,14 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Read connection
      *
-     * @var \Magento\DB\Adapter\Pdo\Mysql
+     * @var \Magento\Framework\DB\Adapter\Pdo\Mysql
      */
     protected $_read;
 
     /**
      * Write connection
      *
-     * @var \Magento\DB\Adapter\Pdo\Mysql
+     * @var \Magento\Framework\DB\Adapter\Pdo\Mysql
      */
     protected $_write;
 
@@ -257,7 +257,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Retrieve connection for read data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function _getReadAdapter()
     {
@@ -270,7 +270,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Retrieve connection for write data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function _getWriteAdapter()
     {
@@ -283,7 +283,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Retrieve read DB connection
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     public function getReadConnection()
     {
@@ -293,7 +293,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Retrieve write DB connection
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     public function getWriteConnection()
     {

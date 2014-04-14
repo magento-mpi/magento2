@@ -206,7 +206,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     protected function _prepareResourceModel()
     {
         $adapter = $this->getMock(
-            'Magento\DB\Adapter\Pdo\Mysql',
+            'Magento\Framework\DB\Adapter\Pdo\Mysql',
             array('_connect', 'delete', 'describeTable', 'fetchRow', 'insert', 'lastInsertId', 'quote', 'update'),
             array(),
             '',

@@ -351,12 +351,12 @@ class Revision extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Applying order by create datetime and limitation to one record.
      *
-     * @param \Magento\DB\Select $select
-     * @return \Magento\DB\Select
+     * @param \Magento\Framework\DB\Select $select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _addSingleLimitation($select)
     {
-        $select->order($this->getMainTable() . '.created_at ' . \Magento\DB\Select::SQL_DESC)->limit(1);
+        $select->order($this->getMainTable() . '.created_at ' . \Magento\Framework\DB\Select::SQL_DESC)->limit(1);
         return $select;
     }
 }

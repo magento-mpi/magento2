@@ -55,7 +55,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getModelDependencies()
     {
-        $select = $this->getMock('Magento\DB\Select', array('from'), array(), '', false);
+        $select = $this->getMock('Magento\Framework\DB\Select', array('from'), array(), '', false);
         $select->expects($this->any())->method('from')->will($this->returnCallback(array($this, 'validateFrom')));
         $customerCollection = $this->getMock(
             'Magento\Customer\Model\Resource\Customer\Collection',

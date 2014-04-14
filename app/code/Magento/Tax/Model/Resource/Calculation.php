@@ -351,17 +351,17 @@ class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
             }
 
             $select->order(
-                'priority ' . \Magento\DB\Select::SQL_ASC
+                'priority ' . \Magento\Framework\DB\Select::SQL_ASC
             )->order(
-                'tax_calculation_rule_id ' . \Magento\DB\Select::SQL_ASC
+                'tax_calculation_rule_id ' . \Magento\Framework\DB\Select::SQL_ASC
             )->order(
-                'tax_country_id ' . \Magento\DB\Select::SQL_DESC
+                'tax_country_id ' . \Magento\Framework\DB\Select::SQL_DESC
             )->order(
-                'tax_region_id ' . \Magento\DB\Select::SQL_DESC
+                'tax_region_id ' . \Magento\Framework\DB\Select::SQL_DESC
             )->order(
-                'tax_postcode ' . \Magento\DB\Select::SQL_DESC
+                'tax_postcode ' . \Magento\Framework\DB\Select::SQL_DESC
             )->order(
-                'value ' . \Magento\DB\Select::SQL_DESC
+                'value ' . \Magento\Framework\DB\Select::SQL_DESC
             );
 
             $fetchResult = $this->_getReadAdapter()->fetchAll($select);

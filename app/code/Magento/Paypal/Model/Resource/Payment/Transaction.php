@@ -97,7 +97,7 @@ class Transaction extends \Magento\Framework\Model\Resource\Db\AbstractDb
      *
      * @param string $txnId
      * @param string|array|Zend_Db_Expr $columns
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     private function _getLoadByUniqueKeySelect($txnId, $columns = '*')
     {

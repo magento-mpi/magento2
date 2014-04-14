@@ -9,7 +9,7 @@
  */
 namespace Magento\Reports\Model\Resource\Order;
 
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * Reports orders collection
@@ -64,7 +64,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
      * @param \Magento\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\DB\Helper $coreResourceHelper
+     * @param \Magento\Framework\DB\Helper $coreResourceHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -80,7 +80,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
         \Magento\Logger $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\DB\Helper $coreResourceHelper,
+        \Magento\Framework\DB\Helper $coreResourceHelper,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -375,7 +375,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
         $adapter = $this->getConnection();
         $expression = $this->_getRangeExpression($range);
         $attribute = $adapter->quoteIdentifier($attribute);
-        $periodExpr = $adapter->getDateAddSql($attribute, $tzTo, \Magento\DB\Adapter\AdapterInterface::INTERVAL_HOUR);
+        $periodExpr = $adapter->getDateAddSql($attribute, $tzTo, \Magento\Framework\DB\Adapter\AdapterInterface::INTERVAL_HOUR);
 
         return str_replace('{{attribute}}', $periodExpr, $expression);
     }

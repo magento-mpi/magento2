@@ -236,7 +236,7 @@ abstract class AbstractFilter extends \Magento\Object
     /**
      * Get product collection select object with applied filters
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getBaseCollectionSql()
     {

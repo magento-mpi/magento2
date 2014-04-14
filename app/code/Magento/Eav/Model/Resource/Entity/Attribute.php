@@ -12,7 +12,7 @@ namespace Magento\Eav\Model\Resource\Entity;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Eav\Model\Entity\Attribute as EntityAttribute;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * EAV attribute resource model

@@ -72,7 +72,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @param int $store
      * @param bool $hasValueField flag which require option value
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getFlatUpdateSelect(
         \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute,
@@ -103,7 +103,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
         }
 
         $valueExpr = $adapter->getCheckSql('t2.value_id > 0', 't2.value', 't1.value');
-        /** @var $select \Magento\DB\Select */
+        /** @var $select \Magento\Framework\DB\Select */
         $select = $adapter->select()->joinLeft(
             array('t1' => $attributeTable),
             $joinCondition,

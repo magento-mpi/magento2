@@ -35,7 +35,7 @@
  */
 namespace Magento\CatalogRule\Model\Rule\Product;
 
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 class Price extends \Magento\Framework\Model\AbstractModel
 {

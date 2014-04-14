@@ -22,7 +22,7 @@ class Mysql4Test extends \PHPUnit_Framework_TestCase
      */
     public function testSupportEngine(array $supportedEngines, $expectedResult)
     {
-        $connectionMock = $this->getMock('Magento\DB\Adapter\AdapterInterface');
+        $connectionMock = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface');
         $connectionMock->expects($this->once())->method('fetchPairs')->will($this->returnValue($supportedEngines));
 
         $adapterFactory = $this->getMock(

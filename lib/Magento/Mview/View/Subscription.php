@@ -17,12 +17,12 @@ class Subscription implements SubscriptionInterface
     /**
      * Database write connection
      *
-     * @var \Magento\DB\Adapter\AdapterInterface
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $write;
 
     /**
-     * @var \Magento\DB\Ddl\Trigger
+     * @var \Magento\Framework\DB\Ddl\Trigger
      */
     protected $triggerFactory;
 
@@ -60,7 +60,7 @@ class Subscription implements SubscriptionInterface
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\DB\Ddl\TriggerFactory $triggerFactory
+     * @param \Magento\Framework\DB\Ddl\TriggerFactory $triggerFactory
      * @param \Magento\Mview\View\CollectionInterface $viewCollection
      * @param \Magento\Mview\ViewInterface $view
      * @param string $tableName
@@ -68,7 +68,7 @@ class Subscription implements SubscriptionInterface
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\DB\Ddl\TriggerFactory $triggerFactory,
+        \Magento\Framework\DB\Ddl\TriggerFactory $triggerFactory,
         \Magento\Mview\View\CollectionInterface $viewCollection,
         \Magento\Mview\ViewInterface $view,
         $tableName,
@@ -90,18 +90,18 @@ class Subscription implements SubscriptionInterface
      */
     public function create()
     {
-        foreach (\Magento\DB\Ddl\Trigger::getListOfEvents() as $event) {
+        foreach (\Magento\Framework\DB\Ddl\Trigger::getListOfEvents() as $event) {
             $triggerName = $this->getTriggerName(
                 $this->resource->getTableName($this->getTableName()),
-                \Magento\DB\Ddl\Trigger::TIME_AFTER,
+                \Magento\Framework\DB\Ddl\Trigger::TIME_AFTER,
                 $event
             );
 
-            /** @var \Magento\DB\Ddl\Trigger $trigger */
+            /** @var \Magento\Framework\DB\Ddl\Trigger $trigger */
             $trigger = $this->triggerFactory->create()->setName(
                 $triggerName
             )->setTime(
-                \Magento\DB\Ddl\Trigger::TIME_AFTER
+                \Magento\Framework\DB\Ddl\Trigger::TIME_AFTER
             )->setEvent(
                 $event
             )->setTable(
@@ -130,18 +130,18 @@ class Subscription implements SubscriptionInterface
      */
     public function remove()
     {
-        foreach (\Magento\DB\Ddl\Trigger::getListOfEvents() as $event) {
+        foreach (\Magento\Framework\DB\Ddl\Trigger::getListOfEvents() as $event) {
             $triggerName = $this->getTriggerName(
                 $this->resource->getTableName($this->getTableName()),
-                \Magento\DB\Ddl\Trigger::TIME_AFTER,
+                \Magento\Framework\DB\Ddl\Trigger::TIME_AFTER,
                 $event
             );
 
-            /** @var \Magento\DB\Ddl\Trigger $trigger */
+            /** @var \Magento\Framework\DB\Ddl\Trigger $trigger */
             $trigger = $this->triggerFactory->create()->setName(
                 $triggerName
             )->setTime(
-                \Magento\DB\Ddl\Trigger::TIME_AFTER
+                \Magento\Framework\DB\Ddl\Trigger::TIME_AFTER
             )->setEvent(
                 $event
             )->setTable(
@@ -203,8 +203,8 @@ class Subscription implements SubscriptionInterface
     protected function buildStatement($event, $changelog)
     {
         switch ($event) {
-            case \Magento\DB\Ddl\Trigger::EVENT_INSERT:
-            case \Magento\DB\Ddl\Trigger::EVENT_UPDATE:
+            case \Magento\Framework\DB\Ddl\Trigger::EVENT_INSERT:
+            case \Magento\Framework\DB\Ddl\Trigger::EVENT_UPDATE:
                 return sprintf(
                     "INSERT IGNORE INTO %s (%s) VALUES (NEW.%s);",
                     $this->write->quoteIdentifier($this->resource->getTableName($changelog->getName())),
@@ -212,7 +212,7 @@ class Subscription implements SubscriptionInterface
                     $this->write->quoteIdentifier($this->getColumnName())
                 );
 
-            case \Magento\DB\Ddl\Trigger::EVENT_DELETE:
+            case \Magento\Framework\DB\Ddl\Trigger::EVENT_DELETE:
                 return sprintf(
                     "INSERT IGNORE INTO %s (%s) VALUES (OLD.%s);",
                     $this->write->quoteIdentifier($this->resource->getTableName($changelog->getName())),

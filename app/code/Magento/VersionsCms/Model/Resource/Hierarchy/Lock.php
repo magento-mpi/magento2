@@ -42,7 +42,7 @@ class Lock extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $select = $this->_getReadAdapter()->select()->from(
             $this->getMainTable()
         )->order(
-            'lock_id ' . \Magento\DB\Select::SQL_DESC
+            'lock_id ' . \Magento\Framework\DB\Select::SQL_DESC
         )->limit(
             1
         );

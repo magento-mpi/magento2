@@ -97,19 +97,19 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
     public function profileQueryDataProvider()
     {
         return array(
-            array("SELECT * FROM %s", \Magento\DB\Profiler::SELECT),
+            array("SELECT * FROM %s", \Magento\Framework\DB\Profiler::SELECT),
             array(
                 "INSERT INTO %s (code, version, data_version) " .
                 "VALUES ('" .
                 self::$_testResourceName .
                 "', '1.1', '1.1')",
-                \Magento\DB\Profiler::INSERT
+                \Magento\Framework\DB\Profiler::INSERT
             ),
             array(
                 "UPDATE %s SET version = '1.2' WHERE code = '" . self::$_testResourceName . "'",
-                \Magento\DB\Profiler::UPDATE
+                \Magento\Framework\DB\Profiler::UPDATE
             ),
-            array("DELETE FROM %s WHERE code = '" . self::$_testResourceName . "'", \Magento\DB\Profiler::DELETE)
+            array("DELETE FROM %s WHERE code = '" . self::$_testResourceName . "'", \Magento\Framework\DB\Profiler::DELETE)
         );
     }
 
@@ -139,7 +139,7 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
         $profiler = $connection->getProfiler();
         $this->assertInstanceOf('Magento\Framework\Model\Resource\Db\Profiler', $profiler);
 
-        $queryProfiles = $profiler->getQueryProfiles(\Magento\DB\Profiler::SELECT);
+        $queryProfiles = $profiler->getQueryProfiles(\Magento\Framework\DB\Profiler::SELECT);
         $this->assertCount(2, $queryProfiles);
     }
 }

@@ -82,7 +82,7 @@ class Data extends \Magento\Framework\Model\Resource\Db\AbstractDb implements \I
     /**
      * Clean all bunches from table.
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     public function cleanBunches()
     {

@@ -36,7 +36,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     protected $resourceCollectionMock;
 
     /**
-     * @var \Magento\DB\Adapter\AdapterInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $adapterMock;
 
@@ -85,7 +85,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Model\AbstractModel',
             array($this->contextMock, $this->registryMock, $this->resourceMock, $this->resourceCollectionMock)
         );
-        $this->adapterMock = $this->getMock('Magento\DB\Adapter\AdapterInterface', array(), array(), '', false);
+        $this->adapterMock = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface', array(), array(), '', false);
         $this->resourceMock->expects($this->any())
             ->method('_getWriteAdapter')
             ->will($this->returnValue($this->adapterMock));

@@ -72,7 +72,7 @@ class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
         $retColumns = array();
         foreach ($columns as $labelColumn => $columnData) {
             $retColumns[$labelColumn] = $labelColumn;
-            if ($columnData['DATA_TYPE'] == \Magento\DB\Ddl\Table::TYPE_TEXT) {
+            if ($columnData['DATA_TYPE'] == \Magento\Framework\DB\Ddl\Table::TYPE_TEXT) {
                 $retColumns[$labelColumn] = 'main_table.' . $labelColumn;
             }
         }

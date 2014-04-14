@@ -173,7 +173,7 @@ class Creditmemo extends \Magento\Sales\Controller\Adminhtml\Creditmemo\Abstract
     protected function _saveCreditmemo($creditmemo)
     {
         $transactionSave = $this->_objectManager->create(
-            'Magento\DB\Transaction'
+            'Magento\Framework\DB\Transaction'
         )->addObject(
             $creditmemo
         )->addObject(

@@ -13,7 +13,7 @@ namespace Magento\Framework\Model\Resource;
 abstract class AbstractResource
 {
     /**
-     * @var \Magento\DB\Adapter\AdapterInterface
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $_writeAdapter;
 
@@ -45,14 +45,14 @@ abstract class AbstractResource
     /**
      * Retrieve connection for read data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     abstract protected function _getReadAdapter();
 
     /**
      * Retrieve connection for write data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     abstract protected function _getWriteAdapter();
 
@@ -232,7 +232,7 @@ abstract class AbstractResource
         $fieldsetColumns = $object->getFieldset();
         if (!empty($fieldsetColumns)) {
             $readAdapter = $this->_getReadAdapter();
-            if ($readAdapter instanceof \Magento\DB\Adapter\AdapterInterface) {
+            if ($readAdapter instanceof \Magento\Framework\DB\Adapter\AdapterInterface) {
                 $entityTableColumns = $readAdapter->describeTable($tableName);
                 $columns = array_intersect($fieldsetColumns, array_keys($entityTableColumns));
             }

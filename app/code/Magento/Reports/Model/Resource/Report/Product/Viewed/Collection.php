@@ -151,7 +151,7 @@ class Collection extends \Magento\Reports\Model\Resource\Report\Collection\Abstr
             )->group(
                 'product_id'
             )->order(
-                'views_num ' . \Magento\DB\Select::SQL_DESC
+                'views_num ' . \Magento\Framework\DB\Select::SQL_DESC
             )->limit(
                 $this->_ratingLimit
             );
@@ -180,7 +180,7 @@ class Collection extends \Magento\Reports\Model\Resource\Report\Collection\Abstr
     /**
      * Get SQL for get record count
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {

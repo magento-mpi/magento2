@@ -232,7 +232,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      *
      * @param \Magento\Object $object
      * @param string|int $rowId
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getLoadRowSelect($object, $rowId)
     {

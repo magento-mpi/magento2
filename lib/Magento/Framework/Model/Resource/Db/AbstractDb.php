@@ -267,7 +267,7 @@ abstract class AbstractDb extends \Magento\Framework\Model\Resource\AbstractReso
      * Get connection by resource name
      *
      * @param string $resourceName
-     * @return \Magento\DB\Adapter\AdapterInterface|false
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface|false
      */
     protected function _getConnection($resourceName)
     {
@@ -286,7 +286,7 @@ abstract class AbstractDb extends \Magento\Framework\Model\Resource\AbstractReso
     /**
      * Retrieve connection for read data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface|false
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface|false
      */
     protected function _getReadAdapter()
     {
@@ -301,7 +301,7 @@ abstract class AbstractDb extends \Magento\Framework\Model\Resource\AbstractReso
     /**
      * Retrieve connection for write data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface|false
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface|false
      */
     protected function _getWriteAdapter()
     {
@@ -311,7 +311,7 @@ abstract class AbstractDb extends \Magento\Framework\Model\Resource\AbstractReso
     /**
      * Temporary resolving collection compatibility
      *
-     * @return \Magento\DB\Adapter\AdapterInterface|false
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface|false
      */
     public function getReadConnection()
     {

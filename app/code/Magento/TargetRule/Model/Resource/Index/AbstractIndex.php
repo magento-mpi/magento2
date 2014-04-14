@@ -190,7 +190,7 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
     /**
      * Remove index by product ids
      *
-     * @param \Magento\DB\Select|array $entityIds
+     * @param \Magento\Framework\DB\Select|array $entityIds
      * @return $this
      */
     public function removeIndex($entityIds)

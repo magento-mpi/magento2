@@ -43,18 +43,18 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Core resource helper
      *
-     * @var \Magento\DB\Helper
+     * @var \Magento\Framework\DB\Helper
      */
     protected $_resourceHelper;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\DB\Helper $resourceHelper
+     * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\DB\Helper $resourceHelper,
+        \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
@@ -557,7 +557,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Get empty select object
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      *
      * @deprecated after 1.11.2.0
      */

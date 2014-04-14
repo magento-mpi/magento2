@@ -85,10 +85,10 @@ class Version extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Add access restriction filters to allow load only by granted user.
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @param int $accessLevel
      * @param int $userId
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _addAccessRestrictionsToSelect($select, $accessLevel, $userId)
     {

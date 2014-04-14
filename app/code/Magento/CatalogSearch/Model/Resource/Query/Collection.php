@@ -121,7 +121,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             'num_results > 0 AND display_in_terms = 1 AND query_text LIKE ?',
             $this->_resourceHelper->addLikeEscape($query, array('position' => 'start'))
         )->order(
-            'popularity ' . \Magento\DB\Select::SQL_DESC
+            'popularity ' . \Magento\Framework\DB\Select::SQL_DESC
         );
         if ($this->getStoreId()) {
             $this->getSelect()->where('store_id = ?', (int)$this->getStoreId());

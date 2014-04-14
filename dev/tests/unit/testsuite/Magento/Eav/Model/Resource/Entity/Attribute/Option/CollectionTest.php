@@ -45,7 +45,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected $storeManagerMock;
 
     /**
-     * @var \Magento\DB\Adapter\Pdo\Mysql|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\DB\Adapter\Pdo\Mysql|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $connectionMock;
 
@@ -85,7 +85,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->connectionMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
+        $this->connectionMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         $this->resourceMock = $this->getMockForAbstractClass(
             'Magento\Framework\Model\Resource\Db\AbstractDb',
             array(),

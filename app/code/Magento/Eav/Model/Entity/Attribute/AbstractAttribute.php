@@ -669,7 +669,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractModel 
                 break;
             case 'datetime':
                 $columns[$this->getAttributeCode()] = array(
-                    'type' => \Magento\DB\Ddl\Table::TYPE_DATETIME,
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME,
                     'unsigned' => false,
                     'nullable' => true,
                     'default' => null,
@@ -678,7 +678,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractModel 
                 break;
             case 'decimal':
                 $columns[$this->getAttributeCode()] = array(
-                    'type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
                     'length' => '12,4',
                     'unsigned' => false,
                     'nullable' => true,
@@ -688,7 +688,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractModel 
                 break;
             case 'int':
                 $columns[$this->getAttributeCode()] = array(
-                    'type' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
                     'unsigned' => false,
                     'nullable' => true,
                     'default' => null,
@@ -697,17 +697,17 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractModel 
                 break;
             case 'text':
                 $columns[$this->getAttributeCode()] = array(
-                    'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                     'unsigned' => false,
                     'nullable' => true,
                     'default' => null,
                     'extra' => null,
-                    'length' => \Magento\DB\Ddl\Table::MAX_TEXT_SIZE
+                    'length' => \Magento\Framework\DB\Ddl\Table::MAX_TEXT_SIZE
                 );
                 break;
             case 'varchar':
                 $columns[$this->getAttributeCode()] = array(
-                    'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                     'length' => '255',
                     'unsigned' => false,
                     'nullable' => true,
@@ -865,7 +865,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractModel 
      * Retrieve Select For Flat Attribute update
      *
      * @param int $store
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getFlatUpdateSelect($store = null)
     {

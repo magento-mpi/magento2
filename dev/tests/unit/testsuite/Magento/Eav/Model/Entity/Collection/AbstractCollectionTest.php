@@ -88,8 +88,8 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->entityFactoryMock = $this->getMock('Magento\Eav\Model\EntityFactory', array(), array(), '', false);
-        /** @var \Magento\DB\Adapter\Pdo\Mysql|\PHPUnit_Framework_MockObject_MockObject */
-        $connectionMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
+        /** @var \Magento\Framework\DB\Adapter\Pdo\Mysql|\PHPUnit_Framework_MockObject_MockObject */
+        $connectionMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         /** @var $selectMock \Zend_Db_Select|\PHPUnit_Framework_MockObject_MockObject */
         $selectMock = $this->getMock('Zend_Db_Select', array(), array(), '', false);
         $this->coreEntityFactoryMock->expects(

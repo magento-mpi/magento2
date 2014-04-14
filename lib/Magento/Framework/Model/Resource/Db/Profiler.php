@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Model\Resource\Db;
 
-class Profiler extends \Magento\DB\Profiler
+class Profiler extends \Magento\Framework\DB\Profiler
 {
     /**
      * Default connection type for timer name creation

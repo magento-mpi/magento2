@@ -28,7 +28,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     /**
      * Resource helper
      *
-     * @var \Magento\DB\Helper
+     * @var \Magento\Framework\DB\Helper
      */
     protected $_resourceHelper;
 
@@ -37,7 +37,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param \Magento\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\DB\Helper $resourceHelper
+     * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Eav\Model\Config $config
      * @param mixed $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
@@ -47,7 +47,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         \Magento\Logger $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\DB\Helper $resourceHelper,
+        \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Eav\Model\Config $config,
         $connection = null,
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
@@ -116,7 +116,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
                 $this->getConnection()->getIfNullSql('p.value', 'p_d.value'),
                 $condition
             );
-            $this->getSelect()->where($conditionSql, null, \Magento\DB\Select::TYPE_CONDITION);
+            $this->getSelect()->where($conditionSql, null, \Magento\Framework\DB\Select::TYPE_CONDITION);
             return $this;
         } else {
             return parent::addFieldToFilter($field, $condition);

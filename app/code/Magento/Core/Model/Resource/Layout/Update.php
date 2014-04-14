@@ -66,7 +66,7 @@ class Update extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Get select to fetch updates by handle
      *
      * @param bool $loadAllUpdates
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getFetchUpdatesByHandleSelect($loadAllUpdates = false)
     {
@@ -88,7 +88,7 @@ class Update extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             'layout_update.handle = :layout_update_handle'
         )->order(
-            'layout_update.sort_order ' . \Magento\DB\Select::SQL_ASC
+            'layout_update.sort_order ' . \Magento\Framework\DB\Select::SQL_ASC
         );
 
         if (!$loadAllUpdates) {

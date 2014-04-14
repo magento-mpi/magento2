@@ -127,7 +127,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                         $select->where('t1.store_id = ?', 0);
                         $select->where('t1.attribute_id = ?', $attributeId);
 
-                        if (array_key_exists('price_index', $this->getSelect()->getPart(\Magento\DB\Select::FROM))) {
+                        if (array_key_exists('price_index', $this->getSelect()->getPart(\Magento\Framework\DB\Select::FROM))) {
                             $select->where('t1.entity_id = price_index.entity_id');
                         }
 

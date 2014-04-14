@@ -80,7 +80,7 @@ class Cache implements \Magento\Framework\Data\Collection\Db\FetchStrategyInterf
     /**
      * Determine cache identifier based on select query
      *
-     * @param \Magento\DB\Select|string $select
+     * @param \Magento\Framework\DB\Select|string $select
      * @return string
      */
     protected function _getSelectCacheId($select)
