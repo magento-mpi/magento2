@@ -54,7 +54,6 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Catalog\Helper\Product\Price $priceHelper
      * @param CustomerAccountService $customerAccountService
-     * @param PriceModifierInterface $priceModifier
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -66,13 +65,11 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Catalog\Helper\Product\Price $priceHelper,
         CustomerAccountService $customerAccountService,
-        PriceModifierInterface $priceModifier,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
         $this->_jsonEncoder = $jsonEncoder;
         $this->priceHelper = $priceHelper;
-        $this->priceModifier = $priceModifier;
         $this->_customerAccountService = $customerAccountService;
         parent::__construct(
             $context,
@@ -161,18 +158,10 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getJsonConfig()
     {
-        $attributes = array();
         $options = array();
         $store = $this->getCurrentStore();
-        $taxHelper = $this->_taxData;
-        $currentProduct = $this->getProduct();
-        $preConfiguredValues = null;
 
-        $preConfiguredFlag = $currentProduct->hasPreconfiguredValues();
-        if ($preConfiguredFlag) {
-            $preConfiguredValues = $currentProduct->getPreconfiguredValues();
-            $defaultValues = array();
-        }
+        $currentProduct = $this->getProduct();
 
         foreach ($this->getAllowProducts() as $product) {
             $productId = $product->getId();
@@ -197,6 +186,9 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             }
         }
 
+        $defaultValues = array();
+        $preConfiguredValues = $this->getPreConfiguredValues($currentProduct);
+
         foreach ($this->getAllowAttributes() as $attribute) {
             $productAttribute = $attribute->getProductAttribute();
             $attributeId = $productAttribute->getId();
@@ -214,84 +206,40 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                     if (!$this->_validateAttributeValue($attributeId, $value, $options)) {
                         continue;
                     }
-                    $currentProduct->setConfigurablePrice(
-                        $this->_preparePrice($value['pricing_value'], $value['is_percent'])
-                    );
-                    $currentProduct->setParentId(true);
-                    $currentProduct->setConfigurablePrice(
-                        $this->priceModifier->modifyPrice($currentProduct->getConfigurablePrice(), $currentProduct)
-                    );
-                    $configurablePrice = $currentProduct->getConfigurablePrice();
 
-                    if (isset($options[$attributeId][$value['value_index']])) {
-                        $productsIndex = $options[$attributeId][$value['value_index']];
-                    } else {
-                        $productsIndex = array();
-                    }
+                    /**
+                     * @var $optionPrice \Magento\ConfigurableProduct\Pricing\Price\CustomOptionPrice
+                     */
+                    $optionPrice = $currentProduct
+                        ->getPriceInfo()
+                        ->getPrice('custom_option_price');
+                    $optionValueAmount = $optionPrice->getOptionValueAmount($value);
+                    $optionValueOldAmount = $optionPrice->getOptionValueOldAmount($value);
+
+                    $price = $this->getOptionPrice($optionValueAmount);
 
                     // @todo resolve issue with weee specifics
                     $info['options'][] = array(
                         'id' => $value['value_index'],
                         'label' => $value['label'],
-                        'price' => $configurablePrice,
-                        'oldPrice' => $this->_prepareOldPrice($value['pricing_value'], $value['is_percent']),
-                        'inclTaxPrice' => $currentProduct
-                            ->getPriceInfo()
-                            ->getPrice('final_price')
-                            ->getCustomAmount($configurablePrice, 'weee')
-                            ->getValue(),
-                        'exclTaxPrice' => $configurablePrice,
-                        'products' => $productsIndex
+                        'price' => $price,
+                        'oldPrice' => $this->_registerJsPrice($optionValueOldAmount->getValue()),
+                        'inclTaxPrice' => $this->_registerJsPrice($optionValueAmount->getValue()),
+                        'exclTaxPrice' => $this->_registerJsPrice($optionValueAmount->getBaseAmount()),
+                        'products' => $this->getProductsIndex($options, $attributeId, $value)
                     );
-                    $optionPrices[] = $configurablePrice;
+                    $optionPrices[] = $price;
                 }
             }
 
-            /**
-             * Prepare formatted values for options choose
-             */
-            foreach ($optionPrices as $optionPrice) {
-                foreach ($optionPrices as $additional) {
-                    $this->_preparePrice(abs($additional - $optionPrice));
-                }
-            }
-            if ($this->_validateAttributeInfo($info)) {
-                $attributes[$attributeId] = $info;
-            }
+            $this->formatOptionsValues($optionPrices);
+            $attributes = $this->collectOptionsAttributes($info, $attributeId);
 
-            // Add attribute default value (if set)
-            if ($preConfiguredFlag) {
-                $configValue = $preConfiguredValues->getData('super_attribute/' . $attributeId);
-                if ($configValue) {
-                    $defaultValues[$attributeId] = $configValue;
-                }
-            }
+            $defaultValues[$attributeId] = $this->getAttributeConfigValue($preConfiguredValues, $attributeId);
         }
 
-
-        if (is_null($this->priceHelper->getCustomer()->getId())
-            && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
-        ) {
-            $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
-            $this->priceHelper->setCustomer($this->_customerAccountService->getCustomer($customerId));
-        }
-
-        $_request = $this->priceHelper->getRateRequest(false, false, false);
-        $_request->setProductClassId($currentProduct->getTaxClassId());
-        $defaultTax = $this->priceHelper->getRate($_request);
-
-        $_request = $this->priceHelper->getRateRequest();
-        $_request->setProductClassId($currentProduct->getTaxClassId());
-        $currentTax = $this->priceHelper->getRate($_request);
-
-        $taxConfig = array(
-            'includeTax' => $taxHelper->priceIncludesTax(),
-            'showIncludeTax' => $taxHelper->displayPriceIncludingTax(),
-            'showBothPrices' => $taxHelper->displayBothPrices(),
-            'defaultTax' => $defaultTax,
-            'currentTax' => $currentTax,
-            'inclTaxTitle' => __('Incl. Tax')
-        );
+        $this->setCustomer();
+        $taxConfig = $this->getTaxConfig($currentProduct);
 
         $config = array(
             'attributes' => $attributes,
@@ -304,9 +252,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             'images' => $options['images']
         );
 
-        if ($preConfiguredFlag && !empty($defaultValues)) {
-            $config['defaultValues'] = $defaultValues;
-        }
+        $config = $this->addDefaultValuesToConfig($defaultValues, $config);
 
         $config = array_merge($config, $this->_getAdditionalConfig());
 
@@ -328,6 +274,22 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         }
 
         return false;
+    }
+
+    /**
+     * @param \Magento\Object $preConfiguredValues
+     * @param int $attributeId
+     * @return mixed|null
+     */
+    protected function getAttributeConfigValue($preConfiguredValues, $attributeId)
+    {
+        if( $this->hasPreConfiguredValues()) {
+            $configValue = $preConfiguredValues->getData('super_attribute/' . $attributeId);
+            if($configValue)
+            {
+                return $configValue;
+            }
+        }
     }
 
     /**
@@ -360,23 +322,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         return $this->_registerJsPrice($this->_convertPrice($price, true));
     }
 
-    /**
-     * Calculation price before special price
-     *
-     * @param float $price
-     * @param bool $isPercent
-     * @return string
-     */
-    protected function _prepareOldPrice($price, $isPercent = false)
-    {
-        if ($isPercent && !empty($price)) {
-            $price = $this->getProduct()->getPrice() * $price / 100;
-        }
-
-        return $this->_registerJsPrice($this->_convertPrice($price, true));
-    }
-
-    /**
+     /**
      * Replace ',' on '.' for js
      *
      * @param float $price
@@ -406,5 +352,172 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         }
 
         return $price;
+    }
+
+    /**
+     * Get Tax Config
+     *
+     * @return array
+     */
+    protected function getTaxConfig()
+    {
+        $currentProduct = $this->getProduct();
+        $taxHelper = $this->_taxData;
+        $defaultTax = $this->getDefaultTax($currentProduct);
+
+        $currentTax = $this->getCurrentTax($currentProduct);
+
+        $taxConfig = array(
+            'includeTax' => $taxHelper->priceIncludesTax(),
+            'showIncludeTax' => $taxHelper->displayPriceIncludingTax(),
+            'showBothPrices' => $taxHelper->displayBothPrices(),
+            'defaultTax' => $defaultTax,
+            'currentTax' => $currentTax,
+            'inclTaxTitle' => __('Incl. Tax')
+        );
+        return $taxConfig;
+    }
+
+    /**
+     * Get Default Tax value
+     *
+     * @return array
+     */
+    protected function getDefaultTax()
+    {
+        $_request = $this->priceHelper->getRateRequest(false, false, false);
+        $_request->setProductClassId($this->getProduct()->getTaxClassId());
+        $defaultTax = $this->priceHelper->getRate($_request);
+
+        return $defaultTax;
+    }
+
+    /**
+     * Get Current Tax Value
+     *
+     * @return float
+     */
+    protected function getCurrentTax()
+    {
+        $_request = $this->priceHelper->getRateRequest();
+        $_request->setProductClassId($this->getProduct()->getTaxClassId());
+        $currentTax = $this->priceHelper->getRate($_request);
+        return $currentTax;
+    }
+
+    /**
+     * Get CustomerId from registry and set it to PriceHelper
+     */
+    protected function setCustomer()
+    {
+        if (is_null($this->priceHelper->getCustomer()->getId())
+            && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
+        ) {
+            $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
+            $this->priceHelper->setCustomer($this->_customerAccountService->getCustomer($customerId));
+        }
+    }
+
+    /**
+     * Prepare formatted values for options choose
+     *
+     * @param array $optionPrices
+     * @return mixed
+     */
+    protected function formatOptionsValues(array $optionPrices = array())
+    {
+        foreach ($optionPrices as $optionPrice) {
+            foreach ($optionPrices as $additional) {
+                $this->_preparePrice(abs($additional - $optionPrice));
+            }
+        }
+    }
+
+    /**
+     * Collect Options Attributes
+     *
+     * @param array $info
+     * @param int $attributeId
+     * @return array
+     */
+    protected function collectOptionsAttributes($info, $attributeId)
+    {
+        $attributes = array();
+        if ($this->_validateAttributeInfo($info)) {
+            $attributes[$attributeId] = $info;
+        }
+        return $attributes;
+    }
+
+    /**
+     * Add Default Values if set
+     *
+     * @param array $defaultValues
+     * @param array $config
+     * @return array
+     */
+    protected function addDefaultValuesToConfig($defaultValues, $config)
+    {
+        if ($this->getProduct()->hasPreconfiguredValues() && !empty($defaultValues)) {
+            $config['defaultValues'] = $defaultValues;
+        }
+        return $config;
+    }
+
+    /**
+     * Get PreConfigured Values
+     *
+     * @return array
+     */
+    protected function getPreConfiguredValues()
+    {
+        $preConfiguredValues = null;
+        if ($this->hasPreconfiguredValues()) {
+            $preConfiguredValues = $this->getProduct()->getPreconfiguredValues();
+        }
+        return $preConfiguredValues;
+    }
+
+    /**
+     * Get Flag if Configurable Product has PreConfiguredValues
+     *
+     * @return bool
+     */
+    protected function hasPreConfiguredValues()
+    {
+        return $this->getProduct()->hasPreconfiguredValues();
+    }
+
+    /**
+     * Get Products Index
+     *
+     * @param $options
+     * @param $attributeId
+     * @param $value
+     * @return array
+     */
+    protected function getProductsIndex($options, $attributeId, $value)
+    {
+        if (isset($options[$attributeId][$value['value_index']])) {
+            return $options[$attributeId][$value['value_index']];
+        } else {
+            return array();
+        }
+    }
+
+    /**
+     * Get Custom Option Price
+     * depending on display including or excluding Tax
+     *
+     * @param \Magento\Pricing\Amount\AmountInterface $optionValueAmount
+     * @return string
+     */
+    protected function getOptionPrice($optionValueAmount)
+    {
+        if ($this->_taxData->displayPriceIncludingTax()) {
+            return $this->_registerJsPrice($optionValueAmount->getValue());
+        } else {
+            return $this->_registerJsPrice($optionValueAmount->getBaseAmount());
+        }
     }
 }
