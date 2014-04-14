@@ -375,7 +375,7 @@ class Storage extends \Magento\Object
             );
             return $result;
         } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
-            throw new \Magento\Model\Exception(__('We cannot create a new directory.'));
+            throw new \Magento\Framework\Model\Exception(__('We cannot create a new directory.'));
         }
     }
 
@@ -396,7 +396,7 @@ class Storage extends \Magento\Object
             $path = $this->getThumbnailRoot() . $this->_getRelativePathToRoot($path);
             $this->_deleteByPath($path);
         } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
-            throw new \Magento\Model\Exception(__('We cannot delete directory %1.', $path));
+            throw new \Magento\Framework\Model\Exception(__('We cannot delete directory %1.', $path));
         }
     }
 

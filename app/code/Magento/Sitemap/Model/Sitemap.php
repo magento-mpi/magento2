@@ -203,13 +203,8 @@ class Sitemap extends \Magento\Framework\Model\AbstractModel
     /**
      * Get file handler
      *
-<<<<<<< HEAD
      * @return \Magento\Framework\Filesystem\File\WriteInterface
      * @throws \Magento\Framework\Model\Exception
-=======
-     * @return \Magento\Framework\Filesystem\File\WriteInterface
-     * @throws \Magento\Model\Exception
->>>>>>> MAGETWO-23532: Convert lib/Magento/Filesystem to lib/Magento/Framework/Filesystem
      */
     protected function _getStream()
     {

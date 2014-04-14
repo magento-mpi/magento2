@@ -34,7 +34,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     protected $context;
 
     /**
-     * @var \Magento\Model\AbstractModel|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Model\AbstractModel|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $ruleModel;
 

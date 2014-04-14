@@ -23,7 +23,7 @@ class Application
     /**
      * Configuration object
      *
-     * @param \Magento\Config
+     * @var \Magento\TestFramework\Performance\Config
      */
     protected $_config;
 
