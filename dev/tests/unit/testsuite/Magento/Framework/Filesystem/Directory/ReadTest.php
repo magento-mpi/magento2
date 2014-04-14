@@ -36,7 +36,13 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->driver = $this->getMock('Magento\Framework\Filesystem\Driver\File', array(), array(), '', false);
-        $this->fileFactory = $this->getMock('Magento\Framework\Filesystem\File\ReadFactory', array(), array(), '', false);
+        $this->fileFactory = $this->getMock(
+            'Magento\Framework\Filesystem\File\ReadFactory',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->read = new \Magento\Framework\Filesystem\Directory\Read(array(), $this->fileFactory, $this->driver);
     }
 

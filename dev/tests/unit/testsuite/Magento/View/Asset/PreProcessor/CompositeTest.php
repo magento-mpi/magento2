@@ -58,7 +58,13 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
         $publisherFile = $this->getMock('Magento\View\Publisher\CssFile', array(), array(), '', false);
         $publisherFile->expects($this->once())->method('getExtension')->will($this->returnValue($extension));
 
-        $targetDir = $this->getMock('Magento\Framework\Filesystem\Directory\WriteInterface', array(), array(), '', false);
+        $targetDir = $this->getMock(
+            'Magento\Framework\Filesystem\Directory\WriteInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         foreach ($createMap as $className => $isExpected) {
             $this->callMap[$className] = $this->getMock($className, array('process'), array(), '', false);

@@ -88,7 +88,13 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
-        $this->directoryReadMock = $this->getMock('Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false);
+        $this->directoryReadMock = $this->getMock(
+            'Magento\Framework\Filesystem\Directory\Read',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $this->filesystemMock->expects(
             $this->any()

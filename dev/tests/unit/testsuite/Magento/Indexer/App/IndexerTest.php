@@ -26,7 +26,13 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->filesystemMock = $this->getMock('Magento\Framework\Filesystem', array('getDirectoryWrite'), array(), '', false);
+        $this->filesystemMock = $this->getMock(
+            'Magento\Framework\Filesystem',
+            array('getDirectoryWrite'),
+            array(),
+            '',
+            false
+        );
         $directoryMock = $this->getMock('Magento\Framework\Filesystem\Directory\Write', array(), array(), '', false);
         $directoryMock->expects($this->any())->method('getRelativePath')->will($this->returnArgument(0));
         $this->filesystemMock->expects(

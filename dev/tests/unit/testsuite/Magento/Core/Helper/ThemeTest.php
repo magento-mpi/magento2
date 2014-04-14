@@ -39,7 +39,13 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         // 3. Get filesystem model
         $filesystem = $this->_getFilesystem();
 
-        $directory = $this->getMock('Magento\Framework\Filesystem\Directory\Read', array('getRelativePath'), array(), '', false);
+        $directory = $this->getMock(
+            'Magento\Framework\Filesystem\Directory\Read',
+            array('getRelativePath'),
+            array(),
+            '',
+            false
+        );
         $directory->expects(
             $this->any()
         )->method(

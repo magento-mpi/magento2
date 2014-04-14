@@ -617,7 +617,9 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
         $state = $this->getState();
         $result = !empty($this->_workflow[$state]) && in_array($againstState, $this->_workflow[$state]);
         if (!$soft && !$result) {
-            throw new \Magento\Framework\Model\Exception(__('This payment state cannot be changed to "%1".', $againstState));
+            throw new \Magento\Framework\Model\Exception(
+                __('This payment state cannot be changed to "%1".', $againstState)
+            );
         }
         return $result;
     }

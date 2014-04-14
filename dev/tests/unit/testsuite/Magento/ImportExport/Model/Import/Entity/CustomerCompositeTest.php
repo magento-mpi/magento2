@@ -804,7 +804,10 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
             'openFile'
         )->will(
             $this->returnValue(
-                new \Magento\Framework\Filesystem\File\Read($pathToCsvFile, new \Magento\Framework\Filesystem\Driver\File())
+                new \Magento\Framework\Filesystem\File\Read(
+                    $pathToCsvFile,
+                    new \Magento\Framework\Filesystem\Driver\File()
+                )
             )
         );
         $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToCsvFile, $directoryMock);

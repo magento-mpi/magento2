@@ -44,7 +44,13 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = $this->getMockForAbstractClass('Magento\ObjectManager', array('create'));
         $this->_config = $this->getMock('Magento\View\Asset\ConfigInterface', array(), array(), '', false);
         $this->_filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
-        $this->_directory = $this->getMock('\Magento\Framework\Filesystem\Directory\Write', array(), array(), '', false);
+        $this->_directory = $this->getMock(
+            '\Magento\Framework\Filesystem\Directory\Write',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_state = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $this->_filesystem->expects(
             $this->any()

@@ -55,7 +55,13 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
         self::$mimeContentType = self::MIME_TYPE;
 
         $this->_filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
-        $this->_handleMock = $this->getMock('Magento\Framework\Filesystem\File\ReadInterface', array(), array(), '', false);
+        $this->_handleMock = $this->getMock(
+            'Magento\Framework\Filesystem\File\ReadInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_workingDirectoryMock = $this->getMock(
             'Magento\Framework\Filesystem\Directory\ReadInterface',
             array(),

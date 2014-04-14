@@ -697,7 +697,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_customerModelMock->expects($this->once())
             ->method('sendPasswordResetConfirmationEmail')
-            ->will($this->throwException(new \Magento\Framework\Model\Exception(__('Invalid transactional email code: %1', 0))));
+            ->will($this->throwException(
+                new \Magento\Framework\Model\Exception(__('Invalid transactional email code: %1', 0))
+            ));
 
         $customerService = $this->_createService();
 

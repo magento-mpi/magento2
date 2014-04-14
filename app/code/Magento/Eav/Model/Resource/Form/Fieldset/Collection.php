@@ -23,16 +23,16 @@ use Magento\Eav\Model\Form\Type;
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Store scope ID
      *
      * @var int
      */
     protected $_storeId;
-
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory

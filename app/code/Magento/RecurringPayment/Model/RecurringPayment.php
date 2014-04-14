@@ -267,7 +267,9 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
             );
             $localeCode = $this->_localeResolver->getLocaleCode();
             if (!\Zend_Date::isDate($startDate, $dateFormat, $localeCode)) {
-                throw new \Magento\Framework\Model\Exception(__('The recurring payment start date has invalid format.'));
+                throw new \Magento\Framework\Model\Exception(
+                    __('The recurring payment start date has invalid format.')
+                );
             }
             $utcTime = $this->_localeDate->utcDate(
                 $this->_store,
@@ -517,7 +519,9 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
             throw new \Magento\Framework\Model\Exception($this->getValidationErrors());
         }
         if (!$this->getInternalReferenceId()) {
-            throw new \Magento\Framework\Model\Exception(__('An internal reference ID is required to save the payment.'));
+            throw new \Magento\Framework\Model\Exception(
+                __('An internal reference ID is required to save the payment.')
+            );
         }
     }
 

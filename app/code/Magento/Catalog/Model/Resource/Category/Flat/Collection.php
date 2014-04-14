@@ -33,18 +33,18 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected $_eventObject = 'category_collection';
 
     /**
-     * Store id of application
-     *
-     * @var integer
-     */
-    protected $_storeId = null;
-
-    /**
      * Store manager
      *
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
+
+    /**
+     * Store id of application
+     *
+     * @var integer
+     */
+    protected $_storeId;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory

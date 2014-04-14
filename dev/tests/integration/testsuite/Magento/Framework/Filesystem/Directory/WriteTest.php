@@ -377,7 +377,9 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $directoryFactory = $objectManager->create('Magento\Framework\Filesystem\Directory\WriteFactory');
         $directory = $directoryFactory->create(
             $config,
-            new \Magento\Framework\Filesystem\DriverFactory($objectManager->get('Magento\Framework\App\Filesystem\DirectoryList'))
+            new \Magento\Framework\Filesystem\DriverFactory(
+                $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList')
+            )
         );
         $this->testDirectories[] = $directory;
         return $directory;

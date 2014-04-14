@@ -20,13 +20,13 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param mixed $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,

@@ -39,7 +39,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_directoryMock = $this->getMock('Magento\Framework\Filesystem\Directory\Write', array(), array(), '', false);
+        $this->_directoryMock = $this->getMock(
+            'Magento\Framework\Filesystem\Directory\Write',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $this->_filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->_filesystemMock->expects(

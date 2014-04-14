@@ -33,7 +33,13 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->directoryWriteMock = $this->getMock('Magento\Framework\Filesystem\Directory\Write', array(), array(), '', false);
+        $this->directoryWriteMock = $this->getMock(
+            'Magento\Framework\Filesystem\Directory\Write',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->filesystemMock = $this->getMock(
             'Magento\Framework\App\Filesystem',
             array('getDirectoryWrite', 'createDirectory'),

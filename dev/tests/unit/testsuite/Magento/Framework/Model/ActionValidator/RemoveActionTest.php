@@ -25,7 +25,10 @@ class RemoveActionTest extends \PHPUnit_Framework_TestCase
         $registryMock->expects($this->once())
             ->method('registry')->with('isSecureArea')->will($this->returnValue($secureArea));
 
-        $model = new \Magento\Framework\Model\ActionValidator\RemoveAction($registryMock, array('class' => $protectedModel));
+        $model = new \Magento\Framework\Model\ActionValidator\RemoveAction(
+            $registryMock,
+            array('class' => $protectedModel)
+        );
         $this->assertEquals($expectedResult, $model->isAllowed($modelToCheck));
     }
 

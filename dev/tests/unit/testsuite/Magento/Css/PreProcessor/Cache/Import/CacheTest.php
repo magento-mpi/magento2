@@ -226,7 +226,13 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             }
         );
         foreach ($filesData as $fileData) {
-            $readDirectory = $this->getMock('Magento\Framework\Filesystem\Directory\ReadInterface', array(), array(), '', false);
+            $readDirectory = $this->getMock(
+                'Magento\Framework\Filesystem\Directory\ReadInterface',
+                array(),
+                array(),
+                '',
+                false
+            );
             $readDirectory->expects(
                 $this->any()
             )->method(

@@ -32,7 +32,14 @@ class DirTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false, false);
-        $this->directoryMock = $this->getMock('Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false, false);
+        $this->directoryMock = $this->getMock(
+            'Magento\Framework\Filesystem\Directory\Read',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
         $this->_stringMock = $this->getMock('Magento\Stdlib\String', array(), array(), '', false, false);
 
         $this->_stringMock->expects($this->once())->method('upperCaseWords')->will($this->returnValue('Test/Module'));

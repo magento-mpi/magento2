@@ -200,7 +200,11 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $this->currentFilePath = __DIR__ . '/../_files/' . $path;
         return Bootstrap::getObjectManager()->create(
             'Magento\Framework\Filesystem\File\Write',
-            array('path' => $this->currentFilePath, 'driver' => new \Magento\Framework\Filesystem\Driver\File(), 'mode' => $mode)
+            array(
+                'path' => $this->currentFilePath,
+                'driver' => new \Magento\Framework\Filesystem\Driver\File(),
+                'mode' => $mode
+            )
         );
     }
 }
