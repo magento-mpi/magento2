@@ -468,19 +468,13 @@ class Checkout extends \Magento\Checkout\Controller\Action implements
         }
 
         try {
-            $requiredAgreements = $this->_objectManager->get(
-                'Magento\Checkout\Helper\Data'
-            )->getRequiredAgreementIds();
-            if ($requiredAgreements) {
-                $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
-                $diff = array_diff($requiredAgreements, $postedAgreements);
-                if ($diff) {
-                    $this->messageManager->addError(
-                        __('Please agree to all Terms and Conditions before placing the order.')
-                    );
-                    $this->_redirect('*/*/billing');
-                    return;
-                }
+            $agreementsValidator = $this->_objectManager->get('Magento\Checkout\Model\Agreements\AgreementsValidator');
+            if (!$agreementsValidator->isValid(array_keys($this->getRequest()->getPost('agreement', array())))) {
+                $this->messageManager->addError(
+                    __('Please agree to all Terms and Conditions before placing the order.')
+                );
+                $this->_redirect('*/*/billing');
+                return;
             }
 
             $payment = $this->getRequest()->getPost('payment');

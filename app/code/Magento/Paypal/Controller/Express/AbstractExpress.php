@@ -421,14 +421,11 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
     public function placeOrderAction()
     {
         try {
-            $requiredAgreements = $this->_objectManager->get('Magento\Checkout\Helper\Data')->getRequiredAgreementIds();
-            if ($requiredAgreements) {
-                $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
-                if (array_diff($requiredAgreements, $postedAgreements)) {
-                    throw new \Magento\Model\Exception(
-                        __('Please agree to all the terms and conditions before placing the order.')
-                    );
-                }
+            $agreementsValidator = $this->_objectManager->get('Magento\Checkout\Model\Agreements\AgreementsValidator');
+            if (!$agreementsValidator->isValid(array_keys($this->getRequest()->getPost('agreement', [])))) {
+                throw new \Magento\Model\Exception(
+                    __('Please agree to all the terms and conditions before placing the order.')
+                );
             }
 
             $this->_initCheckout();
