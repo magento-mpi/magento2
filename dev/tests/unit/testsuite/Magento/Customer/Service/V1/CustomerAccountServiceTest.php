@@ -220,17 +220,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(array())
         );
 
-        $this->_customerBuilder = new Data\CustomerBuilder(new AttributeValueBuilder(),
-            $this->_customerMetadataService);
+        $this->_customerBuilder = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            ['metadataService' => $this->_customerMetadataService]
+        );
 
-        $customerBuilder = new CustomerBuilder(new AttributeValueBuilder(), $this->_customerMetadataService);
         $this->_customerDetailsBuilder = new Data\CustomerDetailsBuilder(
             $this->_customerBuilder,
             new Data\AddressBuilder(new AttributeValueBuilder(), new Data\RegionBuilder(),
                 $this->_customerMetadataService)
         );
 
-        $this->_converter = new Converter($customerBuilder, $this->_customerFactoryMock);
+        $this->_converter = new Converter($this->_customerBuilder, $this->_customerFactoryMock);
 
         $this->_customerRegistry = $this->getMockBuilder('\Magento\Customer\Model\CustomerRegistry')
             ->setMethods(['retrieve', 'retrieveByEmail'])
