@@ -162,7 +162,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftCardAccount\Model\PoolFactory $poolFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -180,7 +180,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftCardAccount\Model\PoolFactory $poolFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

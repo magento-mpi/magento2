@@ -8,7 +8,7 @@
 namespace Magento\View\Layout\Argument\Interpreter\Decorator;
 
 use Magento\ObjectManager;
-use Magento\Data\Argument\InterpreterInterface;
+use Magento\Framework\Data\Argument\InterpreterInterface;
 
 /**
  * Interpreter decorator that passes value, computed by subject of decoration, through the sequence of "updaters"

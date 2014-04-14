@@ -82,7 +82,7 @@ class Attribute extends \Magento\Model\AbstractModel
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
      * @param \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -93,7 +93,7 @@ class Attribute extends \Magento\Model\AbstractModel
         \Magento\GoogleShopping\Helper\Product $gsProduct,
         \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice,
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;

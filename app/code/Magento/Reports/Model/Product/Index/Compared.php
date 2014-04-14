@@ -53,7 +53,7 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Catalog\Helper\Product\Compare $productCompare
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -67,7 +67,7 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Catalog\Helper\Product\Compare $productCompare,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct(

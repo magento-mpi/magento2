@@ -40,14 +40,14 @@ abstract class AbstractTab extends \Magento\Backend\Block\Widget\Form\Generic im
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Connect\Model\Session $session
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Connect\Model\Session $session,
         array $data = array()
     ) {

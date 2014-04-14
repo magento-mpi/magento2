@@ -117,7 +117,7 @@ class Process extends \Magento\Model\AbstractModel
      * @param \Magento\Index\Model\Lock\Storage $lockStorage
      * @param \Magento\Index\Model\EventRepository $eventRepository
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -130,7 +130,7 @@ class Process extends \Magento\Model\AbstractModel
         \Magento\Index\Model\Lock\Storage $lockStorage,
         \Magento\Index\Model\EventRepository $eventRepository,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

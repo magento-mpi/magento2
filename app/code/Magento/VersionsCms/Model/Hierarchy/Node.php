@@ -142,7 +142,7 @@ class Node extends \Magento\Model\AbstractModel
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -155,7 +155,7 @@ class Node extends \Magento\Model\AbstractModel
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_cmsHierarchy = $cmsHierarchy;

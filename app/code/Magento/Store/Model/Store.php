@@ -314,7 +314,7 @@ class Store extends AbstractModel implements
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param bool $isCustomEntryPoint
      * @param array $data
      */
@@ -333,7 +333,7 @@ class Store extends AbstractModel implements
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Stdlib\Cookie $cookie,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()
     ) {

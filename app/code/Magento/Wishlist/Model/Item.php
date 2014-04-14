@@ -129,7 +129,7 @@ class Item extends \Magento\Model\AbstractModel implements
      * @param CollectionFactory $wishlOptionCollectionFactory
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -143,7 +143,7 @@ class Item extends \Magento\Model\AbstractModel implements
         CollectionFactory $wishlOptionCollectionFactory,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->productTypeConfig = $productTypeConfig;

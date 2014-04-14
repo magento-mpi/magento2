@@ -48,7 +48,7 @@ class Products extends AbstractAccordion
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Json\DecoderInterface $jsonDecoder
      * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
@@ -62,7 +62,7 @@ class Products extends AbstractAccordion
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Registry $coreRegistry,
         \Magento\Json\DecoderInterface $jsonDecoder,
         \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,

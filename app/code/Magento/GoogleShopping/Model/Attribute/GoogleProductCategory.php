@@ -42,7 +42,7 @@ class GoogleProductCategory extends \Magento\GoogleShopping\Model\Attribute\Defa
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
      * @param \Magento\GoogleShopping\Model\TypeFactory $typeFactory
      * @param \Magento\GoogleShopping\Model\Config $config
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -55,7 +55,7 @@ class GoogleProductCategory extends \Magento\GoogleShopping\Model\Attribute\Defa
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\GoogleShopping\Model\TypeFactory $typeFactory,
         \Magento\GoogleShopping\Model\Config $config,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_typeFactory = $typeFactory;

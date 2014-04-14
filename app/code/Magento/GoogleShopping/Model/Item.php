@@ -69,7 +69,7 @@ class Item extends \Magento\Model\AbstractModel
      * @param \Magento\GoogleShopping\Model\TypeFactory $typeFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GoogleShopping\Model\Resource\Item $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param array $data
      */
@@ -80,7 +80,7 @@ class Item extends \Magento\Model\AbstractModel
         \Magento\GoogleShopping\Model\TypeFactory $typeFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GoogleShopping\Model\Resource\Item $resource,
-        \Magento\Data\Collection\Db $resourceCollection,
+        \Magento\Framework\Data\Collection\Db $resourceCollection,
         \Magento\GoogleShopping\Model\Config $config,
         array $data = array()
     ) {

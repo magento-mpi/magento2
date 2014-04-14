@@ -108,10 +108,10 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
     /**
      * Get the grid and scripts contents
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
+    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $this->setElement($element);
         $html = $this->_toHtml();
@@ -145,7 +145,7 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
             return $this->_arrayRowsCache;
         }
         $result = array();
-        /** @var \Magento\Data\Form\Element\AbstractElement */
+        /** @var \Magento\Framework\Data\Form\Element\AbstractElement */
         $element = $this->getElement();
         if ($element->getValue() && is_array($element->getValue())) {
             foreach ($element->getValue() as $rowId => $row) {

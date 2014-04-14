@@ -19,7 +19,7 @@
 namespace Magento\Catalog\Block\Adminhtml\Category;
 
 use Magento\Catalog\Model\Resource\Category\Collection;
-use Magento\Data\Tree\Node;
+use Magento\Framework\Data\Tree\Node;
 
 class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 {
@@ -376,7 +376,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     {
         // create a node from data array
         if (is_array($node)) {
-            $node = new Node($node, 'entity_id', new \Magento\Data\Tree());
+            $node = new Node($node, 'entity_id', new \Magento\Framework\Data\Tree());
         }
 
         $item = array();

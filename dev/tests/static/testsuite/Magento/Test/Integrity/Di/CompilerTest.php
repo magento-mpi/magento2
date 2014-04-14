@@ -73,14 +73,14 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $this->_command = 'php ' . $basePath . '/dev/tools/Magento/Tools/Di/compiler.php --generation=%s --di=%s';
 
         $booleanUtils = new \Magento\Stdlib\BooleanUtils();
-        $constInterpreter = new \Magento\Data\Argument\Interpreter\Constant();
-        $argumentInterpreter = new \Magento\Data\Argument\Interpreter\Composite(
+        $constInterpreter = new \Magento\Framework\Data\Argument\Interpreter\Constant();
+        $argumentInterpreter = new \Magento\Framework\Data\Argument\Interpreter\Composite(
             [
-                'boolean' => new \Magento\Data\Argument\Interpreter\Boolean($booleanUtils),
-                'string' => new \Magento\Data\Argument\Interpreter\String($booleanUtils),
-                'number' => new \Magento\Data\Argument\Interpreter\Number(),
-                'null' => new \Magento\Data\Argument\Interpreter\NullType(),
-                'object' => new \Magento\Data\Argument\Interpreter\Object($booleanUtils),
+                'boolean' => new \Magento\Framework\Data\Argument\Interpreter\Boolean($booleanUtils),
+                'string' => new \Magento\Framework\Data\Argument\Interpreter\String($booleanUtils),
+                'number' => new \Magento\Framework\Data\Argument\Interpreter\Number(),
+                'null' => new \Magento\Framework\Data\Argument\Interpreter\NullType(),
+                'object' => new \Magento\Framework\Data\Argument\Interpreter\Object($booleanUtils),
                 'const' => $constInterpreter,
                 'init_parameter' => new \Magento\Framework\App\Arguments\ArgumentInterpreter($constInterpreter)
             ],
@@ -89,7 +89,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         // Add interpreters that reference the composite
         $argumentInterpreter->addInterpreter(
             'array',
-            new \Magento\Data\Argument\Interpreter\ArrayType($argumentInterpreter)
+            new \Magento\Framework\Data\Argument\Interpreter\ArrayType($argumentInterpreter)
         );
 
         $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom(

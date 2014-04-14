@@ -47,7 +47,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_structureMock = $this->getMockBuilder(
-            'Magento\Data\Structure'
+            'Magento\Framework\Data\Structure'
         )->setMethods(
             array('createElement')
         )->disableOriginalConstructor()->getMock();

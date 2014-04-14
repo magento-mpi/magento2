@@ -22,7 +22,7 @@ use Magento\Backend\Block\Widget\Grid\Column;
 class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
 {
     /**
-     * @var \Magento\Data\Form\Element\Factory
+     * @var \Magento\Framework\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
@@ -31,7 +31,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory
      * @param \Magento\Banner\Model\Config $bannerConfig
-     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\Framework\Data\Form\Element\Factory $elementFactory
      * @param array $data
      */
     public function __construct(
@@ -39,7 +39,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory,
         \Magento\Banner\Model\Config $bannerConfig,
-        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\Framework\Data\Form\Element\Factory $elementFactory,
         array $data = array()
     ) {
         parent::__construct($context, $backendHelper, $bannerColFactory, $bannerConfig, $data);
@@ -75,10 +75,10 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     /**
      * Prepare chooser element HTML
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element Form Element
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element Form Element
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
-    public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
+    public function prepareElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $this->_elementValueId = "{$element->getId()}";
         $this->_selectedBanners = explode(',', $element->getValue());

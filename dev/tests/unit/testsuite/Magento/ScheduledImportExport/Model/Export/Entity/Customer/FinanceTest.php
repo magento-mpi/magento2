@@ -118,9 +118,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
         $translator = $this->getMock('stdClass');
 
-        /** @var $attributeCollection \Magento\Data\Collection|PHPUnit_Framework_TestCase */
+        /** @var $attributeCollection \Magento\Framework\Data\Collection|PHPUnit_Framework_TestCase */
         $attributeCollection = $this->getMock(
-            'Magento\Data\Collection',
+            'Magento\Framework\Data\Collection',
             array('getEntityTypeCode'),
             array($this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false))
         );

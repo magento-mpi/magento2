@@ -61,7 +61,7 @@ class Event extends \Magento\Model\AbstractModel
      * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -70,7 +70,7 @@ class Event extends \Magento\Model\AbstractModel
         \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

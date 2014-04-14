@@ -26,7 +26,7 @@ class TableCollection extends AbstractCollection
      * @constructor
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param null $connection
      * @param \Magento\Model\Resource\Db\AbstractDb $resource
@@ -35,7 +35,7 @@ class TableCollection extends AbstractCollection
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         $connection = null,
         \Magento\Model\Resource\Db\AbstractDb $resource = null,

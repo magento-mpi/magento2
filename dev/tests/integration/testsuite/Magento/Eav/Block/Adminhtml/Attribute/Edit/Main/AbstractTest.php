@@ -39,7 +39,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             array(
                 $objectManager->get('Magento\Backend\Block\Template\Context'),
                 $objectManager->get('Magento\Registry'),
-                $objectManager->get('Magento\Data\FormFactory'),
+                $objectManager->get('Magento\Framework\Data\FormFactory'),
                 $objectManager->get('Magento\Eav\Helper\Data'),
                 $objectManager->get('Magento\Backend\Model\Config\Source\YesnoFactory'),
                 $objectManager->get('Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory'),

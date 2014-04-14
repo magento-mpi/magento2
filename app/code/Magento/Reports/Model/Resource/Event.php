@@ -83,7 +83,7 @@ class Event extends \Magento\Model\Resource\Db\AbstractDb
      * The collection id field is used without corellation, so it must be unique.
      * DESC ordering by event will be added to the collection
      *
-     * @param \Magento\Data\Collection\Db $collection
+     * @param \Magento\Framework\Data\Collection\Db $collection
      * @param int $eventTypeId
      * @param int $eventSubjectId
      * @param int $subtype
@@ -91,7 +91,7 @@ class Event extends \Magento\Model\Resource\Db\AbstractDb
      * @return $this
      */
     public function applyLogToCollection(
-        \Magento\Data\Collection\Db $collection,
+        \Magento\Framework\Data\Collection\Db $collection,
         $eventTypeId,
         $eventSubjectId,
         $subtype,

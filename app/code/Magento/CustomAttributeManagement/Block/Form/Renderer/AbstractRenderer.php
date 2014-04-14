@@ -93,7 +93,7 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
     /**
      * Return Data Form Filter or false
      *
-     * @return \Magento\Data\Form\Filter\FilterInterface|false
+     * @return \Magento\Framework\Data\Form\Filter\FilterInterface|false
      */
     protected function _getFormFilter()
     {

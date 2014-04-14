@@ -128,7 +128,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Catalog\Helper\Product', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\Resource\Product', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false),
-            $this->getMock('Magento\Data\CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Data\CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false),
             $this->categoryIndexerMock,
             $this->_productFlatProcessor,

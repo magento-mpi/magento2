@@ -14,7 +14,7 @@ use Magento\DB\Select;
 /**
  * Entity/Attribute/Model - collection abstract
  */
-abstract class AbstractCollection extends \Magento\Data\Collection\Db
+abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
 {
     /**
      * Array of items with item id key
@@ -121,7 +121,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\App\Resource $resource
@@ -133,7 +133,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\App\Resource $resource,
@@ -362,11 +362,11 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     }
 
     /**
-     * Wrapper for compatibility with \Magento\Data\Collection\Db
+     * Wrapper for compatibility with \Magento\Framework\Data\Collection\Db
      *
      * @param mixed $attribute
      * @param mixed $condition
-     * @return $this|\Magento\Data\Collection\Db
+     * @return $this|\Magento\Framework\Data\Collection\Db
      */
     public function addFieldToFilter($attribute, $condition = null)
     {

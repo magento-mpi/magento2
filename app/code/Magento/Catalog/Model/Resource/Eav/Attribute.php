@@ -127,7 +127,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @param \Magento\Catalog\Helper\Product\Flat\Indexer $productFlatIndexerHelper
      * @param LockValidatorInterface $lockValidator
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -147,7 +147,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         \Magento\Catalog\Helper\Product\Flat\Indexer $productFlatIndexerHelper,
         LockValidatorInterface $lockValidator,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_indexIndexer = $indexIndexer;

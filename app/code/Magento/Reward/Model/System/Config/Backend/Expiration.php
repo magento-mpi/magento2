@@ -40,7 +40,7 @@ class Expiration extends \Magento\Framework\App\Config\Value
      * @param \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configFactory
      * @param \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -51,7 +51,7 @@ class Expiration extends \Magento\Framework\App\Config\Value
         \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configFactory,
         \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;

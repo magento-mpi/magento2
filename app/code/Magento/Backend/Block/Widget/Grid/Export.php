@@ -36,7 +36,7 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
     protected $_template = "Magento_Backend::widget/grid/export.phtml";
 
     /**
-     * @var \Magento\Data\CollectionFactory
+     * @var \Magento\Framework\Data\CollectionFactory
      */
     protected $_collectionFactory;
 
@@ -54,12 +54,12 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Framework\Data\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -117,7 +117,7 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
     /**
      * Get collection object
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     protected function _getCollection()
     {
@@ -245,7 +245,7 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
      */
     public function _exportIterateCollection($callback, array $args)
     {
-        /** @var $originalCollection \Magento\Data\Collection */
+        /** @var $originalCollection \Magento\Framework\Data\Collection */
         $originalCollection = $this->getParentBlock()->getPreparedCollection();
         $count = null;
         $page = 1;
@@ -496,10 +496,10 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
     /**
      * Reformat base collection into collection without sub-collection in items
      *
-     * @param \Magento\Data\Collection $baseCollection
-     * @return \Magento\Data\Collection
+     * @param \Magento\Framework\Data\Collection $baseCollection
+     * @return \Magento\Framework\Data\Collection
      */
-    protected function _getRowCollection(\Magento\Data\Collection $baseCollection = null)
+    protected function _getRowCollection(\Magento\Framework\Data\Collection $baseCollection = null)
     {
         if (null === $baseCollection) {
             $baseCollection = $this->getParentBlock()->getPreparedCollection();
@@ -530,11 +530,11 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
     /**
      * Return prepared collection as row collection with additional conditions
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function _getPreparedCollection()
     {
-        /** @var $collection \Magento\Data\Collection */
+        /** @var $collection \Magento\Framework\Data\Collection */
         $collection = $this->getParentBlock()->getPreparedCollection();
         $collection->setPageSize(0);
         $collection->load();

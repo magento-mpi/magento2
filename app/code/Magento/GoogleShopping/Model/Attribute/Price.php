@@ -64,7 +64,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\GoogleShopping\Model\Config $config
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -79,7 +79,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\GoogleShopping\Model\Config $config,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;

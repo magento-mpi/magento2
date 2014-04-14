@@ -79,7 +79,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
             '',
             array()
         );
-        $mockCollection = $this->getMockBuilder('\Magento\Data\Collection')->disableOriginalConstructor()->getMock();
+        $mockCollection = $this->getMockBuilder('\Magento\Framework\Data\Collection')->disableOriginalConstructor()->getMock();
         $this->_block->setCollection($mockCollection);
         $this->assertContains("<div class=\"grid-actions\">", $this->_block->getGridParentHtml());
     }

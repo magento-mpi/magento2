@@ -10,7 +10,7 @@ namespace Magento\Backup\Model\Fs;
 /**
  * Backup data collection
  */
-class Collection extends \Magento\Data\Collection\Filesystem
+class Collection extends \Magento\Framework\Data\Collection\Filesystem
 {
     /**
      * @var \Magento\Filesystem\Directory\WriteInterface

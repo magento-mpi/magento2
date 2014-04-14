@@ -16,7 +16,7 @@ namespace Magento\Customer\Block\Adminhtml\Form\Element;
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class File extends \Magento\Data\Form\Element\AbstractElement
+class File extends \Magento\Framework\Data\Form\Element\AbstractElement
 {
     /**
      * @var \Magento\View\Url
@@ -31,16 +31,16 @@ class File extends \Magento\Data\Form\Element\AbstractElement
     protected $_adminhtmlData = null;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\View\Url $viewUrl
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Framework\Data\Form\Element\Factory $factoryElement,
+        \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\View\Url $viewUrl,

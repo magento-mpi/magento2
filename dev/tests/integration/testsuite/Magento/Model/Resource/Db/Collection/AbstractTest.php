@@ -37,7 +37,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         );
         $resource->expects($this->any())->method('getIdFieldName')->will($this->returnValue('website_id'));
 
-        $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
+        $fetchStrategy = $this->getMockForAbstractClass('Magento\Framework\Data\Collection\Db\FetchStrategyInterface');
 
         $eventManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Event\ManagerInterface'

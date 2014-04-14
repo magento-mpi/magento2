@@ -553,7 +553,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         );
         $product->load($productId);
         $gallery = $product->getMediaGalleryImages();
-        $this->assertInstanceOf('Magento\Data\Collection', $gallery);
+        $this->assertInstanceOf('Magento\Framework\Data\Collection', $gallery);
         $items = $gallery->getItems();
         $this->assertCount(1, $items);
         $item = array_pop($items);

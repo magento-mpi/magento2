@@ -27,7 +27,7 @@ class Shipment extends AbstractItems
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -38,7 +38,7 @@ class Shipment extends AbstractItems
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Stdlib\String $string,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->string = $string;

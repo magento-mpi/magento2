@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Block\System\Config\Form\Field;
 
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
 /**
  * Backend system config datetime field renderer

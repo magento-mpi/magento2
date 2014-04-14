@@ -27,7 +27,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\View\Design\Theme\LabelFactory $themeLabelFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
@@ -35,7 +35,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\View\Design\Theme\LabelFactory $themeLabelFactory,
         \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
@@ -70,7 +70,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $saveUrl = $this->getUrl('adminhtml/*/create');
             $showNew = true;
         }
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
             array('data' => array('id' => 'edit_form', 'action' => $saveUrl, 'method' => 'post'))
         );

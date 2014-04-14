@@ -69,7 +69,7 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent implements \
     /**
      * Return category url
      *
-     * @param \Magento\Data\Tree\Node $category
+     * @param \Magento\Framework\Data\Tree\Node $category
      * @return string
      */
     public function getCategoryUrl($category = null)

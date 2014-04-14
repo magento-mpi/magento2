@@ -49,7 +49,7 @@ class Price extends \Magento\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\ProductAlert\Model\Resource\Price\Customer\CollectionFactory $customerColFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -57,7 +57,7 @@ class Price extends \Magento\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\ProductAlert\Model\Resource\Price\Customer\CollectionFactory $customerColFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_customerColFactory = $customerColFactory;

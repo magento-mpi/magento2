@@ -88,7 +88,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param LockValidatorInterface $lockValidator
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -105,7 +105,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         \Magento\Locale\ResolverInterface $localeResolver,
         LockValidatorInterface $lockValidator,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->attrLockValidator = $lockValidator;

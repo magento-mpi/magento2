@@ -382,14 +382,14 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         );
 
         $fetchStrategy = $this->getMockForAbstractClass(
-            'Magento\Data\Collection\Db\FetchStrategyInterface',
+            'Magento\Framework\Data\Collection\Db\FetchStrategyInterface',
             array('fetchAll')
         );
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
 
         $optionCollection = $this->getMock(
-            'Magento\Data\Collection\Db',
+            'Magento\Framework\Data\Collection\Db',
             array('reset', 'addProductToFilter', 'getSelect', 'getNewEmptyItem'),
             array($entityFactory, $logger, $fetchStrategy)
         );
@@ -445,11 +445,11 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param \Magento\Data\Collection\Db $collection
+     * @param \Magento\Framework\Data\Collection\Db $collection
      * @param int $pageSize
      * @param array $callbacks
      */
-    public function iterate(\Magento\Data\Collection\Db $collection, $pageSize, array $callbacks)
+    public function iterate(\Magento\Framework\Data\Collection\Db $collection, $pageSize, array $callbacks)
     {
         foreach ($collection as $option) {
             foreach ($callbacks as $callback) {

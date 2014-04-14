@@ -106,7 +106,7 @@ class Revision extends \Magento\Model\AbstractModel implements \Magento\Object\I
      * @param \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory
      * @param \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -117,7 +117,7 @@ class Revision extends \Magento\Model\AbstractModel implements \Magento\Object\I
         \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory,
         \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_config = $cmsConfig;

@@ -9,7 +9,7 @@
  */
 namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer;
 
-use Magento\Data\Form\Element\Renderer\RendererInterface;
+use Magento\Framework\Data\Form\Element\Renderer\RendererInterface;
 
 /**
  * Block that renders JS tab
@@ -42,7 +42,7 @@ class Factory
         'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker' => 'Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element',
         'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\BackgroundUploader' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\BackgroundUploader',
         'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ImageUploader' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\ImageUploader',
-        'Magento\Data\Form\Element\Checkbox' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Checkbox'
+        'Magento\Framework\Data\Form\Element\Checkbox' => 'Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Checkbox'
     );
 
     /**

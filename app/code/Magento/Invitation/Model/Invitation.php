@@ -141,7 +141,7 @@ class Invitation extends \Magento\Model\AbstractModel
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -157,7 +157,7 @@ class Invitation extends \Magento\Model\AbstractModel
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

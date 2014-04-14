@@ -192,7 +192,7 @@ class Toolbar extends \Magento\View\Element\Template
     /**
      * Set collection to pager
      *
-     * @param \Magento\Data\Collection $collection
+     * @param \Magento\Framework\Data\Collection $collection
      * @return $this
      */
     public function setCollection($collection)

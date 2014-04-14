@@ -81,7 +81,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             $this->getMock('\Magento\Catalog\Helper\Product\Flat\Indexer', array(), array(), '', false),
             $this->getMock('\Magento\Catalog\Model\Attribute\LockValidatorInterface'),
             $resourceMock,
-            $this->getMock('\Magento\Data\Collection\Db', array(), array(), '', false),
+            $this->getMock('\Magento\Framework\Data\Collection\Db', array(), array(), '', false),
             array('id' => 1)
         );
     }

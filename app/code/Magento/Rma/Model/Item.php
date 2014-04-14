@@ -97,7 +97,7 @@ class Item extends \Magento\Model\AbstractModel
      * @param \Magento\Rma\Model\Item\FormFactory $formFactory
      * @param \Magento\Framework\App\RequestFactory $requestFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -109,7 +109,7 @@ class Item extends \Magento\Model\AbstractModel
         \Magento\Rma\Model\Item\FormFactory $formFactory,
         \Magento\Framework\App\RequestFactory $requestFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rmaFactory = $rmaFactory;

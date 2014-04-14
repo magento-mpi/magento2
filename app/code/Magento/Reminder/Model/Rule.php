@@ -105,7 +105,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
@@ -118,13 +118,13 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Reminder\Model\Resource\Rule $resource
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
@@ -137,7 +137,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Reminder\Model\Resource\Rule $resource,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->rootFactory = $rootFactory;

@@ -10,7 +10,7 @@ namespace Magento\Model\Resource\Db\Collection;
 /**
  * Abstract Resource Collection
  */
-abstract class AbstractCollection extends \Magento\Data\Collection\Db
+abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
 {
     /**
      * Model name
@@ -97,17 +97,17 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     protected $_eventManager = null;
 
     /**
-     * @param \Magento\Data\Collection\EntityFactoryInterface $entityFactory
+     * @param \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        \Magento\Data\Collection\EntityFactoryInterface $entityFactory,
+        \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         $connection = null,
         \Magento\Model\Resource\Db\AbstractDb $resource = null

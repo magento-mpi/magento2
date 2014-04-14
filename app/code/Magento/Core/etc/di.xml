@@ -36,7 +36,7 @@
     <preference for="Magento\Framework\App\ViewInterface" type="Magento\Framework\App\View" />
     <preference for="Magento\TranslateInterface" type="Magento\Translate" />
     <preference for="Magento\Framework\App\Response\RedirectInterface" type="Magento\Store\App\Response\Redirect" />
-    <preference for="Magento\Data\Collection\EntityFactoryInterface" type="Magento\Core\Model\EntityFactory" />
+    <preference for="Magento\Framework\Data\Collection\EntityFactoryInterface" type="Magento\Core\Model\EntityFactory" />
     <preference for="Magento\Translate\InlineInterface" type="Magento\Translate\Inline" />
     <preference for="Magento\Translate\Inline\ConfigInterface" type="Magento\Translation\Model\Inline\Config" />
     <preference for="Magento\Translate\Inline\ParserInterface" type="Magento\Translation\Model\Inline\Parser" />
@@ -84,8 +84,8 @@
             <argument name="default" xsi:type="string">frontend</argument>
         </arguments>
     </type>
-    <type name="Magento\Data\Structure" shared="false" />
-    <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
+    <type name="Magento\Framework\Data\Structure" shared="false" />
+    <type name="Magento\Framework\Data\Collection\Db\FetchStrategy\Cache">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Collection</argument>
             <argument name="cacheIdPrefix" xsi:type="string">collection_</argument>

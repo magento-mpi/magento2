@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Model\Renderer;
 
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
 /**
  * Region field renderer
@@ -18,14 +18,14 @@ use Magento\Data\Form\Element\AbstractElement;
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Region implements \Magento\Data\Form\Element\Renderer\RendererInterface
+class Region implements \Magento\Framework\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Country region collections
      *
      * Structure:
      * array(
-     *      [$countryId] => \Magento\Data\Collection\Db
+     *      [$countryId] => \Magento\Framework\Data\Collection\Db
      * )
      *
      * @var array

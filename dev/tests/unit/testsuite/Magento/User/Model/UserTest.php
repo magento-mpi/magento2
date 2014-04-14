@@ -33,7 +33,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\User\Model\Resource\User|PHPUnit_Framework_MockObject_MockObject */
     protected $_resourceMock;
 
-    /** @var \Magento\Data\Collection\Db|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Data\Collection\Db|PHPUnit_Framework_MockObject_MockObject */
     protected $_collectionMock;
 
     /** @var \Magento\Mail\TransportInterface|PHPUnit_Framework_MockObject_MockObject */
@@ -74,7 +74,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
             array()
         )->getMock();
         $this->_collectionMock = $this->getMockBuilder(
-            'Magento\Data\Collection\Db'
+            'Magento\Framework\Data\Collection\Db'
         )->disableOriginalConstructor()->setMethods(
             array()
         )->getMock();

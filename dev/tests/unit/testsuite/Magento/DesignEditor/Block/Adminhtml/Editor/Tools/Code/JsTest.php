@@ -78,7 +78,7 @@ class JsTest extends \PHPUnit_Framework_TestCase
             array(
                 'urlBuilder' => $this->_urlBuilder,
                 'themeContext' => $this->_themeContext,
-                'formFactory' => $this->getMock('Magento\Data\FormFactory', array(), array(), '', false),
+                'formFactory' => $this->getMock('Magento\Framework\Data\FormFactory', array(), array(), '', false),
                 'coreHelper' => $this->_helperMock
             )
         );

@@ -8,7 +8,7 @@
 namespace Magento\View\Layout\Argument\Interpreter;
 
 use Magento\ObjectManager;
-use Magento\Data\Argument\InterpreterInterface;
+use Magento\Framework\Data\Argument\InterpreterInterface;
 
 /**
  * Interpreter that retrieves options from an option source model
@@ -41,7 +41,7 @@ class Options implements InterpreterInterface
         }
         $modelClass = $data['model'];
         $modelInstance = $this->objectManager->get($modelClass);
-        if (!$modelInstance instanceof \Magento\Data\OptionSourceInterface) {
+        if (!$modelInstance instanceof \Magento\Framework\Data\OptionSourceInterface) {
             throw new \UnexpectedValueException(
                 sprintf("Instance of the options source model is expected, got %s instead.", get_class($modelInstance))
             );

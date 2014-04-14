@@ -15,8 +15,8 @@ class LayoutArgumentObjectUpdater implements \Magento\View\Layout\Argument\Updat
     /**
      * Update specified argument
      *
-     * @param \Magento\Data\Collection $argument
-     * @return \Magento\Data\Collection
+     * @param \Magento\Framework\Data\Collection $argument
+     * @return \Magento\Framework\Data\Collection
      */
     public function update($argument)
     {

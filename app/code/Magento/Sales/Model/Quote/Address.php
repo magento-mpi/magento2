@@ -258,7 +258,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param CustomerAddressBuilder $customerAddressBuilder
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -283,7 +283,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         CustomerAddressBuilder $customerAddressBuilder,
         CustomerAddressServiceInterface $customerAddressService,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_scopeConfig = $scopeConfig;

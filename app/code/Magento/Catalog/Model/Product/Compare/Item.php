@@ -81,7 +81,7 @@ class Item extends \Magento\Model\AbstractModel implements \Magento\Object\Ident
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Helper\Product\Compare $catalogProductCompare
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -92,7 +92,7 @@ class Item extends \Magento\Model\AbstractModel implements \Magento\Object\Ident
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Helper\Product\Compare $catalogProductCompare,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;

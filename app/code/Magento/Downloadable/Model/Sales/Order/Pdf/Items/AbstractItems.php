@@ -48,7 +48,7 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
      * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
      * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -61,7 +61,7 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
         \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
         \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_scopeConfig = $scopeConfig;

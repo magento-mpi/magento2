@@ -24,7 +24,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\View\Design\Theme\LabelFactory $labelFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
@@ -32,7 +32,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\View\Design\Theme\LabelFactory $labelFactory,
         \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
@@ -49,7 +49,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('general', array('legend' => __('General Settings')));

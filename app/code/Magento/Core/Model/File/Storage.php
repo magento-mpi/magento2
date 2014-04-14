@@ -98,7 +98,7 @@ class Storage extends AbstractModel
      * @param \Magento\Core\Model\File\Storage\DatabaseFactory $databaseFactory
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -112,7 +112,7 @@ class Storage extends AbstractModel
         \Magento\Core\Model\File\Storage\DatabaseFactory $databaseFactory,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreFileStorage = $coreFileStorage;

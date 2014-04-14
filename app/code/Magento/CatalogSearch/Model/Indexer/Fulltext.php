@@ -28,7 +28,7 @@ use Magento\Model\Resource\AbstractResource;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\Group;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\Data\Collection\Db;
+use Magento\Framework\Data\Collection\Db;
 use Magento\Index\Model\Event;
 use Magento\Index\Model\Indexer\AbstractIndexer;
 use Magento\Index\Model\Process;

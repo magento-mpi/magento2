@@ -30,7 +30,7 @@ class Creditmemo extends \Magento\Downloadable\Model\Sales\Order\Pdf\Items\Abstr
      * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -44,7 +44,7 @@ class Creditmemo extends \Magento\Downloadable\Model\Sales\Order\Pdf\Items\Abstr
         \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
         \Magento\Stdlib\String $string,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->string = $string;

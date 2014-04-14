@@ -83,7 +83,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_select = new \Zend_Db_Select(
             $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false)
         );
-        $this->_formKeyMock = $this->getMock('Magento\Data\Form\FormKey', array(), array(), '', false);
+        $this->_formKeyMock = $this->getMock('Magento\Framework\Data\Form\FormKey', array(), array(), '', false);
     }
 
     protected function tearDown()
@@ -187,15 +187,15 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
 
-        $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
+        $factory = $this->getMock('Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);
         $collectionFactory = $this->getMock(
-            'Magento\Data\Form\Element\CollectionFactory',
+            'Magento\Framework\Data\Form\Element\CollectionFactory',
             array('create'),
             array(),
             '',
             false
         );
-        $form = new \Magento\Data\Form($factory, $collectionFactory, $this->_formKeyMock);
+        $form = new \Magento\Framework\Data\Form($factory, $collectionFactory, $this->_formKeyMock);
         $model = new \Magento\Object();
         $block = $this->getMock('Magento\Backend\Block\Widget\Form\Element\Dependence', array(), array(), '', false);
 
@@ -216,16 +216,16 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(false));
 
-        $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
+        $factory = $this->getMock('Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);
         $collectionFactory = $this->getMock(
-            'Magento\Data\Form\Element\CollectionFactory',
+            'Magento\Framework\Data\Form\Element\CollectionFactory',
             array('create'),
             array(),
             '',
             false
         );
 
-        $form = new \Magento\Data\Form($factory, $collectionFactory, $this->_formKeyMock);
+        $form = new \Magento\Framework\Data\Form($factory, $collectionFactory, $this->_formKeyMock);
         $model = new \Magento\Object();
         $block = $this->getMock('Magento\Backend\Block\Widget\Form\Element\Dependence', array(), array(), '', false);
 

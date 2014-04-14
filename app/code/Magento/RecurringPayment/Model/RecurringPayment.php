@@ -102,7 +102,7 @@ class RecurringPayment extends \Magento\Model\AbstractModel
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -117,7 +117,7 @@ class RecurringPayment extends \Magento\Model\AbstractModel
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;

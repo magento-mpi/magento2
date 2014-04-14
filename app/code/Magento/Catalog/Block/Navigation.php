@@ -181,7 +181,7 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
     /**
      * Get catagories of current store
      *
-     * @return \Magento\Data\Tree\Node\Collection
+     * @return \Magento\Framework\Data\Tree\Node\Collection
      */
     public function getStoreCategories()
     {
@@ -191,7 +191,7 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
     /**
      * Retrieve child categories of current category
      *
-     * @return \Magento\Data\Tree\Node\Collection
+     * @return \Magento\Framework\Data\Tree\Node\Collection
      */
     public function getCurrentChildCategories()
     {

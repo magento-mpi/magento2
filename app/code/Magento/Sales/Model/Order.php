@@ -617,7 +617,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param Resource\Order\Creditmemo\CollectionFactory $memoCollectionFactory
      * @param Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -648,7 +648,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Resource\Order\Creditmemo\CollectionFactory $memoCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;

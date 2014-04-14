@@ -287,7 +287,7 @@ class Field extends \Magento\Backend\Model\Config\Structure\AbstractElement
     /**
      * Populate form element with field data
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $formField
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $formField
      * @return void
      */
     public function populateInput($formField)

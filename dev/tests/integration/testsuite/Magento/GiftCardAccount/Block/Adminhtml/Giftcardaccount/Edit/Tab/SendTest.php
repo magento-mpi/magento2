@@ -68,7 +68,7 @@ class SendTest extends \PHPUnit_Framework_TestCase
 
         $element = $form->getElement('store_id');
         $this->assertNotNull($element);
-        $this->assertInstanceOf('Magento\Data\Form\Element\Select', $element);
+        $this->assertInstanceOf('Magento\Framework\Data\Form\Element\Select', $element);
         $this->assertEquals('store_id', $element->getId());
     }
 }

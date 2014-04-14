@@ -217,7 +217,7 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
     /**
      * Retrieve Value Type Select Element
      *
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function getValueTypeElement()
     {

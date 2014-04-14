@@ -34,7 +34,7 @@ abstract class AbstractModel extends \Magento\Model\AbstractModel
     /**
      * Store rule form instance
      *
-     * @var \Magento\Data\Form
+     * @var \Magento\Framework\Data\Form
      */
     protected $_form;
 
@@ -67,7 +67,7 @@ abstract class AbstractModel extends \Magento\Model\AbstractModel
     abstract public function getActionsInstance();
 
     /**
-     * @var \Magento\Data\FormFactory
+     * @var \Magento\Framework\Data\FormFactory
      */
     protected $_formFactory;
 
@@ -79,19 +79,19 @@ abstract class AbstractModel extends \Magento\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;
@@ -265,7 +265,7 @@ abstract class AbstractModel extends \Magento\Model\AbstractModel
     /**
      * Rule form getter
      *
-     * @return \Magento\Data\Form
+     * @return \Magento\Framework\Data\Form
      */
     public function getForm()
     {

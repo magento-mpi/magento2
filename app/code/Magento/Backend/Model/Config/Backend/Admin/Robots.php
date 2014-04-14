@@ -31,7 +31,7 @@ class Robots extends \Magento\Framework\App\Config\Value
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -40,7 +40,7 @@ class Robots extends \Magento\Framework\App\Config\Value
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);

@@ -200,7 +200,7 @@ class Payment extends \Magento\Payment\Model\Info
      * @param \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollectionFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -213,7 +213,7 @@ class Payment extends \Magento\Payment\Model\Info
         \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollectionFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_serviceOrderFactory = $serviceOrderFactory;
@@ -1476,10 +1476,10 @@ class Payment extends \Magento\Payment\Model\Info
                     $txnType
                 )->setOrder(
                     'created_at',
-                    \Magento\Data\Collection::SORT_ORDER_DESC
+                    \Magento\Framework\Data\Collection::SORT_ORDER_DESC
                 )->setOrder(
                     'transaction_id',
-                    \Magento\Data\Collection::SORT_ORDER_DESC
+                    \Magento\Framework\Data\Collection::SORT_ORDER_DESC
                 );
                 foreach ($collection as $txn) {
                     $txn->setOrderPaymentObject($this);

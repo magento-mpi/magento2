@@ -103,26 +103,26 @@ class ObjectManagerFactory
      * Return newly created instance on an argument interpreter, suitable for processing DI arguments
      *
      * @param \Magento\Stdlib\BooleanUtils $booleanUtils
-     * @return \Magento\Data\Argument\InterpreterInterface
+     * @return \Magento\Framework\Data\Argument\InterpreterInterface
      */
     protected function createArgumentInterpreter(
         \Magento\Stdlib\BooleanUtils $booleanUtils
     ) {
-        $constInterpreter = new \Magento\Data\Argument\Interpreter\Constant();
-        $result = new \Magento\Data\Argument\Interpreter\Composite(
+        $constInterpreter = new \Magento\Framework\Data\Argument\Interpreter\Constant();
+        $result = new \Magento\Framework\Data\Argument\Interpreter\Composite(
             array(
-                'boolean' => new \Magento\Data\Argument\Interpreter\Boolean($booleanUtils),
-                'string' => new \Magento\Data\Argument\Interpreter\String($booleanUtils),
-                'number' => new \Magento\Data\Argument\Interpreter\Number(),
-                'null' => new \Magento\Data\Argument\Interpreter\NullType(),
+                'boolean' => new \Magento\Framework\Data\Argument\Interpreter\Boolean($booleanUtils),
+                'string' => new \Magento\Framework\Data\Argument\Interpreter\String($booleanUtils),
+                'number' => new \Magento\Framework\Data\Argument\Interpreter\Number(),
+                'null' => new \Magento\Framework\Data\Argument\Interpreter\NullType(),
                 'const' => $constInterpreter,
-                'object' => new \Magento\Data\Argument\Interpreter\Object($booleanUtils),
+                'object' => new \Magento\Framework\Data\Argument\Interpreter\Object($booleanUtils),
                 'init_parameter' => new \Magento\Framework\App\Arguments\ArgumentInterpreter($constInterpreter),
             ),
             \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
         );
         // Add interpreters that reference the composite
-        $result->addInterpreter('array', new \Magento\Data\Argument\Interpreter\ArrayType($result));
+        $result->addInterpreter('array', new \Magento\Framework\Data\Argument\Interpreter\ArrayType($result));
         return $result;
     }
 

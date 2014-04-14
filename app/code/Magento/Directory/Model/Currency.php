@@ -77,7 +77,7 @@ class Currency extends \Magento\Model\AbstractModel
      * @param Currency\FilterFactory $currencyFilterFactory
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -89,7 +89,7 @@ class Currency extends \Magento\Model\AbstractModel
         \Magento\Directory\Model\Currency\FilterFactory $currencyFilterFactory,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

@@ -96,7 +96,7 @@ class History extends \Magento\Model\AbstractModel
      * @param \Magento\Reward\Model\Reward $reward
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Reward\Model\Reward\Rate $rewardRate
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -108,7 +108,7 @@ class History extends \Magento\Model\AbstractModel
         \Magento\Reward\Model\Reward $reward,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Reward\Model\Reward\Rate $rewardRate,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;

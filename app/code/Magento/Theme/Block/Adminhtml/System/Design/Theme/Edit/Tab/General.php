@@ -36,7 +36,7 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\View\Design\Theme\Image\PathInterface $themeImagePath
      * @param \Magento\File\Size $fileSize
@@ -45,7 +45,7 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\ObjectManager $objectManager,
         \Magento\View\Design\Theme\Image\PathInterface $themeImagePath,
         \Magento\File\Size $fileSize,
@@ -75,7 +75,7 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
         }
         $this->setIsThemeExist(isset($formData['theme_id']));
 
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $this->_addThemeFieldset($form, $formData);
@@ -93,7 +93,7 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
     /**
      * Add theme fieldset
      *
-     * @param \Magento\Data\Form $form
+     * @param \Magento\Framework\Data\Form $form
      * @param array $formData
      * @return $this
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)

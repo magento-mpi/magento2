@@ -20,14 +20,14 @@ class Additional extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\View\Layout\Argument\Interpreter\Options $optionsInterpreter
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\View\Layout\Argument\Interpreter\Options $optionsInterpreter,
         array $data = array()
     ) {
@@ -42,7 +42,7 @@ class Additional extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         foreach ($this->getData('fields') as $itemId => $item) {
             $this->_prepareFormItem($item);

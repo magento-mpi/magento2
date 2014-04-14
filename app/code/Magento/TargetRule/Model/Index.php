@@ -110,7 +110,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\TargetRule\Model\Resource\Index $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
@@ -124,7 +124,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Customer\Model\Session $session,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\TargetRule\Model\Resource\Index $resource,
-        \Magento\Data\Collection\Db $resourceCollection,
+        \Magento\Framework\Data\Collection\Db $resourceCollection,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {

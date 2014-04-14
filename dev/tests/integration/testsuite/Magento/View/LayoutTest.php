@@ -32,7 +32,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorStructure()
     {
-        $structure = new \Magento\Data\Structure();
+        $structure = new \Magento\Framework\Data\Structure();
         $structure->createElement('test.container', array());
         /** @var $layout \Magento\View\LayoutInterface */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
@@ -140,7 +140,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertSame(
             array('text' => 'text'),
-            $this->_layout->getElementProperty($name, \Magento\Data\Structure::CHILDREN)
+            $this->_layout->getElementProperty($name, \Magento\Framework\Data\Structure::CHILDREN)
         );
     }
 

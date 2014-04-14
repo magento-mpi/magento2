@@ -10,7 +10,7 @@ namespace Magento\View\Layout\Argument\Interpreter;
 class NamedParamsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Data\Argument\InterpreterInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Data\Argument\InterpreterInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_interpreter;
 
@@ -21,7 +21,7 @@ class NamedParamsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_interpreter = $this->getMockForAbstractClass('Magento\Data\Argument\InterpreterInterface');
+        $this->_interpreter = $this->getMockForAbstractClass('Magento\Framework\Data\Argument\InterpreterInterface');
         $this->_model = new NamedParams($this->_interpreter);
     }
 

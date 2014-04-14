@@ -71,7 +71,7 @@ class Set extends \Magento\Model\AbstractModel
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute $resourceAttribute
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -82,7 +82,7 @@ class Set extends \Magento\Model\AbstractModel
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute $resourceAttribute,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

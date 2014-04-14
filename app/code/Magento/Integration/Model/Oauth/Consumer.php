@@ -46,7 +46,7 @@ class Consumer extends \Magento\Model\AbstractModel implements ConsumerInterface
      * @param \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory
      * @param \Magento\Url\Validator $urlValidator
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -55,7 +55,7 @@ class Consumer extends \Magento\Model\AbstractModel implements ConsumerInterface
         \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
         \Magento\Url\Validator $urlValidator,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_keyLengthFactory = $keyLengthFactory;

@@ -35,7 +35,7 @@ class Customer extends \Magento\Framework\App\Config\Value
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -45,7 +45,7 @@ class Customer extends \Magento\Framework\App\Config\Value
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eavConfig = $eavConfig;

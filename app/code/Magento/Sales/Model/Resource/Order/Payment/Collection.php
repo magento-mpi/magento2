@@ -36,7 +36,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Payment\Method\Converter $converter
      * @param \Zend_Db_Adapter_Abstract $connection
@@ -45,7 +45,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\Payment\Method\Converter $converter,
         $connection = null,

@@ -73,7 +73,7 @@ abstract class AbstractItems extends \Magento\Model\AbstractModel
      * @param \Magento\Framework\App\Filesystem $filesystem ,
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -83,7 +83,7 @@ abstract class AbstractItems extends \Magento\Model\AbstractModel
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->filterManager = $filterManager;

@@ -166,7 +166,7 @@ class Transaction extends \Magento\Model\AbstractModel
      * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param TransactionFactory $transactionFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -177,7 +177,7 @@ class Transaction extends \Magento\Model\AbstractModel
         \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
         TransactionFactory $transactionFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_paymentFactory = $paymentFactory;

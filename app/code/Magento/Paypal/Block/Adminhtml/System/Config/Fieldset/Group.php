@@ -33,7 +33,7 @@ class Group extends \Magento\Backend\Block\System\Config\Form\Fieldset
     /**
      * Return header comment part of html for fieldset
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
     protected function _getHeaderCommentHtml($element)
@@ -59,7 +59,7 @@ class Group extends \Magento\Backend\Block\System\Config\Form\Fieldset
     /**
      * Return collapse state
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return bool
      */
     protected function _isCollapseState($element)

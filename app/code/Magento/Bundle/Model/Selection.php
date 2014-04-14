@@ -51,7 +51,7 @@ class Selection extends \Magento\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Bundle\Model\Resource\Selection $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -59,7 +59,7 @@ class Selection extends \Magento\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Bundle\Model\Resource\Selection $resource,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogData = $catalogData;

@@ -127,7 +127,7 @@ class Group extends \Magento\Model\Resource\Db\AbstractDb
         )->where(
             'attribute_set_id = :attribute_set_id'
         )->order(
-            'default_id ' . \Magento\Data\Collection::SORT_ORDER_DESC
+            'default_id ' . \Magento\Framework\Data\Collection::SORT_ORDER_DESC
         )->limit(
             1
         );

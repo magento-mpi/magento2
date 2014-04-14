@@ -26,7 +26,7 @@ class Grid extends \Magento\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -34,7 +34,7 @@ class Grid extends \Magento\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_statusFactory = $statusFactory;

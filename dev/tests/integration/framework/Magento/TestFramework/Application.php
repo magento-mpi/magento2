@@ -388,9 +388,9 @@ class Application
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->clearCache();
 
-        \Magento\Data\Form::setElementRenderer(null);
-        \Magento\Data\Form::setFieldsetRenderer(null);
-        \Magento\Data\Form::setFieldsetElementRenderer(null);
+        \Magento\Framework\Data\Form::setElementRenderer(null);
+        \Magento\Framework\Data\Form::setFieldsetRenderer(null);
+        \Magento\Framework\Data\Form::setFieldsetElementRenderer(null);
         $this->_appArea = null;
     }
 

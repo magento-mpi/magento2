@@ -40,7 +40,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\DB\Helper $coreResourceHelper
      * @param \Zend_Db_Adapter_Abstract $connection
@@ -49,7 +49,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\DB\Helper $coreResourceHelper,
         $connection = null,

@@ -22,7 +22,7 @@ class Redirect extends Template
     /**
      * Form factory
      *
-     * @var \Magento\Data\FormFactory
+     * @var \Magento\Framework\Data\FormFactory
      */
     protected $formFactory;
 
@@ -30,12 +30,12 @@ class Redirect extends Template
      * Constructor
      *
      * @param Template\Context $context
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         array $data = array()
     ) {
         $this->formFactory = $formFactory;
@@ -99,7 +99,7 @@ class Redirect extends Template
      */
     public function getHtmlFormRedirect()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->formFactory->create();
         $form->setAction(
             $this->getTargetURL()

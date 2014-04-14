@@ -108,7 +108,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Layout structure model
      *
-     * @var \Magento\Data\Structure
+     * @var \Magento\Framework\Data\Structure
      */
     protected $_structure;
 
@@ -125,7 +125,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $argumentParser;
 
     /**
-     * @var \Magento\Data\Argument\InterpreterInterface
+     * @var \Magento\Framework\Data\Argument\InterpreterInterface
      */
     protected $argumentInterpreter;
 
@@ -200,9 +200,9 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\View\Element\BlockFactory $blockFactory
-     * @param \Magento\Data\Structure $structure
+     * @param \Magento\Framework\Data\Structure $structure
      * @param \Magento\View\Layout\Argument\Parser $argumentParser
-     * @param \Magento\Data\Argument\InterpreterInterface $argumentInterpreter
+     * @param \Magento\Framework\Data\Argument\InterpreterInterface $argumentInterpreter
      * @param \Magento\View\Layout\ScheduledStructure $scheduledStructure
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\State $appState
@@ -216,9 +216,9 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\View\Element\BlockFactory $blockFactory,
-        \Magento\Data\Structure $structure,
+        \Magento\Framework\Data\Structure $structure,
         \Magento\View\Layout\Argument\Parser $argumentParser,
-        \Magento\Data\Argument\InterpreterInterface $argumentInterpreter,
+        \Magento\Framework\Data\Argument\InterpreterInterface $argumentInterpreter,
         \Magento\View\Layout\ScheduledStructure $scheduledStructure,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\State $appState,

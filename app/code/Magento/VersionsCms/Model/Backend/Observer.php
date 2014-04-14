@@ -185,9 +185,9 @@ class Observer
     public function onMainTabPrepareForm($observer)
     {
         $form = $observer->getEvent()->getForm();
-        /* @var $baseFieldset \Magento\Data\Form\Element\Fieldset */
+        /* @var $baseFieldset \Magento\Framework\Data\Form\Element\Fieldset */
         $baseFieldset = $form->getElement('base_fieldset');
-        /* @var $baseFieldset \Magento\Data\Form\Element\Fieldset */
+        /* @var $baseFieldset \Magento\Framework\Data\Form\Element\Fieldset */
 
         $isActiveElement = $form->getElement('is_active');
         if ($isActiveElement) {

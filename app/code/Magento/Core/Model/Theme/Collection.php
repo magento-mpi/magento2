@@ -14,7 +14,7 @@ use Magento\View\Design\ThemeInterface;
 /**
  * Theme filesystem collection
  */
-class Collection extends \Magento\Data\Collection implements \Magento\View\Design\Theme\ListInterface
+class Collection extends \Magento\Framework\Data\Collection implements \Magento\View\Design\Theme\ListInterface
 {
     /**
      * @var \Magento\Filesystem\Directory\Read

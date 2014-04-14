@@ -211,7 +211,7 @@ class Customer extends \Magento\Model\AbstractModel
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param CustomerBuilder $customerDataBuilder
      * @param array $data
      */
@@ -233,7 +233,7 @@ class Customer extends \Magento\Model\AbstractModel
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
         CustomerBuilder $customerDataBuilder,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_customerData = $customerData;

@@ -79,7 +79,7 @@ interface EngineInterface
     /**
      * Return resource collection model for the full text search
      *
-     * @return \Magento\Data\Collection\Db
+     * @return \Magento\Framework\Data\Collection\Db
      */
     public function getResourceCollection();
 

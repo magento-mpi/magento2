@@ -19,7 +19,7 @@ class Collection extends \Magento\Log\Model\Resource\Visitor\Online\Collection
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Helper\Data $eavHelper
      * @param \Magento\Log\Model\Visitor\OnlineFactory $onlineFactory
@@ -29,7 +29,7 @@ class Collection extends \Magento\Log\Model\Resource\Visitor\Online\Collection
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Helper\Data $eavHelper,
         \Magento\Log\Model\Visitor\OnlineFactory $onlineFactory,

@@ -51,7 +51,7 @@ class Country extends \Magento\Model\AbstractModel
      * @param Country\FormatFactory $formatFactory
      * @param Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -61,7 +61,7 @@ class Country extends \Magento\Model\AbstractModel
         \Magento\Directory\Model\Country\FormatFactory $formatFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

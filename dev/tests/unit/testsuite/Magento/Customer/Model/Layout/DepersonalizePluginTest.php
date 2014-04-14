@@ -146,7 +146,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             ->method('getCustomerGroupId');
         $this->sessionMock->expects($this->once())
             ->method('getData')
-            ->with($this->equalTo(\Magento\Data\Form\FormKey::FORM_KEY));
+            ->with($this->equalTo(\Magento\Framework\Data\Form\FormKey::FORM_KEY));
         $output = $this->plugin->beforeGenerateXml($this->layoutMock);
         $this->assertEquals(array(), $output);
     }
@@ -267,7 +267,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('setData')
             ->with(
-                $this->equalTo(\Magento\Data\Form\FormKey::FORM_KEY),
+                $this->equalTo(\Magento\Framework\Data\Form\FormKey::FORM_KEY),
                 $this->equalTo(null)
             );
         $this->customerSessionMock

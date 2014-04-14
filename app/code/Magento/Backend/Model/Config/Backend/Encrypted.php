@@ -24,7 +24,7 @@ class Encrypted extends \Magento\Framework\App\Config\Value implements \Magento\
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -33,7 +33,7 @@ class Encrypted extends \Magento\Framework\App\Config\Value implements \Magento\
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;

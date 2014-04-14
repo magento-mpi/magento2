@@ -31,7 +31,7 @@ abstract class AbstractConversion extends \Magento\Framework\App\Config\Value
      * @param \Magento\Validator\ObjectFactory $validatorCompositeFactory
      * @param \Magento\GoogleAdwords\Model\Validator\Factory $validatorFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -41,7 +41,7 @@ abstract class AbstractConversion extends \Magento\Framework\App\Config\Value
         \Magento\Validator\ObjectFactory $validatorCompositeFactory,
         \Magento\GoogleAdwords\Model\Validator\Factory $validatorFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);

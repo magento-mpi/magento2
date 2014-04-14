@@ -31,7 +31,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
     {
         $expected = 'some test data';
         $elementMock = $this->getMock(
-            '\Magento\Data\Form\Element\AbstractElement',
+            '\Magento\Framework\Data\Form\Element\AbstractElement',
             array(),
             array(),
             '',
@@ -39,7 +39,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $form = $this->getMock('Magento\Data\Form', array('getLayout'), array(), '', false, false);
+        $form = $this->getMock('Magento\Framework\Data\Form', array('getLayout'), array(), '', false, false);
         $layoutMock = $this->getMock('Magento\View\Layout', array(), array(), '', false, false);
 
         $buttonMock = $this->getMock('Magento\Backend\Block\Widget\Button', array(), array(), '', false, false);

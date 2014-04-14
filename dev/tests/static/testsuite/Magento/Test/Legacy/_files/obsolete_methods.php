@@ -567,7 +567,7 @@ return array(
     array('getShowTemplateHints', 'Magento\View\Element\Template'),
     array('getSortedChildBlocks', '', 'getChildNames() + $this->getLayout()->getBlock($name)'),
     array('getSortedChildren', '', 'getChildNames'),
-    array('getSortedElements', 'Magento\Data\Form\Element\Fieldset', 'getElements'),
+    array('getSortedElements', 'Magento\Framework\Data\Form\Element\Fieldset', 'getElements'),
     array('getStateModelClass', 'Magento\Centinel\Model\Config'),
     array('getStatrupPageUrl'),
     array('getStore', 'Magento\Captcha\Helper\Data'),
@@ -783,7 +783,7 @@ return array(
     array('setScriptPath'),
     array('setScriptPath', 'Magento\View\Element\Template'),
     array('setShipId', 'Magento\Shipping\Block\Tracking\Popup'),
-    array('setSortElementsByAttribute', 'Magento\Data\Form\Element\Fieldset'),
+    array('setSortElementsByAttribute', 'Magento\Framework\Data\Form\Element\Fieldset'),
     array('setStore', 'Magento\Captcha\Helper\Data'),
     array('setTaxGroupFilter'),
     array('setTrackId', 'Magento\Shipping\Block\Tracking\Popup'),
@@ -912,7 +912,7 @@ return array(
     array('_getGridHtml', 'Magento\User\Block\Role\Tab\Users', 'getGridHtml'),
     array('_getSelectedRoles', 'Magento\User\Block\User\Edit\Tab\Roles', 'getSelectedRoles'),
     array('_prepareSelect', 'Magento\Model\Resource\Db\Collection\AbstractCollection'),
-    array('_prepareSelect', 'Magento\Data\Collection\Db'),
+    array('_prepareSelect', 'Magento\Framework\Data\Collection\Db'),
     array('_createOrderFromAddress', 'Magento\Checkout\Model\Type\AbstractType'),
     array('_addLoadAttributesSelectFields', 'Magento\Catalog\Model\Resource\AbstractResource'),
     array('attributeSelectFields', 'Magento\Catalog\Model\Resource\Helper'),
@@ -1364,12 +1364,12 @@ return array(
     array(
         '_processArrayNode',
         'Magento\ObjectManager\Config\Mapper\Dom',
-        'Magento\Data\Argument\Interpreter\ArrayType'
+        'Magento\Framework\Data\Argument\Interpreter\ArrayType'
     ),
     array(
         '_processValueNode',
         'Magento\ObjectManager\Config\Mapper\Dom',
-        'Magento\Data\Argument\Interpreter\Composite'
+        'Magento\Framework\Data\Argument\Interpreter\Composite'
     ),
     array('canSkipFilePublication', 'Magento\View\Publisher'),
     array('_getExtension', 'Magento\View\Publisher'),
@@ -1566,7 +1566,7 @@ return array(
     ['_compareSortOrder', 'Magento\Sales\Model\Config\Ordered'],
     [
         '_toOptionHashOptimized',
-        'Magento\Data\Collection\Db',
+        'Magento\Framework\Data\Collection\Db',
         'Magento\Tax\Model\Resource\Calculation\Rate\Collection::toOptionHashOptimized'
     ],
     array('getSwitchCurrencyUrl', 'Magento\Directory\Block\Currency'),

@@ -194,7 +194,7 @@ abstract class AbstractEntity
     /**
      * Get entity collection
      *
-     * @return \Magento\Data\Collection\Db
+     * @return \Magento\Framework\Data\Collection\Db
      */
     abstract protected function _getEntityCollection();
 

@@ -95,7 +95,7 @@ class Tax extends \Magento\Model\AbstractModel
      * @param \Magento\Weee\Helper\Data $weeeData
      * @param \Magento\Weee\Model\Resource\Tax $resource
      * @param CustomerConverter $customerConverter
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -109,7 +109,7 @@ class Tax extends \Magento\Model\AbstractModel
         \Magento\Weee\Helper\Data $weeeData,
         \Magento\Weee\Model\Resource\Tax $resource,
         CustomerConverter $customerConverter,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_attributeFactory = $attributeFactory;

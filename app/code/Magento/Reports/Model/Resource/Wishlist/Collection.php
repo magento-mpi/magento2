@@ -35,7 +35,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerResFactory
      * @param mixed $connection
@@ -44,7 +44,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerResFactory,
         $connection = null,

@@ -34,20 +34,20 @@ class RegionTest extends \PHPUnit_Framework_TestCase
         );
         $escaperMock = $this->getMock('Magento\Escaper', array(), array(), '', false);
         $elementMock = $this->getMock(
-            'Magento\Data\Form\Element\AbstractElement',
+            'Magento\Framework\Data\Form\Element\AbstractElement',
             array('getForm', 'getHtmlAttributes'),
             array(),
             '',
             false
         );
         $countryMock = $this->getMock(
-            'Magento\Data\Form\Element\AbstractElement',
+            'Magento\Framework\Data\Form\Element\AbstractElement',
             array('getValue'),
             array(),
             '',
             false
         );
-        $regionMock = $this->getMock('Magento\Data\Form\Element\AbstractElement', array(), array(), '', false);
+        $regionMock = $this->getMock('Magento\Framework\Data\Form\Element\AbstractElement', array(), array(), '', false);
         $countryModelMock = $this->getMock(
             'Magento\Directory\Model\Country',
             array('setId', 'getLoadedRegionCollection', 'toOptionArray', '__wakeup'),
@@ -55,7 +55,7 @@ class RegionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $formMock = $this->getMock('Magento\Data\Form', array('getElement'), array(), '', false);
+        $formMock = $this->getMock('Magento\Framework\Data\Form', array('getElement'), array(), '', false);
 
         $elementMock->expects($this->any())->method('getForm')->will($this->returnValue($formMock));
         $elementMock->expects(
