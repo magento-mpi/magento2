@@ -72,6 +72,12 @@
   * Fixed Flat Rate shipping method to be enabled by default (MAGETWO-21702)
   * Fixed an issue with uncorrect order of products in Add Product split button (MAGETWO-13160)
   * Fixed an issue with tier price attribute save (MAGETWO-19371)
+* JavaScript improvements:
+  * Upgraded frontend jQuery library to version 1.11
+  * Upgraded frontend jQuery UI library to version 1.10.4
+  * Modified loader widget to render content using handlebars
+  * Added use strict mode to accordian widget
+  * Added use strict mode to tab widget
   * Fixed possibility creating integration from config file (MAGETWO-22311)
 
 2.0.0.0-dev72
