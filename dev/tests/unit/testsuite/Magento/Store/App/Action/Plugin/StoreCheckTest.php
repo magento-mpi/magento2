@@ -37,6 +37,11 @@ class StoreCheckTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
+    protected $appStateMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
     protected $requestMock;
 
     protected function setUp()
@@ -55,15 +60,18 @@ class StoreCheckTest extends \PHPUnit_Framework_TestCase
             return 'Expected';
         };
         $this->requestMock = $this->getMock('Magento\App\RequestInterface');
-        $this->_plugin = new \Magento\Store\App\Action\Plugin\StoreCheck($this->_storeManagerMock);
+        $this->appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
+
+        $this->_plugin = new \Magento\Store\App\Action\Plugin\StoreCheck($this->_storeManagerMock, $this->appStateMock);
     }
 
     /**
      * @expectedException \Magento\Store\Model\Exception
-     * @expectedExceptionMessage Current store does not active.
+     * @expectedExceptionMessage Current store is not active.
      */
-    public function testAroundDispatchWhenStoreNotActive()
+    public function testAroundDispatchWhenStoreNotActiveAppInstalled()
     {
+        $this->appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_storeMock->expects($this->any())->method('getIsActive')->will($this->returnValue(false));
         $this->assertEquals(
             'Expected',
@@ -71,9 +79,30 @@ class StoreCheckTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testAroundDispatchWhenStoreIsActive()
+    public function testAroundDispatchWhenStoreIsActiveAppInstalled()
     {
+        $this->appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_storeMock->expects($this->any())->method('getIsActive')->will($this->returnValue(true));
+        $this->assertEquals(
+            'Expected',
+            $this->_plugin->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock)
+        );
+    }
+
+    public function testAroundDispatchWhenStoreNotActiveAppNotInstalled()
+    {
+        $this->appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(false));
+        $this->_storeMock->expects($this->never())->method('getIsActive');
+        $this->assertEquals(
+            'Expected',
+            $this->_plugin->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock)
+        );
+    }
+
+    public function testAroundDispatchWhenStoreIsActiveAppNotInstalled()
+    {
+        $this->appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(false));
+        $this->_storeMock->expects($this->never())->method('getIsActive');
         $this->assertEquals(
             'Expected',
             $this->_plugin->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock)
