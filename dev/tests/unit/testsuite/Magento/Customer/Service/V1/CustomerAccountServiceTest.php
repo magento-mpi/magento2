@@ -1977,7 +1977,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($customerDataMock));
 
         $customerService = $this->_createService();
-        $actualCustomerDetails = $customerService->getCustomerDetailsByEmail(self::EMAIL,$defaultWebsiteId);
+        $actualCustomerDetails = $customerService->getCustomerDetailsByEmail(self::EMAIL, $defaultWebsiteId);
         $this->assertEquals($customerDataMock, $actualCustomerDetails->getCustomer());
         $this->assertEquals(array($addressMock), $actualCustomerDetails->getAddresses());
 

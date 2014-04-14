@@ -843,7 +843,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::EMAIL] . '/customerEmail',
+                'resourcePath' => self::RESOURCE_PATH . '?customerEmail=' . $customerData[Customer::EMAIL] ,
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ],
             'soap' => [
@@ -868,12 +868,12 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->customerAccountService->getCustomerByEmail($customerData[Customer::EMAIL]);
     }
 
-    public function testDeleteCustomerByEmailInvalidCustomerId()
+    public function testDeleteCustomerByEmailUnknownEmail()
     {
-        $invalidEmail = 'invalid@email.com';
+        $unknownEmail = 'unknown@email.com';
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $invalidEmail . '/customerEmail',
+                'resourcePath' => self::RESOURCE_PATH . '?customerEmail=' . $unknownEmail,
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ],
             'soap' => [
@@ -883,11 +883,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ]
         ];
 
-        $expectedMessage = 'No such entity with email = ' . $invalidEmail;
+        $expectedMessage = 'No such entity with email = ' . $unknownEmail;
 
         try {
             if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-                $this->_webApiCall($serviceInfo, ['customerEmail' => $invalidEmail]);
+                $this->_webApiCall($serviceInfo, ['customerEmail' => $unknownEmail]);
             } else {
                 $this->_webApiCall($serviceInfo);
             }
