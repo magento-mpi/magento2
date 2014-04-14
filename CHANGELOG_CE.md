@@ -795,7 +795,7 @@
      * Moved the Http Magento Helper to the Magento\HTTP library
   *  The Hint Magento Helper, Http Magento Helper helpers were removed from the Magento\Core module
   * Implemented SOAP faults declaration in WSDL
-  * Web API config reader was refactored to use Magento\Framework\Config\Reader\Filesystem
+  * Web API config reader was refactored to use Magento\Config\Reader\Filesystem
   * Created integrations module. Added 'Integrations Grid' and 'New/Edit' Integration pages in the admin
   * Removed obsolete page fragment code
 * Fixed bugs:
