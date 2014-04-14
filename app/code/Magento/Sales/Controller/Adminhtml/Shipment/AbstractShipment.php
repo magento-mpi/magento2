@@ -148,15 +148,4 @@ class AbstractShipment extends \Magento\Backend\App\Action
     {
         return $this->_authorization->isAllowed('Magento_Sales::shipment');
     }
-
-    /**
-     * Shipment grid
-     *
-     * @return void
-     */
-    public function gridAction()
-    {
-        $this->_view->loadLayout(false);
-        $this->_view->renderLayout();
-    }
 }

@@ -13,6 +13,7 @@
         <arguments>
             <argument name="id" xsi:type="string">sales_shipment_grid_archive</argument>
             <argument name="dataSource" xsi:type="object">Magento\SalesArchive\Model\Resource\Order\Shipment\Collection</argument>
+            <argument name="use_ajax" xsi:type="boolean">true</argument>
             <argument name="grid_url" xsi:type="url" path="*/*/shipmentsgrid">
                 <param name="_current">1</param>
             </argument>

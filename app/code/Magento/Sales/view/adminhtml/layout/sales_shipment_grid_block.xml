@@ -15,7 +15,7 @@
                 <argument name="dataSource" xsi:type="object">Magento\Sales\Model\Resource\Order\Shipment\Grid\Collection</argument>
                 <argument name="default_sort" xsi:type="string">created_at</argument>
                 <argument name="default_dir" xsi:type="string">DESC</argument>
-                <argument name="grid_url" xsi:type="url" path="*/*/grid">
+                <argument name="grid_url" xsi:type="url" path="sales/*/*">
                     <param name="_current">1</param>
                 </argument>
             </arguments>
