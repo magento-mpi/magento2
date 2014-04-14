@@ -30,7 +30,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function getAdapterDataProvider()
     {
-        return array(array('Magento\Db\Adapter\Pdo\Mysql'), array(''), array(null));
+        return array(array('Magento\Framework\DB\Adapter\Pdo\Mysql'), array(''), array(null));
     }
 
     /**
@@ -47,7 +47,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            $this->equalTo('Magento\Db\Adapter\Pdo\Mysql')
+            $this->equalTo('Magento\Framework\DB\Adapter\Pdo\Mysql')
         )->will(
             $this->returnValue($adapterMock)
         );
