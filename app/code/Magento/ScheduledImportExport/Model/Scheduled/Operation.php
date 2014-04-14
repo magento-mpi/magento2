@@ -539,8 +539,8 @@ class Operation extends \Magento\Model\AbstractModel
     /**
      * Write data to specific storage (FTP, local filesystem)
      *
-     * @param $filePath
-     * @param $fileContent
+     * @param string $filePath
+     * @param string $fileContent
      * @return bool|int
      * @throws \Magento\Io\IoException
      * @throws \Magento\Filesystem\FilesystemException
@@ -563,6 +563,8 @@ class Operation extends \Magento\Model\AbstractModel
     }
 
     /**
+     * Check if data has 'server_type' and it's valid
+     *
      * @throws \Magento\Model\Exception
      */
     protected function validateAdapterType()
@@ -580,8 +582,8 @@ class Operation extends \Magento\Model\AbstractModel
     /**
      * Read data from specific storage (FTP, local filesystem)
      *
-     * @param $source
-     * @param $destination
+     * @param string $source
+     * @param string $destination
      * @return string
      * @throws \Magento\Io\IoException
      * @throws \Magento\Filesystem\FilesystemException
