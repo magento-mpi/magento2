@@ -16,7 +16,6 @@ use Magento\Pricing\Object\SaleableInterface;
 use Magento\Catalog\Pricing\Price\FinalPriceInterface;
 use Magento\Pricing\Price\PriceInterface;
 use Magento\GroupedProduct\Model\Product\Type\Grouped;
-use Magento\Catalog\Model\ProductFactory;
 
 /**
  * Final price model
@@ -67,8 +66,7 @@ class FinalPrice implements FinalPriceInterface, PriceInterface
      */
     public function getValue()
     {
-        return $this->getMinProduct()->getPriceInfo()
-            ->getPrice(\Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL)->getValue();
+        return $this->getMinProduct()->getPriceInfo()->getPrice(FinalPriceInterface::PRICE_TYPE_FINAL)->getValue();
     }
 
     /**
