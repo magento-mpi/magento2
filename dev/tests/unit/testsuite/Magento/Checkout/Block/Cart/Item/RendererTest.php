@@ -115,10 +115,10 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Checkout\Block\Cart\Item\Renderer::getProductPrice
+     * @covers \Magento\Checkout\Block\Cart\Item\Renderer::getProductPriceHtml
      * @covers \Magento\Checkout\Block\Cart\Item\Renderer::getPriceRender
      */
-    public function testGetProductPrice()
+    public function testGetProductPriceHtml()
     {
         $priceHtml = 'some price html';
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
@@ -146,6 +146,6 @@ class RendererTest extends \PHPUnit_Framework_TestCase
                 ]
             )->will($this->returnValue($priceHtml));
 
-        $this->assertEquals($priceHtml, $this->_renderer->getProductPrice($product));
+        $this->assertEquals($priceHtml, $this->_renderer->getProductPriceHtml($product));
     }
 }
