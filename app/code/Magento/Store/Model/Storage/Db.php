@@ -69,13 +69,6 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
     protected $_groups = array();
 
     /**
-     * Config model
-     *
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    protected $_config;
-
-    /**
      * Default store code
      *
      * @var string
@@ -104,13 +97,6 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
     protected $_groupFactory;
 
     /**
-     * Cookie model
-     *
-     * @var \Magento\Stdlib\Cookie
-     */
-    protected $_cookie;
-
-    /**
      * Application state model
      *
      * @var State
@@ -126,8 +112,6 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
      * @param StoreFactory $storeFactory
      * @param WebsiteFactory $websiteFactory
      * @param Factory $groupFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Stdlib\Cookie $cookie
      * @param State $appState
      * @param \Magento\Core\Helper\Data $helper
      * @param bool $isSingleStoreAllowed
@@ -137,8 +121,6 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
         StoreFactory $storeFactory,
         WebsiteFactory $websiteFactory,
         Factory $groupFactory,
-        \Magento\App\Config\ScopeConfigInterface $config,
-        \Magento\Stdlib\Cookie $cookie,
         State $appState,
         \Magento\Core\Helper\Data $helper,
         $isSingleStoreAllowed,
@@ -147,10 +129,8 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
         $this->_storeFactory = $storeFactory;
         $this->_websiteFactory = $websiteFactory;
         $this->_groupFactory = $groupFactory;
-        $this->_config = $config;
         $this->_isSingleStoreAllowed = $isSingleStoreAllowed;
         $this->_appState = $appState;
-        $this->_cookie = $cookie;
         $this->_helper = $helper;
         if ($currentStore) {
             $this->_currentStore = $currentStore;
@@ -175,124 +155,6 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
     }
 
     /**
-     * Check get store
-     *
-     * @param string $type
-     * @return void
-     */
-    protected function _checkGetStore($type)
-    {
-        if (empty($_POST['___store']) && empty($_GET['___store'])) {
-            return;
-        }
-        $store = empty($_POST['___store']) ? $_GET['___store'] : $_POST['___store'];
-
-        if (!isset($this->_stores[$store])) {
-            return;
-        }
-
-        $storeObj = $this->_stores[$store];
-        if (!$storeObj->getId() || !$storeObj->getIsActive()) {
-            return;
-        }
-
-        /**
-         * prevent running a store from another website or store group,
-         * if website or store group was specified explicitly
-         */
-        $curStoreObj = $this->_stores[$this->_currentStore];
-        if ($type == 'website' && $storeObj->getWebsiteId() == $curStoreObj->getWebsiteId()) {
-            $this->_currentStore = $store;
-        } elseif ($type == 'group' && $storeObj->getGroupId() == $curStoreObj->getGroupId()) {
-            $this->_currentStore = $store;
-        } elseif ($type == 'store') {
-            $this->_currentStore = $store;
-        }
-
-        if ($this->_currentStore == $store) {
-            $store = $this->getStore($store);
-            if ($store->getWebsite()->getDefaultStore()->getId() == $store->getId()) {
-                $this->_cookie->set(Store::COOKIE_NAME, null);
-            } else {
-                $this->_cookie->set(Store::COOKIE_NAME, $this->_currentStore, true);
-                $this->_httpContext->setValue(
-                    \Magento\Core\Helper\Data::CONTEXT_STORE,
-                    $this->_currentStore,
-                    $this->_getDefaultStore()->getCode()
-                );
-            }
-        }
-        return;
-    }
-
-    /**
-     * Check cookie store
-     *
-     * @param string $type
-     * @return void
-     */
-    protected function _checkCookieStore($type)
-    {
-        if (!$this->_cookie->get()) {
-            return;
-        }
-
-        $store = $this->_cookie->get(Store::COOKIE_NAME);
-        if ($store && isset(
-            $this->_stores[$store]
-        ) && $this->_stores[$store]->getId() && $this->_stores[$store]->getIsActive()
-        ) {
-            if ($type == 'website' &&
-                $this->_stores[$store]->getWebsiteId() == $this->_stores[$this->_currentStore]->getWebsiteId()
-            ) {
-                $this->_currentStore = $store;
-            }
-            if ($type == 'group' &&
-                $this->_stores[$store]->getGroupId() == $this->_stores[$this->_currentStore]->getGroupId()
-            ) {
-                $this->_currentStore = $store;
-            }
-            if ($type == 'store') {
-                $this->_currentStore = $store;
-            }
-        }
-    }
-
-    /**
-     * Retrieve store code or null by store group
-     *
-     * @param int $group
-     * @return string|null
-     */
-    protected function _getStoreByGroup($group)
-    {
-        if (!isset($this->_groups[$group])) {
-            return null;
-        }
-        if (!$this->_groups[$group]->getDefaultStoreId()) {
-            return null;
-        }
-        return $this->_stores[$this->_groups[$group]->getDefaultStoreId()]->getCode();
-    }
-
-    /**
-     * Retrieve store code or null by website
-     *
-     * @param int|string $website
-     * @return string|null
-     */
-    protected function _getStoreByWebsite($website)
-    {
-        if (!isset($this->_websites[$website])) {
-            return null;
-        }
-        if (!$this->_websites[$website]->getDefaultGroupId()) {
-            return null;
-        }
-        return $this->_getStoreByGroup($this->_websites[$website]->getDefaultGroupId());
-    }
-
-    /**
      * Init store, group and website collections
      *
      * @return void
@@ -314,7 +176,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
         $groupCollection = $this->_groupFactory->create()->getCollection();
         $groupCollection->setLoadDefault(true);
 
-        /** @var $storeCollection \Magento\Store\Model\Resource\Collection */
+        /** @var $storeCollection \Magento\Store\Model\Resource\Store\Collection */
         $storeCollection = $this->_storeFactory->create()->getCollection();
         $storeCollection->setLoadDefault(true);
 
@@ -555,7 +417,6 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
     /**
      * Prepare array of store groups
      * can be filtered to contain default store group or not by $withDefault flag
-     * depending on flag $codeKey array keys can be group id or group code
      *
      * @param bool $withDefault
      * @param bool $codeKey
@@ -570,11 +431,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
                 if (!$withDefault && $group->getId() == 0) {
                     continue;
                 }
-                if ($codeKey) {
-                    $groups[$group->getCode()] = $group;
-                } else {
-                    $groups[$group->getId()] = $group;
-                }
+                $groups[$group->getId()] = $group;
             }
         }
         return $groups;

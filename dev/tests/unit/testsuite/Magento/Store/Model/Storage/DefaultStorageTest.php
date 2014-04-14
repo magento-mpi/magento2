@@ -157,6 +157,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     {
         $websiteId = 'testWebsite';
         $this->assertInstanceOf('Magento\Store\Model\Website', $this->_model->getWebsite($websiteId));
+        $this->assertSame($this->_websiteMock, $this->_model->getWebsite($this->_websiteMock));
     }
 
     public function testGetWebsiteEmptyString()
@@ -189,6 +190,8 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     {
         $groupId = 'testGroup';
         $this->assertInstanceOf('Magento\Store\Model\Group', $this->_model->getGroup($groupId));
+
+        $this->assertSame($this->_groupMock, $this->_model->getGroup($this->_groupMock));
     }
 
     public function testGetGroupsWithDefault()
@@ -221,5 +224,10 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
         $this->_storeMock->expects($this->once())->method('getCode')->will($this->returnValue('result'));
         $result = $this->_model->getCurrentStore();
         $this->assertEquals('result', $result);
+    }
+
+    public function testGetAnyStoreView()
+    {
+        $this->assertNull($this->_model->getAnyStoreView());
     }
 }
