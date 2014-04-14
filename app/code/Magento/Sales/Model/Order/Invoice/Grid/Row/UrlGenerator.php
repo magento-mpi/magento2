@@ -35,12 +35,13 @@ class UrlGenerator extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
 
     /**
      * Generate row url
+     *
      * @param \Magento\Object $item
      * @return bool|string
      */
     public function getUrl($item)
     {
-        if ($this->_authorization->isAllowed(null)) {
+        if ($this->_authorization->isAllowed('Magento_Sales::sales_invoice')) {
             return parent::getUrl($item);
         }
         return false;

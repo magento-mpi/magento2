@@ -77,8 +77,8 @@
                         <argument name="header" xsi:type="string" translate="true">Payment Method</argument>
                         <argument name="type" xsi:type="string">options</argument>
                         <argument name="index" xsi:type="string">method</argument>
-                        <argument name="options" xsi:type="options" model="Magento\Payment\Model\Resource\Grid\TypesArray"/>
-                        <argument name="option_groups" xsi:type="options" model="Magento\Payment\Model\Resource\Grid\GroupsArray"/>
+                        <argument name="options" xsi:type="options" model="Magento\Payment\Model\Resource\Grid\TypeList"/>
+                        <argument name="option_groups" xsi:type="options" model="Magento\Payment\Model\Resource\Grid\GroupList"/>
                         <argument name="header_css_class" xsi:type="string">col-method</argument>
                         <argument name="column_css_class" xsi:type="string">col-method</argument>
                     </arguments>
@@ -89,7 +89,7 @@
                         <argument name="type" xsi:type="string">options</argument>
                         <argument name="index" xsi:type="string">txn_type</argument>
                         <argument name="id" xsi:type="string">txn_type</argument>
-                        <argument name="options" xsi:type="options" model="Magento\Sales\Model\Resource\Transaction\Grid\TypesArray"/>
+                        <argument name="options" xsi:type="options" model="Magento\Sales\Model\Resource\Transaction\Grid\TypeList"/>
                         <argument name="header_css_class" xsi:type="string">col-transaction-type</argument>
                         <argument name="column_css_class" xsi:type="string">col-transaction-type</argument>
                     </arguments>

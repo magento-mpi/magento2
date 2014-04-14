@@ -10,7 +10,7 @@ namespace Magento\Payment\Model\Resource\Grid;
 /**
  * Sales transaction payment method types option array
  */
-class TypesArray implements \Magento\Option\ArrayInterface
+class TypeList implements \Magento\Option\ArrayInterface
 {
     /**
      * Payment data
@@ -34,6 +34,6 @@ class TypesArray implements \Magento\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return $this->paymentData->getPaymentMethodList(true);
+        return $this->paymentData->getPaymentMethodList();
     }
 }

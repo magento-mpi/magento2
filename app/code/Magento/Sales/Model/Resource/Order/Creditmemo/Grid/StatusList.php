@@ -10,7 +10,7 @@ namespace Magento\Sales\Model\Resource\Order\Creditmemo\Grid;
 /**
  * Sales creditmemo statuses option array
  */
-class StatusesArray implements \Magento\Option\ArrayInterface
+class StatusList implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Sales\Model\Order\CreditmemoFactory

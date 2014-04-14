@@ -10,7 +10,7 @@ namespace Magento\Sales\Model\Resource\Order\Invoice\Grid;
 /**
  * Sales invoices statuses option array
  */
-class StatusesArray implements \Magento\Option\ArrayInterface
+class StatusList implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Sales\Model\Order\InvoiceFactory

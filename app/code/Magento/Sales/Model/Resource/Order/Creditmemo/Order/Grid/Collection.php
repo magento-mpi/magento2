@@ -58,7 +58,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Creditmemo\Grid\Col
     /**
      * Apply sorting and filtering to collection
      *
-     * @return \Magento\Sales\Model\Resource\Order\Creditmemo\Order\Grid\Collection
+     * @return $this
      */
     protected function _initSelect()
     {

@@ -26,8 +26,10 @@ class CollectionUpdater implements \Magento\View\Layout\Argument\UpdaterInterfac
     }
 
     /**
-     * @param mixed $argument
-     * @return mixed
+     * Update grid collection according to chosen transaction
+     *
+     * @param \Magento\Sales\Model\Resource\Transaction\Grid\Collection $argument
+     * @return \Magento\Sales\Model\Resource\Transaction\Grid\Collection
      */
     public function update($argument)
     {

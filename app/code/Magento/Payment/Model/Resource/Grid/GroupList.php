@@ -10,7 +10,7 @@ namespace Magento\Payment\Model\Resource\Grid;
 /**
  * Sales transaction types option array
  */
-class GroupsArray implements \Magento\Option\ArrayInterface
+class GroupList implements \Magento\Option\ArrayInterface
 {
     /**
      * Payment data

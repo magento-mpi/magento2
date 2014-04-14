@@ -42,6 +42,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Payment\Transaction
 
     /**
      * Resource initialization
+     *
      * @return $this
      */
     protected function _initSelect()

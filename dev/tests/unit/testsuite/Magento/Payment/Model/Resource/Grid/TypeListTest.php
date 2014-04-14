@@ -8,12 +8,12 @@
 
 namespace Magento\Payment\Model\Resource\Grid;
 
-class GroupsArrayTest extends \PHPUnit_Framework_TestCase
+class TypeListTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Payment\Model\Resource\Grid\GroupsArray
+     * @var \Magento\Payment\Model\Resource\Grid\TypeList
      */
-    protected $groupArrayModel;
+    protected $typesArrayModel;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -23,7 +23,7 @@ class GroupsArrayTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->helperMock = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
-        $this->groupArrayModel = new \Magento\Payment\Model\Resource\Grid\GroupsArray($this->helperMock);
+        $this->typesArrayModel = new \Magento\Payment\Model\Resource\Grid\TypeList($this->helperMock);
     }
 
     public function testToOptionArray()
@@ -31,8 +31,8 @@ class GroupsArrayTest extends \PHPUnit_Framework_TestCase
         $this->helperMock
             ->expects($this->once())
             ->method('getPaymentMethodList')
-            ->with(true, true, true)
+            ->with(true)
             ->will($this->returnValue(array('group data')));
-        $this->assertEquals(array('group data'), $this->groupArrayModel->toOptionArray());
+        $this->assertEquals(array('group data'), $this->typesArrayModel->toOptionArray());
     }
 }

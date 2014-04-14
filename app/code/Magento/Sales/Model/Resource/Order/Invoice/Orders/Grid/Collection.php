@@ -52,7 +52,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Invoice\Grid\Collec
     /**
      * Apply sorting and filtering to collection
      *
-     * @return \Magento\Sales\Model\Resource\Order\Invoice\Orders\Grid\Collection
+     * @return $this
      */
     protected function _initSelect()
     {

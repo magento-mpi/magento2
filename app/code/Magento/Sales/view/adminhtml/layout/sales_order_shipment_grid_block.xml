@@ -13,10 +13,9 @@
             <arguments>
                 <argument name="id" xsi:type="string">order_shipments</argument>
                 <argument name="dataSource" xsi:type="object">Magento\Sales\Model\Resource\Order\Shipment\Order\Grid\Collection</argument>
-                <argument name="use_ajax" xsi:type="string">true</argument>
+                <argument name="use_ajax" xsi:type="boolean">true</argument>
                 <argument name="default_sort" xsi:type="string">created_at</argument>
                 <argument name="default_dir" xsi:type="string">DESC</argument>
-                <argument name="save_parameters_in_session" xsi:type="string">1</argument>
                 <argument name="grid_url" xsi:type="url" path="sales/order/shipments">
                     <param name="_current">1</param>
                 </argument>

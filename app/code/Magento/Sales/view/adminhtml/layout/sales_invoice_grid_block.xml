@@ -13,10 +13,10 @@
             <arguments>
                 <argument name="id" xsi:type="string">sales_invoice_grid</argument>
                 <argument name="dataSource" xsi:type="object">Magento\Sales\Model\Resource\Order\Invoice\Grid\Collection</argument>
-                <argument name="use_ajax" xsi:type="string">true</argument>
+                <argument name="use_ajax" xsi:type="boolean">true</argument>
                 <argument name="default_sort" xsi:type="string">created_at</argument>
                 <argument name="default_dir" xsi:type="string">DESC</argument>
-                <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+                <argument name="save_parameters_in_session" xsi:type="boolean">1</argument>
                 <argument name="grid_url" xsi:type="url" path="*/*/grid">
                     <param name="_current">1</param>
                 </argument>
@@ -25,7 +25,7 @@
                 <arguments>
                     <argument name="massaction_id_field" xsi:type="string">entity_id</argument>
                     <argument name="form_field_name" xsi:type="string">invoice_ids</argument>
-                    <argument name="use_select_all" xsi:type="string">0</argument>
+                    <argument name="use_select_all" xsi:type="boolean">0</argument>
                     <argument name="options" xsi:type="array">
                         <item name="pdfinvoices_order" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">PDF Invoices</item>
@@ -52,7 +52,7 @@
                 <arguments>
                     <argument name="id" xsi:type="string">sales_invoice_grid</argument>
                     <argument name="rowUrl" xsi:type="array">
-                        <!--<item name="generatorClass" xsi:type="string">Magento\Sales\Model\Order\Invoice\Grid\Row</item>-->
+                        <item name="generatorClass" xsi:type="string">Magento\Sales\Model\Order\Invoice\Grid\Row\UrlGenerator</item>
                         <item name="path" xsi:type="string">sales/invoice/view</item>
                         <item name="extraParamsTemplate" xsi:type="array">
                             <item name="invoice_id" xsi:type="string">getId</item>
@@ -114,7 +114,7 @@
                         <argument name="header" xsi:type="string" translate="true">Status</argument>
                         <argument name="type" xsi:type="string">options</argument>
                         <argument name="index" xsi:type="string">state</argument>
-                        <argument name="options" xsi:type="options" model="Magento\Sales\Model\Resource\Order\Invoice\Grid\StatusesArray"/>
+                        <argument name="options" xsi:type="options" model="Magento\Sales\Model\Resource\Order\Invoice\Grid\StatusList"/>
                         <argument name="header_css_class" xsi:type="string">col-status</argument>
                         <argument name="column_css_class" xsi:type="string">col-status</argument>
                     </arguments>
@@ -137,9 +137,9 @@
                         <argument name="header" xsi:type="string" translate="true">Action</argument>
                         <argument name="type" xsi:type="string">action</argument>
                         <argument name="getter" xsi:type="string">getId</argument>
-                        <argument name="filter" xsi:type="string">0</argument>
-                        <argument name="sortable" xsi:type="string">0</argument>
-                        <argument name="is_system" xsi:type="string">1</argument>
+                        <argument name="filter" xsi:type="boolean">0</argument>
+                        <argument name="sortable" xsi:type="boolean">0</argument>
+                        <argument name="is_system" xsi:type="boolean">1</argument>
                         <argument name="actions" xsi:type="array">
                             <item name="view_action" xsi:type="array">
                                 <item name="caption" xsi:type="string" translate="true">View</item>
