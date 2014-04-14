@@ -9,6 +9,8 @@
  */
 namespace Magento\ScheduledImportExport\Model\Scheduled;
 
+use Magento\ScheduledImportExport\Model\Scheduled\Operation\Data;
+
 /**
  * Operation model
  *
@@ -117,6 +119,11 @@ class Operation extends \Magento\Model\AbstractModel
     protected $_transportBuilder;
 
     /**
+     * @var \Magento\Io\Ftp
+     */
+    protected $ftpAdapter;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\App\Filesystem $filesystem
@@ -128,6 +135,7 @@ class Operation extends \Magento\Model\AbstractModel
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Io\Ftp $ftpAdapter
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -144,6 +152,7 @@ class Operation extends \Magento\Model\AbstractModel
         \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\String $string,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Io\Ftp $ftpAdapter,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -157,6 +166,7 @@ class Operation extends \Magento\Model\AbstractModel
         $this->filesystem = $filesystem;
         $this->string = $string;
         $this->_transportBuilder = $transportBuilder;
+        $this->ftpAdapter = $ftpAdapter;
 
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_init('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation');
@@ -471,7 +481,7 @@ class Operation extends \Magento\Model\AbstractModel
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation
     ) {
         $fileInfo = $this->getFileInfo();
-        if (empty($fileInfo['file_name'])) {
+        if (empty($fileInfo['file_name']) || empty($fileInfo['file_path'])) {
             throw new \Magento\Model\Exception(__("We couldn't read the file source because the file name is empty."));
         }
         $operation->addLogComment(__('Connecting to server'));
@@ -479,15 +489,11 @@ class Operation extends \Magento\Model\AbstractModel
 
         $extension = pathinfo($fileInfo['file_name'], PATHINFO_EXTENSION);
         $filePath = $fileInfo['file_name'];
-
-        $varDirectory = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::VAR_DIR);
-        $tmpDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR);
-        $tmpFile = uniqid(time(), true) . '.' . $extension;
-        $tmpFilePath = $tmpDirectory->getAbsolutePath($tmpFile);
+        $filePath = trim($fileInfo['file_path'], '\\/') . '/' . $filePath;
+        $tmpFile = uniqid() . '.' . $extension;
 
         try {
-            $contents = $varDirectory->readFile($varDirectory->getRelativePath($filePath));
-            $tmpDirectory->writeFile($tmpFile, $contents);
+            $tmpFilePath = $this->readData($filePath, $tmpFile);
         } catch (\Magento\Filesystem\FilesystemException $e) {
             throw new \Magento\Model\Exception(__("We couldn't read the import file."));
         }
@@ -514,9 +520,8 @@ class Operation extends \Magento\Model\AbstractModel
         $fileInfo = $this->getFileInfo();
         $fileName = $operation->getScheduledFileName() . '.' . $fileInfo['file_format'];
         try {
-            $varDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
-            $varDirectory->writeFile($fileInfo['file_path'] . '/' . $fileName, $fileContent);
-        } catch (\Magento\Filesystem\FilesystemException $e) {
+            $result = $this->writeData($fileInfo['file_path'] . '/' . $fileName, $fileContent);
+        } catch (\Exception $e) {
             throw new \Magento\Model\Exception(
                 __(
                     'We couldn\'t write file "%1" to "%2" with the "%3" driver.',
@@ -528,7 +533,83 @@ class Operation extends \Magento\Model\AbstractModel
         }
         $operation->addLogComment(__('Save file content'));
 
-        return true;
+        return $result;
+    }
+
+    /**
+     * Write data to specific storage (FTP, local filesystem)
+     *
+     * @param $filePath
+     * @param $fileContent
+     * @return bool|int
+     * @throws \Magento\Io\IoException
+     * @throws \Magento\Filesystem\FilesystemException
+     * @throws \Magento\Model\Exception
+     */
+    protected function writeData($filePath, $fileContent)
+    {
+        $this->validateAdapterType();
+        $fileInfo = $this->getFileInfo();
+        if (Data::FTP_STORAGE == $fileInfo['server_type']) {
+            $this->ftpAdapter->open($this->_prepareIoConfiguration($fileInfo));
+            $filePath = '/' . trim($filePath, '\\/');
+            $result = $this->ftpAdapter->write($filePath, $fileContent);
+        } else {
+            $varDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+            $result = $varDirectory->writeFile($filePath, $fileContent);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @throws \Magento\Model\Exception
+     */
+    protected function validateAdapterType()
+    {
+        $fileInfo = $this->getFileInfo();
+        $availableTypes = $this->_operationFactory->create()->getServerTypesOptionArray();
+        if (!isset($fileInfo['server_type'])
+            || !$fileInfo['server_type']
+            || !isset($availableTypes[$fileInfo['server_type']])
+        ) {
+            throw new \Magento\Model\Exception(__('Please correct the server type.'));
+        }
+    }
+
+    /**
+     * Read data from specific storage (FTP, local filesystem)
+     *
+     * @param $source
+     * @param $destination
+     * @return string
+     * @throws \Magento\Io\IoException
+     * @throws \Magento\Filesystem\FilesystemException
+     * @throws \Magento\Model\Exception
+     */
+    protected function readData($source, $destination)
+    {
+        $tmpDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR);
+
+        $this->validateAdapterType();
+        $fileInfo = $this->getFileInfo();
+        if (Data::FTP_STORAGE == $fileInfo['server_type']) {
+            $this->ftpAdapter->open($this->_prepareIoConfiguration($fileInfo));
+            $source = '/' . trim($source, '\\/');
+            $result = $this->ftpAdapter->read($source, $tmpDirectory->getAbsolutePath($destination));
+        } else {
+            $varDirectory = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::VAR_DIR);
+            if (!$varDirectory->isExist($source)) {
+                throw new \Magento\Model\Exception(__('Import path %1 not exists', $source));
+            }
+            $contents = $varDirectory->readFile($varDirectory->getRelativePath($source));
+            $result = $tmpDirectory->writeFile($destination, $contents);
+        }
+        if (!$result) {
+            throw new \Magento\Model\Exception(__('Could\'t read file'));
+        }
+
+        return $tmpDirectory->getAbsolutePath($destination);
     }
 
     /**
