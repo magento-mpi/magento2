@@ -84,7 +84,13 @@ class RecurringTest extends \PHPUnit_Framework_TestCase
             array('Magento\RecurringPayment\Block\Adminhtml\Payment\Edit\Form', array(), $blockMock),
             array('Magento\Backend\Block\Widget\Form\Element\Dependence', array(), $blockMock)
         );
-        $paymentElement = $this->getMock('Magento\Framework\Data\Form\Element\AbstractElement', array(), array(), '', false);
+        $paymentElement = $this->getMock(
+            'Magento\Framework\Data\Form\Element\AbstractElement',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_scopeConfig->expects($this->any())->method('getValue')->will($this->returnValue(true));
 
         $this->_testModel->render($paymentElement);

@@ -259,7 +259,9 @@ class Collection extends \Magento\Framework\Data\Collection implements \Magento\
      */
     protected function _getConfigModel($configPath)
     {
-        return new \Magento\Framework\Config\Theme($this->_directory->readFile($this->_directory->getRelativePath($configPath)));
+        return new \Magento\Framework\Config\Theme(
+            $this->_directory->readFile($this->_directory->getRelativePath($configPath))
+        );
     }
 
     /**

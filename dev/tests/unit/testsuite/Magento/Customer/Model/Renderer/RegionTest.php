@@ -47,7 +47,13 @@ class RegionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $regionMock = $this->getMock('Magento\Framework\Data\Form\Element\AbstractElement', array(), array(), '', false);
+        $regionMock = $this->getMock(
+            'Magento\Framework\Data\Form\Element\AbstractElement',
+            array(),
+            array(),
+            '',
+            false
+        );
         $countryModelMock = $this->getMock(
             'Magento\Directory\Model\Country',
             array('setId', 'getLoadedRegionCollection', 'toOptionArray', '__wakeup'),

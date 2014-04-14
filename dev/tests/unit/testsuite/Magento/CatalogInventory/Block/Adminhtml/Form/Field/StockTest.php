@@ -46,7 +46,13 @@ class StockTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_factoryElementMock = $this->getMock('Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);
+        $this->_factoryElementMock = $this->getMock(
+            'Magento\Framework\Data\Form\Element\Factory',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_collectionFactoryMock = $this->getMock(
             'Magento\Framework\Data\Form\Element\CollectionFactory',
             array(),

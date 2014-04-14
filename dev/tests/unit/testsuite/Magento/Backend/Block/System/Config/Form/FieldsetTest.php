@@ -165,9 +165,18 @@ class FieldsetTest extends \PHPUnit_Framework_TestCase
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $factory = $this->getMock('Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);
-        $factoryColl = $this->getMock('Magento\Framework\Data\Form\Element\CollectionFactory', array(), array(), '', false);
+        $factoryColl = $this->getMock(
+            'Magento\Framework\Data\Form\Element\CollectionFactory',
+            array(),
+            array(),
+            '',
+            false
+        );
         $formMock = $this->getMock('Magento\Framework\Data\Form\AbstractForm', array(), array($factory, $factoryColl));
-        $collection = $helper->getObject('Magento\Framework\Data\Form\Element\Collection', array('container' => $formMock));
+        $collection = $helper->getObject(
+            'Magento\Framework\Data\Form\Element\Collection',
+            array('container' => $formMock)
+        );
         $collection->add($fieldMock);
         $this->_elementMock->expects($this->any())->method('getElements')->will($this->returnValue($collection));
 

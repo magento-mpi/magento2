@@ -273,7 +273,13 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             'someArr' => array('testVar' => 'testVal')
         );
         $this->_model->setData($params, 'scope');
-        $elementMock = $this->getMock('Magento\Framework\Data\Form\Element\Text', array('setOriginalData'), array(), '', false);
+        $elementMock = $this->getMock(
+            'Magento\Framework\Data\Form\Element\Text',
+            array('setOriginalData'),
+            array(),
+            '',
+            false
+        );
         unset($params['someArr']);
         $elementMock->expects($this->once())->method('setOriginalData')->with($params);
         $this->_model->populateInput($elementMock);

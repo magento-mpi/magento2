@@ -280,7 +280,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($sectionMock)
         );
 
-        $formFieldsetMock = $this->getMock('Magento\Framework\Data\Form\Element\Fieldset', array(), array(), '', false, false);
+        $formFieldsetMock = $this->getMock(
+            'Magento\Framework\Data\Form\Element\Fieldset',
+            array(),
+            array(),
+            '', false, false);
 
         $params = array(
             'legend' => 'label',
@@ -308,7 +312,14 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testInitFields($backendConfigValue, $configValue, $configPath, $inherit, $expectedValue)
     {
         // Parameters initialization
-        $fieldsetMock = $this->getMock('Magento\Framework\Data\Form\Element\Fieldset', array(), array(), '', false, false);
+        $fieldsetMock = $this->getMock(
+            'Magento\Framework\Data\Form\Element\Fieldset',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
         $groupMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Group',
             array(),

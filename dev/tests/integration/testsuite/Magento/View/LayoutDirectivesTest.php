@@ -82,8 +82,14 @@ class LayoutDirectivesTest extends \PHPUnit_Framework_TestCase
     public function testLayoutObjectArgumentsDirective()
     {
         $layout = $this->_getLayoutModel('arguments_object_type.xml');
-        $this->assertInstanceOf('Magento\Framework\Data\Collection\Db', $layout->getBlock('block_with_object_args')->getOne());
-        $this->assertInstanceOf('Magento\Framework\Data\Collection\Db', $layout->getBlock('block_with_object_args')->getTwo());
+        $this->assertInstanceOf(
+            'Magento\Framework\Data\Collection\Db',
+            $layout->getBlock('block_with_object_args')->getOne()
+        );
+        $this->assertInstanceOf(
+            'Magento\Framework\Data\Collection\Db',
+            $layout->getBlock('block_with_object_args')->getTwo()
+        );
         $this->assertEquals(3, $layout->getBlock('block_with_object_args')->getThree());
     }
 

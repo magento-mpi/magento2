@@ -68,7 +68,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertSameSize($this->_expectedFieldsets, $formFieldsets);
         foreach ($formFieldsets as $fieldset) {
-            $this->assertInstanceOf('Magento\Framework\Data\Form\Element\Fieldset', $fieldset, 'Incorrect fieldset class.');
+            $this->assertInstanceOf(
+                'Magento\Framework\Data\Form\Element\Fieldset',
+                $fieldset,
+                'Incorrect fieldset class.'
+            );
         }
     }
 }
