@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/order_status/new" >
+    <block>
+        <name>formPageActions</name>
+        <class>Magento\Backend\Test\Block\FormPageActions</class>
+        <locator>.page-main-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>orderStatusForm</name>
+        <class>Magento\Sales\Test\Block\Adminhtml\Order\Status\NewStatus\OrderStatusForm</class>
+        <locator>#edit_form</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>messageBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>#messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>
