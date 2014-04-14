@@ -191,7 +191,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
         $client->__setLocation(
             $this->getConfigFlag(
                 'sandbox_mode'
-            ) ? 'https://wsbeta.fedex.com:443/web-services/rate' : 'https://ws.fedex.com:443/web-services/rate'
+            ) ? $this->getConfigData('sandbox_webservices_url') : $this->getConfigData('production_webservices_url')
         );
 
         return $client;
