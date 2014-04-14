@@ -49,4 +49,14 @@ class CustomerGroup extends \Magento\Service\Data\AbstractObject
     {
         return $this->_get(self::TAX_CLASS_ID);
     }
+
+    /**
+     * Retrieve tax class name
+     *
+     * @return string|null
+     */
+    public function getTaxClassName()
+    {
+        return $this->_get('tax_class_name');
+    }
 }
