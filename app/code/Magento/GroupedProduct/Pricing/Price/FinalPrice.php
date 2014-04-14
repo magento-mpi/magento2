@@ -14,7 +14,6 @@ use Magento\Catalog\Pricing\Price\AbstractPrice;
 use Magento\Pricing\Adjustment\Calculator;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\GroupedProduct\Model\Product\Type\Grouped;
-use Magento\Catalog\Model\ProductFactory;
 
 /**
  * Final price model
@@ -50,8 +49,7 @@ class FinalPrice extends AbstractPrice
      */
     public function getValue()
     {
-        return $this->getMinProduct()->getPriceInfo()
-            ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_TYPE_CODE)->getValue();
+        return $this->getMinProduct()->getPriceInfo()->getPrice(FinalPrice::PRICE_TYPE_CODE)->getValue();
     }
 
     /**

@@ -65,6 +65,19 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
     }
 
     /**
+     * Getter for maximal price of options
+     *
+     * @return bool|float
+     */
+    public function getMaxValue()
+    {
+        if (null === $this->maximalPrice) {
+            $this->maximalPrice = $this->calculateOptions(false);
+        }
+        return $this->maximalPrice;
+    }
+
+    /**
      * Get Options with attached Selections collection
      *
      * @return \Magento\Bundle\Model\Resource\Option\Collection
@@ -74,12 +87,15 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
         if (null !== $this->priceOptions) {
             return $this->priceOptions;
         }
-        $this->salableItem->getTypeInstance()->setStoreFilter($this->salableItem->getStoreId(), $this->salableItem);
+        /** @var \Magento\Bundle\Model\Product\Type $typeInstance */
+        $typeInstance = $this->salableItem->getTypeInstance();
+        $typeInstance->setStoreFilter($this->salableItem->getStoreId(), $this->salableItem);
 
-        $optionCollection = $this->salableItem->getTypeInstance()->getOptionsCollection($this->salableItem);
+        /** @var \Magento\Bundle\Model\Resource\Option\Collection $optionCollection */
+        $optionCollection = $typeInstance->getOptionsCollection($this->salableItem);
 
-        $selectionCollection = $this->salableItem->getTypeInstance()->getSelectionsCollection(
-            $this->salableItem->getTypeInstance()->getOptionsIds($this->salableItem),
+        $selectionCollection = $typeInstance->getSelectionsCollection(
+            $typeInstance->getOptionsIds($this->salableItem),
             $this->salableItem
         );
 
@@ -157,19 +173,6 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
             }
         }
         return $result;
-    }
-
-    /**
-     * Getter for maximal price of options
-     *
-     * @return bool|float
-     */
-    public function getMaxValue()
-    {
-        if (null === $this->maximalPrice) {
-            $this->maximalPrice = $this->calculateOptions(false);
-        }
-        return $this->maximalPrice;
     }
 
     /**

@@ -18,15 +18,15 @@ use Magento\Pricing\Amount\AmountInterface;
 interface CustomOptionPriceInterface
 {
     /**
-     * @param $value
+     * @param array $value
      * @return AmountInterface
      */
-    public function getOptionValueAmount($value);
+    public function getOptionValueAmount(array $value = array());
 
     /**
-     * @param $value
+     * @param array $value
      * @return AmountInterface
      */
-    public function getOptionValueOldAmount($value);
+    public function getOptionValueOldAmount(array $value = array());
 
 } 
