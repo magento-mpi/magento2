@@ -90,14 +90,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $localeDate = $this->getMock('\Magento\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false);
         $localeDate->expects($this->any())->method('date')->will($this->returnValue('Oct 02, 2013'));
 
-        $collectionFactory = $this->getMock(
-            '\Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory',
-            array(),
-            array(),
-            '',
-            false
-        );
-
         $this->_transportBuilder = $this->getMock(
             '\Magento\Mail\Template\TransportBuilder',
             array(),
@@ -112,7 +104,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $storeManager,
             $checkoutSession,
             $localeDate,
-            $collectionFactory,
             $this->_transportBuilder,
             $this->_translator
         );

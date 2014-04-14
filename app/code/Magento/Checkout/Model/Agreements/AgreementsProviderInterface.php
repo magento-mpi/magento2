@@ -18,4 +18,4 @@ interface AgreementsProviderInterface
      * @return int[]
      */
     public function getRequiredAgreementIds();
-} 
+}

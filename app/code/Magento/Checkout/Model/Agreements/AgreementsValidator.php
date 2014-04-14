@@ -18,7 +18,7 @@ class AgreementsValidator
     /**
      * @param AgreementsProviderInterface[] $list
      */
-    public function  __construct($list)
+    public function __construct($list)
     {
         $this->agreementsProviders = (array) $list;
     }

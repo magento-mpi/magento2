@@ -18,7 +18,7 @@ class AgreementsProvider implements AgreementsProviderInterface
     /** Path to config node */
     const PATH_ENABLED = 'checkout/options/enable_agreements';
 
-    /** @var \Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory  */
+    /** @var \Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory */
     protected $agreementCollectionFactory;
 
     /** @var \Magento\App\Config\ScopeConfigInterface */
@@ -30,6 +30,7 @@ class AgreementsProvider implements AgreementsProviderInterface
     /**
      * @param Resource\Agreement\CollectionFactory $agreementCollectionFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory,
@@ -53,7 +54,7 @@ class AgreementsProvider implements AgreementsProviderInterface
         } else {
             return $this->agreementCollectionFactory->create()
                 ->addStoreFilter($this->storeManager->getStore()->getId())
-                ->addFieldToFilter('is_active',1)
+                ->addFieldToFilter('is_active', 1)
                 ->getAllIds();
         }
     }
