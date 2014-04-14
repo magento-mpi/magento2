@@ -105,6 +105,8 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>text</input>
+            <group>advanced-pricing</group>
+            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions</fixture>
         </group_price>
         <has_options>
             <attribute_code>has_options</attribute_code>
@@ -247,6 +249,7 @@
             <default_value></default_value>
             <input>price</input>
             <group>product_info_tabs_product-details</group>
+            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\Price</fixture>
         </price>
         <quantity_and_stock_status>
             <attribute_code>quantity_and_stock_status</attribute_code>
@@ -312,6 +315,7 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>price</input>
+            <group>advanced-pricing</group>
         </special_price>
         <special_to_date>
             <attribute_code>special_to_date</attribute_code>
@@ -354,6 +358,7 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>text</input>
+            <group>advanced-pricing</group>
         </tier_price>
         <updated_at>
             <attribute_code>updated_at</attribute_code>
@@ -409,6 +414,13 @@
             <input>input</input>
             <group>product_info_tabs_product-details</group>
         </qty>
+        <custom_options>
+            <attribute_code>custom_options</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group>product_info_tabs_customer_options</group>
+            <is_required>0</is_required>
+            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions</fixture>
+        </custom_options>
     </fields>
     <data_set>
         <sku></sku>

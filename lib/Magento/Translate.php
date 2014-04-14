@@ -83,7 +83,7 @@ class Translate implements \Magento\TranslateInterface
     protected $_modulesReader;
 
     /**
-     * @var \Magento\BaseScopeResolverInterface
+     * @var \Magento\App\ScopeResolverInterface
      */
     protected $_scopeResolver;
 
@@ -113,18 +113,24 @@ class Translate implements \Magento\TranslateInterface
     protected $request;
 
     /**
+     * @var \Magento\File\Csv
+     */
+    protected $_csvParser;
+
+    /**
      * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Locale\Hierarchy\Config $config
      * @param \Magento\Cache\FrontendInterface $cache
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Module\ModuleList $moduleList
      * @param \Magento\Module\Dir\Reader $modulesReader
-     * @param \Magento\BaseScopeResolverInterface $scopeResolver
+     * @param \Magento\App\ScopeResolverInterface $scopeResolver
      * @param \Magento\Translate\ResourceInterface $translate
      * @param \Magento\Locale\ResolverInterface $locale
      * @param \Magento\App\State $appState
      * @param \Magento\App\Filesystem $filesystem
      * @param App\RequestInterface $request
+     * @param \Magento\File\Csv $csvParser
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -135,12 +141,13 @@ class Translate implements \Magento\TranslateInterface
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Module\ModuleList $moduleList,
         \Magento\Module\Dir\Reader $modulesReader,
-        \Magento\BaseScopeResolverInterface $scopeResolver,
+        \Magento\App\ScopeResolverInterface $scopeResolver,
         \Magento\Translate\ResourceInterface $translate,
         \Magento\Locale\ResolverInterface $locale,
         \Magento\App\State $appState,
         \Magento\App\Filesystem $filesystem,
-        \Magento\App\RequestInterface $request
+        \Magento\App\RequestInterface $request,
+        \Magento\File\Csv $csvParser
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_cache = $cache;
@@ -154,6 +161,7 @@ class Translate implements \Magento\TranslateInterface
         $this->request = $request;
         $this->directory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         $this->_localeHierarchy = $config->getHierarchy();
+        $this->_csvParser = $csvParser;
     }
 
     /**
@@ -380,9 +388,8 @@ class Translate implements \Magento\TranslateInterface
     {
         $data = array();
         if ($this->directory->isExist($this->directory->getRelativePath($file))) {
-            $parser = new \Magento\File\Csv();
-            $parser->setDelimiter(',');
-            $data = $parser->getDataPairs($file);
+            $this->_csvParser->setDelimiter(',');
+            $data = $this->_csvParser->getDataPairs($file);
         }
         return $data;
     }

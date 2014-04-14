@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\Core\Model\Resource\Setup */
+/* @var $installer \Magento\Module\Setup */
 $installer = $this;
 
 
@@ -90,9 +90,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('magento_catalogpermissions', 'website_id', 'core_website', 'website_id'),
+    $installer->getFkName('magento_catalogpermissions', 'website_id', 'store_website', 'website_id'),
     'website_id',
-    $installer->getTable('core_website'),
+    $installer->getTable('store_website'),
     'website_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -171,9 +171,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('magento_catalogpermissions_index', 'website_id', 'core_website', 'website_id'),
+    $installer->getFkName('magento_catalogpermissions_index', 'website_id', 'store_website', 'website_id'),
     'website_id',
-    $installer->getTable('core_website'),
+    $installer->getTable('store_website'),
     'website_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -289,9 +289,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('magento_catalogpermissions_index_product', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('magento_catalogpermissions_index_product', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE

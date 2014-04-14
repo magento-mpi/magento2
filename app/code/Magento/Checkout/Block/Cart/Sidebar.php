@@ -93,7 +93,10 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Mage
     {
         $count = $this->getData('item_count');
         if (is_null($count)) {
-            $count = $this->_storeConfig->getConfig(self::XML_PATH_CHECKOUT_SIDEBAR_COUNT);
+            $count = $this->_scopeConfig->getValue(
+                self::XML_PATH_CHECKOUT_SIDEBAR_COUNT,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
             $this->setData('item_count', $count);
         }
         return $count;
@@ -267,7 +270,10 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Mage
      */
     public function getIsNeedToDisplaySideBar()
     {
-        return (bool)$this->_storeManager->getStore()->getConfig('checkout/sidebar/display');
+        return (bool)$this->_scopeConfig->getValue(
+            'checkout/sidebar/display',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -322,15 +328,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Mage
             $this->_getRendererList()->getNameInLayout()
         ) as $alias => $block) {
             /** @var $block \Magento\View\Element\Template */
-            $result[] = implode(
-                '|',
-                array(
-                    // skip $this->getNameInLayout() and '.'
-                    $alias,
-                    get_class($block),
-                    $block->getTemplate()
-                )
-            );
+            $result[] = implode('|', array($alias, get_class($block), $block->getTemplate()));
         }
         return implode('|', $result);
     }

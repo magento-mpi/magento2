@@ -42,7 +42,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_registry = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     private $_storeManager = null;
 
@@ -90,7 +90,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\Registry $registry
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\App\ActionFlag $actionFlag
      * @param \Magento\Message\ManagerInterface $messageManager
@@ -106,7 +106,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\Registry $registry,
         \Magento\App\RequestInterface $request,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\ResponseInterface $response,
         \Magento\App\ActionFlag $actionFlag,
         \Magento\Message\ManagerInterface $messageManager
@@ -234,7 +234,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
 
         $store = $this->_storeManager->getStore(
-            $this->_request->getParam('store', \Magento\Core\Model\Store::DEFAULT_STORE_ID)
+            $this->_request->getParam('store', \Magento\Store\Model\Store::DEFAULT_STORE_ID)
         );
         if (!$this->_role->hasStoreAccess($store->getId())) {
             $this->_forward();

@@ -78,7 +78,7 @@ class CustomerBuilder extends AbstractObjectBuilder
 
     /**
      * Set confirmation
-     * 
+     *
      * @param string $confirmation
      * @return $this
      */

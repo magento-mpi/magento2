@@ -18,9 +18,9 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
     protected $_pbridgeData;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Payment\Helper\Data
@@ -41,20 +41,20 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
 
     /**
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Payment\Model\Method\Factory $paymentFactory
      * @param string $paypalClassName
      */
     public function __construct(
         \Magento\Pbridge\Helper\Data $pbridgeData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Payment\Model\Method\Factory $paymentFactory,
         $paypalClassName
     ) {
         $this->_pbridgeData = $pbridgeData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_paymentData = $paymentData;
         $this->_paypalMethodInstance = $paymentFactory->create(
             $paypalClassName,
@@ -144,7 +144,7 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
             $storeId = $this->_paypalMethodInstance->getStore();
         }
         $path = 'payment/' . $this->getOriginalCode() . '/' . $field;
-        return $this->_coreStoreConfig->getConfig($path, $storeId);
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
     }
 
     /**
@@ -171,7 +171,7 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
     /**
      * Store id setter, also set storeId to helper
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return $this
      */
     public function setStore($store)

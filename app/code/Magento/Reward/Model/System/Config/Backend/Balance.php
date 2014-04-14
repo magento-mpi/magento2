@@ -16,7 +16,7 @@ namespace Magento\Reward\Model\System\Config\Backend;
 
 use Magento\Model\Exception;
 
-class Balance extends \Magento\Core\Model\Config\Value
+class Balance extends \Magento\App\Config\Value
 {
     /**
      * Check if max_points_balance >= than min_points_balance

@@ -12,7 +12,7 @@ namespace Magento\Reward\Model\System\Config\Backend;
 /**
  * Backend model for "Reward Points Lifetime"
  */
-class Expiration extends \Magento\Core\Model\Config\Value
+class Expiration extends \Magento\App\Config\Value
 {
     const XML_PATH_EXPIRATION_DAYS = 'magento_reward/general/expiration_days';
 
@@ -29,11 +29,14 @@ class Expiration extends \Magento\Core\Model\Config\Value
      */
     protected $_historyFactory;
 
+    /** @var \Magento\Store\Model\StoreManagerInterface */
+    protected $_storeManager;
+
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configFactory
      * @param \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
@@ -43,8 +46,8 @@ class Expiration extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configFactory,
         \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
@@ -55,7 +58,7 @@ class Expiration extends \Magento\Core\Model\Config\Value
         $this->_config = $config;
         $this->_configFactory = $configFactory;
         $this->_historyFactory = $historyFactory;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -71,22 +74,22 @@ class Expiration extends \Magento\Core\Model\Config\Value
         }
 
         $websiteIds = array();
-        if ($this->getWebsiteCode()) {
-            $websiteIds = array($this->_storeManager->getWebsite($this->getWebsiteCode())->getId());
+        if ($this->getScope() == \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES) {
+            $websiteIds = array($this->_storeManager->getWebsite($this->getScopeCode())->getId());
         } else {
             $collection = $this->_configFactory->create()->addFieldToFilter(
                 'path',
                 self::XML_PATH_EXPIRATION_DAYS
             )->addFieldToFilter(
                 'scope',
-                'websites'
+                \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES
             );
             $websiteScopeIds = array();
             foreach ($collection as $item) {
                 $websiteScopeIds[] = $item->getScopeId();
             }
             foreach ($this->_storeManager->getWebsites() as $website) {
-                /* @var $website \Magento\Core\Model\Website */
+                /* @var $website \Magento\Store\Model\Website */
                 if (!in_array($website->getId(), $websiteScopeIds)) {
                     $websiteIds[] = $website->getId();
                 }
@@ -107,9 +110,9 @@ class Expiration extends \Magento\Core\Model\Config\Value
     protected function _beforeDelete()
     {
         parent::_beforeDelete();
-        if ($this->getWebsiteCode()) {
+        if ($this->getScope() == \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES) {
             $default = (string)$this->_config->getValue(self::XML_PATH_EXPIRATION_DAYS, 'default');
-            $websiteIds = array($this->_storeManager->getWebsite($this->getWebsiteCode())->getId());
+            $websiteIds = array($this->_storeManager->getWebsite($this->getScopeCode())->getId());
             $this->_historyFactory->create()->updateExpirationDate($default, $websiteIds);
         }
         return $this;
