@@ -23,7 +23,7 @@
                 <arguments>
                     <argument name="massaction_id_field" xsi:type="string">entity_id</argument>
                     <argument name="form_field_name" xsi:type="string">shipment_ids</argument>
-                    <argument name="use_select_all" xsi:type="boolean">0</argument>
+                    <argument name="use_select_all" xsi:type="boolean">false</argument>
                     <argument name="options" xsi:type="array">
                         <item name="pdfshipments_order" xsi:type="array">
                             <item name="label" xsi:type="string" translate="true">PDF Packing Slips</item>
@@ -126,9 +126,9 @@
                         <argument name="header" xsi:type="string" translate="true">Action</argument>
                         <argument name="type" xsi:type="string">action</argument>
                         <argument name="getter" xsi:type="string">getId</argument>
-                        <argument name="filter" xsi:type="boolean">0</argument>
-                        <argument name="sortable" xsi:type="boolean">0</argument>
-                        <argument name="is_system" xsi:type="boolean">1</argument>
+                        <argument name="filter" xsi:type="boolean">false</argument>
+                        <argument name="sortable" xsi:type="boolean">false</argument>
+                        <argument name="is_system" xsi:type="boolean">true</argument>
                         <argument name="actions" xsi:type="array">
                             <item name="view_action" xsi:type="array">
                                 <item name="caption" xsi:type="string" translate="true">View</item>
