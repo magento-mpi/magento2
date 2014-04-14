@@ -197,8 +197,6 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             }
         }
 
-        $this->_resPrices = array($this->_preparePrice($currentProduct->getFinalPrice()));
-
         foreach ($this->getAllowAttributes() as $attribute) {
             $productAttribute = $attribute->getProductAttribute();
             $attributeId = $productAttribute->getId();

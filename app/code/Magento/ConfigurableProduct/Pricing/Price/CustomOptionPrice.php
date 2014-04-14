@@ -45,18 +45,14 @@ class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterfa
     /**
      * Get Option Value
      *
-     * @param $value
+     * @param array $value
      * @return AmountInterface
      */
-    public function getOptionValueAmount($value)
+    public function getOptionValueAmount(array $value = array())
     {
-        if ($value['is_percent'] && !empty($value['pricing_value'])) {
-            $amount = $this->preparePrice($value);
-        } else {
-            $amount = $value['pricing_value'];
-        }
+        $pricingValue = $this->getPricingValue($value);
         $this->salableItem->setParentId(true);
-        $amount = $this->priceModifier->modifyPrice($amount, $this->salableItem);
+        $amount = $this->priceModifier->modifyPrice($pricingValue, $this->salableItem);
 
         return $this->calculator->getAmount($amount, $this->salableItem);
 
@@ -65,16 +61,13 @@ class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterfa
     /**
      * Get Option Value Amount with no Catalog Rules
      *
-     * @param $value
+     * @param array $value
      * @return AmountInterface
      */
-    public function getOptionValueOldAmount($value)
+    public function getOptionValueOldAmount(array $value = array())
     {
-        if ($value['is_percent'] && !empty($value['pricing_value'])) {
-            $amount = $this->preparePrice($value);
-        } else {
-            $amount = $value['pricing_value'];
-        }
+        $amount = $this->getPricingValue($value);
+
         return $this->calculator->getAmount($amount, $this->salableItem);
     }
 
@@ -88,5 +81,20 @@ class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterfa
     {
         return $this->salableItem->getPriceInfo()->getPrice('final_price')->getValue()
         * $value['pricing_value'] / 100;
+    }
+
+    /**
+     * Get value from array
+     *
+     * @param array $value
+     * @return float
+     */
+    protected function getPricingValue(array $value = array())
+    {
+        if ($value['is_percent'] && !empty($value['pricing_value'])) {
+            return $this->preparePrice($value);
+        } else {
+            return $value['pricing_value'];
+        }
     }
 }
