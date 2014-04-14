@@ -9,6 +9,8 @@
  */
 namespace Magento\Persistent\Model;
 
+use Magento\Customer\Model\Converter as CustomerConverter;
+
 /**
  * Persistent Observer
  *
@@ -130,6 +132,11 @@ class Observer
     protected $_customerAccountService;
 
     /**
+     * @var CustomerConverter
+     */
+    protected $customerConverter;
+
+    /**
      * Construct
      *
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -149,6 +156,7 @@ class Observer
      * @param \Magento\Checkout\Helper\ExpressRedirect $expressRedirectHelper
      * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param CustomerConverter $customerConverter
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -169,7 +177,8 @@ class Observer
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Checkout\Helper\ExpressRedirect $expressRedirectHelper,
         \Magento\Customer\Helper\View $customerViewHelper,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
+        CustomerConverter $customerConverter
     ) {
         $this->_eventManager = $eventManager;
         $this->_persistentSession = $persistentSession;
@@ -188,6 +197,7 @@ class Observer
         $this->_expressRedirectHelper = $expressRedirectHelper;
         $this->_customerViewHelper = $customerViewHelper;
         $this->_customerAccountService = $customerAccountService;
+        $this->customerConverter = $customerConverter;
     }
 
     /**
@@ -629,17 +639,13 @@ class Observer
     {
         $quote = $this->_checkoutSession->setLoadInactive()->getQuote();
         if ($quote->getIsActive() && $quote->getCustomerId()) {
-            $this->_checkoutSession->setCustomer(null)->clearQuote()->clearStorage();
+            $this->_checkoutSession->setCustomerData(null)->clearQuote()->clearStorage();
         } else {
-            $quote->setIsActive(
-                true
-            )->setIsPersistent(
-                false
-            )->setCustomerId(
-                null
-            )->setCustomerGroupId(
-                \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
-            );
+            $quote
+                ->setIsActive(true)
+                ->setIsPersistent(false)
+                ->setCustomerId(null)
+                ->setCustomerGroupId(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID);
         }
     }
 

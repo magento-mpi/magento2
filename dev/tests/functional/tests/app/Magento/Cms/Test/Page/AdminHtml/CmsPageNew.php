@@ -33,7 +33,7 @@ class CmsPageNew extends Page
      *
      * @var string
      */
-    protected $cmsPageForm = 'page:main-container';
+    protected $cmsPageForm = 'anchor-content';
 
     /**
      * Initialize page. Set page url

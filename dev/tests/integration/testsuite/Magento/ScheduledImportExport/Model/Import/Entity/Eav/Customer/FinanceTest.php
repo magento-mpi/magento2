@@ -45,11 +45,11 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea adminhtml
      *
      * @codingStandardsIgnoreStart
-     * @covers Finance::_importData
-     * @covers Finance::_updateRewardPointsForCustomer
-     * @covers Finance::_updateCustomerBalanceForCustomer
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_importData
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_updateRewardPointsForCustomer
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_updateCustomerBalanceForCustomer
      * @codingStandardsIgnoreEnd
-     * @covers Finance::_getComment
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_getComment
      */
     public function testImportData()
     {
@@ -141,9 +141,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/ScheduledImportExport/_files/customers_for_finance_import_delete.php
      * @magentoAppArea adminhtml
      *
-     * @covers Finance::_importData
-     * @covers Finance::_deleteRewardPoints
-     * @covers Finance::_deleteCustomerBalance
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_importData
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_deleteRewardPoints
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_deleteCustomerBalance
      */
     public function testImportDataDelete()
     {
