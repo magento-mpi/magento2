@@ -1551,11 +1551,17 @@ return array(
     array('Magento\Adminhtml\Block\System\Variable', 'Magento\Backend\Block\System\Variable'),
     array(
         'Magento\Adminhtml\Block\Checkout\Agreement\Edit\Form',
-        'Magento\Checkout\Block\Adminhtml\Agreement\Edit\Form'
+        'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Edit\Form'
     ),
-    array('Magento\Adminhtml\Block\Checkout\Agreement\Edit', 'Magento\Checkout\Block\Adminhtml\Agreement\Edit'),
-    array('Magento\Adminhtml\Block\Checkout\Agreement\Grid', 'Magento\Checkout\Block\Adminhtml\Agreement\Grid'),
-    array('Magento\Adminhtml\Block\Checkout\Agreement', 'Magento\Checkout\Block\Adminhtml\Agreement'),
+    array(
+        'Magento\Adminhtml\Block\Checkout\Agreement\Edit',
+        'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Edit'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Checkout\Agreement\Grid',
+        'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Grid'
+    ),
+    array('Magento\Adminhtml\Block\Checkout\Agreement', 'Magento\CheckoutAgreements\Block\Adminhtml\Agreement'),
     array('Magento\Adminhtml\Controller\Checkout\Agreement', 'Magento\Checkout\Controller\Adminhtml\Agreement'),
     array('Magento\Core\Model\View\PublicFilesManagerInterface', 'Magento\View\PublicFilesManagerInterface'),
     array('Magento\Core\Model\View\DeployedFilesManager', 'Magento\View\DeployedFilesManager'),
@@ -2277,4 +2283,18 @@ return array(
     ['Magento\Rating\Model\Resource\Rating', 'Magento\Review\Model\Resource\Rating'],
     ['Magento\Rating\Model\Rating\Option', 'Magento\Review\Model\Rating\Option'],
     ['Magento\Rating\Model\Observer'],
+    ['Magento\Checkout\Block\Adminhtml\Agreement', 'Magento\CheckoutAgreements\Block\Adminhtml\Agreement'],
+    ['Magento\Checkout\Block\Adminhtml\Agreement\Edit', 'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Edit'],
+    [
+        'Magento\Checkout\Block\Adminhtml\Agreement\Edit\Form',
+        'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Edit\Form'
+    ],
+    ['Magento\Checkout\Block\Adminhtml\Agreement\Grid', 'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Grid'],
+    ['Magento\Checkout\Block\Agreements', 'Magento\CheckoutAgreements\Block\Agreements'],
+    ['Magento\Checkout\Controller\Adminhtml\Agreement', 'Magento\CheckoutAgreements\Controller\Adminhtml\Agreement'],
+    ['Magento\Checkout\Model\Resource\Agreement', 'Magento\CheckoutAgreements\Model\Resource\Agreement'],
+    [
+        'Magento\Checkout\Model\Resource\Agreement\Collection',
+        'Magento\CheckoutAgreements\Model\Resource\Agreement\Collection'
+    ],
 );
