@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Eav\Model\Entity\Attribute;
 
 class Gallery extends AbstractElement
@@ -34,16 +34,16 @@ class Gallery extends AbstractElement
     protected $_layout;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Framework\Data\Form\Element\Factory $factoryElement,
+        \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
         \Magento\View\LayoutInterface $layout,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

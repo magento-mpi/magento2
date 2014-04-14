@@ -8,7 +8,7 @@
 namespace Magento\View\Layout\Argument\Interpreter;
 
 use Magento\UrlInterface;
-use Magento\Data\Argument\InterpreterInterface;
+use Magento\Framework\Data\Argument\InterpreterInterface;
 
 /**
  * Interpreter that builds URL by input path and optional parameters

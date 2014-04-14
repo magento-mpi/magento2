@@ -14,7 +14,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
  *
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column setClass($class)
  */
-class Column extends \Magento\Data\Form\Element\Fieldset implements
+class Column extends \Magento\Framework\Data\Form\Element\Fieldset implements
     \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ContainerInterface
 {
     /**
@@ -124,7 +124,7 @@ class Column extends \Magento\Data\Form\Element\Fieldset implements
      * @param array $config
      * @param boolean $after
      * @param boolean $isAdvanced
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function addField($elementId, $type, $config, $after = false, $isAdvanced = false)
     {

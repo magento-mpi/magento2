@@ -51,7 +51,7 @@ class Rating extends \Magento\Model\AbstractModel
      * @param \Magento\Review\Model\Rating\OptionFactory $ratingOptionFactory
      * @param \Magento\Review\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -60,7 +60,7 @@ class Rating extends \Magento\Model\AbstractModel
         \Magento\Review\Model\Rating\OptionFactory $ratingOptionFactory,
         \Magento\Review\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_ratingOptionFactory = $ratingOptionFactory;
@@ -138,7 +138,7 @@ class Rating extends \Magento\Model\AbstractModel
      *
      * @param int $entityPkValue
      * @param bool $onlyForCurrentStore
-     * @return \Magento\Data\Collection\Db
+     * @return \Magento\Framework\Data\Collection\Db
      */
     public function getEntitySummary($entityPkValue, $onlyForCurrentStore = true)
     {

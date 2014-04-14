@@ -15,9 +15,9 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Data\Form\Element;
+namespace Magento\Framework\Data\Form\Element;
 
-class Obscure extends \Magento\Data\Form\Element\Password
+class Obscure extends \Magento\Framework\Data\Form\Element\Password
 {
     /**
      * @var string

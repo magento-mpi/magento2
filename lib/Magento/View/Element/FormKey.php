@@ -16,18 +16,18 @@ namespace Magento\View\Element;
 class FormKey extends \Magento\View\Element\AbstractBlock
 {
     /**
-     * @var \Magento\Data\Form\FormKey
+     * @var \Magento\Framework\Data\Form\FormKey
      */
     protected $formKey;
 
     /**
      * @param \Magento\View\Element\Context $context
-     * @param \Magento\Data\Form\FormKey $formKey
+     * @param \Magento\Framework\Data\Form\FormKey $formKey
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Context $context,
-        \Magento\Data\Form\FormKey $formKey,
+        \Magento\Framework\Data\Form\FormKey $formKey,
         array $data = array()
     ) {
         $this->formKey = $formKey;

@@ -14,7 +14,7 @@ use Magento\Catalog\Model\Resource\Category\Collection;
 /**
  * Product form category field helper
  */
-class Category extends \Magento\Data\Form\Element\Multiselect
+class Category extends \Magento\Framework\Data\Form\Element\Multiselect
 {
     /**
      * @var \Magento\View\LayoutInterface
@@ -39,8 +39,8 @@ class Category extends \Magento\Data\Form\Element\Multiselect
     protected $_jsonEncoder;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory
      * @param \Magento\Backend\Helper\Data $backendData
@@ -49,8 +49,8 @@ class Category extends \Magento\Data\Form\Element\Multiselect
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Framework\Data\Form\Element\Factory $factoryElement,
+        \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory,
         \Magento\Backend\Helper\Data $backendData,

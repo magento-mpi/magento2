@@ -54,7 +54,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * @param \Magento\Core\Helper\File\Media $mediaHelper
      * @param \Magento\Core\Model\Resource\File\Storage\Database $resource
      * @param Directory\DatabaseFactory $directoryFactory
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param null $connectionName
      * @param array $data
      */
@@ -67,7 +67,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         \Magento\Core\Helper\File\Media $mediaHelper,
         \Magento\Core\Model\Resource\File\Storage\Database $resource,
         \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $connectionName = null,
         array $data = array()
     ) {

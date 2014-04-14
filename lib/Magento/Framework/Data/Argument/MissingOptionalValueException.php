@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data\Argument;
+namespace Magento\Framework\Data\Argument;
 
 /**
  * Recoverable situation of a missing argument value, presence of which is optional according to the business logic.

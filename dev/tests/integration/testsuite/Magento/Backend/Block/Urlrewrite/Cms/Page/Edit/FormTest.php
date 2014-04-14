@@ -20,7 +20,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      * Get form instance
      *
      * @param array $args
-     * @return \Magento\Data\Form
+     * @return \Magento\Framework\Data\Form
      */
     protected function _getFormInstance($args = array())
     {

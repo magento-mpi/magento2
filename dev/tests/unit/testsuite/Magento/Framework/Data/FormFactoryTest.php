@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data;
+namespace Magento\Framework\Data;
 
 /**
- * Tests for \Magento\Data\FormFactory
+ * Tests for \Magento\Framework\Data\FormFactory
  */
 class FormFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +24,7 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Exception
-     * @expectedExceptionMessage WrongClass doesn't extend \Magento\Data\Form
+     * @expectedExceptionMessage WrongClass doesn't extend \Magento\Framework\Data\Form
      */
     public function testWrongTypeException()
     {
@@ -39,7 +39,7 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $className = 'Magento\Data\Form';
+        $className = 'Magento\Framework\Data\Form';
         $formMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects(
             $this->once()

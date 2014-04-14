@@ -7,7 +7,7 @@
  */
 namespace Magento\View\Layout\Argument\Interpreter;
 
-use Magento\Data\Argument\InterpreterInterface;
+use Magento\Framework\Data\Argument\InterpreterInterface;
 
 /**
  * Interpreter of named parameters

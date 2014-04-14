@@ -10,15 +10,15 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
     <block class="Magento\View\Element\Text" name="block_with_object_args">
         <arguments>
-            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="object">Magento\Data\Collection\Db</argument>
-            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="object">Magento\Data\Collection\Db</argument>
-            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="three" xsi:type="object">Magento\Data\Collection\Db</argument>
-            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="four" xsi:type="object">Magento\Data\Collection\Db</argument>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="object">Magento\Framework\Data\Collection\Db</argument>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="object">Magento\Framework\Data\Collection\Db</argument>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="three" xsi:type="object">Magento\Framework\Data\Collection\Db</argument>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="four" xsi:type="object">Magento\Framework\Data\Collection\Db</argument>
         </arguments>
     </block>
     <referenceBlock name="block_with_object_args">
         <arguments>
-            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="object">Magento\Data\Collection\Db</argument>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="object">Magento\Framework\Data\Collection\Db</argument>
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="three" xsi:type="string">3</argument>
         </arguments>
     </referenceBlock>

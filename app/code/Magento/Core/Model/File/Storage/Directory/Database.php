@@ -41,7 +41,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $configuration
      * @param DatabaseFactory $directoryFactory
      * @param \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param null $connectionName
      * @param array $data
      */
@@ -53,7 +53,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         \Magento\Framework\App\Config\ScopeConfigInterface $configuration,
         \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory,
         \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $connectionName = null,
         array $data = array()
     ) {

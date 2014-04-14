@@ -12,12 +12,12 @@ namespace Magento\Paypal\Block\Standard;
 class Redirect extends \Magento\View\Element\AbstractBlock
 {
     /**
-     * @var \Magento\Data\FormFactory
+     * @var \Magento\Framework\Data\FormFactory
      */
     protected $_formFactory;
 
     /**
-     * @var \Magento\Data\Form\Element\Factory
+     * @var \Magento\Framework\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
@@ -33,16 +33,16 @@ class Redirect extends \Magento\View\Element\AbstractBlock
 
     /**
      * @param \Magento\View\Element\Context $context
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\Form\Element\Factory $elementFactory
      * @param \Magento\Paypal\Model\StandardFactory $paypalStandardFactory
      * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Context $context,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\Form\Element\Factory $elementFactory,
         \Magento\Paypal\Model\StandardFactory $paypalStandardFactory,
         \Magento\Math\Random $mathRandom,
         array $data = array()

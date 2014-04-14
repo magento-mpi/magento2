@@ -71,7 +71,7 @@ class Cron extends \Magento\Model\AbstractModel
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -83,7 +83,7 @@ class Cron extends \Magento\Model\AbstractModel
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_transportBuilder = $transportBuilder;

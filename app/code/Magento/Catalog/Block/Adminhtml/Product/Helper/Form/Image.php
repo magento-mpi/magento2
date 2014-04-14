@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 
-class Image extends \Magento\Data\Form\Element\Image
+class Image extends \Magento\Framework\Data\Form\Element\Image
 {
     /**
      * @return bool|string

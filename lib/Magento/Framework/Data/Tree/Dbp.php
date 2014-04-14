@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Data\Tree;
+namespace Magento\Framework\Data\Tree;
 
 use Magento\DB\Select;
 
@@ -21,7 +21,7 @@ use Magento\DB\Select;
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Dbp extends \Magento\Data\Tree
+class Dbp extends \Magento\Framework\Data\Tree
 {
     const ID_FIELD = 'id';
 
@@ -91,10 +91,10 @@ class Dbp extends \Magento\Data\Tree
      * Db tree constructor
      *
      * $fields = array(
-     *      \Magento\Data\Tree\Dbp::ID_FIELD       => string,
-     *      \Magento\Data\Tree\Dbp::PATH_FIELD     => string,
-     *      \Magento\Data\Tree\Dbp::ORDER_FIELD    => string
-     *      \Magento\Data\Tree\Dbp::LEVEL_FIELD    => string
+     *      \Magento\Framework\Data\Tree\Dbp::ID_FIELD       => string,
+     *      \Magento\Framework\Data\Tree\Dbp::PATH_FIELD     => string,
+     *      \Magento\Framework\Data\Tree\Dbp::ORDER_FIELD    => string
+     *      \Magento\Framework\Data\Tree\Dbp::LEVEL_FIELD    => string
      * )
      *
      * @param \Zend_Db_Adapter_Abstract $connection

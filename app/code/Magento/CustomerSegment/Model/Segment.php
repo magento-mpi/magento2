@@ -79,7 +79,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
@@ -87,13 +87,13 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Log\Model\VisitorFactory $visitorFactory
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
@@ -101,7 +101,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         \Magento\Log\Model\VisitorFactory $visitorFactory,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;

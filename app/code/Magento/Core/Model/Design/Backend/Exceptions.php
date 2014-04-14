@@ -24,7 +24,7 @@ class Exceptions extends \Magento\Backend\Model\Config\Backend\Serialized\ArrayS
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -33,7 +33,7 @@ class Exceptions extends \Magento\Backend\Model\Config\Backend\Serialized\ArrayS
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\View\DesignInterface $design,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_design = $design;

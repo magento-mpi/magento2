@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data\Argument\Interpreter;
+namespace Magento\Framework\Data\Argument\Interpreter;
 
 class BooleanTest extends \PHPUnit_Framework_TestCase
 {

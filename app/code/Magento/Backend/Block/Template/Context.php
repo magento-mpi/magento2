@@ -29,7 +29,7 @@ class Context extends \Magento\View\Element\Template\Context
     protected $_backendSession;
 
     /**
-     * @var \Magento\Data\Form\FormKey
+     * @var \Magento\Framework\Data\Form\FormKey
      */
     protected $formKey;
 
@@ -65,7 +65,7 @@ class Context extends \Magento\View\Element\Template\Context
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Data\Form\FormKey $formKey
+     * @param \Magento\Framework\Data\Form\FormKey $formKey
      * @param \Magento\Code\NameBuilder $nameBuilder
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -97,7 +97,7 @@ class Context extends \Magento\View\Element\Template\Context
         \Magento\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Math\Random $mathRandom,
-        \Magento\Data\Form\FormKey $formKey,
+        \Magento\Framework\Data\Form\FormKey $formKey,
         \Magento\Code\NameBuilder $nameBuilder
     ) {
         $this->_authorization = $authorization;
@@ -169,7 +169,7 @@ class Context extends \Magento\View\Element\Template\Context
     }
 
     /**
-     * @return \Magento\Data\Form\FormKey
+     * @return \Magento\Framework\Data\Form\FormKey
      */
     public function getFormKey()
     {
@@ -177,7 +177,7 @@ class Context extends \Magento\View\Element\Template\Context
     }
 
     /**
-     * @return \Magento\Data\Form\FormKey
+     * @return \Magento\Framework\Data\Form\FormKey
      */
     public function getNameBuilder()
     {

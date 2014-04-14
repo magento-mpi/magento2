@@ -44,7 +44,7 @@ class Locale extends \Magento\Framework\App\Config\Value
      * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -58,7 +58,7 @@ class Locale extends \Magento\Framework\App\Config\Value
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_configsFactory = $configsFactory;

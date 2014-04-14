@@ -58,7 +58,7 @@ class File extends AbstractModel implements FileInterface
      * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
      * @param \Magento\View\Design\Theme\Customization\FileServiceFactory $fileServiceFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -67,7 +67,7 @@ class File extends AbstractModel implements FileInterface
         \Magento\View\Design\Theme\FlyweightFactory $themeFactory,
         \Magento\View\Design\Theme\Customization\FileServiceFactory $fileServiceFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_themeFactory = $themeFactory;

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data;
+namespace Magento\Framework\Data;
 
 class Graph
 {

@@ -7,9 +7,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Data\Collection;
+namespace Magento\Framework\Data\Collection;
 
-use Magento\Data\Collection\Db\FetchStrategyInterface;
+use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
 use Magento\DB\Adapter\AdapterInterface;
 use Magento\DB\Select;
 use Magento\Logger;
@@ -17,7 +17,7 @@ use Magento\Logger;
 /**
  * Base items collection class
  */
-class Db extends \Magento\Data\Collection
+class Db extends \Magento\Framework\Data\Collection
 {
     /**
      * DB connection

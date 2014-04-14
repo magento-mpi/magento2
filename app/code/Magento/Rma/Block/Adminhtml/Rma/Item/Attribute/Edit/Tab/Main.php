@@ -25,7 +25,7 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Eav\Helper\Data $eavData
      * @param \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory
      * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory
@@ -37,7 +37,7 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Eav\Helper\Data $eavData,
         \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory,
         \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory,
@@ -69,8 +69,8 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
     {
         $result = parent::_prepareLayout();
         $renderer = $this->getLayout()->getBlock('fieldset_element_renderer');
-        if ($renderer instanceof \Magento\Data\Form\Element\Renderer\RendererInterface) {
-            \Magento\Data\Form::setFieldsetElementRenderer($renderer);
+        if ($renderer instanceof \Magento\Framework\Data\Form\Element\Renderer\RendererInterface) {
+            \Magento\Framework\Data\Form::setFieldsetElementRenderer($renderer);
         }
 
         return $result;

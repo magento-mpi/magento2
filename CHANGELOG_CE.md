@@ -125,7 +125,7 @@
      * Magento\Config
      * Magento\Convert
      * Magento\Controller
-     * Magento\Data\Collection\Db
+     * Magento\Framework\Data\Collection\Db
      * Magento\Mview
      * Magento\Url and Magento/Url.php
   * Covered Magento application components with unit tests:
@@ -828,7 +828,7 @@
      * Moved Sales, Catalog, Tax-related logic to respective modules
      * Moved Action, Cache, Ajax, Dashboard, Index, Json, Rating, Sitemap, Survey, UrlRewrite from root of Adminhtml Controller folder
   * View abstraction was moved into library
-  * Eliminated dependency in Magento\Data\Form from Magento\Core module
+  * Eliminated dependency in Magento\Framework\Data\Form from Magento\Core module
   * Eliminated Magento\Media module
 * Themes update:
   * Templates and layout updates are updated in Cms, Contacts, Core, Directory, GoogleCheckout, Page, Payment, PaypalUk, Paypal, Rating, Review, Rss,Sales, Widget modules, old files moved to magento_backup theme

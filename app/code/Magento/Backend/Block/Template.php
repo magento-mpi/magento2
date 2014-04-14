@@ -32,7 +32,7 @@ class Template extends \Magento\View\Element\Template
     protected $_backendSession;
 
     /**
-     * @var \Magento\Data\Form\FormKey
+     * @var \Magento\Framework\Data\Form\FormKey
      */
     protected $formKey;
 

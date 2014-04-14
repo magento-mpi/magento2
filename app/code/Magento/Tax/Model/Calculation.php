@@ -131,7 +131,7 @@ class Calculation extends \Magento\Model\AbstractModel
      * @param GroupServiceInterface $groupService
      * @param CustomerAccountServiceInterface $customerAccount
      * @param CustomerBuilder $customerBuilder
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      * @internal param \Magento\Customer\Model\Converter $converter
      */
@@ -149,7 +149,7 @@ class Calculation extends \Magento\Model\AbstractModel
         GroupServiceInterface $groupService,
         CustomerAccountServiceInterface $customerAccount,
         CustomerBuilder $customerBuilder,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_scopeConfig = $scopeConfig;

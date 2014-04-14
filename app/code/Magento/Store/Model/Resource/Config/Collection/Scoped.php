@@ -28,7 +28,7 @@ class Scoped extends \Magento\Model\Resource\Db\Collection\AbstractCollection
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Resource\Config\Data $resource
      * @param string $scope
@@ -38,7 +38,7 @@ class Scoped extends \Magento\Model\Resource\Db\Collection\AbstractCollection
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Resource\Config\Data $resource,
         $scope,

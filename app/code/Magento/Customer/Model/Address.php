@@ -39,7 +39,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param CustomerFactory $customerFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -52,7 +52,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Directory\Model\CountryFactory $countryFactory,
         CustomerFactory $customerFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_customerFactory = $customerFactory;

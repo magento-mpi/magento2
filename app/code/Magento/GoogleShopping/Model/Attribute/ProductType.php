@@ -34,7 +34,7 @@ class ProductType extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribu
      * @param \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -46,7 +46,7 @@ class ProductType extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribu
         \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice,
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_categoryFactory = $categoryFactory;

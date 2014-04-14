@@ -14,7 +14,7 @@
  * @package    Magento_Data
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Data\Form\Element;
+namespace Magento\Framework\Data\Form\Element;
 
 use Magento\ObjectManager;
 
@@ -80,7 +80,7 @@ class Factory
     public function create($elementType, array $config = array())
     {
         if (in_array($elementType, $this->_standardTypes)) {
-            $className = 'Magento\Data\Form\Element\\' . ucfirst($elementType);
+            $className = 'Magento\Framework\Data\Form\Element\\' . ucfirst($elementType);
         } else {
             $className = $elementType;
         }
@@ -88,7 +88,7 @@ class Factory
         $element = $this->_objectManager->create($className, $config);
         if (!$element instanceof AbstractElement) {
             throw new \InvalidArgumentException(
-                $className . ' doesn\'n extend \Magento\Data\Form\Element\AbstractElement'
+                $className . ' doesn\'n extend \Magento\Framework\Data\Form\Element\AbstractElement'
             );
         }
         return $element;

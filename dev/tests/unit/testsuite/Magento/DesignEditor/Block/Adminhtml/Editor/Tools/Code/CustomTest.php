@@ -69,7 +69,7 @@ class CustomTest extends \PHPUnit_Framework_TestCase
             'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Custom',
             array(
                 'config' => $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface'),
-                'formFactory' => $this->getMock('Magento\Data\FormFactory', array(), array(), '', false),
+                'formFactory' => $this->getMock('Magento\Framework\Data\FormFactory', array(), array(), '', false),
                 'urlBuilder' => $this->_urlBuilder,
                 'themeContext' => $this->_themeContext
             )

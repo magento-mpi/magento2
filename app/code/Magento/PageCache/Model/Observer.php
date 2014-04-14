@@ -185,7 +185,7 @@ class Observer
 
         $formKeyFromCookie = $this->_formKey->get();
         if ($formKeyFromCookie) {
-            $this->_session->setData(\Magento\Data\Form\FormKey::FORM_KEY, $formKeyFromCookie);
+            $this->_session->setData(\Magento\Framework\Data\Form\FormKey::FORM_KEY, $formKeyFromCookie);
         }
     }
 }

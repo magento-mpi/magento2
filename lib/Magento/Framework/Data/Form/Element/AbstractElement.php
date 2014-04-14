@@ -7,11 +7,11 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Data\Form\Element;
+namespace Magento\Framework\Data\Form\Element;
 
-use Magento\Data\Form;
-use Magento\Data\Form\AbstractForm;
-use Magento\Data\Form\Element\Renderer\RendererInterface;
+use Magento\Framework\Data\Form;
+use Magento\Framework\Data\Form\AbstractForm;
+use Magento\Framework\Data\Form\Element\Renderer\RendererInterface;
 use Magento\Escaper;
 
 /**
@@ -81,7 +81,7 @@ abstract class AbstractElement extends AbstractForm
     ) {
         $this->_escaper = $escaper;
         parent::__construct($factoryElement, $factoryCollection, $data);
-        $this->_renderer = \Magento\Data\Form::getElementRenderer();
+        $this->_renderer = \Magento\Framework\Data\Form::getElementRenderer();
     }
 
     /**

@@ -34,7 +34,7 @@ class Destinations extends \Magento\GoogleShopping\Model\Attribute\DefaultAttrib
      * @param \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
      * @param \Magento\GoogleShopping\Model\Config $config
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -46,7 +46,7 @@ class Destinations extends \Magento\GoogleShopping\Model\Attribute\DefaultAttrib
         \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice,
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\GoogleShopping\Model\Config $config,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_config = $config;

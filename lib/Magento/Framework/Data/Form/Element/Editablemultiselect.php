@@ -17,9 +17,9 @@
  * @package    Magento_Data
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Data\Form\Element;
+namespace Magento\Framework\Data\Form\Element;
 
-class Editablemultiselect extends \Magento\Data\Form\Element\Multiselect
+class Editablemultiselect extends \Magento\Framework\Data\Form\Element\Multiselect
 {
     /**
      * Name of the default JavaScript class that is used to make multiselect editable

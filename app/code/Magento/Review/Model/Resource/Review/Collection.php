@@ -81,7 +81,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Review\Helper\Data $reviewData
      * @param \Magento\Review\Model\Rating\Option\VoteFactory $voteFactory
@@ -92,7 +92,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Review\Helper\Data $reviewData,
         \Magento\Review\Model\Rating\Option\VoteFactory $voteFactory,

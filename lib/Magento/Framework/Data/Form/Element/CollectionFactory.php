@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data\Form\Element;
+namespace Magento\Framework\Data\Form\Element;
 
 use Magento\ObjectManager;
 
@@ -34,6 +34,6 @@ class CollectionFactory
      */
     public function create(array $data = array())
     {
-        return $this->_objectManager->create('Magento\Data\Form\Element\Collection', $data);
+        return $this->_objectManager->create('Magento\Framework\Data\Form\Element\Collection', $data);
     }
 }

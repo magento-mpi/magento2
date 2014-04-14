@@ -16,8 +16,8 @@
  */
 namespace Magento\Rule\Model\Condition;
 
-use Magento\Data\Form;
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
 abstract class AbstractCondition extends \Magento\Object implements ConditionInterface
 {
@@ -513,7 +513,7 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
      * Retrieve Condition Operator element Instance
      * If the operator value is empty - define first available operator value as default
      *
-     * @return \Magento\Data\Form\Element\Select
+     * @return \Magento\Framework\Data\Form\Element\Select
      */
     public function getOperatorElement()
     {
@@ -553,7 +553,7 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
     /**
      * Value element type will define renderer for condition value element
      *
-     * @see \Magento\Data\Form\Element
+     * @see \Magento\Framework\Data\Form\Element
      * @return string
      */
     public function getValueElementType()

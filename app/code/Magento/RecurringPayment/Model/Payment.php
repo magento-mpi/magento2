@@ -126,7 +126,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      * @param \Magento\Math\Random $mathRandom
      * @param States $states
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -147,7 +147,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
         \Magento\Math\Random $mathRandom,
         States $states,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_orderFactory = $orderFactory;

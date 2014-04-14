@@ -148,7 +148,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     protected $_catalogImage = null;
 
     /**
-     * @var \Magento\Data\CollectionFactory
+     * @var \Magento\Framework\Data\CollectionFactory
      */
     protected $_collectionFactory;
 
@@ -257,7 +257,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param Resource\Product $resource
      * @param Resource\Product\Collection $resourceCollection
-     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Indexer\Model\IndexerInterface $categoryIndexer
      * @param Indexer\Product\Flat\Processor $productFlatIndexerProcessor
@@ -286,7 +286,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
         \Magento\Catalog\Helper\Product $catalogProduct,
         Resource\Product $resource,
         Resource\Product\Collection $resourceCollection,
-        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Indexer\Model\IndexerInterface $categoryIndexer,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
@@ -548,7 +548,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Retrieve product categories
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getCategoryCollection()
     {
@@ -1156,7 +1156,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Retrieve media gallery images
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getMediaGalleryImages()
     {

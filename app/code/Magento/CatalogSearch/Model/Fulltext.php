@@ -16,7 +16,7 @@ use Magento\Model\AbstractModel;
 use Magento\Model\Context;
 use Magento\Registry;
 use Magento\Model\Resource\AbstractResource;
-use Magento\Data\Collection\Db;
+use Magento\Framework\Data\Collection\Db;
 
 /**
  * Catalog advanced search model

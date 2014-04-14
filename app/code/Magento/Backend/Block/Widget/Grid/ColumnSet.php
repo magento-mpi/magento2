@@ -512,7 +512,7 @@ class ColumnSet extends \Magento\View\Element\Template
     /**
      * Return collection of current grid
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getCollection()
     {
@@ -597,8 +597,8 @@ class ColumnSet extends \Magento\View\Element\Template
     public function updateItemByFirstMultiRow(\Magento\Object $item)
     {
         $multiRows = $this->getMultipleRows($item);
-        if (is_object($multiRows) && $multiRows instanceof \Magento\Data\Collection) {
-            /** @var $multiRows \Magento\Data\Collection */
+        if (is_object($multiRows) && $multiRows instanceof \Magento\Framework\Data\Collection) {
+            /** @var $multiRows \Magento\Framework\Data\Collection */
             $item->addData($multiRows->getFirstItem()->getData());
         } elseif (is_array($multiRows)) {
             $firstItem = $multiRows[0];

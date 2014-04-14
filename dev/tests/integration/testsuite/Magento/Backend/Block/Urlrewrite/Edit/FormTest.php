@@ -20,7 +20,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      * Get form instance
      *
      * @param array $args
-     * @return \Magento\Data\Form
+     * @return \Magento\Framework\Data\Form
      */
     protected function _getFormInstance($args = array())
     {
@@ -41,7 +41,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         // Test form was configured correctly
         $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object(array('id' => 3))));
-        $this->assertInstanceOf('Magento\Data\Form', $form);
+        $this->assertInstanceOf('Magento\Framework\Data\Form', $form);
         $this->assertNotEmpty($form->getAction());
         $this->assertEquals('edit_form', $form->getId());
         $this->assertEquals('post', $form->getMethod());
@@ -101,9 +101,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testStoreElementSingleStore()
     {
         $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object(array('id' => 3))));
-        /** @var $storeElement \Magento\Data\Form\Element\AbstractElement */
+        /** @var $storeElement \Magento\Framework\Data\Form\Element\AbstractElement */
         $storeElement = $form->getElement('store_id');
-        $this->assertInstanceOf('Magento\Data\Form\Element\Hidden', $storeElement);
+        $this->assertInstanceOf('Magento\Framework\Data\Form\Element\Hidden', $storeElement);
 
         // Check that store value set correctly
         $defaultStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
@@ -123,11 +123,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testStoreElementMultiStores()
     {
         $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object(array('id' => 3))));
-        /** @var $storeElement \Magento\Data\Form\Element\AbstractElement */
+        /** @var $storeElement \Magento\Framework\Data\Form\Element\AbstractElement */
         $storeElement = $form->getElement('store_id');
 
         // Check store selection elements has correct type
-        $this->assertInstanceOf('Magento\Data\Form\Element\Select', $storeElement);
+        $this->assertInstanceOf('Magento\Framework\Data\Form\Element\Select', $storeElement);
 
         // Check store selection elements has correct renderer
         $this->assertInstanceOf(

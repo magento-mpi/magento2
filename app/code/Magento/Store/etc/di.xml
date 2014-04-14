@@ -82,7 +82,7 @@
             <argument name="helper" xsi:type="object">Magento\Core\Helper\Data\Proxy</argument>
         </arguments>
     </type>
-    <virtualType name="Magento\Store\Model\Resource\Group\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
+    <virtualType name="Magento\Store\Model\Resource\Group\Collection\FetchStrategy" type="Magento\Framework\Data\Collection\Db\FetchStrategy\Cache">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Collection</argument>
             <argument name="cacheIdPrefix" xsi:type="string">app_</argument>
@@ -92,7 +92,7 @@
             <argument name="cacheLifetime" xsi:type="boolean">false</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Magento\Store\Model\Resource\Store\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
+    <virtualType name="Magento\Store\Model\Resource\Store\Collection\FetchStrategy" type="Magento\Framework\Data\Collection\Db\FetchStrategy\Cache">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Collection</argument>
             <argument name="cacheIdPrefix" xsi:type="string">app_</argument>
@@ -102,7 +102,7 @@
             <argument name="cacheLifetime" xsi:type="boolean">false</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Magento\Store\Model\Resource\Website\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
+    <virtualType name="Magento\Store\Model\Resource\Website\Collection\FetchStrategy" type="Magento\Framework\Data\Collection\Db\FetchStrategy\Cache">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Collection</argument>
             <argument name="cacheIdPrefix" xsi:type="string">app_</argument>

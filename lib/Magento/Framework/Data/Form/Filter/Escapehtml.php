@@ -16,9 +16,9 @@
  * @package     Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Data\Form\Filter;
+namespace Magento\Framework\Data\Form\Filter;
 
-class Escapehtml implements \Magento\Data\Form\Filter\FilterInterface
+class Escapehtml implements \Magento\Framework\Data\Form\Filter\FilterInterface
 {
     /**
      * Returns the result of filtering $value

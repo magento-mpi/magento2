@@ -71,7 +71,7 @@ class Item extends \Magento\Model\AbstractModel implements
      * @param \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
      * @param \Magento\Catalog\Model\Resource\Url $resourceUrl
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -81,7 +81,7 @@ class Item extends \Magento\Model\AbstractModel implements
         \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
         \Magento\Catalog\Model\Resource\Url $resourceUrl,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

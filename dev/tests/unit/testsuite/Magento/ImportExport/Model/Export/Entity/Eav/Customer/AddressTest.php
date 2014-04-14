@@ -123,9 +123,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
 
-        /** @var $attributeCollection \Magento\Data\Collection|PHPUnit_Framework_TestCase */
+        /** @var $attributeCollection \Magento\Framework\Data\Collection|PHPUnit_Framework_TestCase */
         $attributeCollection = $this->getMock(
-            'Magento\Data\Collection',
+            'Magento\Framework\Data\Collection',
             array('getEntityTypeCode'),
             array($entityFactory)
         );
@@ -164,7 +164,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         );
 
         $customerCollection = $this->getMock(
-            'Magento\Data\Collection\Db',
+            'Magento\Framework\Data\Collection\Db',
             array('addAttributeToSelect'),
             array(),
             '',
@@ -217,11 +217,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param \Magento\Data\Collection\Db $collection
+     * @param \Magento\Framework\Data\Collection\Db $collection
      * @param int $pageSize
      * @param array $callbacks
      */
-    public function iterate(\Magento\Data\Collection\Db $collection, $pageSize, array $callbacks)
+    public function iterate(\Magento\Framework\Data\Collection\Db $collection, $pageSize, array $callbacks)
     {
         $resource = $this->getMock(
             'Magento\Customer\Model\Resource\Customer',

@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data\Argument\Interpreter;
+namespace Magento\Framework\Data\Argument\Interpreter;
 
 class ArrayTypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Data\Argument\InterpreterInterface
+     * @var \Magento\Framework\Data\Argument\InterpreterInterface
      */
     protected $_interpreter;
 
@@ -21,7 +21,7 @@ class ArrayTypeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_interpreter = $this->getMockForAbstractClass('Magento\Data\Argument\InterpreterInterface');
+        $this->_interpreter = $this->getMockForAbstractClass('Magento\Framework\Data\Argument\InterpreterInterface');
         $this->_model = new ArrayType($this->_interpreter);
     }
 

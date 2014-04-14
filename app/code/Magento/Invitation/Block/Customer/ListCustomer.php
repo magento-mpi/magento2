@@ -81,7 +81,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
             $this->setData(
                 'invitation_collection',
                 $this->_invitationFactory->create()->getCollection()
-                ->addOrder('invitation_id', \Magento\Data\Collection::SORT_ORDER_DESC)
+                ->addOrder('invitation_id', \Magento\Framework\Data\Collection::SORT_ORDER_DESC)
                 ->loadByCustomerId($this->currentCustomer->getCustomerId())
             );
         }

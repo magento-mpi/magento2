@@ -15,10 +15,10 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Data\Tree\Node;
+namespace Magento\Framework\Data\Tree\Node;
 
-use Magento\Data\Tree;
-use Magento\Data\Tree\Node;
+use Magento\Framework\Data\Tree;
+use Magento\Framework\Data\Tree\Node;
 
 class Collection implements \ArrayAccess, \IteratorAggregate
 {

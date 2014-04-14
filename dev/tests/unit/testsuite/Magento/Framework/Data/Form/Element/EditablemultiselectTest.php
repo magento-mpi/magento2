@@ -8,19 +8,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data\Form\Element;
+namespace Magento\Framework\Data\Form\Element;
 
 class EditablemultiselectTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Data\Form\Element\Editablemultiselect
+     * @var \Magento\Framework\Data\Form\Element\Editablemultiselect
      */
     protected $_model;
 
     protected function setUp()
     {
         $testHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $testHelper->getObject('Magento\Data\Form\Element\Editablemultiselect');
+        $this->_model = $testHelper->getObject('Magento\Framework\Data\Form\Element\Editablemultiselect');
         $values = array(
             array('value' => 1, 'label' => 'Value1'),
             array('value' => 2, 'label' => 'Value2'),

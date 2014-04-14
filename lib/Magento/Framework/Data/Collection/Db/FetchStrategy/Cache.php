@@ -9,9 +9,9 @@
 /**
  * Retrieving collection data from cache, failing over to another fetch strategy, if cache not yet exists
  */
-namespace Magento\Data\Collection\Db\FetchStrategy;
+namespace Magento\Framework\Data\Collection\Db\FetchStrategy;
 
-class Cache implements \Magento\Data\Collection\Db\FetchStrategyInterface
+class Cache implements \Magento\Framework\Data\Collection\Db\FetchStrategyInterface
 {
     /**
      * @var \Magento\Cache\FrontendInterface
@@ -19,7 +19,7 @@ class Cache implements \Magento\Data\Collection\Db\FetchStrategyInterface
     private $_cache;
 
     /**
-     * @var \Magento\Data\Collection\Db\FetchStrategyInterface
+     * @var \Magento\Framework\Data\Collection\Db\FetchStrategyInterface
      */
     private $_fetchStrategy;
 
@@ -42,14 +42,14 @@ class Cache implements \Magento\Data\Collection\Db\FetchStrategyInterface
      * Constructor
      *
      * @param \Magento\Cache\FrontendInterface $cache
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param string $cacheIdPrefix
      * @param array $cacheTags
      * @param int|bool|null $cacheLifetime
      */
     public function __construct(
         \Magento\Cache\FrontendInterface $cache,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         $cacheIdPrefix = '',
         array $cacheTags = array(),
         $cacheLifetime = null

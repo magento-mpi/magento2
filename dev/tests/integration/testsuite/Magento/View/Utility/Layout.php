@@ -91,7 +91,7 @@ class Layout
             'logger' => $objectManager->get('Magento\Logger'),
             'eventManager' => $objectManager->get('Magento\Event\ManagerInterface'),
             'blockFactory' => $objectManager->create('Magento\View\Element\BlockFactory', array()),
-            'structure' => $objectManager->create('Magento\Data\Structure', array()),
+            'structure' => $objectManager->create('Magento\Framework\Data\Structure', array()),
             'argumentParser' => $objectManager->get('Magento\View\Layout\Argument\Parser'),
             'argumentInterpreter' => $objectManager->get('layoutArgumentInterpreter'),
             'scheduledStructure' => $objectManager->create('Magento\View\Layout\ScheduledStructure', array()),

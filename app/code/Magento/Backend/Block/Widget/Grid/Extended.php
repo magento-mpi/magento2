@@ -30,7 +30,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Collection object
      *
-     * @var \Magento\Data\Collection
+     * @var \Magento\Framework\Data\Collection
      */
     protected $_collection = null;
 
@@ -1212,7 +1212,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Set collection object
      *
-     * @param \Magento\Data\Collection $collection
+     * @param \Magento\Framework\Data\Collection $collection
      * @return void
      */
     public function setCollection($collection)
@@ -1223,7 +1223,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * get collection object
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getCollection()
     {

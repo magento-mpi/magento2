@@ -7,10 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data\Form\Element;
+namespace Magento\Framework\Data\Form\Element;
 
-use Magento\Data\Form;
-use Magento\Data\Form\AbstractForm;
+use Magento\Framework\Data\Form;
+use Magento\Framework\Data\Form\AbstractForm;
 
 /**
  * Form element collection

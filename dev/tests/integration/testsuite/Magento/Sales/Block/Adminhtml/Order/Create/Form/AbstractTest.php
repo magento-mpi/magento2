@@ -34,7 +34,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             $objectManager->get('Magento\Backend\Block\Template\Context'),
             $objectManager->get('Magento\Backend\Model\Session\Quote'),
             $objectManager->get('Magento\Sales\Model\AdminOrder\Create'),
-            $objectManager->get('Magento\Data\FormFactory')
+            $objectManager->get('Magento\Framework\Data\FormFactory')
         );
 
         /** @var $block \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm */
@@ -50,8 +50,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         );
         $method->setAccessible(true);
 
-        /** @var $formFactory \Magento\Data\FormFactory */
-        $formFactory = $objectManager->get('Magento\Data\FormFactory');
+        /** @var $formFactory \Magento\Framework\Data\FormFactory */
+        $formFactory = $objectManager->get('Magento\Framework\Data\FormFactory');
         $form = $formFactory->create();
         $fieldset = $form->addFieldset('test_fieldset', array());
         $dateAttribute = (new AttributeMetadataBuilder(

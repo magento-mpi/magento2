@@ -195,7 +195,7 @@ class Attributes extends AbstractCondition
     /**
      * Retrieve value element
      *
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function getValueElement()
     {
@@ -229,7 +229,7 @@ class Attributes extends AbstractCondition
     /**
      * Retrieve attribute element
      *
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function getAttributeElement()
     {

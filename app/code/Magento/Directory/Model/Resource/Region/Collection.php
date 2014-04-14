@@ -37,7 +37,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param mixed $connection
@@ -46,7 +46,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Locale\ResolverInterface $localeResolver,
         $connection = null,
@@ -68,8 +68,8 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         $this->_countryTable = $this->getTable('directory_country');
         $this->_regionNameTable = $this->getTable('directory_country_region_name');
 
-        $this->addOrder('name', \Magento\Data\Collection::SORT_ORDER_ASC);
-        $this->addOrder('default_name', \Magento\Data\Collection::SORT_ORDER_ASC);
+        $this->addOrder('name', \Magento\Framework\Data\Collection::SORT_ORDER_ASC);
+        $this->addOrder('default_name', \Magento\Framework\Data\Collection::SORT_ORDER_ASC);
     }
 
     /**

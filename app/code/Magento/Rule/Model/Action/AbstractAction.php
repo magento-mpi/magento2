@@ -9,8 +9,8 @@
  */
 namespace Magento\Rule\Model\Action;
 
-use Magento\Data\Form;
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
 /**
  * Quote rule action abstract

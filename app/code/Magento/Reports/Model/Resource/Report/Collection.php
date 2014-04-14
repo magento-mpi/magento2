@@ -18,7 +18,7 @@
  */
 namespace Magento\Reports\Model\Resource\Report;
 
-class Collection extends \Magento\Data\Collection
+class Collection extends \Magento\Framework\Data\Collection
 {
     /**
      * From value

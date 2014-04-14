@@ -16,9 +16,9 @@
  * @package     Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Data\Form\Filter;
+namespace Magento\Framework\Data\Form\Filter;
 
-class Date implements \Magento\Data\Form\Filter\FilterInterface
+class Date implements \Magento\Framework\Data\Form\Filter\FilterInterface
 {
     /**
      * Date format

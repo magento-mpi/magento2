@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data\Collection\Db\FetchStrategy;
+namespace Magento\Framework\Data\Collection\Db\FetchStrategy;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +33,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($expectedResult)
         );
-        $object = new \Magento\Data\Collection\Db\FetchStrategy\Query();
+        $object = new \Magento\Framework\Data\Collection\Db\FetchStrategy\Query();
         $this->assertSame($expectedResult, $object->fetchAll($select, $bindParams));
     }
 }

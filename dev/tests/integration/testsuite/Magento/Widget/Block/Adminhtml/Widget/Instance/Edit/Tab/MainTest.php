@@ -29,7 +29,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $block->setTemplate(null);
         $block->toHtml();
         $element = $block->getForm()->getElement('theme_id');
-        $this->assertInstanceOf('Magento\Data\Form\Element\Select', $element);
+        $this->assertInstanceOf('Magento\Framework\Data\Form\Element\Select', $element);
         $this->assertTrue($element->getDisabled());
     }
 
@@ -43,7 +43,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $block->setTemplate(null);
         $block->toHtml();
         $element = $block->getForm()->getElement('instance_code');
-        $this->assertInstanceOf('Magento\Data\Form\Element\Select', $element);
+        $this->assertInstanceOf('Magento\Framework\Data\Form\Element\Select', $element);
         $this->assertTrue($element->getDisabled());
     }
 }

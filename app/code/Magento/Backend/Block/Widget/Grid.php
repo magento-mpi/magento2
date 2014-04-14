@@ -198,7 +198,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Set collection object
      *
-     * @param \Magento\Data\Collection $collection
+     * @param \Magento\Framework\Data\Collection $collection
      * @return void
      */
     public function setCollection($collection)
@@ -209,7 +209,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Get collection object
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getCollection()
     {
@@ -336,7 +336,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Get prepared collection
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getPreparedCollection()
     {

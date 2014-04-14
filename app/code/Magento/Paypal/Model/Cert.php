@@ -37,7 +37,7 @@ class Cert extends \Magento\Model\AbstractModel
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -46,7 +46,7 @@ class Cert extends \Magento\Model\AbstractModel
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->varDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);

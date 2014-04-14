@@ -126,7 +126,7 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implemen
     /**
      * Prepare and return product collection
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Data\Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Framework\Data\Collection
      */
     protected function _getProductCollection()
     {

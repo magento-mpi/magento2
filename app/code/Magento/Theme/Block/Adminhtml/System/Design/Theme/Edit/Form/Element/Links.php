@@ -15,17 +15,17 @@
  */
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element;
 
-class Links extends \Magento\Data\Form\Element\AbstractElement
+class Links extends \Magento\Framework\Data\Form\Element\AbstractElement
 {
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Framework\Data\Form\Element\Factory $factoryElement,
+        \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
         $data = array()
     ) {

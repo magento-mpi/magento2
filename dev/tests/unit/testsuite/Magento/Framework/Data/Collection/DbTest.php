@@ -8,12 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data\Collection;
+namespace Magento\Framework\Data\Collection;
 
 class DbTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Data\Collection\Db
+     * @var \Magento\Framework\Data\Collection\Db
      */
     protected $collection;
 
@@ -28,20 +28,20 @@ class DbTest extends \PHPUnit_Framework_TestCase
     protected $entityFactoryMock;
 
     /**
-     * @var \Magento\Data\Collection\Db\FetchStrategyInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Data\Collection\Db\FetchStrategyInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $fetchStrategyMock;
 
     protected function setUp()
     {
         $this->fetchStrategyMock = $this->getMock(
-            'Magento\Data\Collection\Db\FetchStrategy\Query', array('fetchAll'), array(), '', false
+            'Magento\Framework\Data\Collection\Db\FetchStrategy\Query', array('fetchAll'), array(), '', false
         );
         $this->entityFactoryMock = $this->getMock(
             'Magento\Core\Model\EntityFactory', array('create'), array(), '', false
         );
         $this->loggerMock = $this->getMock('Magento\Logger', array('log'), array(), '', false);
-        $this->collection = new \Magento\Data\Collection\Db(
+        $this->collection = new \Magento\Framework\Data\Collection\Db(
             $this->entityFactoryMock,
             $this->loggerMock,
             $this->fetchStrategyMock
@@ -73,10 +73,10 @@ class DbTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($select->getPart(\Zend_Db_Select::ORDER));
 
         /* Direct access to select object is available and many places are using it for sort order declaration */
-        $select->order('select_field', \Magento\Data\Collection::SORT_ORDER_ASC);
-        $this->collection->addOrder('some_field', \Magento\Data\Collection::SORT_ORDER_ASC);
-        $this->collection->setOrder('other_field', \Magento\Data\Collection::SORT_ORDER_ASC);
-        $this->collection->addOrder('other_field', \Magento\Data\Collection::SORT_ORDER_DESC);
+        $select->order('select_field', \Magento\Framework\Data\Collection::SORT_ORDER_ASC);
+        $this->collection->addOrder('some_field', \Magento\Framework\Data\Collection::SORT_ORDER_ASC);
+        $this->collection->setOrder('other_field', \Magento\Framework\Data\Collection::SORT_ORDER_ASC);
+        $this->collection->addOrder('other_field', \Magento\Framework\Data\Collection::SORT_ORDER_DESC);
 
         $this->collection->load();
         $selectOrders = $select->getPart(\Zend_Db_Select::ORDER);
@@ -95,8 +95,8 @@ class DbTest extends \PHPUnit_Framework_TestCase
     public function testUnshiftOrder($adapter)
     {
         $this->collection->setConnection($adapter);
-        $this->collection->addOrder('some_field', \Magento\Data\Collection::SORT_ORDER_ASC);
-        $this->collection->unshiftOrder('other_field', \Magento\Data\Collection::SORT_ORDER_ASC);
+        $this->collection->addOrder('some_field', \Magento\Framework\Data\Collection::SORT_ORDER_ASC);
+        $this->collection->unshiftOrder('other_field', \Magento\Framework\Data\Collection::SORT_ORDER_ASC);
 
         $this->collection->load();
         $selectOrders = $this->collection->getSelect()->getPart(\Zend_Db_Select::ORDER);
@@ -258,7 +258,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
      * Test that after cloning collection $this->_select in initial and cloned collections
      * do not reference the same object
      *
-     * @covers \Magento\Data\Collection\Db::__clone
+     * @covers \Magento\Framework\Data\Collection\Db::__clone
      */
     public function testClone()
     {

@@ -54,10 +54,10 @@ class DisableOutput extends \Magento\Backend\Block\System\Config\Form\Fieldset
     }
 
     /**
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(\Magento\Data\Form\Element\AbstractElement $element)
+    public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $html = $this->_getHeaderHtml($element);
 
@@ -122,7 +122,7 @@ class DisableOutput extends \Magento\Backend\Block\System\Config\Form\Fieldset
     }
 
     /**
-     * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @param \Magento\Framework\Data\Form\Element\Fieldset $fieldset
      * @param string $moduleName
      * @return mixed
      */

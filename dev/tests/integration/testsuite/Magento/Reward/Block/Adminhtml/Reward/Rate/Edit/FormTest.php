@@ -43,7 +43,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $this->_block->toHtml();
         $form = $this->_block->getForm();
-        $this->assertInstanceOf('Magento\Data\Form', $form);
+        $this->assertInstanceOf('Magento\Framework\Data\Form', $form);
         $this->assertNull($form->getElement('website_id'));
     }
 
@@ -57,10 +57,10 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->markTestIncomplete('Test used wrong area, as area was not set to layout previously');
         $this->_block->toHtml();
         $form = $this->_block->getForm();
-        $this->assertInstanceOf('Magento\Data\Form', $form);
+        $this->assertInstanceOf('Magento\Framework\Data\Form', $form);
         $element = $form->getElement('website_id');
         $this->assertNotNull($element);
-        $this->assertInstanceOf('Magento\Data\Form\Element\Select', $element);
+        $this->assertInstanceOf('Magento\Framework\Data\Form\Element\Select', $element);
         $this->assertEquals('website_id', $element->getId());
     }
 }

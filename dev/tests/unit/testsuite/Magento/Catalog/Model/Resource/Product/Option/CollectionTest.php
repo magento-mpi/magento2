@@ -25,7 +25,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected $entityFactoryMock;
 
     /**
-     * @var \Magento\Data\Collection\Db\FetchStrategyInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Data\Collection\Db\FetchStrategyInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $fetchStrategyMock;
 
@@ -66,7 +66,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         );
         $this->loggerMock = $this->getMock('Magento\Logger', array('log'), array(), '', false);
         $this->fetchStrategyMock = $this->getMock(
-            'Magento\Data\Collection\Db\FetchStrategy\Query', array('fetchAll'), array(), '', false
+            'Magento\Framework\Data\Collection\Db\FetchStrategy\Query', array('fetchAll'), array(), '', false
         );
         $this->eventManagerMock = $this->getMock('Magento\Event\Manager', array(), array(), '', false);
         $this->optionsFactoryMock = $this->getMock(

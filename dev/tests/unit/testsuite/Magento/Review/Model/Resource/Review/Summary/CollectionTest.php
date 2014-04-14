@@ -16,7 +16,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected $collection;
 
     /**
-     * @var \Magento\Data\Collection\Db\FetchStrategy\Query|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Data\Collection\Db\FetchStrategy\Query|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $fetchStrategyMock;
 
@@ -48,7 +48,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->fetchStrategyMock = $this->getMock(
-            'Magento\Data\Collection\Db\FetchStrategy\Query', array('fetchAll'), array(), '', false
+            'Magento\Framework\Data\Collection\Db\FetchStrategy\Query', array('fetchAll'), array(), '', false
         );
         $this->entityFactoryMock = $this->getMock(
             'Magento\Core\Model\EntityFactory', array('create'), array(), '', false

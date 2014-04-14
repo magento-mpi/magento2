@@ -49,7 +49,7 @@ class Share extends \Magento\Framework\App\Config\Value implements \Magento\Opti
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -59,7 +59,7 @@ class Share extends \Magento\Framework\App\Config\Value implements \Magento\Opti
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Resource\Customer $customerResource,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;

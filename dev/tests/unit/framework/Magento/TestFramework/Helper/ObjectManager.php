@@ -220,8 +220,8 @@ class ObjectManager
      */
     public function getCollectionMock($className, array $data)
     {
-        if (!is_subclass_of($className, '\Magento\Data\Collection')) {
-            throw new \InvalidArgumentException($className . ' does not instance of \Magento\Data\Collection');
+        if (!is_subclass_of($className, '\Magento\Framework\Data\Collection')) {
+            throw new \InvalidArgumentException($className . ' does not instance of \Magento\Framework\Data\Collection');
         }
         $mock = $this->_testObject->getMock($className, array(), array(), '', false, false);
         $iterator = new \ArrayIterator($data);

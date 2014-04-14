@@ -22,7 +22,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\Data\FormFactory
+     * @var \Magento\Framework\Data\FormFactory
      */
     protected $_formFactory;
 
@@ -49,7 +49,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_formFactory = $this->_objectManager->create('Magento\Data\FormFactory');
+        $this->_formFactory = $this->_objectManager->create('Magento\Framework\Data\FormFactory');
     }
 
     public function testDependenceHtml()
@@ -350,8 +350,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
         );
         $elements = $block->getForm()->getElements();
         foreach ($elements as $element) {
-            /** @var $element \Magento\Data\Form\Element\Fieldset */
-            $this->assertInstanceOf('Magento\Data\Form\Element\Fieldset', $element);
+            /** @var $element \Magento\Framework\Data\Form\Element\Fieldset */
+            $this->assertInstanceOf('Magento\Framework\Data\Form\Element\Fieldset', $element);
             $this->assertArrayHasKey($element->getId(), $expectedIds);
             $fields = $element->getElements();
             $this->assertEquals(count($expectedIds[$element->getId()]), count($fields));

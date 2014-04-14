@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data\Argument\Interpreter;
+namespace Magento\Framework\Data\Argument\Interpreter;
 
 class StringTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Data\Argument\Interpreter\String
+     * @var \Magento\Framework\Data\Argument\Interpreter\String
      */
     protected $_model;
 

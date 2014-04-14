@@ -8,7 +8,7 @@
 namespace Magento\View\Layout\Argument\Interpreter;
 
 use Magento\ObjectManager;
-use Magento\Data\Argument\InterpreterInterface;
+use Magento\Framework\Data\Argument\InterpreterInterface;
 
 /**
  * Interpreter that returns invocation result of a helper method

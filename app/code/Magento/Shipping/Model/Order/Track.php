@@ -47,7 +47,7 @@ class Track extends \Magento\Sales\Model\Order\Shipment\Track
      * @param \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -61,7 +61,7 @@ class Track extends \Magento\Sales\Model\Order\Shipment\Track
         \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct(

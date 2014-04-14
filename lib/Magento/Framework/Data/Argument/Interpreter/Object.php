@@ -6,9 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data\Argument\Interpreter;
+namespace Magento\Framework\Data\Argument\Interpreter;
 
-use Magento\Data\Argument\InterpreterInterface;
+use Magento\Framework\Data\Argument\InterpreterInterface;
 use Magento\Stdlib\BooleanUtils;
 
 class Object implements InterpreterInterface

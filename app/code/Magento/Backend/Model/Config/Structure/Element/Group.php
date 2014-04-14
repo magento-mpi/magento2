@@ -68,10 +68,10 @@ class Group extends AbstractComposite
     /**
      * Populate form fieldset with group data
      *
-     * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @param \Magento\Framework\Data\Form\Element\Fieldset $fieldset
      * @return void
      */
-    public function populateFieldset(\Magento\Data\Form\Element\Fieldset $fieldset)
+    public function populateFieldset(\Magento\Framework\Data\Form\Element\Fieldset $fieldset)
     {
         $originalData = array();
         foreach ($this->_data as $key => $value) {

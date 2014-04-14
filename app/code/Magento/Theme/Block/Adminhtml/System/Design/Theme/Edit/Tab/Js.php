@@ -23,7 +23,7 @@ class Js extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Abstrac
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $this->setForm($form);
         $this->_addThemeJsFieldset();

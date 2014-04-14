@@ -58,10 +58,10 @@ class Statuses extends \Magento\Backend\Block\System\Config\Form\Fieldset
     /**
      * Render elemnt
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(\Magento\Data\Form\Element\AbstractElement $element)
+    public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $html = '';
 
@@ -104,7 +104,7 @@ class Statuses extends \Magento\Backend\Block\System\Config\Form\Fieldset
     /**
      * Get field html
      *
-     * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @param \Magento\Framework\Data\Form\Element\Fieldset $fieldset
      * @param string $id
      * @param string $status
      * @return string

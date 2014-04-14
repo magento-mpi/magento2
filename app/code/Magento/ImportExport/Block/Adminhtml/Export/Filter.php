@@ -374,10 +374,10 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare collection by setting page number, sorting etc..
      *
-     * @param \Magento\Data\Collection $collection
+     * @param \Magento\Framework\Data\Collection $collection
      * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
-    public function prepareCollection(\Magento\Data\Collection $collection)
+    public function prepareCollection(\Magento\Framework\Data\Collection $collection)
     {
         $this->setCollection($collection);
         return $this->getCollection();

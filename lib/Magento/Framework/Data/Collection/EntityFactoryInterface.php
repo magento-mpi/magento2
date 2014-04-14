@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data\Collection;
+namespace Magento\Framework\Data\Collection;
 
 interface EntityFactoryInterface
 {

@@ -57,7 +57,7 @@ class Rate extends \Magento\Model\AbstractModel
      * @param \Magento\Reward\Model\Resource\Reward\Rate $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -67,7 +67,7 @@ class Rate extends \Magento\Model\AbstractModel
         \Magento\Reward\Model\Resource\Reward\Rate $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\CurrencyInterface $localeCurrency,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;

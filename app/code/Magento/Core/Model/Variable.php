@@ -44,7 +44,7 @@ class Variable extends \Magento\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\Resource\Variable $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -52,7 +52,7 @@ class Variable extends \Magento\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Escaper $escaper,
         \Magento\Core\Model\Resource\Variable $resource,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_escaper = $escaper;

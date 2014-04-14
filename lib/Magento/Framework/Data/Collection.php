@@ -7,9 +7,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Data;
+namespace Magento\Framework\Data;
 
-use Magento\Data\Collection\EntityFactoryInterface;
+use Magento\Framework\Data\Collection\EntityFactoryInterface;
 
 /**
  * Data collection

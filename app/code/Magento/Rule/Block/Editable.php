@@ -9,7 +9,7 @@
  */
 namespace Magento\Rule\Block;
 
-use Magento\Data\Form\Element\Renderer\RendererInterface;
+use Magento\Framework\Data\Form\Element\Renderer\RendererInterface;
 use Magento\View\Element\AbstractBlock;
 
 class Editable extends AbstractBlock implements RendererInterface
@@ -36,12 +36,12 @@ class Editable extends AbstractBlock implements RendererInterface
     /**
      * Render element
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      *
      * @see RendererInterface::render()
      */
-    public function render(\Magento\Data\Form\Element\AbstractElement $element)
+    public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $element->addClass('element-value-changer');
         $valueName = $element->getValueName();

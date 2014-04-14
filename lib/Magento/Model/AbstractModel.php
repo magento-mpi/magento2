@@ -129,14 +129,14 @@ abstract class AbstractModel extends \Magento\Object
      * @param Context $context
      * @param \Magento\Registry $registry
      * @param Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_registry = $registry;

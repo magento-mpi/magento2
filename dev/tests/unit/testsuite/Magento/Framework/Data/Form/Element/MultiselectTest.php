@@ -8,26 +8,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data\Form\Element;
+namespace Magento\Framework\Data\Form\Element;
 
 class MultiselectTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Data\Form\Element\Multiselect
+     * @var \Magento\Framework\Data\Form\Element\Multiselect
      */
     protected $_model;
 
     protected function setUp()
     {
         $testHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $testHelper->getObject('Magento\Data\Form\Element\Editablemultiselect');
+        $this->_model = $testHelper->getObject('Magento\Framework\Data\Form\Element\Editablemultiselect');
         $this->_model->setForm(new \Magento\Object());
     }
 
     /**
      * Verify that hidden input is present in multiselect
      *
-     * @covers \Magento\Data\Form\Element\Multiselect::getElementHtml
+     * @covers \Magento\Framework\Data\Form\Element\Multiselect::getElementHtml
      */
     public function testHiddenFieldPresentInMultiSelect()
     {

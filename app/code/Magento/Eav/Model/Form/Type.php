@@ -53,7 +53,7 @@ class Type extends \Magento\Model\AbstractModel
      * @param \Magento\Eav\Model\Form\FieldsetFactory $fieldsetFactory
      * @param \Magento\Eav\Model\Form\ElementFactory $elementFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -62,7 +62,7 @@ class Type extends \Magento\Model\AbstractModel
         \Magento\Eav\Model\Form\FieldsetFactory $fieldsetFactory,
         \Magento\Eav\Model\Form\ElementFactory $elementFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

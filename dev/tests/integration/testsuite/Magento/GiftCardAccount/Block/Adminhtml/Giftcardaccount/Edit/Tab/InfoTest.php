@@ -82,7 +82,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
         $element = $form->getElement('website_id');
         $this->assertNotNull($element);
-        $this->assertInstanceOf('Magento\Data\Form\Element\Select', $element);
+        $this->assertInstanceOf('Magento\Framework\Data\Form\Element\Select', $element);
         $this->assertEquals('website_id', $element->getId());
 
         $note = $form->getElement('balance')->getNote();

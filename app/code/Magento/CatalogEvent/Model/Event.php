@@ -18,7 +18,7 @@ use Magento\Registry;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Core\Model\File\Uploader;
-use Magento\Data\Collection\Db;
+use Magento\Framework\Data\Collection\Db;
 use Magento\Stdlib\DateTime;
 use Magento\UrlInterface;
 

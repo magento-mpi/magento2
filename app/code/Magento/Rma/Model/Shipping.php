@@ -130,7 +130,7 @@ class Shipping extends \Magento\Model\AbstractModel
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param Resource\Shipping $resource
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -146,7 +146,7 @@ class Shipping extends \Magento\Model\AbstractModel
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Resource\Shipping $resource,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;

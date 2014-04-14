@@ -7,9 +7,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Data\Collection;
+namespace Magento\Framework\Data\Collection;
 
-use Magento\Data\Collection;
+use Magento\Framework\Data\Collection;
 
 /**
  * Filesystem items collection
@@ -26,7 +26,7 @@ use Magento\Data\Collection;
  *
  * At least one target directory must be set
  */
-class Filesystem extends \Magento\Data\Collection
+class Filesystem extends \Magento\Framework\Data\Collection
 {
     /**
      * Target directory

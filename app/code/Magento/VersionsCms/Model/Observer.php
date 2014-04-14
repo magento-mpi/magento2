@@ -127,7 +127,7 @@ class Observer
     public function addCmsToTopmenuItems(EventObserver $observer)
     {
         /**
-         * @var $topMenuRootNode \Magento\Data\Tree\Node
+         * @var $topMenuRootNode \Magento\Framework\Data\Tree\Node
          */
         $topMenuRootNode = $observer->getMenu();
 
@@ -176,7 +176,7 @@ class Observer
                 continue;
             }
 
-            $menuNode = new \Magento\Data\Tree\Node($menuNodeData, 'id', $tree, $parentNode);
+            $menuNode = new \Magento\Framework\Data\Tree\Node($menuNodeData, 'id', $tree, $parentNode);
             $parentNode->addChild($menuNode);
 
             $nodesFlatList[$menuNodeId] = $menuNode;

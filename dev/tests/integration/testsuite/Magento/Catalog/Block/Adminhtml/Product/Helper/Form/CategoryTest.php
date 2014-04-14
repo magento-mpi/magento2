@@ -25,8 +25,8 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             array('layout' => $layout)
         );
 
-        /** @var $formFactory \Magento\Data\FormFactory */
-        $formFactory = $objectManager->get('Magento\Data\FormFactory');
+        /** @var $formFactory \Magento\Framework\Data\FormFactory */
+        $formFactory = $objectManager->get('Magento\Framework\Data\FormFactory');
         $form = $formFactory->create();
         $block->setForm($form);
 

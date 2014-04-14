@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Data\Form;
+namespace Magento\Framework\Data\Form;
 
 class FormKey
 {

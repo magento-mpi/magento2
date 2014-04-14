@@ -7,10 +7,10 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Data;
+namespace Magento\Framework\Data;
 
-use Magento\Data\Tree\Node;
-use Magento\Data\Tree\Node\Collection as NodeCollection;
+use Magento\Framework\Data\Tree\Node;
+use Magento\Framework\Data\Tree\Node\Collection as NodeCollection;
 
 /**
  * Data tree
@@ -40,7 +40,7 @@ class Tree
     /**
      * Enter description here...
      *
-     * @return \Magento\Data\Tree
+     * @return \Magento\Framework\Data\Tree
      */
     public function getTree()
     {

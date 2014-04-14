@@ -10,23 +10,23 @@
  */
 
 /**
- * Tests for \Magento\Data\Form\Element\Fieldset
+ * Tests for \Magento\Framework\Data\Form\Element\Fieldset
  */
-namespace Magento\Data\Form\Element;
+namespace Magento\Framework\Data\Form\Element;
 
 class FieldsetTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Data\Form\Element\Fieldset
+     * @var \Magento\Framework\Data\Form\Element\Fieldset
      */
     protected $_fieldset;
 
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var $elementFactory \Magento\Data\Form\ElementFactory */
-        $elementFactory = $objectManager->create('Magento\Data\Form\ElementFactory');
-        $this->_fieldset = $elementFactory->create('Magento\Data\Form\Element\Fieldset', array());
+        /** @var $elementFactory \Magento\Framework\Data\Form\ElementFactory */
+        $elementFactory = $objectManager->create('Magento\Framework\Data\Form\ElementFactory');
+        $this->_fieldset = $elementFactory->create('Magento\Framework\Data\Form\Element\Fieldset', array());
     }
 
     /**

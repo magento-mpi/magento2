@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Data\Tree;
+namespace Magento\Framework\Data\Tree;
 
 /**
  * Data DB tree
@@ -19,7 +19,7 @@ namespace Magento\Data\Tree;
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Db extends \Magento\Data\Tree
+class Db extends \Magento\Framework\Data\Tree
 {
     const ID_FIELD = 'id';
 
@@ -82,10 +82,10 @@ class Db extends \Magento\Data\Tree
      * Db tree constructor
      *
      * $fields = array(
-     *      \Magento\Data\Tree\Db::ID_FIELD       => string,
-     *      \Magento\Data\Tree\Db::PARENT_FIELD   => string,
-     *      \Magento\Data\Tree\Db::LEVEL_FIELD    => string
-     *      \Magento\Data\Tree\Db::ORDER_FIELD    => string
+     *      \Magento\Framework\Data\Tree\Db::ID_FIELD       => string,
+     *      \Magento\Framework\Data\Tree\Db::PARENT_FIELD   => string,
+     *      \Magento\Framework\Data\Tree\Db::LEVEL_FIELD    => string
+     *      \Magento\Framework\Data\Tree\Db::ORDER_FIELD    => string
      * )
      *
      * @param \Zend_Db_Adapter_Abstract $connection

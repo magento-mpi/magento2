@@ -16,7 +16,7 @@
  * @package     Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Data\Form\Filter;
+namespace Magento\Framework\Data\Form\Filter;
 
 interface FilterInterface
 {

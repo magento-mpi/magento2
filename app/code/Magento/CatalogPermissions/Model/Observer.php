@@ -26,7 +26,7 @@ use Magento\CatalogPermissions\Model\Permission\Index;
 use Magento\Model\Exception;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Model\Session;
-use Magento\Data\Tree\Node;
+use Magento\Framework\Data\Tree\Node;
 use Magento\Event\Observer as EventObserver;
 use Magento\Sales\Model\Quote;
 use Magento\Sales\Model\Quote\Item;

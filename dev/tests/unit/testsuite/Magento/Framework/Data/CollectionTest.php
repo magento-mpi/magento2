@@ -5,18 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data;
+namespace Magento\Framework\Data;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Data\Collection
+     * @var \Magento\Framework\Data\Collection
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new \Magento\Data\Collection(
+        $this->_model = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
     }

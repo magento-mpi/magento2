@@ -7,10 +7,10 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Data\Tree;
+namespace Magento\Framework\Data\Tree;
 
-use Magento\Data\Tree;
-use Magento\Data\Tree\Node\Collection;
+use Magento\Framework\Data\Tree;
+use Magento\Framework\Data\Tree\Node\Collection;
 
 /**
  * Data tree node
@@ -184,7 +184,7 @@ class Node extends \Magento\Object
      * Load node children
      *
      * @param   int  $recursionLevel
-     * @return  \Magento\Data\Tree\Node
+     * @return  \Magento\Framework\Data\Tree\Node
      */
     public function loadChildren($recursionLevel = 0)
     {

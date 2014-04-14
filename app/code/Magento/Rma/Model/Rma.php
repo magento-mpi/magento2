@@ -262,7 +262,7 @@ class Rma extends \Magento\Model\AbstractModel
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -296,7 +296,7 @@ class Rma extends \Magento\Model\AbstractModel
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;

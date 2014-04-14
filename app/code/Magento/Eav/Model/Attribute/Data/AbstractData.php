@@ -229,13 +229,13 @@ abstract class AbstractData
     /**
      * Return Data Form Input/Output Filter
      *
-     * @return \Magento\Data\Form\Filter\FilterInterface|false
+     * @return \Magento\Framework\Data\Form\Filter\FilterInterface|false
      */
     protected function _getFormFilter()
     {
         $filterCode = $this->getAttribute()->getInputFilter();
         if ($filterCode) {
-            $filterClass = 'Magento\Data\Form\Filter\\' . ucfirst($filterCode);
+            $filterClass = 'Magento\Framework\Data\Form\Filter\\' . ucfirst($filterCode);
             if ($filterCode == 'date') {
                 $filter = new $filterClass($this->_dateFilterFormat(), $this->_localeResolver->getLocale());
             } else {

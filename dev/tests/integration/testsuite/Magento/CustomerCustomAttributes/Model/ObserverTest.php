@@ -45,7 +45,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $address->load('admin@example.com', 'email');
 
         $entity = new \Magento\Object(array('id' => $address->getId()));
-        $collection = $this->getMock('Magento\Data\Collection\Db', array('getItems'), array(), '', false);
+        $collection = $this->getMock('Magento\Framework\Data\Collection\Db', array('getItems'), array(), '', false);
         $collection->expects($this->any())->method('getItems')->will($this->returnValue(array($entity)));
         $observer = new \Magento\Event\Observer(
             array('event' => new \Magento\Object(array('order_address_collection' => $collection)))

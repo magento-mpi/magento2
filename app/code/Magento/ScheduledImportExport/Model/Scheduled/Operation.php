@@ -129,7 +129,7 @@ class Operation extends \Magento\Model\AbstractModel
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -145,7 +145,7 @@ class Operation extends \Magento\Model\AbstractModel
         \Magento\Stdlib\String $string,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_scopeConfig = $scopeConfig;

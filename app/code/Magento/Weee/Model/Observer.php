@@ -47,7 +47,7 @@ class Observer extends \Magento\Model\AbstractModel
      * @param \Magento\Catalog\Model\Product\Type $productType
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -59,7 +59,7 @@ class Observer extends \Magento\Model\AbstractModel
         \Magento\Catalog\Model\Product\Type $productType,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_layout = $layout;
@@ -78,7 +78,7 @@ class Observer extends \Magento\Model\AbstractModel
      */
     public function setWeeeRendererInForm(\Magento\Event\Observer $observer)
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $observer->getEvent()->getForm();
 
         $attributes = $this->_weeeTax->getWeeeAttributeCodes(true);

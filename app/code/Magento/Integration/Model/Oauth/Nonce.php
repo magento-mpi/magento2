@@ -33,7 +33,7 @@ class Nonce extends \Magento\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Integration\Helper\Oauth\Data $oauthData
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -41,7 +41,7 @@ class Nonce extends \Magento\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Integration\Helper\Oauth\Data $oauthData,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

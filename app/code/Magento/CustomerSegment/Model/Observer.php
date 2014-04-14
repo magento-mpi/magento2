@@ -192,7 +192,7 @@ class Observer
         if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
-        /* @var $form \Magento\Data\Form */
+        /* @var $form \Magento\Framework\Data\Form */
         $form = $observer->getEvent()->getForm();
         /** @var \Magento\Object $model */
         $model = $observer->getEvent()->getModel();

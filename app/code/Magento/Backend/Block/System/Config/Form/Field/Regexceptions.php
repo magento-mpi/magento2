@@ -15,7 +15,7 @@ namespace Magento\Backend\Block\System\Config\Form\Field;
 class Regexceptions extends \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
 {
     /**
-     * @var \Magento\Data\Form\Element\Factory
+     * @var \Magento\Framework\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
@@ -26,13 +26,13 @@ class Regexceptions extends \Magento\Backend\Block\System\Config\Form\Field\Fiel
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\Framework\Data\Form\Element\Factory $elementFactory
      * @param \Magento\View\Design\Theme\LabelFactory $labelFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\Framework\Data\Form\Element\Factory $elementFactory,
         \Magento\View\Design\Theme\LabelFactory $labelFactory,
         array $data = array()
     ) {

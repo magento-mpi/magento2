@@ -89,7 +89,7 @@ class Version extends \Magento\Model\AbstractModel
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -103,7 +103,7 @@ class Version extends \Magento\Model\AbstractModel
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_cmsIncrementFactory = $cmsIncrementFactory;

@@ -32,7 +32,7 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -44,7 +44,7 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_authSession = $authSession;

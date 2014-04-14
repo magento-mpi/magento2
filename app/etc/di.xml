@@ -30,7 +30,7 @@
     </type>
     <preference for="Magento\Locale\ConfigInterface" type="Magento\Locale\Config" />
     <preference for="Magento\UrlInterface" type="Magento\Url" />
-    <preference for="Magento\Data\Collection\Db\FetchStrategyInterface" type="Magento\Data\Collection\Db\FetchStrategy\Query" />
+    <preference for="Magento\Framework\Data\Collection\Db\FetchStrategyInterface" type="Magento\Framework\Data\Collection\Db\FetchStrategy\Query" />
     <preference for="Magento\Config\ScopeInterface" type="Magento\Config\Scope" />
     <preference for="Magento\Config\FileResolverInterface" type="Magento\Framework\App\Config\FileResolver" />
     <preference for="Magento\Config\CacheInterface" type="Magento\Framework\App\Cache\Type\Config" />
@@ -172,7 +172,7 @@
             <argument name="translateInline" xsi:type="object">Magento\Translate\InlineInterface\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Data\Structure" shared="false" />
+    <type name="Magento\Framework\Data\Structure" shared="false" />
     <type name="Magento\Core\Model\View\Design">
         <arguments>
             <argument name="storeManager" xsi:type="object">Magento\Store\Model\StoreManager\Proxy</argument>
@@ -271,18 +271,18 @@
             <argument name="fileWriteFactory" xsi:type="object">Magento\Filesystem\File\WriteFactory</argument>
         </arguments>
     </type>
-    <virtualType name="layoutArgumentInterpreterInternal" type="Magento\Data\Argument\Interpreter\Composite">
+    <virtualType name="layoutArgumentInterpreterInternal" type="Magento\Framework\Data\Argument\Interpreter\Composite">
         <arguments>
             <argument name="interpreters" xsi:type="array">
                 <item name="object" xsi:type="object">layoutObjectArgumentInterpreter</item>
                 <item name="options" xsi:type="object">Magento\View\Layout\Argument\Interpreter\Options</item>
                 <item name="url" xsi:type="object">Magento\View\Layout\Argument\Interpreter\Url</item>
                 <item name="array" xsi:type="object">layoutArrayArgumentInterpreterProxy</item>
-                <item name="boolean" xsi:type="object">Magento\Data\Argument\Interpreter\Boolean</item>
+                <item name="boolean" xsi:type="object">Magento\Framework\Data\Argument\Interpreter\Boolean</item>
                 <item name="helper" xsi:type="object">Magento\View\Layout\Argument\Interpreter\HelperMethod</item>
-                <item name="number" xsi:type="object">Magento\Data\Argument\Interpreter\Number</item>
-                <item name="string" xsi:type="object">Magento\Data\Argument\Interpreter\String</item>
-                <item name="null" xsi:type="object">Magento\Data\Argument\Interpreter\NullType</item>
+                <item name="number" xsi:type="object">Magento\Framework\Data\Argument\Interpreter\Number</item>
+                <item name="string" xsi:type="object">Magento\Framework\Data\Argument\Interpreter\String</item>
+                <item name="null" xsi:type="object">Magento\Framework\Data\Argument\Interpreter\NullType</item>
             </argument>
             <argument name="discriminator" xsi:type="const">Magento\Core\Model\Layout\Merge::TYPE_ATTRIBUTE</argument>
         </arguments>
@@ -292,7 +292,7 @@
             <argument name="subject" xsi:type="object">layoutArgumentInterpreterInternal</argument>
         </arguments>
     </virtualType>
-    <virtualType name="layoutArrayArgumentInterpreter" type="Magento\Data\Argument\Interpreter\ArrayType">
+    <virtualType name="layoutArrayArgumentInterpreter" type="Magento\Framework\Data\Argument\Interpreter\ArrayType">
         <arguments>
             <argument name="itemInterpreter" xsi:type="object">layoutArgumentInterpreter</argument>
         </arguments>
@@ -301,19 +301,19 @@
     Array item can be of any type just like an argument, including array type itself, which creates circular dependency.
     Proxy is used to resolve the circular dependency, so that array items undergo the same interpretation as arguments.
     -->
-    <virtualType name="layoutArrayArgumentInterpreterProxy" type="Magento\Data\Argument\InterpreterInterface\Proxy">
+    <virtualType name="layoutArrayArgumentInterpreterProxy" type="Magento\Framework\Data\Argument\InterpreterInterface\Proxy">
         <arguments>
             <argument name="instanceName" xsi:type="string">layoutArrayArgumentInterpreter</argument>
         </arguments>
     </virtualType>
     <virtualType name="layoutObjectArgumentInterpreter" type="Magento\View\Layout\Argument\Interpreter\Object">
         <arguments>
-            <argument name="expectedClass" xsi:type="string">Magento\Data\Collection</argument>
+            <argument name="expectedClass" xsi:type="string">Magento\Framework\Data\Collection</argument>
         </arguments>
     </virtualType>
     <type name="Magento\View\Layout\Argument\Interpreter\NamedParams">
         <arguments>
-            <argument name="paramInterpreter" xsi:type="object">Magento\Data\Argument\Interpreter\String</argument>
+            <argument name="paramInterpreter" xsi:type="object">Magento\Framework\Data\Argument\Interpreter\String</argument>
         </arguments>
     </type>
     <type name="Magento\View\Layout">

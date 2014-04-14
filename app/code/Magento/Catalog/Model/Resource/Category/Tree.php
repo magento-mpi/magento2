@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Resource\Category;
 
-class Tree extends \Magento\Data\Tree\Dbp
+class Tree extends \Magento\Framework\Data\Tree\Dbp
 {
     const ID_FIELD = 'id';
 
@@ -121,10 +121,10 @@ class Tree extends \Magento\Data\Tree\Dbp
             $resource->getConnection('catalog_write'),
             $resource->getTableName('catalog_category_entity'),
             array(
-                \Magento\Data\Tree\Dbp::ID_FIELD => 'entity_id',
-                \Magento\Data\Tree\Dbp::PATH_FIELD => 'path',
-                \Magento\Data\Tree\Dbp::ORDER_FIELD => 'position',
-                \Magento\Data\Tree\Dbp::LEVEL_FIELD => 'level'
+                \Magento\Framework\Data\Tree\Dbp::ID_FIELD => 'entity_id',
+                \Magento\Framework\Data\Tree\Dbp::PATH_FIELD => 'path',
+                \Magento\Framework\Data\Tree\Dbp::ORDER_FIELD => 'position',
+                \Magento\Framework\Data\Tree\Dbp::LEVEL_FIELD => 'level'
             )
         );
         $this->_eventManager = $eventManager;

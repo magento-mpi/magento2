@@ -304,7 +304,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )->method(
             'setData'
         )->with(
-            \Magento\Data\Form\FormKey::FORM_KEY,
+            \Magento\Framework\Data\Form\FormKey::FORM_KEY,
             $formKey
         );
 

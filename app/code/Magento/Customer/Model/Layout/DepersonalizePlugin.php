@@ -101,7 +101,7 @@ class DepersonalizePlugin
         ) && $this->cacheConfig->isEnabled() && !$this->request->isAjax() && $subject->isCacheable()
         ) {
             $this->customerGroupId = $this->customerSession->getCustomerGroupId();
-            $this->formKey = $this->session->getData(\Magento\Data\Form\FormKey::FORM_KEY);
+            $this->formKey = $this->session->getData(\Magento\Framework\Data\Form\FormKey::FORM_KEY);
         }
         return array();
     }
@@ -124,7 +124,7 @@ class DepersonalizePlugin
             $this->visitor->unsetData();
             $this->session->clearStorage();
             $this->customerSession->clearStorage();
-            $this->session->setData(\Magento\Data\Form\FormKey::FORM_KEY, $this->formKey);
+            $this->session->setData(\Magento\Framework\Data\Form\FormKey::FORM_KEY, $this->formKey);
             $this->customerSession->setCustomerGroupId($this->customerGroupId);
             $this->customer->setGroupId($this->customerGroupId);
             $this->customerSession->setCustomer($this->customer);

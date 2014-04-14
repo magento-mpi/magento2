@@ -7,17 +7,17 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Data;
+namespace Magento\Framework\Data;
 
-use Magento\Data\Form\Element\AbstractElement;
-use Magento\Data\Form\Element\Collection as ElementCollection;
-use Magento\Data\Form\Element\CollectionFactory as ElementCollectionFactory;
-use Magento\Data\Form\Element\Factory;
-use Magento\Data\Form\Element\Renderer\RendererInterface;
-use Magento\Data\Form\FormKey;
+use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\Collection as ElementCollection;
+use Magento\Framework\Data\Form\Element\CollectionFactory as ElementCollectionFactory;
+use Magento\Framework\Data\Form\Element\Factory;
+use Magento\Framework\Data\Form\Element\Renderer\RendererInterface;
+use Magento\Framework\Data\Form\FormKey;
 use Magento\Profiler;
 
-class Form extends \Magento\Data\Form\AbstractForm
+class Form extends \Magento\Framework\Data\Form\AbstractForm
 {
     /**
      * All form elements collection

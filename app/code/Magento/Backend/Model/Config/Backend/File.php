@@ -51,7 +51,7 @@ class File extends \Magento\Framework\App\Config\Value
      * @param \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface $requestData
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -62,7 +62,7 @@ class File extends \Magento\Framework\App\Config\Value
         \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface $requestData,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_uploaderFactory = $uploaderFactory;

@@ -64,7 +64,7 @@ class Massgenerator extends \Magento\Model\AbstractModel implements
      * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -75,7 +75,7 @@ class Massgenerator extends \Magento\Model\AbstractModel implements
         \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_salesRuleCoupon = $salesRuleCoupon;

@@ -68,7 +68,7 @@ class Type extends \Magento\Model\AbstractModel
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
      * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param \Magento\GoogleShopping\Model\Resource\Type $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -80,7 +80,7 @@ class Type extends \Magento\Model\AbstractModel
         \Magento\GoogleShopping\Helper\Product $gsProduct,
         \Magento\GoogleShopping\Helper\Data $gsData,
         \Magento\GoogleShopping\Model\Resource\Type $resource,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;

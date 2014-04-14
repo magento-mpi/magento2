@@ -92,11 +92,11 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param \Magento\Data\Collection $collection
+     * @param \Magento\Framework\Data\Collection $collection
      * @param int $pageSize
      * @param array $callbacks
      */
-    public function iterate(\Magento\Data\Collection $collection, $pageSize, array $callbacks)
+    public function iterate(\Magento\Framework\Data\Collection $collection, $pageSize, array $callbacks)
     {
         foreach ($collection as $customer) {
             foreach ($callbacks as $callback) {

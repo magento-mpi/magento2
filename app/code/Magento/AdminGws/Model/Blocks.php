@@ -1206,7 +1206,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function disableTaxRelatedMultiselects($observer)
     {
         /**
-         * @var $form \Magento\Data\Form
+         * @var $form \Magento\Framework\Data\Form
          */
         $form = $observer->getEvent()->getBlock()->getForm();
         $form->getElement('tax_customer_class')->setDisabled(true);

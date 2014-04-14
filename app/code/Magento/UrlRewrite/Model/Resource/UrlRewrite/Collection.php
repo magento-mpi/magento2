@@ -19,18 +19,18 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     protected $_storeManager;
 
     /**
-     * @param \Magento\Data\Collection\EntityFactoryInterface $entityFactory
+     * @param \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param mixed $connection
      * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        \Magento\Data\Collection\EntityFactoryInterface $entityFactory,
+        \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,

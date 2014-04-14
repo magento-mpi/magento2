@@ -25,7 +25,7 @@ class Head extends \Magento\Theme\Block\Html\Head
     protected $_template = 'page/head.phtml';
 
     /**
-     * @var \Magento\Data\Form\FormKey
+     * @var \Magento\Framework\Data\Form\FormKey
      */
     protected $formKey;
 
@@ -39,7 +39,7 @@ class Head extends \Magento\Theme\Block\Html\Head
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Translation\Block\Js $jsTranslation
      * @param \Magento\Framework\App\Action\Title $titles
-     * @param \Magento\Data\Form\FormKey $formKey
+     * @param \Magento\Framework\Data\Form\FormKey $formKey
      * @param array $data
      */
     public function __construct(
@@ -52,7 +52,7 @@ class Head extends \Magento\Theme\Block\Html\Head
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Translation\Block\Js $jsTranslation,
         \Magento\Framework\App\Action\Title $titles,
-        \Magento\Data\Form\FormKey $formKey,
+        \Magento\Framework\Data\Form\FormKey $formKey,
         array $data = array()
     ) {
         $this->_titles = $titles;

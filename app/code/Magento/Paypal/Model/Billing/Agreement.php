@@ -61,7 +61,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      * @param \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $billingAgreementFactory
      * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -71,7 +71,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
         \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $billingAgreementFactory,
         \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $paymentData, $resource, $resourceCollection, $data);

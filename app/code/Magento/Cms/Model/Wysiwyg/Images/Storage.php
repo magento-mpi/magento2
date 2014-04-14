@@ -189,7 +189,7 @@ class Storage extends \Magento\Object
      * Return one-level child directories for specified path
      *
      * @param string $path Parent directory path
-     * @return \Magento\Data\Collection\Filesystem
+     * @return \Magento\Framework\Data\Collection\Filesystem
      */
     public function getDirsCollection($path)
     {
@@ -253,7 +253,7 @@ class Storage extends \Magento\Object
      *
      * @param string $path Parent directory path
      * @param string $type Type of storage, e.g. image, media etc.
-     * @return \Magento\Data\Collection\Filesystem
+     * @return \Magento\Framework\Data\Collection\Filesystem
      */
     public function getFilesCollection($path, $type = null)
     {
@@ -277,7 +277,7 @@ class Storage extends \Magento\Object
             false
         )->setOrder(
             'mtime',
-            \Magento\Data\Collection::SORT_ORDER_ASC
+            \Magento\Framework\Data\Collection::SORT_ORDER_ASC
         );
 
         // Add files extension filter

@@ -72,7 +72,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param \Magento\Catalog\Model\Resource\UrlFactory $catalogResourceUrlFactory
      * @param \Magento\Catalog\Model\Url $catalogUrl
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -81,7 +81,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Catalog\Model\Resource\UrlFactory $catalogResourceUrlFactory,
         \Magento\Catalog\Model\Url $catalogUrl,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogResourceUrl = $catalogResourceUrlFactory->create();

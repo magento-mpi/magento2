@@ -9,9 +9,9 @@
 /**
  * Retrieving collection data by querying a database
  */
-namespace Magento\Data\Collection\Db\FetchStrategy;
+namespace Magento\Framework\Data\Collection\Db\FetchStrategy;
 
-class Query implements \Magento\Data\Collection\Db\FetchStrategyInterface
+class Query implements \Magento\Framework\Data\Collection\Db\FetchStrategyInterface
 {
     /**
      * {@inheritdoc}

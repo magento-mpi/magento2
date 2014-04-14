@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data\Collection\Db\FetchStrategy;
+namespace Magento\Framework\Data\Collection\Db\FetchStrategy;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Data\Collection\Db\FetchStrategy\Cache
+     * @var \Magento\Framework\Data\Collection\Db\FetchStrategy\Cache
      */
     private $_object;
 
@@ -49,9 +49,9 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_cache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
-        $this->_fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
+        $this->_fetchStrategy = $this->getMockForAbstractClass('Magento\Framework\Data\Collection\Db\FetchStrategyInterface');
 
-        $this->_object = new \Magento\Data\Collection\Db\FetchStrategy\Cache(
+        $this->_object = new \Magento\Framework\Data\Collection\Db\FetchStrategy\Cache(
             $this->_cache,
             $this->_fetchStrategy,
             'fixture_',

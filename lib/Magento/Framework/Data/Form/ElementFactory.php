@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Data\Form;
+namespace Magento\Framework\Data\Form;
 
 class ElementFactory
 {
@@ -29,7 +29,7 @@ class ElementFactory
      *
      * @param string $elementClass
      * @param array $data
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function create($elementClass, array $data = array())
     {

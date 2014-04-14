@@ -30,7 +30,7 @@ class Active extends \Magento\Backend\Model\Config\Backend\Cache implements
      * @param \Magento\SalesArchive\Model\Archive $archive
      * @param \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -40,7 +40,7 @@ class Active extends \Magento\Backend\Model\Config\Backend\Cache implements
         \Magento\SalesArchive\Model\Archive $archive,
         \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_archive = $archive;

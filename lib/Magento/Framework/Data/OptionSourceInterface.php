@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Data;
+namespace Magento\Framework\Data;
 
 /**
  * Source of option values in a form of value-label pairs

@@ -186,7 +186,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
      * @param \Magento\SalesRule\Model\Coupon\CodegeneratorFactory $codegenFactory
@@ -195,13 +195,13 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\SalesRule\Model\Resource\Coupon\Collection $couponCollection
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\SalesRule\Model\Coupon\CodegeneratorFactory $codegenFactory,
@@ -210,7 +210,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\SalesRule\Model\Resource\Coupon\Collection $couponCollection,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_couponFactory = $couponFactory;

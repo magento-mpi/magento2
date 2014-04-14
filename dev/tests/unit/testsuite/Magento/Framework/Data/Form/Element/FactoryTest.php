@@ -10,9 +10,9 @@
  */
 
 /**
- * Tests for \Magento\Data\Form\Element\Factory
+ * Tests for \Magento\Framework\Data\Form\Element\Factory
  */
-namespace Magento\Data\Form\Element;
+namespace Magento\Framework\Data\Form\Element;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,7 +22,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     protected $_objectManagerMock;
 
     /**
-     * @var \Magento\Data\Form\Element\Factory
+     * @var \Magento\Framework\Data\Form\Element\Factory
      */
     protected $_factory;
 
@@ -35,7 +35,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_factory = new \Magento\Data\Form\Element\Factory($this->_objectManagerMock);
+        $this->_factory = new \Magento\Framework\Data\Form\Element\Factory($this->_objectManagerMock);
     }
 
     /**
@@ -44,7 +44,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatePositive($type)
     {
-        $className = 'Magento\Data\Form\Element\\' . ucfirst($type);
+        $className = 'Magento\Framework\Data\Form\Element\\' . ucfirst($type);
         $elementMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects(
             $this->once()
@@ -66,7 +66,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreatePositiveWithNotEmptyConfig($type)
     {
         $config = array('data' => array('attr1' => 'attr1', 'attr2' => 'attr2'));
-        $className = 'Magento\Data\Form\Element\\' . ucfirst($type);
+        $className = 'Magento\Framework\Data\Form\Element\\' . ucfirst($type);
         $elementMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects(
             $this->once()
@@ -177,8 +177,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function createExceptionInvalidArgumentDataProvider()
     {
         return array(
-            'Magento\Data\Form\Element\Factory' => array('Magento\Data\Form\Element\Factory'),
-            'Magento\Data\Form\Element\Collection' => array('Magento\Data\Form\Element\Collection')
+            'Magento\Framework\Data\Form\Element\Factory' => array('Magento\Framework\Data\Form\Element\Factory'),
+            'Magento\Framework\Data\Form\Element\Collection' => array('Magento\Framework\Data\Form\Element\Collection')
         );
     }
 }

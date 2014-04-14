@@ -50,7 +50,7 @@ class Person extends \Magento\Model\AbstractModel
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\GiftRegistry\Model\Resource\Person $resource
      * @param Entity $entity
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -59,7 +59,7 @@ class Person extends \Magento\Model\AbstractModel
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\GiftRegistry\Model\Resource\Person $resource,
         Entity $entity,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;

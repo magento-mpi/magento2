@@ -7,14 +7,14 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Data\Form;
+namespace Magento\Framework\Data\Form;
 
-use Magento\Data\Form\Element\AbstractElement;
-use Magento\Data\Form\Element\Collection;
-use Magento\Data\Form\Element\CollectionFactory;
-use Magento\Data\Form\Element\Column;
-use Magento\Data\Form\Element\Factory;
-use Magento\Data\Form\Element\Fieldset;
+use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\Collection;
+use Magento\Framework\Data\Form\Element\CollectionFactory;
+use Magento\Framework\Data\Form\Element\Column;
+use Magento\Framework\Data\Form\Element\Factory;
+use Magento\Framework\Data\Form\Element\Fieldset;
 
 /**
  * Abstract class for form, coumn and fieldset

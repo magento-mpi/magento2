@@ -21,7 +21,7 @@ class Pager extends \Magento\View\Element\Template
     protected $_template = 'Magento_Theme::html/pager.phtml';
 
     /**
-     * @var \Magento\Data\Collection
+     * @var \Magento\Framework\Data\Collection
      */
     protected $_collection;
 
@@ -159,7 +159,7 @@ class Pager extends \Magento\View\Element\Template
     /**
      * Set collection for pagination
      *
-     * @param  \Magento\Data\Collection $collection
+     * @param  \Magento\Framework\Data\Collection $collection
      * @return $this
      */
     public function setCollection($collection)
@@ -176,7 +176,7 @@ class Pager extends \Magento\View\Element\Template
     }
 
     /**
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getCollection()
     {

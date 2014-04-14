@@ -15,15 +15,15 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Data\Form\Element\Renderer;
+namespace Magento\Framework\Data\Form\Element\Renderer;
 
 interface RendererInterface
 {
     /**
      * Render form element as HTML
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(\Magento\Data\Form\Element\AbstractElement $element);
+    public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element);
 }

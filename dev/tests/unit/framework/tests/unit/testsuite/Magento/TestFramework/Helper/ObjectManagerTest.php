@@ -37,7 +37,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         'eventManager' => 'Magento\Event\ManagerInterface',
         'cacheManager' => 'Magento\Framework\App\CacheInterface',
         'resource' => 'Magento\Model\Resource\AbstractResource',
-        'resourceCollection' => 'Magento\Data\Collection\Db'
+        'resourceCollection' => 'Magento\Framework\Data\Collection\Db'
     );
 
     /**

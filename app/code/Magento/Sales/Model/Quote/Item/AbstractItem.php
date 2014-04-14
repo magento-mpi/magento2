@@ -73,7 +73,7 @@ abstract class AbstractItem extends \Magento\Model\AbstractModel implements
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -81,7 +81,7 @@ abstract class AbstractItem extends \Magento\Model\AbstractModel implements
         \Magento\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

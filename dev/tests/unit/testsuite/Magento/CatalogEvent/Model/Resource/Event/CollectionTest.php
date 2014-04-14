@@ -160,7 +160,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $resource->expects($this->once())->method('getMainTable')->will($this->returnValue(self::MAIN_TABLE));
         $resource->expects($this->exactly(3))->method('getTable')->will($this->returnValue(self::MAIN_TABLE));
 
-        $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
+        $fetchStrategy = $this->getMockForAbstractClass('Magento\Framework\Data\Collection\Db\FetchStrategyInterface');
         $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $dateTime = $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true);

@@ -38,7 +38,7 @@ class Message extends \Magento\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\GiftMessage\Model\Resource\Message $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param \Magento\GiftMessage\Model\TypeFactory $typeFactory
      * @param array $data
      */
@@ -46,7 +46,7 @@ class Message extends \Magento\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\GiftMessage\Model\Resource\Message $resource,
-        \Magento\Data\Collection\Db $resourceCollection,
+        \Magento\Framework\Data\Collection\Db $resourceCollection,
         \Magento\GiftMessage\Model\TypeFactory $typeFactory,
         array $data = array()
     ) {

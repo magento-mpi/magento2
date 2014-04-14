@@ -124,7 +124,7 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
                 'Magento\Catalog\Model\Product',
                 array(
                     'collectionFactory' => $this->getMock(
-                        'Magento\Data\CollectionFactory',
+                        'Magento\Framework\Data\CollectionFactory',
                         array(),
                         array(),
                         '',

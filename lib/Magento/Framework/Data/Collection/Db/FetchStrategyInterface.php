@@ -9,7 +9,7 @@
 /**
  * Interface of collection data retrieval
  */
-namespace Magento\Data\Collection\Db;
+namespace Magento\Framework\Data\Collection\Db;
 
 interface FetchStrategyInterface
 {

@@ -114,7 +114,7 @@ class Validator extends \Magento\Model\AbstractModel
      * @param \Magento\SalesRule\Model\Rule\CustomerFactory $customerFactory
      * @param \Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory $calculatorFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -127,7 +127,7 @@ class Validator extends \Magento\Model\AbstractModel
         \Magento\SalesRule\Model\Rule\CustomerFactory $customerFactory,
         \Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory $calculatorFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_usageFactory = $usageFactory;

@@ -7,7 +7,7 @@
  */
 namespace Magento\ObjectManager\Config\Mapper;
 
-use Magento\Data\Argument\InterpreterInterface;
+use Magento\Framework\Data\Argument\InterpreterInterface;
 use Magento\Stdlib\BooleanUtils;
 
 class Dom implements \Magento\Config\ConverterInterface

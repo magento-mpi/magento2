@@ -191,7 +191,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -204,7 +204,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_errorInfos = $statusListFactory->create();

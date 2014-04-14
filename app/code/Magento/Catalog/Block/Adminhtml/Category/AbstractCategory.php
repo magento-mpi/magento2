@@ -18,7 +18,7 @@
 namespace Magento\Catalog\Block\Adminhtml\Category;
 
 use Magento\Store\Model\Store;
-use Magento\Data\Tree\Node;
+use Magento\Framework\Data\Tree\Node;
 
 class AbstractCategory extends \Magento\Backend\Block\Template
 {

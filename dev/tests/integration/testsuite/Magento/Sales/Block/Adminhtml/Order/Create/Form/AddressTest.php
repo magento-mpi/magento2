@@ -136,14 +136,14 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         );
         $form = $this->_addressBlock->getForm();
         $this->assertEquals(1, $form->getElements()->count(), "Form has invalid number of fieldsets");
-        /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
+        /** @var \Magento\Framework\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $form->getElements()[0];
         $this->assertEquals(
             count($expectedFields),
             $fieldset->getElements()->count(),
             "Form has invalid number of fields"
         );
-        /** @var \Magento\Data\Form\Element\AbstractElement $element */
+        /** @var \Magento\Framework\Data\Form\Element\AbstractElement $element */
         foreach ($fieldset->getElements() as $element) {
             $this->assertTrue(
                 in_array($element->getId(), $expectedFields),
@@ -151,7 +151,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             );
         }
 
-        /** @var \Magento\Data\Form\Element\Select $countryIdField */
+        /** @var \Magento\Framework\Data\Form\Element\Select $countryIdField */
         $countryIdField = $fieldset->getElements()->searchById('country_id');
         $this->assertSelectCount('option', 247, $countryIdField->getElementHtml());
     }

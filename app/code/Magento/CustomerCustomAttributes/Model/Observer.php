@@ -97,7 +97,7 @@ class Observer
     public function salesQuoteAddressCollectionAfterLoad(\Magento\Event\Observer $observer)
     {
         $collection = $observer->getEvent()->getQuoteAddressCollection();
-        if ($collection instanceof \Magento\Data\Collection\Db) {
+        if ($collection instanceof \Magento\Framework\Data\Collection\Db) {
             /** @var $quoteAddress \Magento\CustomerCustomAttributes\Model\Sales\Quote\Address */
             $quoteAddress = $this->_quoteAddressFactory->create();
             $quoteAddress->attachDataToEntities($collection->getItems());
@@ -166,7 +166,7 @@ class Observer
     public function salesOrderAddressCollectionAfterLoad(\Magento\Event\Observer $observer)
     {
         $collection = $observer->getEvent()->getOrderAddressCollection();
-        if ($collection instanceof \Magento\Data\Collection\Db) {
+        if ($collection instanceof \Magento\Framework\Data\Collection\Db) {
             /** @var $orderAddress \Magento\CustomerCustomAttributes\Model\Sales\Order\Address */
             $orderAddress = $this->_orderAddressFactory->create();
             $orderAddress->attachDataToEntities($collection->getItems());

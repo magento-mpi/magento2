@@ -47,7 +47,7 @@ abstract class AbstractDatabase extends \Magento\Model\AbstractModel
      * @param \Magento\Stdlib\DateTime\DateTime $dateModel
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $configuration
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param string|null $connectionName
      * @param array $data
      */
@@ -58,7 +58,7 @@ abstract class AbstractDatabase extends \Magento\Model\AbstractModel
         \Magento\Stdlib\DateTime\DateTime $dateModel,
         \Magento\Framework\App\Config\ScopeConfigInterface $configuration,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $connectionName = null,
         array $data = array()
     ) {

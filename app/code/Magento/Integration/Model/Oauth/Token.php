@@ -105,7 +105,7 @@ class Token extends \Magento\Model\AbstractModel
      * @param \Magento\Integration\Helper\Oauth\Data $oauthData
      * @param OauthHelper $oauthHelper
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -119,7 +119,7 @@ class Token extends \Magento\Model\AbstractModel
         \Magento\Integration\Helper\Oauth\Data $oauthData,
         OauthHelper $oauthHelper,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

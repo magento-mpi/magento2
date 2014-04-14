@@ -221,7 +221,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         $this->_reset()->clear();
         $labels = $this->setOrder(
             'theme_title',
-            \Magento\Data\Collection::SORT_ORDER_ASC
+            \Magento\Framework\Data\Collection::SORT_ORDER_ASC
         )->filterVisibleThemes()->addAreaFilter(
             \Magento\Core\Model\App\Area::AREA_FRONTEND
         );

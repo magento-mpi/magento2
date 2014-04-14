@@ -101,7 +101,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testAllcartAction()
     {
-        $formKey = $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey();
+        $formKey = $this->_objectManager->get('Magento\Framework\Data\Form\FormKey')->getFormKey();
         $this->getRequest()->setParam('form_key', $formKey);
         $this->dispatch('wishlist/index/allcart');
 
@@ -139,7 +139,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
             ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
 
         $request = [
-            'form_key' => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+            'form_key' => $this->_objectManager->get('Magento\Framework\Data\Form\FormKey')->getFormKey(),
             'emails' => 'test@tosend.com',
             'message' => 'message',
             'rss_url' => null // no rss
