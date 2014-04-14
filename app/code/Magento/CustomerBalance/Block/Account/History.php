@@ -9,7 +9,7 @@
  */
 namespace Magento\CustomerBalance\Block\Account;
 
-use Magento\Model\Resource\Db\Collection\AbstractCollection;
+use Magento\Framework\Model\Resource\Db\Collection\AbstractCollection;
 
 /**
  * Customer balance history block

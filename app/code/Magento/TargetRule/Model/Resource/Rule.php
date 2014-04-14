@@ -59,10 +59,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Get Customer Segment Ids by rule
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return array
      */
-    public function getCustomerSegmentIds(\Magento\Model\AbstractModel $object)
+    public function getCustomerSegmentIds(\Magento\Framework\Model\AbstractModel $object)
     {
         $ids = $this->getReadConnection()->select()->from(
             $this->getTable('magento_targetrule_customersegment'),
@@ -113,10 +113,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Add customer segment ids to rule
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterLoad(\Magento\Model\AbstractModel $object)
+    protected function _afterLoad(\Magento\Framework\Model\AbstractModel $object)
     {
         $object->setData('customer_segment_ids', $this->getCustomerSegmentIds($object));
         return parent::_afterLoad($object);
@@ -125,10 +125,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Save matched products for current rule and clean index
      *
-     * @param \Magento\Model\AbstractModel|\Magento\TargetRule\Model\Rule $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\TargetRule\Model\Rule $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         parent::_afterSave($object);
         $segmentIds = $object->getUseCustomerSegment() ? $object->getCustomerSegmentIds() : array(0);
@@ -157,10 +157,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Clean index
      *
-     * @param \Magento\Model\AbstractModel|\Magento\TargetRule\Model\Rule $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\TargetRule\Model\Rule $object
      * @return $this
      */
-    protected function _beforeDelete(\Magento\Model\AbstractModel $object)
+    protected function _beforeDelete(\Magento\Framework\Model\AbstractModel $object)
     {
         $this->_indexer->processEntityAction(
             new \Magento\Object(array('type_id' => $object->getData('apply_to'))),

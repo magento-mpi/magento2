@@ -27,7 +27,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Mail\Template\TransportBuilder|PHPUnit_Framework_MockObject_MockObject */
     protected $_transportBuilderMock;
 
-    /** @var \Magento\Model\Context|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Model\Context|PHPUnit_Framework_MockObject_MockObject */
     protected $_contextMock;
 
     /** @var \Magento\User\Model\Resource\User|PHPUnit_Framework_MockObject_MockObject */
@@ -64,7 +64,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
             array()
         )->getMock();
         $this->_contextMock = $this->getMockBuilder(
-            'Magento\Model\Context'
+            'Magento\Framework\Model\Context'
         )->disableOriginalConstructor()->setMethods(
             array()
         )->getMock();

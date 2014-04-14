@@ -10,7 +10,6 @@
 namespace Magento\Core\Model;
 
 use Magento\View\Design\ThemeInterface;
-use Magento\Model\AbstractModel;
 
 /**
  * Theme model class
@@ -38,7 +37,7 @@ use Magento\Model\AbstractModel;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Theme extends AbstractModel implements ThemeInterface
+class Theme extends \Magento\Framework\Model\AbstractModel implements ThemeInterface
 {
     /**
      * Filename of view configuration
@@ -97,7 +96,7 @@ class Theme extends AbstractModel implements ThemeInterface
     /**
      * Initialize dependencies
      *
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
      * @param \Magento\View\Design\Theme\Domain\Factory $domainFactory
@@ -111,7 +110,7 @@ class Theme extends AbstractModel implements ThemeInterface
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\View\Design\Theme\FlyweightFactory $themeFactory,
         \Magento\View\Design\Theme\Domain\Factory $domainFactory,
@@ -328,13 +327,13 @@ class Theme extends AbstractModel implements ThemeInterface
      * Validate theme data
      *
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _validate()
     {
         if (!$this->_validator->validate($this)) {
             $messages = $this->_validator->getErrorMessages();
-            throw new \Magento\Model\Exception(implode(PHP_EOL, reset($messages)));
+            throw new \Magento\Framework\Model\Exception(implode(PHP_EOL, reset($messages)));
         }
         return $this;
     }

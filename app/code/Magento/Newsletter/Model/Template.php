@@ -96,7 +96,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate
     protected $_filterManager;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
@@ -109,7 +109,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\View\DesignInterface $design,
         \Magento\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
@@ -144,7 +144,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate
      * Validate Newsletter template
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validate()
     {
@@ -172,7 +172,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate
                 }
             }
 
-            throw new \Magento\Model\Exception(join("\n", $errorMessages));
+            throw new \Magento\Framework\Model\Exception(join("\n", $errorMessages));
         }
     }
 

@@ -17,7 +17,7 @@
  */
 namespace Magento\Rule\Model\Resource\Rule\Collection;
 
-abstract class AbstractCollection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store associated with rule entities information map
@@ -57,7 +57,7 @@ abstract class AbstractCollection extends \Magento\Model\Resource\Db\Collection\
      */
     protected function _afterLoad()
     {
-        parent::_afterLoad();
+        \Magento\Framework\Model\Resource\Db\Collection\parent::_afterLoad();
         if ($this->getFlag('add_websites_to_result') && $this->_items) {
             /** @var \Magento\Rule\Model\AbstractModel $item */
             foreach ($this->_items as $item) {
@@ -124,7 +124,7 @@ abstract class AbstractCollection extends \Magento\Model\Resource\Db\Collection\
             return $this->addWebsiteFilter($condition);
         }
 
-        parent::addFieldToFilter($field, $condition);
+        \Magento\Framework\Model\Resource\Db\Collection\parent::addFieldToFilter($field, $condition);
         return $this;
     }
 
@@ -149,7 +149,7 @@ abstract class AbstractCollection extends \Magento\Model\Resource\Db\Collection\
      *
      * @param string $entityType
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return array
      */
     protected function _getAssociatedEntityInfo($entityType)
@@ -158,7 +158,7 @@ abstract class AbstractCollection extends \Magento\Model\Resource\Db\Collection\
             return $this->_associatedEntitiesMap[$entityType];
         }
 
-        throw new \Magento\Model\Exception(
+        throw new \Magento\Framework\Model\Exception(
             __('There is no information about associated entity type "%1".', $entityType),
             0
         );

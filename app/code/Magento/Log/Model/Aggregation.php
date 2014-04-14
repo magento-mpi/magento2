@@ -19,7 +19,7 @@ namespace Magento\Log\Model;
  * @package    Magento_Log
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Aggregation extends \Magento\Model\AbstractModel
+class Aggregation extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Last record data
@@ -34,18 +34,18 @@ class Aggregation extends \Magento\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

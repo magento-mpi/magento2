@@ -51,7 +51,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     /**
      * Get theme model
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _getThemeModel()
     {

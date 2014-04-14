@@ -204,7 +204,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $this->_model->setWriter($writer);
 
         $item = $this->getMockForAbstractClass(
-            'Magento\Model\AbstractModel',
+            'Magento\Framework\Model\AbstractModel',
             array(),
             '',
             false,
@@ -212,7 +212,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             true,
             array('__wakeup')
         );
-        /** @var $item \Magento\Model\AbstractModel */
+        /** @var $item \Magento\Framework\Model\AbstractModel */
         $item->setData($this->_customerData);
 
         $this->_model->exportItem($item);

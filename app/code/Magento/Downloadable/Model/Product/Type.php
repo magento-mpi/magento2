@@ -373,7 +373,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function checkProductBuyState($product)
     {
@@ -387,7 +387,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
                     $buyRequest->setLinks($allLinksIds);
                     $product->addCustomOption('info_buyRequest', serialize($buyRequest->getData()));
                 } else {
-                    throw new \Magento\Model\Exception(__('Please specify product link(s).'));
+                    throw new \Magento\Framework\Model\Exception(__('Please specify product link(s).'));
                 }
             }
         }

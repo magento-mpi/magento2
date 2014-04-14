@@ -28,7 +28,7 @@ namespace Magento\Integration\Model;
  * @method \string getUpdatedAt()
  * @method Integration setUpdatedAt(\string $createdAt)
  */
-class Integration extends \Magento\Model\AbstractModel
+class Integration extends \Magento\Framework\Model\AbstractModel
 {
     /**#@+
      * Integration Status values
@@ -75,18 +75,18 @@ class Integration extends \Magento\Model\AbstractModel
     protected $_dateTime;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

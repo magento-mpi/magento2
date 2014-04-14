@@ -453,7 +453,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Model\ActionValidator\RemoveAction">
+    <type name="Magento\Framework\Model\ActionValidator\RemoveAction">
         <arguments>
             <argument name="protectedModels" xsi:type="array">
                 <item name="store" xsi:type="string">Magento\Store\Model\Store</item>

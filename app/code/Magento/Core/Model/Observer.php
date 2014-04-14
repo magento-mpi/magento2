@@ -104,7 +104,7 @@ class Observer
         $pathPattern = $observer->getEvent()->getPathPattern();
         try {
             $this->_registration->register($pathPattern);
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->_logger->logException($e);
         }
         return $this;

@@ -20,7 +20,7 @@ namespace Magento\VersionsCms\Model\Resource\Hierarchy;
 /**
  * @deprecated since 1.12.0.0
  */
-class Lock extends \Magento\Model\Resource\Db\AbstractDb
+class Lock extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table and field

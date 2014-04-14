@@ -29,7 +29,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             array('_init')
         )->setConstructorArgs(
             array(
-                $this->getMock('Magento\Model\Context', array(), array(), '', false),
+                $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false),
                 $this->getMock('Magento\Core\Model\View\Design', array(), array(), '', false),
                 $this->getMock('Magento\Registry', array(), array(), '', false),
                 $this->getMock('Magento\Core\Model\App\Emulation', array(), array(), '', false),

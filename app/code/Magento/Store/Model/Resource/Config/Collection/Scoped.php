@@ -9,7 +9,7 @@
  */
 namespace Magento\Store\Model\Resource\Config\Collection;
 
-class Scoped extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Scoped extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Scope to filter by

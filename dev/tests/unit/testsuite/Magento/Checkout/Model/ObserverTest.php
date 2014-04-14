@@ -20,7 +20,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var Session|\PHPUnit_Framework_MockObject_MockObject */
     protected $checkoutSession;
 
-    /** @var Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $messageManager;
 
     protected function setUp()
@@ -45,7 +45,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testLoadCustomerQuoteThrowingCoreException()
     {
         $this->checkoutSession->expects($this->once())->method('loadCustomerQuote')->will(
-            $this->throwException(new \Magento\Model\Exception('Message'))
+            $this->throwException(new \Magento\Framework\Model\Exception('Message'))
         );
         $this->messageManager->expects($this->once())->method('addError')->with('Message');
 

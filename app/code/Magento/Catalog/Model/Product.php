@@ -238,7 +238,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     protected $_productPriceIndexerProcessor;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Product\Url $url
@@ -267,7 +267,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         Product\Url $url,

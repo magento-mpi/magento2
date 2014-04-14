@@ -27,7 +27,7 @@ namespace Magento\Widget\Model\Widget;
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Instance extends \Magento\Model\AbstractModel
+class Instance extends \Magento\Framework\Model\AbstractModel
 {
     const SPECIFIC_ENTITIES = 'specific';
 
@@ -110,7 +110,7 @@ class Instance extends \Magento\Model\AbstractModel
     protected $_directory;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Escaper $escaper
      * @param \Magento\View\FileSystem $viewFileSystem
@@ -121,13 +121,13 @@ class Instance extends \Magento\Model\AbstractModel
      * @param \Magento\Widget\Model\NamespaceResolver $namespaceResolver
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param string[] $relatedCacheTypes
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Escaper $escaper,
         \Magento\View\FileSystem $viewFileSystem,
@@ -138,7 +138,7 @@ class Instance extends \Magento\Model\AbstractModel
         \Magento\Widget\Model\NamespaceResolver $namespaceResolver,
         \Magento\Math\Random $mathRandom,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $relatedCacheTypes = array(),
         array $data = array()

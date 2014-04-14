@@ -72,7 +72,7 @@ interface EngineInterface
     /**
      * Return resource model for the full text search
      *
-     * @return \Magento\Model\Resource\AbstractResource
+     * @return \Magento\Framework\Model\Resource\AbstractResource
      */
     public function getResource();
 

@@ -9,7 +9,7 @@
  */
 namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * TargetRule Catalog Product List Abstract Block
@@ -104,7 +104,7 @@ abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\Abs
      * without last underscore
      *
      * @return string
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getTypePrefix()
     {

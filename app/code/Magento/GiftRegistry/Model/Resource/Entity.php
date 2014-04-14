@@ -16,7 +16,7 @@ namespace Magento\GiftRegistry\Model\Resource;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Entity extends \Magento\Model\Resource\Db\AbstractDb
+class Entity extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Event table name
@@ -39,10 +39,10 @@ class Entity extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Converting some data to internal database format
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $customValues = $object->getCustomValues();
         $object->setCustomValues(serialize($customValues));
@@ -54,7 +54,7 @@ class Entity extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param string $field
      * @param mixed $value
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -81,10 +81,10 @@ class Entity extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Perform actions after object is loaded
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterLoad(\Magento\Model\AbstractModel $object)
+    protected function _afterLoad(\Magento\Framework\Model\AbstractModel $object)
     {
         if ($object->getId()) {
             $object->setTypeById($object->getData('type_id'));
@@ -96,10 +96,10 @@ class Entity extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Perform action after object is saved - saving data to the eventTable
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $data = array();
         foreach ($object->getStaticTypeIds() as $code) {

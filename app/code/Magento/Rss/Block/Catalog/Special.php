@@ -32,7 +32,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected $_rssFactory;
 
     /**
-     * @var \Magento\Model\Resource\Iterator
+     * @var \Magento\Framework\Model\Resource\Iterator
      */
     protected $_resourceIterator;
 
@@ -58,7 +58,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rss\Model\RssFactory $rssFactory
-     * @param \Magento\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Framework\Model\Resource\Iterator $resourceIterator
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Catalog\Helper\Output $outputHelper
      * @param array $data
@@ -70,7 +70,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rss\Model\RssFactory $rssFactory,
-        \Magento\Model\Resource\Iterator $resourceIterator,
+        \Magento\Framework\Model\Resource\Iterator $resourceIterator,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Catalog\Helper\Output $outputHelper,
         array $data = array()

@@ -171,7 +171,7 @@ class Proxy extends \Magento\Backend\Model\Config\Structure\Element\Group
     /**
      * Retrieve clone model
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     public function getCloneModel()
     {

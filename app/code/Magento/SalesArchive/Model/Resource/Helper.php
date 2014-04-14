@@ -50,7 +50,7 @@ class Helper extends \Magento\DB\Helper
         }
 
         if (!$this->_getWriteAdapter()->isTableExists($table)) {
-            throw new \Magento\Model\Exception(__("We can't find the table."));
+            throw new \Magento\Framework\Model\Exception(__("We can't find the table."));
         }
 
         $columns = array();
@@ -63,9 +63,9 @@ class Helper extends \Magento\DB\Helper
         }
 
         if (!isset($columns[$column])) {
-            throw new \Magento\Model\Exception(__('Column not found'));
+            throw new \Magento\Framework\Model\Exception(__('Column not found'));
         } elseif ($after && !isset($columns[$after])) {
-            throw new \Magento\Model\Exception(__('Positioning column not found'));
+            throw new \Magento\Framework\Model\Exception(__('Positioning column not found'));
         }
 
         if ($after) {

@@ -36,7 +36,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             array('_getMail')
         )->setConstructorArgs(
             array(
-                $objectManager->get('Magento\Model\Context'),
+                $objectManager->get('Magento\Framework\Model\Context'),
                 $objectManager->get('Magento\View\DesignInterface'),
                 $objectManager->get('Magento\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),

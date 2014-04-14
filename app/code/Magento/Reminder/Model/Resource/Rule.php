@@ -9,7 +9,7 @@
  */
 namespace Magento\Reminder\Model\Resource;
 
-use Magento\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 use Magento\Reminder\Model\Rule as ModelRule;
 use Magento\SalesRule\Model\Rule as SalesRule;
 
@@ -76,7 +76,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Add website ids to rule data after load
      *
-     * @param AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
     protected function _afterLoad(AbstractModel $object)
@@ -437,7 +437,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @param string $operator
      * @return string
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getSqlOperator($operator)
     {
@@ -458,7 +458,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             case '<=':
                 return $operator;
             default:
-                throw new \Magento\Model\Exception(__('Unknown operator specified.'));
+                throw new \Magento\Framework\Model\Exception(__('Unknown operator specified.'));
         }
     }
 

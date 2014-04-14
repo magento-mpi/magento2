@@ -9,7 +9,7 @@
  */
 namespace Magento\GiftCard\Model;
 
-class Observer extends \Magento\Model\AbstractModel
+class Observer extends \Magento\Framework\Model\AbstractModel
 {
     const ATTRIBUTE_CODE = 'giftcard_amounts';
 
@@ -78,7 +78,7 @@ class Observer extends \Magento\Model\AbstractModel
     protected $_localeCurrency;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\LayoutInterface $layout
@@ -90,13 +90,13 @@ class Observer extends \Magento\Model\AbstractModel
      * @param \Magento\UrlInterface $urlModel
      * @param \Magento\GiftCard\Helper\Data $giftCardData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Model\Resource\Db\Collection\AbstractCollection $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection $resourceCollection
      * @param array $data
      *
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\View\LayoutInterface $layout,
@@ -108,8 +108,8 @@ class Observer extends \Magento\Model\AbstractModel
         \Magento\UrlInterface $urlModel,
         \Magento\GiftCard\Helper\Data $giftCardData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -261,7 +261,7 @@ class Observer extends \Magento\Model\AbstractModel
                             );
                             $codes[] = $code->getCode();
                             $goodCodes++;
-                        } catch (\Magento\Model\Exception $e) {
+                        } catch (\Magento\Framework\Model\Exception $e) {
                             $hasFailedCodes = true;
                             $codes[] = null;
                         }

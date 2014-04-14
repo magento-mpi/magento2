@@ -295,7 +295,7 @@
         <plugin name="page-cache-indexer-reindex-product-flat"
                 type="Magento\Catalog\Model\Indexer\Product\AffectCache" sortOrder="10"/>
     </type>
-    <type name="Magento\Model\ActionValidator\RemoveAction">
+    <type name="Magento\Framework\Model\ActionValidator\RemoveAction">
         <arguments>
             <argument name="protectedModels" xsi:type="array">
                 <item name="catalogCategory" xsi:type="string">Magento\Catalog\Model\Category</item>

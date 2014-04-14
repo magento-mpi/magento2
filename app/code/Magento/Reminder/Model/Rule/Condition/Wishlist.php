@@ -10,7 +10,6 @@
 namespace Magento\Reminder\Model\Rule\Condition;
 
 use Magento\DB\Select;
-use Magento\Model\Exception;
 
 /**
  * Customer wishlist conditions combine
@@ -137,13 +136,13 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      * @param null|int|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
      * @return Select
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _prepareConditionsSql($customer, $website)
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 1) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('The root wish list condition should have a days value of 1 or greater.')
             );
         }

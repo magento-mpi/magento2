@@ -14,7 +14,7 @@ namespace Magento\Reward\Model\Resource\Reward\History;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Expiry config
@@ -51,7 +51,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param null $connection
-     * @param \Magento\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -62,7 +62,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Stdlib\DateTime $dateTime,
         $connection = null,
-        \Magento\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_localeResolver = $localeResolver;
         $this->_customerFactory = $customerFactory;

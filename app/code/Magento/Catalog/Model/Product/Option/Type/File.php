@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Model\Product\Option\Type;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Catalog product option file type
@@ -263,7 +263,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * Validate uploaded file
      *
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _validateUploadedFile()
     {
@@ -410,7 +410,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      *
      * @param array $optionValue
      * @return bool|void
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _validateFile($optionValue)
     {

@@ -27,7 +27,7 @@ use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
  * @method int getStockStatus()
  * @method \Magento\CatalogInventory\Model\Stock\Status setStockStatus(int $value)
  */
-class Status extends \Magento\Model\AbstractModel
+class Status extends \Magento\Framework\Model\AbstractModel
 {
     /**#@+
      * Stock Status values
@@ -79,26 +79,26 @@ class Status extends \Magento\Model\AbstractModel
     protected $_stockItemFactory;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param Type $productType
      * @param \Magento\Catalog\Model\Product\Website $productWebsite
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param ItemFactory $stockItemFactory
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
-     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         Type $productType,
         \Magento\Catalog\Model\Product\Website $productWebsite,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         ItemFactory $stockItemFactory,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
-        \Magento\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

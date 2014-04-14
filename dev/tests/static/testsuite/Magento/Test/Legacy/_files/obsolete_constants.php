@@ -18,7 +18,7 @@ return array(
     array('CACHE_TAG', 'Magento\Framework\AppInterface'),
     array(
         'CACHE_TAG',
-        'Magento\Model\Resource\Db\Collection\AbstractCollection',
+        'Magento\Framework\Model\Resource\Db\Collection\AbstractCollection',
         'Magento_Core_Model_Cache_Type_Collection::CACHE_TAG'
     ),
     array('CACHE_TAG', 'Magento\Translate', 'Magento_Core_Model_Cache_Type_Translate::CACHE_TAG'),

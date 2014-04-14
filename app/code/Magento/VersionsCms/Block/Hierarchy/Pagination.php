@@ -83,7 +83,7 @@ class Pagination extends \Magento\View\Element\Template
     {
         $this->setPaginationEnabled(false);
 
-        if ($this->_node instanceof \Magento\Model\AbstractModel) {
+        if ($this->_node instanceof \Magento\Framework\Model\AbstractModel) {
             $params = $this->_node->getMetadataPagerParams();
             if ($params !== null && isset(
                 $params['pager_visibility']

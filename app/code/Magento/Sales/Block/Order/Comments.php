@@ -88,7 +88,7 @@ class Comments extends \Magento\View\Element\Template
      * Initialize model comments and return comment collection
      *
      * @return \Magento\Sales\Model\Resource\Order\Comment\Collection\AbstractCollection
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getComments()
     {
@@ -101,7 +101,7 @@ class Comments extends \Magento\View\Element\Template
             } else if ($entity instanceof \Magento\Sales\Model\Order\Shipment) {
                 $this->_commentCollection = $this->_shipmentCollectionFactory->create();
             } else {
-                throw new \Magento\Model\Exception(__('We found an invalid entity model.'));
+                throw new \Magento\Framework\Model\Exception(__('We found an invalid entity model.'));
             }
 
             $this->_commentCollection->setParentFilter($entity)->setCreatedAtOrder()->addVisibleOnFrontFilter();

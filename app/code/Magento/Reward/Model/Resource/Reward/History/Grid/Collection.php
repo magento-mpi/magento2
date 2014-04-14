@@ -28,7 +28,7 @@ class Collection extends \Magento\Reward\Model\Resource\Reward\History\Collectio
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Reward\Helper\Data $helper
      * @param mixed $connection
-     * @param \Magento\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -40,7 +40,7 @@ class Collection extends \Magento\Reward\Model\Resource\Reward\History\Collectio
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Reward\Helper\Data $helper,
         $connection = null,
-        \Magento\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_helper = $helper;
         parent::__construct(

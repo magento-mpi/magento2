@@ -24,7 +24,7 @@ class Helper extends \Magento\DB\Helper
      * Get comparison condition for rule condition operator which will be used in SQL query
      *
      * @param string $operator
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return string
      */
     public function getSqlOperator($operator)
@@ -62,7 +62,7 @@ class Helper extends \Magento\DB\Helper
             case '<=':
                 return $operator;
             default:
-                throw new \Magento\Model\Exception(__('Unknown operator specified.'));
+                throw new \Magento\Framework\Model\Exception(__('Unknown operator specified.'));
         }
     }
 }

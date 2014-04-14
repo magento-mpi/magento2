@@ -16,7 +16,7 @@ namespace Magento\GoogleShopping\Model;
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Attribute extends \Magento\Model\AbstractModel
+class Attribute extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Default ignored attribute codes
@@ -75,7 +75,7 @@ class Attribute extends \Magento\Model\AbstractModel
     protected $_productFactory;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GoogleShopping\Helper\Data $gsData
@@ -86,7 +86,7 @@ class Attribute extends \Magento\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GoogleShopping\Helper\Data $gsData,

@@ -18,7 +18,7 @@
  */
 namespace Magento\Reports\Model\Resource\Report;
 
-abstract class AbstractReport extends \Magento\Model\Resource\Db\AbstractDb
+abstract class AbstractReport extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Flag object

@@ -9,7 +9,7 @@
  */
 namespace Magento\DesignEditor\Model\Theme;
 
-use Magento\Model\Exception as CoreException;
+use Magento\Framework\Model\Exception as CoreException;
 
 /**
  * Design editor theme context

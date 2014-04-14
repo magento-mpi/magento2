@@ -449,7 +449,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Prepare cart from order
      *
-     * @param \Magento\Model\AbstractModel $order
+     * @param \Magento\Framework\Model\AbstractModel $order
      * @return array
      */
     public function prepareCart($order)

@@ -111,7 +111,7 @@ class Iframe extends \Magento\Payment\Block\Form
      * Get current block instance
      *
      * @return \Magento\Payment\Block\Form
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getBlock()
     {
@@ -124,7 +124,7 @@ class Iframe extends \Magento\Payment\Block\Form
                 ) . '\\Iframe'
             );
             if (!$this->_block instanceof \Magento\Paypal\Block\Iframe) {
-                throw new \Magento\Model\Exception('Invalid block type');
+                throw new \Magento\Framework\Model\Exception('Invalid block type');
             }
         }
 

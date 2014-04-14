@@ -37,12 +37,12 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $cacheInterfaceMock = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false);
 
         $actionValidatorMock = $this->getMock(
-            '\Magento\Model\ActionValidator\RemoveAction', array(), array(), '', false
+            '\Magento\Framework\Model\ActionValidator\RemoveAction', array(), array(), '', false
         );
         $actionValidatorMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
         $contextMock = $this->getMock(
-            '\Magento\Model\Context',
+            '\Magento\Framework\Model\Context',
             array('getEventDispatcher', 'getCacheManager', 'getActionValidator'), array(), '', false
         );
 
@@ -56,7 +56,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $dbAdapterMock->expects($this->any())->method('getTransactionLevel')->will($this->returnValue(1));
 
         $resourceMock = $this->getMock(
-            'Magento\Model\Resource\AbstractResource',
+            'Magento\Framework\Model\Resource\AbstractResource',
             array('_construct', '_getReadAdapter', '_getWriteAdapter', 'getIdFieldName',
                 'save', 'saveInSetIncluding', 'isUsedBySuperProducts', 'delete'),
             array(), '', false

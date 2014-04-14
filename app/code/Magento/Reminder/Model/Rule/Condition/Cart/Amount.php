@@ -9,7 +9,7 @@
  */
 namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\DB\Select;
 
 /**

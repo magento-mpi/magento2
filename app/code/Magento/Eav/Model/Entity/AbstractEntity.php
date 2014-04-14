@@ -10,10 +10,9 @@
 namespace Magento\Eav\Model\Entity;
 
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
-use Magento\Eav\Model\Entity\Type;
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\Framework\App\Config\Element;
-use Magento\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 use Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend;
 use Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend;
 use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
@@ -25,7 +24,7 @@ use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractEntity extends \Magento\Model\Resource\AbstractResource implements EntityInterface
+abstract class AbstractEntity extends \Magento\Framework\Model\Resource\AbstractResource implements EntityInterface
 {
     /**
      * Read connection
@@ -340,7 +339,7 @@ abstract class AbstractEntity extends \Magento\Model\Resource\AbstractResource i
      * Retrieve current entity config
      *
      * @return Type
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getEntityType()
     {
@@ -378,7 +377,7 @@ abstract class AbstractEntity extends \Magento\Model\Resource\AbstractResource i
      *
      * @param array|string|null $attributes
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function unsetAttributes($attributes = null)
     {
@@ -1063,7 +1062,7 @@ abstract class AbstractEntity extends \Magento\Model\Resource\AbstractResource i
     /**
      * Load model attributes data
      *
-     * @param AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
     protected function _loadModelAttributes($object)
@@ -1408,7 +1407,7 @@ abstract class AbstractEntity extends \Magento\Model\Resource\AbstractResource i
          * @see \Magento\Eav\Model\Entity\AbstractEntity::_collectSaveData()
          *
          * @var array $entityRow
-         * @var AbstractModel $newObject
+         * @var \Magento\Framework\Model\AbstractModel $newObject
          * @var array $insert
          * @var array $update
          * @var array $delete
@@ -1518,7 +1517,7 @@ abstract class AbstractEntity extends \Magento\Model\Resource\AbstractResource i
      *
      * Collect for mass save
      *
-     * @param AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @param AbstractAttribute $attribute
      * @param mixed $value
      * @return $this

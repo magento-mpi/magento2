@@ -119,7 +119,7 @@ class Observer
         if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
-        /** @var \Magento\Model\Resource\Db\Collection\AbstractCollection $collection */
+        /** @var \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection $collection */
         $collection = $observer->getEvent()->getCollection();
         $segmentIds = $this->_segmentCustomer->getCurrentCustomerSegmentIds();
         $this->_bannerSegmentLink->addBannerSegmentFilter($collection->getSelect(), $segmentIds);

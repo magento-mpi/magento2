@@ -17,7 +17,7 @@ namespace Magento\Paypal\Model\Payment;
  * @method string getCreatedAt()
  * @method \Magento\Paypal\Model\Payment\Transaction setCreatedAt(string $value)
  */
-class Transaction extends \Magento\Model\AbstractModel
+class Transaction extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Whether to throw exceptions on different operations
@@ -55,18 +55,18 @@ class Transaction extends \Magento\Model\AbstractModel
     protected $_dateFactory;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
-     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
-        \Magento\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -145,12 +145,12 @@ class Transaction extends \Magento\Model\AbstractModel
      * @param string $key
      * @param mixed $value
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function setAdditionalInformation($key, $value)
     {
         if (is_object($value)) {
-            throw new \Magento\Model\Exception(__('Payment transactions disallow storing objects.'));
+            throw new \Magento\Framework\Model\Exception(__('Payment transactions disallow storing objects.'));
         }
         $info = $this->_getData('additional_information');
         if (!$info) {
@@ -216,7 +216,7 @@ class Transaction extends \Magento\Model\AbstractModel
      * Verify data required for saving
      *
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave()
     {
@@ -231,12 +231,12 @@ class Transaction extends \Magento\Model\AbstractModel
      *
      * @param string $txnId
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _verifyTxnId($txnId)
     {
         if (null !== $txnId && 0 == strlen($txnId)) {
-            throw new \Magento\Model\Exception(__('You need to enter a transaction ID.'));
+            throw new \Magento\Framework\Model\Exception(__('You need to enter a transaction ID.'));
         }
     }
 
@@ -246,12 +246,12 @@ class Transaction extends \Magento\Model\AbstractModel
      * TODO for more restriction we can check for data consistency
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _verifyThisTransactionExists()
     {
         if (!$this->getId()) {
-            throw new \Magento\Model\Exception(__('This operation requires an existing transaction object.'));
+            throw new \Magento\Framework\Model\Exception(__('This operation requires an existing transaction object.'));
         }
     }
 }

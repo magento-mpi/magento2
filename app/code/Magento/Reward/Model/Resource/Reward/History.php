@@ -16,7 +16,7 @@ use Magento\Reward\Model\Reward\History as ModelRewardHistory;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class History extends \Magento\Model\Resource\Db\AbstractDb
+class History extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Date time formatter

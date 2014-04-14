@@ -71,9 +71,9 @@
     <preference for="Magento\Mview\View\CollectionInterface" type="Magento\Mview\View\Collection" />
     <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
     <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
-    <type name="Magento\Model\Context">
+    <type name="Magento\Framework\Model\Context">
         <arguments>
-            <argument name="actionValidator" xsi:type="object">Magento\Model\ActionValidator\RemoveAction\Proxy</argument>
+            <argument name="actionValidator" xsi:type="object">Magento\Framework\Model\ActionValidator\RemoveAction\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Service\V1\Data\FilterBuilder" shared="false" />

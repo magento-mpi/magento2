@@ -217,11 +217,11 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            'Magento\Model\Name'
+            'Magento\Framework\Model\Name'
         )->will(
             $this->returnValue('backend_model_object')
         );
-        $this->_model->setData(array('backend_model' => 'Magento\Model\Name'), 'scope');
+        $this->_model->setData(array('backend_model' => 'Magento\Framework\Model\Name'), 'scope');
         $this->assertEquals('backend_model_object', $this->_model->getBackendModel());
     }
 

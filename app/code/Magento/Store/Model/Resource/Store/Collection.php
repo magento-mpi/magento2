@@ -10,7 +10,7 @@ namespace Magento\Store\Model\Resource\Store;
 /**
  * Stores collection
  */
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Name prefix of events that are dispatched by model

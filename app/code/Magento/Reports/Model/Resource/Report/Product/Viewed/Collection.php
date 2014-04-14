@@ -223,7 +223,7 @@ class Collection extends \Magento\Reports\Model\Resource\Report\Collection\Abstr
      * Re-declare parent method for applying filters after parent method, but before adding unions and calculating
      * totals
      *
-     * @return $this|\Magento\Model\Resource\Db\Collection\AbstractCollection
+     * @return $this|\Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _beforeLoad()
     {

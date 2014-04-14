@@ -11,11 +11,8 @@ namespace Magento\Backup\Model;
  * Backup file item model
  *
  * @method string getPath()
- * @method \Magento\Backup\Model\Backup setPath() setPath($path)
  * @method string getName()
- * @method \Magento\Backup\Model\Backup setName() setName($name)
  * @method string getTime()
- * @method \Magento\Backup\Model\Backup setTime() setTime($time)
  */
 class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterface
 {
@@ -225,12 +222,12 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
      *
      * @param string &$content
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function setFile(&$content)
     {
         if (!$this->hasData('time') || !$this->hasData('type') || !$this->hasData('path')) {
-            throw new \Magento\Model\Exception(__('Please correct the order of creation for a new backup.'));
+            throw new \Magento\Framework\Model\Exception(__('Please correct the order of creation for a new backup.'));
         }
 
         $this->varDirectory->writeFile($this->_getFilePath(), $content);
@@ -241,12 +238,12 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
      * Return content of backup file
      *
      * @return string
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function &getFile()
     {
         if (!$this->exists()) {
-            throw new \Magento\Model\Exception(__("The backup file does not exist."));
+            throw new \Magento\Framework\Model\Exception(__("The backup file does not exist."));
         }
 
         return $this->varDirectory->read($this->_getFilePath());
@@ -256,12 +253,12 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
      * Delete backup file
      *
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function deleteFile()
     {
         if (!$this->exists()) {
-            throw new \Magento\Model\Exception(__("The backup file does not exist."));
+            throw new \Magento\Framework\Model\Exception(__("The backup file does not exist."));
         }
 
         $this->varDirectory->delete($this->_getFilePath());

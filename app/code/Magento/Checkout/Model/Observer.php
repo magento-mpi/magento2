@@ -54,7 +54,7 @@ class Observer
     {
         try {
             $this->_checkoutSession->loadCustomerQuote();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Load customer quote error'));

@@ -21,7 +21,7 @@ class ObjectManager
      * @var array
      */
     protected $_specialCases = array(
-        'Magento\Model\Resource\AbstractResource' => '_getResourceModelMock',
+        'Magento\Framework\Model\Resource\AbstractResource' => '_getResourceModelMock',
         'Magento\TranslateInterface' => '_getTranslatorMock',
     );
 

@@ -12,7 +12,7 @@ namespace Magento\Rma\Model;
 /**
  * RMA Item model
  */
-class Item extends \Magento\Model\AbstractModel
+class Item extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Entity code.
@@ -89,26 +89,26 @@ class Item extends \Magento\Model\AbstractModel
     protected $_requestFactory;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory
      * @param \Magento\Sales\Model\Order\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $formFactory
      * @param \Magento\Framework\App\RequestFactory $requestFactory
-     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory,
         \Magento\Sales\Model\Order\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $formFactory,
         \Magento\Framework\App\RequestFactory $requestFactory,
-        \Magento\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

@@ -260,13 +260,13 @@ abstract class AbstractFilter extends \Magento\Object
      * Get attribute model associated with filter
      *
      * @return \Magento\Catalog\Model\Resource\Eav\Attribute
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getAttributeModel()
     {
         $attribute = $this->getData('attribute_model');
         if (is_null($attribute)) {
-            throw new \Magento\Model\Exception(__('The attribute model is not defined.'));
+            throw new \Magento\Framework\Model\Exception(__('The attribute model is not defined.'));
         }
         return $attribute;
     }

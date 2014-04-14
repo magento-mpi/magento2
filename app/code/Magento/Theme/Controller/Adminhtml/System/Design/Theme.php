@@ -91,7 +91,7 @@ class Theme extends \Magento\Backend\App\Action
         try {
             $theme->setType(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL);
             if ($themeId && (!$theme->load($themeId)->getId() || !$theme->isVisible())) {
-                throw new \Magento\Model\Exception(__('We cannot find theme "%1".', $themeId));
+                throw new \Magento\Framework\Model\Exception(__('We cannot find theme "%1".', $themeId));
             }
             $this->_coreRegistry->register('current_theme', $theme);
 
@@ -106,7 +106,7 @@ class Theme extends \Magento\Backend\App\Action
             }
             $this->_setActiveMenu('Magento_Theme::system_design_theme');
             $this->_view->renderLayout();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
         } catch (\Exception $e) {
@@ -151,7 +151,7 @@ class Theme extends \Magento\Backend\App\Action
                     );
                 }
                 if ($theme && !$theme->isEditable()) {
-                    throw new \Magento\Model\Exception(__('Theme isn\'t editable.'));
+                    throw new \Magento\Framework\Model\Exception(__('Theme isn\'t editable.'));
                 }
                 $theme->addData($themeData);
                 if (isset($themeData['preview']['delete'])) {
@@ -166,7 +166,7 @@ class Theme extends \Magento\Backend\App\Action
                 $singleFile->update($theme, $customCssData);
                 $this->messageManager->addSuccess(__('You saved the theme.'));
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_getSession()->setThemeData($themeData);
             $this->_getSession()->setThemeCustomCssData($customCssData);
@@ -207,7 +207,7 @@ class Theme extends \Magento\Backend\App\Action
                 $theme->delete();
                 $this->messageManager->addSuccess(__('You deleted the theme.'));
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We cannot delete the theme.'));
@@ -231,7 +231,7 @@ class Theme extends \Magento\Backend\App\Action
         try {
             $cssFileContent = $serviceModel->uploadCssFile('css_file_uploader');
             $result = array('error' => false, 'content' => $cssFileContent['content']);
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => __('We cannot upload the CSS file.'));
@@ -244,7 +244,7 @@ class Theme extends \Magento\Backend\App\Action
      * Upload js file
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function uploadJsAction()
     {
@@ -258,7 +258,7 @@ class Theme extends \Magento\Backend\App\Action
         try {
             $theme = $themeFactory->create($themeId);
             if (!$theme) {
-                throw new \Magento\Model\Exception(__('We cannot find a theme with id "%1".', $themeId));
+                throw new \Magento\Framework\Model\Exception(__('We cannot find a theme with id "%1".', $themeId));
             }
             $jsFileData = $serviceModel->uploadJsFile('js_files_uploader');
             $jsFile = $jsService->create();
@@ -274,7 +274,7 @@ class Theme extends \Magento\Backend\App\Action
             );
             $customJsFiles = $customization->getFilesByType(\Magento\View\Design\Theme\Customization\File\Js::TYPE);
             $result = array('error' => false, 'files' => $customization->generateFileInfo($customJsFiles));
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => __('We cannot upload the JS file.'));

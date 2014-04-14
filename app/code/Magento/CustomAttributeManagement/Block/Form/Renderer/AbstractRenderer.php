@@ -28,7 +28,7 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
     /**
      * EAV Entity Model
      *
-     * @var \Magento\Model\AbstractModel
+     * @var \Magento\Framework\Model\AbstractModel
      */
     protected $_entity;
 
@@ -71,10 +71,10 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
     /**
      * Set Entity object
      *
-     * @param \Magento\Model\AbstractModel $entity
+     * @param \Magento\Framework\Model\AbstractModel $entity
      * @return $this
      */
-    public function setEntity(\Magento\Model\AbstractModel $entity)
+    public function setEntity(\Magento\Framework\Model\AbstractModel $entity)
     {
         $this->_entity = $entity;
         return $this;
@@ -83,7 +83,7 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
     /**
      * Return Entity object
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     public function getEntity()
     {

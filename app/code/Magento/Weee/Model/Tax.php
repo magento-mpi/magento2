@@ -13,7 +13,7 @@ use Magento\Catalog\Model\Product;
 use Magento\Store\Model\Website;
 use Magento\Customer\Model\Converter as CustomerConverter;
 
-class Tax extends \Magento\Model\AbstractModel
+class Tax extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Including FPT only
@@ -85,7 +85,7 @@ class Tax extends \Magento\Model\AbstractModel
     protected $customerConverter;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -99,7 +99,7 @@ class Tax extends \Magento\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

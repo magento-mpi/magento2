@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\Framework\App\ResponseInterface;
 
 /**
@@ -68,7 +68,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
      *
      * @param bool $update
      * @return \Magento\Sales\Model\Order\Invoice
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _initInvoice($update = false)
     {

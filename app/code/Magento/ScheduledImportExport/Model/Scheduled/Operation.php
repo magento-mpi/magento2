@@ -31,7 +31,7 @@ namespace Magento\ScheduledImportExport\Model\Scheduled;
  * @method \Magento\ScheduledImportExport\Model\Scheduled\Operation setLastRunDate() setLastRunDate(int $value)
  * @method int getLastRunDate() getLastRunDate()
  */
-class Operation extends \Magento\Model\AbstractModel
+class Operation extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Log directory
@@ -117,7 +117,7 @@ class Operation extends \Magento\Model\AbstractModel
     protected $_transportBuilder;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -128,12 +128,12 @@ class Operation extends \Magento\Model\AbstractModel
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -144,7 +144,7 @@ class Operation extends \Magento\Model\AbstractModel
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\String $string,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -307,7 +307,7 @@ class Operation extends \Magento\Model\AbstractModel
     /**
      * Add operation to cron
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
     protected function _addCronTask()
@@ -347,7 +347,7 @@ class Operation extends \Magento\Model\AbstractModel
                 $modelPath
             )->save();
         } catch (\Exception $e) {
-            throw new \Magento\Model\Exception(__('We were unable to save the cron expression.'));
+            throw new \Magento\Framework\Model\Exception(__('We were unable to save the cron expression.'));
             $this->_logger->logException($e);
         }
         return $this;
@@ -356,7 +356,7 @@ class Operation extends \Magento\Model\AbstractModel
     /**
      * Remove cron task
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
     protected function _dropCronTask()
@@ -365,7 +365,7 @@ class Operation extends \Magento\Model\AbstractModel
             $this->_configValueFactory->create()->load($this->getExprConfigPath(), 'path')->delete();
             $this->_configValueFactory->create()->load($this->getModelConfigPath(), 'path')->delete();
         } catch (\Exception $e) {
-            throw new \Magento\Model\Exception(__('Unable to delete the cron task.'));
+            throw new \Magento\Framework\Model\Exception(__('Unable to delete the cron task.'));
             $this->_logger->logException($e);
         }
         return $this;
@@ -397,7 +397,7 @@ class Operation extends \Magento\Model\AbstractModel
      *
      * @param string $jobCode
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function loadByJobCode($jobCode)
     {
@@ -406,7 +406,7 @@ class Operation extends \Magento\Model\AbstractModel
             $operationId = (int)substr($jobCode, $idPos + 1);
         }
         if (!isset($operationId) || !$operationId) {
-            throw new \Magento\Model\Exception(__('Please correct the cron job task'));
+            throw new \Magento\Framework\Model\Exception(__('Please correct the cron job task'));
         }
 
         return $this->load($operationId);
@@ -464,7 +464,7 @@ class Operation extends \Magento\Model\AbstractModel
      * Get file based on "file_info" from server (ftp, local) and put to tmp directory
      *
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return string full file path
      */
     public function getFileSource(
@@ -472,7 +472,7 @@ class Operation extends \Magento\Model\AbstractModel
     ) {
         $fileInfo = $this->getFileInfo();
         if (empty($fileInfo['file_name'])) {
-            throw new \Magento\Model\Exception(__("We couldn't read the file source because the file name is empty."));
+            throw new \Magento\Framework\Model\Exception(__("We couldn't read the file source because the file name is empty."));
         }
         $operation->addLogComment(__('Connecting to server'));
         $operation->addLogComment(__('Reading import file'));
@@ -489,7 +489,7 @@ class Operation extends \Magento\Model\AbstractModel
             $contents = $varDirectory->readFile($varDirectory->getRelativePath($filePath));
             $tmpDirectory->writeFile($tmpFile, $contents);
         } catch (\Magento\Filesystem\FilesystemException $e) {
-            throw new \Magento\Model\Exception(__("We couldn't read the import file."));
+            throw new \Magento\Framework\Model\Exception(__("We couldn't read the import file."));
         }
         $operation->addLogComment(__('Save history file content "%1"', $this->getHistoryFilePath()));
         $this->_saveOperationHistory($tmpFilePath);
@@ -502,7 +502,7 @@ class Operation extends \Magento\Model\AbstractModel
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation
      * @param string $fileContent
      * @return bool
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function saveFileSource(
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation,
@@ -517,7 +517,7 @@ class Operation extends \Magento\Model\AbstractModel
             $varDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
             $varDirectory->writeFile($fileInfo['file_path'] . '/' . $fileName, $fileContent);
         } catch (\Magento\Filesystem\FilesystemException $e) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __(
                     'We couldn\'t write file "%1" to "%2" with the "%3" driver.',
                     $fileName,
@@ -535,7 +535,7 @@ class Operation extends \Magento\Model\AbstractModel
      * Get operation instance by operation type and set specific data to it
      * Supported import, export
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
      */
     public function getInstance()
@@ -581,7 +581,7 @@ class Operation extends \Magento\Model\AbstractModel
      *
      * @param string $source
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _saveOperationHistory($source)
     {
@@ -591,7 +591,7 @@ class Operation extends \Magento\Model\AbstractModel
         try {
             $logDirectory->writeFile($filePath, $source);
         } catch (\Magento\Filesystem\FilesystemException $e) {
-            throw new \Magento\Model\Exception(__("We couldn't save the file history file."));
+            throw new \Magento\Framework\Model\Exception(__("We couldn't save the file history file."));
         }
         return $this;
     }
@@ -599,7 +599,7 @@ class Operation extends \Magento\Model\AbstractModel
     /**
      * Get file path of history operation files
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return string
      */
     public function getHistoryFilePath()
@@ -616,7 +616,7 @@ class Operation extends \Magento\Model\AbstractModel
         } elseif (isset($fileInfo['file_name'])) {
             $extension = pathinfo($fileInfo['file_name'], PATHINFO_EXTENSION);
         } else {
-            throw new \Magento\Model\Exception(__('Unknown file format'));
+            throw new \Magento\Framework\Model\Exception(__('Unknown file format'));
         }
 
         return $logDirectory->getAbsolutePath($dirPath . $fileName . '.' . $extension);

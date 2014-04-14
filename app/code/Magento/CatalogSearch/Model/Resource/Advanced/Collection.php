@@ -9,7 +9,7 @@
  */
 namespace Magento\CatalogSearch\Model\Resource\Advanced;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Collection Advanced
@@ -102,7 +102,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      *
      * @param array $fields
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function addFieldsToFilter($fields)
     {

@@ -50,7 +50,7 @@ namespace Magento\Reward\Model\Reward;
  * @method int getNotificationSent()
  * @method \Magento\Reward\Model\Reward\History setNotificationSent(int $value)
  */
-class History extends \Magento\Model\AbstractModel
+class History extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Reward data
@@ -88,7 +88,7 @@ class History extends \Magento\Model\AbstractModel
     protected $rewardRate;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\Resource\Reward\History $resource
@@ -100,7 +100,7 @@ class History extends \Magento\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\Resource\Reward\History $resource,

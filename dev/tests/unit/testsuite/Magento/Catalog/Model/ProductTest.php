@@ -79,14 +79,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
 
         $actionValidatorMock = $this->getMock(
-            '\Magento\Model\ActionValidator\RemoveAction', array(), array(), '', false
+            '\Magento\Framework\Model\ActionValidator\RemoveAction', array(), array(), '', false
         );
         $actionValidatorMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
         $cacheInterfaceMock = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false);
 
 
         $contextMock = $this->getMock(
-            '\Magento\Model\Context',
+            '\Magento\Framework\Model\Context',
             array('getEventDispatcher', 'getCacheManager', 'getAppState', 'getActionValidator'), array(), '', false
         );
 

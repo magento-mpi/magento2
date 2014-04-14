@@ -191,12 +191,12 @@ class Configuration
      *
      * @param string $controlName
      * @return array
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getControlData($controlName)
     {
         if (!isset($this->_controlList[$controlName])) {
-            throw new \Magento\Model\Exception("Unknown control: \"{$controlName}\"");
+            throw new \Magento\Framework\Model\Exception("Unknown control: \"{$controlName}\"");
         }
         return $this->_controlList[$controlName];
     }

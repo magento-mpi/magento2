@@ -9,8 +9,8 @@
  */
 namespace Magento\Core\Model;
 
-use Magento\Model\Resource\AbstractResource;
-use Magento\Model\AbstractModel;
+use Magento\Framework\Model\Resource\AbstractResource;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Design settings change model
@@ -60,7 +60,7 @@ class Design extends AbstractModel implements \Magento\Object\IdentityInterface
     protected $_dateTime;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -69,7 +69,7 @@ class Design extends AbstractModel implements \Magento\Object\IdentityInterface
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Stdlib\DateTime $dateTime,

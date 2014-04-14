@@ -17,7 +17,7 @@ namespace Magento\Pci\Model\Resource\Key;
  * @package     Magento_Pci
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Change extends \Magento\Model\Resource\Db\AbstractDb
+class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Encryptor interface

@@ -10,9 +10,9 @@ namespace Magento\CatalogEvent\Model;
 use Magento\Framework\App\Filesystem;
 use Magento\Catalog\Model\Category;
 use Magento\CatalogEvent\Model\Resource\Event as ResourceEvent;
-use Magento\Model\Exception;
-use Magento\Model\AbstractModel;
-use Magento\Model\Context;
+use Magento\Framework\Model\Exception;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Context;
 use Magento\Stdlib\DateTime\TimezoneInterface;
 use Magento\Registry;
 use Magento\Store\Model\Store;
@@ -37,7 +37,7 @@ use Magento\UrlInterface;
  * @method int getSortOrder()
  * @method Event setSortOrder(int $value)
  */
-class Event extends AbstractModel implements \Magento\Object\IdentityInterface
+class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     const DISPLAY_CATEGORY_PAGE = 1;
 
@@ -349,7 +349,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
             $date = $this->getData($dateType);
             if (empty($date)) {
                 // Date fields is required.
-                throw new Exception(__('%1 is required.', $fieldTitles[$dateType]));
+                throw new \Magento\Framework\Model\Exception(__('%1 is required.', $fieldTitles[$dateType]));
             }
             if ($date != $this->getOrigData($dateType)) {
                 $dateChanged = true;

@@ -33,7 +33,7 @@ class GoogleProductCategory extends \Magento\GoogleShopping\Model\Attribute\Defa
     protected $_typeFactory;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GoogleShopping\Helper\Data $gsData
@@ -46,7 +46,7 @@ class GoogleProductCategory extends \Magento\GoogleShopping\Model\Attribute\Defa
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GoogleShopping\Helper\Data $gsData,

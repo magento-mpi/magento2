@@ -18,7 +18,7 @@
  */
 namespace Magento\Widget\Model\Resource;
 
-class Widget extends \Magento\Model\Resource\Db\AbstractDb
+class Widget extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table

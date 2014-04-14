@@ -23,7 +23,7 @@ namespace Magento\Core\Model;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Variable extends \Magento\Model\AbstractModel
+class Variable extends \Magento\Framework\Model\AbstractModel
 {
     const TYPE_TEXT = 'text';
 
@@ -40,7 +40,7 @@ class Variable extends \Magento\Model\AbstractModel
     protected $_escaper = null;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\Resource\Variable $resource
@@ -48,7 +48,7 @@ class Variable extends \Magento\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Escaper $escaper,
         \Magento\Core\Model\Resource\Variable $resource,

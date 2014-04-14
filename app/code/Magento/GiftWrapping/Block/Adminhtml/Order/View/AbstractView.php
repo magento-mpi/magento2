@@ -20,7 +20,7 @@ namespace Magento\GiftWrapping\Block\Adminhtml\Order\View;
 class AbstractView extends \Magento\View\Element\Template
 {
     /**
-     * @var \Magento\Model\Resource\Db\Collection\AbstractCollection
+     * @var \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     protected $_designCollection;
 

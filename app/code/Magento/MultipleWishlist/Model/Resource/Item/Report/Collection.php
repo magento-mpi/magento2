@@ -13,7 +13,7 @@ namespace Magento\MultipleWishlist\Model\Resource\Item\Report;
 
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Catalog data
@@ -52,7 +52,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      * @param \Magento\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
      * @param mixed $connection
-     * @param \Magento\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -67,7 +67,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         \Magento\Object\Copy\Config $fieldsetConfig,
         \Magento\Customer\Model\Resource\Customer $resourceCustomer,
         $connection = null,
-        \Magento\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_wishlistData = $wishlistData;
         $this->_catalogData = $catalogData;

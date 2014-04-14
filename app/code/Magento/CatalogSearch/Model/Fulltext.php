@@ -11,11 +11,9 @@ namespace Magento\CatalogSearch\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\CatalogSearch\Helper\Data;
-use Magento\CatalogSearch\Model\Query;
-use Magento\Model\AbstractModel;
-use Magento\Model\Context;
+use Magento\Framework\Model\Context;
 use Magento\Registry;
-use Magento\Model\Resource\AbstractResource;
+use Magento\Framework\Model\Resource\AbstractResource;
 use Magento\Framework\Data\Collection\Db;
 
 /**
@@ -34,7 +32,7 @@ use Magento\Framework\Data\Collection\Db;
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Fulltext extends AbstractModel
+class Fulltext extends \Magento\Framework\Model\AbstractModel
 {
     const SEARCH_TYPE_LIKE = 1;
 

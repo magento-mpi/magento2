@@ -190,7 +190,7 @@ class Menu extends \Magento\View\Element\Template
     {
         $this->setMenuEnabled(false);
 
-        if ($this->_node instanceof \Magento\Model\AbstractModel) {
+        if ($this->_node instanceof \Magento\Framework\Model\AbstractModel) {
             $params = $this->_node->getMetadataContextMenuParams();
             if ($params !== null && isset($params['menu_visibility']) && $params['menu_visibility'] == 1) {
                 $this->addData(

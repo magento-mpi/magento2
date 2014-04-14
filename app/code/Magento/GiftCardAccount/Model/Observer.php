@@ -214,7 +214,7 @@ class Observer
             $code = $request['giftcard_add'];
             try {
                 $this->_giftCAFactory->create()->loadByCode($code)->addToCart(true, $quote);
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('We cannot apply this gift card.'));
@@ -226,7 +226,7 @@ class Observer
 
             try {
                 $this->_giftCAFactory->create()->loadByCode($code)->removeFromCart(false, $quote);
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('We cannot remove this gift card.'));

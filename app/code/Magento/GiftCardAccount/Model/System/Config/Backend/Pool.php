@@ -19,20 +19,20 @@ class Pool extends \Magento\Framework\App\Config\Value
     protected $_giftCardAccountPool = null;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\GiftCardAccount\Model\Pool $giftCardAccountPool
-     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\GiftCardAccount\Model\Pool $giftCardAccountPool,
-        \Magento\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -69,7 +69,7 @@ class Pool extends \Magento\Framework\App\Config\Value
      * Check Max Length
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _checkMaxLength()
     {
@@ -99,7 +99,7 @@ class Pool extends \Magento\Framework\App\Config\Value
         }
 
         if ($len > 255) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('Maximum generated code length is 255. Please correct your settings.')
             );
         }

@@ -19,7 +19,6 @@ namespace Magento\Catalog\Block\Product;
 
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Data\Collection;
-use Magento\View\Element\AbstractBlock;
 
 class Gallery extends \Magento\View\Element\Template
 {

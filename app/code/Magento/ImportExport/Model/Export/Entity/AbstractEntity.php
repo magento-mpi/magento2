@@ -496,12 +496,12 @@ abstract class AbstractEntity
      * Inner writer object getter.
      *
      * @return AbstractAdapter
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getWriter()
     {
         if (!$this->_writer) {
-            throw new \Magento\Model\Exception(__('Please specify writer.'));
+            throw new \Magento\Framework\Model\Exception(__('Please specify writer.'));
         }
         return $this->_writer;
     }

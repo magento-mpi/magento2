@@ -16,7 +16,7 @@ use Magento\Sales\Model\Order\Address;
 /**
  * RMA model
  */
-class Rma extends \Magento\Model\AbstractModel
+class Rma extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * XML configuration paths
@@ -234,7 +234,7 @@ class Rma extends \Magento\Model\AbstractModel
     protected $inlineTranslation;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Session\Generic $session
@@ -268,7 +268,7 @@ class Rma extends \Magento\Model\AbstractModel
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Session\Generic $session,

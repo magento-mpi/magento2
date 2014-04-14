@@ -180,7 +180,7 @@ return array(
     array('_dir', 'Magento\Backup\Model\Fs\Collection'),
     array('_dir', 'Magento\Cms\Model\Wysiwyg\Images\Storage'),
     array('_dirs', 'Magento\Core\Helper\Theme'),
-    array('_dirs', 'Magento\Model\Resource\Type\Db\Pdo\Mysql'),
+    array('_dirs', 'Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql'),
     array('_filesystem', 'Magento\GiftWrapping\Model\Wrapping'),
     array('_customer', 'Magento\Backend\Model\Session\Quote'),
     array('_customerFactory', 'Magento\Backend\Model\Session\Quote'),

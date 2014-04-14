@@ -16,7 +16,6 @@ namespace Magento\ProductAlert\Controller;
  * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-use Magento\Framework\App\Action\NotFoundException;
 use Magento\Framework\App\RequestInterface;
 
 class Unsubscribe extends \Magento\Framework\App\Action\Action

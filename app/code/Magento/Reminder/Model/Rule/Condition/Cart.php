@@ -10,7 +10,7 @@
 namespace Magento\Reminder\Model\Rule\Condition;
 
 use Magento\DB\Select;
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Customer cart conditions combine
@@ -141,7 +141,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 0) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('The root shopping cart condition should have a days value of 0 or greater.')
             );
         }

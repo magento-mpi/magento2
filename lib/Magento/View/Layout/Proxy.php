@@ -479,7 +479,7 @@ class Proxy extends \Magento\View\Layout
      * Get block singleton
      *
      * @param string $type
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getBlockSingleton($type)

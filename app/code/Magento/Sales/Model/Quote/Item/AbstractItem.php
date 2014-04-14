@@ -38,7 +38,7 @@ use Magento\Sales\Model\Quote\Item;
  * @method int[] getAppliedRuleIds()
  * @method \Magento\Sales\Model\Quote\Item\AbstractItem setAppliedRuleIds(array $ruleIds)
  */
-abstract class AbstractItem extends \Magento\Model\AbstractModel implements
+abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel implements
     \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
     /**
@@ -69,18 +69,18 @@ abstract class AbstractItem extends \Magento\Model\AbstractModel implements
     protected $_productFactory;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -302,7 +302,7 @@ abstract class AbstractItem extends \Magento\Model\AbstractModel implements
 
         try {
             $this->setQty($qty);
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->setHasError(true);
             $this->setMessage($e->getMessage());
         } catch (\Exception $e) {
@@ -312,7 +312,7 @@ abstract class AbstractItem extends \Magento\Model\AbstractModel implements
 
         try {
             $this->getProduct()->getTypeInstance()->checkProductBuyState($this->getProduct());
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->setHasError(true)->setMessage($e->getMessage());
             $this->getQuote()->setHasError(
                 true

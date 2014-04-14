@@ -148,7 +148,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         );
 
         $resource = $this->getMockForAbstractClass(
-            'Magento\Model\Resource\Db\AbstractDb',
+            'Magento\Framework\Model\Resource\Db\AbstractDb',
             array(),
             '',
             false,

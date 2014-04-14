@@ -26,7 +26,7 @@ namespace Magento\Paypal\Model\Report;
  * @method string getLastModified()
  * @method \Magento\Paypal\Model\Report\Settlement setLastModified(string $value)
  */
-class Settlement extends \Magento\Model\AbstractModel
+class Settlement extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Default PayPal SFTP host
@@ -158,22 +158,22 @@ class Settlement extends \Magento\Model\AbstractModel
     protected $_scopeConfig;
 
     /**
-    * @param \Magento\Model\Context $context
+    * @param \Magento\Framework\Model\Context $context
     * @param \Magento\Registry $registry
     * @param \Magento\Framework\App\Filesystem $filesystem
     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-    * @param \Magento\Model\Resource\AbstractResource $resource
+    * @param \Magento\Framework\Model\Resource\AbstractResource $resource
     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
     * @param array $data
     */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -196,7 +196,7 @@ class Settlement extends \Magento\Model\AbstractModel
     /**
      * Stop saving process if file with same report date, account ID and last modified date was already ferched
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _beforeSave()
     {
@@ -216,7 +216,7 @@ class Settlement extends \Magento\Model\AbstractModel
      *
      * @param \Magento\Io\Sftp $connection
      * @return int Number of report rows that were fetched and saved successfully
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function fetchAndSave(\Magento\Io\Sftp $connection)
     {
@@ -227,7 +227,7 @@ class Settlement extends \Magento\Model\AbstractModel
             $localCsv = 'PayPal_STL_' . uniqid(mt_rand()) . time() . '.csv';
             if ($connection->read($filename, $this->_tmpDirectory->getAbsolutePath($localCsv))) {
                 if (!$this->_tmpDirectory->isWritable($localCsv)) {
-                    throw new \Magento\Model\Exception(__('We cannot create a target file for reading reports.'));
+                    throw new \Magento\Framework\Model\Exception(__('We cannot create a target file for reading reports.'));
                 }
 
                 $encoded = $this->_tmpDirectory->readFile($localCsv);

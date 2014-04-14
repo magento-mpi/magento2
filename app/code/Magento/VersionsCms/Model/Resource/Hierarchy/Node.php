@@ -12,7 +12,7 @@ namespace Magento\VersionsCms\Model\Resource\Hierarchy;
 /**
  * Cms Hierarchy Pages Node Resource Model
  */
-class Node extends \Magento\Model\Resource\Db\AbstractDb
+class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Primary key auto increment flag
@@ -399,10 +399,10 @@ class Node extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Prepare xpath after object save
      *
-     * @param \Magento\Model\AbstractModel|\Magento\VersionsCms\Model\Hierarchy\Node $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\VersionsCms\Model\Hierarchy\Node $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         if ($object->dataHasChangedFor($this->getIdFieldName())) {
             // update xpath
@@ -419,10 +419,10 @@ class Node extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Saving meta if such available for node (in case node is root node of three)
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    public function saveMetaData(\Magento\Model\AbstractModel $object)
+    public function saveMetaData(\Magento\Framework\Model\AbstractModel $object)
     {
         // we save to metadata table not only metadata :(
         //if ($object->getParentNodeId()) {

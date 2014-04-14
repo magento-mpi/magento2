@@ -9,7 +9,7 @@
  */
 namespace Magento\Weee\Model\Attribute\Backend\Weee;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
 {

@@ -1325,7 +1325,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage Customer website ID must be specified when using the website scope
      */
     public function testIsEmailAvailableNoWebsiteSpecified()

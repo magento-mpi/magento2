@@ -532,12 +532,12 @@ abstract class AbstractEntity
      * Source object getter
      *
      * @return AbstractSource
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getSource()
     {
         if (!$this->_source) {
-            throw new \Magento\Model\Exception(__('Source is not set'));
+            throw new \Magento\Framework\Model\Exception(__('Source is not set'));
         }
         return $this->_source;
     }
@@ -688,7 +688,7 @@ abstract class AbstractEntity
      * Validate data
      *
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validateData()
     {
@@ -696,7 +696,7 @@ abstract class AbstractEntity
             // do all permanent columns exist?
             $absentColumns = array_diff($this->_permanentAttributes, $this->getSource()->getColNames());
             if ($absentColumns) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __('Cannot find required columns: %1', implode(', ', $absentColumns))
                 );
             }
@@ -717,12 +717,12 @@ abstract class AbstractEntity
             }
 
             if ($emptyHeaderColumns) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __('Columns number: "%1" have empty headers', implode('", "', $emptyHeaderColumns))
                 );
             }
             if ($invalidColumns) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __('Column names: "%1" are invalid', implode('", "', $invalidColumns))
                 );
             }

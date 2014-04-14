@@ -224,7 +224,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     public function testDeleteDirectoryOverRoot()
     {
         $this->setExpectedException(
-            '\Magento\Model\Exception',
+            '\Magento\Framework\Model\Exception',
             sprintf('Directory %s is not under storage root path.', self::INVALID_DIRECTORY_OVER_ROOT)
         );
         $this->_model->deleteDirectory(self::INVALID_DIRECTORY_OVER_ROOT);
@@ -236,7 +236,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     public function testDeleteRootDirectory()
     {
         $this->setExpectedException(
-            '\Magento\Model\Exception',
+            '\Magento\Framework\Model\Exception',
             sprintf('We cannot delete root directory %s.', self::STORAGE_ROOT_DIR)
         );
         $this->_model->deleteDirectory(self::STORAGE_ROOT_DIR);

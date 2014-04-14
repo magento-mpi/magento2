@@ -21,7 +21,7 @@ namespace Magento\Log\Model;
  * @method int getStoreId()
  * @method \Magento\Log\Model\Visitor setStoreId(int $value)
  */
-class Visitor extends \Magento\Model\AbstractModel
+class Visitor extends \Magento\Framework\Model\AbstractModel
 {
     const DEFAULT_ONLINE_MINUTES_INTERVAL = 15;
 
@@ -94,7 +94,7 @@ class Visitor extends \Magento\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
@@ -106,14 +106,14 @@ class Visitor extends \Magento\Model\AbstractModel
      * @param \Magento\HTTP\PhpEnvironment\ServerAddress $serverAddress
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Module\Manager $moduleManager
-     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $ignoredUserAgents
      * @param array $ignores
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
@@ -125,7 +125,7 @@ class Visitor extends \Magento\Model\AbstractModel
         \Magento\HTTP\PhpEnvironment\ServerAddress $serverAddress,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Module\Manager $moduleManager,
-        \Magento\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $ignoredUserAgents = array(),
         array $ignores = array(),

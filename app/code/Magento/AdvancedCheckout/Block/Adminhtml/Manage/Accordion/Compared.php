@@ -91,7 +91,7 @@ class Compared extends AbstractAccordion
     /**
      * Return items collection
      *
-     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {

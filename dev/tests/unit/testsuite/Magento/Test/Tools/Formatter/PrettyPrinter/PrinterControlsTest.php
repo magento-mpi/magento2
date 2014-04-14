@@ -90,7 +90,7 @@ protected function alpha() {
             throw new \Magento\SomeModule\Exception(__('You cannot void a verification transaction.'));
         }elseif($response->getResultCode() != self::RESPONSE_CODE_APPROVED
             && $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
-        ){throw new \Magento\Model\Exception($response->getRespmsg());}}}
+        ){throw new \Magento\Framework\Model\Exception($response->getRespmsg());}}}
 ORIGINALIF5;
         $formattedIf5 = <<<'FORMATTEDIF5'
 <?php
@@ -103,7 +103,7 @@ class If5
         } elseif ($response->getResultCode() != self::RESPONSE_CODE_APPROVED &&
             $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
         ) {
-            throw new \Magento\Model\Exception($response->getRespmsg());
+            throw new \Magento\Framework\Model\Exception($response->getRespmsg());
         }
     }
 }

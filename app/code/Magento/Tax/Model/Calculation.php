@@ -19,7 +19,7 @@ use Magento\Exception\NoSuchEntityException;
 /**
  * Tax Calculation Model
  */
-class Calculation extends \Magento\Model\AbstractModel
+class Calculation extends \Magento\Framework\Model\AbstractModel
 {
     const CALC_TAX_BEFORE_DISCOUNT_ON_EXCL = '0_0';
 
@@ -118,7 +118,7 @@ class Calculation extends \Magento\Model\AbstractModel
     protected $customerBuilder;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -136,7 +136,7 @@ class Calculation extends \Magento\Model\AbstractModel
      * @internal param \Magento\Customer\Model\Converter $converter
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

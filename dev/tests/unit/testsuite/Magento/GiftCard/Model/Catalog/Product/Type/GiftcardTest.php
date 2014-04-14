@@ -245,7 +245,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $this->_setGetGiftcardAmountsReturnEmpty();
 
         $this->_setStrictProcessMode(true);
-        $this->setExpectedException('Magento\Model\Exception', 'Please specify all the required information.');
+        $this->setExpectedException('Magento\Framework\Model\Exception', 'Please specify all the required information.');
         $this->_model->checkProductBuyState($this->_product);
     }
 
@@ -553,7 +553,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
 
         $this->_product->setCustomOptions($this->_customOptions);
 
-        $this->setExpectedException('Magento\Model\Exception', $exceptionMessage);
+        $this->setExpectedException('Magento\Framework\Model\Exception', $exceptionMessage);
         $this->_model->checkProductBuyState($this->_product);
     }
 

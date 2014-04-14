@@ -90,11 +90,11 @@ class Transaction
     /**
      * Adding object for using in transaction
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @param string $alias
      * @return $this
      */
-    public function addObject(\Magento\Model\AbstractModel $object, $alias = '')
+    public function addObject(\Magento\Framework\Model\AbstractModel $object, $alias = '')
     {
         $this->_objects[] = $object;
         if (!empty($alias)) {

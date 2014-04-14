@@ -10,7 +10,7 @@
 namespace Magento\Email\Model;
 
 use Magento\Framework\App\TemplateTypesInterface;
-use Magento\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Template model class
@@ -80,7 +80,7 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
     protected $_storeManager;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
@@ -88,7 +88,7 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\View\DesignInterface $design,
         \Magento\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,

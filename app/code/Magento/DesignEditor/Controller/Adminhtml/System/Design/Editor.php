@@ -10,7 +10,7 @@
 namespace Magento\DesignEditor\Controller\Adminhtml\System\Design;
 
 use Magento\Store\Model\Store;
-use Magento\Model\Exception as CoreException;
+use Magento\Framework\Model\Exception as CoreException;
 use Magento\View\Design\ThemeInterface;
 
 /**

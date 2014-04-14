@@ -39,7 +39,7 @@ namespace Magento\VersionsCms\Model;
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Increment extends \Magento\Model\AbstractModel
+class Increment extends \Magento\Framework\Model\AbstractModel
 {
     /*
      * Increment types

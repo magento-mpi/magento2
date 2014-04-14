@@ -18,7 +18,7 @@
  */
 namespace Magento\Reports\Model\Resource\Report\Collection;
 
-class AbstractCollection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class AbstractCollection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * From date
@@ -243,7 +243,7 @@ class AbstractCollection extends \Magento\Model\Resource\Db\Collection\AbstractC
      */
     protected function _beforeLoad()
     {
-        parent::_beforeLoad();
+        \Magento\Framework\Model\Resource\Db\Collection\parent::_beforeLoad();
 
         $this->_applyDateRangeFilter();
         $this->_applyStoresFilter();

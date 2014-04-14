@@ -365,7 +365,7 @@ abstract class AbstractType
         // try to add custom options
         try {
             $options = $this->_prepareOptions($buyRequest, $product, $processMode);
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             return $e->getMessage();
         }
 
@@ -472,7 +472,7 @@ abstract class AbstractType
      * Process File Queue
      *
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function processFileQueue()
     {
@@ -495,7 +495,7 @@ abstract class AbstractType
                             $rootDir = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
                             $rootDir->create($rootDir->getRelativePath($path));
                         } catch (\Magento\Filesystem\FilesystemException $e) {
-                            throw new \Magento\Model\Exception(
+                            throw new \Magento\Framework\Model\Exception(
                                 __("We can't create writeable directory \"%1\".", $path)
                             );
                         }
@@ -509,7 +509,7 @@ abstract class AbstractType
                             if (isset($queueOptions['option'])) {
                                 $queueOptions['option']->setIsValid(false);
                             }
-                            throw new \Magento\Model\Exception(__("The file upload failed."));
+                            throw new \Magento\Framework\Model\Exception(__("The file upload failed."));
                         }
                         $this->_fileStorageDb->saveFile($dst);
                         break;
@@ -604,7 +604,7 @@ abstract class AbstractType
      *
      * @param  \Magento\Catalog\Model\Product $product
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function checkProductBuyState($product)
     {
@@ -614,7 +614,7 @@ abstract class AbstractType
                     $customOption = $product->getCustomOption(self::OPTION_PREFIX . $option->getId());
                     if (!$customOption || strlen($customOption->getValue()) == 0) {
                         $product->setSkipCheckRequiredOption(true);
-                        throw new \Magento\Model\Exception(__('The product has required options.'));
+                        throw new \Magento\Framework\Model\Exception(__('The product has required options.'));
                     }
                 }
             }
@@ -1029,7 +1029,7 @@ abstract class AbstractType
             if (is_string($result)) {
                 $errors[] = $result;
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $errors[] = $e->getMessages();
         } catch (\Exception $e) {
             $this->_logger->logException($e);

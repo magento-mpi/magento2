@@ -255,7 +255,7 @@ interface CustomerAccountServiceInterface
      * @param int $websiteId
      * @return bool true if the email is not associated with a customer account in given website
      * @throws \Magento\Exception\NoSuchEntityException If customer with email is not found
-     * @throws \Magento\Model\Exception If website was not specified
+     * @throws \Magento\Framework\Model\Exception If website was not specified
      */
     public function isEmailAvailable($customerEmail, $websiteId);
 

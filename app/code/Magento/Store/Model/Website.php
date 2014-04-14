@@ -27,7 +27,7 @@ namespace Magento\Store\Model;
  * @method int getIsDefault()
  * @method \Magento\Store\Model\Website setIsDefault(int $value)
  */
-class Website extends \Magento\Model\AbstractModel implements
+class Website extends \Magento\Framework\Model\AbstractModel implements
     \Magento\Object\IdentityInterface,
     \Magento\Framework\App\ScopeInterface
 {
@@ -163,7 +163,7 @@ class Website extends \Magento\Model\AbstractModel implements
     protected $_currencyFactory;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
@@ -172,12 +172,12 @@ class Website extends \Magento\Model\AbstractModel implements
      * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
@@ -186,7 +186,7 @@ class Website extends \Magento\Model\AbstractModel implements
         \Magento\Store\Model\WebsiteFactory $websiteFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

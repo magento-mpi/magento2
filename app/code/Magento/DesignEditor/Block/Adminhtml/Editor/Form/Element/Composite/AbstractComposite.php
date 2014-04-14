@@ -113,7 +113,7 @@ abstract class AbstractComposite extends \Magento\Framework\Data\Form\Element\Fi
         $layoutName = $element->getId() . '-renderer';
         try {
             $renderer = $this->_rendererFactory->create($className, $layoutName);
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $renderer = null;
         }
         if ($renderer) {
@@ -129,14 +129,14 @@ abstract class AbstractComposite extends \Magento\Framework\Data\Form\Element\Fi
      * @param string $type
      * @param string|null $subtype
      * @return array
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getComponent($type, $subtype = null)
     {
         $components = $this->getComponents();
         $componentId = $this->getComponentId($type);
         if (!isset($components[$componentId])) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('Component of the type "%1" is not found between elements of "%2"', $type, $this->getData('name'))
             );
         }

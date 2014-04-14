@@ -79,7 +79,7 @@ class Observer
     public function salesQuoteAfterLoad(\Magento\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
-        if ($quote instanceof \Magento\Model\AbstractModel) {
+        if ($quote instanceof \Magento\Framework\Model\AbstractModel) {
             /** @var $quoteModel \Magento\CustomerCustomAttributes\Model\Sales\Quote */
             $quoteModel = $this->_quoteFactory->create();
             $quoteModel->load($quote->getId());
@@ -114,7 +114,7 @@ class Observer
     public function salesQuoteAfterSave(\Magento\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
-        if ($quote instanceof \Magento\Model\AbstractModel) {
+        if ($quote instanceof \Magento\Framework\Model\AbstractModel) {
             /** @var $quoteModel \Magento\CustomerCustomAttributes\Model\Sales\Quote */
             $quoteModel = $this->_quoteFactory->create();
             $quoteModel->saveAttributeData($quote);
@@ -131,7 +131,7 @@ class Observer
     public function salesQuoteAddressAfterSave(\Magento\Event\Observer $observer)
     {
         $quoteAddress = $observer->getEvent()->getQuoteAddress();
-        if ($quoteAddress instanceof \Magento\Model\AbstractModel) {
+        if ($quoteAddress instanceof \Magento\Framework\Model\AbstractModel) {
             /** @var $quoteAddressModel \Magento\CustomerCustomAttributes\Model\Sales\Quote\Address */
             $quoteAddressModel = $this->_quoteAddressFactory->create();
             $quoteAddressModel->saveAttributeData($quoteAddress);
@@ -148,7 +148,7 @@ class Observer
     public function salesOrderAfterLoad(\Magento\Event\Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
-        if ($order instanceof \Magento\Model\AbstractModel) {
+        if ($order instanceof \Magento\Framework\Model\AbstractModel) {
             /** @var $orderModel \Magento\CustomerCustomAttributes\Model\Sales\Order */
             $orderModel = $this->_orderFactory->create();
             $orderModel->load($order->getId());
@@ -183,7 +183,7 @@ class Observer
     public function salesOrderAfterSave(\Magento\Event\Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
-        if ($order instanceof \Magento\Model\AbstractModel) {
+        if ($order instanceof \Magento\Framework\Model\AbstractModel) {
             /** @var $orderModel \Magento\CustomerCustomAttributes\Model\Sales\Order */
             $orderModel = $this->_orderFactory->create();
             $orderModel->saveAttributeData($order);
@@ -200,7 +200,7 @@ class Observer
     public function salesOrderAddressAfterLoad(\Magento\Event\Observer $observer)
     {
         $address = $observer->getEvent()->getAddress();
-        if ($address instanceof \Magento\Model\AbstractModel) {
+        if ($address instanceof \Magento\Framework\Model\AbstractModel) {
             /** @var $orderAddress \Magento\CustomerCustomAttributes\Model\Sales\Order\Address */
             $orderAddress = $this->_orderAddressFactory->create();
             $orderAddress->attachDataToEntities(array($address));
@@ -217,7 +217,7 @@ class Observer
     public function salesOrderAddressAfterSave(\Magento\Event\Observer $observer)
     {
         $orderAddress = $observer->getEvent()->getAddress();
-        if ($orderAddress instanceof \Magento\Model\AbstractModel) {
+        if ($orderAddress instanceof \Magento\Framework\Model\AbstractModel) {
             /** @var $orderAddressModel \Magento\CustomerCustomAttributes\Model\Sales\Order\Address */
             $orderAddressModel = $this->_orderAddressFactory->create();
             $orderAddressModel->saveAttributeData($orderAddress);
@@ -485,8 +485,8 @@ class Observer
         $source = $observer->getEvent()->getSource();
         $target = $observer->getEvent()->getTarget();
 
-        if ($source instanceof \Magento\Model\AbstractModel &&
-            $target instanceof \Magento\Model\AbstractModel
+        if ($source instanceof \Magento\Framework\Model\AbstractModel &&
+            $target instanceof \Magento\Framework\Model\AbstractModel
         ) {
             if ($convertType == self::CONVERT_TYPE_CUSTOMER) {
                 $attributes = $this->_customerData->getCustomerUserDefinedAttributeCodes();

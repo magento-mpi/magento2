@@ -34,7 +34,7 @@ class Collection extends \Magento\Review\Model\Resource\Rating\Collection
      * @param \Magento\Review\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF
      * @param \Magento\Registry $coreRegistry
      * @param mixed $connection
-     * @param \Magento\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -45,7 +45,7 @@ class Collection extends \Magento\Review\Model\Resource\Rating\Collection
         \Magento\Review\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
         \Magento\Registry $coreRegistry,
         $connection = null,
-        \Magento\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct(

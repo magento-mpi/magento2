@@ -131,7 +131,7 @@ class Set extends \Magento\Backend\App\Action
                     $model->load($attributeSetId);
                 }
                 if (!$model->getId()) {
-                    throw new \Magento\Model\Exception(__('This attribute set no longer exists.'));
+                    throw new \Magento\Framework\Model\Exception(__('This attribute set no longer exists.'));
                 }
                 $data = $this->_objectManager->get(
                     'Magento\Core\Helper\Data'
@@ -152,7 +152,7 @@ class Set extends \Magento\Backend\App\Action
             }
             $model->save();
             $this->messageManager->addSuccess(__('You saved the attribute set.'));
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $hasError = true;
         } catch (\Exception $e) {

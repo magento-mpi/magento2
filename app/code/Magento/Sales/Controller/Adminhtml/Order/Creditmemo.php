@@ -265,7 +265,7 @@ class Creditmemo extends \Magento\Sales\Controller\Adminhtml\Creditmemo\Abstract
             $creditmemo = $this->_initCreditmemo(true);
             $this->_view->loadLayout();
             $response = $this->_view->getLayout()->getBlock('order_items')->toHtml();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
             $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         } catch (\Exception $e) {
@@ -291,7 +291,7 @@ class Creditmemo extends \Magento\Sales\Controller\Adminhtml\Creditmemo\Abstract
             $creditmemo = $this->_initCreditmemo();
             if ($creditmemo) {
                 if ($creditmemo->getGrandTotal() <= 0 && !$creditmemo->getAllowZeroGrandTotal()) {
-                    throw new \Magento\Model\Exception(__('Credit memo\'s total must be positive.'));
+                    throw new \Magento\Framework\Model\Exception(__('Credit memo\'s total must be positive.'));
                 }
 
                 $comment = '';
@@ -312,7 +312,7 @@ class Creditmemo extends \Magento\Sales\Controller\Adminhtml\Creditmemo\Abstract
                 if (isset($data['do_offline'])) {
                     //do not allow online refund for Refund to Store Credit
                     if (!$data['do_offline'] && !empty($data['refund_customerbalance_return_enable'])) {
-                        throw new \Magento\Model\Exception(
+                        throw new \Magento\Framework\Model\Exception(
                             __('Cannot create online refund for Refund to Store Credit.')
                         );
                     }
@@ -335,7 +335,7 @@ class Creditmemo extends \Magento\Sales\Controller\Adminhtml\Creditmemo\Abstract
                 $this->_forward('noroute');
                 return;
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_getSession()->setFormData($data);
         } catch (\Exception $e) {
@@ -358,7 +358,7 @@ class Creditmemo extends \Magento\Sales\Controller\Adminhtml\Creditmemo\Abstract
                 $creditmemo->cancel();
                 $this->_saveCreditmemo($creditmemo);
                 $this->messageManager->addSuccess(__('The credit memo has been canceled.'));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('You canceled the credit memo.'));
@@ -382,7 +382,7 @@ class Creditmemo extends \Magento\Sales\Controller\Adminhtml\Creditmemo\Abstract
                 $creditmemo->void();
                 $this->_saveCreditmemo($creditmemo);
                 $this->messageManager->addSuccess(__('You voided the credit memo.'));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We can\'t void the credit memo.'));
@@ -404,7 +404,7 @@ class Creditmemo extends \Magento\Sales\Controller\Adminhtml\Creditmemo\Abstract
             $this->getRequest()->setParam('creditmemo_id', $this->getRequest()->getParam('id'));
             $data = $this->getRequest()->getPost('comment');
             if (empty($data['comment'])) {
-                throw new \Magento\Model\Exception(__('The Comment Text field cannot be empty.'));
+                throw new \Magento\Framework\Model\Exception(__('The Comment Text field cannot be empty.'));
             }
             $creditmemo = $this->_initCreditmemo();
             $comment = $creditmemo->addComment(
@@ -417,7 +417,7 @@ class Creditmemo extends \Magento\Sales\Controller\Adminhtml\Creditmemo\Abstract
 
             $this->_view->loadLayout();
             $response = $this->_view->getLayout()->getBlock('creditmemo_comments')->toHtml();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
             $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         } catch (\Exception $e) {

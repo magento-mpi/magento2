@@ -117,7 +117,7 @@ class View extends \Magento\Framework\App\Action\Action
                 $success = false;
                 $this->messageManager->addError(__('Please enter the quantity of items to add to cart.'));
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError(__($e->getMessage()));
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We cannot add this item to your shopping cart.'));

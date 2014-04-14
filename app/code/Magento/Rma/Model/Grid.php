@@ -12,7 +12,7 @@ namespace Magento\Rma\Model;
 /**
  * RMA model
  */
-class Grid extends \Magento\Model\AbstractModel
+class Grid extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Rma source status factory
@@ -22,18 +22,18 @@ class Grid extends \Magento\Model\AbstractModel
     protected $_statusFactory;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory
-     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory,
-        \Magento\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

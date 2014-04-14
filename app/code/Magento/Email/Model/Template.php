@@ -9,7 +9,6 @@
  */
 namespace Magento\Email\Model;
 
-use Magento\Model\Exception;
 use Magento\Email\Model\Template\Filter;
 use Magento\Filter\Template as FilterTemplate;
 use Magento\Store\Model\StoreManagerInterface;
@@ -158,7 +157,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     protected $_emailFilterFactory;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
@@ -174,7 +173,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\View\DesignInterface $design,
         \Magento\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
