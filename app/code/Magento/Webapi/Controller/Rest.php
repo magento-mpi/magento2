@@ -119,7 +119,7 @@ class Rest implements \Magento\App\FrontControllerInterface
         array_shift($pathParts);
         $request->setPathInfo('/' . implode('/', $pathParts));
         $this->areaList->getArea($this->_appState->getAreaCode())
-            ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
+            ->load(\Magento\App\Area::PART_TRANSLATE);
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));

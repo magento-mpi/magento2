@@ -199,7 +199,7 @@ class Operation extends \Magento\Model\AbstractModel
         $this->_transportBuilder->setTemplateIdentifier(
             $this->getEmailTemplate()
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => $storeId)
         )->setTemplateVars(
             $vars
         )->setFrom(
@@ -224,7 +224,7 @@ class Operation extends \Magento\Model\AbstractModel
                 $this->_transportBuilder->setTemplateIdentifier(
                     $this->getEmailTemplate()
                 )->setTemplateOptions(
-                    array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                    array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => $storeId)
                 )->setTemplateVars(
                     $vars
                 )->setFrom(

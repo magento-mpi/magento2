@@ -161,7 +161,7 @@ class Observer
      */
     public function addressFormatAdmin($observer)
     {
-        if ($this->_design->getArea() == \Magento\Core\Model\App\Area::AREA_FRONTEND) {
+        if ($this->_design->getArea() == \Magento\App\Area::AREA_FRONTEND) {
             $this->_addressFormat($observer);
         }
         return $this;

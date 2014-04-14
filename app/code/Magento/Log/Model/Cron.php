@@ -120,7 +120,7 @@ class Cron extends \Magento\Model\AbstractModel
             )
         )->setTemplateOptions(
             array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'area' => \Magento\App\Area::AREA_FRONTEND,
                 'store' => $this->_storeManager->getStore()->getId()
             )
         )->setTemplateVars(

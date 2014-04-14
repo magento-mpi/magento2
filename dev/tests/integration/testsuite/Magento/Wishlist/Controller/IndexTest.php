@@ -136,7 +136,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
             ]
         );
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
-            ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+            ->loadArea(\Magento\App\Area::AREA_FRONTEND);
 
         $request = [
             'form_key' => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),

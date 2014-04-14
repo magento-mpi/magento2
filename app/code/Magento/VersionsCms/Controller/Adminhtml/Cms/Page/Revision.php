@@ -20,7 +20,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
     protected $_cmsPage;
 
     /**
-     * @var \Magento\Core\Model\Design
+     * @var \Magento\App\DesignInterface
      */
     protected $_design;
 
@@ -38,7 +38,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Cms\Model\Page $cmsPage
-     * @param \Magento\Core\Model\Design $design
+     * @param \Magento\App\DesignInterface $design
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
@@ -50,7 +50,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Cms\Model\Page $cmsPage,
-        \Magento\Core\Model\Design $design,
+        \Magento\App\DesignInterface $design,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;

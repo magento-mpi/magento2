@@ -204,7 +204,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
             $paymentBlock = $info->getBlockMock() ?: $this->getInfoBlock($info);
-            $paymentBlock->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->setIsSecureMode(true);
+            $paymentBlock->setArea(\Magento\App\Area::AREA_FRONTEND)->setIsSecureMode(true);
             $paymentBlock->getMethod()->setStore($storeId);
             $paymentBlockHtml = $paymentBlock->toHtml();
         } catch (\Exception $exception) {

@@ -305,7 +305,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $transport = $this->_transportBuilder->setTemplateIdentifier(
                 $template
             )->setTemplateOptions(
-                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $checkout->getStoreId())
+                array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => $checkout->getStoreId())
             )->setTemplateVars(
                 array(
                     'reason' => $message,

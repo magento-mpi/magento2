@@ -113,7 +113,7 @@ class AreaList
      * Retrieve application area
      *
      * @param   string $code
-     * @return  \Magento\Core\Model\App\Area
+     * @return  \Magento\App\Area
      */
     public function getArea($code)
     {

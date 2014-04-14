@@ -50,7 +50,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\App\State'
         )->setAreaCode(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND
+            \Magento\App\Area::AREA_FRONTEND
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\View\DesignInterface'

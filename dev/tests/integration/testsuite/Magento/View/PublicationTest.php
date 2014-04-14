@@ -341,7 +341,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         );
 
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
-            ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+            ->loadArea(\Magento\App\Area::AREA_FRONTEND);
 
         $this->viewUrl->getViewFileUrl($cssViewFile, $designParams);
 
@@ -620,7 +620,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
             ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
-            ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
+            ->load(\Magento\App\Area::PART_CONFIG);
 
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
         $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

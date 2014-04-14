@@ -6,25 +6,23 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\App\Area;
+namespace Magento\PageCache\Model\App;
 
 /**
  * Class CachePlugin
  * Should add design exceptions o identifier for built-in cache
- *
- * @package Magento\Core\Model\App\Area
  */
 class CacheIdentifierPlugin
 {
     /**
      * Constructor
      *
-     * @param DesignExceptions                $designExceptions
+     * @param \Magento\View\DesignExceptions  $designExceptions
      * @param \Magento\App\RequestInterface   $request
      * @param \Magento\PageCache\Model\Config $config
      */
     public function __construct(
-        \Magento\Core\Model\App\Area\DesignExceptions $designExceptions,
+        \Magento\View\DesignExceptions $designExceptions,
         \Magento\App\RequestInterface $request,
         \Magento\PageCache\Model\Config $config
     ) {
@@ -39,11 +37,12 @@ class CacheIdentifierPlugin
      * @param \Magento\App\PageCache\Identifier $identifier
      * @param string $result
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterGetValue(\Magento\App\PageCache\Identifier $identifier, $result)
     {
         if ($this->config->getType() == \Magento\PageCache\Model\Config::BUILT_IN && $this->config->isEnabled()) {
-            $ruleDesignException = $this->designExceptions->getThemeForUserAgent($this->request);
+            $ruleDesignException = $this->designExceptions->getThemeByRequest($this->request);
             if ($ruleDesignException !== false) {
                 return $ruleDesignException . $result;
             }

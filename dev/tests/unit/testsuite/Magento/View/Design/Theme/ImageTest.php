@@ -158,7 +158,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             'theme_id' => 1,
             'theme_title' => 'Sample theme',
             'preview_image' => 'images/preview.png',
-            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+            'area' => \Magento\App\Area::AREA_FRONTEND,
             'type' => \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
         );
     }

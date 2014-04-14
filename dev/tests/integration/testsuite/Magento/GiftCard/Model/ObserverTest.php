@@ -35,7 +35,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerateGiftCardAccountsEmailSending()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(\Magento\App\Area::AREA_FRONTEND);
         $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');
         $this->_checkOrderItemProductOptions($order, true);
 

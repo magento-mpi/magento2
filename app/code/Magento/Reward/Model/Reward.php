@@ -754,7 +754,7 @@ class Reward extends \Magento\Model\AbstractModel
         $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => $store->getId())
         )->setTemplateVars(
             array(
                 'store' => $store,
@@ -833,7 +833,7 @@ class Reward extends \Magento\Model\AbstractModel
         $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId())
+            array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId())
         )->setTemplateVars(
             array(
                 'store' => $store,

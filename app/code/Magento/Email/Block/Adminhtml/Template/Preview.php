@@ -55,7 +55,7 @@ class Preview extends \Magento\Backend\Block\Widget
     {
         /** @var $template \Magento\Email\Model\Template */
         $template = $this->_emailFactory->create(
-            array('data' => array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND))
+            array('data' => array('area' => \Magento\App\Area::AREA_FRONTEND))
         );
         $id = (int)$this->getRequest()->getParam('id');
         if ($id) {

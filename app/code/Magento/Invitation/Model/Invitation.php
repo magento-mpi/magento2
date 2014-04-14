@@ -303,7 +303,7 @@ class Invitation extends \Magento\Model\AbstractModel
         $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId())
+            array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId())
         )->setTemplateVars(
             array(
                 'url' => $this->_invitationData->getInvitationUrl($this),

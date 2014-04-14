@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,7 +11,7 @@ namespace Magento\Core\Model\App;
 class AreaTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\App\Area
+     * @var \Magento\App\Area
      */
     protected $_model;
 
@@ -26,9 +24,9 @@ class AreaTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
-        /** @var $_model \Magento\Core\Model\App\Area */
+        /** @var $_model \Magento\App\Area */
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Core\Model\App\Area',
+            'Magento\App\Area',
             array('areaCode' => 'frontend')
         );
     }
@@ -41,7 +39,7 @@ class AreaTest extends \PHPUnit_Framework_TestCase
         $defaultTheme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\View\DesignInterface'
         )->setDefaultDesignTheme()->getDesignTheme();
-        $this->_model->load(\Magento\Core\Model\App\Area::PART_DESIGN);
+        $this->_model->load(\Magento\App\Area::PART_DESIGN);
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\View\DesignInterface'
         )->setDefaultDesignTheme();
@@ -50,7 +48,7 @@ class AreaTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('frontend', $design->getArea());
 
         // try second time and make sure it won't load second time
-        $this->_model->load(\Magento\Core\Model\App\Area::PART_DESIGN);
+        $this->_model->load(\Magento\App\Area::PART_DESIGN);
         $designArea = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\View\DesignInterface'
         )->getArea();
@@ -108,7 +106,7 @@ class AreaTest extends \PHPUnit_Framework_TestCase
     public function testDetectDesignNonFrontend()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $model = $objectManager->create('Magento\Core\Model\App\Area', array('areaCode' => 'install'));
+        $model = $objectManager->create('Magento\App\Area', array('areaCode' => 'install'));
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->create('Magento\TestFramework\Request');
         $request->setServer(array('HTTP_USER_AGENT' => 'Mozilla Firefox'));

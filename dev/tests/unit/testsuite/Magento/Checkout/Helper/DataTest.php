@@ -132,7 +132,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->method(
             'setTemplateOptions'
         )->with(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => 8)
+            array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => 8)
         )->will(
             $this->returnSelf()
         );

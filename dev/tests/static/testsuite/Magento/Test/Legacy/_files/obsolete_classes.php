@@ -2277,4 +2277,7 @@ return array(
     ['Magento\Rating\Model\Resource\Rating', 'Magento\Review\Model\Resource\Rating'],
     ['Magento\Rating\Model\Rating\Option', 'Magento\Review\Model\Rating\Option'],
     ['Magento\Rating\Model\Observer'],
+    ['Magento\Core\Model\App\Area\CacheIdentifierPlugin', 'Magento\PageCache\App\CacheIdentifierPlugin'],
+    ['Magento\Core\Model\App\Area', 'Magento\App\Area'],
+    ['Magento\Core\Model\App\Area\DesignExceptions', 'Magento\View\DesignExceptions'],
 );

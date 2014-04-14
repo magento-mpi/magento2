@@ -137,7 +137,7 @@ class Index extends \Magento\App\Action\Action
                     )
                 )->setTemplateOptions(
                     array(
-                        'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                        'area' => \Magento\App\Area::AREA_FRONTEND,
                         'store' => $storeManager->getStore()->getId()
                     )
                 )->setTemplateVars(

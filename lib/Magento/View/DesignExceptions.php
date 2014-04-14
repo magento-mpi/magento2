@@ -2,24 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\App\Area;
+namespace Magento\View;
 
 /**
  * Class DesignExceptions
- * @package Magento\Core\Model\App\Area
  */
 class DesignExceptions
 {
-    /**
-     * Design exception key
-     */
-    const XML_PATH_DESIGN_EXCEPTION = 'design/theme/ua_regexp';
-
     /**
      * Core store config
      *
@@ -28,11 +20,32 @@ class DesignExceptions
     protected $scopeConfig;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * Exception config path
+     *
+     * @var string
      */
-    public function __construct(\Magento\App\Config\ScopeConfigInterface $scopeConfig)
-    {
+    protected $exceptionConfigPath;
+
+    /**
+     * Scope Type
+     *
+     * @var string
+     */
+    protected $scopeType;
+
+    /**
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param string $exceptionConfigPath
+     * @param string $scopeType
+     */
+    public function __construct(
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        $exceptionConfigPath,
+        $scopeType
+    ) {
         $this->scopeConfig = $scopeConfig;
+        $this->exceptionConfigPath = $exceptionConfigPath;
+        $this->scopeType = $scopeType;
     }
 
     /**
@@ -41,13 +54,16 @@ class DesignExceptions
      * @param \Magento\App\Request\Http $request
      * @return string|bool
      */
-    public function getThemeForUserAgent(\Magento\App\Request\Http $request)
+    public function getThemeByRequest(\Magento\App\Request\Http $request)
     {
         $userAgent = $request->getServer('HTTP_USER_AGENT');
         if (empty($userAgent)) {
             return false;
         }
-        $expressions = $this->scopeConfig->getValue(self::XML_PATH_DESIGN_EXCEPTION, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $expressions = $this->scopeConfig->getValue(
+            $this->exceptionConfigPath,
+            $this->scopeType
+        );
         if (!$expressions) {
             return false;
         }

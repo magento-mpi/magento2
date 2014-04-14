@@ -68,7 +68,7 @@ return array(
     array('_getConnenctionType', 'Magento\Install\Model\Installer\Db'),
     array('_getDateFromToHtml', 'Magento\ImportExport\Block\Adminhtml\Export\Filter'),
     array('_getDeclaredModuleFiles', 'Magento\Core\Model\Config'),
-    array('_getDesignChange', 'Magento\Core\Model\App\Area'),
+    array('_getDesignChange', 'Magento\App\Area'),
     array('_getDom', 'Magento\Backend\Model\Menu\Config'),
     array('_getExistingBasePopularity'),
     array('_getFieldTableAlias', 'Magento\Newsletter\Model\Resource\Subscriber\Collection'),

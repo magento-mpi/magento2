@@ -342,7 +342,7 @@ class Operation extends \Magento\Backend\App\Action
             $design = $this->_objectManager->get('Magento\View\DesignInterface');
             $area = $design->getArea();
             $theme = $design->getDesignTheme();
-            $design->setDesignTheme($design->getConfigurationDesignTheme(\Magento\Core\Model\App\Area::AREA_FRONTEND));
+            $design->setDesignTheme($design->getConfigurationDesignTheme(\Magento\App\Area::AREA_FRONTEND));
 
             $result = $this->_objectManager->get(
                 'Magento\ScheduledImportExport\Model\Observer'

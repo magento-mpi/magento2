@@ -2,18 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Application area model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\App;
+namespace Magento\App;
 
 class Area implements \Magento\App\AreaInterface
 {
@@ -57,13 +53,6 @@ class Area implements \Magento\App\AreaInterface
     protected $_translator;
 
     /**
-     * Application config
-     *
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    protected $_config;
-
-    /**
      * Object manager
      *
      * @var \Magento\ObjectManager
@@ -76,13 +65,6 @@ class Area implements \Magento\App\AreaInterface
     protected $_diConfigLoader;
 
     /**
-     * Core store config
-     *
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    protected $_scopeConfig;
-
-    /**
      * @var \Magento\Logger
      */
     protected $_logger;
@@ -90,7 +72,7 @@ class Area implements \Magento\App\AreaInterface
     /**
      * Core design
      *
-     * @var \Magento\Core\Model\Design
+     * @var \Magento\App\DesignInterface
      */
     protected $_design;
 
@@ -100,7 +82,7 @@ class Area implements \Magento\App\AreaInterface
     protected $_scopeResolver;
 
     /**
-     * @var Area\DesignExceptions
+     * @var \Magento\View\DesignExceptions
      */
     protected $_designExceptions;
 
@@ -108,31 +90,25 @@ class Area implements \Magento\App\AreaInterface
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\TranslateInterface $translator
-     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\ObjectManager\ConfigLoader $diConfigLoader
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Core\Model\Design $design
+     * @param \Magento\App\DesignInterface $design
      * @param \Magento\App\ScopeResolverInterface $scopeResolver
-     * @param Area\DesignExceptions $designExceptions
+     * @param \Magento\View\DesignExceptions $designExceptions
      * @param string $areaCode
      */
     public function __construct(
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\TranslateInterface $translator,
-        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\ObjectManager $objectManager,
         \Magento\App\ObjectManager\ConfigLoader $diConfigLoader,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Core\Model\Design $design,
+        \Magento\App\DesignInterface $design,
         \Magento\App\ScopeResolverInterface $scopeResolver,
-        Area\DesignExceptions $designExceptions,
+        \Magento\View\DesignExceptions $designExceptions,
         $areaCode
     ) {
-        $this->_scopeConfig = $scopeConfig;
         $this->_code = $areaCode;
-        $this->_config = $config;
         $this->_objectManager = $objectManager;
         $this->_diConfigLoader = $diConfigLoader;
         $this->_eventManager = $eventManager;
@@ -188,7 +164,7 @@ class Area implements \Magento\App\AreaInterface
     protected function _applyUserAgentDesignException($request)
     {
         try {
-            $theme = $this->_designExceptions->getThemeForUserAgent($request);
+            $theme = $this->_designExceptions->getThemeByRequest($request);
             if (false !== $theme) {
                 $this->_getDesign()->setDesignTheme($theme);
                 return true;

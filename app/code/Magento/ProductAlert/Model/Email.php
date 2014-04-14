@@ -353,7 +353,7 @@ class Email extends \Magento\Model\AbstractModel
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $templateId
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => $storeId)
         )->setTemplateVars(
             array('customerName' => $this->_customer->getName(), 'alertGrid' => $block)
         )->setFrom(

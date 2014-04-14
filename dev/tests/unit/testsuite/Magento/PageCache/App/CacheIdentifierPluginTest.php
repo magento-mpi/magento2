@@ -5,23 +5,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\App\Area;
+namespace Magento\PageCache\App;
 
 /**
  * Class CacheIdentifierPluginTest
  * Test for plugin to identifier to work with design exceptions
- *
- * @package Magento\Core\Model\App\Area
  */
 class CacheIdentifierPluginTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\App\Area\CacheIdentifierPlugin
+     * @var \Magento\PageCache\Model\App\CacheIdentifierPlugin
      */
     protected $plugin;
 
     /**
-     * @var \Magento\Core\Model\App\Area\DesignExceptions
+     * @var \Magento\View\DesignExceptions
      */
     protected $designExceptionsMock;
 
@@ -41,8 +39,8 @@ class CacheIdentifierPluginTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->designExceptionsMock = $this->getMock(
-            'Magento\Core\Model\App\Area\DesignExceptions',
-            ['getThemeForUserAgent'],
+            'Magento\View\DesignExceptions',
+            ['getThemeByRequest'],
             [],
             '',
             false
@@ -56,7 +54,7 @@ class CacheIdentifierPluginTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->plugin = new \Magento\Core\Model\App\Area\CacheIdentifierPlugin(
+        $this->plugin = new \Magento\PageCache\Model\App\CacheIdentifierPlugin(
             $this->designExceptionsMock,
             $this->requestMock,
             $this->pageCacheConfigMock
@@ -84,7 +82,7 @@ class CacheIdentifierPluginTest extends \PHPUnit_Framework_TestCase
             ->method('isEnabled')
             ->will($this->returnValue($isPageCacheEnabled));
         $this->designExceptionsMock->expects($this->any())
-            ->method('getThemeForUserAgent')
+            ->method('getThemeByRequest')
             ->will($this->returnValue($uaException));
 
         $this->assertEquals($expected, $this->plugin->afterGetValue($identifierMock, $result));

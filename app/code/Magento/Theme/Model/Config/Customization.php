@@ -155,7 +155,7 @@ class Customization
     protected function _getConfigurationThemeId($store)
     {
         return $this->_design->getConfigurationDesignTheme(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND,
+            \Magento\App\Area::AREA_FRONTEND,
             array('store' => $store)
         );
     }
@@ -172,7 +172,7 @@ class Customization
     protected function _prepareThemeCustomizations()
     {
         /** @var \Magento\Core\Model\Resource\Theme\Collection $themeCollection */
-        $themeCollection = $this->themeProvider->getThemeCustomizations(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+        $themeCollection = $this->themeProvider->getThemeCustomizations(\Magento\App\Area::AREA_FRONTEND);
 
         $assignedThemes = $this->getStoresByThemes();
 

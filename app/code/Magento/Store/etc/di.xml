@@ -147,4 +147,10 @@
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
+    <type name="Magento\View\DesignExceptions">
+        <arguments>
+            <argument name="exceptionConfigPath" xsi:type="string">design/theme/ua_regexp</argument>
+            <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
+        </arguments>
+    </type>
 </config>
