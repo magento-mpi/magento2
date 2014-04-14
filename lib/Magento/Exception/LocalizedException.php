@@ -11,7 +11,7 @@ namespace Magento\Exception;
 
 use Magento\Phrase\Renderer\Placeholder;
 
-class LocalizedException extends \Magento\Service\Exception
+class LocalizedException extends \Exception
 {
     /** @var array */
     protected $params = [];
