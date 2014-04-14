@@ -18,7 +18,7 @@ $installer->getConnection()->addColumn(
     $installer->getTable('cataloginventory_stock_item'),
     'is_decimal_divided',
     array(
-        'TYPE' => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+        'TYPE' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
         'LENGTH' => 5,
         'UNSIGNED' => true,
         'NULLABLE' => false,

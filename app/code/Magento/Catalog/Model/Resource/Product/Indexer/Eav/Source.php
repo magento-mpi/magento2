@@ -120,7 +120,7 @@ class Source extends AbstractEav
             return $this;
         }
 
-        /**@var $subSelect \Magento\DB\Select*/
+        /**@var $subSelect \Magento\Framework\DB\Select*/
         $subSelect = $adapter->select()->from(
             array('s' => $this->getTable('store')),
             array('store_id', 'website_id')
@@ -136,7 +136,7 @@ class Source extends AbstractEav
             $subSelect->where('d.entity_id IN(?)', $entityIds);
         }
 
-        /**@var $select \Magento\DB\Select*/
+        /**@var $select \Magento\Framework\DB\Select*/
         $select = $adapter->select()->from(
             array('pid' => new \Zend_Db_Expr(sprintf('(%s)', $subSelect->assemble()))),
             array()

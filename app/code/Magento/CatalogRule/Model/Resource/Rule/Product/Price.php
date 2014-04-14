@@ -33,7 +33,7 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Apply price rule price to price index table
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @param array|string $indexTable
      * @param string $entityId
      * @param string $customerGroupId
@@ -43,7 +43,7 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @return \Magento\CatalogRule\Model\Resource\Rule\Product\Price
      */
     public function applyPriceRuleToIndexTable(
-        \Magento\DB\Select $select,
+        \Magento\Framework\DB\Select $select,
         $indexTable,
         $entityId,
         $customerGroupId,

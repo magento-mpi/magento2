@@ -39,7 +39,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAdapter($adapterType)
     {
-        $adapterMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
+        $adapterMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
 
         $objectManager = $this->getMock('Magento\ObjectManager');
         $objectManager->expects(

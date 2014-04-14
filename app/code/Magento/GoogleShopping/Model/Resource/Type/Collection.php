@@ -41,7 +41,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     /**
      * Get SQL for get record count
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {

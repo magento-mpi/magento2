@@ -797,7 +797,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * Join tax class
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @param int $storeId
      * @param string $priceTable
      * @return $this

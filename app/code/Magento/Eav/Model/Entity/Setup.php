@@ -616,7 +616,7 @@ class Setup extends \Magento\Module\Setup
         )->where(
             'attribute_set_id = :attribute_set_id'
         )->order(
-            array('default_id ' . \Magento\DB\Select::SQL_DESC, 'sort_order')
+            array('default_id ' . \Magento\Framework\DB\Select::SQL_DESC, 'sort_order')
         )->limit(
             1
         );

@@ -36,7 +36,7 @@ abstract class AbstractDb
     /**
      *  Adapter instance
      *
-     * @var \Magento\DB\Adapter\AdapterInterface
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 
@@ -151,7 +151,7 @@ abstract class AbstractDb
     /**
      * Create new connection with custom config
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function _getConnection()
     {

@@ -92,7 +92,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param string $field
      * @param mixed $value
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $object
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -382,7 +382,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
             'main_table.is_active = 1 AND cps.store_id IN (0, ?) ',
             $storeId
         )->order(
-            'store_id ' . \Magento\DB\Select::SQL_DESC
+            'store_id ' . \Magento\Framework\DB\Select::SQL_DESC
         )->limit(
             1
         );
@@ -477,7 +477,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
                         )->where(
                             'metadata_table.' . $fieldName . '=1'
                         )->order(
-                            array($this->getMainTable() . '.level ' . \Magento\DB\Select::SQL_DESC)
+                            array($this->getMainTable() . '.level ' . \Magento\Framework\DB\Select::SQL_DESC)
                         )->limit(
                             1
                         );
@@ -487,7 +487,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 case \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_FIRST:
                     $found = true;
                     $addParentNodeCondition = true;
-                    $select->order($this->getMainTable() . '.sort_order ' . \Magento\DB\Select::SQL_ASC);
+                    $select->order($this->getMainTable() . '.sort_order ' . \Magento\Framework\DB\Select::SQL_ASC);
                     $select->limit(1);
                     break;
 
@@ -496,7 +496,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
                         $found = true;
                         $addParentNodeCondition = true;
                         $select->where($this->getMainTable() . '.sort_order<?', $node->getSortOrder());
-                        $select->order($this->getMainTable() . '.sort_order ' . \Magento\DB\Select::SQL_DESC);
+                        $select->order($this->getMainTable() . '.sort_order ' . \Magento\Framework\DB\Select::SQL_DESC);
                         $select->limit(1);
                     }
                     break;
@@ -505,7 +505,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
                     $found = true;
                     $addParentNodeCondition = true;
                     $select->where($this->getMainTable() . '.sort_order>?', $node->getSortOrder());
-                    $select->order($this->getMainTable() . '.sort_order ' . \Magento\DB\Select::SQL_ASC);
+                    $select->order($this->getMainTable() . '.sort_order ' . \Magento\Framework\DB\Select::SQL_ASC);
                     $select->limit(1);
                     break;
 
@@ -723,7 +723,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
             'metadata_table.' . $fieldName . ' IN (?)',
             $values
         )->order(
-            array($this->getMainTable() . '.level ' . \Magento\DB\Select::SQL_DESC)
+            array($this->getMainTable() . '.level ' . \Magento\Framework\DB\Select::SQL_DESC)
         )->limit(
             1
         );

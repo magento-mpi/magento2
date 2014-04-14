@@ -160,7 +160,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
     /**
      * Get SQL for get record count
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {

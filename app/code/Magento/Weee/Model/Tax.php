@@ -262,7 +262,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
                     1
                 );
 
-                $order = array('state ' . \Magento\DB\Select::SQL_DESC, 'website_id ' . \Magento\DB\Select::SQL_DESC);
+                $order = array('state ' . \Magento\Framework\DB\Select::SQL_DESC, 'website_id ' . \Magento\Framework\DB\Select::SQL_DESC);
                 $attributeSelect->order($order);
 
                 $value = $this->getResource()->getReadConnection()->fetchOne($attributeSelect);

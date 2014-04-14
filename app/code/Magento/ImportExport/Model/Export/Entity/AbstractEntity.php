@@ -37,7 +37,7 @@ abstract class AbstractEntity
     /**
      * DB connection.
      *
-     * @var \Magento\DB\Adapter\Pdo\Mysql
+     * @var \Magento\Framework\DB\Adapter\Pdo\Mysql
      */
     protected $_connection;
 

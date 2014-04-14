@@ -9,7 +9,7 @@
  */
 namespace Magento\Reminder\Model\Rule\Condition;
 
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 use Magento\Framework\Model\Exception;
 
 /**
@@ -25,7 +25,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * Core resource helper
      *
-     * @var \Magento\DB\Helper
+     * @var \Magento\Framework\DB\Helper
      */
     protected $_resourceHelper;
 
@@ -40,7 +40,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
      * @param \Magento\Stdlib\DateTime\DateTime $dateModel
-     * @param \Magento\DB\Helper $resourceHelper
+     * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory
      * @param array $data
      */
@@ -48,7 +48,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
         \Magento\Stdlib\DateTime\DateTime $dateModel,
-        \Magento\DB\Helper $resourceHelper,
+        \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory,
         array $data = array()
     ) {

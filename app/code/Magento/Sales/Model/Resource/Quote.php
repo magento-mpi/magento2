@@ -49,7 +49,7 @@ class Quote extends AbstractResource
      * @param string $field
      * @param mixed $value
      * @param \Magento\Framework\Model\AbstractModel $object
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -85,7 +85,7 @@ class Quote extends AbstractResource
             'is_active = ?',
             1
         )->order(
-            'updated_at ' . \Magento\DB\Select::SQL_DESC
+            'updated_at ' . \Magento\Framework\DB\Select::SQL_DESC
         )->limit(
             1
         );

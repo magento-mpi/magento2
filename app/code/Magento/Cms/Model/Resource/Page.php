@@ -247,7 +247,7 @@ class Page extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param string $identifier
      * @param int|array $store
      * @param int $isActive
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getLoadByIdentifierSelect($identifier, $store, $isActive = null)
     {

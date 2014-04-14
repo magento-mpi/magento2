@@ -21,7 +21,7 @@ class Iterator extends \Magento\Object
      * @param \Zend_Db_Statement_Interface|Zend_Db_Select|string $query
      * @param array|string $callbacks
      * @param array $args
-     * @param \Magento\DB\Adapter\AdapterInterface $adapter
+     * @param \Magento\Framework\DB\Adapter\AdapterInterface $adapter
      * @return \Magento\Framework\Model\Resource\Iterator
      */
     public function walk($query, array $callbacks, array $args = array(), $adapter = null)

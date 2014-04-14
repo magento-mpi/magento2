@@ -196,7 +196,7 @@ class Transaction extends \Magento\Sales\Model\Resource\Order\AbstractOrder
      * @param int $paymentId
      * @param string $txnId
      * @param string|array|\Zend_Db_Expr $columns
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     private function _getLoadByUniqueKeySelect($orderId, $paymentId, $txnId, $columns = '*')
     {

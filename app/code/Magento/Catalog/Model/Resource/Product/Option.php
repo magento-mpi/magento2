@@ -418,7 +418,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 $select,
                 $table,
                 array('option_id', 'store_id', 'title'),
-                \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
+                \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
             );
             $write->query($insertSelect);
 
@@ -437,7 +437,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 $select,
                 $table,
                 array('option_id', 'store_id', 'price', 'price_type'),
-                \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
+                \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
             );
             $write->query($insertSelect);
 

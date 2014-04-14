@@ -9,7 +9,7 @@
  */
 namespace Magento\Eav\Model\Entity\Collection;
 
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * Entity/Attribute/Model - collection abstract
@@ -351,7 +351,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
         }
 
         if (!empty($conditionSql)) {
-            $this->getSelect()->where($conditionSql, null, \Magento\DB\Select::TYPE_CONDITION);
+            $this->getSelect()->where($conditionSql, null, \Magento\Framework\DB\Select::TYPE_CONDITION);
         } else {
             throw new \Magento\Framework\Model\Exception(
                 __('Invalid attribute identifier for filter (%1)', get_class($attribute))
@@ -1186,7 +1186,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
     /**
      * Add select values
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @param string $table
      * @param string $type
      * @return Select

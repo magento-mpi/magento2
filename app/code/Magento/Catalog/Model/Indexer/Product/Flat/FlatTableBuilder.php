@@ -21,7 +21,7 @@ class FlatTableBuilder
     protected $_productIndexerHelper;
 
     /**
-     * @var \Magento\DB\Adapter\AdapterInterface
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 
@@ -123,7 +123,7 @@ class FlatTableBuilder
 
         $indexKeys = array();
         $indexProps = array_values($indexesNeed);
-        $upperPrimaryKey = strtoupper(\Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY);
+        $upperPrimaryKey = strtoupper(\Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY);
         foreach ($indexProps as $i => $indexProp) {
             $indexName = $this->_connection->getIndexName(
                 $this->_getTemporaryTableName($this->_productIndexerHelper->getFlatTableName($storeId)),
@@ -146,7 +146,7 @@ class FlatTableBuilder
         }
         $indexesNeed = array_combine($indexKeys, $indexProps);
 
-        /** @var $table \Magento\DB\Ddl\Table */
+        /** @var $table \Magento\Framework\DB\Ddl\Table */
         $table = $this->_connection->newTable(
             $this->_getTemporaryTableName($this->_productIndexerHelper->getFlatTableName($storeId))
         );
@@ -299,7 +299,7 @@ class FlatTableBuilder
                         ' AND t.store_id = ' .
                         $storeId .
                         ' AND t.value IS NOT NULL';
-                    /** @var $select \Magento\DB\Select */
+                    /** @var $select \Magento\Framework\DB\Select */
                     $select = $this->_connection->select()->joinInner(
                         array('t' => $tableName),
                         $joinCondition,

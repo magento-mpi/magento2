@@ -70,8 +70,8 @@ abstract class AbstractGroupprice extends \Magento\Framework\Model\Resource\Db\A
     /**
      * Load specific db-select data
      *
-     * @param \Magento\DB\Select $select
-     * @return \Magento\DB\Select
+     * @param \Magento\Framework\DB\Select $select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _loadPriceDataSelect($select)
     {

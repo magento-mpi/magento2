@@ -115,7 +115,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Get empty select object
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getSelect()
     {

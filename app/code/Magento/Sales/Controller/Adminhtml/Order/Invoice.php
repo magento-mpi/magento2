@@ -125,7 +125,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     {
         $invoice->getOrder()->setIsInProcess(true);
         $this->_objectManager->create(
-            'Magento\DB\Transaction'
+            'Magento\Framework\DB\Transaction'
         )->addObject(
             $invoice
         )->addObject(
@@ -295,7 +295,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
                 $invoice->getOrder()->setIsInProcess(true);
 
                 $transactionSave = $this->_objectManager->create(
-                    'Magento\DB\Transaction'
+                    'Magento\Framework\DB\Transaction'
                 )->addObject(
                     $invoice
                 )->addObject(

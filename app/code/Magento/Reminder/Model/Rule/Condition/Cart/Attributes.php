@@ -10,7 +10,7 @@
 namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
 use Magento\Framework\Model\Exception;
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * Cart items attributes subselection condition

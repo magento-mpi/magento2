@@ -150,7 +150,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
             )->group(
                 'product_id'
             )->order(
-                'qty_ordered ' . \Magento\DB\Select::SQL_DESC
+                'qty_ordered ' . \Magento\Framework\DB\Select::SQL_DESC
             )->limit(
                 $this->_ratingLimit
             );
@@ -179,7 +179,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     /**
      * Get SQL for get record count
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {

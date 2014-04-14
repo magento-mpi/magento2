@@ -66,7 +66,7 @@ class Quote
     protected $_customerSession;
 
     /**
-     * @var \Magento\DB\TransactionFactory
+     * @var \Magento\Framework\DB\TransactionFactory
      */
     protected $_transactionFactory;
 
@@ -102,7 +102,7 @@ class Quote
      * @param \Magento\Sales\Model\Quote $quote
      * @param \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\DB\TransactionFactory $transactionFactory
+     * @param \Magento\Framework\DB\TransactionFactory $transactionFactory
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param AddressBuilder $customerAddressBuilder
@@ -114,7 +114,7 @@ class Quote
         \Magento\Sales\Model\Quote $quote,
         \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\DB\TransactionFactory $transactionFactory,
+        \Magento\Framework\DB\TransactionFactory $transactionFactory,
         CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $customerAddressService,
         AddressBuilder $customerAddressBuilder,

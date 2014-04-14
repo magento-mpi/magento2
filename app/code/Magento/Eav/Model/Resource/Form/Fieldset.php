@@ -11,7 +11,7 @@ namespace Magento\Eav\Model\Resource\Form;
 
 use Magento\Framework\Model\AbstractModel;
 use Magento\Eav\Model\Form\Fieldset as FormFieldset;
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * Eav Form Fieldset Resource Model

@@ -82,7 +82,7 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
      */
     protected function _joinCustomers()
     {
-        /** @var $adapter \Magento\DB\Adapter\AdapterInterface */
+        /** @var $adapter \Magento\Framework\DB\Adapter\AdapterInterface */
         $adapter = $this->getConnection();
         /** @var $firstnameAttr \Magento\Eav\Model\Entity\Attribute */
         $firstnameAttr = $this->_customerResource->getAttribute('firstname');

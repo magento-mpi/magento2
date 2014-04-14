@@ -195,7 +195,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      * @param array $ids
      * @param array &$flatColumnsToSelect
      * @param array|null $gridColumns
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getUpdateGridRecordsSelect($ids, &$flatColumnsToSelect, $gridColumns = null)
     {

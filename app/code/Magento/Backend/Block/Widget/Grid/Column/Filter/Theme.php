@@ -22,13 +22,13 @@ class Theme extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\DB\Helper $resourceHelper
+     * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\View\Design\Theme\LabelFactory $labelFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\DB\Helper $resourceHelper,
+        \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\View\Design\Theme\LabelFactory $labelFactory,
         array $data = array()
     ) {

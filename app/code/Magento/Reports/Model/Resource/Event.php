@@ -130,7 +130,7 @@ class Event extends \Magento\Framework\Model\Resource\Db\AbstractDb
             "{$idFieldName} = evt.object_id",
             array()
         )->order(
-            'evt.event_id ' . \Magento\DB\Select::SQL_DESC
+            'evt.event_id ' . \Magento\Framework\DB\Select::SQL_DESC
         );
 
         return $this;

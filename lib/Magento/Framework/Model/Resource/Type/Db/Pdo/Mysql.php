@@ -89,7 +89,7 @@ class Mysql extends \Magento\Framework\Model\Resource\Type\Db implements \Magent
     /**
      * Get connection
      *
-     * @return \Magento\DB\Adapter\AdapterInterface|null
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface|null
      */
     public function getConnection()
     {
@@ -103,7 +103,7 @@ class Mysql extends \Magento\Framework\Model\Resource\Type\Db implements \Magent
         }
 
         $profiler = $connection->getProfiler();
-        if ($profiler instanceof \Magento\DB\Profiler) {
+        if ($profiler instanceof \Magento\Framework\DB\Profiler) {
             $profiler->setType($this->_type);
             $profiler->setHost($this->_host);
         }
@@ -114,7 +114,7 @@ class Mysql extends \Magento\Framework\Model\Resource\Type\Db implements \Magent
     /**
      * Create and return DB adapter object instance
      *
-     * @return \Magento\DB\Adapter\Pdo\Mysql
+     * @return \Magento\Framework\DB\Adapter\Pdo\Mysql
      */
     protected function _getDbAdapterInstance()
     {
@@ -130,6 +130,6 @@ class Mysql extends \Magento\Framework\Model\Resource\Type\Db implements \Magent
      */
     protected function _getDbAdapterClassName()
     {
-        return 'Magento\DB\Adapter\Pdo\Mysql';
+        return 'Magento\Framework\DB\Adapter\Pdo\Mysql';
     }
 }

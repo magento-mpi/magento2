@@ -347,7 +347,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Retrieve SELECT instance for conditions
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function select()
     {

@@ -93,7 +93,7 @@ class Decimal extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Joined table has index
      *
      * @param \Magento\Catalog\Model\Layer\Filter\Decimal $filter
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getSelect($filter)
     {

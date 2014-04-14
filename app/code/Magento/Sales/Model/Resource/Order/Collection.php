@@ -33,7 +33,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
     protected $_eventObject = 'order_collection';
 
     /**
-     * @var \Magento\DB\Helper
+     * @var \Magento\Framework\DB\Helper
      */
     protected $_coreResourceHelper;
 
@@ -42,7 +42,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
      * @param \Magento\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\DB\Helper $coreResourceHelper
+     * @param \Magento\Framework\DB\Helper $coreResourceHelper
      * @param \Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
@@ -51,7 +51,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
         \Magento\Logger $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\DB\Helper $coreResourceHelper,
+        \Magento\Framework\DB\Helper $coreResourceHelper,
         $connection = null,
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
@@ -98,11 +98,11 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
     /**
      * Minimize usual count select
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {
-        /* @var $countSelect \Magento\DB\Select */
+        /* @var $countSelect \Magento\Framework\DB\Select */
         $countSelect = parent::getSelectCountSql();
         $countSelect->resetJoinLeft();
         return $countSelect;

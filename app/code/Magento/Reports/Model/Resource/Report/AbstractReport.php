@@ -183,7 +183,7 @@ abstract class AbstractReport extends \Magento\Framework\Model\Resource\Db\Abstr
      * @param null|string $to
      * @param array $additionalWhere
      * @param string $alias
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getTableDateRangeSelect(
         $table,
@@ -231,7 +231,7 @@ abstract class AbstractReport extends \Magento\Framework\Model\Resource\Db\Abstr
     /**
      * Make condition for using in where section from select statement with single date column
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @param string $periodColumn
      * @return array|bool|string
      */
@@ -284,7 +284,7 @@ abstract class AbstractReport extends \Magento\Framework\Model\Resource\Db\Abstr
      * @param array $additionalWhere
      * @param string $alias
      * @param string $relatedAlias
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getTableDateRangeRelatedSelect(
         $table,
@@ -405,7 +405,7 @@ abstract class AbstractReport extends \Magento\Framework\Model\Resource\Db\Abstr
             $then = $this->_getWriteAdapter()->getDateAddSql(
                 $column,
                 $offset,
-                \Magento\DB\Adapter\AdapterInterface::INTERVAL_SECOND
+                \Magento\Framework\DB\Adapter\AdapterInterface::INTERVAL_SECOND
             );
 
             $query .= ++$i == $periodsCount ? $then : "CASE WHEN " . join(" OR ", $subParts) . " THEN {$then} ELSE ";

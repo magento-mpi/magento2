@@ -218,7 +218,7 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
         $field = $this->_getMappedField('actions_serialized');
         $aCond = $this->_getConditionSql($field, array('like' => $match));
 
-        $this->getSelect()->where(sprintf('(%s OR %s)', $cCond, $aCond), null, \Magento\DB\Select::TYPE_CONDITION);
+        $this->getSelect()->where(sprintf('(%s OR %s)', $cCond, $aCond), null, \Magento\Framework\DB\Select::TYPE_CONDITION);
 
         return $this;
     }

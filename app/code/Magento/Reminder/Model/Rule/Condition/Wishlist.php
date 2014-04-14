@@ -9,7 +9,7 @@
  */
 namespace Magento\Reminder\Model\Rule\Condition;
 
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * Customer wishlist conditions combine
@@ -26,7 +26,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * Core resource helper
      *
-     * @var \Magento\DB\Helper
+     * @var \Magento\Framework\DB\Helper
      */
     protected $_resourceHelper;
 
@@ -41,7 +41,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
      * @param \Magento\Stdlib\DateTime\DateTime $coreDate
-     * @param \Magento\DB\Helper $resourceHelper
+     * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Reminder\Model\Rule\Condition\Wishlist\CombineFactory $combineFactory
      * @param array $data
      */
@@ -49,7 +49,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
         \Magento\Stdlib\DateTime\DateTime $coreDate,
-        \Magento\DB\Helper $resourceHelper,
+        \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Reminder\Model\Rule\Condition\Wishlist\CombineFactory $combineFactory,
         array $data = array()
     ) {

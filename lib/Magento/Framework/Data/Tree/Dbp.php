@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Data\Tree;
 
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * Data DB tree

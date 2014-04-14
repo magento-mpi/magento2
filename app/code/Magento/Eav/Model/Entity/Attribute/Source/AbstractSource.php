@@ -130,7 +130,7 @@ abstract class AbstractSource implements
      * Retrieve Select For Flat Attribute update
      *
      * @param int $store
-     * @return \Magento\DB\Select|null
+     * @return \Magento\Framework\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

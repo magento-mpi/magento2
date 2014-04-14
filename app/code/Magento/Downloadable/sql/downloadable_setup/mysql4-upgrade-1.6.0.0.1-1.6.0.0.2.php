@@ -18,9 +18,9 @@ if ($moduleDirectory->isExist($moduleDirectory->getRelativePath($installFile))) 
     include $installFile;
 }
 
-/** @var $connection \Magento\DB\Adapter\Pdo\Mysql */
+/** @var $connection \Magento\Framework\DB\Adapter\Pdo\Mysql */
 $connection = $this->getConnection();
 $connection->changeTableEngine(
     $this->getTable('catalog_product_index_price_downlod_tmp'),
-    \Magento\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
+    \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
 );

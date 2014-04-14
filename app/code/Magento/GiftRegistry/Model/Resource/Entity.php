@@ -68,8 +68,8 @@ class Entity extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Join event table to select object
      *
-     * @param \Magento\DB\Select $select
-     * @return \Magento\DB\Select
+     * @param \Magento\Framework\DB\Select $select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _joinEventData($select)
     {

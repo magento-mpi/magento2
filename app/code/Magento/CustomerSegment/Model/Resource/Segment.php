@@ -254,7 +254,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Get select query result
      *
-     * @param \Magento\DB\Select|string $sql
+     * @param \Magento\Framework\DB\Select|string $sql
      * @param array $bindParams array of bind variables
      * @return int
      */
@@ -266,7 +266,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Get empty select object
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function createSelect()
     {

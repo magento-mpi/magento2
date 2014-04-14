@@ -519,7 +519,7 @@ class Tree extends \Magento\Framework\Data\Tree\Dbp
             $select = $this->_createCollectionDataSelect();
         } else {
             $select = clone $this->_select;
-            $select->order($this->_orderField . ' ' . \Magento\DB\Select::SQL_ASC);
+            $select->order($this->_orderField . ' ' . \Magento\Framework\DB\Select::SQL_ASC);
         }
         $select->where(implode(' OR ', $where));
 
@@ -567,7 +567,7 @@ class Tree extends \Magento\Framework\Data\Tree\Dbp
                 'e.entity_id IN(?)',
                 $pathIds
             )->order(
-                $this->_conn->getLengthSql('e.path') . ' ' . \Magento\DB\Select::SQL_ASC
+                $this->_conn->getLengthSql('e.path') . ' ' . \Magento\Framework\DB\Select::SQL_ASC
             );
             $result = $this->_conn->fetchAll($select);
             $this->_updateAnchorProductCount($result);

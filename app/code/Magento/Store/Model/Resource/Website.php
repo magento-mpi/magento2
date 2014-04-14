@@ -92,7 +92,7 @@ class Website extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Select fields website_id, store_id
      *
      * @param bool $includeDefault include/exclude default admin website
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getDefaultStoresSelect($includeDefault = false)
     {

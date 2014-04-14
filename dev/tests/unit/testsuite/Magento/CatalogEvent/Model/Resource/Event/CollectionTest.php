@@ -101,7 +101,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array('getStore'), array(), '', false);
         $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($store));
 
-        $select = $this->getMock('Magento\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
+        $select = $this->getMock('Magento\Framework\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
         foreach ($this->_joinValues as $key => $arguments) {
             $select->expects(
                 $this->at($key)
@@ -117,7 +117,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         }
 
         $adapter = $this->getMock(
-            'Magento\DB\Adapter\Pdo\Mysql',
+            'Magento\Framework\DB\Adapter\Pdo\Mysql',
             array('select', 'quoteInto', 'getCheckSql', 'quote'),
             array(),
             '',

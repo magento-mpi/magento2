@@ -142,7 +142,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     {
         $shipment->getOrder()->setIsInProcess(true);
         $transactionSave = $this->_objectManager->create(
-            'Magento\DB\Transaction'
+            'Magento\Framework\DB\Transaction'
         )->addObject(
             $shipment
         )->addObject(

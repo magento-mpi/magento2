@@ -69,7 +69,7 @@ class Media extends \Magento\Framework\Model\Resource\Db\AbstractDb
             'main.entity_id = ?',
             $product->getId()
         )->order(
-            $positionCheckSql . ' ' . \Magento\DB\Select::SQL_ASC
+            $positionCheckSql . ' ' . \Magento\Framework\DB\Select::SQL_ASC
         );
 
         $result = $adapter->fetchAll($select);

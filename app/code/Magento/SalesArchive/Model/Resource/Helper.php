@@ -16,7 +16,7 @@ namespace Magento\SalesArchive\Model\Resource;
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Helper extends \Magento\DB\Helper
+class Helper extends \Magento\Framework\DB\Helper
 {
     /**
      * @param \Magento\Framework\App\Resource $resource

@@ -178,7 +178,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
     /**
      * Get \Zend_Db_Select instance and applies fields to select if needed
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelect()
     {

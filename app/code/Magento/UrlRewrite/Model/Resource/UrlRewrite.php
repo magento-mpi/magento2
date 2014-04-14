@@ -45,7 +45,7 @@ class UrlRewrite extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _getLoadSelect($field, $value, $object)
     {
-        /** @var $select \Magento\DB\Select */
+        /** @var $select \Magento\Framework\DB\Select */
         $select = parent::_getLoadSelect($field, $value, $object);
 
         if (!is_null($object->getStoreId())) {
@@ -53,7 +53,7 @@ class UrlRewrite extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 'store_id IN(?)',
                 array(\Magento\Store\Model\Store::DEFAULT_STORE_ID, $object->getStoreId())
             );
-            $select->order('store_id ' . \Magento\DB\Select::SQL_DESC);
+            $select->order('store_id ' . \Magento\Framework\DB\Select::SQL_DESC);
             $select->limit(1);
         }
 
@@ -76,7 +76,7 @@ class UrlRewrite extends \Magento\Framework\Model\Resource\Db\AbstractDb
         }
 
         $select = $this->_getReadAdapter()->select();
-        /** @var $select \Magento\DB\Select */
+        /** @var $select \Magento\Framework\DB\Select */
         $select->from(
             array('main_table' => $this->getMainTable()),
             'request_path'

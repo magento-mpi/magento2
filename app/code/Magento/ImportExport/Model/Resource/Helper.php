@@ -18,7 +18,7 @@
  */
 namespace Magento\ImportExport\Model\Resource;
 
-class Helper extends \Magento\DB\Helper
+class Helper extends \Magento\Framework\DB\Helper
 {
     /**
      * Constants to be used for DB

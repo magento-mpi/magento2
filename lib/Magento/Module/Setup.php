@@ -34,7 +34,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     /**
      * Setup Connection
      *
-     * @var \Magento\DB\Adapter\Pdo\Mysql
+     * @var \Magento\Framework\DB\Adapter\Pdo\Mysql
      */
     protected $_connection = null;
 
@@ -133,7 +133,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     /**
      * Get connection object
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     public function getConnection()
     {
