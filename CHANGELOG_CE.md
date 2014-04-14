@@ -11,6 +11,9 @@
     * Magento/Translate.php
   * Improve Web API framework based on Customer Service (MAGETWO-22045)
   * API Service Exception Handling (MAGETWO-14490)
+  * Extracted vendor name from app/design/*/magento_<theme> into app/design/*/Magento/<theme> (MAGETWO-20865)
+  * Renamed 3DSecure library into CardinalCommerce and removed flex library as unused (MAGETWO-23143)
+  * Simplify Search related Data Objects (MAGETWO-22613)
 * Themes update:
   * Admin theme look&feel updated
 * Modularity improvements:
@@ -36,6 +39,13 @@
   * Refactor CatalogInventory to use Customer Service for customer services (MAGETWO-20464)
   * Refactor CatalogRule Module to use Customer Service (MAGETWO-20471)
   * Refactor SalesRule module to use customer services (MAGETWO-20496)
+  * Refactor Theme and WebAPI modules to use Customer Services (MAGETWO-20498)
+  * Refactor Backend, Bundle, Captcha and Contacts module to use customer services (MAGETWO-20501)
+  * Refactor EAV module to use customer services (MAGETWO-20502)
+  * Refactor Integration & Contacts module to use customer services (MAGETWO-20504)
+  * Implement Caching strategy for the Customer services (MAGETWO-22429)
+  * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)
+  * Refactor RecurringPayment module to use customer service (MAGETWO-22521)
 * GitHub requests:
   * [#520] (https://github.com/magento/magento2/issues/520) -- Fixed spelling in Magento\Payment\Model\Method\AbstractMethod
   * [#481] (https://github.com/magento/magento2/issues/481) -- GD2 Adapter PHP memory_limit
@@ -48,6 +58,7 @@
   * [#538] (https://github.com/magento/magento2/issues/538) -- Fixed missing tax amount in the invoice (MAGETWO-23175)
   * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
 * Fixed bugs:
+  * Fixed implementation issues with Cron task group threading (MAGETWO-21617)
   * Fixed inability to place order during customer's registration flow (MAGETWO-22841)
   * Fixed: Error appears along with low performance on attempt to load pages that contain JS after minifying them(MAGETWO-22585)
   * Fixed: Impossible export several entyties (Credit Memos, Report Shopping Cart ...) for user with restricted permission (MAGETWO-19346)
@@ -57,9 +68,18 @@
   * Fixed: Wrong special price calculating for Bundle Product (MAGETWO-22562)
   * Fixed: Fatal error when try create Shipment for Order if install Magento without USPS module (MAGETWO-22341)
   * Fixed: Admin Dashboard - 'Lifetime Sales' and 'Average Orders' sections are missing (MAGETWO-18733)
+  * Fixed: Blank theme - fixed bugs and added improvements
   * Fixed an issue with active tab is changed to upper one after attribute set has been changed (MAGETWO-10611)
+  * Fixed Flat Rate shipping method to be enabled by default (MAGETWO-21702)
   * Fixed an issue with uncorrect order of products in Add Product split button (MAGETWO-13160)
   * Fixed an issue with tier price attribute save (MAGETWO-19371)
+* JavaScript improvements:
+  * Upgraded frontend jQuery library to version 1.11
+  * Upgraded frontend jQuery UI library to version 1.10.4
+  * Modified loader widget to render content using handlebars
+  * Added use strict mode to accordian widget
+  * Added use strict mode to tab widget
+  * Fixed possibility creating integration from config file (MAGETWO-22311)
 
 2.0.0.0-dev72
 =============
@@ -630,7 +650,7 @@
   * Design loader moved to library
   * Theme label moved to library
 * Themes update:
-  * Reduced amount of templates and layouts in magento_plushe theme
+  * Reduced amount of templates and layouts in Magento/plushe theme
   * Responsive design improvements
 * Integrity improvements:
   * Covered all Magento classes with argument sequence validator

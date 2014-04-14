@@ -41,6 +41,23 @@
             </product_website_1>
         </fields>
     </websites>
+    <advanced-pricing>
+        <class>\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\AdvancedPricingTab</class>
+        <selector>#product_info_tabs_advanced-pricing</selector>
+        <strategy>css selector</strategy>
+        <wrapper>product</wrapper>
+        <fields>
+            <special_price>
+                <selector>[name='product[special_price]']</selector>
+            </special_price>
+            <group_price>
+                <input>select</input>
+            </group_price>
+            <tier_price>
+                <input>select</input>
+            </tier_price>
+        </fields>
+    </advanced-pricing>
     <advanced-inventory>
         <class>\Magento\Backend\Test\Block\Widget\Tab</class>
         <selector>#product_info_tabs_advanced-inventory</selector>
@@ -81,6 +98,11 @@
         <class>\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab</class>
         <selector>#product_info_tabs_customer_options</selector>
         <strategy>css selector</strategy>
+        <fields>
+            <custom_options>
+                <input>select</input>
+            </custom_options>
+        </fields>
     </customer-options>
     <related-products>
         <class>\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related</class>
