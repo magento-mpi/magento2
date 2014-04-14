@@ -2277,7 +2277,7 @@ return array(
     ['Magento\Rating\Model\Rating\Option', 'Magento\Review\Model\Rating\Option'],
     ['Magento\Rating\Model\Observer'],
     [
-        'Magento\App\FrontController\Plugin\Clickjacking',
+        'Magento\Framework\App\FrontController\Plugin\Clickjacking',
         'X-Frame-Options HTTP header setting moved to server configuration'
     ],
     ['Magento\Backend\Model\Translate\Inline', 'Magento\Translate\Inline'],

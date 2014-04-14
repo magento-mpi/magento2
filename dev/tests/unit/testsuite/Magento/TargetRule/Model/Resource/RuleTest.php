@@ -44,7 +44,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     protected $adapter;
 
     /**
-     * @var \Magento\App\Resource|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Resource|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $appResource;
 
@@ -60,7 +60,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $this->adapter->expects($this->any())->method('describeTable')->will($this->returnValue([]));
         $this->adapter->expects($this->any())->method('lastInsertId')->will($this->returnValue(1));
 
-        $this->appResource = $this->getMock('Magento\App\Resource', [], [], '', false);
+        $this->appResource = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
         $this->appResource->expects($this->any())->method('getConnection')->will($this->returnValue($this->adapter));
 
         $this->resourceRule = (new ObjectManager($this))->getObject('Magento\TargetRule\Model\Resource\Rule', [
