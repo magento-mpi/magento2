@@ -57,7 +57,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     public function testGetVar()
     {
         $this->markTestIncomplete('MAGETWO-11727');
-        $config = $this->getMock('Magento\Config\View', array('getVarValue'), array(), '', false);
+        $config = $this->getMock('Magento\Framework\Config\View', array('getVarValue'), array(), '', false);
         $module = uniqid();
         $config->expects(
             $this->at(0)

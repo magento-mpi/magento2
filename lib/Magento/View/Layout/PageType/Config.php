@@ -21,16 +21,16 @@ class Config
     /**
      * Data storage
      *
-     * @var  \Magento\Config\DataInterface
+     * @var  \Magento\Framework\Config\DataInterface
      */
     protected $_dataStorage;
 
     /**
      * Constructor
      *
-     * @param \Magento\Config\DataInterface $dataStorage
+     * @param \Magento\Framework\Config\DataInterface $dataStorage
      */
-    public function __construct(\Magento\Config\DataInterface $dataStorage)
+    public function __construct(\Magento\Framework\Config\DataInterface $dataStorage)
     {
         $this->_dataStorage = $dataStorage;
     }

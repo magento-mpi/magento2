@@ -59,7 +59,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'Magento\Module\Declaration\FileResolver',
             array(
                 'filesystem' => $filesystem,
-                'fileIteratorFactory' => $objectManager->create('Magento\Config\FileIteratorFactory')
+                'fileIteratorFactory' => $objectManager->create('Magento\Framework\Config\FileIteratorFactory')
             )
         );
 

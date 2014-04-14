@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Config\Dom;
+namespace Magento\Framework\Config\Dom;
 
 class NodePathMatcherTest extends \PHPUnit_Framework_TestCase
 {

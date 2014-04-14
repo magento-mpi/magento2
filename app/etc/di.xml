@@ -31,10 +31,10 @@
     <preference for="Magento\Locale\ConfigInterface" type="Magento\Locale\Config" />
     <preference for="Magento\UrlInterface" type="Magento\Url" />
     <preference for="Magento\Data\Collection\Db\FetchStrategyInterface" type="Magento\Data\Collection\Db\FetchStrategy\Query" />
-    <preference for="Magento\Config\ScopeInterface" type="Magento\Config\Scope" />
-    <preference for="Magento\Config\FileResolverInterface" type="Magento\Framework\App\Config\FileResolver" />
-    <preference for="Magento\Config\CacheInterface" type="Magento\Framework\App\Cache\Type\Config" />
-    <preference for="Magento\Config\ValidationStateInterface" type="Magento\Framework\App\Arguments\ValidationState" />
+    <preference for="Magento\Framework\Config\ScopeInterface" type="Magento\Framework\Config\Scope" />
+    <preference for="Magento\Framework\Config\FileResolverInterface" type="Magento\Framework\App\Config\FileResolver" />
+    <preference for="Magento\Framework\Config\CacheInterface" type="Magento\Framework\App\Cache\Type\Config" />
+    <preference for="Magento\Framework\Config\ValidationStateInterface" type="Magento\Framework\App\Arguments\ValidationState" />
     <preference for="Magento\Module\ModuleListInterface" type="Magento\Module\ModuleList" />
     <preference for="Magento\Event\ConfigInterface" type="Magento\Event\Config" />
     <preference for="Magento\Event\InvokerInterface" type="Magento\Event\Invoker\InvokerDefault" />
@@ -63,7 +63,7 @@
     <preference for="Magento\Session\Config\ConfigInterface" type="Magento\Session\Config" />
     <preference for="Magento\Session\SidResolverInterface" type="Magento\Session\SidResolver\Proxy" />
     <preference for="Magento\TranslateInterface" type="Magento\Translate" />
-    <preference for="Magento\Config\ScopeListInterface" type="interceptionConfigScope" />
+    <preference for="Magento\Framework\Config\ScopeListInterface" type="interceptionConfigScope" />
     <preference for="Magento\View\Design\Theme\Label\ListInterface" type="Magento\Core\Model\Resource\Theme\Collection" />
     <preference for="Magento\Mview\ConfigInterface" type="Magento\Mview\Config" />
     <preference for="Magento\Mview\ViewInterface" type="Magento\Mview\View" />
@@ -103,7 +103,7 @@
             </argument>
         </arguments>
     </type>
-    <virtualType name="interceptionConfigScope" type="Magento\Config\Scope">
+    <virtualType name="interceptionConfigScope" type="Magento\Framework\Config\Scope">
         <arguments>
             <argument name="defaultScope" xsi:type="string">global</argument>
         </arguments>
@@ -232,7 +232,7 @@
             <argument name="fileResolver" xsi:type="object">Magento\Framework\App\Config\FileResolver\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Config\Scope">
+    <type name="Magento\Framework\Config\Scope">
         <arguments>
             <argument name="defaultScope" xsi:type="string">primary</argument>
             <argument name="areaList" xsi:type="object">Magento\Framework\App\AreaList\Proxy</argument>

@@ -515,19 +515,19 @@ return array(
     array('getReorderUrl', 'Magento\Sales\Block\Order\Info'),
     array(
         'getResourceConfig',
-        'Magento\Config\Model\Config',
+        'Magento\Framework\Config\Model\Config',
         'Magento_Config_Model_Config_Resource::getResourceConfig'
     ),
     array('getResourceConfig', 'Magento\Core\Model\Config'),
     array(
         'getResourceConnectionConfig',
-        'Magento\Config\Model\Config',
+        'Magento\Framework\Config\Model\Config',
         'Magento_Config_Model_Config_Resource::getResourceConnectionConfig'
     ),
     array('getResourceConnectionConfig', 'Magento\Core\Model\Config'),
     array(
         'getResourceConnectionModel',
-        'Magento\Config\Model\Config',
+        'Magento\Framework\Config\Model\Config',
         'Magento_Config_Model_Config_Resource::getResourceConnectionModel'
     ),
     array('getResourceConnectionModel', 'Magento\Core\Model\Config'),
@@ -535,7 +535,7 @@ return array(
     array('getResourceModelClassName', 'Magento\Core\Model\Config'),
     array(
         'getResourceTypeConfig',
-        'Magento\Config\Model\Config',
+        'Magento\Framework\Config\Model\Config',
         'Magento_Config_Model_Config_Resource::getResourceTypeConfig'
     ),
     array('getResourceTypeConfig', 'Magento\Core\Model\Config'),
@@ -1334,8 +1334,8 @@ return array(
     array('getItemRemoveUrl', 'Magento\Wishlist\Block\AbstractBlock'),
     array('_getUrlParams', 'Magento\Catalog\Helper\Product\Compare'),
     array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\View\Layout\File'),
-    array('_getInitialXml', 'Magento\Config\Theme'),
-    array('_getIdAttributes', 'Magento\Config\Theme'),
+    array('_getInitialXml', 'Magento\Framework\Config\Theme'),
+    array('_getIdAttributes', 'Magento\Framework\Config\Theme'),
     array(
         'getAllPeriodUnits',
         'Magento\Payment\Model\Recurring\Profile',

@@ -64,7 +64,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_messageManager;
 
-    /** @var \Magento\Config\ScopeInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Config\ScopeInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_configScopeMock;
 
     /** @var \Magento\Integration\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
@@ -127,7 +127,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
         $this->_registryMock = $this->getMockBuilder('Magento\Registry')->disableOriginalConstructor()->getMock();
         $this->_configScopeMock = $this->getMockBuilder(
-            'Magento\Config\ScopeInterface'
+            'Magento\Framework\Config\ScopeInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_integrationHelperMock = $this->getMockBuilder(
             'Magento\Integration\Helper\Data'
@@ -871,7 +871,7 @@ HANDLE;
             array('Magento\Core\Model\Layout\Filter\Acl', $this->_layoutFilterMock),
             array('Magento\Backend\Model\Session', $this->_backendSessionMock),
             array('Magento\TranslateInterface', $this->_translateModelMock),
-            array('Magento\Config\ScopeInterface', $this->_configScopeMock)
+            array('Magento\Framework\Config\ScopeInterface', $this->_configScopeMock)
         );
         $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnValueMap($map));
     }

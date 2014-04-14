@@ -27,7 +27,7 @@ class MonitorTest extends \PHPUnit_Framework_TestCase
     {
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Config\ScopeInterface'
+            'Magento\Framework\Config\ScopeInterface'
         )->setCurrentScope(
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         );

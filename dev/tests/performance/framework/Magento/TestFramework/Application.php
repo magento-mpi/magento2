@@ -191,7 +191,7 @@ class Application
         $this->getObjectManager()->configure(
             $this->getObjectManager()->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
         );
-        $this->getObjectManager()->get('Magento\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
+        $this->getObjectManager()->get('Magento\Framework\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
         return $this;
     }
 

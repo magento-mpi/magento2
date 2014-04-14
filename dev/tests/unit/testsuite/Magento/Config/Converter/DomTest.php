@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Config\Converter;
+namespace Magento\Framework\Config\Converter;
 
 class DomTest extends \PHPUnit_Framework_TestCase
 {

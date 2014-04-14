@@ -11,7 +11,7 @@ namespace Magento\Email\Model\Template\Config;
 /**
  * Class FileIterator
  */
-class FileIterator extends \Magento\Config\FileIterator
+class FileIterator extends \Magento\Framework\Config\FileIterator
 {
     /**
      * @var \Magento\Module\Dir\ReverseResolver

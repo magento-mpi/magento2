@@ -16,7 +16,7 @@ namespace Magento\Customer\Model\Address;
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Config extends \Magento\Config\Data
+class Config extends \Magento\Framework\Config\Data
 {
     const DEFAULT_ADDRESS_RENDERER = 'Magento\Customer\Block\Address\Renderer\DefaultRenderer';
 
@@ -63,7 +63,7 @@ class Config extends \Magento\Config\Data
 
     /**
      * @param \Magento\Customer\Model\Address\Config\Reader $reader
-     * @param \Magento\Config\CacheInterface $cache
+     * @param \Magento\Framework\Config\CacheInterface $cache
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -71,7 +71,7 @@ class Config extends \Magento\Config\Data
      */
     public function __construct(
         \Magento\Customer\Model\Address\Config\Reader $reader,
-        \Magento\Config\CacheInterface $cache,
+        \Magento\Framework\Config\CacheInterface $cache,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,

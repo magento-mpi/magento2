@@ -46,7 +46,7 @@ class View extends \Magento\Object
     const WHITE_BORDERS_MODULE = 'Magento_Catalog';
 
     /**
-     * @var \Magento\Config\View
+     * @var \Magento\Framework\Config\View
      */
     protected $_configView;
 
@@ -184,7 +184,7 @@ class View extends \Magento\Object
     /**
      * Get view config object
      *
-     * @return \Magento\Config\View
+     * @return \Magento\Framework\Config\View
      */
     protected function _getConfigView()
     {

@@ -25,7 +25,7 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
         }
         $this->_validateConfigFile(
             $file,
-            $this->getPath(\Magento\Framework\App\Filesystem::LIB_DIR) . '/Magento/Config/etc/view.xsd'
+            $this->getPath(\Magento\Framework\App\Filesystem::LIB_DIR) . '/Magento/Framework/Config/etc/view.xsd'
         );
     }
 
@@ -72,7 +72,7 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
     {
         $this->_validateConfigFile(
             $file,
-            $this->getPath(\Magento\Framework\App\Filesystem::LIB_DIR) . '/Magento/Config/etc/theme.xsd'
+            $this->getPath(\Magento\Framework\App\Filesystem::LIB_DIR) . '/Magento/Framework/Config/etc/theme.xsd'
         );
     }
 
@@ -112,7 +112,7 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
      */
     protected function _validateConfigFile($file, $schemaFile)
     {
-        $domConfig = new \Magento\Config\Dom(file_get_contents($file));
+        $domConfig = new \Magento\Framework\Config\Dom(file_get_contents($file));
         $errors = array();
         $result = $domConfig->validate($schemaFile, $errors);
         $message = "Invalid XML-file: {$file}\n";

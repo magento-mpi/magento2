@@ -22,7 +22,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Config\ScopeInterface'
+            'Magento\Framework\Config\ScopeInterface'
         )->setCurrentScope(
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         );

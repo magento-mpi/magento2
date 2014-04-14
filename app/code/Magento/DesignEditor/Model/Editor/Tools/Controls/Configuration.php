@@ -52,12 +52,12 @@ class Configuration
     protected $_parentTheme;
 
     /**
-     * @var \Magento\Config\View
+     * @var \Magento\Framework\Config\View
      */
     protected $_viewConfig;
 
     /**
-     * @var \Magento\Config\View
+     * @var \Magento\Framework\Config\View
      */
     protected $_viewConfigParent;
 
@@ -164,10 +164,10 @@ class Configuration
      *
      * @param array &$control
      * @param string $paramName
-     * @param \Magento\Config\View $viewConfiguration
+     * @param \Magento\Framework\Config\View $viewConfiguration
      * @return $this
      */
-    protected function _loadControlData(array &$control, $paramName, \Magento\Config\View $viewConfiguration)
+    protected function _loadControlData(array &$control, $paramName, \Magento\Framework\Config\View $viewConfiguration)
     {
         if (!empty($control['var'])) {
             list($module, $varKey) = $this->_extractModuleKey($control['var']);

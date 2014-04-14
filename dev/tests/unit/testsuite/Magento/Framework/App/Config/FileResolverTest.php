@@ -26,7 +26,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     /**
      * File iterator factory
      *
-     * @var \Magento\Config\FileIteratorFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Config\FileIteratorFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $iteratorFactory;
 
@@ -38,7 +38,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->iteratorFactory = $this->getMock(
-            'Magento\Config\FileIteratorFactory',
+            'Magento\Framework\Config\FileIteratorFactory',
             array(),
             array('getPath'),
             '',

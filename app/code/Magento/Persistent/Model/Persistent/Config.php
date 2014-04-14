@@ -22,7 +22,7 @@ class Config
     protected $_configFilePath;
 
     /**
-     * @var \Magento\Config\DomFactory
+     * @var \Magento\Framework\Config\DomFactory
      */
     protected $_domFactory;
 
@@ -65,7 +65,7 @@ class Config
     protected $_modulesDirectory;
 
     /**
-     * @param \Magento\Config\DomFactory $domFactory
+     * @param \Magento\Framework\Config\DomFactory $domFactory
      * @param \Magento\Module\Dir\Reader $moduleReader
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Framework\App\State $appState
@@ -73,7 +73,7 @@ class Config
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
-        \Magento\Config\DomFactory $domFactory,
+        \Magento\Framework\Config\DomFactory $domFactory,
         \Magento\Module\Dir\Reader $moduleReader,
         \Magento\View\LayoutInterface $layout,
         \Magento\Framework\App\State $appState,
@@ -118,7 +118,7 @@ class Config
                 );
             }
             $xml = $this->_modulesDirectory->readFile($filePath);
-            /** @var \Magento\Config\Dom $configDom */
+            /** @var \Magento\Framework\Config\Dom $configDom */
             $configDom = $this->_domFactory->createDom(
                 array(
                     'xml' => $xml,

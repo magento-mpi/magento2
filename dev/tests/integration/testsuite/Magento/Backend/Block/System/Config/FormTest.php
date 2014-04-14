@@ -60,7 +60,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
             array('area' => 'adminhtml')
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Config\ScopeInterface'
+            'Magento\Framework\Config\ScopeInterface'
         )->setCurrentScope(
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         );
@@ -94,7 +94,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->_setupFieldsInheritCheckbox($useConfigField, $isConfigDataEmpty, $configDataValue);
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Config\ScopeInterface'
+            'Magento\Framework\Config\ScopeInterface'
         )->setCurrentScope(
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         );
@@ -184,7 +184,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->_setupFieldsInheritCheckbox($useConfigField, $isConfigDataEmpty, $configDataValue);
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Config\ScopeInterface'
+            'Magento\Framework\Config\ScopeInterface'
         )->setCurrentScope(
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         );
@@ -240,7 +240,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
             State::PARAM_BAN_CACHE => true,
         ));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Config\ScopeInterface')
+            ->get('Magento\Framework\Config\ScopeInterface')
             ->setCurrentScope(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\AreaList')
             ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
@@ -254,7 +254,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         /** @var $directory  \Magento\Filesystem\Directory\Read */
         $directory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
         $fileIteratorFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Config\FileIteratorFactory'
+            'Magento\Framework\Config\FileIteratorFactory'
         );
         $fileIterator = $fileIteratorFactory->create(
             $directory,

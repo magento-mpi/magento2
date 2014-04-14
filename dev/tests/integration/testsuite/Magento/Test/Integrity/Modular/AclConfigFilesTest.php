@@ -42,7 +42,7 @@ class AclConfigFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testAclConfigFile($file)
     {
-        $domConfig = new \Magento\Config\Dom(file_get_contents($file));
+        $domConfig = new \Magento\Framework\Config\Dom(file_get_contents($file));
         $result = $domConfig->validate($this->_schemeFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {

@@ -9,7 +9,7 @@
  */
 namespace Magento\Email\Model\Template\Config;
 
-class FileResolver implements \Magento\Config\FileResolverInterface
+class FileResolver implements \Magento\Framework\Config\FileResolverInterface
 {
     /**
      * @var \Magento\Filesystem\Directory\ReadInterface
@@ -17,7 +17,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     protected $directoryRead;
 
     /**
-     * @var \Magento\Config\FileIteratorFactory
+     * @var \Magento\Framework\Config\FileIteratorFactory
      */
     protected $iteratorFactory;
 

@@ -59,7 +59,7 @@ class Config implements \Magento\View\ConfigInterface
     /**
      * File iterator factory
      *
-     * @var \Magento\Config\FileIteratorFactory
+     * @var \Magento\Framework\Config\FileIteratorFactory
      */
     protected $fileIteratorFactory;
 
@@ -70,7 +70,7 @@ class Config implements \Magento\View\ConfigInterface
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\View\Service  $viewService
      * @param \Magento\View\FileSystem $viewFileSystem
-     * @param \Magento\Config\FileIteratorFactory $fileIteratorFactory
+     * @param \Magento\Framework\Config\FileIteratorFactory $fileIteratorFactory
      * @param string $filename
      */
     public function __construct(
@@ -78,7 +78,7 @@ class Config implements \Magento\View\ConfigInterface
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\View\Service $viewService,
         \Magento\View\FileSystem $viewFileSystem,
-        \Magento\Config\FileIteratorFactory $fileIteratorFactory,
+        \Magento\Framework\Config\FileIteratorFactory $fileIteratorFactory,
         $filename = self::CONFIG_FILE_NAME
     ) {
         $this->moduleReader = $moduleReader;
@@ -93,7 +93,7 @@ class Config implements \Magento\View\ConfigInterface
      * Render view config object for current package and theme
      *
      * @param array $params
-     * @return \Magento\Config\View
+     * @return \Magento\Framework\Config\View
      */
     public function getViewConfig(array $params = array())
     {
@@ -122,7 +122,7 @@ class Config implements \Magento\View\ConfigInterface
                 $this->rootDirectory->getRelativePath($themeConfigFile)
             );
         }
-        $config = new \Magento\Config\View($configFiles);
+        $config = new \Magento\Framework\Config\View($configFiles);
 
         $this->viewConfigs[$key] = $config;
         return $config;

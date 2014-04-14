@@ -255,11 +255,11 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
      * Return configuration model for themes
      *
      * @param string $configPath
-     * @return \Magento\Config\Theme
+     * @return \Magento\Framework\Config\Theme
      */
     protected function _getConfigModel($configPath)
     {
-        return new \Magento\Config\Theme($this->_directory->readFile($this->_directory->getRelativePath($configPath)));
+        return new \Magento\Framework\Config\Theme($this->_directory->readFile($this->_directory->getRelativePath($configPath)));
     }
 
     /**

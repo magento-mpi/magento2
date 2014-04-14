@@ -21,7 +21,7 @@ interface ConfigInterface
      * Render view config object for current package and theme
      *
      * @param array $params
-     * @return \Magento\Config\View
+     * @return \Magento\Framework\Config\View
      */
     public function getViewConfig(array $params = array());
 }

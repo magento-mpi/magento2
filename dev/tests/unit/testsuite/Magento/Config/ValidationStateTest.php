@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Config;
+namespace Magento\Framework\Config;
 
 class ValidationStateTest extends \PHPUnit_Framework_TestCase
 {

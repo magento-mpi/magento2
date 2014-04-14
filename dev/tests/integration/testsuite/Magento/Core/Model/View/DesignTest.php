@@ -202,7 +202,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     {
         $this->_emulateFixtureTheme();
         $config = $this->_viewConfig->getViewConfig();
-        $this->assertInstanceOf('Magento\Config\View', $config);
+        $this->assertInstanceOf('Magento\Framework\Config\View', $config);
         $this->assertEquals(array('var1' => 'value1', 'var2' => 'value2'), $config->getVars('Namespace_Module'));
     }
 
@@ -230,7 +230,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             );
 
             $config = $this->_viewConfig->getViewConfig();
-            $this->assertInstanceOf('Magento\Config\View', $config);
+            $this->assertInstanceOf('Magento\Framework\Config\View', $config);
             $this->assertEquals(array('customVar' => 'custom value'), $config->getVars('Namespace_Module'));
         } catch (\Exception $e) {
             $directory->delete($relativePath);

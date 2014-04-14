@@ -15,7 +15,7 @@ class View implements ViewInterface
     protected $_layout;
 
     /**
-     * @var \Magento\Config\ScopeInterface
+     * @var \Magento\Framework\Config\ScopeInterface
      */
     protected $_configScope;
 
@@ -53,7 +53,7 @@ class View implements ViewInterface
      * @param \Magento\View\LayoutInterface $layout
      * @param RequestInterface $request
      * @param ResponseInterface $response
-     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Framework\Config\ScopeInterface $configScope
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Translate\InlineInterface $translateInline
      * @param ActionFlag $actionFlag
@@ -62,7 +62,7 @@ class View implements ViewInterface
         \Magento\View\LayoutInterface $layout,
         RequestInterface $request,
         ResponseInterface $response,
-        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Framework\Config\ScopeInterface $configScope,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Translate\InlineInterface $translateInline,
         ActionFlag $actionFlag

@@ -22,7 +22,7 @@
     <preference for="Magento\Framework\App\Config\MutableScopeConfigInterface" type="Magento\Framework\App\MutableScopeConfig" />
     <preference for="Magento\Framework\App\Config\Storage\WriterInterface" type="Magento\Framework\App\Config\Storage\Writer" />
     <preference for="Magento\View\Design\Theme\FileInterface" type="Magento\Core\Model\Theme\File" />
-    <preference for="Magento\Config\ConverterInterface" type="Magento\Config\Converter\Dom"/>
+    <preference for="Magento\Framework\Config\ConverterInterface" type="Magento\Framework\Config\Converter\Dom"/>
     <preference for="Magento\Core\Model\Url\SecurityInfoInterface" type="Magento\Core\Model\Url\SecurityInfo\Proxy" />
     <preference for="Magento\Framework\App\DefaultPathInterface" type="Magento\Framework\App\DefaultPath\DefaultPath" />
     <preference for="Magento\Encryption\EncryptorInterface" type="Magento\Encryption\Encryptor" />
@@ -328,7 +328,7 @@
             <argument name="defaultScope" xsi:type="string">frontend</argument>
         </arguments>
     </type>
-    <virtualType name="Magento\View\Layout\PageType\Config\Data" type="Magento\Config\Data">
+    <virtualType name="Magento\View\Layout\PageType\Config\Data" type="Magento\Framework\Config\Data">
         <arguments>
             <argument name="reader" xsi:type="object">Magento\View\Layout\PageType\Config\Reader</argument>
             <argument name="cacheId" xsi:type="string">page_types_config</argument>

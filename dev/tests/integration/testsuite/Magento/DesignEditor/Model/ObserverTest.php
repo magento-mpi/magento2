@@ -60,8 +60,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         }
 
 
-        /** @var \Magento\Config\Scope $configScope */
-        $configScope = $objectManager->get('Magento\Config\ScopeInterface');
+        /** @var \Magento\Framework\Config\Scope $configScope */
+        $configScope = $objectManager->get('Magento\Framework\Config\ScopeInterface');
         $configScope->setCurrentScope($area);
 
         /** @var $eventManager \Magento\Event\ManagerInterface */

@@ -92,7 +92,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                     \Magento\Core\Model\App\Area::PART_CONFIG
                 );
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Config\ScopeInterface'
+                    'Magento\Framework\Config\ScopeInterface'
                 )->setCurrentScope(
                     $area
                 );

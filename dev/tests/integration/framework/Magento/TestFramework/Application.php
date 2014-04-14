@@ -488,7 +488,7 @@ class Application
     public function loadArea($areaCode)
     {
         $this->_appArea = $areaCode;
-        $scope = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Config\Scope');
+        $scope = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Config\Scope');
         $scope->setCurrentScope($areaCode);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(

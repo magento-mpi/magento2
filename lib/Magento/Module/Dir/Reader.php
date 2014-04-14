@@ -10,8 +10,8 @@
 namespace Magento\Module\Dir;
 
 use Magento\Framework\App\Filesystem;
-use Magento\Config\FileIterator;
-use Magento\Config\FileIteratorFactory;
+use Magento\Framework\Config\FileIterator;
+use Magento\Framework\Config\FileIteratorFactory;
 use Magento\Filesystem\Directory\Read;
 use Magento\Module\ModuleListInterface;
 use Magento\Module\Dir;

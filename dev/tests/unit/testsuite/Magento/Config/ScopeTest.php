@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Config;
+namespace Magento\Framework\Config;
 
 class ScopeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Config\Scope
+     * @var \Magento\Framework\Config\Scope
      */
     protected $model;
 

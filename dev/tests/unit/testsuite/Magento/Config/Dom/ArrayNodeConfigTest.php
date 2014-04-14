@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Config\Dom;
+namespace Magento\Framework\Config\Dom;
 
 class ArrayNodeConfigTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,7 +21,7 @@ class ArrayNodeConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->nodePathMatcher = $this->getMock('\Magento\Config\Dom\NodePathMatcher');
+        $this->nodePathMatcher = $this->getMock('\Magento\Framework\Config\Dom\NodePathMatcher');
         $this->object = new ArrayNodeConfig(
             $this->nodePathMatcher,
             array('/root/assoc/one' => 'name', '/root/assoc/two' => 'id', '/root/assoc/three' => 'key'),

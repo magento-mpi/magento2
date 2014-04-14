@@ -245,7 +245,7 @@ class WizardTest extends \PHPUnit_Framework_TestCase
             'Magento\Install\Controller\Wizard',
             array(
                 'context' => $this->_contextMock,
-                'configScope' => $this->_getClearMock('Magento\Config\Scope'),
+                'configScope' => $this->_getClearMock('Magento\Framework\Config\Scope'),
                 'installer' => $this->_getClearMock('Magento\Install\Model\Installer'),
                 'wizard' => $this->_wizardMock,
                 'session' => $this->_sessionMock,

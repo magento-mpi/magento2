@@ -7,7 +7,7 @@
  */
 namespace Magento\Acl\Resource\Config\Converter;
 
-class Dom implements \Magento\Config\ConverterInterface
+class Dom implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * {@inheritdoc}

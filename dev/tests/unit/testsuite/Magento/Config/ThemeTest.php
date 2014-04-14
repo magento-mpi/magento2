@@ -8,13 +8,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Config;
+namespace Magento\Framework\Config;
 
 class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSchemaFile()
     {
-        $config = new \Magento\Config\Theme(file_get_contents(__DIR__ . '/_files/area/default_default/theme.xml'));
+        $config = new \Magento\Framework\Config\Theme(file_get_contents(__DIR__ . '/_files/area/default_default/theme.xml'));
         $this->assertFileExists($config->getSchemaFile());
     }
 
@@ -25,7 +25,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetThemeTitle($themePath, $expected)
     {
-        $config = new \Magento\Config\Theme(file_get_contents(__DIR__ . "/_files/area/{$themePath}/theme.xml"));
+        $config = new \Magento\Framework\Config\Theme(file_get_contents(__DIR__ . "/_files/area/{$themePath}/theme.xml"));
         $this->assertSame($expected, $config->getThemeTitle());
     }
 
@@ -44,7 +44,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetParentTheme($themePath, $expected)
     {
-        $config = new \Magento\Config\Theme(file_get_contents(__DIR__ . "/_files/area/{$themePath}/theme.xml"));
+        $config = new \Magento\Framework\Config\Theme(file_get_contents(__DIR__ . "/_files/area/{$themePath}/theme.xml"));
         $this->assertSame($expected, $config->getParentTheme());
     }
 
@@ -69,7 +69,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     public function testDataGetter($themePath, $expected)
     {
         $expected = reset($expected);
-        $config = new \Magento\Config\Theme(file_get_contents(__DIR__ . "/_files/area/$themePath/theme.xml"));
+        $config = new \Magento\Framework\Config\Theme(file_get_contents(__DIR__ . "/_files/area/$themePath/theme.xml"));
         $this->assertSame($expected['version'], $config->getThemeVersion());
         $this->assertSame($expected['media'], $config->getMedia());
     }

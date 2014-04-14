@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Config;
+namespace Magento\Framework\Config;
 
 class DomTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +24,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
     {
         $xml = file_get_contents(__DIR__ . "/_files/dom/{$xmlFile}");
         $newXml = file_get_contents(__DIR__ . "/_files/dom/{$newXmlFile}");
-        $config = new \Magento\Config\Dom($xml, $ids, $typeAttributeName);
+        $config = new \Magento\Framework\Config\Dom($xml, $ids, $typeAttributeName);
         $config->merge($newXml);
         $this->assertXmlStringEqualsXmlFile(__DIR__ . "/_files/dom/{$expectedXmlFile}", $config->getDom()->saveXML());
     }
@@ -92,7 +92,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
     {
         $xml = file_get_contents(__DIR__ . "/_files/dom/ambiguous_two.xml");
         $newXml = file_get_contents(__DIR__ . "/_files/dom/ambiguous_new_one.xml");
-        $config = new \Magento\Config\Dom($xml);
+        $config = new \Magento\Framework\Config\Dom($xml);
         $config->merge($newXml);
     }
 
@@ -103,7 +103,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidate($xml, array $expectedErrors)
     {
-        $dom = new \Magento\Config\Dom($xml);
+        $dom = new \Magento\Framework\Config\Dom($xml);
         $actualResult = $dom->validate(__DIR__ . '/_files/sample.xsd', $actualErrors);
         $this->assertEquals(empty($expectedErrors), $actualResult);
         $this->assertEquals($expectedErrors, $actualErrors);
@@ -130,7 +130,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
         $expectedErrors = array(
             "Error: `Element 'unknown_node': This element is not expected. Expected is ( node ).`"
         );
-        $dom = new \Magento\Config\Dom($xml, array(), null, null, $errorFormat);
+        $dom = new \Magento\Framework\Config\Dom($xml, array(), null, null, $errorFormat);
         $actualResult = $dom->validate(__DIR__ . '/_files/sample.xsd', $actualErrors);
         $this->assertFalse($actualResult);
         $this->assertEquals($expectedErrors, $actualErrors);
@@ -144,7 +144,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
     {
         $xml = '<root><unknown_node/></root>';
         $errorFormat = '%message%,%unknown%';
-        $dom = new \Magento\Config\Dom($xml, array(), null, null, $errorFormat);
+        $dom = new \Magento\Framework\Config\Dom($xml, array(), null, null, $errorFormat);
         $dom->validate(__DIR__ . '/_files/sample.xsd');
     }
 
@@ -152,7 +152,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
     {
         $xml = '<root><node id="id1"/><node id="id2"/></root>';
         $schemaFile = __DIR__ . '/_files/sample.xsd';
-        $dom = new \Magento\Config\Dom($xml);
+        $dom = new \Magento\Framework\Config\Dom($xml);
         $domMock = $this->getMock('DOMDocument', array('schemaValidate'), array());
         $domMock->expects($this->once())
             ->method('schemaValidate')

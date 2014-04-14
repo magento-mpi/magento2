@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Config\Converter\Dom;
+namespace Magento\Framework\Config\Converter\Dom;
 
 class FlatTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Config\Converter\Dom\Flat
+     * @var \Magento\Framework\Config\Converter\Dom\Flat
      */
     protected $_model;
 
@@ -23,8 +23,8 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $arrayNodeConfig = new \Magento\Config\Dom\ArrayNodeConfig(
-            new \Magento\Config\Dom\NodePathMatcher(),
+        $arrayNodeConfig = new \Magento\Framework\Config\Dom\ArrayNodeConfig(
+            new \Magento\Framework\Config\Dom\NodePathMatcher(),
             array(
                 '/root/multipleNode' => 'id',
                 '/root/wrongArray' => 'id',
@@ -33,7 +33,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
                 '/root/node_one/subnode',
             )
         );
-        $this->_model = new \Magento\Config\Converter\Dom\Flat($arrayNodeConfig);
+        $this->_model = new \Magento\Framework\Config\Converter\Dom\Flat($arrayNodeConfig);
         $this->_fixturePath = realpath(__DIR__ . '/../../') . '/_files/converter/dom/flat/';
     }
 

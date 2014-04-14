@@ -8,18 +8,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Config;
+namespace Magento\Framework\Config;
 
 class ViewTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Config\View
+     * @var \Magento\Framework\Config\View
      */
     protected $_model = null;
 
     protected function setUp()
     {
-        $this->_model = new \Magento\Config\View(
+        $this->_model = new \Magento\Framework\Config\View(
             array(
                 file_get_contents(__DIR__ . '/_files/view_one.xml'),
                 file_get_contents(__DIR__ . '/_files/view_two.xml')
@@ -32,7 +32,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructException()
     {
-        new \Magento\Config\View(array());
+        new \Magento\Framework\Config\View(array());
     }
 
     public function testGetSchemaFile()
@@ -58,6 +58,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidXml()
     {
-        new \Magento\Config\View(array(file_get_contents(__DIR__ . '/_files/view_invalid.xml')));
+        new \Magento\Framework\Config\View(array(file_get_contents(__DIR__ . '/_files/view_invalid.xml')));
     }
 }

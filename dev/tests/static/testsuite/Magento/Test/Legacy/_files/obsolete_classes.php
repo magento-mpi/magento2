@@ -1927,7 +1927,7 @@ return array(
     array('Magento\Catalog\Block\Adminhtml\System\Config\Form\Field\Select\Flatcatalog'),
     array('Magento\Catalog\Helper\Category\Flat'),
     array('Magento\Catalog\Model\Category\Indexer\Flat'),
-    array('Magento\Config\Dom\Converter\ArrayConverter'),
+    array('Magento\Framework\Config\Dom\Converter\ArrayConverter'),
     array('Magento\Acl\Resource\Config\Dom'),
     array('Magento\Sales\Model\Recurring\Profile', 'Magento\RecurringPayment\Model\Payment'),
     array('Magento\Sales\Model\Resource\Recurring\Profile', 'Magento\RecurringPayment\Model\Resource\Payment'),

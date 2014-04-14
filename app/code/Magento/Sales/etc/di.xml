@@ -16,7 +16,7 @@
             <argument name="schemaLocator" xsi:type="object">Magento\Sales\Model\Order\Pdf\Config\SchemaLocator</argument>
         </arguments>
     </type>
-    <virtualType name="pdfConfigDataStorage" type="Magento\Config\Data">
+    <virtualType name="pdfConfigDataStorage" type="Magento\Framework\Config\Data">
         <arguments>
             <argument name="reader" xsi:type="object">Magento\Sales\Model\Order\Pdf\Config\Reader</argument>
             <argument name="cacheId" xsi:type="string">sales_pdf_config</argument>

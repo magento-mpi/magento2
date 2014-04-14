@@ -48,7 +48,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         );
         $schemaLocator = new \Magento\Mview\Config\SchemaLocator($fsDirList);
 
-        $validationState = $this->getMock('Magento\Config\ValidationStateInterface');
+        $validationState = $this->getMock('Magento\Framework\Config\ValidationStateInterface');
         $validationState->expects($this->once())->method('isValidated')->will($this->returnValue(false));
 
         $this->_model = new \Magento\Mview\Config\Reader(

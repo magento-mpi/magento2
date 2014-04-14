@@ -20,7 +20,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     protected $_directoryMock;
 
     /**
-     * @var \Magento\Config\FileIteratorFactory
+     * @var \Magento\Framework\Config\FileIteratorFactory
      */
     protected $iteratorFactory;
 
@@ -52,7 +52,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(true)
         );
-        $this->iteratorFactory = $this->getMock('Magento\Config\FileIteratorFactory', array(), array(), '', false);
+        $this->iteratorFactory = $this->getMock('Magento\Framework\Config\FileIteratorFactory', array(), array(), '', false);
         $this->_model = new \Magento\Locale\Hierarchy\Config\FileResolver($filesystem, $this->iteratorFactory);
     }
 

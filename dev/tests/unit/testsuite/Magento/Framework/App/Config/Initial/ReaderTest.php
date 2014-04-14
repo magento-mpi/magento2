@@ -17,7 +17,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Config\FileResolverInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Config\FileResolverInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileResolverMock;
 
@@ -39,7 +39,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_filePath = __DIR__ . '/_files/';
-        $this->_fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
+        $this->_fileResolverMock = $this->getMock('Magento\Framework\Config\FileResolverInterface');
         $this->_converterMock = $this->getMock('Magento\Framework\App\Config\Initial\Converter');
         $schemaLocatorMock = $this->getMock(
             'Magento\Framework\App\Config\Initial\SchemaLocator',
@@ -48,7 +48,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
+        $validationStateMock = $this->getMock('Magento\Framework\Config\ValidationStateInterface');
         $validationStateMock->expects($this->once())->method('isValidated')->will($this->returnValue(true));
         $schemaFile = $this->_filePath . 'config.xsd';
         $schemaLocatorMock->expects($this->once())->method('getSchema')->will($this->returnValue($schemaFile));

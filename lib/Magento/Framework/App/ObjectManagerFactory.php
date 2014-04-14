@@ -122,7 +122,7 @@ class ObjectManagerFactory
         $objectManager->configure(
             $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('global')
         );
-        $objectManager->get('Magento\Config\ScopeInterface')->setCurrentScope('global');
+        $objectManager->get('Magento\Framework\Config\ScopeInterface')->setCurrentScope('global');
         $objectManager->get('Magento\Framework\App\Resource')
             ->setCache($objectManager->get('Magento\Framework\App\CacheInterface'));
         $interceptionConfig = $objectManager->get('Magento\Interception\Config\Config');
@@ -210,7 +210,7 @@ class ObjectManagerFactory
                     new \Magento\Filesystem\Directory\ReadFactory(),
                     new \Magento\Filesystem\Directory\WriteFactory()
                 ),
-                new \Magento\Config\FileIteratorFactory()
+                new \Magento\Framework\Config\FileIteratorFactory()
             );
             $schemaLocator = new \Magento\ObjectManager\Config\SchemaLocator();
             $validationState = new \Magento\Framework\App\Arguments\ValidationState($appMode);
