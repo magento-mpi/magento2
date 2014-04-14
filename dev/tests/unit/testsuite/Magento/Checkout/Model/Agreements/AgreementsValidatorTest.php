@@ -72,7 +72,7 @@ class AgreementsValidatorTest extends \PHPUnit_Framework_TestCase
         $provider = $this->getMockForAbstractClass('Magento\Checkout\Model\Agreements\AgreementsProviderInterface');
         $provider->expects($this->once())
             ->method('getRequiredAgreementIds')
-            ->will($this->returnValue([1,3, '4']));
+            ->will($this->returnValue([1, 3, '4']));
 
         $this->object = $this->objectManagerHelper->getObject(
             'Magento\Checkout\Model\Agreements\AgreementsValidator',
