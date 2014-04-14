@@ -113,11 +113,12 @@ return array(
     array('Magento\FullPageCache\Helper\*'),
     array('Magento\FullPageCache\Model\*'),
     ['Magento\JobQueue'], // unused library code which was removed
-
     array('Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Shipments'),
     array('Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Invoices'),
     array('Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Creditmemos'),
     array('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo\Grid'),
     array('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice\Grid'),
     array('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment\Grid'),
+    array('Magento\TargetRule\Model\Resource\Setup'),
+    array('Magento\Enterprise\Model\Resource\Setup\Migration'),
 );

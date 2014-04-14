@@ -37,7 +37,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
         $objectManager->get('Magento\App\State')->setAreaCode('frontend');
 
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\Layout */
         $layout = $objectManager->get('Magento\View\LayoutInterface');
         $customerCurrentService = $objectManager->create(
             'Magento\Customer\Service\V1\CustomerCurrentServiceInterface',
@@ -52,8 +52,19 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_customerSession->unsCustomerId();
         $this->_context->getRequest()->setParam('id', $this->_requestId);
+        /** @var \Magento\Customer\Model\AddressRegistry $addressRegistry */
+        $addressRegistry = $objectManager->get('Magento\Customer\Model\AddressRegistry');
+        //Cleanup address from registry
+        $addressRegistry->remove(1);
+        $addressRegistry->remove(2);
+
+        /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
+        $customerRegistry = $objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        //Cleanup customer from registry
+        $customerRegistry->remove(1);
     }
 
     /**

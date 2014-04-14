@@ -11,7 +11,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareLayout()
     {
-        $store = $this->getMockBuilder('Magento\Core\Model\Store')->disableOriginalConstructor()->getMock();
+        $store = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
         $rewardAction = $this->getMockBuilder(
             'Magento\Reward\Model\Action\AbstractAction'
         )->disableOriginalConstructor()->getMock();
@@ -29,7 +29,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
             array('setWebsiteId', 'setCustomer', 'getActionInstance', '__wakeup')
         )->getMock();
         $storeManager = $this->getMockBuilder(
-            'Magento\Core\Model\StoreManager'
+            'Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->setMethods(
             array('getStore', 'getWebsiteId')
         )->getMock();
@@ -47,7 +47,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
                 'storeManager' => $storeManager
             )
         );
-        $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento\View\Layout', array(), array(), '', false);
 
         $rewardHelper->expects($this->any())->method('isEnabledOnFront')->will($this->returnValue(true));
 

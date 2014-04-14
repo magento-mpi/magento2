@@ -65,7 +65,6 @@ class Converter
     public function getCustomerModel($customerId)
     {
         $customer = $this->_customerFactory->create()->load($customerId);
-
         if (!$customer->getId()) {
             // customer does not exist
             throw new NoSuchEntityException('customerId', $customerId);
@@ -97,9 +96,11 @@ class Converter
     public function getCustomerModelByEmail($customerEmail, $websiteId = null)
     {
         $customer = $this->_customerFactory->create();
-        if (isset($websiteId)) {
-            $customer->setWebsiteId($websiteId);
+        if (!isset($websiteId)) {
+            $websiteId = $this->_storeManager->getWebsiteId();
         }
+        $customer->setWebsiteId($websiteId);
+
         $customer->loadByEmail($customerEmail);
         if (!$customer->getId()) {
             throw new NoSuchEntityException('email', $customerEmail);

@@ -9,15 +9,15 @@
  * @license     {license_link}
  */
 
-$store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Store');
+$store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Store');
 $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Core\Model\StoreManagerInterface'
+    'Magento\Store\Model\StoreManagerInterface'
 )->getWebsite()->getId();
 $groupId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Core\Model\StoreManagerInterface'
+    'Magento\Store\Model\StoreManagerInterface'
 )->getWebsite()->getDefaultGroupId();
 $store->setCode(
-    'fixturestore' // fixture_store conflicts with "current_store" notation
+    'fixturestore'
 )->setWebsiteId(
     $websiteId
 )->setGroupId(
@@ -33,5 +33,5 @@ $store->save();
 
 /* Refresh stores memory cache */
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Core\Model\StoreManagerInterface'
+    'Magento\Store\Model\StoreManagerInterface'
 )->reinitStores();

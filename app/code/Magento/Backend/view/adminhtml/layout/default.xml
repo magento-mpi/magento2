@@ -15,7 +15,7 @@
             </action>
             <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-jquery-js">
                 <arguments>
-                    <argument name="file" xsi:type="string">jquery/jquery.js</argument>
+                    <argument name="file" xsi:type="string">jquery/jquery-1.8.2.js</argument>
                 </arguments>
             </block>
             <block class="Magento\Theme\Block\Html\Head\Script" name="magento-jquery-no-conflict-js">
@@ -25,7 +25,7 @@
             </block>
             <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-jquery-ui-js">
                 <arguments>
-                    <argument name="file" xsi:type="string">jquery/jquery-ui.js</argument>
+                    <argument name="file" xsi:type="string">jquery/jquery-ui-1.9.2.js</argument>
                 </arguments>
             </block>
             <block class="Magento\Theme\Block\Html\Head\Script" name="head-load-min-js">
@@ -276,7 +276,7 @@
         </container>
         <container name="notifications" as="notifications" label="Notifications"/>
         <block class="Magento\Backend\Block\Widget\Breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
-        <!--<update handle="formkey"/> this won't work, see the try/catch and a jammed exception in \Magento\Core\Model\Layout::createBlock() -->
+        <!--<update handle="formkey"/> this won't work, see the try/catch and a jammed exception in \Magento\View\Layout::createBlock() -->
         <block class="Magento\Backend\Block\Admin\Formkey" name="formkey" as="formkey" template="Magento_Backend::admin/formkey.phtml"/>
         <!-- deprecated since 1.7.0.0 see \Magento\Theme\Block\Js\Translate -->
         <block class="Magento\View\Element\Template" name="js_translate" as="js_translate" template="Magento_Backend::page/js/translate.phtml"/>

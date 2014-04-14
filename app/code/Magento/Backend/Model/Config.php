@@ -43,14 +43,14 @@ class Config extends \Magento\Object
     /**
      * Application config
      *
-     * @var \Magento\App\ReinitableConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_appConfig;
 
     /**
      * Global factory
      *
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_objectFactory;
 
@@ -71,33 +71,33 @@ class Config extends \Magento\Object
     /**
      * Config data factory
      *
-     * @var \Magento\Core\Model\Config\ValueFactory
+     * @var \Magento\App\Config\ValueFactory
      */
     protected $_configValueFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\ReinitableConfigInterface $config
+     * @param \Magento\App\Config\ReinitableConfigInterface $config
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\DB\TransactionFactory $transactionFactory
      * @param \Magento\Backend\Model\Config\Loader $configLoader
-     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ValueFactory $configValueFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        \Magento\App\ReinitableConfigInterface $config,
+        \Magento\App\Config\ReinitableConfigInterface $config,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\DB\TransactionFactory $transactionFactory,
         \Magento\Backend\Model\Config\Loader $configLoader,
-        \Magento\Core\Model\Config\ValueFactory $configValueFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Config\ValueFactory $configValueFactory,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -119,8 +119,7 @@ class Config extends \Magento\Object
      */
     public function save()
     {
-        $this->_validate();
-        $this->_getScope();
+        $this->initScope();
 
         $sectionId = $this->getSection();
         $groups = $this->getGroups();
@@ -198,10 +197,9 @@ class Config extends \Magento\Object
         \Magento\DB\Transaction $deleteTransaction
     ) {
         $groupPath = $sectionPath . '/' . $groupId;
-        $website = $this->getWebsite();
-        $store = $this->getStore();
         $scope = $this->getScope();
         $scopeId = $this->getScopeId();
+        $scopeCode = $this->getScopeCode();
         /**
          *
          * Map field names if they were cloned
@@ -251,10 +249,9 @@ class Config extends \Magento\Object
                     'field' => $fieldId,
                     'groups' => $groups,
                     'group_id' => $group->getId(),
-                    'store_code' => $store,
-                    'website_code' => $website,
                     'scope' => $scope,
                     'scope_id' => $scopeId,
+                    'scope_code' => $scopeCode,
                     'field_config' => $field->getData(),
                     'fieldset_data' => $fieldsetData
                 );
@@ -329,8 +326,7 @@ class Config extends \Magento\Object
     public function load()
     {
         if (is_null($this->_configData)) {
-            $this->_validate();
-            $this->_getScope();
+            $this->initScope();
             $this->_configData = $this->_getConfig(false);
         }
         return $this->_configData;
@@ -354,11 +350,11 @@ class Config extends \Magento\Object
     }
 
     /**
-     * Validate isset required parameters
-     *
+     * Get scope name and scopeId
+     * @todo refactor to scope resolver
      * @return void
      */
-    protected function _validate()
+    private function initScope()
     {
         if (is_null($this->getSection())) {
             $this->setSection('');
@@ -369,15 +365,8 @@ class Config extends \Magento\Object
         if (is_null($this->getStore())) {
             $this->setStore('');
         }
-    }
 
-    /**
-     * Get scope name and scopeId
-     *
-     * @return void
-     */
-    protected function _getScope()
-    {
+
         if ($this->getStore()) {
             $scope = 'stores';
             $store = $this->_storeManager->getStore($this->getStore());
@@ -434,6 +423,7 @@ class Config extends \Magento\Object
             $singleStoreWebsite = array_shift($websites);
             $dataObject->setScope('websites');
             $dataObject->setWebsiteCode($singleStoreWebsite->getCode());
+            $dataObject->setScopeCode($singleStoreWebsite->getCode());
             $dataObject->setScopeId($singleStoreWebsite->getId());
         }
     }

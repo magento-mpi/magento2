@@ -24,7 +24,7 @@ use Magento\Backend\Block\Widget\Tab\TabInterface;
 class Main extends Generic implements TabInterface
 {
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
@@ -44,7 +44,7 @@ class Main extends Generic implements TabInterface
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroup
      * @param \Magento\Convert\Object $objectConverter
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
@@ -53,7 +53,7 @@ class Main extends Generic implements TabInterface
         \Magento\Data\FormFactory $formFactory,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroup,
         \Magento\Convert\Object $objectConverter,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_systemStore = $systemStore;

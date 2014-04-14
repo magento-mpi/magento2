@@ -135,7 +135,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      */
     public function getDefaultStoreId()
     {
-        return \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+        return \Magento\Store\Model\Store::DEFAULT_STORE_ID;
     }
 
     /**

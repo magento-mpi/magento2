@@ -26,7 +26,7 @@ class RadioTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
+        $this->layoutMock = $this->getMock('Magento\View\Layout', array(), array(), '', false);
         $this->block = Bootstrap::getObjectManager()->get(
             'Magento\View\LayoutInterface'
         )->createBlock(

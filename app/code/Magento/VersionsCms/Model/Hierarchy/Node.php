@@ -106,9 +106,9 @@ class Node extends \Magento\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Cms hierarchy
@@ -118,12 +118,12 @@ class Node extends \Magento\Model\AbstractModel
     protected $_cmsHierarchy;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
@@ -137,10 +137,10 @@ class Node extends \Magento\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -150,17 +150,17 @@ class Node extends \Magento\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\System\Store $systemStore,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_cmsHierarchy = $cmsHierarchy;
         $this->_hierarchyConfig = $hierarchyConfig;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
         $this->_nodeFactory = $nodeFactory;
@@ -522,7 +522,7 @@ class Node extends \Magento\Model\AbstractModel
      * Return true if a page binded to a tree node
      *
      * @param string $identifier
-     * @param int|\Magento\Core\Model\Store $storeId
+     * @param int|\Magento\Store\Model\Store $storeId
      * @return bool
      */
     public function checkIdentifier($identifier, $storeId = null)
@@ -780,7 +780,7 @@ class Node extends \Magento\Model\AbstractModel
         }
         $layoutName = $rootParams['menu_layout'];
         if (!$layoutName) {
-            $layoutName = $this->_coreStoreConfig->getConfig('cms/hierarchy/menu_layout');
+            $layoutName = $this->_scopeConfig->getValue('cms/hierarchy/menu_layout', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         }
         if (!$layoutName) {
             return null;

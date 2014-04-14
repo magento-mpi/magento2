@@ -14,7 +14,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * System store
      *
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
@@ -38,7 +38,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Review\Model\Rating\OptionFactory $optionFactory
      * @param \Magento\Session\SessionManagerInterface $session
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
@@ -47,7 +47,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Data\FormFactory $formFactory,
         \Magento\Review\Model\Rating\OptionFactory $optionFactory,
         \Magento\Session\SessionManagerInterface $session,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_optionFactory = $optionFactory;

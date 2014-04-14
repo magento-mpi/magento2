@@ -9,7 +9,7 @@
  */
 namespace Magento\Weee\Model\Total\Quote;
 
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 
 class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
 {
@@ -21,7 +21,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
     protected $_weeeData;
 
     /**
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 

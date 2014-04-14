@@ -5,7 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Contact\Helper;
+
+use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Helper\View as CustomerViewHelper;
 
 /**
  * Contact base helper
@@ -17,9 +21,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Customer session
@@ -29,17 +33,25 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_customerSession;
 
     /**
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerViewHelper;
+
+    /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param CustomerViewHelper $customerViewHelper
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Customer\Model\Session $customerSession
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Customer\Model\Session $customerSession,
+        CustomerViewHelper $customerViewHelper
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_customerSession = $customerSession;
+        $this->_customerViewHelper = $customerViewHelper;
         parent::__construct($context);
     }
 
@@ -50,7 +62,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_ENABLED);
+        return $this->_scopeConfig->getValue(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -63,8 +75,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if (!$this->_customerSession->isLoggedIn()) {
             return '';
         }
-        $customer = $this->_customerSession->getCustomer();
-        return trim($customer->getName());
+        /**
+         * @var Customer $customer
+         */
+        $customer = $this->_customerSession->getCustomerDataObject();
+        return trim($this->_customerViewHelper->getCustomerName($customer));
     }
 
     /**
@@ -77,7 +92,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if (!$this->_customerSession->isLoggedIn()) {
             return '';
         }
-        $customer = $this->_customerSession->getCustomer();
+        /**
+         * @var Customer $customer
+         */
+        $customer = $this->_customerSession->getCustomerDataObject();
         return $customer->getEmail();
     }
 }

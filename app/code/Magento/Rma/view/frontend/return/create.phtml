@@ -114,14 +114,9 @@
 
     <?php foreach ($this->getAttributes() as $attribute):?>
     <?php $attributeContent = $this->getAttributeHtml($attribute);?>
-    <?php $attributeCode = $attribute->getAttributeCode(); ?>
     <?php if ($attributeContent): ?>
-        <?php if ($attributeCode == 'reason_other'): ?>
-                <?php echo $attributeContent;?>
-            <?php else: ?>
-                <?php echo $attributeContent;?>
-            <?php endif; ?>
-        <?php endif;?>
+        <?php echo $attributeContent;?>
+    <?php endif;?>
     <?php endforeach;?>
 </div>
 

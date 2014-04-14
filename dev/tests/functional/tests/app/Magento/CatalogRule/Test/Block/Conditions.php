@@ -22,6 +22,20 @@ use Mtf\Client\Element\Locator;
 class Conditions extends Block
 {
     /**
+     * Condition type selector
+     *
+     * @var string
+     */
+    protected $conditionType = '#conditions__1__new_child';
+
+    /**
+     * Condition value selector
+     *
+     * @var string
+     */
+    protected $conditionValue = '#conditions__1--1__value';
+
+    /**
      * Add image click
      */
     public function clickAddNew()
@@ -43,7 +57,7 @@ class Conditions extends Block
      */
     public function selectCondition($type)
     {
-        $this->_rootElement->find(CatalogPriceRule::CONDITION_TYPE, Locator::SELECTOR_ID, 'select')->setValue($type);
+        $this->_rootElement->find($this->conditionType, Locator::SELECTOR_CSS, 'select')->setValue($type);
     }
 
     /**
@@ -52,7 +66,7 @@ class Conditions extends Block
      */
     public function selectConditionValue($value)
     {
-        $this->_rootElement->find(CatalogPriceRule::CONDITION_VALUE, Locator::SELECTOR_ID, 'input')->setValue($value);
+        $this->_rootElement->find($this->conditionValue, Locator::SELECTOR_CSS, 'input')->setValue($value);
     }
 
     /**
