@@ -183,7 +183,7 @@ class Calculator implements BundleCalculatorInterface
      */
     protected function getBundleOptionPrice(SaleableInterface $saleableItem)
     {
-        return $saleableItem->getPriceInfo()->getPrice(BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION);
+        return $saleableItem->getPriceInfo()->getPrice(BundleOptionPriceInterface::PRICE_TYPE_CODE);
     }
 
     /**

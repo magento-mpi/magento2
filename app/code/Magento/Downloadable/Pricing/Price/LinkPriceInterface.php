@@ -19,7 +19,7 @@ interface LinkPriceInterface
     /**
      * Default price type
      */
-    const PRICE_TYPE = 'link_price';
+    const PRICE_TYPE_CODE = 'link_price';
 
     /**
      * @param Link $link

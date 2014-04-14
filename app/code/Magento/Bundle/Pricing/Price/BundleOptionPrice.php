@@ -7,20 +7,15 @@
  */
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price\RegularPrice;
+use Magento\Catalog\Pricing\Price\AbstractPrice;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
 
 /**
  * Bundle option price model
  */
-class BundleOptionPrice extends RegularPrice implements BundleOptionPriceInterface
+class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterface
 {
-    /**
-     * @var string
-     */
-    protected $priceType = self::PRICE_TYPE_BUNDLE_OPTION;
-
     /**
      * @var array
      */

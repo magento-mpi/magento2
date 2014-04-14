@@ -41,7 +41,7 @@ class SpecialPrice extends \Magento\Catalog\Pricing\Price\SpecialPrice
     protected function getBasePrice($qty = null)
     {
         return $this->priceInfo
-            ->getPrice(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE, $qty)
+            ->getPrice(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_CODE, $qty)
             ->getValue();
     }
 }

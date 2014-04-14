@@ -15,5 +15,5 @@ interface BundleSelectionPriceInterface
     /**
      * Price model code
      */
-    const PRICE_TYPE_BUNDLE_SELECTION = 'bundle_selection';
+    const PRICE_TYPE_CODE = 'bundle_selection';
 }

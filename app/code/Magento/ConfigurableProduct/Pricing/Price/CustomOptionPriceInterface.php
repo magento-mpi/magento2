@@ -20,7 +20,7 @@ interface CustomOptionPriceInterface
     /**
      * Default price type
      */
-    const PRICE_TYPE = 'custom_option_price';
+    const PRICE_TYPE_CODE = 'custom_option_price';
 
     /**
      * @param $value

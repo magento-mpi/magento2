@@ -16,13 +16,8 @@ use Magento\Pricing\Object\SaleableInterface;
 /**
  * Final price model
  */
-class FinalPrice extends RegularPrice implements FinalPriceInterface
+class FinalPrice extends AbstractPrice implements FinalPriceInterface
 {
-    /**
-     * @var string
-     */
-    protected $priceType = self::PRICE_TYPE_FINAL;
-
     /**
      * @var BasePrice
      */
@@ -39,7 +34,7 @@ class FinalPrice extends RegularPrice implements FinalPriceInterface
         CalculatorInterface $calculator
     ) {
         parent::__construct($salableItem, $quantity, $calculator);
-        $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_BASE_PRICE);
+        $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_CODE);
         $this->baseAmount = $this->getValue();
     }
 

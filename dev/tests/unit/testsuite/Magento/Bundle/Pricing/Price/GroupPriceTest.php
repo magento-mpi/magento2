@@ -69,7 +69,7 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
             $price = $this->getMock('Magento\Pricing\Price\PriceInterface');
             $this->priceInfo->expects($this->once())
                 ->method('getPrice')
-                ->with(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE, null)
+                ->with(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_CODE, null)
                 ->will($this->returnValue($price));
             $price->expects($this->once())
                 ->method('getValue')

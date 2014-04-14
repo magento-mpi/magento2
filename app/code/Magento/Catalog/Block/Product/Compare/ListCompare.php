@@ -260,7 +260,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
         $price = '';
         if ($priceRender) {
             $price = $priceRender->render(
-                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
+                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_CODE,
                 $product,
                 [
                     'price_id' => 'product-price-' . $product->getId() . $idSuffix,

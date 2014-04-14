@@ -18,7 +18,7 @@ interface GroupPriceInterface
     /**
      * Price type group
      */
-    const PRICE_TYPE_GROUP = 'group_price';
+    const PRICE_TYPE_CODE = 'group_price';
 
     /**
      * @return array

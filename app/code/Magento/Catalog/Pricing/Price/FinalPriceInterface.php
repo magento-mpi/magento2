@@ -18,5 +18,5 @@ interface FinalPriceInterface
     /**
      * Price type final
      */
-    const PRICE_TYPE_FINAL = 'final_price';
+    const PRICE_TYPE_CODE = 'final_price';
 }

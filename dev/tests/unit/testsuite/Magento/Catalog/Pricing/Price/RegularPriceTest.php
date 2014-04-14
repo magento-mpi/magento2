@@ -105,6 +105,6 @@ class RegularPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPriceType()
     {
-        $this->assertEquals(RegularPrice::PRICE_TYPE_PRICE_DEFAULT, $this->regularPrice->getPriceType());
+        $this->assertEquals(RegularPrice::PRICE_TYPE_CODE, $this->regularPrice->getPriceType());
     }
 }

@@ -17,13 +17,8 @@ use Magento\Catalog\Model\Product\Option\Value;
  *
  * @package Magento\Catalog\Pricing\Price
  */
-class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterface
+class CustomOptionPrice extends AbstractPrice implements CustomOptionPriceInterface
 {
-    /**
-     * @var string
-     */
-    protected $priceType = self::PRICE_TYPE_CUSTOM_OPTION;
-
     /**
      * @var array
      */

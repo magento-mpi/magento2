@@ -74,6 +74,6 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
      */
     protected function getBundleOptionPrice()
     {
-        return $this->priceInfo->getPrice(BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION, $this->quantity);
+        return $this->priceInfo->getPrice(BundleOptionPriceInterface::PRICE_TYPE_CODE, $this->quantity);
     }
 }

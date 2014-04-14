@@ -16,7 +16,7 @@ interface TierPriceInterface
     /**
      * Price type tier
      */
-    const PRICE_TYPE_TIER = 'tier_price';
+    const PRICE_TYPE_CODE = 'tier_price';
 
     /**
      * @return array

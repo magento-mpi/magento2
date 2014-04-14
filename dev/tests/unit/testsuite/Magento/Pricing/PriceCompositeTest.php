@@ -42,9 +42,9 @@ class PriceCompositeTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->metadata = array(
-            FinalPriceInterface::PRICE_TYPE_FINAL => ['class' => 'Class\For\FinalPrice'],
-            GroupPriceInterface::PRICE_TYPE_GROUP => ['class' => 'Class\For\GroupPrice'],
-            SpecialPriceInterface::PRICE_TYPE_SPECIAL => ['class' => 'Class\For\SpecialPrice']
+            FinalPriceInterface::PRICE_TYPE_CODE => ['class' => 'Class\For\FinalPrice'],
+            GroupPriceInterface::PRICE_TYPE_CODE => ['class' => 'Class\For\GroupPrice'],
+            SpecialPriceInterface::PRICE_TYPE_CODE => ['class' => 'Class\For\SpecialPrice']
         );
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -57,9 +57,9 @@ class PriceCompositeTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceCodes()
     {
         $expectedCodes = [
-            FinalPriceInterface::PRICE_TYPE_FINAL,
-            GroupPriceInterface::PRICE_TYPE_GROUP,
-            SpecialPriceInterface::PRICE_TYPE_SPECIAL
+            FinalPriceInterface::PRICE_TYPE_CODE,
+            GroupPriceInterface::PRICE_TYPE_CODE,
+            SpecialPriceInterface::PRICE_TYPE_CODE
         ];
         $this->assertEquals($expectedCodes, $this->model->getPriceCodes());
     }
@@ -72,7 +72,7 @@ class PriceCompositeTest extends \PHPUnit_Framework_TestCase
     public function testCreatePriceObject()
     {
         $saleable = $this->getMock('Magento\Pricing\Object\SaleableInterface');
-        $priceCode = FinalPriceInterface::PRICE_TYPE_FINAL;
+        $priceCode = FinalPriceInterface::PRICE_TYPE_CODE;
         $quantity = 2.4;
 
         $price = $this->getMock('Magento\Pricing\Price\PriceInterface');

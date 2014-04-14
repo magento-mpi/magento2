@@ -15,7 +15,7 @@ interface CustomOptionPriceInterface
     /**
      * Price model code
      */
-    const PRICE_TYPE_CUSTOM_OPTION = 'custom_option_price';
+    const PRICE_TYPE_CODE = 'custom_option_price';
 
     /**
      * Return calculated options

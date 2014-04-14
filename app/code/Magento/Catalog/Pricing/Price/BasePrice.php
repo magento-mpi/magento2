@@ -13,17 +13,12 @@ namespace Magento\Catalog\Pricing\Price;
 /**
  * Class BasePrice
  */
-class BasePrice extends RegularPrice
+class BasePrice extends AbstractPrice
 {
     /**
      * Price type identifier string
      */
-    const PRICE_TYPE_BASE_PRICE = 'base_price';
-
-    /**
-     * @var string
-     */
-    protected $priceType = self::PRICE_TYPE_BASE_PRICE;
+    const PRICE_TYPE_CODE = 'base_price';
 
     /**
      * @var bool|float|null

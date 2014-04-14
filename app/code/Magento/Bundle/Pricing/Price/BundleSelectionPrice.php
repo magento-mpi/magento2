@@ -18,13 +18,8 @@ use Magento\Pricing\Adjustment\CalculatorInterface;
 /**
  * Bundle option price
  */
-class BundleSelectionPrice extends CatalogPrice\RegularPrice implements BundleSelectionPriceInterface
+class BundleSelectionPrice extends CatalogPrice\AbstractPrice implements BundleSelectionPriceInterface
 {
-    /**
-     * @var string
-     */
-    protected $priceType = self::PRICE_TYPE_BUNDLE_SELECTION;
-
     /**
      * @var \Magento\Catalog\Model\Product
      */
@@ -67,7 +62,7 @@ class BundleSelectionPrice extends CatalogPrice\RegularPrice implements BundleSe
 
         if ($this->bundleProduct->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
             $value = $this->priceInfo
-                ->getPrice(FinalPriceInterface::PRICE_TYPE_FINAL, $this->quantity)
+                ->getPrice(FinalPriceInterface::PRICE_TYPE_CODE, $this->quantity)
                 ->getValue();
         } else {
             if ($this->salableItem->getSelectionPriceType()) {
@@ -75,7 +70,7 @@ class BundleSelectionPrice extends CatalogPrice\RegularPrice implements BundleSe
                 // @todo get rid of final price data manipulation that should fire event to apply catalog rules
                 $product = clone $this->bundleProduct;
                 $price = $product->getPriceInfo()
-                    ->getPrice(CatalogPrice\RegularPrice::PRICE_TYPE_PRICE_DEFAULT, $this->quantity)
+                    ->getPrice(CatalogPrice\RegularPrice::PRICE_TYPE_CODE, $this->quantity)
                     ->getValue();
                 $product->setFinalPrice($price);
                 $this->eventManager->dispatch(
@@ -89,7 +84,7 @@ class BundleSelectionPrice extends CatalogPrice\RegularPrice implements BundleSe
             }
         }
         $this->value = $this->bundleProduct->getPriceInfo()
-            ->getPrice(CatalogPrice\BasePrice::PRICE_TYPE_BASE_PRICE, $this->quantity)
+            ->getPrice(CatalogPrice\BasePrice::PRICE_TYPE_CODE, $this->quantity)
             ->applyDiscount($value);
         return $this->value;
     }
