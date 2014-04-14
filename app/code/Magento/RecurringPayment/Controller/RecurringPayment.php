@@ -20,7 +20,7 @@ class RecurringPayment extends \Magento\Framework\App\Action\Action
      *
      * @var \Magento\Customer\Model\Session
      */
-    protected $_session = null;
+    protected $_session;
 
     /**
      * Core registry
@@ -35,18 +35,23 @@ class RecurringPayment extends \Magento\Framework\App\Action\Action
     protected $_title;
 
     /**
+     * Initialize dependencies
+     *
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Framework\App\Action\Title $title
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
-        \Magento\Framework\App\Action\Title $title
+        \Magento\Framework\App\Action\Title $title,
+        \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
         $this->_title = $title;
+        $this->_session = $customerSession;
     }
 
     /**
@@ -60,7 +65,6 @@ class RecurringPayment extends \Magento\Framework\App\Action\Action
         if (!$request->isDispatched()) {
             return parent::dispatch($request);
         }
-        $this->_session = $this->_objectManager->get('Magento\Customer\Model\Session');
         if (!$this->_session->authenticate($this)) {
             $this->_actionFlag->set('', 'no-dispatch', true);
         }

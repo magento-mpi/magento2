@@ -5,9 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Theme\Block\Html;
 
 use Magento\Customer\Helper\Data;
+use Magento\Customer\Helper\View as CustomerViewHelper;
 
 /**
  * Html page header block
@@ -37,10 +39,16 @@ class Header extends \Magento\View\Element\Template
     protected $httpContext;
 
     /**
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerViewHelper;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageHelper
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param CustomerViewHelper $customerViewHelper
      * @param array $data
      */
     public function __construct(
@@ -48,12 +56,14 @@ class Header extends \Magento\View\Element\Template
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Helper\File\Storage\Database $fileStorageHelper,
         \Magento\Framework\App\Http\Context $httpContext,
+        CustomerViewHelper $customerViewHelper,
         array $data = array()
     ) {
         $this->_fileStorageHelper = $fileStorageHelper;
         $this->_customerSession = $customerSession;
         parent::__construct($context, $data);
         $this->httpContext = $httpContext;
+        $this->_customerViewHelper = $customerViewHelper;
         $this->_isScopePrivate = true;
     }
 
@@ -107,9 +117,12 @@ class Header extends \Magento\View\Element\Template
     {
         if (empty($this->_data['welcome'])) {
             if ($this->_appState->isInstalled() && $this->httpContext->getValue(Data::CONTEXT_AUTH)) {
+                $customerName = $this->_customerViewHelper->getCustomerName(
+                    $this->_customerSession->getCustomerDataObject()
+                );
                 $this->_data['welcome'] = __(
                     'Welcome, %1!',
-                    $this->escapeHtml($this->_customerSession->getCustomer()->getName())
+                    $this->escapeHtml($customerName)
                 );
             } else {
                 $this->_data['welcome'] = $this->_scopeConfig->getValue(

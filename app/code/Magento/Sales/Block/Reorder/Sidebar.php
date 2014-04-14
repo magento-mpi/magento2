@@ -11,6 +11,9 @@ namespace Magento\Sales\Block\Reorder;
 
 /**
  * Sales order view block
+ *
+ * @method Sidebar setOrders(\Magento\Sales\Model\Resource\Order\Collection $ordersCollection)
+ * @method \Magento\Sales\Model\Resource\Order\Collection|null getOrders()
  */
 class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
 {
@@ -83,11 +86,9 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
      */
     public function initOrders()
     {
-        $customerId = $this->getCustomerId() ? $this
-            ->getCustomerId() : $this
-            ->_customerSession
-            ->getCustomer()
-            ->getId();
+        $customerId = $this->getCustomerId()
+            ? $this->getCustomerId()
+            : $this->_customerSession->getCustomerId();
 
         $orders = $this->_orderCollectionFactory->create()->addAttributeToFilter(
             'customer_id',

@@ -35,15 +35,15 @@
 
 
             <?php if ($_options = $this->getOptionList()):?>
-                <div class="product options wrapper">
-                    <span class="more"><?php echo __('View Details') ?></span>
+                <div class="product options wrapper tooltip box">
+                    <span class="more tooltip toggle"><?php echo __('View Details') ?></span>
 
-                    <div class="product options details">
-                        <strong class="title"><?php echo __('Options Details'); ?></strong>
+                    <div class="product options details tooltip content">
+                        <strong class="subtitle"><?php echo __('Options Details'); ?></strong>
                         <dl class="product options list">
                             <?php foreach ($_options as $_option) : ?>
-                            <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
-                            <dd>
+                            <dt class="label"><?php echo $this->escapeHtml($_option['label']) ?></dt>
+                            <dd class="values">
                                 <?php if (is_array($_option['value'])): ?>
                                 <?php echo nl2br(implode("\n", $_option['value'])) ?>
                                 <?php else: ?>
