@@ -249,16 +249,24 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                         $productsIndex = array();
                     }
 
+                    // @todo resolve issue with weee specifics
                     $info['options'][] = array(
                         'id' => $value['value_index'],
                         'label' => $value['label'],
                         'price' => $configurablePrice,
                         'oldPrice' => $this->_prepareOldPrice($value['pricing_value'], $value['is_percent']),
+                        'inclTaxPrice' => $currentProduct
+                            ->getPriceInfo()
+                            ->getPrice('final_price')
+                            ->getCustomAmount($configurablePrice, 'weee')
+                            ->getValue(),
+                        'exclTaxPrice' => $configurablePrice,
                         'products' => $productsIndex
                     );
                     $optionPrices[] = $configurablePrice;
                 }
             }
+
             /**
              * Prepare formatted values for options choose
              */
