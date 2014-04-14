@@ -60,7 +60,7 @@ class Config
     /**
      * Filesystem
      *
-     * @var \Magento\Filesystem\Directory\Read;
+     * @var \Magento\Framework\Filesystem\Directory\Read;
      */
     protected $_modulesDirectory;
 

@@ -38,7 +38,13 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     {
         $this->_file = file_get_contents(__DIR__ . '/../_files/reader/config.xml');
         $this->_fileResolverMock = $this->getMock('Magento\Framework\Config\FileResolverInterface');
-        $this->_converterMock = $this->getMock('Magento\Framework\Config\ConverterInterface', array(), array(), '', false);
+        $this->_converterMock = $this->getMock(
+            'Magento\Framework\Config\ConverterInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_schemaLocatorMock = $this->getMock('Magento\Framework\Config\SchemaLocatorInterface');
         $this->_validationStateMock = $this->getMock('Magento\Framework\Config\ValidationStateInterface');
     }

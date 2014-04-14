@@ -31,7 +31,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Read directory
      *
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $readDirectory;
 
@@ -867,7 +867,7 @@ class Rma extends \Magento\Backend\App\Action
         }
 
         if ($plain) {
-            /** @var $readFile \Magento\Filesystem\File\Read */
+            /** @var $readFile \Magento\Framework\Filesystem\File\Read */
             $readFile = $this->readDirectory->openFile($filePath);
             $contentType = $this->_getPlainImageMimeType(strtolower(pathinfo($fileName, PATHINFO_EXTENSION)));
             $fileStat = $this->readDirectory->stat($filePath);

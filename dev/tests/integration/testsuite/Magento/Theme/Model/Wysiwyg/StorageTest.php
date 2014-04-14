@@ -41,12 +41,12 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $_storageModel;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $directoryTmp;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $directoryVar;
 

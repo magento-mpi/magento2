@@ -11,7 +11,7 @@ use Magento\Framework\App\Filesystem;
 use Magento\View\Design\Fallback\Factory;
 use Magento\View\Design\Fallback\Rule\RuleInterface;
 use Magento\View\Design\ThemeInterface;
-use Magento\Filesystem\Directory\Read;
+use Magento\Framework\Filesystem\Directory\Read;
 
 /**
  * Class Fallback

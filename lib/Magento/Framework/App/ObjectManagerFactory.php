@@ -63,7 +63,7 @@ class ObjectManagerFactory
         $appArguments = $this->createAppArguments($directoryList, $arguments);
 
         $definitionFactory = new \Magento\ObjectManager\DefinitionFactory(
-            new \Magento\Filesystem\Driver\File(),
+            new \Magento\Framework\Filesystem\Driver\File(),
             $directoryList->getDir(Filesystem::DI_DIR),
             $directoryList->getDir(Filesystem::GENERATION_DIR),
             $appArguments->get('definition.format', 'serialized')
@@ -98,7 +98,7 @@ class ObjectManagerFactory
         $sharedInstances = [
             'Magento\Framework\App\Arguments' => $appArguments,
             'Magento\Framework\App\Filesystem\DirectoryList' => $directoryList,
-            'Magento\Filesystem\DirectoryList' => $directoryList,
+            'Magento\Framework\Filesystem\DirectoryList' => $directoryList,
             'Magento\ObjectManager\Relations' => $relations,
             'Magento\Interception\Definition' => $definitionFactory->createPluginDefinition(),
             'Magento\ObjectManager\Config' => $diConfig,
@@ -207,8 +207,8 @@ class ObjectManagerFactory
             $fileResolver = new \Magento\Framework\App\Arguments\FileResolver\Primary(
                 new \Magento\Framework\App\Filesystem(
                     $directoryList,
-                    new \Magento\Filesystem\Directory\ReadFactory(),
-                    new \Magento\Filesystem\Directory\WriteFactory()
+                    new \Magento\Framework\Filesystem\Directory\ReadFactory(),
+                    new \Magento\Framework\Filesystem\Directory\WriteFactory()
                 ),
                 new \Magento\Framework\Config\FileIteratorFactory()
             );

@@ -78,7 +78,7 @@ class Media implements AppInterface
     protected $filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read $directory
+     * @var \Magento\Framework\Filesystem\Directory\Read $directory
      */
     protected $directory;
 

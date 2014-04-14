@@ -51,12 +51,12 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
     protected $_filesystemMock;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $_directoryMock;
 
     /**
-     * @var \Magento\Filesystem\File\Write
+     * @var \Magento\Framework\Filesystem\File\Write
      */
     protected $_fileMock;
 
@@ -132,11 +132,11 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
         $this->_resourceMock->expects($this->any())->method('addCommitCallback')->will($this->returnSelf());
 
         $this->_fileMock = $this->getMockBuilder(
-            'Magento\Filesystem\File\Write'
+            'Magento\Framework\Filesystem\File\Write'
         )->disableOriginalConstructor()->getMock();
 
         $this->_directoryMock = $this->getMockBuilder(
-            'Magento\Filesystem\Directory\Write'
+            'Magento\Framework\Filesystem\Directory\Write'
         )->disableOriginalConstructor()->getMock();
         $this->_directoryMock->expects($this->any())->method('openFile')->will($this->returnValue($this->_fileMock));
 

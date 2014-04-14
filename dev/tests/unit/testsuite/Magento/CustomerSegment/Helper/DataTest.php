@@ -82,7 +82,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(array(10 => 'Devs', 20 => 'QAs'))
         );
 
-        $fieldset = $this->getMock('Magento\Framework\Data\Form\Element\Fieldset', array('addField'), array(), '', false);
+        $fieldset = $this->getMock(
+            'Magento\Framework\Data\Form\Element\Fieldset',
+            array('addField'),
+            array(),
+            '',
+            false
+        );
         $fieldset->expects(
             $this->at(0)
         )->method(
@@ -98,7 +104,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->logicalOr($this->equalTo('customer_segment_ids'), $this->equalTo('multiselect'))
         );
 
-        $form = $this->getMock('Magento\Framework\Data\Form', array('getElement', 'getHtmlIdPrefix'), array(), '', false);
+        $form = $this->getMock(
+            'Magento\Framework\Data\Form',
+            array('getElement', 'getHtmlIdPrefix'),
+            array(),
+            '',
+            false
+        );
         $form->expects(
             $this->once()
         )->method(

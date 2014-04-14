@@ -12,7 +12,7 @@ namespace Magento\Email\Model\Template\Config;
 class FileResolver implements \Magento\Framework\Config\FileResolverInterface
 {
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $directoryRead;
 

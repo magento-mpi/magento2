@@ -70,7 +70,7 @@ try {
     $entities['interceptors'] = $interceptorScanner->collectEntities($files['di']);
 
     // 1.2 Generation of Factory and Additional Classes
-    $generatorIo = new \Magento\Code\Generator\Io(new \Magento\Filesystem\Driver\File(), null, $generationDir);
+    $generatorIo = new \Magento\Code\Generator\Io(new \Magento\Framework\Filesystem\Driver\File(), null, $generationDir);
     $generator = new \Magento\Code\Generator(
         null,
         $generatorIo,

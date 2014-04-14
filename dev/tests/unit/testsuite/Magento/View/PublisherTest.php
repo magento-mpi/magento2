@@ -32,33 +32,33 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\View\Publisher\FileInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $publisherFileMock;
 
-    /** @var \Magento\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $rootDirectory;
 
-    /** @var \Magento\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $tmpDirectory;
 
-    /** @var \Magento\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $pubDirectory;
 
     protected function setUp()
     {
         $this->rootDirectory = $this->getMock(
-            'Magento\Filesystem\Directory\WriteInterface',
+            'Magento\Framework\Filesystem\Directory\WriteInterface',
             array(),
             array(),
             '',
             false
         );
         $this->tmpDirectory = $this->getMock(
-            'Magento\Filesystem\Directory\WriteInterface',
+            'Magento\Framework\Filesystem\Directory\WriteInterface',
             array(),
             array(),
             '',
             false
         );
         $this->pubDirectory = $this->getMock(
-            'Magento\Filesystem\Directory\WriteInterface',
+            'Magento\Framework\Filesystem\Directory\WriteInterface',
             array(),
             array(),
             '',
@@ -92,7 +92,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $param
-     * @return \Magento\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Framework\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
      * @throws \UnexpectedValueException
      */
     public function getDirectoryWriteCallback($param)

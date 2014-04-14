@@ -85,7 +85,12 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->_menuConfigMock = $this->getMock('Magento\Backend\Model\Menu\Config', array(), array(), '', false);
         $this->_menuConfigMock->expects($this->any())->method('getMenu')->will($this->returnValue($this->_menuMock));
 
-        $this->_formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', array('getFormKey'), array(), '', false);
+        $this->_formKey = $this->getMock(
+            'Magento\Framework\Data\Form\FormKey',
+            array('getFormKey'),
+            array(),
+            '', false
+        );
         $this->_formKey->expects($this->any())->method('getFormKey')->will($this->returnValue('salt'));
 
         $mockItem = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);

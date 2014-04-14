@@ -13,11 +13,11 @@ class FileIteratorFactory
     /**
      * Create file iterator
      *
-     * @param \Magento\Filesystem\Directory\ReadInterface $readDirectory
+     * @param \Magento\Framework\Filesystem\Directory\ReadInterface $readDirectory
      * @param array $paths
      * @return FileIterator
      */
-    public function create(\Magento\Filesystem\Directory\ReadInterface $readDirectory, $paths)
+    public function create(\Magento\Framework\Filesystem\Directory\ReadInterface $readDirectory, $paths)
     {
         return new \Magento\Framework\Config\FileIterator($readDirectory, $paths);
     }

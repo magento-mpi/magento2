@@ -221,7 +221,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
         $model->expects($this->once())->method('getFullPath')->with($file)->will($this->returnValue('test_path'));
 
         $directoryMock = $this->getMock(
-            'Magento\Filesystem\Directory\Write',
+            'Magento\Framework\Filesystem\Directory\Write',
             array('writeFile', 'delete', 'getRelativePath'),
             array(),
             '',
@@ -262,7 +262,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
             )
         );
         $directoryMock = $this->getMock(
-            'Magento\Filesystem\Directory\Write',
+            'Magento\Framework\Filesystem\Directory\Write',
             array('touch', 'delete', 'getRelativePath'),
             array(),
             '',

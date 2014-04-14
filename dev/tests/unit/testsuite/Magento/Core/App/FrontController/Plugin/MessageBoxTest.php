@@ -90,9 +90,6 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
         $this->requestMock->expects($this->once())
             ->method('isPost')
             ->will($this->returnValue(true));
-        $this->configMock->expects($this->once())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
         $this->cookieMock->expects($this->once())
             ->method('set')
             ->with(

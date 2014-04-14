@@ -37,7 +37,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_cacheState =
             $this->getMock('\Magento\Framework\App\Cache\State', array('isEnabled'), array(), '', false);
 
-        $modulesDirectoryMock = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
+        $modulesDirectoryMock = $this->getMock('Magento\Framework\Filesystem\Directory\Write', array(), array(), '', false);
         $filesystemMock->expects(
             $this->once()
         )->method(

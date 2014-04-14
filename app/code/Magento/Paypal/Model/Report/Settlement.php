@@ -143,7 +143,7 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
     );
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_tmpDirectory;
 

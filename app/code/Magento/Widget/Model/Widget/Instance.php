@@ -105,7 +105,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
     protected $mathRandom;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $_directory;
 
@@ -200,7 +200,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
                     if ($pageGroupData['page_id']) {
                         $pageGroupIds[] = $pageGroupData['page_id'];
                     }
-                    if ($pageGroup['page_group'] == 'pages') {
+                    if (in_array($pageGroup['page_group'], array('pages', 'page_layouts'))) {
                         $layoutHandle = $pageGroupData['layout_handle'];
                     } else {
                         $layoutHandle = $this->_layoutHandles[$pageGroup['page_group']];

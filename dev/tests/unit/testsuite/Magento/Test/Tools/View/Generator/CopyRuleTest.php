@@ -43,7 +43,7 @@ class CopyRuleTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_directoryMock = $this->getMock(
-            '\Magento\Filesystem\Directory\Read',
+            '\Magento\Framework\Filesystem\Directory\Read',
             array('search', 'isDirectory', 'getAbsolutePath', 'getRelativePath'),
             array(),
             '',

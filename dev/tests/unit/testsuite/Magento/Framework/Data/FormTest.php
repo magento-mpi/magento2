@@ -50,7 +50,13 @@ class FormTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_factoryCollectionMock->expects($this->any())->method('create')->will($this->returnValue(array()));
-        $this->_formKeyMock = $this->getMock('Magento\Framework\Data\Form\FormKey', array('getFormKey'), array(), '', false);
+        $this->_formKeyMock = $this->getMock(
+            'Magento\Framework\Data\Form\FormKey',
+            array('getFormKey'),
+            array(),
+            '',
+            false
+        );
 
         $this->_form = new Form($this->_factoryElementMock, $this->_factoryCollectionMock, $this->_formKeyMock);
     }

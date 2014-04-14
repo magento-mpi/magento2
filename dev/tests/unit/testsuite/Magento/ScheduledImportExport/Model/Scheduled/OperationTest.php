@@ -90,7 +90,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         );
 
         $directory = $this->getMockBuilder(
-            'Magento\Filesystem\Directory\Write'
+            'Magento\Framework\Filesystem\Directory\Write'
         )->disableOriginalConstructor()->getMock();
         $directory->expects($this->once())->method('getAbsolutePath')->will($this->returnArgument(0));
         $filesystem =

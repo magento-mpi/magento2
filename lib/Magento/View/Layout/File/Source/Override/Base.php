@@ -10,7 +10,7 @@ namespace Magento\View\Layout\File\Source\Override;
 use Magento\View\Layout\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
 use Magento\Framework\App\Filesystem;
-use Magento\Filesystem\Directory\ReadInterface;
+use Magento\Framework\Filesystem\Directory\ReadInterface;
 use Magento\View\Layout\File\Factory;
 
 /**

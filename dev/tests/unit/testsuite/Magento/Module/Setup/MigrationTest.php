@@ -148,7 +148,7 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
         $moduleListMock->expects($this->once())->method('getModule')->will($this->returnValue(array()));
 
         $filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
-        $modulesDirMock = $this->getMock('Magento\Filesystem\Directory\Read', array(), array(), '', false);
+        $modulesDirMock = $this->getMock('Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false);
         $filesystemMock->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($modulesDirMock));
 
         $contextMock = $this->getMock('Magento\Module\Setup\Context', array(), array(), '', false);

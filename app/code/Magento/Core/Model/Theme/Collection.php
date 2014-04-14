@@ -17,7 +17,7 @@ use Magento\View\Design\ThemeInterface;
 class Collection extends \Magento\Framework\Data\Collection implements \Magento\View\Design\Theme\ListInterface
 {
     /**
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $_directory;
 
@@ -37,9 +37,9 @@ class Collection extends \Magento\Framework\Data\Collection implements \Magento\
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
-    public function __construct(\Magento\Core\Model\EntityFactory $entityFactory, \Magento\Filesystem $filesystem)
+    public function __construct(\Magento\Core\Model\EntityFactory $entityFactory, \Magento\Framework\Filesystem $filesystem)
     {
         parent::__construct($entityFactory);
         $this->_directory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::THEMES_DIR);
@@ -259,7 +259,9 @@ class Collection extends \Magento\Framework\Data\Collection implements \Magento\
      */
     protected function _getConfigModel($configPath)
     {
-        return new \Magento\Framework\Config\Theme($this->_directory->readFile($this->_directory->getRelativePath($configPath)));
+        return new \Magento\Framework\Config\Theme(
+            $this->_directory->readFile($this->_directory->getRelativePath($configPath))
+        );
     }
 
     /**

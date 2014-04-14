@@ -49,7 +49,9 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_cache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
-        $this->_fetchStrategy = $this->getMockForAbstractClass('Magento\Framework\Data\Collection\Db\FetchStrategyInterface');
+        $this->_fetchStrategy = $this->getMockForAbstractClass(
+            'Magento\Framework\Data\Collection\Db\FetchStrategyInterface'
+        );
 
         $this->_object = new \Magento\Framework\Data\Collection\Db\FetchStrategy\Cache(
             $this->_cache,

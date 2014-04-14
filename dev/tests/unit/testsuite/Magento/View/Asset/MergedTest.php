@@ -169,7 +169,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('pub/static')
         );
         $readDirectoryMock = $this->getMockBuilder(
-            '\Magento\Filesystem\Directory\Read'
+            '\Magento\Framework\Filesystem\Directory\Read'
         )->disableOriginalConstructor()->getMock();
         $merged = $this->_object;
         $readDirectoryMock->expects(

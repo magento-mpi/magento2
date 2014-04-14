@@ -127,7 +127,7 @@ class File
                 $directoryInstance->writeFile($filePath, $content);
                 return true;
             }
-        } catch (\Magento\Filesystem\FilesystemException $e) {
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
             $this->_logger->log($e->getMessage());
             throw new \Magento\Framework\Model\Exception(__('Unable to save file: %1', $filePath));
         }

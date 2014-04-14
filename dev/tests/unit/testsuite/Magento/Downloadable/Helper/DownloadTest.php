@@ -9,8 +9,8 @@ namespace Magento\Downloadable\Helper;
 
 use Magento\Downloadable\Helper\Download as DownloadHelper;
 use Magento\Framework\App\Filesystem;
-use Magento\Filesystem\File\ReadInterface as FileReadInterface;
-use Magento\Filesystem\Directory\ReadInterface as DirReadInterface;
+use Magento\Framework\Filesystem\File\ReadInterface as FileReadInterface;
+use Magento\Framework\Filesystem\Directory\ReadInterface as DirReadInterface;
 use Magento\Downloadable\Helper\File as DownloadableFile;
 
 /**
@@ -55,9 +55,9 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
         self::$mimeContentType = self::MIME_TYPE;
 
         $this->_filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
-        $this->_handleMock = $this->getMock('Magento\Filesystem\File\ReadInterface', array(), array(), '', false);
+        $this->_handleMock = $this->getMock('Magento\Framework\Filesystem\File\ReadInterface', array(), array(), '', false);
         $this->_workingDirectoryMock = $this->getMock(
-            'Magento\Filesystem\Directory\ReadInterface',
+            'Magento\Framework\Filesystem\Directory\ReadInterface',
             array(),
             array(),
             '',

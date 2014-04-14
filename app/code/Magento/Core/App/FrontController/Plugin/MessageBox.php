@@ -74,7 +74,7 @@ class MessageBox
      */
     public function afterDispatch(\Magento\Framework\App\FrontController $subject, \Magento\Framework\App\ResponseInterface $response)
     {
-        if ($this->request->isPost() && $this->config->isEnabled() && $this->messageManager->hasMessages()) {
+        if ($this->request->isPost() && $this->messageManager->hasMessages()) {
             $this->cookie->set(self::COOKIE_NAME, 1, self::COOKIE_PERIOD, '/');
         }
         return $response;

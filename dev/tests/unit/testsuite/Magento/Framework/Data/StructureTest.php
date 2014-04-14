@@ -54,7 +54,9 @@ class StructureTest extends \PHPUnit_Framework_TestCase
                 array(
                     'one' => array(
                         \Magento\Framework\Data\Structure::CHILDREN => array('two' => 't.w.o.'),
-                        \Magento\Framework\Data\Structure::GROUPS => array('group' => array('two' => 'two', 'three' => 'three'))
+                        \Magento\Framework\Data\Structure::GROUPS => array(
+                            'group' => array('two' => 'two', 'three' => 'three')
+                        )
                     ),
                     'two' => array(\Magento\Framework\Data\Structure::PARENT => 'one'),
                     'three' => array()
@@ -77,7 +79,9 @@ class StructureTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'numeric id' => array(array('element')),
-            'non-existing parent' => array(array('element' => array(\Magento\Framework\Data\Structure::PARENT => 'unknown'))),
+            'non-existing parent' => array(
+                array('element' => array(\Magento\Framework\Data\Structure::PARENT => 'unknown'))
+            ),
             'completely missing nested set' => array(
                 array('one' => array(\Magento\Framework\Data\Structure::PARENT => 'two'), 'two' => array())
             ),
@@ -88,10 +92,14 @@ class StructureTest extends \PHPUnit_Framework_TestCase
                     'three' => array()
                 )
             ),
-            'nested set invalid data type' => array(array('one' => array(\Magento\Framework\Data\Structure::CHILDREN => ''))),
+            'nested set invalid data type' => array(
+                array('one' => array(\Magento\Framework\Data\Structure::CHILDREN => ''))
+            ),
             'duplicate aliases' => array(
                 array(
-                    'one' => array(\Magento\Framework\Data\Structure::CHILDREN => array('two' => 'alias', 'three' => 'alias')),
+                    'one' => array(
+                        \Magento\Framework\Data\Structure::CHILDREN => array('two' => 'alias', 'three' => 'alias')
+                    ),
                     'two' => array(\Magento\Framework\Data\Structure::PARENT => 'one'),
                     'three' => array(\Magento\Framework\Data\Structure::PARENT => 'one')
                 )
@@ -105,7 +113,9 @@ class StructureTest extends \PHPUnit_Framework_TestCase
                 )
             ),
             'missing reference back to parent' => array(
-                array('one' => array(\Magento\Framework\Data\Structure::CHILDREN => array('two' => 't.w.o.')), 'two' => array())
+                array('one' => array(
+                    \Magento\Framework\Data\Structure::CHILDREN => array('two' => 't.w.o.')), 'two' => array()
+                )
             ),
             'broken reference back to parent' => array(
                 array(
@@ -117,7 +127,9 @@ class StructureTest extends \PHPUnit_Framework_TestCase
                 )
             ),
             'groups invalid data type' => array(array('one' => array(\Magento\Framework\Data\Structure::GROUPS => ''))),
-            'group invalid data type' => array(array('one' => array(\Magento\Framework\Data\Structure::GROUPS => array(1)))),
+            'group invalid data type' => array(
+                array('one' => array(\Magento\Framework\Data\Structure::GROUPS => array(1)))
+            ),
             'asymmetric group' => array(
                 array(
                     'one' => array(\Magento\Framework\Data\Structure::GROUPS => array('two' => 'three')),
@@ -227,8 +239,14 @@ class StructureTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_structure->getElement('four.5'));
         $this->assertSame($this->_structure, $this->_structure->renameElement('four', 'four.5'));
         $this->assertSame($element, $this->_structure->getElement('four.5'));
-        $this->assertEquals('four.5', $this->_structure->getAttribute('two', \Magento\Framework\Data\Structure::PARENT));
-        $this->assertEquals('four.5', $this->_structure->getAttribute('three', \Magento\Framework\Data\Structure::PARENT));
+        $this->assertEquals(
+            'four.5',
+            $this->_structure->getAttribute('two', \Magento\Framework\Data\Structure::PARENT)
+        );
+        $this->assertEquals(
+            'four.5',
+            $this->_structure->getAttribute('three', \Magento\Framework\Data\Structure::PARENT)
+        );
 
         // rename element and see how parent got updated
         $this->_structure->renameElement('three', 'three.5');

@@ -174,8 +174,12 @@ class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Bl
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    protected function _getHtml(\Magento\Framework\Data\Tree\Node $menuTree, $childrenWrapClass, $limit, $colBrakes = array())
-    {
+    protected function _getHtml(
+        \Magento\Framework\Data\Tree\Node $menuTree,
+        $childrenWrapClass,
+        $limit,
+        $colBrakes = array()
+    ) {
         $html = '';
 
         $children = $menuTree->getChildren();

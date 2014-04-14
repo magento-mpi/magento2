@@ -201,7 +201,7 @@ abstract class AbstractFile implements
     /**
      * Returns filesystem directory instance for write operations
      *
-     * @return \Magento\Filesystem\Directory\WriteInterface
+     * @return \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected function getDirectoryWrite()
     {

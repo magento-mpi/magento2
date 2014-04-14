@@ -77,7 +77,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     {
         $scope = 'primary';
         $directory = $this->getMock(
-            'Magento\Filesystem\Directory\Read',
+            'Magento\Framework\Filesystem\Directory\Read',
             array('search', 'getRelativePath'),
             array(),
             '',

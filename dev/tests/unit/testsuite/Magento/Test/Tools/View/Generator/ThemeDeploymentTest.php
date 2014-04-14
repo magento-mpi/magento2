@@ -31,7 +31,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
     protected $filesystem;
 
     /**
-     * @var \Magento\Filesystem\Driver\File
+     * @var \Magento\Framework\Filesystem\Driver\File
      */
     protected $filesystemAdapter;
 
@@ -55,7 +55,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $this->_cssUrlResolver = new \Magento\View\Url\CssResolver($this->filesystem, $viewFilesystem);
         $this->_tmpDir = TESTS_TEMP_DIR . '/tool_theme_deployment';
 
-        $this->filesystemAdapter = new \Magento\Filesystem\Driver\File();
+        $this->filesystemAdapter = new \Magento\Framework\Filesystem\Driver\File();
         $this->filesystemAdapter->createDirectory($this->_tmpDir, 0777);
     }
 

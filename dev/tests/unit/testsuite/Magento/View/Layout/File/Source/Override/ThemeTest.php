@@ -27,7 +27,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array('getDirectoryRead'), array(), '', false);
-        $this->_directory = $this->getMock('Magento\Filesystem\Directory\Read', array(), array(), '', false);
+        $this->_directory = $this->getMock('Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false);
         $this->_directory->expects($this->any())->method('getAbsolutePath')->will($this->returnArgument(0));
 
         $filesystem->expects(

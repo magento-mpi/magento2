@@ -33,7 +33,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     public static function tearDownAfterClass()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Filesystem\Driver\File'
+            'Magento\Framework\Filesystem\Driver\File'
         )->deleteDirectory(
             self::$_baseDir
         );

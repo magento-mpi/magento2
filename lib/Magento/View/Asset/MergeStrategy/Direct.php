@@ -24,7 +24,7 @@ class Direct implements \Magento\View\Asset\MergeStrategyInterface
     /**
      * Directory Write
      *
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     private $_directory;
 

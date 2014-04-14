@@ -87,12 +87,12 @@ class Sitemap extends \Magento\Framework\Model\AbstractModel
     private $_crlf = array("win" => "\r\n", "unix" => "\n", "mac" => "\r");
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $_directory;
 
     /**
-     * @var \Magento\Filesystem\File\Write
+     * @var \Magento\Framework\Filesystem\File\Write
      */
     protected $_stream;
 
@@ -203,7 +203,7 @@ class Sitemap extends \Magento\Framework\Model\AbstractModel
     /**
      * Get file handler
      *
-     * @return \Magento\Filesystem\File\WriteInterface
+     * @return \Magento\Framework\Filesystem\File\WriteInterface
      * @throws \Magento\Framework\Model\Exception
      */
     protected function _getStream()

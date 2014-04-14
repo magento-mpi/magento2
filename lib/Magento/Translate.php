@@ -103,7 +103,7 @@ class Translate implements \Magento\TranslateInterface
     protected $_appState;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $directory;
 

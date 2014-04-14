@@ -63,7 +63,9 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
                 'Magento\Framework\App\Cache\Type\Config' => $cache,
                 'Magento\Framework\App\ObjectManager\ConfigLoader' => $configLoader,
                 'Magento\Framework\App\ObjectManager\ConfigCache' => $configCache,
-                'Magento\Framework\Config\ReaderInterface' => $this->getMock('Magento\Framework\Config\ReaderInterface'),
+                'Magento\Framework\Config\ReaderInterface' => $this->getMock(
+                        'Magento\Framework\Config\ReaderInterface'
+                    ),
                 'Magento\Framework\Config\ScopeInterface' => $this->getMock('Magento\Framework\Config\ScopeInterface'),
                 'Magento\Framework\Config\CacheInterface' => $this->getMock('Magento\Framework\Config\CacheInterface'),
                 'Magento\Cache\FrontendInterface' => $this->getMock('Magento\Cache\FrontendInterface'),

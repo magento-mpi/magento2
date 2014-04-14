@@ -347,7 +347,6 @@
     </type>
     <type name="Magento\Framework\App\FrontController">
         <plugin name="install" type="Magento\Module\FrontController\Plugin\Install" sortOrder="40"/>
-        <plugin name="clickjacking" type="Magento\Framework\App\FrontController\Plugin\Clickjacking" sortOrder="0"/>
         <plugin name="messageBox" type="Magento\Core\App\FrontController\Plugin\MessageBox" sortOrder="0"/>
     </type>
     <type name="Magento\Framework\App\Action\Action">

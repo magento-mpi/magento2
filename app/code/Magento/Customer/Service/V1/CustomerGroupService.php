@@ -122,7 +122,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
 
         $groups = array();
         /** @var Collection $collection */
-        $collection = $this->_groupFactory->create()->getCollection();
+        $collection = $this->_groupFactory->create()->getCollection()->addTaxClass();
         //Add filters from root filter group to the collection
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $collection);
@@ -146,6 +146,8 @@ class CustomerGroupService implements CustomerGroupServiceInterface
                 $group->getCode()
             )->setTaxClassId(
                 $group->getTaxClassId()
+            )->setTaxClassName(
+                $group->getClassName()
             );
             $groups[] = $this->_customerGroupBuilder->create();
         }

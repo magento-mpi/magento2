@@ -36,12 +36,12 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->objectManager->get('Magento\Framework\App\State')->setAreaCode('frontend');
 
-        /** @var \Magento\Filesystem $filesystem */
+        /** @var \Magento\Framework\Filesystem $filesystem */
         $filesystem = $this->objectManager->create(
             'Magento\Framework\App\Filesystem',
             array(
                 'directoryList' => $this->objectManager->create(
-                    'Magento\Filesystem\DirectoryList',
+                    'Magento\Framework\Filesystem\DirectoryList',
                     array(
                         'root' => BP,
                         'directories' => array(

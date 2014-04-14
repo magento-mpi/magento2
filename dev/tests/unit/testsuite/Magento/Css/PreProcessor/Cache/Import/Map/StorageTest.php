@@ -20,13 +20,13 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
     protected $filesystemMock;
 
-    /** @var \Magento\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $mapsDirectoryMock;
 
     protected function setUp()
     {
         $this->mapsDirectoryMock = $this->getMock(
-            'Magento\Filesystem\Directory\WriteInterface',
+            'Magento\Framework\Filesystem\Directory\WriteInterface',
             array(),
             array(),
             '',

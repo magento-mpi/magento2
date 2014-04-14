@@ -37,17 +37,17 @@ class FileIterator implements \Iterator, \Countable
     /**
      * Read directory
      *
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $directoryRead;
 
     /**
      * Constructor
      *
-     * @param \Magento\Filesystem\Directory\ReadInterface $directory
+     * @param \Magento\Framework\Filesystem\Directory\ReadInterface $directory
      * @param array $paths
      */
-    public function __construct(\Magento\Filesystem\Directory\ReadInterface $directory, array $paths)
+    public function __construct(\Magento\Framework\Filesystem\Directory\ReadInterface $directory, array $paths)
     {
         $this->paths = $paths;
         $this->position = 0;

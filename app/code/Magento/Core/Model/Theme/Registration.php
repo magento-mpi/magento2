@@ -51,7 +51,7 @@ class Registration
     );
 
     /**
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $directoryRead;
 

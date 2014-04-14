@@ -118,7 +118,7 @@ Magento/Newsletter/Block/Adminhtml/Template/Grid/Renderer
 Magento/Newsletter/Model/Template/Filter
 Magento/Newsletter/Model/Resource/Subscriber
 Magento/CatalogInventory/Model/Resource/Stock/Item
-lib/Magento/Filesystem/Driver
+lib/Magento/Framework/Filesystem/Driver
 Magento/OfflineShipping/Model/Carrier
 Magento/Usps/Model/Carrier
 Magento/Dhl/Model

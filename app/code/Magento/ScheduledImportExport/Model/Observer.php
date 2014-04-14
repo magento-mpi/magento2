@@ -9,7 +9,7 @@
  */
 namespace Magento\ScheduledImportExport\Model;
 
-use Magento\Filesystem\FilesystemException;
+use Magento\Framework\Filesystem\FilesystemException;
 
 /**
  * ImportExport module observer
@@ -73,7 +73,7 @@ class Observer
     protected $_storeManager;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_logDirectory;
 

@@ -20,7 +20,7 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
     protected $_filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Write | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_directory;
 
@@ -58,7 +58,7 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
     {
         $this->_filesystem =
             $this->getMock('Magento\Framework\App\Filesystem', array('getDirectoryWrite'), array(), '', false);
-        $this->_directory = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
+        $this->_directory = $this->getMock('Magento\Framework\Filesystem\Directory\Write', array(), array(), '', false);
         $this->_filesystem->expects(
             $this->once()
         )->method(

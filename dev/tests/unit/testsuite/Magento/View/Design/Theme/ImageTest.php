@@ -42,14 +42,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     protected $_themeMock;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Write|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_directoryMock;
 
     protected function setUp()
     {
         $this->_directoryMock = $this->getMock(
-            'Magento\Filesystem\Directory\Write',
+            'Magento\Framework\Filesystem\Directory\Write',
             array('isExist', 'copyFile', 'getRelativePath', 'delete'),
             array(),
             '',

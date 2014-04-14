@@ -36,7 +36,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
         $this->_converter = $this->getMock('Magento\Mview\Config\Converter', array('convert'));
 
-        $fsDirList = $this->getMock('\Magento\Filesystem\DirectoryList', array('getDir'), array(), '', false);
+        $fsDirList = $this->getMock('\Magento\Framework\Filesystem\DirectoryList', array('getDir'), array(), '', false);
         $fsDirList->expects(
             $this->once()
         )->method(

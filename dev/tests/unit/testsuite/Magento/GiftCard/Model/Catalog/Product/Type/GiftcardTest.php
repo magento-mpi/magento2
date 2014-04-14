@@ -187,7 +187,13 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
                 'categoryFactory' => $categoryFactoryMock,
                 'resource' => $this->_productResource,
                 'resourceCollection' => $productCollection,
-                'collectionFactory' => $this->getMock('Magento\Framework\Data\CollectionFactory', array(), array(), '', false)
+                'collectionFactory' => $this->getMock(
+                        'Magento\Framework\Data\CollectionFactory',
+                        array(),
+                        array(),
+                        '',
+                        false
+                    )
             )
         );
         $this->_product = $this->getMock(
