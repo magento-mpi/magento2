@@ -33,7 +33,11 @@
                     <argument name="sortable" xsi:type="boolean">0</argument>
                 </arguments>
             </referenceBlock>
-            <remove name="txn_id"/>
+            <referenceBlock name="txn_id">
+                <arguments>
+                    <argument name="sortable" xsi:type="boolean">0</argument>
+                </arguments>
+            </referenceBlock>
             <remove name="parent_txn_id"/>
             <referenceBlock name="method">
                 <arguments>
