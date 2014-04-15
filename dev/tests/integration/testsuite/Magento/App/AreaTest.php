@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\App;
+namespace Magento\App;
 
 class AreaTest extends \PHPUnit_Framework_TestCase
 {
