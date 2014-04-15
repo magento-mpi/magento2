@@ -579,7 +579,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
             array(
                 \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
                     \Magento\Framework\App\Filesystem::THEMES_DIR => array(
-                        'path' => dirname(__DIR__) . '/Core/Model/_files/design'
+                        'path' => dirname(dirname(__DIR__)) . '/Core/Model/_files/design'
                     )
                 )
             )
@@ -625,7 +625,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
             array(
                 \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
                     \Magento\Framework\App\Filesystem::THEMES_DIR => array(
-                        'path' => dirname(__DIR__) . '/Core/Model/_files/design/'
+                        'path' => dirname(dirname(__DIR__)) . '/Core/Model/_files/design/'
                     )
                 )
             )
