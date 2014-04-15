@@ -17,12 +17,12 @@ use Magento\Stdlib\DateTime\TimezoneInterface;
 /**
  * Special price model
  */
-class SpecialPrice extends RegularPrice implements SpecialPriceInterface
+class SpecialPrice extends AbstractPrice implements SpecialPriceInterface
 {
     /**
-     * @var string
+     * Price type special
      */
-    protected $priceType = self::PRICE_TYPE_SPECIAL;
+    const PRICE_TYPE_CODE = 'special_price';
 
     /**
      * @var TimezoneInterface

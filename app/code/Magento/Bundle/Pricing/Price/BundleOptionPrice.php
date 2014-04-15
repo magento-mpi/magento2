@@ -7,19 +7,19 @@
  */
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price\RegularPrice;
+use Magento\Catalog\Pricing\Price\AbstractPrice;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
 
 /**
  * Bundle option price model
  */
-class BundleOptionPrice extends RegularPrice implements BundleOptionPriceInterface
+class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterface
 {
     /**
-     * @var string
+     * Price model code
      */
-    protected $priceType = self::PRICE_TYPE_BUNDLE_OPTION;
+    const PRICE_TYPE_CODE = 'bundle_option';
 
     /**
      * @var array
@@ -114,7 +114,7 @@ class BundleOptionPrice extends RegularPrice implements BundleOptionPriceInterfa
 
     /**
      * @param \Magento\Bundle\Model\Selection $selection
-     * @return \Magento\Bundle\Pricing\Price\BundleSelectionPriceInterface
+     * @return \Magento\Bundle\Pricing\Price\BundleSelectionPrice
      */
     protected function createSelection($selection)
     {

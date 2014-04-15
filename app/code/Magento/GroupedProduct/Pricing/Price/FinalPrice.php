@@ -10,42 +10,25 @@
 
 namespace Magento\GroupedProduct\Pricing\Price;
 
+use Magento\Catalog\Pricing\Price\AbstractPrice;
 use Magento\Pricing\Adjustment\Calculator;
-use Magento\Pricing\Amount\AmountInterface;
 use Magento\Pricing\Object\SaleableInterface;
-use Magento\Catalog\Pricing\Price\FinalPriceInterface;
-use Magento\Pricing\Price\PriceInterface;
 use Magento\GroupedProduct\Model\Product\Type\Grouped;
 
 /**
  * Final price model
  */
-class FinalPrice implements FinalPriceInterface, PriceInterface
+class FinalPrice extends AbstractPrice
 {
     /**
-     * @var string
+     * Price type final
      */
-    protected $priceType = self::PRICE_TYPE_FINAL;
-
-    /**
-     * @var \Magento\Pricing\Object\SaleableInterface
-     */
-    protected $salableItem;
-
-    /**
-     * @var \Magento\Pricing\Adjustment\Calculator
-     */
-    protected $calculator;
+    const PRICE_TYPE_CODE = 'final_price';
 
     /**
      * @var SaleableInterface
      */
     protected $minProduct;
-
-    /**
-     * @var AmountInterface
-     */
-    protected $amount;
 
     /**
      * @param SaleableInterface $salableItem
@@ -66,30 +49,7 @@ class FinalPrice implements FinalPriceInterface, PriceInterface
      */
     public function getValue()
     {
-        return $this->getMinProduct()->getPriceInfo()->getPrice(FinalPriceInterface::PRICE_TYPE_FINAL)->getValue();
-    }
-
-    /**
-     * Get price type code
-     *
-     * @return string
-     */
-    public function getPriceType()
-    {
-        return $this->priceType;
-    }
-
-    /**
-     * Get Price Amount object
-     *
-     * @return AmountInterface
-     */
-    public function getAmount()
-    {
-        if (!$this->amount) {
-            $this->amount = $this->calculator->getAmount($this->getValue(), $this->salableItem);
-        }
-        return $this->amount;
+        return $this->getMinProduct()->getPriceInfo()->getPrice(FinalPrice::PRICE_TYPE_CODE)->getValue();
     }
 
     /**
@@ -106,7 +66,7 @@ class FinalPrice implements FinalPriceInterface, PriceInterface
                 $product = clone $item;
                 $product->setQty(\Magento\Pricing\PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT);
                 $price = $product->getPriceInfo()
-                    ->getPrice(FinalPriceInterface::PRICE_TYPE_FINAL)
+                    ->getPrice(FinalPrice::PRICE_TYPE_CODE)
                     ->getValue();
                 if (($price !== false) && ($price <= (is_null($minPrice) ? $price : $minPrice))) {
                     $this->minProduct = $product;
@@ -115,18 +75,5 @@ class FinalPrice implements FinalPriceInterface, PriceInterface
             }
         }
         return $this->minProduct;
-    }
-
-    /**
-     * @param float $amount
-     * @param null|string $exclude
-     * @return AmountInterface
-     */
-    public function getCustomAmount($amount = null, $exclude = null)
-    {
-        if ($amount === null) {
-            $amount = $this->getValue();
-        }
-        return $this->calculator->getAmount($amount, $this->salableItem, $exclude);
     }
 }

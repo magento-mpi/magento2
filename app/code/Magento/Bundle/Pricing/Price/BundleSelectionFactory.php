@@ -18,7 +18,7 @@ class BundleSelectionFactory
     /**
      * Default selection class
      */
-    const SELECTION_CLASS_DEFAULT = 'Magento\Bundle\Pricing\Price\BundleSelectionPriceInterface';
+    const SELECTION_CLASS_DEFAULT = 'Magento\Bundle\Pricing\Price\BundleSelectionPrice';
 
     /**
      * Object Manager
@@ -45,7 +45,7 @@ class BundleSelectionFactory
      * @param float $quantity
      * @param array $arguments
      * @throws \InvalidArgumentException
-     * @return BundleSelectionPriceInterface
+     * @return BundleSelectionPrice
      */
     public function create(
         SaleableInterface $bundleProduct,
@@ -57,9 +57,9 @@ class BundleSelectionFactory
         $arguments['salableItem'] = $selection;
         $arguments['quantity'] = $quantity ? floatval($quantity) : 1.;
         $selectionPrice = $this->objectManager->create(self::SELECTION_CLASS_DEFAULT, $arguments);
-        if (!$selectionPrice instanceof BundleSelectionPriceInterface) {
+        if (!$selectionPrice instanceof BundleSelectionPrice) {
             throw new \InvalidArgumentException(
-                get_class($selectionPrice) . ' doesn\'t implement BundleSelectionPriceInterface'
+                get_class($selectionPrice) . ' doesn\'t extend BundleSelectionPrice'
             );
         }
         return $selectionPrice;

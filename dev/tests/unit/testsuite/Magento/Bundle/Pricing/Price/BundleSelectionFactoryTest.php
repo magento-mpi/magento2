@@ -45,7 +45,7 @@ class BundleSelectionFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $result = $this->getMock('Magento\Bundle\Pricing\Price\BundleSelectionPriceInterface');
+        $result = $this->getMock('Magento\Bundle\Pricing\Price\BundleSelectionPrice');
         $this->objectManagerMock->expects($this->once())
             ->method('create')
             ->with(

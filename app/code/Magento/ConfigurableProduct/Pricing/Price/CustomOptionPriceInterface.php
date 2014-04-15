@@ -18,11 +18,6 @@ use Magento\Pricing\Amount\AmountInterface;
 interface CustomOptionPriceInterface
 {
     /**
-     * Default price type
-     */
-    const PRICE_TYPE = 'custom_option_price';
-
-    /**
      * @param array $value
      * @return AmountInterface
      */

@@ -218,7 +218,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
         $price = '';
         if ($priceRender) {
             $price = $priceRender->render(
-                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
+                \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_TYPE_CODE,
                 $product,
                 $arguments
             );

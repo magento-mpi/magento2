@@ -17,12 +17,12 @@ use Magento\Catalog\Model\Product\Option\Value;
  *
  * @package Magento\Catalog\Pricing\Price
  */
-class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterface
+class CustomOptionPrice extends AbstractPrice implements CustomOptionPriceInterface
 {
     /**
-     * @var string
+     * Price model code
      */
-    protected $priceType = self::PRICE_TYPE_CUSTOM_OPTION;
+    const PRICE_TYPE_CODE = 'custom_option_price';
 
     /**
      * @var array

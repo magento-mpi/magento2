@@ -95,6 +95,5 @@
             </argument>
         </arguments>
     </virtualType>
-    <preference for="Magento\Bundle\Pricing\Price\BundleSelectionPriceInterface" type="Magento\Bundle\Pricing\Price\BundleSelectionPrice" />
     <preference for="Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface" type="Magento\Bundle\Pricing\Adjustment\Calculator" />
 </config>

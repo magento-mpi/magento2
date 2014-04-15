@@ -11,9 +11,9 @@
 namespace Magento\Pricing;
 
 use Magento\Pricing\Price\Factory as PriceFactory;
-use Magento\Catalog\Pricing\Price\FinalPriceInterface;
-use Magento\Catalog\Pricing\Price\GroupPriceInterface;
-use Magento\Catalog\Pricing\Price\SpecialPriceInterface;
+use Magento\Catalog\Pricing\Price\FinalPrice;
+use Magento\Catalog\Pricing\Price\GroupPrice;
+use Magento\Catalog\Pricing\Price\SpecialPrice;
 
 /**
  * Test class for \Magento\Pricing\PriceComposite
@@ -42,9 +42,9 @@ class PriceCompositeTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->metadata = array(
-            FinalPriceInterface::PRICE_TYPE_FINAL => ['class' => 'Class\For\FinalPrice'],
-            GroupPriceInterface::PRICE_TYPE_GROUP => ['class' => 'Class\For\GroupPrice'],
-            SpecialPriceInterface::PRICE_TYPE_SPECIAL => ['class' => 'Class\For\SpecialPrice']
+            FinalPrice::PRICE_TYPE_CODE => ['class' => 'Class\For\FinalPrice'],
+            GroupPrice::PRICE_TYPE_CODE => ['class' => 'Class\For\GroupPrice'],
+            SpecialPrice::PRICE_TYPE_CODE => ['class' => 'Class\For\SpecialPrice']
         );
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -57,9 +57,9 @@ class PriceCompositeTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceCodes()
     {
         $expectedCodes = [
-            FinalPriceInterface::PRICE_TYPE_FINAL,
-            GroupPriceInterface::PRICE_TYPE_GROUP,
-            SpecialPriceInterface::PRICE_TYPE_SPECIAL
+            FinalPrice::PRICE_TYPE_CODE,
+            GroupPrice::PRICE_TYPE_CODE,
+            SpecialPrice::PRICE_TYPE_CODE
         ];
         $this->assertEquals($expectedCodes, $this->model->getPriceCodes());
     }
@@ -72,7 +72,7 @@ class PriceCompositeTest extends \PHPUnit_Framework_TestCase
     public function testCreatePriceObject()
     {
         $saleable = $this->getMock('Magento\Pricing\Object\SaleableInterface');
-        $priceCode = FinalPriceInterface::PRICE_TYPE_FINAL;
+        $priceCode = FinalPrice::PRICE_TYPE_CODE;
         $quantity = 2.4;
 
         $price = $this->getMock('Magento\Pricing\Price\PriceInterface');

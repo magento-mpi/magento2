@@ -57,7 +57,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->priceInfoMock));
         $this->priceInfoMock->expects($this->once())
             ->method('getPrice')
-            ->with($this->equalTo(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE))
+            ->with($this->equalTo(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_CODE))
             ->will($this->returnValue($this->basePriceMock));
         $this->calculatorMock = $this->getMockBuilder('Magento\Pricing\Adjustment\Calculator')
             ->disableOriginalConstructor()

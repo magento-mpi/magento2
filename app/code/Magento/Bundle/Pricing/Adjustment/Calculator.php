@@ -14,7 +14,6 @@ use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Amount\AmountFactory;
 use Magento\Pricing\Adjustment\Calculator as CalculatorBase;
 use Magento\Bundle\Model\Product\Price;
-use Magento\Bundle\Pricing\Price\BundleOptionPriceInterface;
 use Magento\Bundle\Pricing\Price\BundleSelectionFactory;
 use Magento\Bundle\Pricing\Price\BundleOptionPrice;
 
@@ -183,7 +182,7 @@ class Calculator implements BundleCalculatorInterface
      */
     protected function getBundleOptionPrice(SaleableInterface $saleableItem)
     {
-        return $saleableItem->getPriceInfo()->getPrice(BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION);
+        return $saleableItem->getPriceInfo()->getPrice(BundleOptionPrice::PRICE_TYPE_CODE);
     }
 
     /**

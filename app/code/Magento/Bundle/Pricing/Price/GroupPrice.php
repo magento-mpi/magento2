@@ -18,6 +18,11 @@ use Magento\Customer\Model\Session;
 class GroupPrice extends \Magento\Catalog\Pricing\Price\GroupPrice
 {
     /**
+     * Price type group
+     */
+    const PRICE_TYPE_CODE = 'group_price';
+
+    /**
      * @return float|bool
      */
     public function getValue()
@@ -43,7 +48,7 @@ class GroupPrice extends \Magento\Catalog\Pricing\Price\GroupPrice
     protected function getBasePrice($qty = null)
     {
         return $this->priceInfo
-            ->getPrice(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE, $qty)
+            ->getPrice(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_CODE, $qty)
             ->getValue();
     }
 }

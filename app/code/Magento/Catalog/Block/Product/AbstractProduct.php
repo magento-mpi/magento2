@@ -18,8 +18,6 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-use Magento\View\Element\BlockInterface;
-
 /**
  * Class AbstractProduct
  */
@@ -709,7 +707,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     {
         return $this->getProductPriceHtml(
             $product,
-            \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
+            \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_TYPE_CODE,
             \Magento\Pricing\Render::ZONE_ITEM_LIST
         );
     }

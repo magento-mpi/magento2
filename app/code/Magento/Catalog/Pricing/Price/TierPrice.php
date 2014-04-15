@@ -18,12 +18,12 @@ use Magento\Pricing\Amount\AmountInterface;
 /**
  * Tire prices model
  */
-class TierPrice extends RegularPrice implements TierPriceInterface
+class TierPrice extends AbstractPrice implements TierPriceInterface
 {
     /**
-     * @var string
+     * Price type tier
      */
-    protected $priceType = self::PRICE_TYPE_TIER;
+    const PRICE_TYPE_CODE = 'tier_price';
 
     /**
      * @var Session
@@ -187,7 +187,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
     protected function getBasePrice()
     {
         /** @var float $productPrice is a minimal available price */
-        return $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_BASE_PRICE)->getValue();
+        return $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_CODE)->getValue();
     }
 
     /**
@@ -251,13 +251,13 @@ class TierPrice extends RegularPrice implements TierPriceInterface
     protected function getStoredTierPrices()
     {
         if (null === $this->rawPriceList) {
-            $this->rawPriceList = $this->salableItem->getData(self::PRICE_TYPE_TIER);
+            $this->rawPriceList = $this->salableItem->getData(self::PRICE_TYPE_CODE);
             if (null === $this->rawPriceList || !is_array($this->rawPriceList)) {
                 /** @var \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute */
-                $attribute = $this->salableItem->getResource()->getAttribute(self::PRICE_TYPE_TIER);
+                $attribute = $this->salableItem->getResource()->getAttribute(self::PRICE_TYPE_CODE);
                 if ($attribute) {
                     $attribute->getBackend()->afterLoad($this->salableItem);
-                    $this->rawPriceList = $this->salableItem->getData(self::PRICE_TYPE_TIER);
+                    $this->rawPriceList = $this->salableItem->getData(self::PRICE_TYPE_CODE);
                 }
             }
             if (null === $this->rawPriceList || !is_array($this->rawPriceList)) {

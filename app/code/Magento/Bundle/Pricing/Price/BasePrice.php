@@ -39,13 +39,13 @@ class BasePrice extends CatalogPrice\BasePrice
         $discount = [
             0,
             $this->priceInfo
-                ->getPrice(CatalogPrice\TierPriceInterface::PRICE_TYPE_TIER, $this->quantity)
+                ->getPrice(CatalogPrice\TierPrice::PRICE_TYPE_CODE, $this->quantity)
                 ->getValue(),
             $this->priceInfo
-                ->getPrice(CatalogPrice\GroupPriceInterface::PRICE_TYPE_GROUP, $this->quantity)
+                ->getPrice(CatalogPrice\GroupPrice::PRICE_TYPE_CODE, $this->quantity)
                 ->getValue(),
             $this->priceInfo
-                ->getPrice(CatalogPrice\SpecialPriceInterface::PRICE_TYPE_SPECIAL, $this->quantity)
+                ->getPrice(CatalogPrice\SpecialPrice::PRICE_TYPE_CODE, $this->quantity)
                 ->getValue()
         ];
         $discount = max($discount);

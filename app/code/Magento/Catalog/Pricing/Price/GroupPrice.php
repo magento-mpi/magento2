@@ -17,12 +17,12 @@ use Magento\Customer\Model\Session;
 /**
  * Group price model
  */
-class GroupPrice extends RegularPrice implements GroupPriceInterface
+class GroupPrice extends AbstractPrice implements GroupPriceInterface
 {
     /**
-     * @var string
+     * Price type group
      */
-    protected $priceType = self::PRICE_TYPE_GROUP;
+    const PRICE_TYPE_CODE = 'group_price';
 
     /**
      * @var Session
