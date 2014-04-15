@@ -14,7 +14,8 @@ use PHPUnit_Framework_MockObject_MockObject as Mock;
 
 /**
  * Class OperationTest
- *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  * @package Magento\ScheduledImportExport\Model\Scheduled
  */
 class OperationTest extends \PHPUnit_Framework_TestCase
