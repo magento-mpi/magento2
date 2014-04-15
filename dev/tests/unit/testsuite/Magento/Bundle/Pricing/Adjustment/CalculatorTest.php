@@ -77,8 +77,9 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
 
         $factoryCallback = $this->returnCallback(function () {
             list(, $selectionMock) = func_get_args();
-            $bundlePrice = $this->getMockBuilder('\Magento\Bundle\Pricing\Price\BundleSelectionPrice')
+            $bundlePrice = $this->getMockBuilder('Magento\Bundle\Pricing\Price\BundleSelectionPrice')
                 ->setMethods(['getAmount'])
+                ->disableOriginalConstructor()
                 ->getMock();
             $bundlePrice->expects($this->any())->method('getAmount')
                 ->will($this->returnValue($selectionMock->getAmountMock()));
