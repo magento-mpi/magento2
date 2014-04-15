@@ -59,6 +59,12 @@
             ],
             requireCookie: [
                 '<?php echo $this->getViewFileUrl('Magento_Core::js/require-cookie.js') ?>'
+            ],
+            addToCart: [
+                '<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>'
+            ],
+            tierPrice: [
+                '<?php echo $this->getViewFileUrl('Magento_Catalog::js/tier-price.js') ?>'
             ]
         });
     })(jQuery);

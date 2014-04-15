@@ -44,7 +44,18 @@ if ($product->isSaleable()) {
     <?php $priceElementId = $priceElementIdPrefix . $productId . $this->getIdSuffix(); ?>
     <span id="<?php echo $this->getPriceId() ? $this->getPriceId() : $priceElementId ?>" style="display:none"></span>
     <?php $popupId = 'msrp-popup-' . $productId . $this->getRandomString(20); ?>
-    <a href="#" id="<?php echo($popupId);?>"><?php echo __('Click for price'); ?></a>
+    <a href="#"
+       id="<?php echo($popupId);?>"
+       data-mage-init='{"addToCart":{"cartForm": "#product_addtocart_form_from_popup",
+                                     "popupId": "#<?php echo $popupId; ?>",
+                                     "productName": "<?php echo $product->getName() ?>",
+                                     "realPrice": <?php echo $this->jsonEncode($this->getRealPriceHtml()) ?>,
+                                     "msrpPrice": <?php echo $this->jsonEncode($msrpPrice) ?>,
+                                     "priceElementId":"<?php echo $priceElementId ?>",
+                                     "closeButtonId": "#map-popup-close",
+                                     "popupCartButtonId": "#map-popup-button",
+                                     "addToCartUrl": "<?php echo $addToCartUrl; ?>"}}'><?php echo __('Click for price'); ?>
+    </a>
 <?php else: ?>
     <span class="msrp message">
      <?php echo $priceType->getMsrpPriceMessage() ?>
@@ -53,37 +64,11 @@ if ($product->isSaleable()) {
 
 <?php if ($this->getZone() == \Magento\Pricing\Render::ZONE_ITEM_VIEW): ?>
     <?php $helpLinkId = 'msrp-help-' . $productId . $this->getRandomString(20); ?>
-    <a href="#" id="<?php echo $helpLinkId;?>" class="action show map">
-        <span><?php echo __("What's this?"); ?></span>
+    <a href="#"
+       id="<?php echo $helpLinkId;?>"
+       class="action show map"
+       data-mage-init='{"addToCart":{"helpLinkId": "#<?php echo $helpLinkId;?>",
+                                     "productName": "<?php echo $product->getName() ?>",
+                                     "closeButtonId": "#map-popup-close"}}'><span><?php echo __("What's this?"); ?></span>
     </a>
 <?php endif; ?>
-
-<script type="text/javascript">
-    //<![CDATA[
-    (function ($) {
-        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>",
-            function () {
-                <?php if ($priceType->isShowPriceOnGesture()): ?>
-                $('#<?php echo($popupId);?>').addToCart({
-                    cartForm: "#product_addtocart_form_from_popup",
-                    popupId: "#<?php echo $popupId;?>",
-                    productName: '<?php echo $product->getName() ?>',
-                    realPrice: <?php echo $this->jsonEncode($this->getRealPriceHtml()) ?>,
-                    msrpPrice: <?php echo $this->jsonEncode($msrpPrice) ?>,
-                    priceElementId: '<?php echo $priceElementId ?>',
-                    closeButtonId: '#map-popup-close',
-                    popupCartButtonId: "#map-popup-button",
-                    addToCartUrl: '<?php echo $addToCartUrl; ?>'
-                });
-                <?php endif; ?>
-                <?php if ($this->getZone() == \Magento\Pricing\Render::ZONE_ITEM_VIEW): ?>
-                $("#<?php echo $helpLinkId;?>").addToCart({
-                    helpLinkId: "#<?php echo $helpLinkId;?>",
-                    productName: '<?php echo $product->getName() ?>',
-                    closeButtonId: '#map-popup-close'
-                });
-                <?php endif; ?>
-            });
-    })(jQuery);
-    //]]>
-</script>
