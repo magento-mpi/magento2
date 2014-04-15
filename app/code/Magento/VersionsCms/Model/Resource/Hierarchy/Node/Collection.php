@@ -72,18 +72,18 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     /**
      * Add Store Filter to assigned CMS pages
      *
-     * @param int|\Magento\Core\Model\Store $store
+     * @param int|\Magento\Store\Model\Store $store
      * @param bool $withAdmin Include admin store or not
      * @return $this
      */
     public function addStoreFilter($store, $withAdmin = true)
     {
-        if ($store instanceof \Magento\Core\Model\Store) {
+        if ($store instanceof \Magento\Store\Model\Store) {
             $store = $store->getId();
         }
 
         if ($withAdmin) {
-            $storeIds = array(\Magento\Core\Model\Store::DEFAULT_STORE_ID, $store);
+            $storeIds = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID, $store);
         } else {
             $storeIds = array($store);
         }

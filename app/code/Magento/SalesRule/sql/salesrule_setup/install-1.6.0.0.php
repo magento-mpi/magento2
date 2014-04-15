@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\Core\Model\Resource\Setup */
+/* @var $installer \Magento\Module\Setup */
 $installer = $this;
 $installer->startSetup();
 
@@ -396,9 +396,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('salesrule_label', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('salesrule_label', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -467,9 +467,9 @@ $table = $installer->getConnection()->newTable(
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_NO_ACTION
 )->addForeignKey(
-    $installer->getFkName('salesrule_product_attribute', 'website_id', 'core_website', 'website_id'),
+    $installer->getFkName('salesrule_product_attribute', 'website_id', 'store_website', 'website_id'),
     'website_id',
-    $installer->getTable('core_website'),
+    $installer->getTable('store_website'),
     'website_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_NO_ACTION
@@ -567,9 +567,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('coupon_aggregated', array('store_id')),
     array('store_id')
 )->addForeignKey(
-    $installer->getFkName('coupon_aggregated', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('coupon_aggregated', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE
@@ -649,9 +649,9 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('coupon_aggregated_order', array('store_id')),
     array('store_id')
 )->addForeignKey(
-    $installer->getFkName('coupon_aggregated_order', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('coupon_aggregated_order', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE

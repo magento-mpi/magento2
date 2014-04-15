@@ -83,8 +83,8 @@ class Exception extends \RuntimeException
         $code = 0,
         $httpCode = self::HTTP_BAD_REQUEST,
         array $details = array(),
-        $errors = null,
         $name = '',
+        $errors = null,
         $stackTrace = null
     ) {
         /** Only HTTP error codes are allowed. No success or redirect codes must be used. */

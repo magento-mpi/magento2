@@ -11,10 +11,6 @@ namespace Magento\Bundle\Model\Resource\Option;
 
 /**
  * Bundle Options Resource Collection
- *
- * @category    Magento
- * @package     Magento_Bundle
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -26,7 +22,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     protected $_itemIds;
 
     /**
-     * True when selections a
+     * True when selections appended
      *
      * @var bool
      */
@@ -118,11 +114,12 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         }
 
         if (!$this->_selectionsAppended) {
-            foreach ($selectionsCollection->getItems() as $key => $_selection) {
-                if ($_option = $this->getItemById($_selection->getOptionId())) {
-                    if ($appendAll || $_selection->isSalable() && !$_selection->getRequiredOptions()) {
-                        $_selection->setOption($_option);
-                        $_option->addSelection($_selection);
+            foreach ($selectionsCollection->getItems() as $key => $selection) {
+                $option = $this->getItemById($selection->getOptionId());
+                if ($option) {
+                    if ($appendAll || $selection->isSalable() && !$selection->getRequiredOptions()) {
+                        $selection->setOption($option);
+                        $option->addSelection($selection);
                     } else {
                         $selectionsCollection->removeItemByKey($key);
                     }

@@ -15,7 +15,7 @@ use Magento\Webapi\Exception as WebapiException;
 
 class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Webapi\Controller\ErrorProcessor */
+    /** @var ErrorProcessor */
     protected $_errorProcessor;
 
     /** @var \Magento\Core\Helper\Data */
@@ -43,7 +43,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
         $filesystemMock = $this->getMockBuilder('\Magento\App\Filesystem')->disableOriginalConstructor()->getMock();
 
         /** Initialize SUT. */
-        $this->_errorProcessor = new \Magento\Webapi\Controller\ErrorProcessor(
+        $this->_errorProcessor = new ErrorProcessor(
             $this->_helperMock,
             $this->_appStateMock,
             $this->_loggerMock,
@@ -181,7 +181,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
         /** Init Logical exception. */
         $errorMessage = 'Error Message';
         $logicalException = new \LogicException($errorMessage);
-        /** Assert that Logic exception is converted to \Magento\Webapi\Exception without message obfuscation. */
+        /** Assert that Logic exception is converted to WebapiException without message obfuscation. */
         $maskedException = $this->_errorProcessor->maskException($logicalException);
         $this->assertInstanceOf('Magento\Webapi\Exception', $maskedException);
         $this->assertEquals(
@@ -269,7 +269,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
         $expectedMessage,
         $expectedDetails
     ) {
-        /** All masked exceptions must be \Magento\Webapi\Exception */
+        /** All masked exceptions must be WebapiException */
         $expectedType = 'Magento\Webapi\Exception';
         $this->assertInstanceOf(
             $expectedType,
@@ -278,7 +278,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
                 $maskedException
             ) . "'."
         );
-        /** @var $maskedException \Magento\Webapi\Exception */
+        /** @var $maskedException WebapiException */
         $this->assertEquals(
             $expectedHttpCode,
             $maskedException->getHttpCode(),

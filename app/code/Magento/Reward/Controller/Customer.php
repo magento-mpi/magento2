@@ -175,7 +175,7 @@ class Customer extends \Magento\App\Action\Action
         )->setCustomer(
             $this->_getCustomer()
         )->setWebsiteId(
-            $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsiteId()
+            $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
         )->loadByCustomer();
         return $reward;
     }

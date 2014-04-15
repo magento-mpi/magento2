@@ -121,8 +121,8 @@ class ErrorProcessor
                 $exception->getCode(),
                 $httpCode,
                 $exception->getParameters(),
-                $errors,
                 get_class($exception),
+                $errors, 
                 $stackTrace
             );
 

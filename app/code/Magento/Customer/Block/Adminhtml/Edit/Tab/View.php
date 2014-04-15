@@ -214,8 +214,9 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      */
     public function getStoreCreateDateTimezone()
     {
-        return $this->_storeConfig->getConfig(
+        return $this->_scopeConfig->getValue(
             $this->_localeDate->getDefaultTimezonePath(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getCustomer()->getStoreId()
         );
     }
@@ -252,8 +253,9 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      */
     public function getStoreLastLoginDateTimezone()
     {
-        return $this->_storeConfig->getConfig(
+        return $this->_scopeConfig->getValue(
             $this->_localeDate->getDefaultTimezonePath(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getCustomer()->getStoreId()
         );
     }
@@ -265,11 +267,12 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     {
         $log = $this->getCustomerLog();
         $interval = $this->_modelVisitor->getOnlineMinutesInterval();
-        if ($log->getLogoutAt() || strtotime(
-            $this->dateTime->now()
-        ) - strtotime(
-            $log->getLastVisitAt()
-        ) > $interval * 60
+        if ($log->getLogoutAt()
+            || strtotime(
+                $this->dateTime->now()
+            ) - strtotime(
+                $log->getLastVisitAt()
+            ) > $interval * 60
         ) {
             return __('Offline');
         }

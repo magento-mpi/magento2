@@ -175,7 +175,7 @@ abstract class AbstractErrors extends \Magento\Backend\Block\Widget
      * Retrieve current store instance
      *
      * @abstract
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     abstract public function getStore();
 

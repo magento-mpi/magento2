@@ -13,17 +13,22 @@ use Magento\App\Action\Action;
 
 /**
  * CMS Page Helper
- *
- * @category   Magento
- * @package    Magento_Cms
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Page extends \Magento\App\Helper\AbstractHelper
 {
+    /**
+     * CMS no-route config path
+     */
     const XML_PATH_NO_ROUTE_PAGE = 'web/default/cms_no_route';
 
+    /**
+     * CMS no cookies config path
+     */
     const XML_PATH_NO_COOKIES_PAGE = 'web/default/cms_no_cookies';
 
+    /**
+     * CMS home page config path
+     */
     const XML_PATH_HOME_PAGE = 'web/default/cms_home_page';
 
     /**
@@ -58,7 +63,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -86,7 +91,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Theme\Helper\Layout $pageLayout
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Escaper $escaper
      * @param \Magento\App\ViewInterface $view
@@ -98,7 +103,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
         \Magento\Theme\Helper\Layout $pageLayout,
         \Magento\View\DesignInterface $design,
         \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Escaper $escaper,
         \Magento\App\ViewInterface $view
@@ -172,9 +177,14 @@ class Page extends \Magento\App\Helper\AbstractHelper
 
         $this->_view->addActionLayoutHandles();
         if ($this->_page->getRootTemplate()) {
-            $handle = $this->_page->getCustomRootTemplate() &&
-                $this->_page->getCustomRootTemplate() != 'empty' &&
-                $inRange ? $this->_page->getCustomRootTemplate() : $this->_page->getRootTemplate();
+            if ($this->_page->getCustomRootTemplate()
+                && $this->_page->getCustomRootTemplate() != 'empty'
+                && $inRange
+            ) {
+                $handle = $this->_page->getCustomRootTemplate();
+            } else {
+                $handle = $this->_page->getRootTemplate();
+            }
             $this->_pageLayout->applyHandle($handle);
         }
 
@@ -184,8 +194,11 @@ class Page extends \Magento\App\Helper\AbstractHelper
         );
 
         $this->_view->loadLayoutUpdates();
-        $layoutUpdate = $this->_page->getCustomLayoutUpdateXml() &&
-            $inRange ? $this->_page->getCustomLayoutUpdateXml() : $this->_page->getLayoutUpdateXml();
+        if ($this->_page->getCustomLayoutUpdateXml() && $inRange) {
+            $layoutUpdate = $this->_page->getCustomLayoutUpdateXml();
+        } else {
+            $layoutUpdate = $this->_page->getLayoutUpdateXml();
+        }
         if (!empty($layoutUpdate)) {
             $this->_view->getLayout()->getUpdate()->addUpdate($layoutUpdate);
         }

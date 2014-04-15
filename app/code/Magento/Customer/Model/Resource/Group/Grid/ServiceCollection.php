@@ -11,8 +11,8 @@ use Magento\Core\Model\EntityFactory;
 use Magento\Customer\Model\Resource\AbstractServiceCollection;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Data\CustomerGroup;
-use Magento\Customer\Service\V1\Data\FilterBuilder;
-use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Service\V1\Data\FilterBuilder;
+use Magento\Service\V1\Data\SearchCriteriaBuilder;
 
 /**
  * Customer group collection backed by services

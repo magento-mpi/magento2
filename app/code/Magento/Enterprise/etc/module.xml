@@ -22,10 +22,8 @@
             <module name="Magento_AdminNotification"/>
             <module name="Magento_Backend"/>
             <module name="Magento_Core"/>
-            <module name="Magento_AdminGws"/>
             <module name="Magento_CatalogEvent"/>
             <module name="Magento_CatalogPermissions"/>
-            <module name="Magento_CustomerBalance"/>
             <module name="Magento_CustomerSegment"/>
             <module name="Magento_GiftCard"/>
             <module name="Magento_GiftCardAccount"/>
@@ -36,7 +34,6 @@
             <module name="Magento_PromotionPermissions"/>
             <module name="Magento_SalesArchive"/>
             <module name="Magento_TargetRule"/>
-            <module name="Magento_WebsiteRestriction"/>
             <module name="Magento_Rma"/>
             <module name="Magento_Banner"/>
             <module name="Magento_AdvancedCheckout"/>

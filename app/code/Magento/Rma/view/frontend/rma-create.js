@@ -61,6 +61,7 @@
             //If no form data , then add default row for Return Item
             if (this.options.liIndex === 0) {
                 this._addRegistrant();
+                this._showOtherOption('', 0);
             }
         },
 

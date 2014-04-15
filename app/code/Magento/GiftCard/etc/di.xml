@@ -48,4 +48,11 @@
             <argument name="layout" xsi:type="object">Magento\View\LayoutInterface\Proxy</argument>
         </arguments>
     </type>
+    <type name="Magento\Module\Setup\Migration">
+        <arguments>
+            <argument name="compositeModules" xsi:type="array">
+                <item name="magento_giftcard" xsi:type="string">Magento_GiftCard</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

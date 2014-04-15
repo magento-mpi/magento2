@@ -21,14 +21,14 @@ class WebsiteId implements \Magento\Option\ArrayInterface
     /**
      * Store
      *
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_store;
 
     /**
-     * @param \Magento\Core\Model\System\Store $store
+     * @param \Magento\Store\Model\System\Store $store
      */
-    public function __construct(\Magento\Core\Model\System\Store $store)
+    public function __construct(\Magento\Store\Model\System\Store $store)
     {
         $this->_store = $store;
     }

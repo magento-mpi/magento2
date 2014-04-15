@@ -48,7 +48,8 @@ interface CustomerAccountServiceInterface
      * Create Customer Account
      *
      * @param \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
-     * @param string $password If null then a random password will be assigned
+     * @param string $password If null then a random password will be assigned. Disregard if $hash is not empty.
+     * @param string $hash Password hash that we can save directly
      * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
      *                            the customer to a product they were looking at after pressing confirmation link.
      * @return \Magento\Customer\Service\V1\Data\Customer
@@ -56,9 +57,10 @@ interface CustomerAccountServiceInterface
      * @throws \Magento\Exception\InputException If bad input is provided
      * @throws \Magento\Exception\StateException If the provided email is already used
      */
-    public function createAccount(
+    public function createCustomer(
         \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
         $password = null,
+        $hash = null,
         $redirectUrl = ''
     );
 
@@ -68,21 +70,10 @@ interface CustomerAccountServiceInterface
      * the array must be null.
      *
      * @param \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
-     * @return void
+     * @throws \Magento\Exception\NoSuchEntityException If customer with customerDetails is not found.
+     * @return bool True if this customer was updated
      */
     public function updateCustomer(\Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails);
-
-    /**
-     * Create or update customer information
-     *
-     * @param \Magento\Customer\Service\V1\Data\Customer $customer
-     * @param string $password
-     * @throws \Magento\Customer\Exception If something goes wrong during save
-     * @throws \Magento\Exception\InputException If bad input is provided
-     * @return int customer ID
-     * @deprecated use createCustomer or updateCustomer instead
-     */
-    public function saveCustomer(\Magento\Customer\Service\V1\Data\Customer $customer, $password = null);
 
     /**
      * Retrieve Customer
@@ -108,11 +99,11 @@ interface CustomerAccountServiceInterface
     /**
      * Retrieve customers which match a specified criteria
      *
-     * @param \Magento\Customer\Service\V1\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Service\V1\Data\SearchCriteria $searchCriteria
      * @throws \Magento\Exception\InputException if there is a problem with the input
      * @return \Magento\Customer\Service\V1\Data\SearchResults containing Data\CustomerDetails
      */
-    public function searchCustomers(\Magento\Customer\Service\V1\Data\SearchCriteria $searchCriteria);
+    public function searchCustomers(\Magento\Service\V1\Data\SearchCriteria $searchCriteria);
 
     /**
      * Login a customer account using username and password
@@ -137,6 +128,16 @@ interface CustomerAccountServiceInterface
     public function changePassword($customerId, $currentPassword, $newPassword);
 
     /**
+     * Return hashed password, which can be directly saved to database.
+     *
+     * @param string $password
+     * @return string
+     * @todo this method has to be removed when the checkout process refactored in the way it won't require to pass
+     *       a password through requests
+     */
+    public function getPasswordHash($password);
+
+    /**
      * Check if password reset token is valid
      *
      * @param int $customerId
@@ -152,12 +153,12 @@ interface CustomerAccountServiceInterface
      * Send an email to the customer with a password reset link.
      *
      * @param string $email
-     * @param int $websiteId
      * @param string $template Type of email to send.  Must be one of the email constants.
+     * @param int $websiteId Optional id.  If the website id is not provided
+     *                       it will be retrieved from the store manager
      * @return void
-     * @throws \Magento\Exception\NoSuchEntityException
      */
-    public function initiatePasswordReset($email, $websiteId, $template);
+    public function initiatePasswordReset($email, $template, $websiteId = null);
 
     /**
      * Reset customer password.
@@ -200,7 +201,7 @@ interface CustomerAccountServiceInterface
      *
      * @param \Magento\Customer\Service\V1\Data\Customer $customer
      * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[] $attributes
-     * @return array|bool
+     * @return \Magento\Customer\Service\V1\Data\CustomerValidationResults
      */
     public function validateCustomerData(
         \Magento\Customer\Service\V1\Data\Customer $customer,
@@ -242,7 +243,7 @@ interface CustomerAccountServiceInterface
      * @param int $customerId
      * @throws \Magento\Customer\Exception If something goes wrong during delete
      * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
-     * @return void
+     * @return bool True if the customer was deleted
      */
     public function deleteCustomer($customerId);
 
@@ -250,8 +251,17 @@ interface CustomerAccountServiceInterface
      * Check if the email has not been associated with a customer account in given website
      *
      * @param string $customerEmail
-     * @param int $websiteId
+     * @param int $websiteId If not set, will use the current websiteId
      * @return bool true if the email is not associated with a customer account in given website
      */
-    public function isEmailAvailable($customerEmail, $websiteId);
+    public function isEmailAvailable($customerEmail, $websiteId = null);
+
+    /**
+     * Check store availability for customer given the customerId
+     *
+     * @param int $customerWebsiteId
+     * @param int $storeId
+     * @return bool
+     */
+    public function isCustomerInStore($customerWebsiteId, $storeId);
 }

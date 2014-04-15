@@ -27,6 +27,6 @@ class Exception extends \Magento\Webapi\Exception
         array $details = array(),
         $name = 'oauth'
     ) {
-        parent::__construct($message, $code, $httpCode, $details, null, $name);
+        parent::__construct($message, $code, $httpCode, $details, $name);
     }
 }

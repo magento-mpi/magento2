@@ -15,22 +15,25 @@ use Magento\Eav\Exception;
  * EAV Entity attribute model
  *
  * @method \Magento\Eav\Model\Entity\Attribute setOption($value)
- *
- * @category   Magento
- * @package    Magento_Eav
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute implements
-    \Magento\Object\IdentityInterface
+class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute implements \Magento\Object\IdentityInterface
 {
+    /**
+     * Attribute code max length
+     */
+    const ATTRIBUTE_CODE_MAX_LENGTH = 30;
+
+    /**
+     * Cache tag
+     */
+    const CACHE_TAG = 'EAV_ATTRIBUTE';
+
     /**
      * Prefix of model events names
      *
      * @var string
      */
     protected $_eventPrefix = 'eav_entity_attribute';
-
-    const ATTRIBUTE_CODE_MAX_LENGTH = 30;
 
     /**
      * Parameter name in event
@@ -40,8 +43,6 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
      * @var string
      */
     protected $_eventObject = 'attribute';
-
-    const CACHE_TAG = 'EAV_ATTRIBUTE';
 
     /**
      * @var string
@@ -54,9 +55,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
     protected $_localeDate;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Model\Product\ReservedAttributeList
      */
-    protected $_catalogProductFactory;
+    protected $reservedAttributeList;
 
     /**
      * @var \Magento\Locale\ResolverInterface
@@ -69,11 +70,11 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Catalog\Model\ProductFactory $catalogProductFactory
+     * @param \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -85,11 +86,11 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Catalog\Model\ProductFactory $catalogProductFactory,
+        \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -110,7 +111,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
         );
         $this->_localeDate = $localeDate;
         $this->_localeResolver = $localeResolver;
-        $this->_catalogProductFactory = $catalogProductFactory;
+        $this->reservedAttributeList = $reservedAttributeList;
     }
 
     /**
@@ -132,6 +133,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
 
             case 'increment_id':
                 return 'Magento\Eav\Model\Entity\Attribute\Backend\Increment';
+
+            default:
+                break;
         }
 
         return parent::_getDefaultBackendModel();
@@ -200,12 +204,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
     protected function _beforeSave()
     {
         // prevent overriding product data
-        if (isset(
-            $this->_data['attribute_code']
-        ) && $this->_catalogProductFactory->create()->isReservedAttribute(
-            $this
-        )
-        ) {
+        if (isset($this->_data['attribute_code']) && $this->reservedAttributeList->isReservedAttribute($this)) {
             throw new Exception(
                 __(
                     'The attribute code \'%1\' is reserved by system. Please try another attribute code',
@@ -330,6 +329,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
             case 'weight':
                 $field = 'decimal';
                 break;
+
+            default:
+                break;
         }
 
         return $field;
@@ -370,6 +372,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
 
             case 'boolean':
                 $field = 'default_value_yesno';
+                break;
+
+            default:
                 break;
         }
 
@@ -429,12 +434,12 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
      */
     public function getSortWeight($setId)
     {
-        $groupSortWeight = isset(
-            $this->_data['attribute_set_info'][$setId]['group_sort']
-        ) ? (double)$this->_data['attribute_set_info'][$setId]['group_sort'] * 1000 : 0.0;
-        $sortWeight = isset(
-            $this->_data['attribute_set_info'][$setId]['sort']
-        ) ? (double)$this->_data['attribute_set_info'][$setId]['sort'] * 0.0001 : 0.0;
+        $groupSortWeight = isset($this->_data['attribute_set_info'][$setId]['group_sort'])
+            ? (float) $this->_data['attribute_set_info'][$setId]['group_sort'] * 1000
+            : 0.0;
+        $sortWeight = isset($this->_data['attribute_set_info'][$setId]['sort'])
+            ? (float) $this->_data['attribute_set_info'][$setId]['sort'] * 0.0001
+            : 0.0;
         return $groupSortWeight + $sortWeight;
     }
 

@@ -8,6 +8,8 @@
 
 .tooltip(
     @_tooltip-position: top,
+    @_tooltip-selector-toggle: ~".tooltip-toggle",
+    @_tooltip-selector-content: ~".tooltip-content",
     @_tooltip-background: @tooltip-background,
     @_tooltip-color: @tooltip-color,
     @_tooltip-font-size: @tooltip-font-size,
@@ -28,9 +30,9 @@
     @_tooltip-z-index: @tooltip-z-index
 ) {
     position: relative;
-    display: inline-block;
+    //display: inline-block;
 
-    .tooltip-content {
+    @{_tooltip-selector-content} {
         z-index: @_tooltip-z-index;
         background: @_tooltip-background;
         min-width: @_tooltip-min-width;
@@ -78,13 +80,13 @@
         ._tooltip-arrow-position(@_tooltip-position);
     }
 
-    & > :first-child {
+    & @{_tooltip-selector-toggle} {
         cursor: @_tooltip-cursor;
     }
 
-    & > :first-child:hover + .tooltip-content,
-    & > :first-child:focus + .tooltip-content,
-    &:hover > .tooltip-content {
+    & @{_tooltip-selector-toggle}:hover + @{_tooltip-selector-content},
+    & @{_tooltip-selector-toggle}:focus + @{_tooltip-selector-content},
+    &:hover @{_tooltip-selector-content} {
         display: block;
     }
 }
@@ -172,7 +174,6 @@
         border-bottom-color: @_tooltip-background;
         margin-left: @_tooltip-arrow-after-margin;
         left: @_tooltip-arrow-offset + @_tooltip-arrow-size;
-
     }
     &:before {
         border-bottom-color: @_tooltip-border-color;

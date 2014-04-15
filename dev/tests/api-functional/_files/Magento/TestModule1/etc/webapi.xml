@@ -7,19 +7,82 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
-    <service class="Magento\TestModule1\Service\V1\AllSoapAndRestInterface" baseUrl="/V1/testmodule1">
-        <rest-route httpMethod="GET" method="item" resources="Magento_TestModule1::resource1">/:id</rest-route>
-        <rest-route httpMethod="GET" method="items" resources="Magento_TestModule1::resource2"></rest-route>
-        <rest-route httpMethod="POST" method="create" resources="Magento_TestModule1::resource3"></rest-route>
-        <rest-route httpMethod="PUT" method="update" resources="Magento_TestModule1::resource1,Magento_TestModule1::resource2">/:id</rest-route>
-    </service>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
 
-    <service class="Magento\TestModule1\Service\V2\AllSoapAndRestInterface" baseUrl="/V2/testmodule1">
-        <rest-route httpMethod="GET" method="item" resources="Magento_TestModule1::resource1">/:id</rest-route>
-        <rest-route httpMethod="GET" method="items" resources="Magento_TestModule1::resource2"></rest-route>
-        <rest-route httpMethod="POST" method="create" resources="Magento_TestModule1::resource3"></rest-route>
-        <rest-route httpMethod="PUT" method="update" resources="Magento_TestModule1::resource1,Magento_TestModule1::resource2">/:id</rest-route>
-        <rest-route httpMethod="DELETE" method="delete" resources="Magento_TestModule1::resource1">/:id</rest-route>
-    </service>
-</config>
+    <route method="GET" url="/V1/testmodule1/overwritten">
+        <service class="Magento\TestModule1\Service\V1\AllSoapAndRestInterface" method="item" />
+        <resources>
+            <resource ref="Magento_TestModule1::resource1" />
+        </resources>
+        <data>
+            <parameter name="itemId" force="true">-55</parameter>
+        </data>
+    </route>
+
+    <route method="POST" url="/V1/testmodule1/testOptionalParam">
+        <service class="Magento\TestModule1\Service\V1\AllSoapAndRestInterface" method="testOptionalParam" />
+        <resources>
+            <resource ref="Magento_TestModule1::resource1" />
+        </resources>
+        <data>
+            <parameter name="name">Default Name</parameter>
+        </data>
+    </route>
+
+    <route method="GET" url="/V1/testmodule1/:itemId">
+        <service class="Magento\TestModule1\Service\V1\AllSoapAndRestInterface" method="item" />
+        <resources>
+            <resource ref="Magento_TestModule1::resource1" />
+        </resources>
+    </route>
+    <route method="GET" url="/V1/testmodule1">
+        <service class="Magento\TestModule1\Service\V1\AllSoapAndRestInterface" method="items" />
+        <resources>
+            <resource ref="Magento_TestModule1::resource2" />
+        </resources>
+    </route>
+    <route method="POST" url="/V1/testmodule1">
+        <service class="Magento\TestModule1\Service\V1\AllSoapAndRestInterface" method="create" />
+        <resources>
+            <resource ref="Magento_TestModule1::resource3" />
+        </resources>
+    </route>
+    <route method="PUT" url="/V1/testmodule1/:itemId">
+        <service class="Magento\TestModule1\Service\V1\AllSoapAndRestInterface" method="update" />
+        <resources>
+            <resource ref="Magento_TestModule1::resource1" />
+            <resource ref="Magento_TestModule1::resource2" />
+        </resources>
+    </route>
+    <route method="GET" url="/V2/testmodule1/:id">
+        <service class="Magento\TestModule1\Service\V2\AllSoapAndRestInterface" method="item" />
+        <resources>
+            <resource ref="Magento_TestModule1::resource1" />
+        </resources>
+    </route>
+    <route method="GET" url="/V2/testmodule1">
+        <service class="Magento\TestModule1\Service\V2\AllSoapAndRestInterface" method="items" />
+        <resources>
+            <resource ref="Magento_TestModule1::resource2" />
+        </resources>
+    </route>
+    <route method="POST" url="/V2/testmodule1">
+        <service class="Magento\TestModule1\Service\V2\AllSoapAndRestInterface" method="create" />
+        <resources>
+            <resource ref="Magento_TestModule1::resource3" />
+        </resources>
+    </route>
+    <route method="PUT" url="/V2/testmodule1/:id">
+        <service class="Magento\TestModule1\Service\V2\AllSoapAndRestInterface" method="update" />
+        <resources>
+            <resource ref="Magento_TestModule1::resource1" />
+            <resource ref="Magento_TestModule1::resource2" />
+        </resources>
+    </route>
+    <route method="DELETE" url="/V2/testmodule1/:id">
+        <service class="Magento\TestModule1\Service\V2\AllSoapAndRestInterface" method="delete" />
+        <resources>
+            <resource ref="Magento_TestModule1::resource1" />
+        </resources>
+    </route>
+</routes>

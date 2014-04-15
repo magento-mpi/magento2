@@ -12,10 +12,10 @@ use Magento\TestModule1\Service\V1\Entity\Item;
 interface AllSoapAndRestInterface
 {
     /**
-     * @param int $id
+     * @param int $itemId
      * @return \Magento\TestModule1\Service\V1\Entity\Item
      */
-    public function item($id);
+    public function item($itemId);
 
     /**
      * @param string $name
@@ -33,4 +33,10 @@ interface AllSoapAndRestInterface
      * @return \Magento\TestModule1\Service\V1\Entity\Item[]
      */
     public function items();
+
+    /**
+     * @param string $name
+     * @return \Magento\TestModule1\Service\V1\Entity\Item
+     */
+    public function testOptionalParam($name = null);
 }

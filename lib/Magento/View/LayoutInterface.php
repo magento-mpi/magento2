@@ -265,21 +265,6 @@ interface LayoutInterface
     public function getBlockFactory();
 
     /**
-     * Retrieve layout area
-     *
-     * @return string
-     */
-    public function getArea();
-
-    /**
-     * Set layout area
-     *
-     * @param string $area
-     * @return LayoutInterface
-     */
-    public function setArea($area);
-
-    /**
      * Get property value of an element
      *
      * @param string $name
@@ -320,4 +305,11 @@ interface LayoutInterface
      * @return LayoutInterface
      */
     public function setBlock($name, $block);
+
+    /**
+     * Check is exists non-cacheable layout elements
+     *
+     * @return bool
+     */
+    public function isCacheable();
 }

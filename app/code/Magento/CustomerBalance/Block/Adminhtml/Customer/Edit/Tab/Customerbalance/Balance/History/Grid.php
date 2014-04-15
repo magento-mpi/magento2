@@ -30,14 +30,14 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_historyFactory;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\CustomerBalance\Model\Balance\History $history
      * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
      * @param array $data
@@ -45,7 +45,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         \Magento\CustomerBalance\Model\Balance\History $history,
         \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
         array $data = array()

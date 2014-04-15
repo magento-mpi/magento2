@@ -11,10 +11,6 @@ namespace Magento\Eav\Model\Entity\Attribute;
 
 /**
  * Entity/Attribute/Model - attribute abstract
- *
- * @category   Magento
- * @package    Magento_Eav
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements AttributeInterface
 {
@@ -87,7 +83,7 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
     protected $_eavTypeFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -107,7 +103,7 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
@@ -120,7 +116,7 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
@@ -587,11 +583,11 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
      */
     public function getIdByCode($entityType, $code)
     {
-        $k = "{$entityType}|{$code}";
-        if (!isset($this->_attributeIdCache[$k])) {
-            $this->_attributeIdCache[$k] = $this->getResource()->getIdByCode($entityType, $code);
+        $cacheKey = "{$entityType}|{$code}";
+        if (!isset($this->_attributeIdCache[$cacheKey])) {
+            $this->_attributeIdCache[$cacheKey] = $this->getResource()->getIdByCode($entityType, $code);
         }
-        return $this->_attributeIdCache[$k];
+        return $this->_attributeIdCache[$cacheKey];
     }
 
     /**
@@ -715,6 +711,8 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
                     'extra' => null
                 );
                 break;
+            default:
+                break;
         }
 
         return $columns;
@@ -789,6 +787,8 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
                     'extra' => null
                 );
                 break;
+            default:
+                break;
         }
         return $columns;
     }
@@ -852,6 +852,8 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
                 case 'varchar':
                     $indexName = 'IDX_' . strtoupper($this->getAttributeCode());
                     $indexes[$indexName] = array('type' => 'index', 'fields' => array($this->getAttributeCode()));
+                    break;
+                default:
                     break;
             }
 

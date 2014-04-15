@@ -44,7 +44,7 @@ configuration_menu_default:
         customer_support: ~
         custom_email_1: ~
         custom_email_2: ~
-    general_contacts:
+    general_contact:
         contact_us: ~
         email_options: ~
     general_google_api:
@@ -262,7 +262,7 @@ configuration_menu_website:
         customer_support: ~
         custom_email_1: ~
         custom_email_2: ~
-    general_contacts:
+    general_contact:
         contact_us: ~
         email_options: ~
     general_google_api:

@@ -404,7 +404,7 @@ class Index extends \Magento\Backend\App\Action
                 if ($isExistingCustomer) {
                     $this->_customerAccountService->updateCustomer($customerDetails);
                 } else {
-                    $customer = $this->_customerAccountService->createAccount($customerDetails);
+                    $customer = $this->_customerAccountService->createCustomer($customerDetails);
                     $customerId = $customer->getId();
                 }
 
@@ -477,8 +477,8 @@ class Index extends \Magento\Backend\App\Action
             $customer = $this->_customerAccountService->getCustomer($customerId);
             $this->_customerAccountService->initiatePasswordReset(
                 $customer->getEmail(),
-                $customer->getWebsiteId(),
-                CustomerAccountServiceInterface::EMAIL_REMINDER
+                CustomerAccountServiceInterface::EMAIL_REMINDER,
+                $customer->getWebsiteId()
             );
             $this->messageManager->addSuccess(__('Customer will receive an email with a link to reset password.'));
         } catch (NoSuchEntityException $exception) {
@@ -723,12 +723,13 @@ class Index extends \Magento\Backend\App\Action
         // delete an item from cart
         $deleteItemId = $this->getRequest()->getPost('delete');
         if ($deleteItemId) {
-            $quote = $this->_objectManager
-                ->create('Magento\Sales\Model\Quote')
-                ->setWebsite(
-                    $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsite($websiteId)
-                )
-                ->loadByCustomer($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
+            $quote = $this->_objectManager->create(
+                'Magento\Sales\Model\Quote'
+            )->setWebsite(
+                $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsite($websiteId)
+            )->loadByCustomer(
+                $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
+            );
             $item = $quote->getItemById($deleteItemId);
             if ($item && $item->getId()) {
                 $quote->removeItem($deleteItemId);
@@ -845,8 +846,8 @@ class Index extends \Magento\Backend\App\Action
             }
         }
 
-        if ($errors !== true && !empty($errors)) {
-            foreach ($errors as $error) {
+        if (!$errors->isValid()) {
+            foreach ($errors->getMessages() as $error) {
                 $this->messageManager->addError($error);
             }
             $response->setError(1);
@@ -964,7 +965,10 @@ class Index extends \Magento\Backend\App\Action
                 $customer = $this->_customerAccountService->getCustomer($customerId);
                 $this->_customerBuilder->populate($customer);
                 $customer = $this->_customerBuilder->setGroupId($this->getRequest()->getParam('group'))->create();
-                $this->_customerAccountService->saveCustomer($customer);
+                $customerDetails = $this->_customerDetailsBuilder
+                    ->setCustomer($customer)
+                    ->create();
+                $this->_customerAccountService->updateCustomer($customerDetails);
             },
             $customerIds
         );
@@ -1013,8 +1017,11 @@ class Index extends \Magento\Backend\App\Action
         $plain = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = $this->_objectManager->get('Magento\Core\Helper\Data')
-                ->urlDecode($this->getRequest()->getParam('file'));
+            $file = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->urlDecode(
+                $this->getRequest()->getParam('file')
+            );
         } elseif ($this->getRequest()->getParam('image')) {
             // show plain image
             $file = $this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode(

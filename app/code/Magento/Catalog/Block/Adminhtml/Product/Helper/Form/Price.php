@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Product form price field helper
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 
+/**
+ * Product form price field helper
+ */
 class Price extends \Magento\Data\Form\Element\Text
 {
     /**
@@ -24,7 +20,7 @@ class Price extends \Magento\Data\Form\Element\Text
      *
      * @var \Magento\Tax\Helper\Data
      */
-    protected $_taxData = null;
+    protected $_taxData;
 
     /**
      * @var Magneto_Core_Model_StoreManager
@@ -40,7 +36,7 @@ class Price extends \Magento\Data\Form\Element\Text
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Tax\Helper\Data $taxData
      * @param array $data
@@ -49,7 +45,7 @@ class Price extends \Magento\Data\Form\Element\Text
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Tax\Helper\Data $taxData,
         array $data = array()
@@ -109,9 +105,8 @@ class Price extends \Magento\Data\Form\Element\Text
      */
     protected function _getTaxObservingCode($attribute)
     {
-        $spanId = "dynamic-tax-{$attribute->getAttributeCode()}";
-
-        $html = "<script type='text/javascript'>if (dynamicTaxes == undefined) var dynamicTaxes = new Array(); dynamicTaxes[dynamicTaxes.length]='{$attribute->getAttributeCode()}'</script>";
+        $html = "<script type='text/javascript'>if (dynamicTaxes == undefined) var dynamicTaxes = new Array();"
+            . " dynamicTaxes[dynamicTaxes.length]='{$attribute->getAttributeCode()}'</script>";
         return $html;
     }
 

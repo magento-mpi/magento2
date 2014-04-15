@@ -75,7 +75,7 @@ class SalesRule extends DataFixture
         $editCustomerForm->openTab('account_information');
         $editCustomerForm->fill($this->customerFixture);
         // Save Customer Edit
-        $editCustomerForm->save();
+        $customerEditPage->getPageActionsBlock()->save();
         // Create a product
         $this->productFixture = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $this->productFixture->persist();

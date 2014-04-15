@@ -64,6 +64,8 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
      *
      * @param string $type Catalog Product type
      * @return \Magento\View\Element\Template
+     * @throws \RuntimeException
+     * @deprecated
      */
     protected function _getPriceBlock($type)
     {
@@ -96,6 +98,7 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
      * @param bool $displayMinimalPrice Display "As low as" etc.
      * @param string $idSuffix Suffix for HTML containers
      * @return string
+     * @deprecated see renderPriceHtml
      */
     public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix = '')
     {
@@ -115,5 +118,33 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
         )->setUseLinkForAsLowAs(
             $this->_useLinkForAsLowAs
         )->toHtml();
+    }
+
+    /**
+     * Get rendered price html
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @param bool $displayMinimalPrice
+     * @return string
+     */
+    public function renderPriceHtml(\Magento\Catalog\Model\Product $product, $displayMinimalPrice = false)
+    {
+        /** @var \Magento\Pricing\Render $priceRender */
+        $priceRender = $this->getLayout()->getBlock('product.price.render.default');
+
+        $price = '';
+        if ($priceRender) {
+            $price = $priceRender->render(
+                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
+                $product,
+                [
+                    'display_minimal_price'  => $displayMinimalPrice,
+                    'use_link_for_as_low_as' => $this->_useLinkForAsLowAs,
+                    'zone'                   => \Magento\Pricing\Render::ZONE_ITEM_LIST
+                ]
+            );
+        }
+
+        return $price;
     }
 }
