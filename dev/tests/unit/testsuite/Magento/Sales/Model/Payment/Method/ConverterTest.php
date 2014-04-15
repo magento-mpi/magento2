@@ -43,7 +43,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      * @param string $fieldName
      * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Model\AbstractModel
      */
-    protected function _mockModelObject($method, $fieldName)
+    private function mockModelObject($method, $fieldName)
     {
         $modelMock = $this->getMockBuilder('Magento\Model\AbstractModel')
             ->setMethods(['__wakeup', 'getData'])
@@ -71,7 +71,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecodePositive($method, $fieldName)
     {
-        $modelMock = $this->_mockModelObject($method, $fieldName);
+        $modelMock = $this->mockModelObject($method, $fieldName);
 
         $returnValue = $this->converter->decode($modelMock, $fieldName);
         $this->assertEquals(self::DECRYPTED_VALUE, $returnValue);
@@ -86,7 +86,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     public function testEncodePositive($method, $fieldName)
     {
-        $modelMock = $this->_mockModelObject($method, $fieldName);
+        $modelMock = $this->mockModelObject($method, $fieldName);
 
         $returnValue = $this->converter->encode($modelMock, $fieldName);
         $this->assertEquals(self::ENCRYPTED_VALUE, $returnValue);
@@ -118,7 +118,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecodeNegative($method, $fieldName)
     {
-        $modelMock = $this->_mockModelObject($method, $fieldName);
+        $modelMock = $this->mockModelObject($method, $fieldName);
 
         $returnValue = $this->converter->decode($modelMock, $fieldName);
         $this->assertEquals(self::INPUT_VALUE, $returnValue);
@@ -133,7 +133,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     public function testEncodeNegative($method, $fieldName)
     {
-        $modelMock = $this->_mockModelObject($method, $fieldName);
+        $modelMock = $this->mockModelObject($method, $fieldName);
 
         $returnValue = $this->converter->encode($modelMock, $fieldName);
         $this->assertEquals(self::INPUT_VALUE, $returnValue);
