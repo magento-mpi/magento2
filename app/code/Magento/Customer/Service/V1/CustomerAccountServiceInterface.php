@@ -134,7 +134,7 @@ interface CustomerAccountServiceInterface
      * @param string $newPassword
      * @return void
      * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
-     * @throws \Magento\Exception\AuthenticationException If invalid currentPassword is supplied
+     * @throws \Magento\Exception\InvalidEmailOrPasswordException If invalid currentPassword is supplied
      */
     public function changePassword($customerId, $currentPassword, $newPassword);
 
