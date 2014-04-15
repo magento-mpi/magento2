@@ -10,6 +10,8 @@
  */
 namespace Magento\ScheduledImportExport\Model\Scheduled;
 
+use PHPUnit_Framework_MockObject_MockObject as Mock;
+
 /**
  * Class OperationTest
  *
@@ -30,72 +32,72 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Model\Context | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Model\Context | Mock
      */
     protected $contextMock;
 
     /**
-     * @var \Magento\Registry | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Registry | Mock
      */
     protected $registryMock;
 
     /**
-     * @var \Magento\App\Filesystem | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Filesystem | Mock
      */
     protected $filesystemMock;
 
     /**
-     * @var \Magento\Store\Model\StoreManager | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManager | Mock
      */
     protected $storeManagerMock;
 
     /**
-     * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory | Mock
      */
     protected $genericFactoryMock;
 
     /**
-     * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory | Mock
      */
     protected $dataFactoryMock;
 
     /**
-     * @var \Magento\App\Config\ValueFactory | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Config\ValueFactory | Mock
      */
     protected $valueFactoryMock;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Stdlib\DateTime\DateTime | Mock
      */
     protected $datetimeMock;
 
     /**
-     * @var \Magento\App\Config | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Config | Mock
      */
     protected $configScopeMock;
 
     /**
-     * @var \Magento\Stdlib\String | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Stdlib\String | Mock
      */
     protected $stringStdLibMock;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Mail\Template\TransportBuilder | Mock
      */
     protected $transportBuilderMock;
 
     /**
-     * @var \Magento\Io\Ftp | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Io\Ftp | Mock
      */
     protected $ftpMock;
 
     /**
-     * @var \Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation | Mock
      */
     protected $resourceMock;
 
     /**
-     * @var \Magento\Data\Collection\Db | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Data\Collection\Db | Mock
      */
     protected $resourceCollectionMock;
 
