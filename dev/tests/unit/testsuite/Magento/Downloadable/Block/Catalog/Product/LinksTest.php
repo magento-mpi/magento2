@@ -42,7 +42,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
     protected $priceInfoMock;
 
     /**
-     * @var \Magento\View\LayoutInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\LayoutInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $layout;
 
@@ -56,7 +56,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
         $this->salableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->amountMock = $this->getMock('Magento\Pricing\Amount\Base', [], [], '', false);
         $this->linkMock = $this->getMock('Magento\Downloadable\Model\Link', [], [], '', false);
-        $this->layout = $this->getMock('Magento\View\Layout', [], [], '', false);
+        $this->layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
         $contextMock->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($this->layout));
