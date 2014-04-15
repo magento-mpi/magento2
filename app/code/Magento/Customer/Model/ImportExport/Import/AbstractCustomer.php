@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Import\Entity\Eav;
+namespace Magento\Customer\Model\ImportExport\Import;
 
 /**
  * Import entity abstract customer model
@@ -55,12 +55,12 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
     /**
      * Customer collection wrapper
      *
-     * @var \Magento\ImportExport\Model\Resource\Customer\Storage
+     * @var \Magento\Customer\Model\Resource\ImportExport\Import\Customer\Storage
      */
     protected $_customerStorage;
 
     /**
-     * @var \Magento\ImportExport\Model\Resource\Customer\StorageFactory
+     * @var \Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory
      */
     protected $_storageFactory;
 
@@ -74,7 +74,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory
+     * @param \Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory $storageFactory
      * @param array $data
      */
     public function __construct(
@@ -87,7 +87,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory,
+        \Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory $storageFactory,
         array $data = array()
     ) {
         $this->_storageFactory = $storageFactory;
@@ -170,7 +170,6 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
         }
         $this->_validatedRows[$rowNumber] = true;
         $this->_processedEntitiesCount++;
-
         if ($this->getBehavior($rowData) == \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE) {
             $this->_validateRowForUpdate($rowData, $rowNumber);
         } elseif ($this->getBehavior($rowData) == \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE) {

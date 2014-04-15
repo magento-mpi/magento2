@@ -10,11 +10,11 @@
  */
 namespace Magento\Customer\Model\ImportExport\Export;
 
-use \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address as ImportAddress;
+use Magento\Customer\Model\ImportExport\Import\Address as ImportAddress;
 /**
  * Test for customer address export model
  *
- * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
+ * @magentoDataFixture Magento/Customer/_files/import_export/customer_with_addresses.php
  */
 class AddressTest extends \PHPUnit_Framework_TestCase
 {

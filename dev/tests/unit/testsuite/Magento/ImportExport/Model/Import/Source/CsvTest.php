@@ -45,7 +45,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructStream()
     {
-        $this->markTestSkipped('MAGETWO-17084');
+        $this->markTestSkipped('MAGETWO-17084: Replace PHP native calls');
         $stream = 'data://text/plain;base64,' . base64_encode("column1,column2\nvalue1,value2\n");
         $this->_directoryMock->expects(
             $this->any()

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Resource\Customer;
+namespace Magento\Customer\Model\Resource\ImportExport\Import\Customer;
 
 /**
  * Customer storage

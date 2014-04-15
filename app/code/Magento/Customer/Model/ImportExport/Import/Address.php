@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Import\Entity\Eav\Customer;
+namespace Magento\Customer\Model\ImportExport\Import;
 
 /**
  * Import entity customer address model
@@ -15,7 +15,7 @@ namespace Magento\ImportExport\Model\Import\Entity\Eav\Customer;
  * @todo finish moving dependencies to constructor in the scope of
  * @todo https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
-class Address extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer
+class Address extends AbstractCustomer
 {
     /**#@+
      * Attribute collection name
@@ -228,7 +228,7 @@ class Address extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory
+     * @param \Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory $storageFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionColFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -247,7 +247,7 @@ class Address extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory,
+        \Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory $storageFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionColFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,

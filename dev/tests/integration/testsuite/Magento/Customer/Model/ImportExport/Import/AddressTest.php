@@ -10,9 +10,9 @@
  */
 
 /**
- * Test class for \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
+ * Test class for \Magento\Customer\Model\ImportExport\Import\Address
  */
-namespace Magento\ImportExport\Model\Import\Entity\Eav\Customer;
+namespace Magento\Customer\Model\ImportExport\Import;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,7 +21,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      *
      * @var string
      */
-    protected $_testClassName = 'Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address';
+    protected $_testClassName = 'Magento\Customer\Model\ImportExport\Import\Address';
 
     /**
      * Fixture key from fixture
@@ -33,7 +33,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Address entity adapter instance
      *
-     * @var \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
+     * @var Address
      */
     protected $_entityAdapter;
 
@@ -90,7 +90,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Test constructor
      *
-     * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
+     * @magentoDataFixture Magento/Customer/_files/import_export/customer_with_addresses.php
      */
     public function testConstruct()
     {
@@ -146,8 +146,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Test _initAddresses
      *
-     * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
-     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::_initAddresses
+     * @magentoDataFixture Magento/Customer/_files/import_export/customer_with_addresses.php
      */
     public function testInitAddresses()
     {
@@ -203,8 +202,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Test _saveAddressEntity
      *
-     * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
-     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::_saveAddressEntities
+     * @magentoDataFixture Magento/Customer/_files/import_export/customer_with_addresses.php
      */
     public function testSaveAddressEntities()
     {
@@ -223,10 +221,10 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Add new test address for existing customer
      *
-     * @param \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address $entityAdapter
+     * @param Address $entityAdapter
      * @return array (customerID, addressID)
      */
-    protected function _addTestAddress(\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address $entityAdapter)
+    protected function _addTestAddress(Address $entityAdapter)
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -266,8 +264,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Test _saveAddressAttributes
      *
-     * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
-     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::_saveAddressAttributes
+     * @magentoDataFixture Magento/Customer/_files/import_export/customer_with_addresses.php
      */
     public function testSaveAddressAttributes()
     {
@@ -311,8 +308,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Test _saveCustomerDefaults
      *
-     * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
-     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::_saveCustomerDefaults
+     * @magentoDataFixture Magento/Customer/_files/import_export/customer_with_addresses.php
      */
     public function testSaveCustomerDefaults()
     {
@@ -347,8 +343,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         // set customer defaults
         $defaults = array();
-        foreach (\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::
-                     getDefaultAddressAttributeMapping() as $attributeCode) {
+        foreach (Address::getDefaultAddressAttributeMapping() as $attributeCode) {
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
             $attribute = $addressCustomer->getAttribute($attributeCode);
             $attributeTable = $attribute->getBackend()->getTable();
@@ -385,8 +380,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Test import data method with add/update behaviour
      *
-     * @magentoDataFixture Magento/ImportExport/_files/customers_for_address_import.php
-     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::_importData
+     * @magentoDataFixture Magento/Customer/_files/import_export/customers_for_address_import.php
      */
     public function testImportDataAddUpdate()
     {
@@ -396,7 +390,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         );
 
         // set fixture CSV file
-        $sourceFile = __DIR__ . '/../_files/address_import_update.csv';
+        $sourceFile = __DIR__ . '/_files/address_import_update.csv';
 
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -484,8 +478,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Test import data method with delete behaviour
      *
-     * @magentoDataFixture Magento/ImportExport/_files/customers_for_address_import.php
-     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::_importData
+     * @magentoDataFixture Magento/Customer/_files/import_export/customers_for_address_import.php
      */
     public function testImportDataDelete()
     {
@@ -493,7 +486,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->_entityAdapter->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE));
 
         // set fixture CSV file
-        $sourceFile = __DIR__ . '/../_files/address_import_delete.csv';
+        $sourceFile = __DIR__ . '/_files/address_import_delete.csv';
 
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();

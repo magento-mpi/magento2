@@ -13,8 +13,9 @@
  * Test class for \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance
  */
 namespace Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer;
-use \Magento\ImportExport\Model\Import\AbstractEntity;
-use \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection;
+use Magento\ImportExport\Model\Import\AbstractEntity;
+use Magento\Customer\Model\ImportExport\Import\Address;
+use Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection;
 
 class FinanceTest extends \PHPUnit_Framework_TestCase
 {
@@ -86,7 +87,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             Finance::COLUMN_WEBSITE => 'website1',
             Finance::COLUMN_FINANCE_WEBSITE => 'website1',
             AbstractEntity::COLUMN_ACTION => null,
-            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 1,
+            Address::COLUMN_ADDRESS_ID => 1,
             Collection::COLUMN_CUSTOMER_BALANCE => 100,
             Collection::COLUMN_REWARD_POINTS => 200
         ),
@@ -95,14 +96,14 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             Finance::COLUMN_WEBSITE => 'website2',
             Finance::COLUMN_FINANCE_WEBSITE => 'website1',
             AbstractEntity::COLUMN_ACTION => AbstractEntity::COLUMN_ACTION_VALUE_DELETE,
-            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 2
+            Address::COLUMN_ADDRESS_ID => 2
         ),
         array(
             Finance::COLUMN_EMAIL => 'test2@email.com',
             Finance::COLUMN_WEBSITE => 'website2',
             Finance::COLUMN_FINANCE_WEBSITE => 'website1',
             AbstractEntity::COLUMN_ACTION => 'update',
-            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 2,
+            Address::COLUMN_ADDRESS_ID => 2,
             Collection::COLUMN_CUSTOMER_BALANCE => 100,
             Collection::COLUMN_REWARD_POINTS => 200
         )

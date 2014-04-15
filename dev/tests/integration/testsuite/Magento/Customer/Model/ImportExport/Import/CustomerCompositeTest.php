@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Import\Entity;
+namespace Magento\Customer\Model\ImportExport\Import;
 
 class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,7 +40,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
     /**
      * Composite customer entity adapter instance
      *
-     * @var \Magento\ImportExport\Model\Import\Entity\CustomerComposite
+     * @var CustomerComposite
      */
     protected $_entityAdapter;
 
@@ -85,7 +85,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_entityAdapter = $this->_objectManager->create(
-            'Magento\ImportExport\Model\Import\Entity\CustomerComposite'
+            'Magento\Customer\Model\ImportExport\Import\CustomerComposite'
         );
     }
 
@@ -133,11 +133,10 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
      * @param array $dataAfter
      * @param array $errors
      *
-     * @magentoDataFixture Magento/ImportExport/_files/customers_for_address_import.php
+     * @magentoDataFixture Magento/Customer/_files/import_export/customers_for_address_import.php
      * @magentoAppIsolation enabled
      *
      * @dataProvider importDataDataProvider
-     * @covers \Magento\ImportExport\Model\Import\Entity\CustomerComposite::_importData
      */
     public function testImportData($behavior, $sourceFile, array $dataBefore, array $dataAfter, array $errors = array())
     {

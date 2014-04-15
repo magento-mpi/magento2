@@ -31,7 +31,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /**
      * Test export method
      *
-     * @magentoDataFixture Magento/ImportExport/_files/customers.php
+     * @magentoDataFixture Magento/Customer/_files/import_export/customers.php
      */
     public function testExport()
     {
@@ -149,7 +149,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method filterEntityCollection()
      *
-     * @magentoDataFixture Magento/ImportExport/_files/customers.php
+     * @magentoDataFixture Magento/Customer/_files/import_export/customers.php
      */
     public function testFilterEntityCollection()
     {

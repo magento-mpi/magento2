@@ -10,18 +10,16 @@
  */
 
 /**
- * Test class for \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer
- *
- * @todo fix in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
+ * Test class for \Magento\Customer\Model\ImportExport\Import\AbstractCustomer
  */
-namespace Magento\ImportExport\Model\Import\Entity\Eav;
+namespace Magento\Customer\Model\ImportExport\Import;
 
 class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Abstract customer export model
      *
-     * @var \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Model\ImportExport\Import\AbstractCustomer|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -69,7 +67,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
     /**
      * Create mock for abstract customer model class
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Customer\Model\ImportExport\Import\AbstractCustomer|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getModelMock()
     {
@@ -80,15 +78,11 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
             $customerCollection->addItem(new \Magento\Object($customer));
         }
 
-        $modelMock = $this->getMockForAbstractClass(
-            'Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer',
-            array(),
-            '',
-            false,
-            true,
-            true,
-            array('_getCustomerCollection', '_validateRowForUpdate', '_validateRowForDelete')
-        );
+        $modelMock = $this->getMockBuilder('Magento\Customer\Model\ImportExport\Import\AbstractCustomer')
+            ->disableOriginalConstructor()
+            ->setMethods(['_getCustomerCollection', '_validateRowForUpdate', '_validateRowForDelete'])
+            ->getMockForAbstractClass();
+
         $property = new \ReflectionProperty($modelMock, '_websiteCodeToId');
         $property->setAccessible(true);
         $property->setValue($modelMock, array_flip($this->_websites));
@@ -97,13 +91,9 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
         $property->setValue($modelMock, $this->_availableBehaviors);
 
-        $modelMock->expects(
-            $this->any()
-        )->method(
-            '_getCustomerCollection'
-        )->will(
-            $this->returnValue($customerCollection)
-        );
+        $modelMock->expects($this->any())
+            ->method('_getCustomerCollection')
+            ->will($this->returnValue($customerCollection));
 
         return $modelMock;
     }
@@ -117,55 +107,55 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'valid' => array(
-                '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_valid.php',
+                '$rowData' => include __DIR__ . '/_files/row_data_abstract_valid.php',
                 '$errors' => array(),
                 '$isValid' => true
             ),
             'no website' => array(
-                '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_no_website.php',
+                '$rowData' => include __DIR__ . '/_files/row_data_abstract_no_website.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_WEBSITE_IS_EMPTY => array(
-                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_WEBSITE)
+                    AbstractCustomer::ERROR_WEBSITE_IS_EMPTY => array(
+                        array(1, AbstractCustomer::COLUMN_WEBSITE)
                     )
                 )
             ),
             'empty website' => array(
-                '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_empty_website.php',
+                '$rowData' => include __DIR__ . '/_files/row_data_abstract_empty_website.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_WEBSITE_IS_EMPTY => array(
-                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_WEBSITE)
+                    AbstractCustomer::ERROR_WEBSITE_IS_EMPTY => array(
+                        array(1, AbstractCustomer::COLUMN_WEBSITE)
                     )
                 )
             ),
             'no email' => array(
-                '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_no_email.php',
+                '$rowData' => include __DIR__ . '/_files/row_data_abstract_no_email.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_EMAIL_IS_EMPTY => array(
-                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_EMAIL)
+                    AbstractCustomer::ERROR_EMAIL_IS_EMPTY => array(
+                        array(1, AbstractCustomer::COLUMN_EMAIL)
                     )
                 )
             ),
             'empty email' => array(
-                '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_empty_email.php',
+                '$rowData' => include __DIR__ . '/_files/row_data_abstract_empty_email.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_EMAIL_IS_EMPTY => array(
-                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_EMAIL)
+                    AbstractCustomer::ERROR_EMAIL_IS_EMPTY => array(
+                        array(1, AbstractCustomer::COLUMN_EMAIL)
                     )
                 )
             ),
             'invalid email' => array(
-                '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_invalid_email.php',
+                '$rowData' => include __DIR__ . '/_files/row_data_abstract_invalid_email.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_INVALID_EMAIL => array(
-                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_EMAIL)
+                    AbstractCustomer::ERROR_INVALID_EMAIL => array(
+                        array(1, AbstractCustomer::COLUMN_EMAIL)
                     )
                 )
             ),
             'invalid website' => array(
-                '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_invalid_website.php',
+                '$rowData' => include __DIR__ . '/_files/row_data_abstract_invalid_website.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_INVALID_WEBSITE => array(
-                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_WEBSITE)
+                    AbstractCustomer::ERROR_INVALID_WEBSITE => array(
+                        array(1, AbstractCustomer::COLUMN_WEBSITE)
                     )
                 )
             )
@@ -173,9 +163,6 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::_checkUniqueKey() with different values
-     *
-     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::_checkUniqueKey
      * @dataProvider checkUniqueKeyDataProvider
      *
      * @param array $rowData
@@ -185,7 +172,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
     public function testCheckUniqueKey(array $rowData, array $errors, $isValid = false)
     {
         $checkUniqueKey = new \ReflectionMethod(
-            'Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer',
+            'Magento\Customer\Model\ImportExport\Import\AbstractCustomer',
             '_checkUniqueKey'
         );
         $checkUniqueKey->setAccessible(true);
@@ -198,11 +185,6 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals($errors, '_errors', $this->_model);
     }
 
-    /**
-     * Test for \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::validateRow for add/update action
-     *
-     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::validateRow
-     */
     public function testValidateRowForUpdate()
     {
         // _validateRowForUpdate should be called only once
@@ -221,11 +203,6 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_model->validateRow(array(), 1));
     }
 
-    /**
-     * Test for \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::validateRow for delete action
-     *
-     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::validateRow
-     */
     public function testValidateRowForDelete()
     {
         // _validateRowForDelete should be called only once
@@ -243,15 +220,13 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Clear validated rows array
-     *
-     * @return null
+     * @return void
      */
     protected function _clearValidatedRows()
     {
         // clear array
         $validatedRows = new \ReflectionProperty(
-            'Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer',
+            'Magento\Customer\Model\ImportExport\Import\AbstractCustomer',
             '_validatedRows'
         );
         $validatedRows->setAccessible(true);
@@ -260,7 +235,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
 
         // reset counter
         $entitiesCount = new \ReflectionProperty(
-            'Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer',
+            'Magento\Customer\Model\ImportExport\Import\AbstractCustomer',
             '_processedEntitiesCount'
         );
         $entitiesCount->setAccessible(true);

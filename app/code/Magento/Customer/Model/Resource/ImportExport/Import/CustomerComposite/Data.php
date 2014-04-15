@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Resource\Import\CustomerComposite;
+namespace Magento\Customer\Model\Resource\ImportExport\Import\CustomerComposite;
+
+use Magento\Customer\Model\ImportExport\Import\CustomerComposite;
 
 /**
  * ImportExport customer_composite entity import data abstract resource model
@@ -23,7 +25,7 @@ class Data extends \Magento\ImportExport\Model\Resource\Import\Data
      *
      * @var string
      */
-    protected $_entityType = \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COMPONENT_ENTITY_CUSTOMER;
+    protected $_entityType = CustomerComposite::COMPONENT_ENTITY_CUSTOMER;
 
     /**
      * Customer attributes
@@ -85,9 +87,9 @@ class Data extends \Magento\ImportExport\Model\Resource\Import\Data
      */
     protected function _prepareRow(array $rowData)
     {
-        $entityCustomer = \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COMPONENT_ENTITY_CUSTOMER;
+        $entityCustomer = CustomerComposite::COMPONENT_ENTITY_CUSTOMER;
         if ($this->_entityType == $entityCustomer) {
-            if ($rowData['_scope'] == \Magento\ImportExport\Model\Import\Entity\CustomerComposite::SCOPE_DEFAULT) {
+            if ($rowData['_scope'] == CustomerComposite::SCOPE_DEFAULT) {
                 return $rowData;
             } else {
                 return null;
@@ -106,10 +108,10 @@ class Data extends \Magento\ImportExport\Model\Resource\Import\Data
     protected function _prepareAddressRowData(array $rowData)
     {
         $excludedAttributes = array(
-            \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_DEFAULT_BILLING,
-            \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_DEFAULT_SHIPPING
+            CustomerComposite::COLUMN_DEFAULT_BILLING,
+            CustomerComposite::COLUMN_DEFAULT_SHIPPING
         );
-        $prefix = \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX;
+        $prefix = CustomerComposite::COLUMN_ADDRESS_PREFIX;
 
         $result = array();
         foreach ($rowData as $key => $value) {

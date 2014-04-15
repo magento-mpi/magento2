@@ -10,13 +10,10 @@
  */
 
 /**
- * Test class for \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
- *
- * @todo Fix tests in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
+ * Test class for \Magento\Customer\Model\ImportExport\Import\Address
  */
-namespace Magento\ImportExport\Model\Import\Entity\Eav\Customer;
+namespace Magento\Customer\Model\ImportExport\Import;
 use \Magento\ImportExport\Model\Import\AbstractEntity;
-use \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address;
 
 /**
  * Class AddressTest
@@ -38,6 +35,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_websites = array(1 => 'website1', 2 => 'website2');
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject |\Magento\Store\Model\StoreManager  */
+    protected $_storeManager;
 
     /**
      * Attributes array
@@ -122,10 +122,16 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->markTestSkipped();
         $this->_objectManagerMock = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $this->_stringLib = new \Magento\Stdlib\String();
+        $this->_storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManager')
+            ->disableOriginalConstructor()
+            ->setMethods(['getWebsites'])
+            ->getMock();
+        $this->_storeManager->expects($this->any())
+            ->method('getWebsites')
+            ->will($this->returnCallback(array($this, 'getWebsites')));
         $this->_model = $this->_getModelMock();
     }
 
@@ -145,24 +151,10 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected function _getModelDependencies()
     {
         $dataSourceModel = $this->getMock('stdClass', array('getNextBunch'));
-
         $connection = $this->getMock('stdClass');
-
-        $websiteManager = $this->getMock('stdClass', array('getWebsites'));
-        $websiteManager->expects(
-            $this->once()
-        )->method(
-            'getWebsites'
-        )->will(
-            $this->returnCallback(array($this, 'getWebsites'))
-        );
-
         $attributeCollection = $this->_createAttrCollectionMock();
-
         $customerStorage = $this->_createCustomerStorageMock();
-
         $customerEntity = $this->_createCustomerEntityMock();
-
         $addressCollection = new \Magento\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
@@ -242,12 +234,12 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Create mock of customer storage, so it can be used for tests
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\ImportExport\Model\Resource\Customer\Storage
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _createCustomerStorageMock()
     {
         $customerStorage = $this->getMock(
-            'Magento\ImportExport\Model\Resource\Customer\Storage',
+            'Magento\Customer\Model\Resource\ImportExport\Import\Customer\Storage',
             array('load'),
             array(),
             '',
@@ -364,7 +356,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         // entity adapter mock
         $modelMock = $this->getMock(
-            'Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address',
+            'Magento\Customer\Model\ImportExport\Import\Address',
             array(
                 'validateRow',
                 '_prepareDataForUpdate',
@@ -397,7 +389,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $dataSourceMock->expects($this->at(1))->method('getNextBunch')->will($this->returnValue(null));
 
         $dataSourceModel = new \ReflectionProperty(
-            'Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address',
+            'Magento\Customer\Model\ImportExport\Import\Address',
             '_dataSourceModel'
         );
         $dataSourceModel->setAccessible(true);
@@ -441,15 +433,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected function _getModelMock()
     {
         $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
-        $storeManager = $this->getMock('\Magento\Store\Model\StoreManager', array('getWebsites'), array(), '', false);
-        $storeManager->expects(
-            $this->once()
-        )->method(
-            'getWebsites'
-        )->will(
-            $this->returnCallback(array($this, 'getWebsites'))
-        );
-
         $modelMock = new Address(
             $this->_coreDataMock,
             $this->_stringLib,
@@ -457,10 +440,10 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),
             $this->getMock('Magento\App\Resource', array(), array(), '', false),
-            $storeManager,
+            $this->_storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
-            $this->getMock('Magento\ImportExport\Model\Resource\Customer\StorageFactory', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\AddressFactory', array(), array(), '', false),
             $this->getMock('Magento\Directory\Model\Resource\Region\CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\CustomerFactory', array(), array(), '', false),
@@ -569,10 +552,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test Address::validateRow() with add/update action
-     *
-     * @covers Address::validateRow
-     * @covers Address::_validateRowForUpdate
      * @dataProvider validateRowForUpdateDataProvider
      *
      * @param array $rowData

@@ -8,12 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Resource\Customer;
+namespace Magento\Customer\Model\Resource\ImportExport\Import\Customer;
 
 class StorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ImportExport\Model\Resource\Customer\Storage
+     * @var Storage
      */
     protected $_model;
 
@@ -29,15 +29,13 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new \Magento\ImportExport\Model\Resource\Customer\Storage(
-            $this->getMock('Magento\Customer\Model\Resource\Customer\CollectionFactory', array(), array(), '', false),
-            $this->getMock(
-                'Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory',
-                array(),
-                array(),
-                '',
-                false
-            ),
+        $this->_model = new Storage(
+            $this->getMockBuilder('Magento\Customer\Model\Resource\Customer\CollectionFactory')
+                ->disableOriginalConstructor()
+                ->getMock(),
+            $this->getMockBuilder('Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory')
+                ->disableOriginalConstructor()
+                ->getMock(),
             $this->_getModelDependencies()
         );
         $this->_model->load();
@@ -55,15 +53,15 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getModelDependencies()
     {
-        $select = $this->getMock('Magento\DB\Select', array('from'), array(), '', false);
+        $select = $this->getMockBuilder('Magento\DB\Select')
+            ->disableOriginalConstructor()
+            ->setMethods(['from'])
+            ->getMock();
         $select->expects($this->any())->method('from')->will($this->returnCallback(array($this, 'validateFrom')));
-        $customerCollection = $this->getMock(
-            'Magento\Customer\Model\Resource\Customer\Collection',
-            array('load', 'removeAttributeToSelect', 'getResource', 'getSelect'),
-            array(),
-            '',
-            false
-        );
+        $customerCollection = $this->getMockBuilder('Magento\Customer\Model\Resource\Customer\Collection')
+            ->disableOriginalConstructor()
+            ->setMethods(['load', 'removeAttributeToSelect', 'getResource', 'getSelect'])
+            ->getMock();
 
         $resourceStub = new \Magento\Object();
         $resourceStub->setEntityTable($this->_entityTable);
@@ -72,13 +70,9 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $customerCollection->expects($this->once())->method('getSelect')->will($this->returnValue($select));
 
         $byPagesIterator = $this->getMock('stdClass', array('iterate'));
-        $byPagesIterator->expects(
-            $this->once()
-        )->method(
-            'iterate'
-        )->will(
-            $this->returnCallback(array($this, 'iterate'))
-        );
+        $byPagesIterator->expects($this->once())
+            ->method('iterate')
+            ->will($this->returnCallback(array($this, 'iterate')));
 
         return array(
             'customer_collection' => $customerCollection,
@@ -115,17 +109,11 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->_expectedFields, $fields);
     }
 
-    /**
-     * @covers \Magento\ImportExport\Model\Resource\Customer\Storage::load
-     */
     public function testLoad()
     {
         $this->assertAttributeEquals(true, '_isCollectionLoaded', $this->_model);
     }
 
-    /**
-     * @covers \Magento\ImportExport\Model\Resource\Customer\Storage::addCustomer
-     */
     public function testAddCustomer()
     {
         $propertyName = '_customerIds';
@@ -137,9 +125,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeContains($expectedCustomerData, $propertyName, $this->_model);
     }
 
-    /**
-     * @covers \Magento\ImportExport\Model\Resource\Customer\Storage::addCustomer
-     */
     public function testGetCustomerId()
     {
         $customer = $this->_addCustomerToStorage();

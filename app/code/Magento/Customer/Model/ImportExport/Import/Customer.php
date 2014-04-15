@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Import\Entity\Eav;
+namespace Magento\Customer\Model\ImportExport\Import;
 
 /**
  * Import entity customer model
@@ -19,7 +19,7 @@ namespace Magento\ImportExport\Model\Import\Entity\Eav;
  * @todo finish moving dependencies to constructor in the scope of
  * @todo https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
-class Customer extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer
+class Customer extends AbstractCustomer
 {
     /**
      * Attribute collection name
@@ -133,7 +133,7 @@ class Customer extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCus
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory
+     * @param \Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory $storageFactory
      * @param \Magento\Customer\Model\Resource\Attribute\CollectionFactory $attrCollectionFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param array $data
@@ -148,7 +148,7 @@ class Customer extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCus
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory,
+        \Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory $storageFactory,
         \Magento\Customer\Model\Resource\Attribute\CollectionFactory $attrCollectionFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         array $data = array()
