@@ -117,6 +117,7 @@ class Config implements ConfigInterface
      * @param string $saveMethod
      * @param null|string $savePath
      * @param null|string $cacheLimiter
+     * @param string $lifetimePath
      */
     public function __construct(
         \Magento\App\Config\ScopeConfigInterface $scopeConfig,
@@ -127,7 +128,8 @@ class Config implements ConfigInterface
         $scopeType,
         $saveMethod = \Magento\Session\SaveHandlerInterface::DEFAULT_HANDLER,
         $savePath = null,
-        $cacheLimiter = null
+        $cacheLimiter = null,
+        $lifetimePath = self::XML_PATH_COOKIE_LIFETIME
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_stringHelper = $stringHelper;

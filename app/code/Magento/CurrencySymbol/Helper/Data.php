@@ -29,6 +29,7 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
+     * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\CurrencySymbol\Model\System\CurrencysymbolFactory $symbolFactory
      * @param bool $dbCompatibleMode
      */
@@ -37,11 +38,19 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
+        \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\CurrencySymbol\Model\System\CurrencysymbolFactory $symbolFactory,
         $dbCompatibleMode = true
     ) {
         $this->_symbolFactory = $symbolFactory;
-        parent::__construct($context, $scopeConfig, $storeManager, $appState, $dbCompatibleMode);
+        parent::__construct(
+            $context,
+            $scopeConfig,
+            $storeManager,
+            $appState,
+            $priceCurrency,
+            $dbCompatibleMode
+        );
     }
 
     /**

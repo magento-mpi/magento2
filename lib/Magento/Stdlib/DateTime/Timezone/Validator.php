@@ -53,7 +53,7 @@ class Validator
             throw new ValidationException('Transition year is out of system date range.');
         }
 
-        if ((int)$timestamp > (int)$toDate) {
+        if ((int) $timestamp > (int) $toDate) {
             throw new ValidationException('Transition year is out of specified date range.');
         }
     }

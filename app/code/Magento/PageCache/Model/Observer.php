@@ -179,10 +179,6 @@ class Observer
      */
     public function registerFormKeyFromCookie(\Magento\Event\Observer $observer)
     {
-        if (!$this->_config->isEnabled()) {
-            return;
-        }
-
         $formKeyFromCookie = $this->_formKey->get();
         if ($formKeyFromCookie) {
             $this->_session->setData(\Magento\Data\Form\FormKey::FORM_KEY, $formKeyFromCookie);

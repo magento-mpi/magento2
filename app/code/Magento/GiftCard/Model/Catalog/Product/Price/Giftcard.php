@@ -93,7 +93,6 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
      */
     public function getAmounts($product)
     {
-        $allGroups = \Magento\Customer\Model\Group::CUST_GROUP_ALL;
         $prices = $product->getData('giftcard_amounts');
 
         if (is_null($prices)) {
@@ -111,6 +110,8 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return float
+     *
+     * @deprecated
      */
     public function getMinAmount($product)
     {
@@ -123,6 +124,8 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return float
+     *
+     * @deprecated
      */
     public function getMaxAmount($product)
     {
