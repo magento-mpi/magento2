@@ -61,7 +61,7 @@ class Exception extends \RuntimeException
     /**
      * List of errors
      *
-     * @var ErrorMessage[]
+     * @var null|ErrorMessage[]
      */
     protected $_errors;
 
@@ -145,7 +145,7 @@ class Exception extends \RuntimeException
     /**
      * Retrieve list of errors.
      *
-     * @return ErrorMessage[]
+     * @return null|ErrorMessage[]
      */
     public function getErrors()
     {

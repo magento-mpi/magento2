@@ -92,9 +92,6 @@ class ErrorProcessor
      */
     public function maskException(\Exception $exception)
     {
-        /** Log information about actual exception. */
-        // TODO: MAGETWO-21077 $this->_logException($exception);
-
         $stackTrace = ($this->_appState->getMode() === State::MODE_DEVELOPER) ?
             $stackTrace = $exception->getTrace() : null;
 
@@ -109,11 +106,10 @@ class ErrorProcessor
                 $httpCode = WebapiException::HTTP_BAD_REQUEST;
             }
 
-            $errors = null;
             if ($exception instanceof AbstractAggregateException) {
-                if ($exception->wasErrorAdded()) {
-                    $errors = $exception->getErrors();
-                }
+                $errors = $exception->getErrors();
+            } else {
+                $errors = null;
             }
 
             $maskedException = new WebapiException(

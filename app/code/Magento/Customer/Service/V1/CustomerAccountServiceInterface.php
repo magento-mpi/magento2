@@ -55,7 +55,7 @@ interface CustomerAccountServiceInterface
      * @return \Magento\Customer\Service\V1\Data\Customer
      * @throws \Exception If something goes wrong during save
      * @throws \Magento\Exception\InputException If bad input is provided
-     * @throws \Magento\Exception\StateException If the provided email is already used
+     * @throws \Magento\Exception\State\InputMismatchException If the provided email is already used
      */
     public function createCustomer(
         \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
@@ -112,6 +112,8 @@ interface CustomerAccountServiceInterface
      * @param string $password password in plain-text
      * @return \Magento\Customer\Service\V1\Data\Customer
      * @throws \Magento\Exception\AuthenticationException If unable to authenticate
+     * @throws \Magento\Exception\EmailNotConfirmedException If this is an unconfirmed account
+     * @throws \Magento\Exception\InvalidEmailOrPasswordException If email or password is invalid
      */
     public function authenticate($username, $password);
 
@@ -123,7 +125,7 @@ interface CustomerAccountServiceInterface
      * @param string $newPassword
      * @return void
      * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
-     * @throws \Magento\Exception\AuthenticationException If invalid currentPassword is supplied
+     * @throws \Magento\Exception\InvalidEmailOrPasswordException If invalid currentPassword is supplied
      */
     public function changePassword($customerId, $currentPassword, $newPassword);
 
@@ -143,7 +145,8 @@ interface CustomerAccountServiceInterface
      * @param int $customerId
      * @param string $resetPasswordLinkToken
      * @return void
-     * @throws \Magento\Exception\StateException If token is expired or mismatched
+     * @throws \Magento\Exception\State\InputMismatchException If token is mismatched
+     * @throws \Magento\Exception\State\ExpiredException If token is expired
      * @throws \Magento\Exception\InputException If token or customer id is invalid
      * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      */
@@ -167,7 +170,8 @@ interface CustomerAccountServiceInterface
      * @param string $resetToken Token sent to customer via e-mail
      * @param string $newPassword
      * @return void
-     * @throws \Magento\Exception\StateException If token is expired or mismatched
+     * @throws \Magento\Exception\State\InputMismatchException If token is mismatched
+     * @throws \Magento\Exception\State\ExpiredException If token is expired
      * @throws \Magento\Exception\InputException If token or customer id is invalid
      * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      */
@@ -192,7 +196,7 @@ interface CustomerAccountServiceInterface
      *                            the customer to a product they were looking at after pressing confirmation link.
      * @return void
      * @throws \Magento\Exception\NoSuchEntityException If no customer found for provided email
-     * @throws \Magento\Exception\StateException If confirmation is not needed
+     * @throws \Magento\Exception\State\InvalidTransitionException If confirmation is not needed
      */
     public function resendConfirmation($email, $websiteId, $redirectUrl = '');
 
