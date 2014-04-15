@@ -102,7 +102,7 @@ class Source
     }
 
     /**
-     * Perform necessary preprocessing and materialization when the specified request is requested
+     * Perform necessary preprocessing and materialization when the specified asset is requested
      *
      * Returns an array of two elements:
      * - directory code where the file is supposed to be found
@@ -126,21 +126,32 @@ class Source
         if ($cached) {
             return unserialize($cached);
         }
-        $chain = new PreProcessor\Chain($asset, $this->rootDir->readFile($path), pathinfo($path, PATHINFO_EXTENSION));
+        $chain = new PreProcessor\Chain($asset, $this->rootDir->readFile($path), $this->getContentType($path));
         $preProcessors = $this->preProcessorPool
             ->getPreProcessors($chain->getOrigContentType(), $chain->getTargetContentType());
         foreach ($preProcessors as $processor) {
             $processor->process($chain);
         }
         $chain->assertValid();
-        if ($chain->isMaterializationRequired()) {
+        if ($chain->isChanged()) {
             $dirCode = \Magento\App\Filesystem::VAR_DIR;
-            $path = self::TMP_MATERIALIZATION_DIR . '/' . $asset->getPath();
+            $path = self::TMP_MATERIALIZATION_DIR . '/source/' . $asset->getPath();
             $this->varDir->writeFile($path, $chain->getContent());
         }
         $result = array($dirCode, $path);
         $this->cache->save(serialize($result), $cacheId);
         return $result;
+    }
+
+    /**
+     * Infer a content type from the specified path
+     *
+     * @param string $path
+     * @return string
+     */
+    public function getContentType($path)
+    {
+        return pathinfo($path, PATHINFO_EXTENSION);
     }
 
     /**

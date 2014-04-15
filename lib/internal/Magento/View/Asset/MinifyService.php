@@ -121,8 +121,9 @@ class MinifyService
             }
             $adapter = $this->objectManager->get($adapterClass);
             if (!($adapter instanceof \Magento\Code\Minifier\AdapterInterface)) {
+                $type = get_class($adapter);
                 throw new \Magento\Exception(
-                    'The configured adapter doesn\'t correspond to a necessary interface'
+                    "Invalid adapter: '{$type}'. Expected: \\Magento\\Code\\Minifier\\AdapterInterface"
                 );
             }
             $this->adapters[$contentType] = $adapter;

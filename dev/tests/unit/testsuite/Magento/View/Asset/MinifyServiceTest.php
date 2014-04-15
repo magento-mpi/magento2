@@ -147,4 +147,28 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->getAssets(array($asset));
     }
+
+    /**
+     * @expectedException \Magento\Exception
+     * @expectedExceptionMessage Invalid adapter: 'stdClass'. Expected: \Magento\Code\Minifier\AdapterInterface
+     */
+    public function testGetAssetsInvalidAdapter()
+    {
+        $asset = $this->getMockForAbstractClass('Magento\View\Asset\LocalInterface');
+        $asset->expects($this->once())
+            ->method('getContentType')
+            ->will($this->returnValue('js'));
+        $this->_config->expects($this->once())
+            ->method('isAssetMinification')
+            ->with('js')
+            ->will($this->returnValue(true));
+        $this->_config->expects($this->once())
+            ->method('getAssetMinificationAdapter')
+            ->with('js')
+            ->will($this->returnValue('StdClass'));
+        $obj = new \StdClass;
+        $this->_objectManager->expects($this->once())->method('get')->with('StdClass')->will($this->returnValue($obj));
+
+        $this->_model->getAssets(array($asset));
+    }
 }

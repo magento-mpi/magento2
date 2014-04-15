@@ -50,7 +50,12 @@ class Repository
     /**
      * @var \Magento\View\Asset\ContextInterface[]
      */
-    private $contextPool = array();
+    private $fallbackContext;
+
+    /**
+     * @var \Magento\View\Asset\ContextInterface[]
+     */
+    private $fileContext;
 
     /**
      * @param \Magento\UrlInterface $baseUrl
@@ -147,7 +152,13 @@ class Repository
             $themePath,
             $params['locale']
         );
-        return new File($this->assetSource, $context, $filePath, $module, $this->inferType($filePath));
+        return new File(
+            $this->assetSource,
+            $context,
+            $filePath,
+            $module,
+            $this->assetSource->getContentType($filePath)
+        );
     }
 
     /**
@@ -186,14 +197,14 @@ class Repository
         $secureKey = null === $isSecure ? 'null' : (int)$isSecure;
         $baseDirType = \Magento\App\Filesystem::STATIC_VIEW_DIR;
         $id = implode('|', array($baseDirType, $urlType, $secureKey, $area, $themePath, $locale));
-        if (!isset($this->contextPool[$id])) {
+        if (!isset($this->fallbackContext[$id])) {
             if ($this->appMode == \Magento\App\State::MODE_PRODUCTION) {
                 $locale = ''; // a workaround while support for locale is not implemented in production mode
             }
             $url = $this->baseUrl->getBaseUrl(array('_type' => $urlType, '_secure' => $isSecure));
-            $this->contextPool[$id] = new File\FallbackContext($url, $area, $themePath, $locale);
+            $this->fallbackContext[$id] = new File\FallbackContext($url, $area, $themePath, $locale);
         }
-        return $this->contextPool[$id];
+        return $this->fallbackContext[$id];
     }
 
     /**
@@ -209,7 +220,13 @@ class Repository
         if (!$module) {
             $module = $similarTo->getModule();
         }
-        return new File($this->assetSource, $similarTo->getContext(), $filePath, $module, $this->inferType($filePath));
+        return new File(
+            $this->assetSource,
+            $similarTo->getContext(),
+            $filePath,
+            $module,
+            $this->assetSource->getContentType($filePath)
+        );
     }
 
     /**
@@ -231,7 +248,7 @@ class Repository
         $baseUrlType = UrlInterface::URL_TYPE_STATIC
     ) {
         $context = $this->getFileContext($baseDirType, $baseUrlType, $dirPath);
-        $contentType = $this->inferType($filePath);
+        $contentType = $this->assetSource->getContentType($filePath);
         return new File($this->assetSource, $context, $filePath, '', $contentType);
     }
 
@@ -247,13 +264,12 @@ class Repository
      */
     private function getFileContext($baseDirType, $urlType, $dirPath)
     {
-        $secureKey = 'null'; // the "is secure" is not supported as parameter in arbitrary interface
-        $id = implode('|', array($baseDirType, $urlType, $secureKey, $dirPath));
-        if (!isset($this->contextPool[$id])) {
+        $id = implode('|', array($baseDirType, $urlType, $dirPath));
+        if (!isset($this->fileContext[$id])) {
             $url = $this->baseUrl->getBaseUrl(array('_type' => $urlType));
-            $this->contextPool[$id] = new File\Context($url, $baseDirType, $dirPath);
+            $this->fileContext[$id] = new File\Context($url, $baseDirType, $dirPath);
         }
-        return $this->contextPool[$id];
+        return $this->fileContext[$id];
     }
 
     /**
@@ -271,17 +287,6 @@ class Repository
         }
         $filePath = \Magento\View\FileSystem::normalizePath(dirname($relativeTo->getFilePath()) . '/' . $filePath);
         return $this->createSimilar($filePath, $relativeTo);
-    }
-
-    /**
-     * Attempt to detect content type of an asset by evaluating extension of file path
-     *
-     * @param string $path
-     * @return string
-     */
-    private function inferType($path)
-    {
-        return pathinfo($path, PATHINFO_EXTENSION);
     }
 
     /**

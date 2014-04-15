@@ -175,24 +175,48 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         if ($isMaterialization) {
             $this->varDir->expects($this->once())
                 ->method('writeFile')
-                ->with('view_preprocessed/some/file.ext', 'processed');
+                ->with('view_preprocessed/source/some/file.ext', 'processed');
             $this->cache->expects($this->once())
                 ->method('save')
-                ->with(serialize([\Magento\App\Filesystem::VAR_DIR, 'view_preprocessed/some/file.ext']), $cacheValue);
+                ->with(
+                    serialize([\Magento\App\Filesystem::VAR_DIR, 'view_preprocessed/source/some/file.ext']), $cacheValue
+                );
             $this->varDir->expects($this->once())
                 ->method('getAbsolutePath')
-                ->with('view_preprocessed/some/file.ext')->will($this->returnValue('result'));
+                ->with('view_preprocessed/source/some/file.ext')->will($this->returnValue('result'));
         } else {
             $this->varDir->expects($this->never())->method('writeFile');
             $this->cache->expects($this->once())
                 ->method('save')
-                ->with(serialize([\Magento\App\Filesystem::ROOT_DIR, 'some/file.ext']), $cacheValue);
+                ->with(serialize([\Magento\App\Filesystem::ROOT_DIR, 'source/some/file.ext']), $cacheValue);
             $this->rootDirRead->expects($this->once())
                 ->method('getAbsolutePath')
-                ->with('some/file.ext')
+                ->with('source/some/file.ext')
                 ->will($this->returnValue('result'));
         }
         $this->assertSame('result', $this->object->getFile($this->getAsset()));
+    }
+
+    /**
+     * @param string $path
+     * @param string $expected
+     * @dataProvider getContentTypeDataProvider
+     */
+    public function testGetContentType($path, $expected)
+    {
+        $this->assertEquals($expected, $this->object->getContentType($path));
+    }
+
+    /**
+     * @return array
+     */
+    public function getContentTypeDataProvider()
+    {
+        return [
+            ['', ''],
+            ['path/file', ''],
+            ['path/file.ext', 'ext'],
+        ];
     }
 
     /**
@@ -212,10 +236,10 @@ class SourceTest extends \PHPUnit_Framework_TestCase
     public function getFileDataProvider()
     {
         return [
-            ['/root/some/file.ext', 'some/file.ext', 'ext', 'processed', false],
-            ['/root/some/file.ext', 'some/file.ext', 'ext', 'not_processed', true],
-            ['/root/some/file.ext2', 'some/file.ext2', 'ext2', 'processed', true],
-            ['/root/some/file.ext2', 'some/file.ext2', 'ext2', 'not_processed', true],
+            ['/root/some/file.ext', 'source/some/file.ext', 'ext', 'processed', false],
+            ['/root/some/file.ext', 'source/some/file.ext', 'ext', 'not_processed', true],
+            ['/root/some/file.ext2', 'source/some/file.ext2', 'ext2', 'processed', true],
+            ['/root/some/file.ext2', 'source/some/file.ext2', 'ext2', 'not_processed', true],
         ];
     }
 

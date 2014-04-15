@@ -153,6 +153,8 @@ class FileSystem
      */
     public static function offsetPath($relatedPath, $path)
     {
+        $relatedPath = self::normalizePath($relatedPath);
+        $path = self::normalizePath($path);
         list($relatedPath, $path) = self::ltrimSamePart($relatedPath, $path);
         $toDir = ltrim(dirname($path), '/');
         if ($toDir == '.') {

@@ -14,7 +14,7 @@ namespace Magento\View\Asset;
 class Minified implements LocalInterface
 {
     /**#@+
-     * Public directories prefix group
+     * Strategies for verifying whether the files need to be minified
      */
     const FILE_EXISTS = 'file_exists';
     const MTIME = 'mtime';

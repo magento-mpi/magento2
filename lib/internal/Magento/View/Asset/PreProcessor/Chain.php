@@ -156,11 +156,11 @@ class Chain
     }
 
     /**
-     * Whether materialization is necessary for the result of changes
+     * Whether the contents or type have changed during the lifetime of the object
      *
      * @return bool
      */
-    public function isMaterializationRequired()
+    public function isChanged()
     {
         return $this->origContentType != $this->contentType || $this->origContent != $this->content;
     }

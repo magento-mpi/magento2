@@ -43,7 +43,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->themeProvider = $this->getMock('\Magento\View\Design\Theme\Provider', array(), array(), '', false);
-        $this->source = $this->getMock('Magento\View\Asset\Source', array(), array(), '', false);
+        $this->source = $this->getMock('Magento\View\Asset\Source', array('getFile', 'getContent'), array(), '', false);
         $this->baseUrl = $this->getMockForAbstractClass('Magento\UrlInterface');
         $this->design = $this->getMockForAbstractClass('Magento\View\DesignInterface');
         $this->theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');

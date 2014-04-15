@@ -64,19 +64,19 @@ class ChainTest extends \PHPUnit_Framework_TestCase
      * @param string $content
      * @param string $type
      * @param bool $expected
-     * @dataProvider isMaterializationRequiredDataProvider
+     * @dataProvider isChangedDataProvider
      */
-    public function testIsMaterializationRequired($content, $type, $expected)
+    public function testChanged($content, $type, $expected)
     {
         $this->object->setContent($content);
         $this->object->setContentType($type);
-        $this->assertEquals($expected, $this->object->isMaterializationRequired());
+        $this->assertEquals($expected, $this->object->isChanged());
     }
 
     /**
      * @return array
      */
-    public function isMaterializationRequiredDataProvider()
+    public function isChangedDataProvider()
     {
         return [
             ['origContent', 'origType', false],

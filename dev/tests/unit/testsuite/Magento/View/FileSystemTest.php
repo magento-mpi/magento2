@@ -205,6 +205,11 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
                 '/some/directory/file1.ext',
                 '.'
             ),
+            'non-normalized' => array(
+                '/some/directory/../one/file.ext',
+                '/some/directory/./two/another/file.ext',
+                '../../../one'
+            ),
         );
     }
 }
