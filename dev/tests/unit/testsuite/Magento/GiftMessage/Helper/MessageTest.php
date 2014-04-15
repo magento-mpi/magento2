@@ -25,7 +25,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $this->layoutFactoryMock = $this->getMock('\Magento\View\LayoutFactory', array(), array(), '', false);
 
         $this->helper = $objectManager->getObject('\Magento\GiftMessage\Helper\Message', array(
-            'layoutFactory' => $this->layoutFactoryMock
+            'layoutFactory' => $this->layoutFactoryMock,
+            'skipMessageCheck' => array('onepage_checkout'),
         ));
     }
 
