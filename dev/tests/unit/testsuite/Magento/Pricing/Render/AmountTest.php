@@ -44,6 +44,11 @@ class AmountTest extends \PHPUnit_Framework_TestCase
     protected $saleableItemMock;
 
     /**
+     * @var \Magento\Pricing\Amount\AmountInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $amount;
+
+    /**
      * @var PriceInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceMock;
@@ -74,6 +79,9 @@ class AmountTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->layout = $this->getMock('Magento\Core\Model\Layout', [], [], '', false);
+        $this->amount = $this->getMockForAbstractClass('Magento\Pricing\Amount\AmountInterface');
+        $this->saleableItemMock = $this->getMockForAbstractClass('Magento\Pricing\Object\SaleableInterface');
+        $this->priceMock = $this->getMockForAbstractClass('Magento\Pricing\Price\PriceInterface');
 
         $eventManager = $this->getMock('Magento\Event\ManagerStub', [], [], '', false);
         $config = $this->getMock('Magento\Core\Model\Store\Config', [], [], '', false);
@@ -95,7 +103,10 @@ class AmountTest extends \PHPUnit_Framework_TestCase
             [
                 'context' => $context,
                 'priceCurrency' => $this->priceCurrency,
-                'rendererPool' => $this->rendererPool
+                'rendererPool' => $this->rendererPool,
+                'amount' => $this->amount,
+                'saleableItem' => $this->saleableItemMock,
+                'price' => $this->priceMock
             ]
         );
     }
@@ -119,13 +130,92 @@ class AmountTest extends \PHPUnit_Framework_TestCase
     /**
      * Test case for getAdjustmentRenders method through toHtml()
      */
-    public function testToHtmlGetAdjustmentRenders()
+    public function testToHtmlSkipAdjustments()
     {
-        $adjustmentRender = [];
-        $this->rendererPool->expects($this->once())
-            ->method('getAdjustmentRenders')
-            ->will($this->returnValue($adjustmentRender));
+        $this->model->setData('skip_adjustments', true);
+        $this->rendererPool->expects($this->never())
+            ->method('getAdjustmentRenders');
 
         $this->model->toHtml();
+    }
+
+    /**
+     * Test case for getAdjustmentRenders method through toHtml()
+     */
+    public function testToHtmlGetAdjustmentRenders()
+    {
+        $data = ['key1' => 'data1', 'css_classes' => 'class1 class2'];
+        $expectedData = [
+            'key1' => 'data1',
+            'css_classes' => 'class1 class2',
+            'module_name' => null,
+            'adjustment_css_classes' => 'class1 class2 render1 render2'
+        ];
+
+        $this->model->setData($data);
+
+        $adjustmentRender1 = $this->getAdjustmentRenderMock($expectedData);
+        $adjustmentRender2 = $this->getAdjustmentRenderMock($expectedData);
+        $adjustmentRenders = ['render1' => $adjustmentRender1, 'render2' => $adjustmentRender2];
+        $this->rendererPool->expects($this->once())
+            ->method('getAdjustmentRenders')
+            ->will($this->returnValue($adjustmentRenders));
+
+        $this->model->toHtml();
+    }
+
+    public function testGetDisplayValueExiting()
+    {
+        $displayValue = 5.99;
+        $this->model->setDisplayValue($displayValue);
+        $this->assertEquals($displayValue, $this->model->getDisplayValue());
+    }
+
+    public function testGetDisplayValue()
+    {
+        $amountValue = 100.99;
+        $this->amount->expects($this->once())
+            ->method('getValue')
+            ->will($this->returnValue($amountValue));
+        $this->assertEquals($amountValue, $this->model->getDisplayValue());
+    }
+
+    public function testGetAmount()
+    {
+        $this->assertEquals($this->amount, $this->model->getAmount());
+    }
+
+    public function testGetSealableItem()
+    {
+        $this->assertEquals($this->saleableItemMock, $this->model->getSaleableItem());
+    }
+
+    public function testGetPrice()
+    {
+        $this->assertEquals($this->priceMock, $this->model->getPrice());
+    }
+
+    public function testAdjustmentsHtml()
+    {
+        $adjustmentHtml1 = 'adjustment_1_html';
+        $adjustmentHtml2 = 'adjustment_2_html';
+
+        $this->assertFalse($this->model->hasAdjustmentsHtml());
+
+        $this->model->addAdjustmentHtml('adjustment_1', $adjustmentHtml1);
+        $this->model->addAdjustmentHtml('adjustment_2', $adjustmentHtml2);
+
+        $this->assertTrue($this->model->hasAdjustmentsHtml());
+
+        $this->assertEquals($adjustmentHtml1 . $adjustmentHtml2, $this->model->getAdjustmentsHtml());
+    }
+
+    protected function getAdjustmentRenderMock($data)
+    {
+        $adjustmentRender = $this->getMockForAbstractClass('Magento\Pricing\Render\AdjustmentRenderInterface');
+        $adjustmentRender->expects($this->once())
+            ->method('render')
+            ->with($this->model, $data);
+        return $adjustmentRender;
     }
 }

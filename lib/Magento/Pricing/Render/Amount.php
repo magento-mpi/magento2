@@ -53,7 +53,7 @@ class Amount extends Template implements AmountRenderInterface
     protected $rendererPool;
 
     /**
-     * @var float
+     * @var AmountInterface
      */
     protected $amount;
 
