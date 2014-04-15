@@ -71,7 +71,7 @@ abstract class AbstractAggregateException extends LocalizedException
     {
         $this->addErrorCalls++;
         if (empty($this->errors)) {
-            if (1 == $this->addErrorCalls) {
+            if (1 === $this->addErrorCalls) {
                 // First call: simply overwrite the message and params
                 $this->rawMessage = $rawMessage;
                 $this->params = $params;
