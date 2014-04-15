@@ -54,7 +54,7 @@ interface CustomerAccountServiceInterface
      * @return \Magento\Customer\Service\V1\Data\Customer
      * @throws \Exception If something goes wrong during save
      * @throws \Magento\Exception\InputException If bad input is provided
-     * @throws \Magento\Exception\StateException If the provided email is already used
+     * @throws \Magento\Exception\State\InputMismatchException If the provided email is already used
      */
     public function createAccount(
         \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
@@ -144,7 +144,8 @@ interface CustomerAccountServiceInterface
      * @param int $customerId
      * @param string $resetPasswordLinkToken
      * @return void
-     * @throws \Magento\Exception\StateException If token is expired or mismatched
+     * @throws \Magento\Exception\State\InputMismatchException If token is mismatched
+     * @throws \Magento\Exception\State\ExpiredException If token is expired
      * @throws \Magento\Exception\InputException If token or customer id is invalid
      * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      */
@@ -168,7 +169,8 @@ interface CustomerAccountServiceInterface
      * @param string $resetToken Token sent to customer via e-mail
      * @param string $newPassword
      * @return void
-     * @throws \Magento\Exception\StateException If token is expired or mismatched
+     * @throws \Magento\Exception\State\InputMismatchException If token is mismatched
+     * @throws \Magento\Exception\State\ExpiredException If token is expired
      * @throws \Magento\Exception\InputException If token or customer id is invalid
      * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      */
@@ -193,7 +195,7 @@ interface CustomerAccountServiceInterface
      *                            the customer to a product they were looking at after pressing confirmation link.
      * @return void
      * @throws \Magento\Exception\NoSuchEntityException If no customer found for provided email
-     * @throws \Magento\Exception\StateException If confirmation is not needed
+     * @throws \Magento\Exception\State\InvalidTransitionException If confirmation is not needed
      */
     public function resendConfirmation($email, $websiteId, $redirectUrl = '');
 
