@@ -74,6 +74,14 @@
         },
 
         /**
+         * Initialize gift wrapping container if it is already loaded
+         * @private
+         */
+        _init: function() {
+            this._ready();
+        },
+
+        /**
          * Process and generate gift options/design block for the entire order
          * @public
          * @param {Object} instance - widget instance
