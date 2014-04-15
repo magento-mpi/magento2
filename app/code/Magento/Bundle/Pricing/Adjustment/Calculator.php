@@ -170,9 +170,12 @@ class Calculator implements BundleCalculatorInterface
      */
     protected function hasRequiredOption($saleableItem)
     {
-        $options = array_filter($this->getBundleOptionPrice($saleableItem)->getOptions(), function ($item) {
-            return $item->getRequired();
-        });
+        $options = array_filter(
+            $this->getBundleOptionPrice($saleableItem)->getOptions(),
+            function ($item) {
+                return $item->getRequired();
+            }
+        );
         return !empty($options);
     }
 

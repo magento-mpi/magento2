@@ -18,7 +18,7 @@ class RegularPrice extends AbstractPrice
      */
     const PRICE_CODE = 'regular_price';
 
-   /**
+    /**
      * Get price value
      *
      * @return float|bool
