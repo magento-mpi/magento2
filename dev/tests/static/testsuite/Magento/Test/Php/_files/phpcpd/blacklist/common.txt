@@ -12,7 +12,7 @@ Zend
 downloader
 dev
 Mysql
-lib/Magento/DB
+lib/Framework/Magento/DB
 sql
 data
 Magento/Paypal

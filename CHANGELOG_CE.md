@@ -38,6 +38,11 @@
   * Simplify Search related Data Objects (MAGETWO-22613)
   * Moved lib/Magento/* to lib/Magento/Framework/*: (MAGETWO-20866)
     * Moved lib/Magento/App to lib/Magento/Framework/App (MAGETWO-23476)
+    * Moved lib/Magento/Data to lib/Magento/Framework/Data (MAGETWO-23531)
+    * Moved lib/Magento/Filesystem to lib/Magento/Framework/Filesystem (MAGETWO-23532)
+    * Moved lib/Magento/Config to lib/Magento/Framework/Config (MAGETWO-23533)
+    * Moved lib/Magento/Model to lib/Magento/Framework/Model (MAGETWO-23536)
+    * Moved lib/Magento/DB to lib/Magento/Framework/DB (MAGETWO-23553)
 * Themes update:
   * Admin theme look&feel updated
 * Modularity improvements:
