@@ -16,7 +16,7 @@ use Magento\Pricing\Object\SaleableInterface;
 /**
  * Final price model
  */
-class FinalPrice extends AbstractPrice
+class FinalPrice extends AbstractPrice implements FinalPriceInterface
 {
     /**
      * Price type final
