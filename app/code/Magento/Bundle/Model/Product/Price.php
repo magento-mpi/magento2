@@ -2,13 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Bundle\Model\Product;
+
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * Bundle Price Model
@@ -48,7 +48,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      *  Construct
      *
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -56,7 +56,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      */
     public function __construct(
         \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Event\ManagerInterface $eventManager,
@@ -542,7 +542,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      */
     public function getTierPrice($qty, $product)
     {
-        $allGroups = \Magento\Customer\Model\Group::CUST_GROUP_ALL;
+        $allGroups = CustomerGroupServiceInterface::CUST_GROUP_ALL;
         $prices = $product->getData('tier_price');
 
         if (is_null($prices)) {
@@ -629,5 +629,32 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     public function isGroupPriceFixed()
     {
         return false;
+    }
+
+    /**
+     * Calculate and apply special price
+     *
+     * @param float  $finalPrice
+     * @param float  $specialPrice
+     * @param string $specialPriceFrom
+     * @param string $specialPriceTo
+     * @param mixed  $store
+     * @return float
+     */
+    public function calculateSpecialPrice(
+        $finalPrice,
+        $specialPrice,
+        $specialPriceFrom,
+        $specialPriceTo,
+        $store = null
+    ) {
+        if (!is_null($specialPrice) && $specialPrice != false) {
+            if ($this->_localeDate->isScopeDateInInterval($store, $specialPriceFrom, $specialPriceTo)) {
+                $specialPrice = $this->_storeManager->getStore()->roundPrice($finalPrice * $specialPrice / 100);
+                $finalPrice = min($finalPrice, $specialPrice);
+            }
+        }
+
+        return $finalPrice;
     }
 }

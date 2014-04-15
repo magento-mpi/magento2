@@ -58,8 +58,8 @@ class Message extends \Magento\Core\Helper\Data
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -70,8 +70,8 @@ class Message extends \Magento\Core\Helper\Data
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
         \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -86,7 +86,7 @@ class Message extends \Magento\Core\Helper\Data
         $this->_giftMessageFactory = $giftMessageFactory;
         parent::__construct(
             $context,
-            $coreStoreConfig,
+            $scopeConfig,
             $storeManager,
             $appState,
             $priceCurrency,
@@ -119,7 +119,7 @@ class Message extends \Magento\Core\Helper\Data
      *
      * @param string $type
      * @param \Magento\Object $entity
-     * @param \Magento\Core\Model\Store|int|null $store
+     * @param \Magento\Store\Model\Store|int|null $store
      * @return bool|string|null
      */
     public function isMessagesAvailable($type, \Magento\Object $entity, $store = null)
@@ -127,7 +127,7 @@ class Message extends \Magento\Core\Helper\Data
         if ($type == 'items') {
             $items = $entity->getAllItems();
             if (!is_array($items) || empty($items)) {
-                return $this->_coreStoreConfig->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
+                return $this->_scopeConfig->getValue(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
             }
             if ($entity instanceof \Magento\Sales\Model\Quote) {
                 $_type = $entity->getIsMultiShipping() ? 'address_item' : 'item';
@@ -163,7 +163,7 @@ class Message extends \Magento\Core\Helper\Data
                 $store
             );
         } else {
-            return $this->_coreStoreConfig->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ORDER, $store);
+            return $this->_scopeConfig->getValue(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ORDER, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
         }
         return false;
     }
@@ -172,12 +172,12 @@ class Message extends \Magento\Core\Helper\Data
      * Check availablity of gift messages from store config if flag eq 2.
      *
      * @param bool $productGiftMessageAllow
-     * @param \Magento\Core\Model\Store|int|null $store
+     * @param \Magento\Store\Model\Store|int|null $store
      * @return bool|string|null
      */
     protected function _getDependenceFromStoreConfig($productGiftMessageAllow, $store = null)
     {
-        $result = $this->_coreStoreConfig->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
+        $result = $this->_scopeConfig->getValue(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
         if ($productGiftMessageAllow === '' || is_null($productGiftMessageAllow)) {
             return $result;
         } else {
@@ -190,7 +190,7 @@ class Message extends \Magento\Core\Helper\Data
      *
      * @param string $type
      * @param \Magento\Object $entity
-     * @param \Magento\Core\Model\Store|int|null $store
+     * @param \Magento\Store\Model\Store|int|null $store
      * @return bool|null|string
      */
     public function getIsMessagesAvailable($type, \Magento\Object $entity, $store = null)
@@ -272,7 +272,7 @@ class Message extends \Magento\Core\Helper\Data
      * Check availability for onepage checkout items
      *
      * @param array $quote
-     * @param \Magento\Core\Model\Store|int|null $store
+     * @param \Magento\Store\Model\Store|int|null $store
      * @return bool
      */
     public function getAvailableForQuoteItems($quote, $store = null)
@@ -289,7 +289,7 @@ class Message extends \Magento\Core\Helper\Data
      * Check availability for multishipping checkout items
      *
      * @param array $items
-     * @param \Magento\Core\Model\Store|int|null $store
+     * @param \Magento\Store\Model\Store|int|null $store
      * @return bool
      */
     public function getAvailableForAddressItems($items, $store = null)

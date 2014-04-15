@@ -152,7 +152,7 @@
          * Validate Order form
          */
         _validateForm: function () {
-            if (this.element.data('validation')) {
+            if (this.element.data('mageValidation')) {
                 return this.element.validation().valid();
             }
         },

@@ -36,14 +36,14 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     /**
      * Active Website instance
      *
-     * @var \Magento\Core\Model\Website
+     * @var \Magento\Store\Model\Website
      */
     protected $_website;
 
     /**
      * Set active website instance
      *
-     * @param \Magento\Core\Model\Website|int $website
+     * @param \Magento\Store\Model\Website|int $website
      * @return \Magento\Rma\Model\Attribute
      */
     public function setWebsite($website)
@@ -55,7 +55,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     /**
      * Return active website instance
      *
-     * @return \Magento\Core\Model\Website
+     * @return \Magento\Store\Model\Website
      */
     public function getWebsite()
     {

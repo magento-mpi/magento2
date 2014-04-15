@@ -10,8 +10,8 @@ $categoriesNumber = \Magento\ToolkitFramework\Config::getInstance()->getValue('c
 $maxNestingLevel = \Magento\ToolkitFramework\Config::getInstance()->getValue('categories_nesting_level', 3);
 $this->resetObjectManager();
 
-/** @var \Magento\Core\Model\StoreManager $storeManager */
-$storeManager = $this->getObjectManager()->create('\Magento\Core\Model\StoreManager');
+/** @var \Magento\Store\Model\StoreManager $storeManager */
+$storeManager = $this->getObjectManager()->create('\Magento\Store\Model\StoreManager');
 /** @var $category \Magento\Catalog\Model\Category */
 $category = $this->getObjectManager()->create('Magento\Catalog\Model\Category');
 

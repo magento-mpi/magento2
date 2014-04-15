@@ -15,6 +15,7 @@ namespace Magento\Customer\Test\Page;
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
+use Magento\Backend\Test\Block\FormPageActions;
 
 /**
  * Class CustomerNew
@@ -42,6 +43,13 @@ class CustomerNew extends Page
      * @var string
      */
     protected $messagesBlock = '#messages .messages';
+
+    /**
+     * Form page actions block
+     *
+     * @var string
+     */
+    protected $pageActionsBlock = '.page-main-actions';
 
     /**
      * Custom constructor
@@ -73,5 +81,16 @@ class CustomerNew extends Page
         return Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
         );
+    }
+
+    /**
+     * Get actions block on customer form
+     *
+     * @return FormPageActions
+     */
+    public function getPageActionsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendFormPageActions(
+            $this->_browser->find($this->pageActionsBlock));
     }
 }

@@ -32,11 +32,6 @@ class Quote extends Grid
     /**
      * @var string
      */
-    protected $clickAddNewSelector = '.page-actions button#add';
-
-    /**
-     * @var string
-     */
     protected $promoQuoteFormSelector = 'div#promo_catalog_edit_tabs';
 
     /**
@@ -56,15 +51,5 @@ class Quote extends Grid
             $rid = $idElement->getText();
         }
         return $rid;
-    }
-
-    /**
-     * Click the add new button
-     */
-    public function clickAddNew()
-    {
-        $this->_rootElement->find($this->clickAddNewSelector)->click();
-        $this->reinitRootElement();
-        $this->getTemplateBlock()->waitForElementVisible($this->promoQuoteFormSelector);
     }
 }

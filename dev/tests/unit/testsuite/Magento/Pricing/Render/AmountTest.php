@@ -34,7 +34,7 @@ class AmountTest extends \PHPUnit_Framework_TestCase
     protected $rendererPool;
 
     /**
-     * @var \Magento\Core\Model\Layout|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\LayoutInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $layout;
 
@@ -78,14 +78,14 @@ class AmountTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->layout = $this->getMock('Magento\Core\Model\Layout', [], [], '', false);
+        $this->layout = $this->getMock('Magento\View\Layout', [], [], '', false);
         $this->amount = $this->getMockForAbstractClass('Magento\Pricing\Amount\AmountInterface');
         $this->saleableItemMock = $this->getMockForAbstractClass('Magento\Pricing\Object\SaleableInterface');
         $this->priceMock = $this->getMockForAbstractClass('Magento\Pricing\Price\PriceInterface');
 
         $eventManager = $this->getMock('Magento\Event\ManagerStub', [], [], '', false);
-        $config = $this->getMock('Magento\Core\Model\Store\Config', [], [], '', false);
-
+        $config = $this->getMock('Magento\Store\Model\Store\Config', [], [], '', false);
+        $scopeConfigMock = $this->getMockForAbstractClass('Magento\App\Config\ScopeConfigInterface');
         $context = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
         $context->expects($this->any())
             ->method('getEventManager')
@@ -96,6 +96,10 @@ class AmountTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->any())
             ->method('getLayout')
             ->will($this->returnValue($this->layout));
+        $context->expects($this->any())
+            ->method('getScopeConfig')
+            ->will($this->returnValue($scopeConfigMock));
+
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManager->getObject(

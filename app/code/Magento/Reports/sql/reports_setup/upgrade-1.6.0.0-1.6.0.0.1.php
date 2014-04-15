@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\Module\Setup */
 $installer = $this;
 /*
  * Prepare database for tables install
@@ -92,9 +92,9 @@ for ($i = 0; $i < 3; ++$i) {
         $installer->getIdxName($aggregationTables[$i], array('product_id')),
         array('product_id')
     )->addForeignKey(
-        $installer->getFkName($aggregationTables[$i], 'store_id', 'core_store', 'store_id'),
+        $installer->getFkName($aggregationTables[$i], 'store_id', 'store', 'store_id'),
         'store_id',
-        $installer->getTable('core_store'),
+        $installer->getTable('store'),
         'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE,
         \Magento\DB\Ddl\Table::ACTION_CASCADE

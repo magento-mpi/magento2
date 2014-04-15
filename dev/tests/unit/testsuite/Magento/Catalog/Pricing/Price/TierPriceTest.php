@@ -157,7 +157,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::getStoredTierPrices
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::applyAdjustment
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::getTierPriceCount
-     * @covers \Magento\Catalog\Pricing\Price\TierPrice::filterTearPrices
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::filterTierPrices
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::getBasePrice
      * @dataProvider providerForGetterTierPriceList
      */
@@ -250,7 +250,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
      * @covers \Magento\Catalog\Pricing\Price\TierPrice::getBasePrice
      * @dataProvider dataProviderGetSavePercent
      */
-    public function testGetSavePercent($basePrice, $tearPrice, $savedPercent)
+    public function testGetSavePercent($basePrice, $tierPrice, $savedPercent)
     {
         $price = $this->getMock('Magento\Pricing\Price\PriceInterface');
         $price->expects($this->any())
@@ -264,7 +264,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
         $amount = $this->getMock('Magento\Pricing\Amount\AmountInterface');
         $amount->expects($this->atLeastOnce())
             ->method('getBaseAmount')
-            ->will($this->returnValue($tearPrice));
+            ->will($this->returnValue($tierPrice));
 
         $this->assertEquals($savedPercent, $this->model->getSavePercent($amount));
     }
@@ -275,9 +275,9 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
     public function dataProviderGetSavePercent()
     {
         return array(
-            ['basePrice' => '100', 'tearPrice' => '90', 'savedPercent' => '10'],
-            ['basePrice' => '70', 'tearPrice' => '35', 'savedPercent' => '50'],
-            ['basePrice' => '50', 'tearPrice' => '35', 'savedPercent' => '30']
+            ['basePrice' => '100', 'tierPrice' => '90', 'savedPercent' => '10'],
+            ['basePrice' => '70', 'tierPrice' => '35', 'savedPercent' => '50'],
+            ['basePrice' => '50', 'tierPrice' => '35', 'savedPercent' => '30']
         );
     }
 }

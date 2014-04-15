@@ -13,7 +13,7 @@ namespace Magento\PageCache\Model\App\FrontController;
 class VarnishPlugin
 {
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $config;
 

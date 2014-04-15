@@ -9,7 +9,7 @@
  */
 namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment;
 
-use Magento\Core\Model\Website;
+use Magento\Store\Model\Website;
 
 /**
  * Customer Segments Detail grid container
@@ -76,7 +76,8 @@ class Detail extends \Magento\Backend\Block\Widget\Grid\Container
             'refresh',
             array(
                 'label' => __('Refresh Segment Data'),
-                'onclick' => 'setLocation(\'' . $this->getRefreshUrl() . '\')'
+                'onclick' => 'setLocation(\'' . $this->getRefreshUrl() . '\')',
+                'class' => 'refresh primary'
             )
         );
     }

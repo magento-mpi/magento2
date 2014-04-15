@@ -36,13 +36,13 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
     protected $priceMock;
 
     /**
-     * @var \Magento\Core\Model\Layout | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\LayoutInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $contextMock;
 
     public function setUp()
     {
-        $this->layoutMock = $this->getMockBuilder('Magento\Core\Model\Layout')
+        $this->layoutMock = $this->getMockBuilder('Magento\View\Layout')
             ->disableOriginalConstructor()
             ->getMock();
         $this->contextMock = $this->getMockBuilder('\Magento\View\Element\Context')

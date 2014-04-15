@@ -134,7 +134,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get selected store by store id passed through query.
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getStore()
     {

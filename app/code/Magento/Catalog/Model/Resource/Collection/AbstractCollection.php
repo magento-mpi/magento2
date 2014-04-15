@@ -29,7 +29,7 @@ class AbstractCollection extends \Magento\Eav\Model\Entity\Collection\AbstractCo
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -43,7 +43,7 @@ class AbstractCollection extends \Magento\Eav\Model\Entity\Collection\AbstractCo
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Zend_Db_Adapter_Abstract $connection
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -58,7 +58,7 @@ class AbstractCollection extends \Magento\Eav\Model\Entity\Collection\AbstractCo
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null
     ) {
         $this->_storeManager = $storeManager;
@@ -79,7 +79,7 @@ class AbstractCollection extends \Magento\Eav\Model\Entity\Collection\AbstractCo
     /**
      * Set store scope
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return $this
      */
     public function setStore($store)
@@ -91,12 +91,12 @@ class AbstractCollection extends \Magento\Eav\Model\Entity\Collection\AbstractCo
     /**
      * Set store scope
      *
-     * @param int|string|\Magento\Core\Model\Store $storeId
+     * @param int|string|\Magento\Store\Model\Store $storeId
      * @return $this
      */
     public function setStoreId($storeId)
     {
-        if ($storeId instanceof \Magento\Core\Model\Store) {
+        if ($storeId instanceof \Magento\Store\Model\Store) {
             $storeId = $storeId->getId();
         }
         $this->_storeId = (int)$storeId;
@@ -123,7 +123,7 @@ class AbstractCollection extends \Magento\Eav\Model\Entity\Collection\AbstractCo
      */
     public function getDefaultStoreId()
     {
-        return \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+        return \Magento\Store\Model\Store::DEFAULT_STORE_ID;
     }
 
     /**

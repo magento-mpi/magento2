@@ -33,12 +33,12 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     protected $contextMock;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
 
     /**
-     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeMock;
 
@@ -72,11 +72,11 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->storeManagerMock = $this->getMockBuilder(
-            'Magento\Core\Model\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->disableOriginalConstructor()->setMethods(['getStore'])->getMockForAbstractClass();
 
         $this->storeMock = $this->getMock(
-            'Magento\Core\Model\Store',
+            'Magento\Store\Model\Store',
             ['getCurrentCurrencyCode', '__wakeup'],
             [],
             '',

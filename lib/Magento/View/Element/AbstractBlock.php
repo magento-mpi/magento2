@@ -157,9 +157,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_isScopePrivate = false;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Constructor
@@ -178,7 +178,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_design = $context->getDesignPackage();
         $this->_session = $context->getSession();
         $this->_sidResolver = $context->getSidResolver();
-        $this->_storeConfig = $context->getStoreConfig();
+        $this->_scopeConfig = $context->getScopeConfig();
         $this->_viewUrl = $context->getViewUrl();
         $this->_viewConfig = $context->getViewConfig();
         $this->_cacheState = $context->getCacheState();
@@ -616,7 +616,10 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     public function toHtml()
     {
         $this->_eventManager->dispatch('view_block_abstract_to_html_before', array('block' => $this));
-        if ($this->_storeConfig->getConfig('advanced/modules_disable_output/' . $this->getModuleName())) {
+        if ($this->_scopeConfig->getValue(
+            'advanced/modules_disable_output/' . $this->getModuleName(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )) {
             return '';
         }
 

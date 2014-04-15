@@ -31,7 +31,7 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
     protected $dataTimeMock;
 
     /**
-     * @var \Magento\Core\Model\StoreManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
 
@@ -56,12 +56,12 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
     protected $catalogRuleResourceMock;
 
     /**
-     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $coreWebsiteMock;
 
     /**
-     * @var \Magento\Core\Model\Website|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Website|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $coreStoreMock;
 
@@ -92,8 +92,8 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
             []
         );
 
-        $this->coreStoreMock = $this->getMock('\Magento\Core\Model\Store', [], [], '', false);
-        $this->storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', [], [], '', false);
+        $this->coreStoreMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
+        $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
         $this->storeManagerMock->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($this->coreStoreMock));

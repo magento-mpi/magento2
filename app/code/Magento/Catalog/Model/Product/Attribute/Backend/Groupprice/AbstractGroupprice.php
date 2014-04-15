@@ -40,17 +40,17 @@ abstract class AbstractGroupprice extends Price
     /**
      * @param \Magento\Logger $logger
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      */
     public function __construct(
         \Magento\Logger $logger,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Catalog\Model\Product\Type $catalogProductType
     ) {
         $this->_catalogProductType = $catalogProductType;
@@ -71,7 +71,7 @@ abstract class AbstractGroupprice extends Price
                 'default'
             );
             foreach ($this->_storeManager->getWebsites() as $website) {
-                /* @var $website \Magento\Core\Model\Website */
+                /* @var $website \Magento\Store\Model\Website */
                 if ($website->getBaseCurrencyCode() != $baseCurrency) {
                     $rate = $this->_currencyFactory->create()->load(
                         $baseCurrency
@@ -160,16 +160,18 @@ abstract class AbstractGroupprice extends Price
         // add global group prices for duplicates find
         if (!$attribute->isScopeGlobal() && $object->getStoreId()) {
             $origGroupPrices = $object->getOrigData($attribute->getName());
-            foreach ($origGroupPrices as $price) {
-                if ($price['website_id'] == 0) {
-                    $compare = join(
-                        '-',
-                        array_merge(
-                            array($price['website_id'], $price['cust_group']),
-                            $this->_getAdditionalUniqueFields($price)
-                        )
-                    );
-                    $duplicates[$compare] = true;
+            if ($origGroupPrices) {
+                foreach ($origGroupPrices as $price) {
+                    if ($price['website_id'] == 0) {
+                        $compare = join(
+                            '-',
+                            array_merge(
+                                array($price['website_id'], $price['cust_group']),
+                                $this->_getAdditionalUniqueFields($price)
+                            )
+                        );
+                        $duplicates[$compare] = true;
+                    }
                 }
             }
         }

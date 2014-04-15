@@ -26,6 +26,13 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_prices = array();
 
     /**
+     * Prepared prices
+     *
+     * @var array
+     */
+    protected $_resPrices = array();
+
+    /**
      * Catalog product
      *
      * @var \Magento\Catalog\Helper\Product
@@ -55,7 +62,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Catalog\Helper\Product\Price $priceHelper
      * @param CustomerAccountService $customerAccountService
      * @param array $data
-     *
+     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -131,7 +138,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * Retrieve current store
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getCurrentStore()
     {
@@ -165,7 +172,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
 
         foreach ($this->getAllowProducts() as $product) {
             $productId = $product->getId();
-            $image = $this->_imageHelper->init($product, 'image');
+            $this->_imageHelper->init($product, 'image');
 
             foreach ($this->getAllowAttributes() as $attribute) {
                 $productAttribute = $attribute->getProductAttribute();
@@ -179,10 +186,12 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                     $options[$productAttributeId][$attributeValue] = array();
                 }
                 $options[$productAttributeId][$attributeValue][] = $productId;
-                !$product->getImage() ||
-                    $product->getImage() ===
-                    'no_selection' ? $options['images'][$productAttributeId][$attributeValue][$productId] = null :
-                    ($options['images'][$productAttributeId][$attributeValue][$productId] = (string)$image);
+
+                if (!$product->getImage() || $product->getImage() === 'no_selection') {
+                    $options['images'][$productAttributeId][$attributeValue][$productId] = $baseImageUrl;
+                } else {
+                    $options['images'][$productAttributeId][$attributeValue][$productId] = (string)$this->_imageHelper;
+                }
             }
         }
 
