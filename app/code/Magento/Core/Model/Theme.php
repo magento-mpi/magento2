@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model;
 
-use Magento\View\Design\ThemeInterface;
+use Magento\Framework\View\Design\ThemeInterface;
 
 /**
  * Theme model class
@@ -59,32 +59,32 @@ class Theme extends \Magento\Framework\Model\AbstractModel implements ThemeInter
     protected $_eventObject = 'theme';
 
     /**
-     * @var \Magento\View\Design\Theme\FlyweightFactory
+     * @var \Magento\Framework\View\Design\Theme\FlyweightFactory
      */
     protected $_themeFactory;
 
     /**
-     * @var \Magento\View\Design\Theme\Domain\Factory
+     * @var \Magento\Framework\View\Design\Theme\Domain\Factory
      */
     protected $_domainFactory;
 
     /**
-     * @var \Magento\View\Design\Theme\ImageFactory
+     * @var \Magento\Framework\View\Design\Theme\ImageFactory
      */
     protected $_imageFactory;
 
     /**
-     * @var \Magento\View\Design\Theme\Validator
+     * @var \Magento\Framework\View\Design\Theme\Validator
      */
     protected $_validator;
 
     /**
-     * @var \Magento\View\Design\Theme\Customization
+     * @var \Magento\Framework\View\Design\Theme\Customization
      */
     protected $_customization;
 
     /**
-     * @var \Magento\View\Design\Theme\CustomizationFactory
+     * @var \Magento\Framework\View\Design\Theme\CustomizationFactory
      */
     protected $_customFactory;
 
@@ -98,11 +98,11 @@ class Theme extends \Magento\Framework\Model\AbstractModel implements ThemeInter
      *
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
-     * @param \Magento\View\Design\Theme\Domain\Factory $domainFactory
-     * @param \Magento\View\Design\Theme\ImageFactory $imageFactory
-     * @param \Magento\View\Design\Theme\Validator $validator
-     * @param \Magento\View\Design\Theme\CustomizationFactory $customizationFactory
+     * @param \Magento\Framework\View\Design\Theme\FlyweightFactory $themeFactory
+     * @param \Magento\Framework\View\Design\Theme\Domain\Factory $domainFactory
+     * @param \Magento\Framework\View\Design\Theme\ImageFactory $imageFactory
+     * @param \Magento\Framework\View\Design\Theme\Validator $validator
+     * @param \Magento\Framework\View\Design\Theme\CustomizationFactory $customizationFactory
      * @param \Magento\Core\Model\Resource\Theme $resource
      * @param \Magento\Core\Model\Resource\Theme\Collection $resourceCollection
      * @param array $data
@@ -112,11 +112,11 @@ class Theme extends \Magento\Framework\Model\AbstractModel implements ThemeInter
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\View\Design\Theme\FlyweightFactory $themeFactory,
-        \Magento\View\Design\Theme\Domain\Factory $domainFactory,
-        \Magento\View\Design\Theme\ImageFactory $imageFactory,
-        \Magento\View\Design\Theme\Validator $validator,
-        \Magento\View\Design\Theme\CustomizationFactory $customizationFactory,
+        \Magento\Framework\View\Design\Theme\FlyweightFactory $themeFactory,
+        \Magento\Framework\View\Design\Theme\Domain\Factory $domainFactory,
+        \Magento\Framework\View\Design\Theme\ImageFactory $imageFactory,
+        \Magento\Framework\View\Design\Theme\Validator $validator,
+        \Magento\Framework\View\Design\Theme\CustomizationFactory $customizationFactory,
         \Magento\Core\Model\Resource\Theme $resource = null,
         \Magento\Core\Model\Resource\Theme\Collection $resourceCollection = null,
         array $data = array()
@@ -144,7 +144,7 @@ class Theme extends \Magento\Framework\Model\AbstractModel implements ThemeInter
     /**
      * Get theme image model
      *
-     * @return \Magento\View\Design\Theme\Image
+     * @return \Magento\Framework\View\Design\Theme\Image
      */
     public function getThemeImage()
     {
@@ -152,7 +152,7 @@ class Theme extends \Magento\Framework\Model\AbstractModel implements ThemeInter
     }
 
     /**
-     * @return \Magento\View\Design\Theme\Customization
+     * @return \Magento\Framework\View\Design\Theme\Customization
      */
     public function getCustomization()
     {

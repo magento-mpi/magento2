@@ -230,8 +230,8 @@
         </general>
         <theme>
             <customization>
-                <css>Magento\View\Design\Theme\Customization\File\Css</css>
-                <js>Magento\View\Design\Theme\Customization\File\Js</js>
+                <css>Magento\Framework\View\Design\Theme\Customization\File\Css</css>
+                <js>Magento\Framework\View\Design\Theme\Customization\File\Js</js>
             </customization>
         </theme>
     </default>

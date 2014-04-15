@@ -27,7 +27,7 @@ class Observer
     private $_currentTheme;
 
     /**
-     * @var \Magento\View\Asset\GroupedCollection
+     * @var \Magento\Framework\View\Asset\GroupedCollection
      */
     private $_pageAssets;
 
@@ -37,7 +37,7 @@ class Observer
     protected $_config;
 
     /**
-     * @var \Magento\View\Asset\PublicFileFactory
+     * @var \Magento\Framework\View\Asset\PublicFileFactory
      */
     protected $_assetFileFactory;
 
@@ -53,19 +53,19 @@ class Observer
 
     /**
      * @param \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
-     * @param \Magento\View\DesignInterface $design
-     * @param \Magento\View\Asset\GroupedCollection $assets
+     * @param \Magento\Framework\View\DesignInterface $design
+     * @param \Magento\Framework\View\Asset\GroupedCollection $assets
      * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
-     * @param \Magento\View\Asset\PublicFileFactory $assetFileFactory
+     * @param \Magento\Framework\View\Asset\PublicFileFactory $assetFileFactory
      * @param Theme\Registration $registration
      * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
-        \Magento\View\DesignInterface $design,
-        \Magento\View\Asset\GroupedCollection $assets,
+        \Magento\Framework\View\DesignInterface $design,
+        \Magento\Framework\View\Asset\GroupedCollection $assets,
         \Magento\Framework\App\Config\ReinitableConfigInterface $config,
-        \Magento\View\Asset\PublicFileFactory $assetFileFactory,
+        \Magento\Framework\View\Asset\PublicFileFactory $assetFileFactory,
         \Magento\Core\Model\Theme\Registration $registration,
         \Magento\Logger $logger
     ) {
@@ -123,7 +123,7 @@ class Observer
         foreach ($this->_currentTheme->getCustomization()->getFiles() as $themeFile) {
             try {
                 $service = $themeFile->getCustomizationService();
-                if ($service instanceof \Magento\View\Design\Theme\Customization\FileAssetInterface) {
+                if ($service instanceof \Magento\Framework\View\Design\Theme\Customization\FileAssetInterface) {
                     $asset = $this->_assetFileFactory->create(
                         array('file' => $themeFile->getFullPath(), 'contentType' => $service->getContentType())
                     );

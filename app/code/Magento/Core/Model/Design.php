@@ -127,10 +127,10 @@ class Design extends AbstractModel implements \Magento\Object\IdentityInterface
     /**
      * Apply design change from self data into specified design package instance
      *
-     * @param \Magento\View\DesignInterface $packageInto
+     * @param \Magento\Framework\View\DesignInterface $packageInto
      * @return $this
      */
-    public function changeDesign(\Magento\View\DesignInterface $packageInto)
+    public function changeDesign(\Magento\Framework\View\DesignInterface $packageInto)
     {
         $design = $this->getDesign();
         if ($design) {
