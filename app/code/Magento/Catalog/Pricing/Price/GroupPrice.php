@@ -22,7 +22,7 @@ class GroupPrice extends AbstractPrice implements GroupPriceInterface
     /**
      * Price type group
      */
-    const PRICE_TYPE_CODE = 'group_price';
+    const PRICE_CODE = 'group_price';
 
     /**
      * @var Session

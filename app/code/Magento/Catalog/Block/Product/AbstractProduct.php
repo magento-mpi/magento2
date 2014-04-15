@@ -707,7 +707,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     {
         return $this->getProductPriceHtml(
             $product,
-            \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_TYPE_CODE,
+            \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE,
             \Magento\Pricing\Render::ZONE_ITEM_LIST
         );
     }

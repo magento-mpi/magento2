@@ -22,7 +22,7 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
     /**
      * Price type MSRP
      */
-    const PRICE_TYPE_CODE = 'msrp_price';
+    const PRICE_CODE = 'msrp_price';
 
     /**
      * @var \Magento\Catalog\Helper\Data

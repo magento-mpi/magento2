@@ -22,7 +22,7 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
     /**
      * Price model code
      */
-    const PRICE_TYPE_CODE = 'bundle_selection';
+    const PRICE_CODE = 'bundle_selection';
 
     /**
      * @var \Magento\Catalog\Model\Product
@@ -66,7 +66,7 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
 
         if ($this->bundleProduct->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
             $value = $this->priceInfo
-                ->getPrice(FinalPrice::PRICE_TYPE_CODE, $this->quantity)
+                ->getPrice(FinalPrice::PRICE_CODE, $this->quantity)
                 ->getValue();
         } else {
             if ($this->salableItem->getSelectionPriceType()) {
@@ -74,7 +74,7 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
                 // @todo get rid of final price data manipulation that should fire event to apply catalog rules
                 $product = clone $this->bundleProduct;
                 $price = $product->getPriceInfo()
-                    ->getPrice(CatalogPrice\RegularPrice::PRICE_TYPE_CODE, $this->quantity)
+                    ->getPrice(CatalogPrice\RegularPrice::PRICE_CODE, $this->quantity)
                     ->getValue();
                 $product->setFinalPrice($price);
                 $this->eventManager->dispatch(
@@ -88,7 +88,7 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
             }
         }
         $this->value = $this->bundleProduct->getPriceInfo()
-            ->getPrice(CatalogPrice\BasePrice::PRICE_TYPE_CODE, $this->quantity)
+            ->getPrice(CatalogPrice\BasePrice::PRICE_CODE, $this->quantity)
             ->applyDiscount($value);
         return $this->value;
     }

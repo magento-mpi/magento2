@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -128,14 +126,17 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
             ->method('getUrlBuilder')
             ->will($this->returnValue($this->urlBuilderMock));
 
-        $this->block = new \Magento\Rss\Block\Wishlist(
-            $templateContextMock,
-            $httpContextMock,
-            $this->productFactoryMock,
-            $this->coreHelperMock,
-            $wishlistFactoryMock,
-            $this->rssFactoryMock,
-            $this->catalogOutputMock
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->block = $objectManager->getObject(
+            'Magento\Rss\Block\Wishlist',
+            [
+                'context' => $templateContextMock,
+                'productFactory' => $this->productFactoryMock,
+                'coreData' => $this->coreHelperMock,
+                'wishlistFactory' => $wishlistFactoryMock,
+                'rssFactory' => $this->rssFactoryMock,
+                'outputHelper' => $this->catalogOutputMock
+            ]
         );
     }
 

@@ -23,7 +23,7 @@ class FinalPrice extends AbstractPrice
     /**
      * Price type final
      */
-    const PRICE_TYPE_CODE = 'final_price';
+    const PRICE_CODE = 'final_price';
 
     /**
      * @var SaleableInterface
@@ -49,7 +49,7 @@ class FinalPrice extends AbstractPrice
      */
     public function getValue()
     {
-        return $this->getMinProduct()->getPriceInfo()->getPrice(FinalPrice::PRICE_TYPE_CODE)->getValue();
+        return $this->getMinProduct()->getPriceInfo()->getPrice(FinalPrice::PRICE_CODE)->getValue();
     }
 
     /**
@@ -66,7 +66,7 @@ class FinalPrice extends AbstractPrice
                 $product = clone $item;
                 $product->setQty(\Magento\Pricing\PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT);
                 $price = $product->getPriceInfo()
-                    ->getPrice(FinalPrice::PRICE_TYPE_CODE)
+                    ->getPrice(FinalPrice::PRICE_CODE)
                     ->getValue();
                 if (($price !== false) && ($price <= (is_null($minPrice) ? $price : $minPrice))) {
                     $this->minProduct = $product;

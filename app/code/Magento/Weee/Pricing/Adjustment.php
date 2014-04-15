@@ -22,7 +22,7 @@ class Adjustment implements AdjustmentInterface
     /**
      * Adjustment code weee
      */
-    const CODE = 'weee';
+    const ADJUSTMENT_CODE = 'weee';
 
     /**
      * Weee helper
@@ -57,7 +57,7 @@ class Adjustment implements AdjustmentInterface
      */
     public function getAdjustmentCode()
     {
-        return self::CODE;
+        return self::ADJUSTMENT_CODE;
     }
 
     /**
@@ -120,7 +120,7 @@ class Adjustment implements AdjustmentInterface
      */
     public function isExcludedWith($adjustmentCode)
     {
-        return ($adjustmentCode === self::CODE) || $adjustmentCode === \Magento\Tax\Pricing\Adjustment::CODE;
+        return ($adjustmentCode === self::ADJUSTMENT_CODE) || $adjustmentCode === \Magento\Tax\Pricing\Adjustment::CODADJUSTMENT_CODEE;
     }
 
     /**

@@ -89,7 +89,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testBaseInitialization($tierPrices, $expectedValue)
     {
-        $this->product->setData(TierPrice::PRICE_TYPE_CODE, $tierPrices);
+        $this->product->setData(TierPrice::PRICE_CODE, $tierPrices);
         $this->assertEquals($expectedValue, $this->model->getValue());
     }
 
@@ -142,7 +142,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
         $attributeMock->expects($this->once())->method('getBackend')->will($this->returnValue($backendMock));
 
         $productResource = $this->getMock('Magento\Catalog\Model\Resource\Product', [], [], '', false);
-        $productResource->expects($this->once())->method('getAttribute')->with(TierPrice::PRICE_TYPE_CODE)
+        $productResource->expects($this->once())->method('getAttribute')->with(TierPrice::PRICE_CODE)
             ->will($this->returnValue($attributeMock));
 
         $this->product->expects($this->once())->method('getResource')->will($this->returnValue($productResource));
@@ -163,7 +163,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetterTierPriceList($tierPrices, $basePrice, $expectedResult)
     {
-        $this->product->setData(TierPrice::PRICE_TYPE_CODE, $tierPrices);
+        $this->product->setData(TierPrice::PRICE_CODE, $tierPrices);
 
         $price = $this->getMock('Magento\Pricing\Price\PriceInterface', [], [], '', false);
         $price->expects($this->any())->method('getValue')->will($this->returnValue($basePrice));

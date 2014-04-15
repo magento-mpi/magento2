@@ -24,7 +24,7 @@ class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterfa
     /**
      * Default price type
      */
-    const PRICE_TYPE_CODE = 'custom_option_price';
+    const PRICE_CODE = 'custom_option_price';
 
     /**
      * @var PriceModifierInterface

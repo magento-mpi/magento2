@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -33,21 +31,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $templateContextMock = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
-        $httpContextMock = $this->getMock('Magento\App\Http\Context', [], [], '', false);
-        $catalogHelperMock = $this->getMock('Magento\Catalog\Helper\Data', [], [], '', false);
-        $categoryLayerMock = $this->getMock('Magento\Catalog\Model\Layer\Category', [], [], '', false);
-        $visibilityModelMock = $this->getMock('Magento\Catalog\Model\Product\Visibility', [], [], '', false);
-        $rssFactoryMock = $this->getMock('Magento\Rss\Model\RssFactory', [], [], '', false);
-        $categoryFactoryMock = $this->getMock('Magento\Catalog\Model\CategoryFactory', [], [], '', false);
-        $productCollectionMock = $this->getMock(
-            'Magento\Catalog\Model\Resource\Product\CollectionFactory',
-            [],
-            [],
-            '',
-            false
-        );
         $this->imageHelperMock = $this->getMock('Magento\Catalog\Helper\Image', [], [], '', false);
-        $customerSessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
         $eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', [], [], '', false);
         $requestMock = $this->getMock('Magento\App\RequestInterface', [], [], '', false);
 
@@ -58,17 +42,13 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             ->method('getRequest')
             ->will($this->returnValue($requestMock));
 
-        $this->block = new \Magento\Rss\Block\Catalog\Category(
-            $templateContextMock,
-            $httpContextMock,
-            $catalogHelperMock,
-            $categoryLayerMock,
-            $visibilityModelMock,
-            $rssFactoryMock,
-            $categoryFactoryMock,
-            $productCollectionMock,
-            $this->imageHelperMock,
-            $customerSessionMock
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->block = $objectManager->getObject(
+            'Magento\Rss\Block\Catalog\Category',
+            [
+                'context' => $templateContextMock,
+                'imageHelper' => $this->imageHelperMock,
+            ]
         );
     }
 

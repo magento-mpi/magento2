@@ -110,7 +110,7 @@ class RendererPool extends AbstractBlock
         $renderClassName = self::AMOUNT_RENDERER_DEFAULT;
 
         if ($price) {
-            $priceCode = $price->getPriceType();
+            $priceCode = $price->getPriceCode();
             // implement class resolving fallback
             $pattern = [
                 $type . '/prices/' . $priceCode . '/amount_render_class',
@@ -156,7 +156,7 @@ class RendererPool extends AbstractBlock
     public function getAdjustmentRenders(SaleableInterface $saleableItem = null, PriceInterface $price = null)
     {
         $itemType = is_null($saleableItem) ? 'default' : $saleableItem->getTypeId();
-        $priceType = is_null($price) ? 'default' : $price->getPriceType();
+        $priceType = is_null($price) ? 'default' : $price->getPriceCode();
 
         $fallbackPattern = [
             "{$itemType}/adjustments/{$priceType}",
