@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -58,6 +56,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             ->method('getRequest')
             ->will($this->returnValue($requestMock));
 
+        $objectManager =
         $this->block = new \Magento\Rss\Block\Catalog\Category(
             $templateContextMock,
             $httpContextMock,

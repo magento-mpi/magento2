@@ -23,7 +23,7 @@ class TierPrice extends AbstractPrice implements TierPriceInterface
     /**
      * Price type tier
      */
-    const PRICE_TYPE_CODE = 'tier_price';
+    const PRICE_CODE = 'tier_price';
 
     /**
      * @var Session
@@ -187,7 +187,7 @@ class TierPrice extends AbstractPrice implements TierPriceInterface
     protected function getBasePrice()
     {
         /** @var float $productPrice is a minimal available price */
-        return $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_CODE)->getValue();
+        return $this->priceInfo->getPrice(BasePrice::PRICE_CODE)->getValue();
     }
 
     /**
@@ -251,13 +251,13 @@ class TierPrice extends AbstractPrice implements TierPriceInterface
     protected function getStoredTierPrices()
     {
         if (null === $this->rawPriceList) {
-            $this->rawPriceList = $this->salableItem->getData(self::PRICE_TYPE_CODE);
+            $this->rawPriceList = $this->salableItem->getData(self::PRICE_CODE);
             if (null === $this->rawPriceList || !is_array($this->rawPriceList)) {
                 /** @var \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute */
-                $attribute = $this->salableItem->getResource()->getAttribute(self::PRICE_TYPE_CODE);
+                $attribute = $this->salableItem->getResource()->getAttribute(self::PRICE_CODE);
                 if ($attribute) {
                     $attribute->getBackend()->afterLoad($this->salableItem);
-                    $this->rawPriceList = $this->salableItem->getData(self::PRICE_TYPE_CODE);
+                    $this->rawPriceList = $this->salableItem->getData(self::PRICE_CODE);
                 }
             }
             if (null === $this->rawPriceList || !is_array($this->rawPriceList)) {

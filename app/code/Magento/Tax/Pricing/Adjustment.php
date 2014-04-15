@@ -22,7 +22,7 @@ class Adjustment implements AdjustmentInterface
     /**
      * Adjustment code tax
      */
-    const CODE = 'tax';
+    const ADJUSTMENT_CODE = 'tax';
 
     /**
      * @var TaxHelper

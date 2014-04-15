@@ -25,7 +25,7 @@ abstract class AbstractPrice implements PriceInterface
     /**
      * Default price type
      */
-    const PRICE_TYPE_CODE = 'abstract_price';
+    const PRICE_CODE = 'abstract_price';
 
     /**
      * @var AmountInterface
@@ -116,8 +116,8 @@ abstract class AbstractPrice implements PriceInterface
      *
      * @return string
      */
-    public function getPriceType()
+    public function getPriceCode()
     {
-        return static::PRICE_TYPE_CODE;
+        return static::PRICE_CODE;
     }
-} 
+}

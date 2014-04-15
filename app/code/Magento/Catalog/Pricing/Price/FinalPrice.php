@@ -21,7 +21,7 @@ class FinalPrice extends AbstractPrice
     /**
      * Price type final
      */
-    const PRICE_TYPE_CODE = 'final_price';
+    const PRICE_CODE = 'final_price';
 
     /**
      * @var BasePrice
@@ -39,7 +39,7 @@ class FinalPrice extends AbstractPrice
         CalculatorInterface $calculator
     ) {
         parent::__construct($salableItem, $quantity, $calculator);
-        $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_CODE);
+        $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_CODE);
         $this->baseAmount = $this->getValue();
     }
 

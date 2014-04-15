@@ -168,7 +168,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                 $qty = !($selectionItem->getSelectionQty() * 1) ? '1' : $selectionItem->getSelectionQty() * 1;
                 // recalculate currency
                 $tierPrices = $selectionItem->getPriceInfo()
-                    ->getPrice(\Magento\Catalog\Pricing\Price\TierPrice::PRICE_TYPE_CODE)
+                    ->getPrice(\Magento\Catalog\Pricing\Price\TierPrice::PRICE_CODE)
                     ->getTierPriceList();
 
                 foreach ($tierPrices as &$tierPriceInfo) {
@@ -234,12 +234,12 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
 
         $productAmount = $currentProduct
             ->getPriceInfo()
-            ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_TYPE_CODE)
+            ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
             ->getAmount();
 
         $baseProductAmount = $currentProduct
             ->getPriceInfo()
-            ->getPrice(\Magento\Catalog\Pricing\Price\RegularPrice::PRICE_TYPE_CODE)
+            ->getPrice(\Magento\Catalog\Pricing\Price\RegularPrice::PRICE_CODE)
             ->getAmount();
 
         $config = array(
@@ -253,7 +253,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             'priceType' => $currentProduct->getPriceType(),
             'specialPrice' => $currentProduct
                 ->getPriceInfo()
-                ->getPrice(\Magento\Catalog\Pricing\Price\SpecialPrice::PRICE_TYPE_CODE)
+                ->getPrice(\Magento\Catalog\Pricing\Price\SpecialPrice::PRICE_CODE)
                 ->getValue(),
             'includeTax' => $this->_taxData->priceIncludesTax() ? 'true' : 'false',
             'isFixedPrice' => $isFixedPrice,

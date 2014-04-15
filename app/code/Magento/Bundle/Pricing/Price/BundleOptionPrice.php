@@ -19,7 +19,7 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
     /**
      * Price model code
      */
-    const PRICE_TYPE_CODE = 'bundle_option';
+    const PRICE_CODE = 'bundle_option';
 
     /**
      * @var array

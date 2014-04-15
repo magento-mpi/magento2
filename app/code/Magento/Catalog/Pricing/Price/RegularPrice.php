@@ -16,7 +16,7 @@ class RegularPrice extends AbstractPrice
     /**
      * Price type
      */
-    const PRICE_TYPE_CODE = 'regular_price';
+    const PRICE_CODE = 'regular_price';
 
    /**
      * Get price value
