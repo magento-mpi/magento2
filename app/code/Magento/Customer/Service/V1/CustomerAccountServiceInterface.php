@@ -280,7 +280,7 @@ interface CustomerAccountServiceInterface
     public function isCustomerInStore($customerWebsiteId, $storeId);
 
     /**
-     * Retrieve customer details
+     * Retrieve customer
      *
      * @param string $customerEmail
      * @param int $websiteId If not set, will use the current websiteId
