@@ -51,7 +51,6 @@
     <preference for="Magento\Mview\ProcessorInterface" type="Magento\Mview\Processor" />
     <preference for="Magento\Mview\View\CollectionInterface" type="Magento\Mview\View\Collection" />
     <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
-    <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
     <preference for="Magento\Css\PreProcessor\AdapterInterface" type="Magento\Css\PreProcessor\Adapter\Oyejorge" />
     <preference for="Magento\Translate\ResourceInterface" type="Magento\Translation\Model\Resource\Translate" />
     <preference for="Magento\LocaleInterface" type="Magento\Locale" />
@@ -64,6 +63,7 @@
     <preference for="Magento\Less\PreProcessor\ErrorHandlerInterface" type="Magento\Less\PreProcessor\ErrorHandler" />
     <preference for="Magento\Module\ResourceInterface" type="Magento\Install\Model\Resource\Resource" />
     <preference for="Magento\App\Config\Resource\ConfigInterface" type="Magento\Core\Model\Resource\Config" />
+    <preference for="Magento\Pricing\Amount\AmountInterface" type="Magento\Pricing\Amount\Base" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <arguments>
             <argument name="parts" xsi:type="array">
@@ -347,7 +347,6 @@
     </type>
     <type name="Magento\App\FrontController">
         <plugin name="install" type="Magento\Module\FrontController\Plugin\Install" sortOrder="40"/>
-        <plugin name="clickjacking" type="Magento\App\FrontController\Plugin\Clickjacking" sortOrder="0"/>
         <plugin name="messageBox" type="Magento\Core\App\FrontController\Plugin\MessageBox" sortOrder="0"/>
     </type>
     <type name="Magento\App\Action\Action">

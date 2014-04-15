@@ -66,7 +66,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Shipment\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/shipmentsgrid', array('_current' => true));
+        return $this->getUrl('*/*/shipmentsgrid', array('_current' => true));
     }
 
     /**
@@ -98,7 +98,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Shipment\Grid
         $this->getMassactionBlock()->getItem(
             'print_shipping_label'
         )->setUrl(
-            $this->getUrl('adminhtml/sales_archive/massPrintShippingLabel')
+            $this->getUrl('sales/archive/massPrintShippingLabel')
         );
 
         return $this;

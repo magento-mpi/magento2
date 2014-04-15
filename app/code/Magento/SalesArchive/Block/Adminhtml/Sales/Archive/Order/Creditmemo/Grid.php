@@ -33,7 +33,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Creditmemo\Grid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory,
-        \Magento\Sales\Model\Resource\Order\Creditmemo\Grid\CollectionFactory $collectionFactory,
+        \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory,
         \Magento\Core\Helper\Url $coreUrl,
         array $data = array()
     ) {
@@ -68,7 +68,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Creditmemo\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/creditmemosgrid', array('_current' => true));
+        return $this->getUrl('*/*/creditmemosgrid', array('_current' => true));
     }
 
     /**

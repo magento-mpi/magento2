@@ -57,14 +57,14 @@ class ListProduct extends Block
      *
      * @var string
      */
-    protected $clickForPrice = "//div[contains(@class, 'product details') and ('%s')]//a[contains(@id, 'msrp-click')]";
+    protected $clickForPrice = "//div[contains(@class, 'product details') and ('%s')]//a[contains(@id, 'msrp-popup')]";
 
     /**
      * Minimum Advertised Price on category page
      *
      * @var string
      */
-    protected $oldPrice = "[id*=product-price]";
+    protected $oldPrice = ".old-price .price";
 
     /**
      * This method returns the price box block for the named product.
@@ -152,7 +152,7 @@ class ListProduct extends Block
     /**
      * Get Minimum Advertised Price on Category page
      *
-     * @return array|string
+     * @return string
      */
     public function getOldPriceCategoryPage()
     {
