@@ -32,7 +32,7 @@ class CatalogRuleNew extends Page
     /**
      * @var string
      */
-    protected $formSelector = 'page:main-container';
+    protected $formSelector = '#anchor-content';
 
     /**
      * Custom constructor
@@ -50,7 +50,7 @@ class CatalogRuleNew extends Page
     public function getCatalogPriceRuleForm()
     {
         return Factory::getBlockFactory()->getMagentoCatalogRuleAdminhtmlPromoCatalogEdit(
-            $this->_browser->find($this->formSelector, Locator::SELECTOR_ID)
+            $this->_browser->find($this->formSelector, Locator::SELECTOR_CSS)
         );
     }
 }

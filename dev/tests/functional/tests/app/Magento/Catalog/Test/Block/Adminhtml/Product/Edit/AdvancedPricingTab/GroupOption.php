@@ -36,7 +36,7 @@ class GroupOption extends Block
                 ->setValue($data['customer_group']);
         }
         if (isset($data['quantity'])) {
-            $this->_rootElement->find('#' . $rowPrefix . '_qty')->setValue($data['price']);
+            $this->_rootElement->find('#' . $rowPrefix . '_qty')->setValue($data['quantity']);
         }
         if (isset($data['price'])) {
             $this->_rootElement->find('#' . $rowPrefix . '_price')->setValue($data['price']);
