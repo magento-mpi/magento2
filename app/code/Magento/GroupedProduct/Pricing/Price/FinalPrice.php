@@ -12,7 +12,7 @@ namespace Magento\GroupedProduct\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price\AbstractPrice;
 use Magento\Pricing\Adjustment\Calculator;
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Catalog\Model\Product;
 use Magento\GroupedProduct\Model\Product\Type\Grouped;
 
 /**
@@ -26,19 +26,19 @@ class FinalPrice extends AbstractPrice
     const PRICE_CODE = 'final_price';
 
     /**
-     * @var SaleableInterface
+     * @var Product
      */
     protected $minProduct;
 
     /**
-     * @param SaleableInterface $product
+     * @param Product $product
      * @param Calculator $calculator
      */
     public function __construct(
-        SaleableInterface $product,
+        Product $product,
         Calculator $calculator
     ) {
-        $this->salableItem = $product;
+        $this->product = $product;
         $this->calculator = $calculator;
     }
 
@@ -55,12 +55,12 @@ class FinalPrice extends AbstractPrice
     /**
      * Returns product with minimal price
      *
-     * @return SaleableInterface
+     * @return Product
      */
     public function getMinProduct()
     {
         if (null === $this->minProduct) {
-            $products = $this->salableItem->getTypeInstance()->getAssociatedProducts($this->salableItem);
+            $products = $this->product->getTypeInstance()->getAssociatedProducts($this->product);
             $minPrice = null;
             foreach ($products as $item) {
                 $product = clone $item;

@@ -56,10 +56,10 @@ class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterfa
     public function getOptionValueAmount(array $value = array())
     {
         $pricingValue = $this->getPricingValue($value);
-        $this->salableItem->setParentId(true);
-        $amount = $this->priceModifier->modifyPrice($pricingValue, $this->salableItem);
+        $this->product->setParentId(true);
+        $amount = $this->priceModifier->modifyPrice($pricingValue, $this->product);
 
-        return $this->calculator->getAmount($amount, $this->salableItem);
+        return $this->calculator->getAmount($amount, $this->product);
 
     }
 
@@ -73,7 +73,7 @@ class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterfa
     {
         $amount = $this->getPricingValue($value);
 
-        return $this->calculator->getAmount($amount, $this->salableItem);
+        return $this->calculator->getAmount($amount, $this->product);
     }
 
     /**
@@ -84,7 +84,7 @@ class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterfa
      */
     protected function preparePrice(array $value = array())
     {
-        return $this->salableItem->getPriceInfo()->getPrice('final_price')->getValue()
+        return $this->product->getPriceInfo()->getPrice('final_price')->getValue()
         * $value['pricing_value'] / 100;
     }
 

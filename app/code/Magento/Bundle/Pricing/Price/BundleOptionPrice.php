@@ -8,9 +8,8 @@
 namespace Magento\Bundle\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price\AbstractPrice;
-use Magento\Pricing\Object\SaleableInterface;
 use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
-use \Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product;
 
 /**
  * Bundle option price model

@@ -10,7 +10,7 @@
 
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Catalog\Model\Product;
 use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
 
 /**
@@ -29,12 +29,12 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
     protected $calculator;
 
     /**
-     * @param SaleableInterface $product
+     * @param Product $product
      * @param float $quantity
      * @param BundleCalculatorInterface $calculator
      */
     public function __construct(
-        SaleableInterface $product,
+        Product $product,
         $quantity,
         BundleCalculatorInterface $calculator
     ) {
@@ -54,7 +54,7 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
      */
     public function getMaximalPrice()
     {
-        return $this->calculator->getMaxAmount($this->basePrice->getValue(), $this->salableItem);
+        return $this->calculator->getMaxAmount($this->basePrice->getValue(), $this->product);
     }
 
     /**
@@ -71,7 +71,7 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
      */
     public function getAmount()
     {
-        return $this->calculator->getAmount(parent::getValue(), $this->salableItem);
+        return $this->calculator->getAmount(parent::getValue(), $this->product);
     }
 
     /**

@@ -11,7 +11,7 @@
 namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Pricing\Adjustment\CalculatorInterface;
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Catalog\Model\Product;
 use Magento\Stdlib\DateTime\TimezoneInterface;
 
 /**
@@ -30,13 +30,13 @@ class SpecialPrice extends AbstractPrice implements SpecialPriceInterface
     protected $localeDate;
 
     /**
-     * @param SaleableInterface $product
+     * @param Product $product
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param TimezoneInterface $localeDate
      */
     public function __construct(
-        SaleableInterface $product,
+        Product $product,
         $quantity,
         CalculatorInterface $calculator,
         TimezoneInterface $localeDate
@@ -68,7 +68,7 @@ class SpecialPrice extends AbstractPrice implements SpecialPriceInterface
      */
     public function getSpecialPrice()
     {
-        return $this->salableItem->getSpecialPrice();
+        return $this->product->getSpecialPrice();
     }
 
     /**
@@ -78,7 +78,7 @@ class SpecialPrice extends AbstractPrice implements SpecialPriceInterface
      */
     public function getSpecialFromDate()
     {
-        return $this->salableItem->getSpecialFromDate();
+        return $this->product->getSpecialFromDate();
     }
 
     /**
@@ -88,7 +88,7 @@ class SpecialPrice extends AbstractPrice implements SpecialPriceInterface
      */
     public function getSpecialToDate()
     {
-        return $this->salableItem->getSpecialToDate();
+        return $this->product->getSpecialToDate();
     }
 
     /**
@@ -97,7 +97,7 @@ class SpecialPrice extends AbstractPrice implements SpecialPriceInterface
     public function isScopeDateInInterval()
     {
         return $this->localeDate->isScopeDateInInterval(
-            $this->salableItem->getStore(),
+            $this->product->getStore(),
             $this->getSpecialFromDate(),
             $this->getSpecialToDate()
         );
