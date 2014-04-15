@@ -1,3 +1,12 @@
+* Pricing Improvements:
+  * Added price calculation component to library (MAGETWO-18226)
+  * Eliminated price calculation from blocks and templates and implemented new calculation models for the next product types
+    * Bundle (MAGETWO-20420)
+    * Simple/Virtual (MAGETWO-22747, MAGETWO-21847)
+    * Grouped (MAGETWO-20409)
+    * Downloadable (MAGETWO-20404)
+  * Resolved dependencies of price calculation from Tax module (MAGETWO-20457)
+  * Resolved dependencies of price calculation from Weee tax module (MAGETWO-20458)
 * Fixed bugs:
   * An issue with the inability to save product with grouped price when Price Scope = Website was fixed (MAGETWO-21709)
   * An issue with fatal error on attempt to edit product from wishlist if more than one store view available was fixed (MAGETWO-20859)
@@ -13,14 +22,21 @@
   * An issue with clickjacking vulnerability was fixed (MAGETWO-22696)
   * Fixed: Blank theme - fixed bugs and added improvements
   * Fixed Flat Rate shipping method to be enabled by default (MAGETWO-21702)
+  * Fixed an issue with uncorrect order of products in Add Product split button (MAGETWO-13160)
+  * Fixed an issue with tier price attribute save (MAGETWO-19371)
+  * Fixed possibility creating integration from config file (MAGETWO-22311)
 * Framework Improvements:
   * Simplify Search related Data Objects (MAGETWO-22613)
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
   * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)
   * Refactor RecurringPayment module to use customer service (MAGETWO-22521)
+  * Refactor Multishipping module to use Customer Services (MAGETWO-20874)
+  * Refactor PayPal module to use Customer Service (MAGETWO-20477)
 * JavaScript improvements:
   * Fixed possibility creating integration from config file (MAGETWO-22311)
+* GitHub requests:
+  * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
 
 2.0.0.0-dev73
 =============

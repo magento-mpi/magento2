@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Weee\Model\Total\Quote\Nominal;
+
 /**
  * Nominal fixed product tax total
  */
-namespace Magento\Weee\Model\Total\Quote\Nominal;
-
 class Weee extends \Magento\Weee\Model\Total\Quote\Weee
 {
     /**

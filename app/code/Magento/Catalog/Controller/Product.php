@@ -55,8 +55,8 @@ class Product extends \Magento\App\Action\Action implements \Magento\Catalog\Con
     public function viewAction()
     {
         // Get initial data from request
-        $categoryId = (int)$this->getRequest()->getParam('category', false);
-        $productId = (int)$this->getRequest()->getParam('id');
+        $categoryId = (int) $this->getRequest()->getParam('category', false);
+        $productId = (int) $this->getRequest()->getParam('id');
         $specifyOptions = $this->getRequest()->getParam('options');
 
         if ($this->getRequest()->isPost() && $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED)) {

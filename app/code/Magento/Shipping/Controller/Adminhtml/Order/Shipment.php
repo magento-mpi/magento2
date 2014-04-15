@@ -488,8 +488,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )->getValue(
             'carriers/' . $carrierCode . '/title',
-            $shipment->getStoreId(),
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $shipment->getStoreId()
         );
         if ($trackingNumbers) {
             foreach ($trackingNumbers as $trackingNumber) {
