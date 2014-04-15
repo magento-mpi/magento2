@@ -86,15 +86,15 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $data
-     * @param string $priceType
+     * @param string $priceCode
      * @param array $cssClasses
      * @dataProvider toHtmlDataProvider
      */
-    public function testToHtml($data, $priceType, $cssClasses)
+    public function testToHtml($data, $priceCode, $cssClasses)
     {
         $this->price->expects($this->once())
-            ->method('getPriceType')
-            ->will($this->returnValue($priceType));
+            ->method('getPriceCode')
+            ->will($this->returnValue($priceCode));
 
         $priceBox = $this->objectManager->getObject('Magento\Pricing\Render\PriceBox', array(
             'context' => $this->context,
@@ -112,12 +112,12 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 'data' => [],
-                'price_type' => 'test_price',
+                'price_code' => 'test_price',
                 'css_classes' => 'price-test_price'
             ),
             array(
                 'data' => ['css_classes' => 'some_css_class'],
-                'price_type' => 'test_price',
+                'price_code' => 'test_price',
                 'css_classes' => 'some_css_class price-test_price'
         ));
     }

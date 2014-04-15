@@ -16,7 +16,7 @@ use \Magento\Catalog\Model\Product;
 /**
  * Final price model
  */
-class FinalPrice extends AbstractPrice
+class FinalPrice extends AbstractPrice implements FinalPriceInterface
 {
     /**
      * Price type final
