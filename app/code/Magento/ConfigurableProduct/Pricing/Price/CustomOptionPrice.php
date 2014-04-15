@@ -10,7 +10,7 @@ namespace Magento\ConfigurableProduct\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price\RegularPrice;
 use Magento\Pricing\Amount\AmountInterface;
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Catalog\Model\Product;
 use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Catalog\Model\Product\PriceModifierInterface;
 
@@ -32,19 +32,19 @@ class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterfa
     protected $priceModifier;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param Product $product
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param PriceModifierInterface $modifier
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        Product $product,
         $quantity,
         CalculatorInterface $calculator,
         PriceModifierInterface $modifier
     ) {
         $this->priceModifier = $modifier;
-        parent::__construct($salableItem, $quantity, $calculator);
+        parent::__construct($product, $quantity, $calculator);
     }
 
     /**
@@ -56,10 +56,10 @@ class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterfa
     public function getOptionValueAmount(array $value = array())
     {
         $pricingValue = $this->getPricingValue($value);
-        $this->salableItem->setParentId(true);
-        $amount = $this->priceModifier->modifyPrice($pricingValue, $this->salableItem);
+        $this->product->setParentId(true);
+        $amount = $this->priceModifier->modifyPrice($pricingValue, $this->product);
 
-        return $this->calculator->getAmount($amount, $this->salableItem);
+        return $this->calculator->getAmount($amount, $this->product);
 
     }
 
@@ -73,18 +73,18 @@ class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterfa
     {
         $amount = $this->getPricingValue($value);
 
-        return $this->calculator->getAmount($amount, $this->salableItem);
+        return $this->calculator->getAmount($amount, $this->product);
     }
 
     /**
      * Prepare percent price value
      *
-     * @param $value
+     * @param array $value
      * @return float
      */
-    protected function preparePrice($value)
+    protected function preparePrice(array $value = array())
     {
-        return $this->salableItem->getPriceInfo()->getPrice('final_price')->getValue()
+        return $this->product->getPriceInfo()->getPrice('final_price')->getValue()
         * $value['pricing_value'] / 100;
     }
 

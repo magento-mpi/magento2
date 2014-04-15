@@ -9,7 +9,7 @@
 namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Pricing\Adjustment\CalculatorInterface;
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Catalog\Model\Product;
 use Magento\Customer\Model\Group;
 use Magento\Customer\Model\Session;
 use Magento\Pricing\PriceInfoInterface;
@@ -57,21 +57,21 @@ class TierPrice extends AbstractPrice implements TierPriceInterface
     protected $filterByBasePrice = true;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param Product $product
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param Session $customerSession
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        Product $product,
         $quantity,
         CalculatorInterface $calculator,
         Session $customerSession
     ) {
-        parent::__construct($salableItem, $quantity, $calculator);
+        parent::__construct($product, $quantity, $calculator);
         $this->customerSession = $customerSession;
-        if ($salableItem->hasCustomerGroupId()) {
-            $this->customerGroup = (int) $salableItem->getCustomerGroupId();
+        if ($product->hasCustomerGroupId()) {
+            $this->customerGroup = (int) $product->getCustomerGroupId();
         } else {
             $this->customerGroup = (int) $this->customerSession->getCustomerGroupId();
         }
@@ -205,7 +205,7 @@ class TierPrice extends AbstractPrice implements TierPriceInterface
      */
     protected function applyAdjustment($price)
     {
-        return $this->calculator->getAmount($price, $this->salableItem);
+        return $this->calculator->getAmount($price, $this->product);
     }
 
     /**
@@ -251,13 +251,13 @@ class TierPrice extends AbstractPrice implements TierPriceInterface
     protected function getStoredTierPrices()
     {
         if (null === $this->rawPriceList) {
-            $this->rawPriceList = $this->salableItem->getData(self::PRICE_CODE);
+            $this->rawPriceList = $this->product->getData(self::PRICE_CODE);
             if (null === $this->rawPriceList || !is_array($this->rawPriceList)) {
                 /** @var \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute */
-                $attribute = $this->salableItem->getResource()->getAttribute(self::PRICE_CODE);
+                $attribute = $this->product->getResource()->getAttribute(self::PRICE_CODE);
                 if ($attribute) {
-                    $attribute->getBackend()->afterLoad($this->salableItem);
-                    $this->rawPriceList = $this->salableItem->getData(self::PRICE_CODE);
+                    $attribute->getBackend()->afterLoad($this->product);
+                    $this->rawPriceList = $this->product->getData(self::PRICE_CODE);
                 }
             }
             if (null === $this->rawPriceList || !is_array($this->rawPriceList)) {

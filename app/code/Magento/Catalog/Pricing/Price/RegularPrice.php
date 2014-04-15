@@ -26,7 +26,7 @@ class RegularPrice extends AbstractPrice
     public function getValue()
     {
         if ($this->value === null) {
-            $price = $this->salableItem->getPrice();
+            $price = $this->product->getPrice();
             $this->value = $price ? floatval($price) : false;
         }
         return $this->value;

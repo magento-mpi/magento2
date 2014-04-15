@@ -163,4 +163,35 @@ class Info extends \Magento\View\Element\Template
                 return '';
         }
     }
+    /**
+     * Get tier price formatted with html
+     *
+     * @return string
+     */
+    public function getProductTierPriceHtml()
+    {
+        $priceRender = $this->getPriceRender();
+
+        $price = '';
+        if ($priceRender) {
+            $price = $priceRender->render(
+                \Magento\Catalog\Pricing\Price\TierPrice::PRICE_CODE,
+                $this->getItem()->getProduct(),
+                [
+                    'include_container' => true,
+                    'zone' => \Magento\Pricing\Render::ZONE_ITEM_LIST
+                ]
+            );
+        }
+
+        return $price;
+    }
+
+    /**
+     * @return \Magento\Pricing\Render
+     */
+    protected function getPriceRender()
+    {
+        return $this->getLayout()->getBlock('product.price.render.default');
+    }
 }
