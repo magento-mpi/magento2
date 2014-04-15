@@ -53,6 +53,12 @@
             ],
             address: [
                 '<?php echo $this->getViewFileUrl('Magento_Customer::address.js') ?>'
+            ],
+            priceOption: [
+                '<?php echo $this->getViewFileUrl('Magento_Catalog::js/price-option.js') ?>'
+            ],
+            requireCookie: [
+                '<?php echo $this->getViewFileUrl('Magento_Core::js/require-cookie.js') ?>'
             ]
         });
     })(jQuery);
