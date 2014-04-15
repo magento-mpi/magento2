@@ -2187,4 +2187,5 @@ return array(
         'Magento\Core\App\Request\RewriteService',
         'Magento\UrlRewrite\App\Request\RewriteService'
     ),
+    ['Magento\Catalog\Block\Product\Price\Template']
 );

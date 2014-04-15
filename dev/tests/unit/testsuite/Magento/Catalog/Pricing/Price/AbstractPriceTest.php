@@ -11,12 +11,12 @@ namespace Magento\Catalog\Pricing\Price;
 /**
  * Class RegularPriceTest
  */
-class RegularPriceTest extends \PHPUnit_Framework_TestCase
+class AbstractPriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Pricing\Price\RegularPrice
      */
-    protected $regularPrice;
+    protected $price;
 
     /**
      * @var \Magento\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -24,12 +24,17 @@ class RegularPriceTest extends \PHPUnit_Framework_TestCase
     protected $priceInfoMock;
 
     /**
+     * @var \Magento\Pricing\Amount\Base|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $amountMock;
+
+    /**
      * @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $salableItemMock;
 
     /**
-     * @var \Magento\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Pricing\Adjustment\Calculator
      */
     protected $calculatorMock;
 
@@ -47,34 +52,15 @@ class RegularPriceTest extends \PHPUnit_Framework_TestCase
         $this->salableItemMock->expects($this->once())
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfoMock));
-        $this->regularPrice = new RegularPrice($this->salableItemMock, $qty, $this->calculatorMock);
-    }
-
-    /**
-     * Test method testGetValue
-     *
-     * @param float|bool $price
-     * @dataProvider testGetValueDataProvider
-     */
-    public function testGetValue($price)
-    {
-        $this->salableItemMock->expects($this->once())
-            ->method('getPrice')
-            ->will($this->returnValue($price));
-        $this->assertEquals($price, $this->regularPrice->getValue());
-    }
-
-    /**
-     * Data provider for testGetValue
-     *
-     * @return array
-     */
-    public function testGetValueDataProvider()
-    {
-        return [
-            'With price' => [100.00],
-            'Without price' => [false]
-        ];
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->price = $objectManager->getObject(
+            'Magento\Catalog\Pricing\Price\Stub',
+            [
+                'salableItem' => $this->salableItemMock,
+                'quantity' => $qty,
+                'calculator' => $this->calculatorMock
+            ]
+        );
     }
 
     /**
@@ -82,17 +68,13 @@ class RegularPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAmount()
     {
-        $priceValue = 77;
+        $priceValue = $this->price->getValue();
         $amountValue = 88;
         $this->calculatorMock->expects($this->once())
             ->method('getAmount')
             ->with($this->equalTo($priceValue))
             ->will($this->returnValue($amountValue));
-        $this->salableItemMock->expects($this->once())
-            ->method('getPrice')
-            ->will($this->returnValue($priceValue));
-
-        $this->assertEquals($amountValue, $this->regularPrice->getAmount());
+        $this->assertEquals($amountValue, $this->price->getAmount());
     }
 
     /**
@@ -100,6 +82,6 @@ class RegularPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPriceCode()
     {
-        $this->assertEquals(RegularPrice::PRICE_CODE, $this->regularPrice->getPriceCode());
+        $this->assertEquals(AbstractPrice::PRICE_CODE, $this->price->getPriceCode());
     }
 }

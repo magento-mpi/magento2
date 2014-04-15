@@ -109,7 +109,7 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         }
         $price = $this->getMock('Magento\Bundle\Pricing\Price\BundleOptionPrice', [], [], '', false);
         $price->expects($this->atLeastOnce())->method('getOptions')->will($this->returnValue($options));
-        $this->priceMocks[Price\BundleOptionPrice::PRICE_TYPE_CODE] = $price;
+        $this->priceMocks[Price\BundleOptionPrice::PRICE_CODE] = $price;
 
         // Price type of saleable items
         $this->saleableItem->expects($this->any())->method('getPriceType')->will($this->returnValue(

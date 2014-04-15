@@ -26,7 +26,7 @@ class CatalogRulePrice extends AbstractPrice
     /**
      * Price type identifier string
      */
-    const PRICE_TYPE_CODE = 'catalog_rule_price';
+    const PRICE_CODE = 'catalog_rule_price';
 
     /**
      * @var \Magento\Stdlib\DateTime\TimezoneInterface

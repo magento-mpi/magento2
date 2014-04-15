@@ -22,7 +22,7 @@ class CustomOptionPrice extends AbstractPrice implements CustomOptionPriceInterf
     /**
      * Price model code
      */
-    const PRICE_TYPE_CODE = 'custom_option_price';
+    const PRICE_CODE = 'custom_option_price';
 
     /**
      * @var array

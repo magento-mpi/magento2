@@ -226,4 +226,5 @@ return array(
     array('reindexProducts', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
     array('getCacheIdTags', 'Magento\CatalogEvent\Model\Event'),
     ['_compareSortOrder', 'Magento\Rma\Block\Returns\Create'],
+    ['getTierPriceHtml', 'Magento\AdvancedCheckout\Block\Sku\Products\Info'],
 );

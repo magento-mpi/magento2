@@ -18,7 +18,7 @@ class BasePrice extends AbstractPrice
     /**
      * Price type identifier string
      */
-    const PRICE_TYPE_CODE = 'base_price';
+    const PRICE_CODE = 'base_price';
 
     /**
      * @var bool|float|null

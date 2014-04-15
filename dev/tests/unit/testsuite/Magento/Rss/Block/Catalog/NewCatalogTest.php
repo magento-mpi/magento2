@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -33,12 +31,6 @@ class NewCatalogTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $templateContextMock = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
-        $httpContextMock = $this->getMock('Magento\App\Http\Context', [], [], '', false);
-        $catalogHelperMock = $this->getMock('Magento\Catalog\Helper\Data', [], [], '', false);
-        $visibilityModelMock = $this->getMock('Magento\Catalog\Model\Product\Visibility', [], [], '', false);
-        $rssFactoryMock = $this->getMock('Magento\Rss\Model\RssFactory', [], [], '', false);
-        $productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', [], [], '', false);
-        $resourceIteratorMock = $this->getMock('Magento\Model\Resource\Iterator', [], [], '', false);
         $this->imageHelperMock = $this->getMock('Magento\Catalog\Helper\Image', [], [], '', false);
 
         $eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', [], [], '', false);
@@ -51,15 +43,13 @@ class NewCatalogTest extends \PHPUnit_Framework_TestCase
             ->method('getRequest')
             ->will($this->returnValue($requestMock));
 
-        $this->block = new \Magento\Rss\Block\Catalog\NewCatalog(
-            $templateContextMock,
-            $httpContextMock,
-            $catalogHelperMock,
-            $rssFactoryMock,
-            $productFactoryMock,
-            $visibilityModelMock,
-            $resourceIteratorMock,
-            $this->imageHelperMock
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->block = $objectManager->getObject(
+            'Magento\Rss\Block\Catalog\NewCatalog',
+            [
+                'context' => $templateContextMock,
+                'imageHelper' => $this->imageHelperMock,
+            ]
         );
     }
 

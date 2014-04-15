@@ -84,7 +84,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAdjustmentCode()
     {
-        $this->assertEquals(\Magento\Tax\Pricing\Adjustment::CODE, $this->model->getAdjustmentCode());
+        $this->assertEquals(\Magento\Tax\Pricing\Adjustment::ADJUSTMENT_CODE, $this->model->getAdjustmentCode());
     }
 
     /**

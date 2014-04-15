@@ -16,7 +16,7 @@ class TierPrice extends \Magento\Catalog\Pricing\Price\TierPrice
     /**
      * Price type tier
      */
-    const PRICE_TYPE_CODE = 'tier_price';
+    const PRICE_CODE = 'tier_price';
 
     /**
      * @var bool

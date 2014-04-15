@@ -22,7 +22,7 @@ class Adjustment implements AdjustmentInterface
     /**
      * Adjustment code tax
      */
-    const CODE = 'tax';
+    const ADJUSTMENT_CODE = 'tax';
 
     /**
      * @var TaxHelper
@@ -51,7 +51,7 @@ class Adjustment implements AdjustmentInterface
      */
     public function getAdjustmentCode()
     {
-        return self::CODE;
+        return self::ADJUSTMENT_CODE;
     }
 
     /**

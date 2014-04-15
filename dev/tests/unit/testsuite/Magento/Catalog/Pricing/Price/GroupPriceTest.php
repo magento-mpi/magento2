@@ -80,6 +80,9 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($expected, $groupPriceModel->getValue());
+
+        //Verify that storedGroupPrice is cached
+        $this->assertEquals($expected, $groupPriceModel->getValue());
     }
 
     /**

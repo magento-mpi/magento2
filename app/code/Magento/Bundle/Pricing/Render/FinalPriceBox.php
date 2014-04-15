@@ -25,7 +25,7 @@ class FinalPriceBox extends CatalogRender\FinalPriceBox
     public function showRangePrice()
     {
         /** @var Price\BundleOptionPrice $optionPrice */
-        $optionPrice = $this->getPriceType(Price\BundleOptionPrice::PRICE_TYPE_CODE);
+        $optionPrice = $this->getPriceType(Price\BundleOptionPrice::PRICE_CODE);
         return $optionPrice->getValue() !== $optionPrice->getMaxValue();
     }
 }

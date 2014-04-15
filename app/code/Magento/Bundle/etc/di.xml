@@ -90,8 +90,8 @@
     <virtualType name="Magento\Bundle\Pricing\Adjustment\Collection" type="Magento\Pricing\Adjustment\Collection">
         <arguments>
             <argument name="adjustments" xsi:type="array">
-                <item name="tax" xsi:type="const">Magento\Tax\Pricing\Adjustment::CODE</item>
-                <item name="weee" xsi:type="const">Magento\Weee\Pricing\Adjustment::CODE</item>
+                <item name="tax" xsi:type="const">Magento\Tax\Pricing\Adjustment::ADJUSTMENT_CODE</item>
+                <item name="weee" xsi:type="const">Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE</item>
             </argument>
         </arguments>
     </virtualType>

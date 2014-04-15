@@ -44,7 +44,7 @@ class FinalPriceBox extends BasePriceBox
         if ($msrpPriceType->canApplyMsrp($this->getSaleableItem())) {
             /** @var BasePriceBox $msrpBlock */
             $msrpBlock = $this->rendererPool->createPriceRender(
-                MsrpPrice::PRICE_TYPE_CODE,
+                MsrpPrice::PRICE_CODE,
                 $this->getSaleableItem(),
                 [
                     'real_price_html' => $result
@@ -76,7 +76,7 @@ class FinalPriceBox extends BasePriceBox
     {
         //@TODO Implement 'minimal_price' final price is a minimum price
 
-        $price = $this->getPriceType(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_TYPE_CODE);
+        $price = $this->getPriceType(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE);
         $id = $this->getPriceId() ? $this->getPriceId() : 'product-minimal-price-' . $this->getSaleableItem()->getId();
         return $this->renderAmount(
             $price->getMinimalPrice(),
@@ -96,8 +96,8 @@ class FinalPriceBox extends BasePriceBox
      */
     public function showSpecialPrice()
     {
-        $displayRegularPrice = $this->getPriceType(Price\RegularPrice::PRICE_TYPE_CODE)->getAmount();
-        $displayFinalPrice = $this->getPriceType(Price\FinalPrice::PRICE_TYPE_CODE)->getAmount();
+        $displayRegularPrice = $this->getPriceType(Price\RegularPrice::PRICE_CODE)->getAmount();
+        $displayFinalPrice = $this->getPriceType(Price\FinalPrice::PRICE_CODE)->getAmount();
         return $displayFinalPrice < $displayRegularPrice;
     }
 
@@ -109,7 +109,7 @@ class FinalPriceBox extends BasePriceBox
     public function showMinimalPrice()
     {
         /** @var Price\FinalPrice $finalPrice */
-        $finalPrice = $this->getPriceType(Price\FinalPrice::PRICE_TYPE_CODE);
+        $finalPrice = $this->getPriceType(Price\FinalPrice::PRICE_CODE);
         $finalPriceValue = $finalPrice->getAmount()->getValue();
         $minimalPriceAValue = $finalPrice->getMinimalPrice()->getValue();
         return $this->getDisplayMinimalPrice()

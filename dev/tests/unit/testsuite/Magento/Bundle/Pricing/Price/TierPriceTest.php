@@ -64,7 +64,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetterTierPriceList($tierPrices, $basePrice, $expectedResult)
     {
-        $this->product->setData(TierPrice::PRICE_TYPE_CODE, $tierPrices);
+        $this->product->setData(TierPrice::PRICE_CODE, $tierPrices);
 
         $price = $this->getMock('Magento\Pricing\Price\PriceInterface');
         $price->expects($this->any())

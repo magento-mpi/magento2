@@ -21,7 +21,7 @@ class LinkPrice extends RegularPrice implements LinkPriceInterface
     /**
      * Default price type
      */
-    const PRICE_TYPE_CODE = 'link_price';
+    const PRICE_CODE = 'link_price';
 
     /**
      * @param Link $link

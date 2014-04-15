@@ -110,14 +110,14 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
     public function getPriceCallback($priceType)
     {
         switch ($priceType) {
-            case CatalogPrice\BasePrice::PRICE_TYPE_CODE:
+            case CatalogPrice\BasePrice::PRICE_CODE:
                 $this->basePriceMock = $this->getMock('Magento\Bundle\Pricing\Price\BasePrice', [], [], '', false);
                 $this->basePriceMock->expects($this->once())
                     ->method('applyDiscount')
                     ->with($this->expectedResult)
                     ->will($this->returnArgument(0));
                 return $this->basePriceMock;
-            case CatalogPrice\FinalPrice::PRICE_TYPE_CODE:
+            case CatalogPrice\FinalPrice::PRICE_CODE:
                 $this->finalPriceMock = $this->getMock(
                     'Magento\Catalog\Pricing\Price\FinalPrice',
                     [],
@@ -129,7 +129,7 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
                     ->method('getValue')
                     ->will($this->returnValue($this->finalPriceValue));
                 return $this->finalPriceMock;
-            case CatalogPrice\RegularPrice::PRICE_TYPE_CODE:
+            case CatalogPrice\RegularPrice::PRICE_CODE:
                 $this->regularPriceMock = $this->getMock(
                     'Magento\Catalog\Pricing\Price\RegularPrice',
                     [],

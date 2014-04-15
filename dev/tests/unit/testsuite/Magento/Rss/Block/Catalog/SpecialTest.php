@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -115,17 +113,18 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue(0));
 
-
-        $this->block = new \Magento\Rss\Block\Catalog\Special(
-            $templateContextMock,
-            $httpContextMock,
-            $this->catalogHelperMock,
-            $this->priceCurrencyMock,
-            $this->productFactoryMock,
-            $this->rssFactoryMock,
-            $this->resourceIteratorMock,
-            $this->imageHelperMock,
-            $catalogOutputMock
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->block = $objectManager->getObject(
+            'Magento\Rss\Block\Catalog\Special',
+            [
+                'context' => $templateContextMock,
+                'catalogData' => $this->catalogHelperMock,
+                'priceCurrency' => $this->priceCurrencyMock,
+                'productFactory' => $this->productFactoryMock,
+                'rssFactory' => $this->rssFactoryMock,
+                'resourceIterator' => $this->resourceIteratorMock,
+                'imageHelper' => $this->imageHelperMock,
+            ]
         );
     }
 
