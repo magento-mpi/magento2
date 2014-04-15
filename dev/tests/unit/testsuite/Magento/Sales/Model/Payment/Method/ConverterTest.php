@@ -28,9 +28,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $encryptor = $this->getMock('Magento\Encryption\EncryptorInterface');
         $encryptor->expects($this->any())
             ->method('encrypt')
+            ->with(self::INPUT_VALUE)
             ->will($this->returnValue(self::ENCRYPTED_VALUE));
         $encryptor->expects($this->any())
             ->method('decrypt')
+            ->with(self::INPUT_VALUE)
             ->will($this->returnValue(self::DECRYPTED_VALUE));
 
         $this->converter = new Converter($encryptor);
