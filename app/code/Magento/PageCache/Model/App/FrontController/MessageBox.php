@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\App\FrontController\Plugin;
+namespace Magento\PageCache\Model\App\FrontController;
 
 class MessageBox
 {

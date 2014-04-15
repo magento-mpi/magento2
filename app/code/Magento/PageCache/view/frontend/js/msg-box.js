@@ -18,9 +18,7 @@
         },
         _create: function() {
             if ($.mage.cookies.get(this.options.msgBoxCookieName)) {
-                var expires = new Date();
-                expires.setFullYear(1970);
-                $.mage.cookies.set(this.options.msgBoxCookieName, null, {expires: expires, path: "/"});
+                $.mage.cookies.set(this.options.msgBoxCookieName, null, {expires: new Date(), path: "/"});
             } else {
                 $(this.options.msgBoxSelector).hide();
             }
