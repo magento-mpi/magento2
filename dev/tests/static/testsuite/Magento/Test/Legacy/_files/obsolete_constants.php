@@ -97,19 +97,19 @@ return array(
         'Magento\Core\Model\Design\PackageInterface',
         'Magento_Core_Model_Design_Package::PUBLIC_MODULE_DIR'
     ),
-    array('PUBLIC_MODULE_DIR', 'Magento\View\Publisher', 'Magento\View\Publisher\FileInterface::PUBLIC_MODULE_DIR'),
+    array('PUBLIC_MODULE_DIR', 'Magento\Framework\View\Publisher', 'Magento\Framework\View\Publisher\FileInterface::PUBLIC_MODULE_DIR'),
     array(
         'PUBLIC_THEME_DIR',
         'Magento\Core\Model\Design\PackageInterface',
         'Magento_Core_Model_Design_Package::PUBLIC_THEME_DIR'
     ),
-    array('PUBLIC_THEME_DIR', 'Magento\View\Publisher', 'Magento\View\Publisher\FileInterface::PUBLIC_THEME_DIR'),
+    array('PUBLIC_THEME_DIR', 'Magento\Framework\View\Publisher', 'Magento\Framework\View\Publisher\FileInterface::PUBLIC_THEME_DIR'),
     array(
         'PUBLIC_VIEW_DIR',
         'Magento\Core\Model\Design\PackageInterface',
         'Magento_Core_Model_Design_Package::PUBLIC_VIEW_DIR'
     ),
-    array('PUBLIC_VIEW_DIR', 'Magento\View\Publisher', 'Magento\View\Publisher\FileInterface::PUBLIC_VIEW_DIR'),
+    array('PUBLIC_VIEW_DIR', 'Magento\Framework\View\Publisher', 'Magento\Framework\View\Publisher\FileInterface::PUBLIC_VIEW_DIR'),
     array('REGISTRY_FORM_PARAMS_KEY', null, 'direct value'),
     array('RULE_PERM_ALLOW', '\Magento\Math\Random'),
     array('RULE_PERM_DENY', '\Magento\Math\Random'),
@@ -163,12 +163,12 @@ return array(
     array('XML_PATH_COUNTRY_DEFAULT', 'Magento\Paypal\Model\System\Config\Backend\MerchantCountry'),
     array(
         'XML_PATH_DEBUG_TEMPLATE_HINTS',
-        'Magento\View\Element\Template',
+        'Magento\Framework\View\Element\Template',
         'Magento\Core\Model\TemplateEngine\Plugin::XML_PATH_DEBUG_TEMPLATE_HINTS'
     ),
     array(
         'XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS',
-        'Magento\View\Element\Template',
+        'Magento\Framework\View\Element\Template',
         'Magento\Core\Model\TemplateEngine\Plugin::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS'
     ),
     array('XML_PATH_DEFAULT_COUNTRY', 'Magento\Locale'),
@@ -362,11 +362,11 @@ return array(
         '\Magento\Core\Helper\Data',
         '\Magento\Catalog\Helper\Catalog::XML_PATH_PUBLIC_FILES_VALID_PATHS'
     ),
-    array('TYPE_PHYSICAL', '\Magento\Core\Model\Theme', '\Magento\View\Design\ThemeInterface::TYPE_PHYSICAL'),
-    array('TYPE_VIRTUAL', '\Magento\Core\Model\Theme', '\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL'),
-    array('TYPE_STAGING', '\Magento\Core\Model\Theme', '\Magento\View\Design\ThemeInterface::TYPE_STAGING'),
-    array('PATH_SEPARATOR', '\Magento\Core\Model\Theme', '\Magento\View\Design\ThemeInterface::PATH_SEPARATOR'),
-    array('CODE_SEPARATOR', '\Magento\Core\Model\Theme', '\Magento\View\Design\ThemeInterface::CODE_SEPARATOR'),
+    array('TYPE_PHYSICAL', '\Magento\Core\Model\Theme', '\Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL'),
+    array('TYPE_VIRTUAL', '\Magento\Core\Model\Theme', '\Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL'),
+    array('TYPE_STAGING', '\Magento\Core\Model\Theme', '\Magento\Framework\View\Design\ThemeInterface::TYPE_STAGING'),
+    array('PATH_SEPARATOR', '\Magento\Core\Model\Theme', '\Magento\Framework\View\Design\ThemeInterface::PATH_SEPARATOR'),
+    array('CODE_SEPARATOR', '\Magento\Core\Model\Theme', '\Magento\Framework\View\Design\ThemeInterface::CODE_SEPARATOR'),
     array(
         'XML_PATH_IMAGE_ADAPTER',
         '\Magento\Core\Model\Image\AdapterFactory',
@@ -449,22 +449,22 @@ return array(
     ),
     array(
         'XML_PATH_MERGE_CSS_FILES',
-        'Magento\View\Asset\MergeService',
+        'Magento\Framework\View\Asset\MergeService',
         'Magento\Core\Model\Asset\Config::XML_PATH_MERGE_CSS_FILES'
     ),
     array(
         'XML_PATH_MERGE_JS_FILES',
-        'Magento\View\Asset\MergeService',
+        'Magento\Framework\View\Asset\MergeService',
         'Magento\Core\Model\Asset\Config::XML_PATH_MERGE_JS_FILES'
     ),
     array(
         'XML_PATH_MINIFICATION_ENABLED',
-        'Magento\View\Asset\MinifyService',
+        'Magento\Framework\View\Asset\MinifyService',
         'Magento\Core\Model\Asset\Config::XML_PATH_MINIFICATION_ENABLED'
     ),
     array(
         'XML_PATH_MINIFICATION_ADAPTER',
-        'Magento\View\Asset\MinifyService',
+        'Magento\Framework\View\Asset\MinifyService',
         'Magento\Core\Model\Asset\Config::XML_PATH_MINIFICATION_ADAPTER'
     ),
     array(
@@ -487,20 +487,20 @@ return array(
         'Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped',
         'Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped::CONFIG_THUMBNAIL_SOURCE'
     ),
-    array('TYPE_BLOCK', 'Magento\View\Layout', '\Magento\View\Layout\Element'),
-    array('TYPE_CONTAINER', 'Magento\View\Layout', '\Magento\View\Layout\Element'),
-    array('TYPE_ACTION', 'Magento\View\Layout', '\Magento\View\Layout\Element'),
-    array('TYPE_ARGUMENTS', 'Magento\View\Layout', '\Magento\View\Layout\Element'),
-    array('TYPE_ARGUMENT', 'Magento\View\Layout', '\Magento\View\Layout\Element'),
-    array('TYPE_REFERENCE_BLOCK', 'Magento\View\Layout', '\Magento\View\Layout\Element'),
-    array('TYPE_REFERENCE_CONTAINER', 'Magento\View\Layout', '\Magento\View\Layout\Element'),
-    array('TYPE_REMOVE', 'Magento\View\Layout', '\Magento\View\Layout\Element'),
-    array('TYPE_MOVE', 'Magento\View\Layout', '\Magento\View\Layout\Element'),
-    array('CONTAINER_OPT_HTML_TAG', 'Magento\View\Layout', '\Magento\View\Layout\Element'),
-    array('CONTAINER_OPT_HTML_CLASS', 'Magento\View\Layout', '\Magento\View\Layout\Element'),
-    array('CONTAINER_OPT_HTML_ID', 'Magento\View\Layout', '\Magento\View\Layout\Element'),
-    array('CONTAINER_OPT_LABEL', 'Magento\View\Layout', '\Magento\View\Layout\Element'),
-    array('XML_PATH_THEME_ID', 'Magento\Core\Model\View\Design', '\Magento\View\DesignInterface::XML_PATH_THEME_ID'),
+    array('TYPE_BLOCK', 'Magento\Framework\View\Layout', '\Magento\Framework\View\Layout\Element'),
+    array('TYPE_CONTAINER', 'Magento\Framework\View\Layout', '\Magento\Framework\View\Layout\Element'),
+    array('TYPE_ACTION', 'Magento\Framework\View\Layout', '\Magento\Framework\View\Layout\Element'),
+    array('TYPE_ARGUMENTS', 'Magento\Framework\View\Layout', '\Magento\Framework\View\Layout\Element'),
+    array('TYPE_ARGUMENT', 'Magento\Framework\View\Layout', '\Magento\Framework\View\Layout\Element'),
+    array('TYPE_REFERENCE_BLOCK', 'Magento\Framework\View\Layout', '\Magento\Framework\View\Layout\Element'),
+    array('TYPE_REFERENCE_CONTAINER', 'Magento\Framework\View\Layout', '\Magento\Framework\View\Layout\Element'),
+    array('TYPE_REMOVE', 'Magento\Framework\View\Layout', '\Magento\Framework\View\Layout\Element'),
+    array('TYPE_MOVE', 'Magento\Framework\View\Layout', '\Magento\Framework\View\Layout\Element'),
+    array('CONTAINER_OPT_HTML_TAG', 'Magento\Framework\View\Layout', '\Magento\Framework\View\Layout\Element'),
+    array('CONTAINER_OPT_HTML_CLASS', 'Magento\Framework\View\Layout', '\Magento\Framework\View\Layout\Element'),
+    array('CONTAINER_OPT_HTML_ID', 'Magento\Framework\View\Layout', '\Magento\Framework\View\Layout\Element'),
+    array('CONTAINER_OPT_LABEL', 'Magento\Framework\View\Layout', '\Magento\Framework\View\Layout\Element'),
+    array('XML_PATH_THEME_ID', 'Magento\Core\Model\View\Design', '\Magento\Framework\View\DesignInterface::XML_PATH_THEME_ID'),
     array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Logo'),
     array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Favicon'),
     array('DIRECTORY_SEPARATOR', 'Magento\Framework\Filesystem'),
