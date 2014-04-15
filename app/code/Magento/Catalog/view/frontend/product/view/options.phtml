@@ -12,10 +12,12 @@
 <?php if (count($_options)):?>
     <script type="text/javascript">
         (function ($) {
-            $('#product_addtocart_form').mage('priceOption', {
-                'optionConfig':<?php echo $this->getJsonConfig()?>,
-                'controlContainer': '.field'
-            }).trigger('reloadPrice');
+            $(document).ready(function() {
+                $('#product_addtocart_form').mage('priceOption', {
+                    'optionConfig':<?php echo $this->getJsonConfig()?>,
+                    'controlContainer': '.field'
+                }).trigger('reloadPrice');
+            });
         })(jQuery);
     </script>
     <?php foreach($_options as $_option): ?>

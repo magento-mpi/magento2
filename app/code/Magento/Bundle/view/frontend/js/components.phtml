@@ -17,6 +17,9 @@
             $.mage.component({
                 sticky: [
                     '<?php echo $this->getViewFileUrl('mage/sticky.js') ?>'
+                ],
+                bundleOption: [
+                    '<?php echo $this->getViewFileUrl('Magento_Bundle::bundle.js') ?>'
                 ]
             });
         })(jQuery);
