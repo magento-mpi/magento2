@@ -280,7 +280,7 @@ interface CustomerAccountServiceInterface
     public function isCustomerInStore($customerWebsiteId, $storeId);
 
     /**
-     * Check if the email has not been associated with a customer account in given website
+     * Retrieve customer details
      *
      * @param string $customerEmail
      * @param int $websiteId If not set, will use the current websiteId
