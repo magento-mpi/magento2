@@ -66,7 +66,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
      * @param bool $expected
      * @dataProvider isChangedDataProvider
      */
-    public function testChanged($content, $type, $expected)
+    public function testIsChanged($content, $type, $expected)
     {
         $this->object->setContent($content);
         $this->object->setContentType($type);

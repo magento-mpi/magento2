@@ -91,8 +91,8 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     public function testCreateAssetModular()
     {
         $this->mockDesign();
-        $asset = $this->object->createAsset('Namespace_Module::test/file.js');
-        $this->assertEquals('Namespace_Module', $asset->getModule());
+        $asset = $this->object->createAsset('Module_Name::test/file.js');
+        $this->assertEquals('Module_Name', $asset->getModule());
         $this->assertEquals('test/file.js', $asset->getFilePath());
     }
 
@@ -147,8 +147,8 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         return array(
             array('test/file.css', '', 'test/file.css', 'css', ''),
             array('test/file.js', '', 'test/file.js', 'js', ''),
-            array('test/file.css', 'Namespace_Module', 'test/file.css', 'css', 'Namespace_Module'),
-            array('Another_Module::test/file.css', 'Namespace_Module', 'test/file.css', 'css', 'Another_Module'),
+            array('test/file.css', 'Module_Name', 'test/file.css', 'css', 'Module_Name'),
+            array('Module_Name::test/file.css', 'Module_Two', 'test/file.css', 'css', 'Module_Name'),
         );
     }
 
@@ -221,10 +221,10 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     public function createRelatedDataProvider()
     {
         return array(
-            array('test/file.ext', 'relative/file.ext2', '', 'relative/test/file.ext', 'ext', ''),
-            array('test/file.ext', 'relative/file.ext2', 'Rel_Module', 'relative/test/file.ext', 'ext', 'Rel_Module'),
-            array('My_Module::test/file.ext', 'relative/file.ext2', 'Rel_Module', 'test/file.ext', 'ext', 'My_Module'),
-            array('My_Module::test/file.ext', '', '', 'test/file.ext', 'ext', 'My_Module'),
+            array('test/file.ext', 'rel/file.ext2', '', 'rel/test/file.ext', 'ext', ''),
+            array('test/file.ext', 'rel/file.ext2', 'Module_Name', 'rel/test/file.ext', 'ext', 'Module_Name'),
+            array('Module_One::test/file.ext', 'rel/file.ext2', 'Module_Two', 'test/file.ext', 'ext', 'Module_One'),
+            array('Module_Name::test/file.ext', '', '', 'test/file.ext', 'ext', 'Module_Name'),
         );
     }
 
@@ -242,8 +242,11 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         $this->baseUrl->expects($this->once())
             ->method('getBaseUrl')
             ->will($this->returnValue('http://example.com/static/'));
-        $result = $this->object->getUrl('Module::img/product/placeholder.png');
-        $this->assertEquals('http://example.com/static/area/theme/locale/Module/img/product/placeholder.png', $result);
+        $result = $this->object->getUrl('Module_Name::img/product/placeholder.png');
+        $this->assertEquals(
+            'http://example.com/static/area/theme/locale/Module_Name/img/product/placeholder.png',
+            $result
+        );
     }
 
     public function testGetUrlWithParams()
@@ -271,8 +274,8 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             'locale' => 'en_US',
             'module' => 'This_Shall_Not_Be_Used',
         );
-        $result = $this->object->getUrlWithParams('Module::file.ext', $params);
-        $this->assertEquals('http://example.com/static/custom_area/custom_theme/en_US/Module/file.ext', $result);
+        $result = $this->object->getUrlWithParams('Module_Name::file.ext', $params);
+        $this->assertEquals('http://example.com/static/custom_area/custom_theme/en_US/Module_Name/file.ext', $result);
     }
 
     private function mockDesign()

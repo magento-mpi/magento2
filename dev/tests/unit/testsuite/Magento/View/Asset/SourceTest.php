@@ -21,11 +21,6 @@ class SourceTest extends \PHPUnit_Framework_TestCase
     private $rootDirRead;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $rootDirWrite;
-
-    /**
      * @var \Magento\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $varDir;
@@ -34,11 +29,6 @@ class SourceTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $staticDirRead;
-
-    /**
-     * @var \Magento\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $staticDirWrite;
 
     /**
      * @var \Magento\View\Asset\PreProcessor\Cache|\PHPUnit_Framework_MockObject_MockObject
@@ -247,19 +237,12 @@ class SourceTest extends \PHPUnit_Framework_TestCase
     {
         $this->filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
         $this->rootDirRead = $this->getMockForAbstractClass('Magento\Filesystem\Directory\ReadInterface');
-        $this->rootDirWrite = $this->getMockForAbstractClass('Magento\Filesystem\Directory\WriteInterface');
         $this->staticDirRead = $this->getMockForAbstractClass('Magento\Filesystem\Directory\ReadInterface');
-        $this->staticDirWrite = $this->getMockForAbstractClass('Magento\Filesystem\Directory\WriteInterface');
         $this->varDir = $this->getMockForAbstractClass('Magento\Filesystem\Directory\WriteInterface');
 
         $readDirMap = [
             [\Magento\App\Filesystem::ROOT_DIR, $this->rootDirRead],
             [\Magento\App\Filesystem::STATIC_VIEW_DIR, $this->staticDirRead],
-            [\Magento\App\Filesystem::VAR_DIR, $this->varDir],
-        ];
-        $writeDirMap = [
-            [\Magento\App\Filesystem::ROOT_DIR, $this->rootDirWrite],
-            [\Magento\App\Filesystem::STATIC_VIEW_DIR, $this->staticDirWrite],
             [\Magento\App\Filesystem::VAR_DIR, $this->varDir],
         ];
 
@@ -268,7 +251,8 @@ class SourceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($readDirMap));
         $this->filesystem->expects($this->any())
             ->method('getDirectoryWrite')
-            ->will($this->returnValueMap($writeDirMap));
+            ->with(\Magento\App\Filesystem::VAR_DIR)
+            ->will($this->returnValue($this->varDir));
     }
 
     /**
