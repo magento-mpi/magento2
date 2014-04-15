@@ -104,7 +104,6 @@ class Response extends \Magento\Webapi\Controller\Response
         // set HTTP code of the last error, Content-Type, and all rendered error messages to body
         $this->setHttpResponseCode($responseHttpCode);
         $this->setMimeType($this->_renderer->getMimeType());
-       //  $this->setBody($this->_renderer->render($formattedMessages));
         $this->setBody($this->_renderer->render($messageData));
         return $this;
     }
