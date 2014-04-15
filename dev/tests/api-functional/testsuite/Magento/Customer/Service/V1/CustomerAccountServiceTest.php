@@ -809,32 +809,37 @@ class CustomerAccountServiceTest extends WebapiAbstract
     public function testGetCustomerDetailsByEmail()
     {
         $customerData = $this->_createSampleCustomer();
+     //Get expected details from the Service directly
+        $expectedCustomerDetails = $this->customerAccountService
+            ->getCustomerDetailsByEmail($customerData[Customer::EMAIL])
+            ->__toArray();
 
+        //Test GetDetails
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::EMAIL] . '/customerEmail',
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                'resourcePath' => self::RESOURCE_PATH . '/details/?customerEmail=' . $customerData[Customer::EMAIL],
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'DeleteCustomerByEmail'
+                'operation' => self::SERVICE_NAME . 'GetCustomerDetailsByEmail'
             ]
         ];
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $response = $this->_webApiCall($serviceInfo, ['customerEmail' => $customerData[Customer::EMAIL]]);
+            $customerDetailsResponse = $this->_webApiCall(
+                $serviceInfo,
+                ['customerEmail' => $customerData[Customer::EMAIL]]
+            );
         } else {
-            $response = $this->_webApiCall($serviceInfo);
+            $customerDetailsResponse = $this->_webApiCall($serviceInfo);
         }
+        // TODO: Reset custom_attributes to empty array for now since webapi does not support it. Need to fix this.
+        unset($expectedCustomerDetails['customer']['custom_attributes']);
+        unset($customerDetailsResponse['customer']['customAttributes']); //For SOAP
+        unset($customerDetailsResponse['customer']['custom_attributes']); //for REST
 
-        $this->assertTrue($response);
-
-        //Verify if the customer is deleted
-        $this->setExpectedException(
-            'Magento\Exception\NoSuchEntityException',
-            sprintf("No such entity with email = %s", $customerData[Customer::EMAIL])
-        );
-        $this->customerAccountService->getCustomerByEmail($customerData[Customer::EMAIL]);
+        $this->assertEquals($expectedCustomerDetails, $customerDetailsResponse);
     }
 
     public function testDeleteCustomerByEmail()
