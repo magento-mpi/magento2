@@ -290,6 +290,7 @@ interface CustomerAccountServiceInterface
     public function getCustomerByEmail($customerEmail, $websiteId = null);
 
     /**
+     * Retrieve customer details
      *
      * @param string $customerEmail
      * @param int $websiteId If not set, will use the current websiteId
