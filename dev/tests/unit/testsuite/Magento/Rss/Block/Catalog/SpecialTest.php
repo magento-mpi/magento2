@@ -63,9 +63,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $templateContextMock = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
-        $httpContextMock = $this->getMock('Magento\App\Http\Context', [], [], '', false);
         $this->catalogHelperMock = $this->getMock('Magento\Catalog\Helper\Data', [], [], '', false);
-        $catalogOutputMock = $this->getMock('Magento\Catalog\Helper\Output', [], [], '', false);
         $this->priceCurrencyMock = $this->getMockForAbstractClass(
             'Magento\Pricing\PriceCurrencyInterface',
             [],
@@ -244,7 +242,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
      */
     protected function addMocks()
     {
-        $resIteratorcallback = function($select, $callbacks, $args) {
+        $resIteratorcallback = function ($select, $callbacks, $args) {
             $args['results'] = [
                 ['use_special' => false, 'price' => 10, 'final_price' => 20]
             ];

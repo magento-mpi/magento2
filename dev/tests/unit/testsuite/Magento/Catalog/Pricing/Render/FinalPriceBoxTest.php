@@ -116,7 +116,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
         $this->price = $this->getMock('Magento\Pricing\Price\PriceInterface');
         $this->price->expects($this->any())
-            ->method('getPriceType')
+            ->method('getPriceCode')
             ->will($this->returnValue(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
