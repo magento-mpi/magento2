@@ -1,0 +1,31 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php /** @var \Magento\Pricing\Render\Amount $this */ ?>
+
+<?php if ($this->getDisplayLabel()): ?>
+    <span class="price-label"><?php echo $this->getDisplayLabel(); ?></span>
+<?php endif; ?>
+<span>
+    <?php if ($this->getPriceDisplayLabel()): ?>
+        <span class="price-label"><?php echo $this->getPriceDisplayLabel(); ?></span>
+    <?php endif; ?>
+    <span class="price <?php echo $this->getAdjustmentCssClasses() ?>" id="<?php echo $this->getPriceId() ?>">
+        <?php echo $this->convertAndFormatCurrency($this->getDisplayValue(), (bool) $this->getIncludeContainer()) ?>
+    </span>
+</span>
+<?php if ($this->hasAdjustmentsHtml()): ?>
+<?php if ($this->getZone() == \Magento\Pricing\Render::ZONE_ITEM_OPTION): ?>
+    (<small>
+        <?php echo $this->getAdjustmentsHtml() ?>
+    </small>)
+<?php else: ?>
+    <?php echo $this->getAdjustmentsHtml() ?>
+<?php endif; ?>
+<?php endif; ?>
