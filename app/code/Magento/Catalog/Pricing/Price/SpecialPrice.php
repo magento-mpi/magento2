@@ -30,18 +30,18 @@ class SpecialPrice extends AbstractPrice implements SpecialPriceInterface
     protected $localeDate;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param SaleableInterface $product
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param TimezoneInterface $localeDate
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        SaleableInterface $product,
         $quantity,
         CalculatorInterface $calculator,
         TimezoneInterface $localeDate
     ) {
-        parent::__construct($salableItem, $quantity, $calculator);
+        parent::__construct($product, $quantity, $calculator);
         $this->localeDate = $localeDate;
     }
 

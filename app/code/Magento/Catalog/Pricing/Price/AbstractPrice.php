@@ -10,9 +10,9 @@ namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\Amount\AmountInterface;
-use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Pricing\PriceInfoInterface;
+use Magento\Catalog\Model\Product;
 
 /**
  * Class AbstractPrice
@@ -38,9 +38,9 @@ abstract class AbstractPrice implements PriceInterface
     protected $calculator;
 
     /**
-     * @var SaleableInterface|\Magento\Catalog\Model\Product
+     * @var \Magento\Catalog\Model\Product
      */
-    protected $salableItem;
+    protected $product;
 
     /**
      * @var string
@@ -63,19 +63,19 @@ abstract class AbstractPrice implements PriceInterface
     protected $value;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param Product $product
      * @param float $quantity
      * @param CalculatorInterface $calculator
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        Product $product,
         $quantity,
         CalculatorInterface $calculator
     ) {
-        $this->salableItem = $salableItem;
+        $this->product = $product;
         $this->quantity = $quantity;
         $this->calculator = $calculator;
-        $this->priceInfo = $salableItem->getPriceInfo();
+        $this->priceInfo = $product->getPriceInfo();
     }
 
     /**
@@ -93,7 +93,7 @@ abstract class AbstractPrice implements PriceInterface
     public function getAmount()
     {
         if (null === $this->amount) {
-            $this->amount = $this->calculator->getAmount($this->getValue(), $this->salableItem);
+            $this->amount = $this->calculator->getAmount($this->getValue(), $this->product);
         }
         return $this->amount;
     }
@@ -108,7 +108,7 @@ abstract class AbstractPrice implements PriceInterface
         if ($amount === null) {
             $amount = $this->getValue();
         }
-        return $this->calculator->getAmount($amount, $this->salableItem, $exclude);
+        return $this->calculator->getAmount($amount, $this->product, $exclude);
     }
 
     /**

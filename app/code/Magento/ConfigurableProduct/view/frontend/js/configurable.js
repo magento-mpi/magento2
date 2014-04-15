@@ -329,7 +329,7 @@
          */
         _getOptionLabel: function(option, price) {
             price = parseFloat(price);
-            //todo: use options from config
+            //todo: use taxes from php config
             /*
             if (this.options.taxConfig.includeTax) {
                 tax = price / (100 + this.options.taxConfig.defaultTax) * this.options.taxConfig.defaultTax;
@@ -341,7 +341,6 @@
                 includeTax = excl + tax;
             }
             */
-
             var includeTax = option.inclTaxPrice;
             var excludeTax = option.exclTaxPrice;
             price = (this.options.taxConfig.showIncludeTax || this.options.taxConfig.showBothPrices) ? includeTax : excludeTax;

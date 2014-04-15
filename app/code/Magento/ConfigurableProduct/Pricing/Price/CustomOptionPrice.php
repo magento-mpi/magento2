@@ -10,7 +10,7 @@ namespace Magento\ConfigurableProduct\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price\RegularPrice;
 use Magento\Pricing\Amount\AmountInterface;
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Catalog\Model\Product;
 use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Catalog\Model\Product\PriceModifierInterface;
 
@@ -32,19 +32,19 @@ class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterfa
     protected $priceModifier;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param Product $product
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param PriceModifierInterface $modifier
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        Product $product,
         $quantity,
         CalculatorInterface $calculator,
         PriceModifierInterface $modifier
     ) {
         $this->priceModifier = $modifier;
-        parent::__construct($salableItem, $quantity, $calculator);
+        parent::__construct($product, $quantity, $calculator);
     }
 
     /**
@@ -79,10 +79,10 @@ class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterfa
     /**
      * Prepare percent price value
      *
-     * @param $value
+     * @param array $value
      * @return float
      */
-    protected function preparePrice($value)
+    protected function preparePrice(array $value = array())
     {
         return $this->salableItem->getPriceInfo()->getPrice('final_price')->getValue()
         * $value['pricing_value'] / 100;

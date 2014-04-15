@@ -35,18 +35,18 @@ class GroupPrice extends AbstractPrice implements GroupPriceInterface
     protected $storedGroupPrice;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param SaleableInterface $product
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param Session $customerSession
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        SaleableInterface $product,
         $quantity,
         CalculatorInterface $calculator,
         Session $customerSession
     ) {
-        parent::__construct($salableItem, $quantity, $calculator);
+        parent::__construct($product, $quantity, $calculator);
         $this->customerSession = $customerSession;
     }
 

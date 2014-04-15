@@ -31,14 +31,14 @@ class FinalPrice extends AbstractPrice
     protected $minProduct;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param SaleableInterface $product
      * @param Calculator $calculator
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        SaleableInterface $product,
         Calculator $calculator
     ) {
-        $this->salableItem = $salableItem;
+        $this->salableItem = $product;
         $this->calculator = $calculator;
     }
 

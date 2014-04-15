@@ -9,7 +9,6 @@
  */
 namespace Magento\ConfigurableProduct\Block\Product\View\Type;
 
-use Magento\Catalog\Model\Product\PriceModifierInterface;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
 
@@ -180,8 +179,8 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                 }
                 $options[$productAttributeId][$attributeValue][] = $productId;
                 !$product->getImage() ||
-                    $product->getImage() ===
-                    'no_selection' ? $options['images'][$productAttributeId][$attributeValue][$productId] = null :
+                $product->getImage() ===
+                'no_selection' ? $options['images'][$productAttributeId][$attributeValue][$productId] = null :
                     ($options['images'][$productAttributeId][$attributeValue][$productId] = (string)$image);
             }
         }
@@ -283,10 +282,9 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     protected function getAttributeConfigValue($preConfiguredValues, $attributeId)
     {
-        if( $this->hasPreConfiguredValues()) {
+        if ($this->hasPreConfiguredValues()) {
             $configValue = $preConfiguredValues->getData('super_attribute/' . $attributeId);
-            if($configValue)
-            {
+            if ($configValue) {
                 return $configValue;
             }
         }
@@ -322,7 +320,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         return $this->_registerJsPrice($this->_convertPrice($price, true));
     }
 
-     /**
+    /**
      * Replace ',' on '.' for js
      *
      * @param float $price
@@ -422,7 +420,6 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * Prepare formatted values for options choose
      *
      * @param array $optionPrices
-     * @return mixed
      */
     protected function formatOptionsValues(array $optionPrices = array())
     {
@@ -440,7 +437,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param int $attributeId
      * @return array
      */
-    protected function collectOptionsAttributes($info, $attributeId)
+    protected function collectOptionsAttributes(array $info = array(), $attributeId)
     {
         $attributes = array();
         if ($this->_validateAttributeInfo($info)) {
@@ -491,12 +488,12 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * Get Products Index
      *
-     * @param $options
-     * @param $attributeId
-     * @param $value
+     * @param array $options
+     * @param int $attributeId
+     * @param array $value
      * @return array
      */
-    protected function getProductsIndex($options, $attributeId, $value)
+    protected function getProductsIndex(array $options = array(), $attributeId, array $value = array())
     {
         if (isset($options[$attributeId][$value['value_index']])) {
             return $options[$attributeId][$value['value_index']];

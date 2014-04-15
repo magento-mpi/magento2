@@ -57,21 +57,21 @@ class TierPrice extends AbstractPrice implements TierPriceInterface
     protected $filterByBasePrice = true;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param SaleableInterface $product
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param Session $customerSession
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        SaleableInterface $product,
         $quantity,
         CalculatorInterface $calculator,
         Session $customerSession
     ) {
-        parent::__construct($salableItem, $quantity, $calculator);
+        parent::__construct($product, $quantity, $calculator);
         $this->customerSession = $customerSession;
-        if ($salableItem->hasCustomerGroupId()) {
-            $this->customerGroup = (int) $salableItem->getCustomerGroupId();
+        if ($product->hasCustomerGroupId()) {
+            $this->customerGroup = (int) $product->getCustomerGroupId();
         } else {
             $this->customerGroup = (int) $this->customerSession->getCustomerGroupId();
         }

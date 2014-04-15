@@ -29,16 +29,16 @@ class FinalPrice extends AbstractPrice
     protected $basePrice;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param SaleableInterface $product
      * @param float $quantity
      * @param CalculatorInterface $calculator
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        SaleableInterface $product,
         $quantity,
         CalculatorInterface $calculator
     ) {
-        parent::__construct($salableItem, $quantity, $calculator);
+        parent::__construct($product, $quantity, $calculator);
         $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_CODE);
         $this->baseAmount = $this->getValue();
     }

@@ -37,14 +37,14 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
     protected $eventManager;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param SaleableInterface $product
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param \Magento\Catalog\Model\Product $bundleProduct
      * @param \Magento\Event\ManagerInterface $eventManager
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        SaleableInterface $product,
         $quantity,
         CalculatorInterface $calculator,
         \Magento\Catalog\Model\Product $bundleProduct,
@@ -52,7 +52,7 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
     ) {
         $this->bundleProduct = $bundleProduct;
         $this->eventManager = $eventManager;
-        parent::__construct($salableItem, $quantity, $calculator);
+        parent::__construct($product, $quantity, $calculator);
     }
 
     /**
