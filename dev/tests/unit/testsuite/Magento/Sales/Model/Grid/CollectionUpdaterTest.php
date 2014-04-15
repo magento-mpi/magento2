@@ -35,7 +35,6 @@ class CollectionUpdaterTest extends \PHPUnit_Framework_TestCase
         $collectionMock = $this->getMock(
             'Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection', array(), array(), '', false
         );
-        $orderMock = $this->getMock('Magento\Sales\Model\Order', array(), array(), '', false);
         $this->registryMock
             ->expects($this->once())
             ->method('registry')
