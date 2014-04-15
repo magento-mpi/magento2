@@ -2119,8 +2119,6 @@ return array(
     array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
     ['Magento\PubSub'], // unused library code which was removed
     ['Magento\Outbound'], // unused library code which was removed
-    ['Magento\PubSub'],
-    ['Magento\Outbound'],
     array('Magento\Indexer\Model\Processor\CacheInvalidate', 'Magento\Indexer\Model\Processor\InvalidateCache'),
     array(
         'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Reviews',
@@ -2192,8 +2190,6 @@ return array(
         'Magento\Core\App\Request\RewriteService',
         'Magento\UrlRewrite\App\Request\RewriteService'
     ),
-    ['Magento\Catalog\Model\Product\Indexer\Price'],
-    ['Magento\Catalog\Model\Resource\Product\Indexer\Price'],
     ['Magento\App\ConfigInterface', 'Magento\App\Config\ScopeConfigInterface'],
     ['Magento\Core\Model\Store\ConfigInterface', 'Magento\App\Config\ScopeConfigInterface'],
     ['Magento\Core\Model\Store\Config', 'Magento\App\Config\ScopeConfigInterface'],
@@ -2247,7 +2243,6 @@ return array(
     ['Magento\Core\Model\Resource\Setup\Generic'],
     ['Magento\Newsletter\Model\Resource\Setup'],
     ['Magento\SalesRule\Model\Resource\Setup'],
-    ['Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'],
     array('Magento\Core\Model\Session', 'Magento\Session\Generic'),
     array('Magento\Core\Model\Session\Config', 'Magento\Session\Config'),
     array('Magento\Core\Model\Session\SidResolver', 'Magento\Session\SidResolver'),

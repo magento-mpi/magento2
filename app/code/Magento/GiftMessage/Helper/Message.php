@@ -115,7 +115,7 @@ class Message extends \Magento\Core\Helper\Data
     }
 
     /**
-     * @param $pageType
+     * @param string $pageType
      * @return bool
      */
     protected function skipMessageCheck($pageType)
