@@ -348,7 +348,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         $email = 'customer@example.com';
 
-        $this->_customerAccountService->initiatePasswordReset($email, 1, CustomerAccountServiceInterface::EMAIL_RESET);
+        $this->_customerAccountService->initiatePasswordReset($email, CustomerAccountServiceInterface::EMAIL_RESET, 1);
+    }
+
+    /**
+     * @magentoAppArea frontend
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testSendPasswordResetLinkDefaultWebsite()
+    {
+        $email = 'customer@example.com';
+
+        $this->_customerAccountService->initiatePasswordReset($email, CustomerAccountServiceInterface::EMAIL_RESET);
     }
 
     /**
@@ -360,8 +371,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $email = 'foo@example.com';
 
         try {
-            $this->_customerAccountService->initiatePasswordReset($email, 0,
-                CustomerAccountServiceInterface::EMAIL_RESET);
+            $this->_customerAccountService->initiatePasswordReset(
+                $email,
+                CustomerAccountServiceInterface::EMAIL_RESET,
+                0
+            );
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
             $expectedParams = [
@@ -369,6 +383,26 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 'websiteId' => 0,
             ];
             $this->assertEquals($expectedParams, $e->getParams());
+        }
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     *
+     */
+    public function testSendPasswordResetLinkBadEmailDefaultWebsite()
+    {
+        $email = 'foo@example.com';
+
+        try {
+            $this->_customerAccountService->initiatePasswordReset(
+                $email,
+                CustomerAccountServiceInterface::EMAIL_RESET
+            );
+            $this->fail('Expected exception not thrown.');
+        } catch (NoSuchEntityException $nsee) {
+            $expectedParams = array('email' => $email, 'websiteId' => 1);
+            $this->assertEquals($expectedParams, $nsee->getParams());
         }
     }
 
@@ -823,7 +857,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $customerDetails = $this->_customerDetailsBuilder->setCustomer($customerEntity)->create();
-            $this->_customerAccountService->createAccount($customerDetails);
+            $this->_customerAccountService->createCustomer($customerDetails);
             $this->fail('Expected exception not thrown');
         } catch (InputException $ie) {
             $expectedParams = [
@@ -873,7 +907,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerEntity = $this->_customerBuilder->create();
 
         $customerDetails = $this->_customerDetailsBuilder->setCustomer($customerEntity)->create();
-        $customerAfter = $this->_customerAccountService->createAccount($customerDetails, 'aPassword');
+        $customerAfter = $this->_customerAccountService->createCustomer($customerDetails, 'aPassword');
         $this->assertGreaterThan(0, $customerAfter->getId());
         $this->assertEquals($email, $customerAfter->getEmail());
         $this->assertEquals($firstName, $customerAfter->getFirstname());
@@ -947,7 +981,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->setGroupId($groupId);
         $newCustomerEntity = $this->_customerBuilder->create();
         $customerDetails = $this->_customerDetailsBuilder->setCustomer($newCustomerEntity)->create();
-        $customerData = $this->_customerAccountService->createAccount($customerDetails, $password);
+        $customerData = $this->_customerAccountService->createCustomer($customerDetails, $password);
         $this->assertNotNull($customerData->getId());
         $savedCustomer = $this->_customerAccountService->getCustomer($customerData->getId());
         $dataInService = \Magento\Service\DataObjectConverter::toFlatArray($savedCustomer);
@@ -987,7 +1021,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->setGroupId($groupId);
         $newCustomerEntity = $this->_customerBuilder->create();
         $customerDetails = $this->_customerDetailsBuilder->setCustomer($newCustomerEntity)->create();
-        $savedCustomer = $this->_customerAccountService->createAccount($customerDetails, 'aPassword');
+        $savedCustomer = $this->_customerAccountService->createCustomer($customerDetails, 'aPassword');
         $this->assertNotNull($savedCustomer->getId());
         $this->assertEquals($email, $savedCustomer->getEmail());
         $this->assertEquals($storeId, $savedCustomer->getStoreId());
@@ -1022,7 +1056,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerEntity = $this->_customerBuilder->create();
         $customerDetails = $this->_customerDetailsBuilder->setCustomer($customerEntity)->create();
 
-        $customer = $this->_customerAccountService->createAccount($customerDetails, 'aPassword');
+        $customer = $this->_customerAccountService->createCustomer($customerDetails, 'aPassword');
         $this->assertNotEmpty($customer->getId());
         $this->assertEquals($email, $customer->getEmail());
         $this->assertEquals($firstName, $customer->getFirstname());
@@ -1054,7 +1088,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $newCustomerEntity = $this->_customerBuilder->create();
         $customerDetails = $this->_customerDetailsBuilder->setCustomer($newCustomerEntity)->create();
 
-        $customer = $this->_customerAccountService->createAccount($customerDetails, 'aPassword');
+        $customer = $this->_customerAccountService->createCustomer($customerDetails, 'aPassword');
 
         $this->_customerBuilder->populate($customer);
         $this->_customerBuilder->setFirstname('Tested');
@@ -1325,12 +1359,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Magento\Model\Exception
-     * @expectedExceptionMessage Customer website ID must be specified when using the website scope
      */
     public function testIsEmailAvailableNoWebsiteSpecified()
     {
-        $this->assertTrue($this->_customerAccountService->isEmailAvailable('customer@example.com', null));
+        $this->assertFalse($this->_customerAccountService->isEmailAvailable('customer@example.com'));
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testIsEmailAvailableNoWebsiteSpecifiedNonExistent()
+    {
+        $this->assertTrue($this->_customerAccountService->isEmailAvailable('nonexistent@example.com'));
     }
 
     public function testIsEmailAvailableNonExistentEmail()

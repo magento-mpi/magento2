@@ -182,7 +182,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder */
         $customerDetailsBuilder = $objectManager->create('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
         $customerDetails = $customerDetailsBuilder->setCustomer($customer)->create();
-        $customer = $this->_customerAccountService->createAccount($customerDetails);
+        $customer = $this->_customerAccountService->createCustomer($customerDetails);
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
         $this->assertEquals('Confirmation Not Required', $this->_block->getIsConfirmedStatus());
     }

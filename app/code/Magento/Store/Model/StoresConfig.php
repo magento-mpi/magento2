@@ -8,6 +8,7 @@
 
 namespace Magento\Store\Model;
 
+use Magento\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 
 class StoresConfig
@@ -48,8 +49,13 @@ class StoresConfig
         $storeValues = array();
         /** @var $store \Magento\Store\Model\Store */
         foreach ($stores as $store) {
-            $value = $this->_config->getValue($path, ScopeInterface::SCOPE_STORE, $store->getCode());
-            $storeValues[$store->getId()] = $value;
+            try {
+                $value = $this->_config->getValue($path, ScopeInterface::SCOPE_STORE, $store->getCode());
+                $storeValues[$store->getId()] = $value;
+            } catch (NoSuchEntityException $e) {
+                // Store doesn't really exist, so move on.
+                continue;
+            }
         }
         return $storeValues;
     }

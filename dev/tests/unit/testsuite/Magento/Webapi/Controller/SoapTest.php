@@ -91,6 +91,7 @@ class SoapTest extends \PHPUnit_Framework_TestCase
         $this->_soapServerMock->expects($this->any())->method('setWSDL')->will($this->returnSelf());
         $this->_soapServerMock->expects($this->any())->method('setEncoding')->will($this->returnSelf());
         $this->_soapServerMock->expects($this->any())->method('setReturnResponse')->will($this->returnSelf());
+        $pathProcessorMock = $this->getMock('Magento\Webapi\Model\PathProcessor', [], [], '', false);
         $areaListMock = $this->getMock('Magento\App\AreaList', array(), array(), '', false);
         $areaMock = $this->getMock('Magento\App\AreaInterface');
         $areaListMock->expects($this->any())->method('getArea')->will($this->returnValue($areaMock));
@@ -104,6 +105,7 @@ class SoapTest extends \PHPUnit_Framework_TestCase
             $layoutMock,
             $this->_oauthServiceMock,
             $localeResolverMock,
+            $pathProcessorMock,
             $areaListMock
         );
     }
