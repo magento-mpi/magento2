@@ -13,7 +13,7 @@ namespace Magento\Backend\Block\Widget\Grid\Massaction;
 class Additional extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\View\Layout\Argument\Interpreter\Options
+     * @var \Magento\Framework\View\Layout\Argument\Interpreter\Options
      */
     protected $_optionsInterpreter;
 
@@ -21,14 +21,14 @@ class Additional extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\View\Layout\Argument\Interpreter\Options $optionsInterpreter
+     * @param \Magento\Framework\View\Layout\Argument\Interpreter\Options $optionsInterpreter
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\View\Layout\Argument\Interpreter\Options $optionsInterpreter,
+        \Magento\Framework\View\Layout\Argument\Interpreter\Options $optionsInterpreter,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $formFactory, $data);

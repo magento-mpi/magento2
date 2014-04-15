@@ -215,7 +215,7 @@ class Cache extends Action
     public function cleanMediaAction()
     {
         try {
-            $this->_objectManager->get('Magento\View\Asset\MergeService')->cleanMergedJsCss();
+            $this->_objectManager->get('Magento\Framework\View\Asset\MergeService')->cleanMergedJsCss();
             $this->_eventManager->dispatch('clean_media_cache_after');
             $this->messageManager->addSuccess(__('The JavaScript/CSS cache has been cleaned.'));
         } catch (Exception $e) {

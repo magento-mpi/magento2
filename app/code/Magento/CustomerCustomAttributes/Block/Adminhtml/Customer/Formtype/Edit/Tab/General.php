@@ -16,7 +16,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements
     \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var \Magento\View\Design\Theme\LabelFactory
+     * @var \Magento\Framework\View\Design\Theme\LabelFactory
      */
     protected $_themeLabelFactory;
 
@@ -29,7 +29,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\View\Design\Theme\LabelFactory $themeLabelFactory
+     * @param \Magento\Framework\View\Design\Theme\LabelFactory $themeLabelFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
@@ -37,7 +37,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\View\Design\Theme\LabelFactory $themeLabelFactory,
+        \Magento\Framework\View\Design\Theme\LabelFactory $themeLabelFactory,
         \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
@@ -103,7 +103,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements
             )
         );
 
-        /** @var $label \Magento\View\Design\Theme\Label */
+        /** @var $label \Magento\Framework\View\Design\Theme\Label */
         $label = $this->_themeLabelFactory->create();
         $options = $label->getLabelsCollection();
         array_unshift($options, array('label' => __('All Themes'), 'value' => ''));

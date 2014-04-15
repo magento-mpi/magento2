@@ -88,9 +88,9 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
             ),
             'image' => $this->getViewFileUrl('images/grid-cal.gif')
         );
-        /** @var $selectBlock \Magento\View\Element\Html\Date */
+        /** @var $selectBlock \Magento\Framework\View\Element\Html\Date */
         $dateBlock = $this->_layout->getBlockFactory()->createBlock(
-            'Magento\View\Element\Html\Date',
+            'Magento\Framework\View\Element\Html\Date',
             array('data' => $arguments)
         );
         $fromValue = null;
@@ -159,9 +159,9 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
                 'class' => 'multiselect multiselect-export-filter',
                 'extra_params' => 'multiple="multiple" size="' . ($size > 5 ? 5 : ($size < 2 ? 2 : $size))
             );
-            /** @var $selectBlock \Magento\View\Element\Html\Select */
+            /** @var $selectBlock \Magento\Framework\View\Element\Html\Select */
             $selectBlock = $this->_layout->getBlockFactory()->createBlock(
-                'Magento\View\Element\Html\Select',
+                'Magento\Framework\View\Element\Html\Select',
                 array('data' => $arguments)
             );
             return $selectBlock->setOptions($options)->setValue($value)->getHtml();
@@ -240,9 +240,9 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
                 'id' => $this->getFilterElementId($attribute->getAttributeCode()),
                 'class' => 'select select-export-filter'
             );
-            /** @var $selectBlock \Magento\View\Element\Html\Select */
+            /** @var $selectBlock \Magento\Framework\View\Element\Html\Select */
             $selectBlock = $this->_layout->getBlockFactory()->createBlock(
-                'Magento\View\Element\Html\Select',
+                'Magento\Framework\View\Element\Html\Select',
                 array('data' => $arguments)
             );
             return $selectBlock->setOptions($options)->setValue($value)->getHtml();

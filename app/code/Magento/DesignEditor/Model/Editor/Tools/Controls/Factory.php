@@ -39,7 +39,7 @@ class Factory
     protected $_objectManager;
 
     /**
-     * @var \Magento\View\FileSystem
+     * @var \Magento\Framework\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -55,13 +55,13 @@ class Factory
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\View\FileSystem $viewFileSystem
+     * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param \Magento\Framework\Config\FileIteratorFactory $fileIteratorFactory
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\View\FileSystem $viewFileSystem,
+        \Magento\Framework\View\FileSystem $viewFileSystem,
         \Magento\Framework\Config\FileIteratorFactory $fileIteratorFactory,
         \Magento\Framework\App\Filesystem $filesystem
     ) {
@@ -75,7 +75,7 @@ class Factory
      * Get file path by type
      *
      * @param string $type
-     * @param \Magento\View\Design\ThemeInterface $theme
+     * @param \Magento\Framework\View\Design\ThemeInterface $theme
      * @return string
      * @throws \Magento\Exception
      */
@@ -86,7 +86,7 @@ class Factory
         }
         return $this->_viewFileSystem->getFilename(
             $this->_fileNames[$type],
-            array('area' => \Magento\View\DesignInterface::DEFAULT_AREA, 'themeModel' => $theme)
+            array('area' => \Magento\Framework\View\DesignInterface::DEFAULT_AREA, 'themeModel' => $theme)
         );
     }
 
@@ -94,16 +94,16 @@ class Factory
      * Create new instance
      *
      * @param string $type
-     * @param \Magento\View\Design\ThemeInterface $theme
-     * @param \Magento\View\Design\ThemeInterface $parentTheme
+     * @param \Magento\Framework\View\Design\ThemeInterface $theme
+     * @param \Magento\Framework\View\Design\ThemeInterface $parentTheme
      * @param string[] $files
      * @return \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
      * @throws \Magento\Exception
      */
     public function create(
         $type,
-        \Magento\View\Design\ThemeInterface $theme = null,
-        \Magento\View\Design\ThemeInterface $parentTheme = null,
+        \Magento\Framework\View\Design\ThemeInterface $theme = null,
+        \Magento\Framework\View\Design\ThemeInterface $parentTheme = null,
         array $files = array()
     ) {
         $files[] = $this->_getFilePathByType($type, $theme);

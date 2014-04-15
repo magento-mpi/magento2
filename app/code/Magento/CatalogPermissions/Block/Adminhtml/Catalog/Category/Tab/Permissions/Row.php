@@ -24,7 +24,7 @@ use Magento\Store\Model\Resource\Website\Collection as WebsiteCollection;
 use Magento\Store\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
 use Magento\Customer\Model\Resource\Group\Collection as GroupCollection;
 use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock;
 
 class Row extends AbstractCategory
 {

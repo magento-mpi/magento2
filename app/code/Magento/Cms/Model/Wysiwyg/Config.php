@@ -34,7 +34,7 @@ class Config extends \Magento\Object
     protected $_authorization;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $_viewUrl;
 
@@ -84,7 +84,7 @@ class Config extends \Magento\Object
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Cms\Helper\Data $cmsData
      * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Core\Model\Variable\Config $variableConfig
      * @param \Magento\Widget\Model\Widget\Config $widgetConfig
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -96,7 +96,7 @@ class Config extends \Magento\Object
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Cms\Helper\Data $cmsData,
         \Magento\AuthorizationInterface $authorization,
-        \Magento\View\Url $viewUrl,
+        \Magento\Framework\View\Url $viewUrl,
         \Magento\Core\Model\Variable\Config $variableConfig,
         \Magento\Widget\Model\Widget\Config $widgetConfig,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,

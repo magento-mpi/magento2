@@ -19,13 +19,13 @@ class Expanded extends \Magento\Backend\Block\System\Config\Form\Fieldset
     /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\View\Helper\Js $jsHelper
+     * @param \Magento\Framework\View\Helper\Js $jsHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\View\Helper\Js $jsHelper,
+        \Magento\Framework\View\Helper\Js $jsHelper,
         array $data = array()
     ) {
         parent::__construct($context, $authSession, $jsHelper, $data);

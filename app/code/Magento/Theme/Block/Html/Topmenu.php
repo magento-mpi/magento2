@@ -10,7 +10,7 @@ namespace Magento\Theme\Block\Html;
 /**
  * Html page top menu block
  */
-class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
+class Topmenu extends \Magento\Framework\View\Element\Template implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Cache identities

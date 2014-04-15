@@ -36,7 +36,7 @@ class Filter extends \Magento\Filter\Template
     protected $_useSessionInUrl = false;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $_viewUrl;
 
@@ -50,13 +50,13 @@ class Filter extends \Magento\Filter\Template
     /**
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\Framework\View\Url $viewUrl
      * @param array $variables
      */
     public function __construct(
         \Magento\Stdlib\String $string,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\View\Url $viewUrl,
+        \Magento\Framework\View\Url $viewUrl,
         $variables = array()
     ) {
         $this->_storeManager = $storeManager;

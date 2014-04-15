@@ -47,7 +47,7 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
     protected $_arrayInputTypes = array();
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $_viewUrl;
 
@@ -57,7 +57,7 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
     protected $_localeDate;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 

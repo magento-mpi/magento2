@@ -87,7 +87,7 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
             'class' => $this->_getParam($params, 'class'),
             'renderer' => false
         );
-        if (!empty($params['renderer']) && $params['renderer'] instanceof \Magento\View\Element\AbstractBlock) {
+        if (!empty($params['renderer']) && $params['renderer'] instanceof \Magento\Framework\View\Element\AbstractBlock) {
             $this->_columns[$name]['renderer'] = $params['renderer'];
         }
     }

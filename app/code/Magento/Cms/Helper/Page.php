@@ -41,7 +41,7 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Design package instance
      *
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_design;
 
@@ -89,7 +89,7 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Cms\Model\Page $page
      * @param \Magento\Theme\Helper\Layout $pageLayout
-     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -101,7 +101,7 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Cms\Model\Page $page,
         \Magento\Theme\Helper\Layout $pageLayout,
-        \Magento\View\DesignInterface $design,
+        \Magento\Framework\View\DesignInterface $design,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,

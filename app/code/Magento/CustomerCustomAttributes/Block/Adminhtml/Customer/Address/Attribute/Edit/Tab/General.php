@@ -60,7 +60,7 @@ class General extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractM
     /**
      * Preparing global layout
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {

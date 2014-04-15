@@ -25,7 +25,7 @@ class Design extends \Magento\Framework\Model\AbstractModel
     /**
      * Design package instance
      *
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_design = null;
 
@@ -38,7 +38,7 @@ class Design extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -47,7 +47,7 @@ class Design extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\View\DesignInterface $design,
+        \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

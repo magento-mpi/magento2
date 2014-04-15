@@ -12,7 +12,7 @@ namespace Magento\GiftCardAccount\Block;
 /**
  * Check result block for a Giftcardaccount
  */
-class Check extends \Magento\View\Element\Template
+class Check extends \Magento\Framework\View\Element\Template
 {
     /**
      * Core registry
@@ -22,12 +22,12 @@ class Check extends \Magento\View\Element\Template
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         array $data = array()
     ) {

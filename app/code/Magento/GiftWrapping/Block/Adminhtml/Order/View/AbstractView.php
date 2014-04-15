@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\View;
 
-class AbstractView extends \Magento\View\Element\Template
+class AbstractView extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
@@ -49,7 +49,7 @@ class AbstractView extends \Magento\View\Element\Template
     protected $_adminHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\Registry $registry
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory
@@ -57,7 +57,7 @@ class AbstractView extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\Registry $registry,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,

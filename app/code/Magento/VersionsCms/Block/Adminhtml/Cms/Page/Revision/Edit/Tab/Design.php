@@ -30,7 +30,7 @@ class Design extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Theme\Model\Layout\Source\Layout $pageLayout
-     * @param \Magento\View\Design\Theme\LabelFactory $labelFactory
+     * @param \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory
      * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param array $data
      */
@@ -39,7 +39,7 @@ class Design extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design
         \Magento\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Theme\Model\Layout\Source\Layout $pageLayout,
-        \Magento\View\Design\Theme\LabelFactory $labelFactory,
+        \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory,
         \Magento\VersionsCms\Helper\Data $cmsData,
         array $data = array()
     ) {

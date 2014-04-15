@@ -29,7 +29,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     protected $_weeeTax;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -41,7 +41,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param Tax $weeeTax
      * @param \Magento\Weee\Helper\Data $weeeData
      * @param \Magento\Catalog\Model\Product\Type $productType
@@ -53,7 +53,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         Tax $weeeTax,
         \Magento\Weee\Helper\Data $weeeData,
         \Magento\Catalog\Model\Product\Type $productType,

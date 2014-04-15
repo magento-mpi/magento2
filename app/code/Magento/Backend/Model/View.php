@@ -15,7 +15,7 @@ class View extends \Magento\Framework\App\View
     protected $_aclFilter;
 
     /**
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\App\ResponseInterface $response
      * @param \Magento\Framework\Config\ScopeInterface $configScope
@@ -25,7 +25,7 @@ class View extends \Magento\Framework\App\View
      * @param Layout\Filter\Acl $aclFilter
      */
     public function __construct(
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\App\ResponseInterface $response,
         \Magento\Framework\Config\ScopeInterface $configScope,

@@ -37,14 +37,14 @@ class Grid extends \Magento\RecurringPayment\Block\Payments
     protected $_fields;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\RecurringPayment\Model\Payment $recurringPayment
      * @param \Magento\Registry $registry
      * @param \Magento\RecurringPayment\Block\Fields $fields
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\RecurringPayment\Model\Payment $recurringPayment,
         \Magento\Registry $registry,
         \Magento\RecurringPayment\Block\Fields $fields,

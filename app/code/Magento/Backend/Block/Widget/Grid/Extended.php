@@ -224,7 +224,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Retrieve column set block
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     public function getColumnSet()
     {

@@ -48,7 +48,7 @@ class Product extends \Magento\Core\Helper\Url
     protected $_priceBlock;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $_viewUrl;
 
@@ -120,7 +120,7 @@ class Product extends \Magento\Core\Helper\Url
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -134,7 +134,7 @@ class Product extends \Magento\Core\Helper\Url
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\View\Url $viewUrl,
+        \Magento\Framework\View\Url $viewUrl,
         \Magento\Registry $coreRegistry,
         \Magento\Catalog\Model\Attribute\Config $attributeConfig,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,

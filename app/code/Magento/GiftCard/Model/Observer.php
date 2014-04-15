@@ -68,7 +68,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Layout
      *
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -81,7 +81,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder ,
@@ -99,7 +99,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,

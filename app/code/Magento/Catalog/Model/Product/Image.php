@@ -128,12 +128,12 @@ class Image extends \Magento\Framework\Model\AbstractModel
     protected $_imageFactory;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var \Magento\View\FileSystem
+     * @var \Magento\Framework\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -173,8 +173,8 @@ class Image extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Image\Factory $imageFactory
-     * @param \Magento\View\Url $viewUrl
-     * @param \Magento\View\FileSystem $viewFileSystem
+     * @param \Magento\Framework\View\Url $viewUrl
+     * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -188,8 +188,8 @@ class Image extends \Magento\Framework\Model\AbstractModel
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Image\Factory $imageFactory,
-        \Magento\View\Url $viewUrl,
-        \Magento\View\FileSystem $viewFileSystem,
+        \Magento\Framework\View\Url $viewUrl,
+        \Magento\Framework\View\FileSystem $viewFileSystem,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,

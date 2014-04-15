@@ -63,14 +63,14 @@ class Iframe extends \Magento\Payment\Block\Form
     protected $_hssHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Paypal\Helper\Hss $hssHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Paypal\Helper\Hss $hssHelper,
@@ -158,7 +158,7 @@ class Iframe extends \Magento\Payment\Block\Form
     /**
      * Before rendering html, check if is block rendering needed
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()
     {

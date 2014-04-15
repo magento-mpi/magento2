@@ -16,7 +16,7 @@
  */
 namespace Magento\Invitation\Block;
 
-class Link extends \Magento\View\Element\Html\Link
+class Link extends \Magento\Framework\View\Element\Html\Link
 {
     /**
      * @var \Magento\Invitation\Helper\Data
@@ -34,14 +34,14 @@ class Link extends \Magento\View\Element\Html\Link
     protected $_invitationHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Invitation\Helper\Data $invitationHelper
      * @param \Magento\Invitation\Model\Config $invitationConfiguration
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Invitation\Helper\Data $invitationHelper,
         \Magento\Invitation\Model\Config $invitationConfiguration,

@@ -40,7 +40,7 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected $_imageHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Rss\Model\RssFactory $rssFactory
@@ -51,7 +51,7 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Rss\Model\RssFactory $rssFactory,

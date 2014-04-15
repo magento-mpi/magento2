@@ -40,14 +40,14 @@ class Statuses extends \Magento\Backend\Block\System\Config\Form\Fieldset
     /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\View\Helper\Js $jsHelper
+     * @param \Magento\Framework\View\Helper\Js $jsHelper
      * @param \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\View\Helper\Js $jsHelper,
+        \Magento\Framework\View\Helper\Js $jsHelper,
         \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollection,
         array $data = array()
     ) {

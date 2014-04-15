@@ -455,7 +455,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     }
 
     /**
-     * @return \Magento\Backend\Block\Widget\Form|\Magento\View\Element\AbstractBlock
+     * @return \Magento\Backend\Block\Widget\Form|\Magento\Framework\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()
     {

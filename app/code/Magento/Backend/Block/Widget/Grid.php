@@ -230,7 +230,7 @@ class Grid extends \Magento\Backend\Block\Widget
      * Retrieve export block
      *
      * @throws \Magento\Framework\Model\Exception
-     * @return \Magento\View\Element\AbstractBlock|bool
+     * @return \Magento\Framework\View\Element\AbstractBlock|bool
      */
     public function getExportBlock()
     {
@@ -264,7 +264,7 @@ class Grid extends \Magento\Backend\Block\Widget
      * Retrieve column by id
      *
      * @param string $columnId
-     * @return \Magento\View\Element\AbstractBlock|bool
+     * @return \Magento\Framework\View\Element\AbstractBlock|bool
      */
     public function getColumn($columnId)
     {
@@ -434,7 +434,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Get massaction block
      *
-     * @return bool|\Magento\View\Element\AbstractBlock
+     * @return bool|\Magento\Framework\View\Element\AbstractBlock
      */
     public function getMassactionBlock()
     {

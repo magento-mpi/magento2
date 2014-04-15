@@ -15,7 +15,7 @@
  */
 namespace Magento\Install\Block\Db;
 
-class Type extends \Magento\View\Element\Template
+class Type extends \Magento\Framework\View\Element\Template
 {
     /**
      * Db title
@@ -39,13 +39,13 @@ class Type extends \Magento\View\Element\Template
     protected $_session;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Installer\Config $installerConfig
      * @param \Magento\Session\Generic $session
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Install\Model\Installer\Config $installerConfig,
         \Magento\Session\Generic $session,
         array $data = array()

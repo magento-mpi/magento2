@@ -24,7 +24,7 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
     protected $_isThemeEditable = false;
 
     /**
-     * @var \Magento\View\Design\Theme\Image\PathInterface
+     * @var \Magento\Framework\View\Design\Theme\Image\PathInterface
      */
     protected $_themeImagePath;
 
@@ -38,7 +38,7 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\View\Design\Theme\Image\PathInterface $themeImagePath
+     * @param \Magento\Framework\View\Design\Theme\Image\PathInterface $themeImagePath
      * @param \Magento\File\Size $fileSize
      * @param array $data
      */
@@ -47,7 +47,7 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
         \Magento\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\ObjectManager $objectManager,
-        \Magento\View\Design\Theme\Image\PathInterface $themeImagePath,
+        \Magento\Framework\View\Design\Theme\Image\PathInterface $themeImagePath,
         \Magento\File\Size $fileSize,
         array $data = array()
     ) {
@@ -122,8 +122,8 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
             )
         );
 
-        /** @var $parentTheme \Magento\View\Design\ThemeInterface */
-        $parentTheme = $this->_objectManager->create('Magento\View\Design\ThemeInterface');
+        /** @var $parentTheme \Magento\Framework\View\Design\ThemeInterface */
+        $parentTheme = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface');
         if (!empty($formData['parent_id'])) {
             $parentTheme->load($formData['parent_id']);
         }
@@ -302,7 +302,7 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
     {
         $data = array('' => $this->_getDefaults());
 
-        /** @var $theme \Magento\View\Design\ThemeInterface */
+        /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         foreach ($themesCollections as $theme) {
             $theme->load($theme->getThemePath(), 'theme_path');
             if (!$theme->getId()) {

@@ -43,7 +43,7 @@ class Data extends \Magento\Core\Helper\Url
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -56,7 +56,7 @@ class Data extends \Magento\Core\Helper\Url
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $session
      */
@@ -64,7 +64,7 @@ class Data extends \Magento\Core\Helper\Url
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Registry $coreRegistry,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $session
     ) {
@@ -134,8 +134,8 @@ class Data extends \Magento\Core\Helper\Url
     /**
      * Create block instance
      *
-     * @param string|\Magento\View\Element\AbstractBlock $block
-     * @return \Magento\View\Element\AbstractBlock
+     * @param string|\Magento\Framework\View\Element\AbstractBlock $block
+     * @return \Magento\Framework\View\Element\AbstractBlock
      * @throws \Magento\Framework\Model\Exception
      */
     public function createBlock($block)
@@ -145,7 +145,7 @@ class Data extends \Magento\Core\Helper\Url
                 $block = $this->_layout->createBlock($block);
             }
         }
-        if (!$block instanceof \Magento\View\Element\AbstractBlock) {
+        if (!$block instanceof \Magento\Framework\View\Element\AbstractBlock) {
             throw new \Magento\Framework\Model\Exception(__('Invalid block type: %1', $block));
         }
         return $block;

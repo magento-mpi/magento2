@@ -19,7 +19,7 @@ use Magento\Framework\Model\Exception;
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\AbstractProduct implements
-    \Magento\View\Block\IdentityInterface
+    \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * TargetRule Index instance

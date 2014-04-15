@@ -14,7 +14,7 @@ namespace Magento\Backend\Block;
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Template extends \Magento\View\Element\Template
+class Template extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\AuthorizationInterface
@@ -111,7 +111,7 @@ class Template extends \Magento\View\Element\Template
     /**
      * Return toolbar block instance
      *
-     * @return bool|\Magento\View\Element\BlockInterface
+     * @return bool|\Magento\Framework\View\Element\BlockInterface
      */
     public function getToolbar()
     {

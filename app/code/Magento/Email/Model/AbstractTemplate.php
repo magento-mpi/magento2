@@ -65,7 +65,7 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
     /**
      * Design package instance
      *
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_design = null;
 
@@ -81,7 +81,7 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -89,7 +89,7 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\View\DesignInterface $design,
+        \Magento\Framework\View\DesignInterface $design,
         \Magento\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

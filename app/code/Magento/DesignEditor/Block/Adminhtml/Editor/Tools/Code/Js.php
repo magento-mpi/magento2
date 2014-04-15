@@ -148,7 +148,7 @@ class Js extends \Magento\Backend\Block\Widget\Form\Generic
     public function getFiles()
     {
         $customization = $this->_themeContext->getStagingTheme()->getCustomization();
-        $jsFiles = $customization->getFilesByType(\Magento\View\Design\Theme\Customization\File\Js::TYPE);
+        $jsFiles = $customization->getFilesByType(\Magento\Framework\View\Design\Theme\Customization\File\Js::TYPE);
         return $this->_coreHelper->jsonEncode($customization->generateFileInfo($jsFiles));
     }
 

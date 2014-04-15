@@ -21,7 +21,7 @@
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery;
 
 use Magento\Backend\Block\Media\Uploader;
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock;
 
 class Content extends \Magento\Backend\Block\Widget
 {

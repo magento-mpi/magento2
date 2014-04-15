@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-class Context extends \Magento\View\Element\Template\Context
+class Context extends \Magento\Framework\View\Element\Template\Context
 {
     /**
      * @var \Magento\Catalog\Helper\Image
@@ -66,17 +66,17 @@ class Context extends \Magento\View\Element\Template\Context
 
     /**
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\TranslateInterface $translator
      * @param \Magento\Framework\App\CacheInterface $cache
-     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\App\Config\ScopeConfigInterface|\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\View\Url $viewUrl
-     * @param \Magento\View\ConfigInterface $viewConfig
+     * @param \Magento\Framework\View\Url $viewUrl
+     * @param \Magento\Framework\View\ConfigInterface $viewConfig
      * @param \Magento\Framework\App\Cache\StateInterface $cacheState
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
@@ -84,8 +84,8 @@ class Context extends \Magento\View\Element\Template\Context
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\View\FileSystem $viewFileSystem
-     * @param \Magento\View\TemplateEnginePool $enginePool
+     * @param \Magento\Framework\View\FileSystem $viewFileSystem
+     * @param \Magento\Framework\View\TemplateEnginePool $enginePool
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
@@ -104,17 +104,17 @@ class Context extends \Magento\View\Element\Template\Context
      */
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $urlBuilder,
         \Magento\TranslateInterface $translator,
         \Magento\Framework\App\CacheInterface $cache,
-        \Magento\View\DesignInterface $design,
+        \Magento\Framework\View\DesignInterface $design,
         \Magento\Session\SessionManagerInterface $session,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\View\Url $viewUrl,
-        \Magento\View\ConfigInterface $viewConfig,
+        \Magento\Framework\View\Url $viewUrl,
+        \Magento\Framework\View\ConfigInterface $viewConfig,
         \Magento\Framework\App\Cache\StateInterface $cacheState,
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
@@ -122,8 +122,8 @@ class Context extends \Magento\View\Element\Template\Context
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\View\FileSystem $viewFileSystem,
-        \Magento\View\TemplateEnginePool $enginePool,
+        \Magento\Framework\View\FileSystem $viewFileSystem,
+        \Magento\Framework\View\TemplateEnginePool $enginePool,
         \Magento\Framework\App\State $appState,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Config $catalogConfig,

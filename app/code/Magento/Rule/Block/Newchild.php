@@ -11,7 +11,7 @@ namespace Magento\Rule\Block;
 
 use Magento\Framework\Data\Form\Element\AbstractElement;
 
-class Newchild extends \Magento\View\Element\AbstractBlock implements
+class Newchild extends \Magento\Framework\View\Element\AbstractBlock implements
     \Magento\Framework\Data\Form\Element\Renderer\RendererInterface
 {
     /**

@@ -39,7 +39,7 @@ class Config
     /**
      * Layout model
      *
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -67,7 +67,7 @@ class Config
     /**
      * @param \Magento\Framework\Config\DomFactory $domFactory
      * @param \Magento\Module\Dir\Reader $moduleReader
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Persistent\Model\Factory $persistentFactory
      * @param \Magento\Framework\App\Filesystem $filesystem
@@ -75,7 +75,7 @@ class Config
     public function __construct(
         \Magento\Framework\Config\DomFactory $domFactory,
         \Magento\Module\Dir\Reader $moduleReader,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\App\State $appState,
         \Magento\Persistent\Model\Factory $persistentFactory,
         \Magento\Framework\App\Filesystem $filesystem

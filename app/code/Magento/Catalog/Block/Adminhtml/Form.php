@@ -18,7 +18,7 @@
 namespace Magento\Catalog\Block\Adminhtml;
 
 use Magento\Backend\Block\Widget\Form\Generic;
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock;
 
 class Form extends Generic
 {

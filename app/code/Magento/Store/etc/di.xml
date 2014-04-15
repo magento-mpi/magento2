@@ -142,7 +142,7 @@
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
-    <type name="Magento\View\Layout\Element\Layout">
+    <type name="Magento\Framework\View\Layout\Element\Layout">
         <arguments>
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>

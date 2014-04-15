@@ -100,7 +100,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Layout
      *
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -132,7 +132,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Payment\Model\CartFactory $cartFactory
@@ -144,7 +144,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory,
         \Magento\Framework\App\State $appState,
         \Magento\Payment\Model\CartFactory $cartFactory

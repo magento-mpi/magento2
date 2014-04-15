@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Block\Widget\Grid\Massaction;
 
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 
 /**
  * Grid widget massaction block

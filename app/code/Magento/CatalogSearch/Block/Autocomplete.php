@@ -14,8 +14,8 @@
 namespace Magento\CatalogSearch\Block;
 
 use Magento\CatalogSearch\Helper\Data;
-use Magento\View\Element\AbstractBlock;
-use Magento\View\Element\Context;
+use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\Context;
 
 class Autocomplete extends AbstractBlock
 {

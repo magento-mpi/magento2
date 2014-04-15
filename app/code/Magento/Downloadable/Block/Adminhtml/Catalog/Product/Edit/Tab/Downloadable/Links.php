@@ -168,7 +168,7 @@ class Links extends \Magento\Backend\Block\Template
     public function getPurchasedSeparatelySelect()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setName(
             'product[links_purchased_separately]'
         )->setId(

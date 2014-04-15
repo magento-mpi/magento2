@@ -387,8 +387,8 @@ class Category extends \Magento\Backend\App\Action
             $category->load($category->getId());
             // to obtain truncated category name
 
-            /** @var $block \Magento\View\Element\Messages */
-            $block = $this->_objectManager->get('Magento\View\Element\Messages');
+            /** @var $block \Magento\Framework\View\Element\Messages */
+            $block = $this->_objectManager->get('Magento\Framework\View\Element\Messages');
             $block->setMessages($this->messageManager->getMessages(true));
             $body = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'

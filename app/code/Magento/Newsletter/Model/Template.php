@@ -97,7 +97,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -110,7 +110,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\View\DesignInterface $design,
+        \Magento\Framework\View\DesignInterface $design,
         \Magento\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

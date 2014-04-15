@@ -129,7 +129,7 @@ class Layout extends \Magento\Backend\Block\Template implements \Magento\Framewo
     public function getDisplayOnSelectHtml()
     {
         $selectBlock = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setName(
             'widget_instance[{{id}}][page_group]'
         )->setId(

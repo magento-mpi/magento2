@@ -70,7 +70,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
     protected $_eventPrefix = 'widget_widget_instance';
 
     /**
-     * @var \Magento\View\FileSystem
+     * @var \Magento\Framework\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -113,7 +113,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Escaper $escaper
-     * @param \Magento\View\FileSystem $viewFileSystem
+     * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Catalog\Model\Product\Type $productType
      * @param \Magento\Widget\Model\Config\Reader $reader
@@ -130,7 +130,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Escaper $escaper,
-        \Magento\View\FileSystem $viewFileSystem,
+        \Magento\Framework\View\FileSystem $viewFileSystem,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\Catalog\Model\Product\Type $productType,
         \Magento\Widget\Model\Config\Reader $reader,
@@ -332,7 +332,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
     {
         //TODO Shouldn't we get "area" from theme model which we can load using "theme_id"?
         if (!$this->_getData('area')) {
-            return \Magento\View\DesignInterface::DEFAULT_AREA;
+            return \Magento\Framework\View\DesignInterface::DEFAULT_AREA;
         }
         return $this->_getData('area');
     }
@@ -539,7 +539,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
             array(
                 'area' => $this->getArea(),
                 'themeId' => $this->getThemeId(),
-                'module' => \Magento\View\Element\AbstractBlock::extractModuleName($this->getType())
+                'module' => \Magento\Framework\View\Element\AbstractBlock::extractModuleName($this->getType())
             )
         );
         if (!$this->getId() && !$this->isCompleteToCreate() || $templatePath && !is_readable($templateFilename)) {

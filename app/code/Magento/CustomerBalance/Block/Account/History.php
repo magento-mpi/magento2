@@ -14,7 +14,7 @@ use Magento\Framework\Model\Resource\Db\Collection\AbstractCollection;
 /**
  * Customer balance history block
  */
-class History extends \Magento\View\Element\Template
+class History extends \Magento\Framework\View\Element\Template
 {
     /**
      * Balance history action names
@@ -34,13 +34,13 @@ class History extends \Magento\View\Element\Template
     protected $_historyFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
      * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
         \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array()

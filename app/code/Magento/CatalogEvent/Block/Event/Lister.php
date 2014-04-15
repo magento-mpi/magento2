@@ -18,7 +18,7 @@ use Magento\CatalogEvent\Helper\Data;
 use Magento\CatalogEvent\Model\Event;
 use Magento\CatalogEvent\Model\Resource\Event\Collection;
 use Magento\CatalogEvent\Model\Resource\Event\CollectionFactory;
-use Magento\View\Element\Template\Context;
+use Magento\Framework\View\Element\Template\Context;
 
 class Lister extends AbstractEvent
 {

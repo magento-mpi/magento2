@@ -12,7 +12,7 @@ namespace Magento\VersionsCms\Block\Hierarchy;
 /**
  * Cms Widget Pagination Block
  */
-class Pagination extends \Magento\View\Element\Template
+class Pagination extends \Magento\Framework\View\Element\Template
 {
     /**
      * Current Hierarchy Node Page Instance
@@ -34,13 +34,13 @@ class Pagination extends \Magento\View\Element\Template
     protected $_nodeFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         array $data = array()

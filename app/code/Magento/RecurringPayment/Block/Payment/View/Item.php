@@ -28,7 +28,7 @@ class Item extends \Magento\RecurringPayment\Block\Payment\View
     protected $_quoteItemOptionFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\Product\Option $option
      * @param \Magento\Catalog\Model\Product $product
@@ -36,7 +36,7 @@ class Item extends \Magento\RecurringPayment\Block\Payment\View
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Catalog\Model\Product\Option $option,
         \Magento\Catalog\Model\Product $product,

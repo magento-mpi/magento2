@@ -95,7 +95,7 @@ class ImageUploader extends \Magento\Object
      */
     protected function _getTheme()
     {
-        /** @var $theme \Magento\View\Design\ThemeInterface */
+        /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         $theme = $this->getTheme();
         if (!$theme->getId()) {
             throw new \InvalidArgumentException('Theme was not found.');

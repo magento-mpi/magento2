@@ -32,14 +32,14 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     /**
      * Initialize dependencies.
      *
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerAddressHelper $customerAddressHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerAddressHelper $customerAddressHelper,

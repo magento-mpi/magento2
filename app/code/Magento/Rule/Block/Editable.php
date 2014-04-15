@@ -10,7 +10,7 @@
 namespace Magento\Rule\Block;
 
 use Magento\Framework\Data\Form\Element\Renderer\RendererInterface;
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock;
 
 class Editable extends AbstractBlock implements RendererInterface
 {
@@ -20,12 +20,12 @@ class Editable extends AbstractBlock implements RendererInterface
     protected $inlineTranslate;
 
     /**
-     * @param \Magento\View\Element\Context $context
+     * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\Translate\InlineInterface $inlineTranslate
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Context $context,
+        \Magento\Framework\View\Element\Context $context,
         \Magento\Translate\InlineInterface $inlineTranslate,
         array $data = array()
     ) {

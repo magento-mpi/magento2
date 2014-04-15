@@ -162,8 +162,8 @@ class Set extends \Magento\Backend\App\Action
 
         if ($isNewSet) {
             if ($this->getRequest()->getPost('return_session_messages_only')) {
-                /** @var $block \Magento\View\Element\Messages */
-                $block = $this->_objectManager->get('Magento\View\Element\Messages');
+                /** @var $block \Magento\Framework\View\Element\Messages */
+                $block = $this->_objectManager->get('Magento\Framework\View\Element\Messages');
                 $block->setMessages($this->messageManager->getMessages(true));
                 $body = $this->_objectManager->get(
                     'Magento\Core\Helper\Data'

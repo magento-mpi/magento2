@@ -17,7 +17,7 @@ use Magento\Catalog\Model\Resource\Category\Collection;
 class Category extends \Magento\Framework\Data\Form\Element\Multiselect
 {
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -44,7 +44,7 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
      * @param \Magento\Escaper $escaper
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory
      * @param \Magento\Backend\Helper\Data $backendData
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param array $data
      */
@@ -54,7 +54,7 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
         \Magento\Escaper $escaper,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory,
         \Magento\Backend\Helper\Data $backendData,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Json\EncoderInterface $jsonEncoder,
         array $data = array()
     ) {

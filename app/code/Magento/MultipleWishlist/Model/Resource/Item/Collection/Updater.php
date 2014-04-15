@@ -7,7 +7,7 @@
  */
 namespace Magento\MultipleWishlist\Model\Resource\Item\Collection;
 
-class Updater implements \Magento\View\Layout\Argument\UpdaterInterface
+class Updater implements \Magento\Framework\View\Layout\Argument\UpdaterInterface
 {
     /**
      * Wishlist data

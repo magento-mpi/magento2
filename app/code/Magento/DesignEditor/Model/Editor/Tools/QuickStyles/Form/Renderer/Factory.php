@@ -14,7 +14,7 @@ use Magento\Framework\Data\Form\Element\Renderer\RendererInterface;
 /**
  * Block that renders JS tab
  *
- * @method \Magento\View\Design\ThemeInterface getTheme()
+ * @method \Magento\Framework\View\Design\ThemeInterface getTheme()
  * @method setTheme($theme)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -23,7 +23,7 @@ class Factory
     /**
      * Layout model
      *
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -54,9 +54,9 @@ class Factory
     protected $_sharedRenderers = array();
 
     /**
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      */
-    public function __construct(\Magento\View\LayoutInterface $layout)
+    public function __construct(\Magento\Framework\View\LayoutInterface $layout)
     {
         $this->_layout = $layout;
     }

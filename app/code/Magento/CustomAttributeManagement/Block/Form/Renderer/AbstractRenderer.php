@@ -16,7 +16,7 @@ namespace Magento\CustomAttributeManagement\Block\Form\Renderer;
  * @package     Magento_CustomAttributeManagement
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractRenderer extends \Magento\View\Element\Template
+abstract class AbstractRenderer extends \Magento\Framework\View\Element\Template
 {
     /**
      * Attribute instance

@@ -22,20 +22,20 @@ class Fieldset extends \Magento\Backend\Block\AbstractBlock implements
     protected $_authSession;
 
     /**
-     * @var \Magento\View\Helper\Js
+     * @var \Magento\Framework\View\Helper\Js
      */
     protected $_jsHelper;
 
     /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\View\Helper\Js $jsHelper
+     * @param \Magento\Framework\View\Helper\Js $jsHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\View\Helper\Js $jsHelper,
+        \Magento\Framework\View\Helper\Js $jsHelper,
         array $data = array()
     ) {
         $this->_jsHelper = $jsHelper;

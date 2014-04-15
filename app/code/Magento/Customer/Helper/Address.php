@@ -65,7 +65,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $_formatTemplate = array();
 
-    /** @var \Magento\View\Element\BlockFactory */
+    /** @var \Magento\Framework\View\Element\BlockFactory */
     protected $_blockFactory;
 
     /** @var \Magento\Store\Model\StoreManagerInterface */
@@ -82,7 +82,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\View\Element\BlockFactory $blockFactory
+     * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
@@ -90,7 +90,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\View\Element\BlockFactory $blockFactory,
+        \Magento\Framework\View\Element\BlockFactory $blockFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService,
@@ -136,7 +136,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param string $renderer
-     * @return \Magento\View\Element\BlockInterface
+     * @return \Magento\Framework\View\Element\BlockInterface
      */
     public function getRenderer($renderer)
     {

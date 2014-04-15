@@ -15,7 +15,7 @@ namespace Magento\Catalog\Block\Product;
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implements
-    \Magento\View\Block\IdentityInterface
+    \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Default value for products count that will be shown
@@ -187,7 +187,7 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implemen
     /**
      * Prepare collection with new products
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()
     {

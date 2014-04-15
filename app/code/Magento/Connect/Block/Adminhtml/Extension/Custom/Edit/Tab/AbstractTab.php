@@ -17,7 +17,7 @@
  */
 namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
 
-use Magento\View\LayoutInterface;
+use Magento\Framework\View\LayoutInterface;
 
 abstract class AbstractTab extends \Magento\Backend\Block\Widget\Form\Generic implements
     \Magento\Backend\Block\Widget\Tab\TabInterface
