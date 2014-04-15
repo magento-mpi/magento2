@@ -10,6 +10,7 @@
 
 namespace Magento\Catalog\Pricing;
 
+use Magento\Catalog\Model\Product;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\View\Element\Template;
 use Magento\Registry;
@@ -66,7 +67,7 @@ class Render extends Template
     /**
      * Returns saleable item instance
      *
-     * @return SaleableInterface
+     * @return Product
      */
     protected function getProduct()
     {

@@ -14,7 +14,6 @@
 namespace Magento\Catalog\Model\Product;
 
 use Magento\Catalog\Model\Product;
-use Magento\Pricing\Object\SaleableInterface;
 
 class Type
 {
@@ -165,10 +164,10 @@ class Type
     /**
      * Get Product Price Info object
      *
-     * @param SaleableInterface $product
+     * @param Product $product
      * @return \Magento\Pricing\PriceInfoInterface
      */
-    public function getPriceInfo(SaleableInterface $product)
+    public function getPriceInfo(Product $product)
     {
         return $this->_priceInfoFactory->create($product);
     }

@@ -12,7 +12,7 @@ namespace Magento\CatalogRule\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price\AbstractPrice;
 use Magento\Pricing\Adjustment\Calculator;
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Catalog\Model\Product;
 use Magento\Stdlib\DateTime\TimezoneInterface;
 use Magento\Core\Model\StoreManager;
 use Magento\Customer\Model\Session;
@@ -49,7 +49,7 @@ class CatalogRulePrice extends AbstractPrice
     protected $resourceRuleFactory;
 
     /**
-     * @param SaleableInterface $product
+     * @param Product $product
      * @param float $quantity
      * @param Calculator $calculator
      * @param TimezoneInterface $dateTime
@@ -58,7 +58,7 @@ class CatalogRulePrice extends AbstractPrice
      * @param RuleFactory $catalogRuleResourceFactory
      */
     public function __construct(
-        SaleableInterface $product,
+        Product $product,
         $quantity,
         Calculator $calculator,
         TimezoneInterface $dateTime,
@@ -86,7 +86,7 @@ class CatalogRulePrice extends AbstractPrice
                     $this->dateTime->scopeTimeStamp($this->storeManager->getStore()->getId()),
                     $this->storeManager->getStore()->getWebsiteId(),
                     $this->customerSession->getCustomerGroupId(),
-                    $this->salableItem->getId()
+                    $this->product->getId()
                 );
             $this->value = $this->value ? floatval($this->value) : false;
         }

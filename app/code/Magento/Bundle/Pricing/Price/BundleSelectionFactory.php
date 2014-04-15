@@ -8,7 +8,7 @@
 
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Catalog\Model\Product;
 
 /**
  * Bundle selection price factory
@@ -40,16 +40,16 @@ class BundleSelectionFactory
     /**
      * Create Price object for particular product
      *
-     * @param SaleableInterface $bundleProduct
-     * @param SaleableInterface $selection
+     * @param Product $bundleProduct
+     * @param Product $selection
      * @param float $quantity
      * @param array $arguments
      * @throws \InvalidArgumentException
      * @return BundleSelectionPrice
      */
     public function create(
-        SaleableInterface $bundleProduct,
-        SaleableInterface $selection,
+        Product $bundleProduct,
+        Product $selection,
         $quantity,
         array $arguments = []
     ) {

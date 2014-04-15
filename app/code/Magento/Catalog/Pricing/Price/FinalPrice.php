@@ -11,7 +11,6 @@
 namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Pricing\Adjustment\CalculatorInterface;
-use Magento\Pricing\Object\SaleableInterface;
 use \Magento\Catalog\Model\Product;
 
 /**
