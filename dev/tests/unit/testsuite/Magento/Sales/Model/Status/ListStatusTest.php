@@ -12,11 +12,11 @@ use Magento\CatalogInventory\Helper\Data;
 class ListStatusTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Sales\Model\Status\ListStatus */
-    protected $listStatus;
+    private $listStatus;
 
     protected function setUp()
     {
-        $this->listStatus = new \Magento\Sales\Model\Status\ListStatus();
+        $this->listStatus = new ListStatus();
     }
 
     public function testAddAndGetItem()
@@ -25,7 +25,7 @@ class ListStatusTest extends \PHPUnit_Framework_TestCase
         $code = 'cataloginventory';
         $message = Data::ERROR_QTY;
         $additionalData = null;
-        $mockItem = [
+        $mockItems = [
             [
                 'origin' => $origin,
                 'code' => $code,
@@ -35,7 +35,7 @@ class ListStatusTest extends \PHPUnit_Framework_TestCase
         ];
         $result = $this->listStatus->addItem($origin, $code, $message, $additionalData);
         $items = $this->listStatus->getItems();
-        $this->assertEquals($mockItem, $items);
+        $this->assertEquals($mockItems, $items);
         $this->assertInstanceOf('\Magento\Sales\Model\Status\ListStatus', $result);
     }
 
@@ -66,6 +66,8 @@ class ListStatusTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * creates mock items and adds to listStatus
+     *
      * @return array
      */
     protected function addItems()
@@ -77,15 +79,12 @@ class ListStatusTest extends \PHPUnit_Framework_TestCase
         $mockItems = [];
 
         for ($i = 0; $i < 2; $i++) {
-            array_push(
-                $mockItems,
-                [
-                    'origin' => $origin . $i,
-                    'code' => $code,
-                    'message' => $message . $i,
-                    'additionalData' => $additionalData
-                ]
-            );
+            $mockItems[] = [
+                'origin' => $origin . $i,
+                'code' => $code,
+                'message' => $message . $i,
+                'additionalData' => $additionalData
+            ];
             $this->listStatus->addItem($origin . $i, $code, $message . $i, $additionalData);
         }
         return $mockItems;
