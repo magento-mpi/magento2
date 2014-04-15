@@ -466,13 +466,9 @@ class Account extends \Magento\App\Action\Action
             // @codingStandardsIgnoreEnd
             $this->messageManager->addError($message);
         } catch (InputException $e) {
-            $errors = $e->getErrors();
-            if (empty($errors)) {
-                $this->messageManager->addError($this->escaper->escapeHtml($e->getMessage()));
-            } else {
-                foreach ($errors as $error) {
-                    $this->messageManager->addError($this->escaper->escapeHtml($error->getMessage()));
-                }
+            $this->messageManager->addError($this->escaper->escapeHtml($e->getMessage()));
+            foreach ($e->getErrors() as $error) {
+                $this->messageManager->addError($this->escaper->escapeHtml($error->getMessage()));
             }
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Cannot save the customer.'));

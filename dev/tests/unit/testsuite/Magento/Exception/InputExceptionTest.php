@@ -5,15 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace
-
-{
+// @codingStandardsIgnoreStart
+namespace {
     $mockTranslate = false;
 }
 
-namespace Magento\Exception
+namespace Magento\Exception {
+    // @codingStandardsIgnoreEnd
 
-{
+    /**
+     * @SuppressWarnings(PHPMD.ShortMethodName)
+     * @return string
+     */
     function __()
     {
         global $mockTranslate;

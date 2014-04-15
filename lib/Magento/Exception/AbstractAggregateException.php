@@ -76,7 +76,7 @@ abstract class AbstractAggregateException extends LocalizedException
                 $this->rawMessage = $rawMessage;
                 $this->params = $params;
                 $this->message = __($rawMessage, $params);
-            } elseif (2 == $this->addErrorCalls) {
+            } elseif (2 === $this->addErrorCalls) {
                 // Second call: store the error from the first call and the second call in the array
                 // restore the message and params to their original value
                 $this->errors[] = new ErrorMessage($this->rawMessage, $this->params);
