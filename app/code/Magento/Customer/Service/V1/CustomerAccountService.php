@@ -214,13 +214,13 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         } catch (\Magento\Model\Exception $e) {
             switch ($e->getCode()) {
                 case CustomerModel::EXCEPTION_EMAIL_NOT_CONFIRMED:
-                    throw new EmailNotConfirmedException($e->getMessage());
+                    throw new EmailNotConfirmedException($e->getMessage(), [], $e);
                     break;
                 case CustomerModel::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
-                    throw new InvalidEmailOrPasswordException($e->getMessage());
+                    throw new InvalidEmailOrPasswordException($e->getMessage(), [], $e);
                     break;
                 default:
-                    throw new AuthenticationException($e->getMessage());
+                    throw new AuthenticationException($e->getMessage(), [], $e);
             }
         }
 

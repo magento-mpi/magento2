@@ -12,6 +12,7 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Exception\AuthenticationException;
+use Magento\Exception\EmailNotConfirmedException;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\State\InvalidTransitionException;

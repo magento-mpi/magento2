@@ -121,6 +121,8 @@ interface CustomerAccountServiceInterface
      * @param string $password password in plain-text
      * @return \Magento\Customer\Service\V1\Data\Customer
      * @throws \Magento\Exception\AuthenticationException If unable to authenticate
+     * @throws \Magento\Exception\EmailNotConfirmedException If this is an unconfirmed account
+     * @throws \Magento\Exception\InvalidEmailOrPasswordException If email or password is invalid
      */
     public function authenticate($username, $password);
 
