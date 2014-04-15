@@ -49,8 +49,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         $this->_initStoreTypesInRegistry($registryData);
 
-        /** @var $layout \Magento\View\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
+        /** @var $layout \Magento\Framework\View\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
         /** @var $block \Magento\Backend\Block\System\Store\Edit */
         $block = $layout->createBlock('Magento\Backend\Block\System\Store\Edit', 'block');
         $block->setArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
@@ -89,8 +89,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         $this->_initStoreTypesInRegistry($registryData);
 
-        /** @var $layout \Magento\View\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
+        /** @var $layout \Magento\Framework\View\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
         /** @var $block \Magento\Backend\Block\System\Store\Edit */
         $block = $layout->createBlock('Magento\Backend\Block\System\Store\Edit', 'block');
         $block->setArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);

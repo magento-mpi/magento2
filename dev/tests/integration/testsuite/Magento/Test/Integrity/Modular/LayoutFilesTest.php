@@ -10,7 +10,7 @@ namespace Magento\Test\Integrity\Modular;
 class LayoutFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Layout\Argument\Parser
+     * @var \Magento\Framework\View\Layout\Argument\Parser
      */
     protected $_argParser;
 
@@ -22,7 +22,7 @@ class LayoutFilesTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_argParser = $objectManager->get('Magento\View\Layout\Argument\Parser');
+        $this->_argParser = $objectManager->get('Magento\Framework\View\Layout\Argument\Parser');
         $this->_argInterpreter = $objectManager->get('layoutArgumentInterpreter');
     }
 

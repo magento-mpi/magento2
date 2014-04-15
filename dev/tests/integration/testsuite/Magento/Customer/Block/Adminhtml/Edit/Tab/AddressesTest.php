@@ -114,7 +114,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $this->setupExistingCustomerData();
         /** @var \Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses $block */
         $block = $this->_objectManager->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses'
         );

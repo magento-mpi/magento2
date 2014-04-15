@@ -26,7 +26,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $_controller;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -36,7 +36,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\Framework\App\State')->setAreaCode('frontend');
         $objectManager->get('Magento\Framework\App\Http\Context')
             ->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
-        $objectManager->get('Magento\View\DesignInterface')
+        $objectManager->get('Magento\Framework\View\DesignInterface')
             ->setDefaultDesignTheme();
         $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Helper\Product\View');
@@ -58,7 +58,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         );
     }
 

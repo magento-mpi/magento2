@@ -27,9 +27,9 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
         $payment->setMethod('checkmo');
         $order->setPayment($payment);
 
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
         $block = $layout->createBlock('Magento\Sales\Block\Order\PrintOrder\Invoice', 'block');
-        $childBlock = $layout->addBlock('Magento\View\Element\Text', 'invoice_totals', 'block');
+        $childBlock = $layout->addBlock('Magento\Framework\View\Element\Text', 'invoice_totals', 'block');
 
         $expectedHtml = '<b>Any html</b>';
         $invoice = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

@@ -27,8 +27,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_addressService = $this->getMock('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
-        /** @var \Magento\View\LayoutInterface $layout */
-        $layout = $this->_objectManager->get('Magento\View\LayoutInterface');
+        /** @var \Magento\Framework\View\LayoutInterface $layout */
+        $layout = $this->_objectManager->get('Magento\Framework\View\LayoutInterface');
         $sessionQuoteMock = $this->getMockBuilder(
             'Magento\Backend\Model\Session\Quote'
         )->disableOriginalConstructor()->setMethods(

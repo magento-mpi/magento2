@@ -15,13 +15,13 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
  */
 class ProductsTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\View\Element\AbstractBlock */
+    /** @var \Magento\Framework\View\Element\AbstractBlock */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
         $this->_block = $layout->createBlock('Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Products');
     }
 

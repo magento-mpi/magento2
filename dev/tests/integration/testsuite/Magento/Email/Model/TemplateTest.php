@@ -37,13 +37,13 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         )->setConstructorArgs(
             array(
                 $objectManager->get('Magento\Framework\Model\Context'),
-                $objectManager->get('Magento\View\DesignInterface'),
+                $objectManager->get('Magento\Framework\View\DesignInterface'),
                 $objectManager->get('Magento\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
                 $objectManager->get('Magento\Store\Model\StoreManager'),
                 $objectManager->create('Magento\Framework\App\Filesystem'),
-                $objectManager->create('Magento\View\Url'),
-                $objectManager->create('Magento\View\FileSystem'),
+                $objectManager->create('Magento\Framework\View\Url'),
+                $objectManager->create('Magento\Framework\View\FileSystem'),
                 $objectManager->create('Magento\Framework\App\Config\ScopeConfigInterface'),
                 $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
                 $objectManager->get('Magento\Email\Model\Template\Config')
@@ -127,13 +127,13 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     protected function _setNotDefaultThemeForFixtureStore()
     {
         $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\View\Design\ThemeInterface'
+            'Magento\Framework\View\Design\ThemeInterface'
         );
         $theme->load('Magento/plushe', 'theme_path');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Config\MutableScopeConfigInterface'
         )->setValue(
-            \Magento\View\DesignInterface::XML_PATH_THEME_ID,
+            \Magento\Framework\View\DesignInterface::XML_PATH_THEME_ID,
             $theme->getId(),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             'fixturestore'

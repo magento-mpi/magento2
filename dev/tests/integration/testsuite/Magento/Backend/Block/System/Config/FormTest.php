@@ -54,9 +54,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     public function testDependenceHtml()
     {
-        /** @var $layout \Magento\View\LayoutInterface */
+        /** @var $layout \Magento\Framework\View\LayoutInterface */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\View\Layout',
+            'Magento\Framework\View\Layout',
             array('area' => 'adminhtml')
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
@@ -67,8 +67,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Backend\Block\System\Config\Form */
         $block = $layout->createBlock('Magento\Backend\Block\System\Config\Form', 'block');
 
-        /** @var $childBlock \Magento\View\Element\Text */
-        $childBlock = $layout->addBlock('Magento\View\Element\Text', 'element_dependence', 'block');
+        /** @var $childBlock \Magento\Framework\View\Element\Text */
+        $childBlock = $layout->addBlock('Magento\Framework\View\Element\Text', 'element_dependence', 'block');
 
         $expectedValue = 'dependence_html_relations';
         $this->assertNotContains($expectedValue, $block->toHtml());
@@ -104,7 +104,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         /* @TODO Eliminate stub by proper mock / config fixture usage */
         /** @var $block \Magento\Backend\Block\System\Config\FormStub */
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Backend\Block\System\Config\FormStub'
         );
@@ -194,7 +194,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         /* @TODO Eliminate stub by proper mock / config fixture usage */
         /** @var $block \Magento\Backend\Block\System\Config\FormStub */
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Backend\Block\System\Config\FormStub'
         );
@@ -309,7 +309,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         );
         /** @var $block \Magento\Backend\Block\System\Config\Form */
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Backend\Block\System\Config\Form'
         );

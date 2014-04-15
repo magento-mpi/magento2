@@ -63,7 +63,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->_groupService = $this->_objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
         $this->_block = $this->_objectManager->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\View',
             '',

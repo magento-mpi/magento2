@@ -10,7 +10,7 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget;
 
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio;
-use Magento\View\LayoutInterface;
+use Magento\Framework\View\LayoutInterface;
 
 /**
  * @magentoAppArea adminhtml
@@ -26,9 +26,9 @@ class RadioTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->layoutMock = $this->getMock('Magento\View\Layout', array(), array(), '', false);
+        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $this->block = Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             '\Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio'
         );

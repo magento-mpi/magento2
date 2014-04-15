@@ -29,7 +29,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
 
-        $objectManager->get('Magento\View\DesignInterface')->setDefaultDesignTheme();
+        $objectManager->get('Magento\Framework\View\DesignInterface')->setDefaultDesignTheme();
         $arguments = array(
             $objectManager->get('Magento\Backend\Block\Template\Context'),
             $objectManager->get('Magento\Backend\Model\Session\Quote'),
@@ -42,7 +42,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             'Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm',
             $arguments
         );
-        $block->setLayout($objectManager->create('Magento\View\Layout'));
+        $block->setLayout($objectManager->create('Magento\Framework\View\Layout'));
 
         $method = new \ReflectionMethod(
             'Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm',

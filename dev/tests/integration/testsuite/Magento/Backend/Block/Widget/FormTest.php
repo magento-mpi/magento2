@@ -23,11 +23,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get(
-            'Magento\View\DesignInterface'
+            'Magento\Framework\View\DesignInterface'
         )->setArea(
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         )->setDefaultDesignTheme();
-        $layout = $objectManager->create('Magento\View\Layout');
+        $layout = $objectManager->create('Magento\Framework\View\Layout');
         $formBlock = $layout->addBlock('Magento\Backend\Block\Widget\Form');
         $fieldSet = $objectManager->create('Magento\Framework\Data\Form\Element\Fieldset');
         $arguments = array(

@@ -21,8 +21,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         'Magento\Framework\Model\Context',
         'Magento\Registry',
         'Magento\Framework\App\Filesystem',
-        'Magento\View\Url',
-        'Magento\View\FileSystem',
+        'Magento\Framework\View\Url',
+        'Magento\Framework\View\FileSystem',
         'Magento\Core\Model\View\Design',
         'Magento\Framework\App\Config\ScopeConfigInterface',
         'Magento\Email\Model\Template\Config'

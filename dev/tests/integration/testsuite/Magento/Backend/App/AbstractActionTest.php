@@ -93,7 +93,7 @@ class AbstractActionTest extends \Magento\Backend\Utility\Controller
 
         $this->dispatch('backend/admin/dashboard');
 
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
         $actualBlocks = $layout->getAllBlocks();
 
         $this->assertNotEmpty($actualBlocks);

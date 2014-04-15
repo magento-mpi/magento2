@@ -88,7 +88,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         $this->_requireVisitorWithTwoProducts();
 
-        $layout = $this->_objectManager->get('Magento\View\LayoutInterface');
+        $layout = $this->_objectManager->get('Magento\Framework\View\LayoutInterface');
         $layout->setIsCacheable(false);
 
         $this->dispatch('catalog/product_compare/index');

@@ -37,7 +37,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form $block */
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form'
         );

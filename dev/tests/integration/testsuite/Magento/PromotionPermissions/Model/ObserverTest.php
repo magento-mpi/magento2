@@ -16,7 +16,7 @@ namespace Magento\PromotionPermissions\Model;
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout = null;
 
@@ -37,7 +37,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         );
         $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         );
     }
 

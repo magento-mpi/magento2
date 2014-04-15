@@ -114,7 +114,7 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
             $this->_primaryConfigData = array_replace(
                 parent::_loadPrimaryConfig($directoryList, $argumentMapper, $appMode),
                 array(
-                    'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy' => array(
+                    'Magento\Framework\View\Design\FileResolution\Strategy\Fallback\CachingProxy' => array(
                         'arguments' => array(
                             'canSaveMap' => false
                         )
@@ -132,7 +132,7 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
                     'Magento\Framework\App\Response\Http' => 'Magento\TestFramework\Response',
                     'Magento\Interception\PluginList' => 'Magento\TestFramework\Interception\PluginList',
                     'Magento\Interception\ObjectManager\Config' => 'Magento\TestFramework\ObjectManager\Config',
-                    'Magento\View\LayoutInterface' => 'Magento\TestFramework\View\Layout'
+                    'Magento\Framework\View\LayoutInterface' => 'Magento\TestFramework\View\Layout'
                 ]
             );
         }

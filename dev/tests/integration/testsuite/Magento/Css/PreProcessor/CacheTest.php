@@ -52,7 +52,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     public function testLessCache()
     {
         $file = $this->objectManager->create(
-            'Magento\View\Publisher\CssFile',
+            'Magento\Framework\View\Publisher\CssFile',
             array('filePath' => 'oyejorge.css', 'allowDuplication' => false, 'viewParams' => $this->getDesignParams())
         );
 
@@ -85,7 +85,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     protected function getDesignParams()
     {
         $designParams = array('area' => 'frontend');
-        $viewService = $this->objectManager->get('Magento\View\Service');
+        $viewService = $this->objectManager->get('Magento\Framework\View\Service');
         $viewService->updateDesignParams($designParams);
 
         return $designParams;

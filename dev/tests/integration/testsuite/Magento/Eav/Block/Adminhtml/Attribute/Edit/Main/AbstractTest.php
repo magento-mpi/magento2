@@ -26,7 +26,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
-        $objectManager->get('Magento\View\DesignInterface')
+        $objectManager->get('Magento\Framework\View\DesignInterface')
             ->setDefaultDesignTheme();
         $entityType = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
             ->getEntityType('customer');
@@ -46,7 +46,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Eav\Model\Entity\Attribute\Config')
             )
         )->setLayout(
-            $objectManager->create('Magento\View\Layout')
+            $objectManager->create('Magento\Framework\View\Layout')
         );
 
         $method = new \ReflectionMethod(

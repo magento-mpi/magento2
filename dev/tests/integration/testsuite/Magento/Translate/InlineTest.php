@@ -29,7 +29,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
             ->setAreaCode('frontend');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\DesignInterface'
+            'Magento\Framework\View\DesignInterface'
         )->setDesignTheme(
             'Magento/blank'
         );
@@ -119,7 +119,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         $expectedText = file_get_contents(__DIR__ . '/_files/_inline_page_expected.html');
 
         $package = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\DesignInterface'
+            'Magento\Framework\View\DesignInterface'
         )->getDesignTheme()->getPackageCode();
         $expectedText = str_replace('{{design_package}}', $package, $expectedText);
         return array(
