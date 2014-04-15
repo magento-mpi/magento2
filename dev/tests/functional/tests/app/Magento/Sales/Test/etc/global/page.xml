@@ -8,14 +8,14 @@
  */
 -->
 <page>
-    <salesOrderStatusIndex>
+    <orderStatusIndex>
         <mca>sales/order_status/index</mca>
         <area>adminhtml</area>
         <class>Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex</class>
-    </salesOrderStatusIndex>
-    <salesOrderStatusNew>
+    </orderStatusIndex>
+    <orderStatusNew>
         <mca>sales/order_status/new</mca>
         <area>adminhtml</area>
         <class>Magento\Sales\Test\Page\Adminhtml\OrderStatusNew</class>
-    </salesOrderStatusNew>
+    </orderStatusNew>
 </page>

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Constraint; 
+namespace Magento\Sales\Test\Constraint;
 
 use Magento\Sales\Test\Page\Adminhtml\OrderStatusNew;
 use Mtf\Constraint\AbstractConstraint;
@@ -19,6 +19,7 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertDuplicateStatus extends AbstractConstraint
 {
     const DUPLICATE_MESSAGE = 'We found another order status with the same order status code.';
+
     /**
      * Constraint severeness
      *
@@ -27,12 +28,14 @@ class AssertDuplicateStatus extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
+     * Assert that duplicate message is displayed
+     *
+     * @param \Magento\Sales\Test\Page\Adminhtml\OrderStatusNew $orderStatusNewPage
      * @return void
      */
-    public function processAssert(
-        OrderStatusNew $orderStatusNewPage
-    ) {
-        $actualMessage = $orderStatusNewPage->getMessageBlock()->getErrorMessages();
+    public function processAssert(OrderStatusNew $orderStatusNewPage)
+    {
+        $actualMessage = $orderStatusNewPage->getMessagesBlock()->getErrorMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::DUPLICATE_MESSAGE,
             $actualMessage,
@@ -43,6 +46,8 @@ class AssertDuplicateStatus extends AbstractConstraint
     }
 
     /**
+     * Text of Duplicate Message assert.
+     *
      * @return string
      */
     public function toString()

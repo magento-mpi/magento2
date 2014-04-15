@@ -28,12 +28,12 @@ class OrderStatusNew extends BackendPage
         ],
         'orderStatusForm' => [
             'name' => 'orderStatusForm',
-            'class' => 'Magento\Sales\Test\Block\Adminhtml\Order\Status\NewStatus\OrderStatusForm',
+            'class' => 'Magento\Backend\Test\Block\Widget\Form',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
-        'messageBlock' => [
-            'name' => 'messageBlock',
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
@@ -49,7 +49,7 @@ class OrderStatusNew extends BackendPage
     }
 
     /**
-     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Status\NewStatus\OrderStatusForm
+     * @return \Magento\Backend\Test\Block\Widget\Form
      */
     public function getOrderStatusForm()
     {
@@ -59,8 +59,8 @@ class OrderStatusNew extends BackendPage
     /**
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
-        return $this->getBlockInstance('messageBlock');
+        return $this->getBlockInstance('messagesBlock');
     }
 }

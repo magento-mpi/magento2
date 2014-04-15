@@ -25,7 +25,7 @@ use Mtf\TestCase\Injectable;
  * 6. Verify created order status
  *
  * @group Order_Management_(CS)
- * @ZephyrId MTA-10
+ * @ZephyrId MAGETWO-23412
  */
 class CreateCustomOrderStatusEntityTest extends Injectable
 {
@@ -54,12 +54,10 @@ class CreateCustomOrderStatusEntityTest extends Injectable
     /**
      * @param OrderStatus $orderStatus
      */
-    public function testCreateOrderStatus(
-        OrderStatus $orderStatus
-    ) {
+    public function testCreateOrderStatus(OrderStatus $orderStatus)
+    {
         // Steps
         $this->orderStatusIndexPage->open();
-
         $this->orderStatusIndexPage->getGridPageActions()->addNew();
         $this->orderStatusNewPage->getOrderStatusForm()->fill($orderStatus);
         $this->orderStatusNewPage->getFormPageActions()->save();

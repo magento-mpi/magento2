@@ -19,6 +19,7 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertOrderStatusSuccessCreateMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'You have saved the order status.';
+
     /**
      * Constraint severeness
      *
@@ -27,12 +28,13 @@ class AssertOrderStatusSuccessCreateMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Assert that success message is displayed after order status saved.
+     *
+     * @param \Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex $orderStatusIndexPage
      * @return void
      */
-    public function processAssert(
-        OrderStatusIndex $orderStatusIndexPage
-    ) {
-        $actualMessage = $orderStatusIndexPage->getMessageBlock()->getSuccessMessages();
+    public function processAssert(OrderStatusIndex $orderStatusIndexPage) {
+        $actualMessage = $orderStatusIndexPage->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,
@@ -43,6 +45,8 @@ class AssertOrderStatusSuccessCreateMessage extends AbstractConstraint
     }
 
     /**
+     * Text of Created Custom Order Status Success Message assert.
+     *
      * @return string
      */
     public function toString()

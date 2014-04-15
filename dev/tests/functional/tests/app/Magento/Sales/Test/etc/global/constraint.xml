@@ -11,16 +11,20 @@
     <assertOrderStatusSuccessCreateMessage module="Magento_Sales">
         <severeness>low</severeness>
         <require>
+            <orderStatusIndex class="Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex" />
         </require>
     </assertOrderStatusSuccessCreateMessage>
     <assertOrderStatusInGrid module="Magento_Sales">
         <severeness>high</severeness>
         <require>
+            <orderStatusIndex class="Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex" />
+            <orderStatus class="Magento\Sales\Test\Fixture\OrderStatus" />
         </require>
     </assertOrderStatusInGrid>
     <assertDuplicateStatus module="Magento_Sales">
         <severeness>high</severeness>
         <require>
+            <orderStatusNew class="Magento\Sales\Test\Page\Adminhtml\OrderStatusNew" />
         </require>
     </assertDuplicateStatus>
 </constraint>

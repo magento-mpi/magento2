@@ -27,6 +27,10 @@ class AssertOrderStatusInGrid extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
+     * Assert order status availability in Order Status grid
+     *
+     * @param \Magento\Sales\Test\Fixture\OrderStatus $orderStatus
+     * @param \Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex $orderStatusIndexPage
      * @return void
      */
     public function processAssert(
@@ -40,11 +44,13 @@ class AssertOrderStatusInGrid extends AbstractConstraint
         $orderStatusIndexPage->open();
         \PHPUnit_Framework_Assert::assertTrue(
             $orderStatusIndexPage->getOrderStatusGrid()->isRowVisible($filter),
-            'Order status \'' . $orderStatus->getStatus() . '\' is absent in Order status grid.'
+            'Order status \'' . $orderStatus->getStatus() . '\' is absent in Order Status grid.'
         );
     }
 
     /**
+     * Text of Order Status in grid assert
+     *
      * @return string
      */
     public function toString()

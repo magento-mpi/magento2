@@ -16,12 +16,12 @@
     </block>
     <block>
         <name>orderStatusForm</name>
-        <class>Magento\Sales\Test\Block\Adminhtml\Order\Status\NewStatus\OrderStatusForm</class>
+        <class>Magento\Backend\Test\Block\Widget\Form</class>
         <locator>#edit_form</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>messageBlock</name>
+        <name>messagesBlock</name>
         <class>Magento\Core\Test\Block\Messages</class>
         <locator>#messages</locator>
         <strategy>css selector</strategy>

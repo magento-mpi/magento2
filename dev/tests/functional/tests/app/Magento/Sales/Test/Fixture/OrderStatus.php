@@ -28,6 +28,8 @@ class OrderStatus extends InjectableFixture
     protected $handlerInterface = 'Magento\Sales\Test\Handler\OrderStatus\OrderStatusInterface';
 
     protected $defaultDataSet = [
+        'status' => 'order_status%isolation%',
+        'label' => 'orderLabel%isolation%'
     ];
 
     protected $status = [
