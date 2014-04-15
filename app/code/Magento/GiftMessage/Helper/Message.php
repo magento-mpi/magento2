@@ -57,6 +57,13 @@ class Message extends \Magento\Core\Helper\Data
     protected $_escaper;
 
     /**
+     * Pages to skip message checks
+     *
+     * @var array
+     */
+    protected $skipMessageCheck = array();
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -66,6 +73,7 @@ class Message extends \Magento\Core\Helper\Data
      * @param \Magento\View\LayoutFactory $layoutFactory
      * @param \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory
      * @param \Magento\Escaper $escaper
+     * @param array $skipMessageCheck
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -78,12 +86,14 @@ class Message extends \Magento\Core\Helper\Data
         \Magento\View\LayoutFactory $layoutFactory,
         \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory,
         \Magento\Escaper $escaper,
+        $skipMessageCheck = array(),
         $dbCompatibleMode = true
     ) {
         $this->_escaper = $escaper;
         $this->_productFactory = $productFactory;
         $this->_layoutFactory = $layoutFactory;
         $this->_giftMessageFactory = $giftMessageFactory;
+        $this->skipMessageCheck = $skipMessageCheck;
         parent::__construct(
             $context,
             $scopeConfig,
@@ -104,7 +114,7 @@ class Message extends \Magento\Core\Helper\Data
      */
     public function getInline($type, \Magento\Object $entity, $dontDisplayContainer = false)
     {
-        if (!$this->skipMessageCheck($type) && !$this->isMessagesAvailable($type, $entity)) {
+        if (!$this->skipPage($type) && !$this->isMessagesAvailable($type, $entity)) {
             return '';
         }
         return $this->_layoutFactory->create()->createBlock('Magento\GiftMessage\Block\Message\Inline')
@@ -118,11 +128,9 @@ class Message extends \Magento\Core\Helper\Data
      * @param string $pageType
      * @return bool
      */
-    protected function skipMessageCheck($pageType)
+    protected function skipPage($pageType)
     {
-        $skippedPages = array('onepage_checkout');
-
-        return in_array($pageType, $skippedPages);
+        return in_array($pageType, $this->skipMessageCheck);
     }
 
     /**
