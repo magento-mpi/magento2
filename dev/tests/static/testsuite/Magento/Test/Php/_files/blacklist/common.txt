@@ -93,7 +93,7 @@ lib/Magento/Framework/Data/Tree/Db.php
 lib/Magento/Framework/Data/Tree/Dbp.php
 lib/Magento/Framework/Data/Tree/Node.php
 lib/Magento/Framework/Data/Tree/Node/Collection.php
-lib/Framework/Magento/DB
+lib/Magento/Framework/DB
 lib/Magento/Stdlib/DateTime.php
 lib/Magento/Debug.php
 lib/Magento/Event.php
