@@ -133,7 +133,13 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertRedirect($this->stringContains('customer/address/edit'));
         $this->assertSessionMessages(
-            $this->equalTo(array('street is a required field.', 'city is a required field.')),
+            $this->equalTo(
+                array(
+                    'One or more input exceptions have occurred.',
+                    'street is a required field.',
+                    'city is a required field.'
+                )
+            ),
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
     }
