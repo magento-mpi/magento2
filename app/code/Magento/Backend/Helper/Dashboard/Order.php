@@ -24,6 +24,7 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Reports\Model\Resource\Order\Collection $orderCollection
      * @param bool $dbCompatibleMode
      */
@@ -32,11 +33,19 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\State $appState,
+        \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Reports\Model\Resource\Order\Collection $orderCollection,
         $dbCompatibleMode = true
     ) {
         $this->_orderCollection = $orderCollection;
-        parent::__construct($context, $scopeConfig, $storeManager, $appState, $dbCompatibleMode);
+        parent::__construct(
+            $context,
+            $scopeConfig,
+            $storeManager,
+            $appState,
+            $priceCurrency,
+            $dbCompatibleMode
+        );
     }
 
     /**
@@ -62,9 +71,6 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
                 array('eq' => $this->_storeManager->getStore(\Magento\Store\Model\Store::ADMIN_CODE)->getId())
             );
         }
-
-
-
         $this->_collection->load();
     }
 }

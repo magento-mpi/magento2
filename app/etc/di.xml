@@ -371,4 +371,5 @@
             <argument name="parser" xsi:type="object">Magento\Translate\Inline\ParserInterface\Proxy</argument>
         </arguments>
     </type>
+    <type name="Magento\View\Layout\ScheduledStructure" shared="false" />
 </config>

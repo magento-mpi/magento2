@@ -93,6 +93,13 @@ class CatalogProductView extends Page
     protected $giftCardBlockSelector = '[data-container-for=giftcard_info]';
 
     /**
+     * Gift Card Amount Block selector
+     *
+     * @var string
+     */
+    protected $giftCardBlockAmountSelector = '.fieldset.giftcard.amount';
+
+    /**
      * Cross-sell selector
      *
      * @var string
@@ -278,6 +285,18 @@ class CatalogProductView extends Page
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductProductListCrosssell(
             $this->_browser->find($this->crosssellSelector, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get gift card amount block
+     *
+     * @return \Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard
+     */
+    public function getGiftCardAmountBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoGiftCardCatalogProductViewTypeGiftCard(
+            $this->_browser->find($this->giftCardBlockAmountSelector, Locator::SELECTOR_CSS)
         );
     }
 }

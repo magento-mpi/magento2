@@ -108,7 +108,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
     /**
      * Check range for live mode
      *
-     * @param unknown_type $range
+     * @param string $range
      * @return $this
      */
     public function checkIsLive($range)
