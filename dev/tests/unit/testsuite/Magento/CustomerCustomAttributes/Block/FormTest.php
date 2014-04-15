@@ -12,8 +12,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testGetRenderer()
     {
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $layout = $this->getMock('\Magento\View\Layout', array('getBlock'), array(), '', false);
-        $template = $this->getMock('\Magento\View\Element\Template', array('getChildBlock'), array(), '', false);
+        $layout = $this->getMock('\Magento\Framework\View\Layout', array('getBlock'), array(), '', false);
+        $template = $this->getMock('\Magento\Framework\View\Element\Template', array('getChildBlock'), array(), '', false);
         $layout->expects(
             $this->once()
         )->method(
@@ -23,7 +23,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($template)
         );
-        $renderer = $this->getMock('\Magento\View\Element\Template', array(), array(), '', false);
+        $renderer = $this->getMock('\Magento\Framework\View\Element\Template', array(), array(), '', false);
         $template->expects($this->once())->method('getChildBlock')->with('text')->will($this->returnValue($renderer));
 
         $block = $objectHelper->getObject('Magento\CustomerCustomAttributes\Block\Form');

@@ -11,7 +11,7 @@ namespace Magento\Integration\Controller\Adminhtml;
 
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 use Magento\Integration\Model\Integration as IntegrationModel;
-use Magento\View\Layout\Element as LayoutElement;
+use Magento\Framework\View\Layout\Element as LayoutElement;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
@@ -76,7 +76,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\Layout\Merge|\PHPUnit_Framework_MockObject_MockObject */
     protected $_layoutMergeMock;
 
-    /** @var \Magento\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_layoutMock;
 
     /**
@@ -804,7 +804,7 @@ HANDLE;
     {
         // Mock Layout passed into constructor
         $this->_viewMock = $this->getMock('Magento\Framework\App\ViewInterface');
-        $this->_layoutMock = $this->getMock('Magento\View\LayoutInterface');
+        $this->_layoutMock = $this->getMock('Magento\Framework\View\LayoutInterface');
         $this->_layoutMergeMock = $this->getMockBuilder(
             'Magento\Core\Model\Layout\Merge'
         )->disableOriginalConstructor()->getMock();

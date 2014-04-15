@@ -12,7 +12,7 @@ class MergeTest extends \PHPUnit_Framework_TestCase
     /**
      * Fixture XML instruction(s) to be used in tests
      */
-    const FIXTURE_LAYOUT_XML = '<block class="Magento\View\Element\Template" template="fixture.phtml"/>';
+    const FIXTURE_LAYOUT_XML = '<block class="Magento\Framework\View\Element\Template" template="fixture.phtml"/>';
 
     /**
      * @var \Magento\Core\Model\Layout\Merge
@@ -58,12 +58,12 @@ class MergeTest extends \PHPUnit_Framework_TestCase
     {
         $files = array();
         foreach (glob(__DIR__ . '/_files/layout/*.xml') as $filename) {
-            $files[] = new \Magento\View\Layout\File($filename, 'Magento_Core');
+            $files[] = new \Magento\Framework\View\Layout\File($filename, 'Magento_Core');
         }
-        $fileSource = $this->getMockForAbstractClass('Magento\View\Layout\File\SourceInterface');
+        $fileSource = $this->getMockForAbstractClass('Magento\Framework\View\Layout\File\SourceInterface');
         $fileSource->expects($this->any())->method('getFiles')->will($this->returnValue($files));
 
-        $design = $this->getMockForAbstractClass('Magento\View\DesignInterface');
+        $design = $this->getMockForAbstractClass('Magento\Framework\View\DesignInterface');
 
         $this->_store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $this->_store->expects($this->any())->method('getId')->will($this->returnValue(20));
@@ -209,8 +209,8 @@ class MergeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($handles, $this->_model->getHandles());
         $expectedResult = '
             <root>
-                <block class="Magento\View\Element\Template" template="fixture_template_one.phtml"/>
-                <block class="Magento\View\Element\Template" template="fixture_template_two.phtml"/>
+                <block class="Magento\Framework\View\Element\Template" template="fixture_template_one.phtml"/>
+                <block class="Magento\Framework\View\Element\Template" template="fixture_template_two.phtml"/>
             </root>
         ';
         $actualResult = '<root>' . $this->_model->asString() . '</root>';

@@ -15,7 +15,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProcessedTemplate($isSingleStore)
     {
-        $design = $this->getMock('Magento\View\DesignInterface');
+        $design = $this->getMock('Magento\Framework\View\DesignInterface');
         $context = $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false);
         $registry = $this->getMock('Magento\Registry', array(), array(), '', false);
 

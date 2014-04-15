@@ -81,7 +81,7 @@ class SoapTest extends \PHPUnit_Framework_TestCase
         )->getMock();
         $localeResolverMock->expects($this->any())->method('getLocale')->will($this->returnValue($localeMock));
 
-        $layoutMock = $this->getMock('Magento\View\LayoutInterface');
+        $layoutMock = $this->getMock('Magento\Framework\View\LayoutInterface');
 
         $this->_oauthServiceMock = $this->getMockBuilder('Magento\Oauth\Oauth')
             ->disableOriginalConstructor()

@@ -17,7 +17,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
 
-    /** @var \Magento\View\Asset\PreProcessorFactory|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\View\Asset\PreProcessorFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $preProcessorFactoryMock;
 
     /**
@@ -28,7 +28,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->preProcessorFactoryMock = $this->getMock(
-            'Magento\View\Asset\PreProcessorFactory',
+            'Magento\Framework\View\Asset\PreProcessorFactory',
             array(),
             array(),
             '',
@@ -44,7 +44,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcess($preProcessors, $createMap)
     {
-        $publisherFile = $this->getMock('Magento\View\Publisher\CssFile', array(), array(), '', false);
+        $publisherFile = $this->getMock('Magento\Framework\View\Publisher\CssFile', array(), array(), '', false);
         $targetDir = $this->getMock(
             'Magento\Framework\Filesystem\Directory\WriteInterface',
             array(),
@@ -87,7 +87,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
      * Create pre-processor callback
      *
      * @param string $className
-     * @return \Magento\View\Asset\PreProcessor\PreProcessorInterface[]
+     * @return \Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface[]
      */
     public function createProcessor($className)
     {

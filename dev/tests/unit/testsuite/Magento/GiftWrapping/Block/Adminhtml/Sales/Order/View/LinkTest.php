@@ -59,7 +59,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         );
         $block1->expects($this->any())->method('getItem')->will($this->returnValue($orderItem));
 
-        $layout = $this->getMock('Magento\View\Layout', array('getParentName', 'getBlock'), array(), '', false);
+        $layout = $this->getMock('Magento\Framework\View\Layout', array('getParentName', 'getBlock'), array(), '', false);
         $layout->expects(
             $this->any()
         )->method(

@@ -18,7 +18,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     /** @var Translate */
     protected $_translate;
 
-    /** @var \Magento\View\DesignInterface */
+    /** @var \Magento\Framework\View\DesignInterface */
     protected $_viewDesign;
 
     /** @var \Magento\Locale\Hierarchy\Config */
@@ -27,7 +27,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Cache\FrontendInterface */
     protected $_cache;
 
-    /** @var \Magento\View\FileSystem */
+    /** @var \Magento\Framework\View\FileSystem */
     protected $_viewFileSystem;
 
     /** @var \Magento\Module\ModuleList */
@@ -62,10 +62,10 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_viewDesign = $this->getMock('\Magento\View\DesignInterface', [], [], '', false);
+        $this->_viewDesign = $this->getMock('\Magento\Framework\View\DesignInterface', [], [], '', false);
         $this->_config = $this->getMock('\Magento\Locale\Hierarchy\Config', [], [], '', false);
         $this->_cache = $this->getMock('\Magento\Cache\FrontendInterface', [], [], '', false);
-        $this->_viewFileSystem = $this->getMock('\Magento\View\FileSystem', [], [], '', false);
+        $this->_viewFileSystem = $this->getMock('\Magento\Framework\View\FileSystem', [], [], '', false);
         $this->_moduleList = $this->getMock('\Magento\Module\ModuleList', [], [], '', false);
         $this->_modulesReader = $this->getMock('\Magento\Module\Dir\Reader', [], [], '', false);
         $this->_scopeResolver = $this->getMock('\Magento\Framework\App\ScopeResolverInterface', [], [], '', false);

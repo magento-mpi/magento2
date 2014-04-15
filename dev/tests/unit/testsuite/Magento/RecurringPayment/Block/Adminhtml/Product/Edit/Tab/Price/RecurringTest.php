@@ -10,7 +10,7 @@ namespace Magento\RecurringPayment\Block\Adminhtml\Product\Edit\Tab\Price;
 class RecurringTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Element\BlockFactory
+     * @var \Magento\Framework\View\Element\BlockFactory
      */
     protected $_blockFactory;
 
@@ -44,7 +44,7 @@ class RecurringTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_blockFactory = $this->getMock(
-            'Magento\View\Element\BlockFactory',
+            'Magento\Framework\View\Element\BlockFactory',
             array('createBlock'),
             array(),
             '',
@@ -69,7 +69,7 @@ class RecurringTest extends \PHPUnit_Framework_TestCase
     public function testRenderRecurringPaymentForm()
     {
         $blockMock = $this->getMock(
-            'Magento\View\Element\BlockInterface',
+            'Magento\Framework\View\Element\BlockInterface',
             array(
                 'setNameInLayout',
                 'setParentElement',

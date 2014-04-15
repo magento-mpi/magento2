@@ -48,7 +48,7 @@ class WizardTest extends \PHPUnit_Framework_TestCase
     protected $_installerMock;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layoutMock;
 
@@ -88,7 +88,7 @@ class WizardTest extends \PHPUnit_Framework_TestCase
     protected $_actionFlagMock;
 
     /**
-     * @var \Magento\View\Element\Template\Context
+     * @var \Magento\Framework\View\Element\Template\Context
      */
     protected $_blockContextMock;
 
@@ -117,7 +117,7 @@ class WizardTest extends \PHPUnit_Framework_TestCase
 
 
         $this->_layoutMock = $this->getMock(
-            '\Magento\View\Layout',
+            '\Magento\Framework\View\Layout',
             array('getBlock', 'initMessages', 'addBlock'),
             array(),
             '',
@@ -193,7 +193,7 @@ class WizardTest extends \PHPUnit_Framework_TestCase
 
 
         $this->_blockContextMock = $this->getMock(
-            '\Magento\View\Element\Template\Context',
+            '\Magento\Framework\View\Element\Template\Context',
             array(),
             array(),
             '',

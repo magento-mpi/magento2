@@ -96,7 +96,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
             'Magento\Authz\Service\AuthorizationV1Interface'
         )->disableOriginalConstructor()->getMock();
 
-        $layoutMock = $this->getMockBuilder('Magento\View\LayoutInterface')->disableOriginalConstructor()->getMock();
+        $layoutMock = $this->getMockBuilder('Magento\Framework\View\LayoutInterface')->disableOriginalConstructor()->getMock();
 
         $errorProcessorMock = $this->getMock('Magento\Webapi\Controller\ErrorProcessor', array(), array(), '', false);
         $errorProcessorMock->expects($this->any())->method('maskException')->will($this->returnArgument(0));

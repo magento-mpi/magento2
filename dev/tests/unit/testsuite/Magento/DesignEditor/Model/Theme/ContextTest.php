@@ -89,7 +89,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getType'
         )->will(
-            $this->returnValue(\Magento\View\Design\ThemeInterface::TYPE_PHYSICAL)
+            $this->returnValue(\Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL)
         );
 
         $this->assertEquals($this->_model, $this->_model->setEditableThemeById(self::THEME_ID));
@@ -118,7 +118,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getType'
         )->will(
-            $this->returnValue(\Magento\View\Design\ThemeInterface::TYPE_STAGING)
+            $this->returnValue(\Magento\Framework\View\Design\ThemeInterface::TYPE_STAGING)
         );
 
         $this->_model->setEditableThemeById(self::THEME_ID);
@@ -183,7 +183,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDomainModel'
         )->with(
-            $this->equalTo(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL)
+            $this->equalTo(\Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL)
         )->will(
             $this->returnValue($themeObj)
         );
@@ -249,7 +249,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     {
         $writersProperty = new \ReflectionProperty($this->_model, '_stagingTheme');
         $writersProperty->setAccessible(true);
-        $themeObject = $this->getMock('Magento\View\Design\ThemeInterface', array(), array(), '', false);
+        $themeObject = $this->getMock('Magento\Framework\View\Design\ThemeInterface', array(), array(), '', false);
         $writersProperty->setValue($this->_model, $themeObject);
         return $themeObject;
     }

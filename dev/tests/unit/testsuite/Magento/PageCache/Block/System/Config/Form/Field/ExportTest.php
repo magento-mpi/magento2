@@ -40,7 +40,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         );
 
         $form = $this->getMock('Magento\Framework\Data\Form', array('getLayout'), array(), '', false, false);
-        $layoutMock = $this->getMock('Magento\View\Layout', array(), array(), '', false, false);
+        $layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false, false);
 
         $buttonMock = $this->getMock('Magento\Backend\Block\Widget\Button', array(), array(), '', false, false);
         $urlBuilderMock = $this->getMock('Magento\Backend\Model\Url', array('getUrl'), array(), '', false, false);

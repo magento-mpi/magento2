@@ -57,7 +57,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $layout = $this->getMock('Magento\View\Layout', array('createBlock'), array(), '', false);
+        $layout = $this->getMock('Magento\Framework\View\Layout', array('createBlock'), array(), '', false);
         $layout->expects(
             $this->once()
         )->method(
@@ -102,7 +102,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(false));
 
-        $layout = $this->getMock('Magento\View\Layout', array('createBlock'), array(), '', false);
+        $layout = $this->getMock('Magento\Framework\View\Layout', array('createBlock'), array(), '', false);
         $layout->expects($this->never())->method('createBlock');
 
         $factoryElement = $this->getMock('Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);

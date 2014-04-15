@@ -26,7 +26,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $session;
 
     /**
-     * @var \Magento\View\Design\Theme\FlyweightFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Design\Theme\FlyweightFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $themeFactory;
 
@@ -61,7 +61,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $theme;
 
     /**
-     * @var \Magento\View\Design\Theme\Customization|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Design\Theme\Customization|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $customization;
 
@@ -83,14 +83,14 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->themeFactory = $this->getMock(
-            'Magento\View\Design\Theme\FlyweightFactory',
+            'Magento\Framework\View\Design\Theme\FlyweightFactory',
             array(),
             array(),
             '',
             false
         );
         $this->theme = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
-        $this->customization = $this->getMock('Magento\View\Design\Theme\Customization', array(), array(), '', false);
+        $this->customization = $this->getMock('Magento\Framework\View\Design\Theme\Customization', array(), array(), '', false);
 
         $this->filesystem->expects(
             $this->once()

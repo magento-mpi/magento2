@@ -63,7 +63,7 @@ class FieldsetTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false, false);
-        $this->_layoutMock = $this->getMock('Magento\View\Layout', array(), array(), '', false, false);
+        $this->_layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false, false);
         $groupMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Group',
             array(),
@@ -73,7 +73,7 @@ class FieldsetTest extends \PHPUnit_Framework_TestCase
         );
         $groupMock->expects($this->once())->method('getFieldsetCss')->will($this->returnValue('test_fieldset_css'));
 
-        $this->_helperMock = $this->getMock('Magento\View\Helper\Js', array(), array(), '', false, false);
+        $this->_helperMock = $this->getMock('Magento\Framework\View\Helper\Js', array(), array(), '', false, false);
 
         $data = array(
             'request' => $this->_requestMock,

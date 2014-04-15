@@ -420,7 +420,7 @@ FORMATTEDCLOSURE2;
 class CSample3 {
     public function cS3() {
         $order = array_merge(array($codeDir, $jsDir), array_map(function ($fileTheme) {
-            /** @var $fileTheme \Magento\View\Design\ThemeInterface */
+            /** @var $fileTheme \Magento\Framework\View\Design\ThemeInterface */
             return $fileTheme->getThemeId();
         }, $themes));}}
 ORIGINALCLOSURE3;
@@ -434,7 +434,7 @@ class CSample3
             array($codeDir, $jsDir),
             array_map(
                 function ($fileTheme) {
-                    /** @var $fileTheme \Magento\View\Design\ThemeInterface */
+                    /** @var $fileTheme \Magento\Framework\View\Design\ThemeInterface */
                     return $fileTheme->getThemeId();
                 },
                 $themes

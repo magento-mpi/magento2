@@ -138,7 +138,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
         $this->_targetTheme->setId(123);
 
         $this->_customizationPath = $this->getMock(
-            'Magento\View\Design\Theme\Customization\Path',
+            'Magento\Framework\View\Design\Theme\Customization\Path',
             array(),
             array(),
             '',
@@ -146,7 +146,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_fileFactory = $this->getMock(
-            'Magento\View\Design\Theme\FileFactory',
+            'Magento\Framework\View\Design\Theme\FileFactory',
             array('create'),
             array(),
             '',
@@ -252,7 +252,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
     public function testCopyLayoutUpdates()
     {
         $customization = $this->getMock(
-            'Magento\View\Design\Theme\Customization',
+            'Magento\Framework\View\Design\Theme\Customization',
             array('getFiles'),
             array(),
             '',
@@ -336,7 +336,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
     public function testCopyDatabaseCustomization()
     {
         $sourceCustom = $this->getMock(
-            'Magento\View\Design\Theme\Customization',
+            'Magento\Framework\View\Design\Theme\Customization',
             array('getFiles'),
             array(),
             '',
@@ -357,7 +357,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($sourceCustom)
         );
         $targetCustom = $this->getMock(
-            'Magento\View\Design\Theme\Customization',
+            'Magento\Framework\View\Design\Theme\Customization',
             array('getFiles'),
             array(),
             '',
@@ -458,7 +458,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
     public function testCopyFilesystemCustomization()
     {
         $customization = $this->getMock(
-            'Magento\View\Design\Theme\Customization',
+            'Magento\Framework\View\Design\Theme\Customization',
             array('getFiles'),
             array(),
             '',

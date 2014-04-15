@@ -72,7 +72,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testAddPaypalShortcuts()
     {
         $layoutMock = $this->getMockBuilder(
-            'Magento\View\Layout'
+            'Magento\Framework\View\Layout'
         )->setMethods(
             array('createBlock')
         )->disableOriginalConstructor()->getMock();

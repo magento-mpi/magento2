@@ -66,7 +66,7 @@ class CopyRuleTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->_themeCollection->expects($this->any())->method('isLoaded')->will($this->returnValue(true));
-        $this->_fallbackRule = $this->getMockForAbstractClass('Magento\View\Design\Fallback\Rule\RuleInterface');
+        $this->_fallbackRule = $this->getMockForAbstractClass('Magento\Framework\View\Design\Fallback\Rule\RuleInterface');
         $this->_object = new \Magento\Tools\View\Generator\CopyRule(
             $filesystemMock,
             $this->_themeCollection,

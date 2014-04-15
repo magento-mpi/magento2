@@ -25,7 +25,7 @@ class ImportEntityTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
     protected $filesystemMock;
 
-    /** @var \Magento\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject */
     protected $fileSystemMock;
 
     /**

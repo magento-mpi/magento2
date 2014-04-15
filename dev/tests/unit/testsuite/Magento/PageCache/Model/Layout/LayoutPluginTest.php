@@ -20,7 +20,7 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
     protected $responseMock;
 
     /**
-     * @var \Magento\View\Layout|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Layout|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $layoutMock;
 
@@ -32,7 +32,7 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->layoutMock = $this->getMockForAbstractClass(
-            'Magento\View\Layout',
+            'Magento\Framework\View\Layout',
             array(),
             '',
             false,

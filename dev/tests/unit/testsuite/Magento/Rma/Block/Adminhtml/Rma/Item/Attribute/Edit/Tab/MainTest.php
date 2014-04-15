@@ -22,7 +22,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $requestInterface;
 
-    /** @var \Magento\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $layoutInterface;
 
     /** @var \Magento\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -37,7 +37,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\CacheInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $cacheInterface;
 
-    /** @var \Magento\View\DesignInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\View\DesignInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $designInterface;
 
     /** @var \Magento\Session\Generic|\PHPUnit_Framework_MockObject_MockObject */
@@ -49,10 +49,10 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $scopeConfig;
 
-    /** @var \Magento\View\Url|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\View\Url|\PHPUnit_Framework_MockObject_MockObject */
     protected $url;
 
-    /** @var \Magento\View\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\View\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $configInterface;
 
     /** @var \Magento\Framework\App\Cache\StateInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -76,10 +76,10 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
     protected $appFilesystem;
 
-    /** @var \Magento\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject */
     protected $viewFilesystem;
 
-    /** @var \Magento\View\TemplateEnginePool|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\View\TemplateEnginePool|\PHPUnit_Framework_MockObject_MockObject */
     protected $templateEnginePool;
 
     /** @var \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject */
@@ -136,17 +136,17 @@ class MainTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\App\RequestInterface',
             ['isSecure', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam']
         );
-        $this->layoutInterface = $this->getMock('Magento\View\LayoutInterface');
+        $this->layoutInterface = $this->getMock('Magento\Framework\View\LayoutInterface');
         $this->managerInterface = $this->getMock('Magento\Event\ManagerInterface');
         $this->urlInterface = $this->getMock('Magento\UrlInterface');
         $this->translateInterface = $this->getMock('Magento\TranslateInterface');
         $this->cacheInterface = $this->getMock('Magento\Framework\App\CacheInterface');
-        $this->designInterface = $this->getMock('Magento\View\DesignInterface');
+        $this->designInterface = $this->getMock('Magento\Framework\View\DesignInterface');
         $this->session = $this->getMock('Magento\Session\Generic', [], [], '', false);
         $this->sidResolverInterface = $this->getMock('Magento\Session\SidResolverInterface');
         $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->url = $this->getMock('Magento\View\Url', [], [], '', false);
-        $this->configInterface = $this->getMock('Magento\View\ConfigInterface');
+        $this->url = $this->getMock('Magento\Framework\View\Url', [], [], '', false);
+        $this->configInterface = $this->getMock('Magento\Framework\View\ConfigInterface');
         $this->cacheState = $this->getMock('Magento\Framework\App\Cache\StateInterface');
         $this->logger = $this->getMock('Magento\Logger', [], [], '', false);
         $this->escaper = $this->getMock('Magento\Escaper');
@@ -154,8 +154,8 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->timezoneInterface = $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface');
         $this->translateState = $this->getMock('Magento\Translate\Inline\StateInterface');
         $this->appFilesystem = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
-        $this->viewFilesystem = $this->getMock('Magento\View\FileSystem', [], [], '', false);
-        $this->templateEnginePool = $this->getMock('Magento\View\TemplateEnginePool', [], [], '', false);
+        $this->viewFilesystem = $this->getMock('Magento\Framework\View\FileSystem', [], [], '', false);
+        $this->templateEnginePool = $this->getMock('Magento\Framework\View\TemplateEnginePool', [], [], '', false);
         $this->appState = $this->getMock('Magento\Framework\App\State', [], [], '', false);
         $this->storeManagerInterface = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->authorizationInterface = $this->getMock('Magento\AuthorizationInterface');
