@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\RecurringPayment\Model\Product\Attribute\Backend;
+
 /**
  * Backend for recurring payment parameter
  */
-namespace Magento\RecurringPayment\Model\Product\Attribute\Backend;
-
 class Recurring extends \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
 {
     /**
@@ -33,7 +33,7 @@ class Recurring extends \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
     /**
      * Unserialize or remove on failure
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Catalog\Model\Product|\Magento\Object $product
      * @return void
      */
     protected function _unserialize(\Magento\Object $product)

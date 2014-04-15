@@ -9,6 +9,8 @@
  */
 namespace Magento\Core\Helper;
 
+use Magento\Pricing\PriceCurrencyInterface;
+
 /**
  * Core data helper
  */
@@ -77,10 +79,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_dbCompatibleMode;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $_priceCurrency;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
+     * @param PriceCurrencyInterface $priceCurrency
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -88,6 +96,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
+        PriceCurrencyInterface $priceCurrency,
         $dbCompatibleMode = true
     ) {
         parent::__construct($context);
@@ -95,6 +104,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_storeManager = $storeManager;
         $this->_appState = $appState;
         $this->_dbCompatibleMode = $dbCompatibleMode;
+        $this->_priceCurrency =  $priceCurrency;
     }
 
     /**
@@ -107,7 +117,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function currency($value, $format = true, $includeContainer = true)
     {
-        return $this->currencyByStore($value, null, $format, $includeContainer);
+        return $format
+            ? $this->_priceCurrency->convertAndFormat($value, $includeContainer)
+            : $this->_priceCurrency->convert($value);
     }
 
     /**
@@ -121,14 +133,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function currencyByStore($value, $store = null, $format = true, $includeContainer = true)
     {
-        try {
-            if (!$store instanceof \Magento\Store\Model\Store) {
-                $store = $this->_storeManager->getStore($store);
-            }
-
-            $value = $store->convertPrice($value, $format, $includeContainer);
-        } catch (\Exception $e) {
-            $value = $e->getMessage();
+        if ($format) {
+            $value = $this->_priceCurrency->convertAndFormat(
+                $value,
+                $includeContainer,
+                PriceCurrencyInterface::DEFAULT_PRECISION,
+                $store
+            );
+        } else {
+            $value = $this->_priceCurrency->convert($value, $store);
         }
 
         return $value;
@@ -143,7 +156,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function formatCurrency($value, $includeContainer = true)
     {
-        return $this->currency($value, true, $includeContainer);
+        return $this->_priceCurrency->convertAndFormat($value, $includeContainer);
     }
 
     /**
@@ -155,7 +168,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function formatPrice($price, $includeContainer = true)
     {
-        return $this->_storeManager->getStore()->formatPrice($price, $includeContainer);
+        return $this->_priceCurrency->format($price, $includeContainer);
     }
 
     /**
@@ -174,13 +187,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $remoteAddr = $this->_remoteAddress->getRemoteAddress();
         if (!empty($allowedIps) && !empty($remoteAddr)) {
             $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
-            if (array_search(
-                $remoteAddr,
-                $allowedIps
-            ) === false && array_search(
-                $this->_httpHeader->getHttpHost(),
-                $allowedIps
-            ) === false
+            if (array_search($remoteAddr, $allowedIps) === false
+                && array_search($this->_httpHeader->getHttpHost(), $allowedIps) === false
             ) {
                 $allow = false;
             }

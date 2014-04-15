@@ -210,7 +210,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     }
 
     /**
-     * @param mixed $_selection
+     * @param \Magento\Catalog\Model\Product $_selection
      * @param bool $includeContainer
      * @return string
      */
@@ -221,7 +221,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
         $priceTitle = $_selection->getSelectionQty() * 1 . ' x ' . $this->escapeHtml($_selection->getName());
 
         $priceTitle .= ' &nbsp; ' . ($includeContainer ? '<span class="price-notice">' : '') . '+' .
-            $this->formatPriceString($price, $includeContainer) . ($includeContainer ? '</span>' : '');
+            $this->renderPriceString($_selection, $includeContainer) . ($includeContainer ? '</span>' : '');
 
         return $priceTitle;
     }
@@ -258,11 +258,9 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
      */
     public function getSelectionTitlePrice($_selection, $includeContainer = true)
     {
-        $price = $this->getProduct()->getPriceModel()->getSelectionPreFinalPrice($this->getProduct(), $_selection, 1);
-        $this->setFormatProduct($_selection);
         $priceTitle = $this->escapeHtml($_selection->getName());
         $priceTitle .= ' &nbsp; ' . ($includeContainer ? '<span class="price-notice">' : '') . '+' .
-            $this->formatPriceString($price, $includeContainer) . ($includeContainer ? '</span>' : '');
+            $this->renderPriceString($_selection, $includeContainer) . ($includeContainer ? '</span>' : '');
         return $priceTitle;
     }
 
@@ -284,6 +282,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
      * @param float $price
      * @param bool $includeContainer
      * @return string
+     * @deprecated
      */
     public function formatPriceString($price, $includeContainer = true)
     {
@@ -326,5 +325,30 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     {
         $this->_selectedOptions = null;
         return parent::setOption($option);
+    }
+
+    /**
+     * Format price string
+     *
+     * @param \Magento\Catalog\Model\Product $selection
+     * @param bool $includeContainer
+     * @return string
+     */
+    public function renderPriceString($selection, $includeContainer = true)
+    {
+        /** @var \Magento\Bundle\Pricing\Price\BundleOptionPrice $price */
+        $price = $this->getProduct()->getPriceInfo()->getPrice('bundle_option');
+        $amount = $price->getOptionSelectionAmount($selection);
+
+        $priceHtml = $this->getLayout()->getBlock('product.price.render.default')->renderAmount(
+            $amount,
+            $price,
+            $selection,
+            [
+                'include_container' => $includeContainer
+            ]
+        );
+
+        return $priceHtml;
     }
 }

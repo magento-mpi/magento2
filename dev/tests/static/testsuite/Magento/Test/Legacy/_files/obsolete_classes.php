@@ -2286,6 +2286,7 @@ return array(
     array('Magento\Sales\Block\Adminhtml\Creditmemo\Grid'),
     array('Magento\Sales\Block\Adminhtml\Transactions\Grid'),
     array('Magento\Sales\Block\Adminhtml\Transactions\Child\Grid'),
+    ['Magento\Catalog\Model\PriceCurrency'],
     [
         'Magento\App\FrontController\Plugin\Clickjacking',
         'X-Frame-Options HTTP header setting moved to server configuration'
