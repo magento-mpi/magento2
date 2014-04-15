@@ -173,4 +173,54 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($resultHtml, $this->model->renderAmount($amount, $arguments));
     }
+
+    public function testGetPriceIdHasDataPriceId()
+    {
+        $priceId = 'data_price_id';
+        $this->model->setData('price_id', $priceId);
+        $this->assertEquals($priceId, $this->model->getPriceId());
+    }
+
+    /**
+     * @dataProvider getPriceIdProvider
+     * @param string $prefix
+     * @param string $suffix
+     * @param string $defaultPrefix
+     * @param string $defaultSuffix
+     */
+    public function testGetPriceId($prefix, $suffix, $defaultPrefix, $defaultSuffix)
+    {
+        $priceId = 'price_id';
+        $this->saleable->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($priceId));
+
+        if (!empty($prefix)) {
+            $this->model->setData('price_id_prefix', $prefix);
+            $expectedPriceId = $prefix . $priceId;
+        } else {
+            $expectedPriceId = $defaultPrefix . $priceId;
+        }
+        if (!empty($suffix)) {
+            $this->model->setData('price_id_suffix', $suffix);
+            $expectedPriceId = $expectedPriceId . $suffix;
+        } else {
+            $expectedPriceId = $expectedPriceId . $defaultSuffix;
+        }
+
+        $this->assertEquals($expectedPriceId, $this->model->getPriceId($defaultPrefix, $defaultSuffix));
+    }
+
+    public function getPriceIdProvider()
+    {
+        return [
+            ['prefix', 'suffix', 'default_prefix', 'default_suffix'],
+            ['prefix', 'suffix', 'default_prefix', ''],
+            ['prefix', 'suffix', '', 'default_suffix'],
+            ['prefix', '', 'default_prefix', 'default_suffix'],
+            ['', 'suffix', 'default_prefix', 'default_suffix'],
+            ['', '', 'default_prefix', 'default_suffix'],
+            ['prefix', 'suffix', '', '']
+        ];
+    }
 }
