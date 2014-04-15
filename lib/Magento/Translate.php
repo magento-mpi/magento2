@@ -58,7 +58,7 @@ class Translate implements \Magento\TranslateInterface
     protected $_localeHierarchy = [];
 
     /**
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_viewDesign;
 
@@ -68,7 +68,7 @@ class Translate implements \Magento\TranslateInterface
     protected $_cache;
 
     /**
-     * @var \Magento\View\FileSystem
+     * @var \Magento\Framework\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -108,7 +108,7 @@ class Translate implements \Magento\TranslateInterface
     protected $directory;
 
     /**
-     * @var App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
 
@@ -118,10 +118,10 @@ class Translate implements \Magento\TranslateInterface
     protected $_csvParser;
 
     /**
-     * @param \Magento\View\DesignInterface $viewDesign
+     * @param \Magento\Framework\View\DesignInterface $viewDesign
      * @param \Magento\Locale\Hierarchy\Config $config
      * @param \Magento\Cache\FrontendInterface $cache
-     * @param \Magento\View\FileSystem $viewFileSystem
+     * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param \Magento\Module\ModuleList $moduleList
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
@@ -129,16 +129,16 @@ class Translate implements \Magento\TranslateInterface
      * @param \Magento\Locale\ResolverInterface $locale
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\File\Csv $csvParser
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\DesignInterface $viewDesign,
+        \Magento\Framework\View\DesignInterface $viewDesign,
         \Magento\Locale\Hierarchy\Config $config,
         \Magento\Cache\FrontendInterface $cache,
-        \Magento\View\FileSystem $viewFileSystem,
+        \Magento\Framework\View\FileSystem $viewFileSystem,
         \Magento\Module\ModuleList $moduleList,
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
@@ -297,14 +297,14 @@ class Translate implements \Magento\TranslateInterface
                 /**
                  * Checking previous value
                  */
-                $scopeKey = $this->_dataScope[$key] . \Magento\View\Service::SCOPE_SEPARATOR . $key;
+                $scopeKey = $this->_dataScope[$key] . \Magento\Framework\View\Service::SCOPE_SEPARATOR . $key;
                 if (!isset($this->_data[$scopeKey])) {
                     if (isset($this->_data[$key])) {
                         $this->_data[$scopeKey] = $this->_data[$key];
                         unset($this->_data[$key]);
                     }
                 }
-                $scopeKey = $scope . \Magento\View\Service::SCOPE_SEPARATOR . $key;
+                $scopeKey = $scope . \Magento\Framework\View\Service::SCOPE_SEPARATOR . $key;
                 $this->_data[$scopeKey] = $value;
             } else {
                 $this->_data[$key] = $value;

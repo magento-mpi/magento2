@@ -9,7 +9,7 @@ namespace Magento\Less\PreProcessor\Instruction;
 
 use Magento\Less\PreProcessorInterface;
 use Magento\Less\PreProcessor;
-use Magento\View;
+use Magento\Framework\View;
 
 /**
  * Less @import instruction preprocessor

@@ -7,7 +7,7 @@
  */
 namespace Magento\Less\PreProcessor\File;
 
-use Magento\View;
+use Magento\Framework\View;
 
 /**
  * Less file

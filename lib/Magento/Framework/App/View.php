@@ -10,7 +10,7 @@ namespace Magento\Framework\App;
 class View implements ViewInterface
 {
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -50,7 +50,7 @@ class View implements ViewInterface
     protected $_isLayoutLoaded = false;
 
     /**
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param RequestInterface $request
      * @param ResponseInterface $response
      * @param \Magento\Framework\Config\ScopeInterface $configScope
@@ -59,7 +59,7 @@ class View implements ViewInterface
      * @param ActionFlag $actionFlag
      */
     public function __construct(
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         RequestInterface $request,
         ResponseInterface $response,
         \Magento\Framework\Config\ScopeInterface $configScope,
@@ -79,7 +79,7 @@ class View implements ViewInterface
     /**
      * Retrieve current layout object
      *
-     * @return \Magento\View\LayoutInterface
+     * @return \Magento\Framework\View\LayoutInterface
      */
     public function getLayout()
     {

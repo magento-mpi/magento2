@@ -7,7 +7,7 @@
  */
 namespace Magento\Css\PreProcessor;
 
-use Magento\View\Asset\PreProcessor\PreProcessorInterface;
+use Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface;
 use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 /**
@@ -30,21 +30,21 @@ class UrlResolver implements PreProcessorInterface
     /**
      * Related file
      *
-     * @var \Magento\View\RelatedFile
+     * @var \Magento\Framework\View\RelatedFile
      */
     protected $relatedFile;
 
     /**
      * Helper to process css content
      *
-     * @var \Magento\View\Url\CssResolver
+     * @var \Magento\Framework\View\Url\CssResolver
      */
     protected $cssUrlResolver;
 
     /**
      * Publisher
      *
-     * @var \Magento\View\Publisher
+     * @var \Magento\Framework\View\Publisher
      */
     protected $publisher;
 
@@ -58,25 +58,25 @@ class UrlResolver implements PreProcessorInterface
     /**
      * Publisher file factory
      *
-     * @var \Magento\View\Publisher\FileFactory
+     * @var \Magento\Framework\View\Publisher\FileFactory
      */
     protected $fileFactory;
 
     /**
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\View\RelatedFile $relatedFile
-     * @param \Magento\View\Url\CssResolver $cssUrlResolver
-     * @param \Magento\View\Publisher $publisher
+     * @param \Magento\Framework\View\RelatedFile $relatedFile
+     * @param \Magento\Framework\View\Url\CssResolver $cssUrlResolver
+     * @param \Magento\Framework\View\Publisher $publisher
      * @param \Magento\Logger $logger
-     * @param \Magento\View\Publisher\FileFactory $fileFactory
+     * @param \Magento\Framework\View\Publisher\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\View\RelatedFile $relatedFile,
-        \Magento\View\Url\CssResolver $cssUrlResolver,
-        \Magento\View\Publisher $publisher,
+        \Magento\Framework\View\RelatedFile $relatedFile,
+        \Magento\Framework\View\Url\CssResolver $cssUrlResolver,
+        \Magento\Framework\View\Publisher $publisher,
         \Magento\Logger $logger,
-        \Magento\View\Publisher\FileFactory $fileFactory
+        \Magento\Framework\View\Publisher\FileFactory $fileFactory
     ) {
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
         $this->relatedFile = $relatedFile;
@@ -89,11 +89,11 @@ class UrlResolver implements PreProcessorInterface
     /**
      * Process LESS file content
      *
-     * @param \Magento\View\Publisher\FileInterface $publisherFile
+     * @param \Magento\Framework\View\Publisher\FileInterface $publisherFile
      * @param \Magento\Framework\Filesystem\Directory\WriteInterface $targetDirectory
-     * @return \Magento\View\Publisher\FileInterface
+     * @return \Magento\Framework\View\Publisher\FileInterface
      */
-    public function process(\Magento\View\Publisher\FileInterface $publisherFile, $targetDirectory)
+    public function process(\Magento\Framework\View\Publisher\FileInterface $publisherFile, $targetDirectory)
     {
         if (!$publisherFile->isPublicationAllowed()) {
             return $publisherFile;
