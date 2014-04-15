@@ -8,6 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
+    <referenceBlock name="head.components">
+        <block class="Magento\View\Element\Js\Components" name="configurableproduct_product_view_head_components" template="Magento_ConfigurableProduct::js/components.phtml"/>
+    </referenceBlock>
     <referenceBlock name="product.info">
         <block class="Magento\ConfigurableProduct\Block\Product\View\Type\Configurable" name="product.info.configurable" as="product_type_data" template="product/view/type/default.phtml">
             <container name="product.info.configurable.extra" as="product_type_data_extra" label="Product Extra Info"/>

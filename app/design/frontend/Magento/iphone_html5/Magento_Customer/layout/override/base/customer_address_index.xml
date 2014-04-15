@@ -9,6 +9,9 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../code/Magento/Core/etc/layout_single.xsd">
     <update handle="customer_account"/>
+    <referenceBlock name="head.components">
+        <block class="Magento\View\Element\Js\Components" name="customer_address_head_components" template="Magento_Customer::js/components.phtml"/>
+    </referenceBlock>
     <referenceContainer name="my.account.wrapper">
         <block class="Magento\Customer\Block\Address\Book" name="address_book" template="address/book.phtml"/>
     </referenceContainer>
