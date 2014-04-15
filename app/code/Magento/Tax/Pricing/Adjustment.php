@@ -51,7 +51,7 @@ class Adjustment implements AdjustmentInterface
      */
     public function getAdjustmentCode()
     {
-        return self::CODE;
+        return self::ADJUSTMENT_CODE;
     }
 
     /**
