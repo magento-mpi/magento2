@@ -36,8 +36,6 @@ class FinalPriceBox extends BasePriceBox
         } catch (\InvalidArgumentException $e) {
             $this->_logger->logException($e);
             return $this->wrapResult($result);
-        } catch (\Exception $e) {
-            var_dump($e);die();
         }
 
         //Renders MAP price in case it is enabled

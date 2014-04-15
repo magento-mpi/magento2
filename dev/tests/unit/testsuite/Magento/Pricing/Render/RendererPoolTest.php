@@ -260,7 +260,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ->method('getTypeId')
             ->will($this->returnValue($type));
         $this->priceMock->expects($this->once())
-            ->method('getPriceType')
+            ->method('getPriceCode')
             ->will($this->returnValue($priceCode));
 
         $testedClass = $this->createTestedEntity($data);
@@ -298,7 +298,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ->method('getTypeId')
             ->will($this->returnValue($type));
         $this->priceMock->expects($this->once())
-            ->method('getPriceType')
+            ->method('getPriceCode')
             ->will($this->returnValue($priceCode));
 
         $contextMock = $this->getMockBuilder('Magento\View\Element\Template\Context')
@@ -353,7 +353,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ->method('getTypeId')
             ->will($this->returnValue($type));
         $this->priceMock->expects($this->once())
-            ->method('getPriceType')
+            ->method('getPriceCode')
             ->will($this->returnValue($priceCode));
 
         $blockMock = $this->getMockBuilder('Magento\Pricing\Render\Amount')
@@ -394,7 +394,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ->method('getTypeId')
             ->will($this->returnValue($typeId));
         $this->priceMock->expects($this->once())
-            ->method('getPriceType')
+            ->method('getPriceCode')
             ->will($this->returnValue($priceCode));
 
         $code = 'test_code';
@@ -420,7 +420,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ->method('getTypeId')
             ->will($this->returnValue($typeId));
         $this->priceMock->expects($this->once())
-            ->method('getPriceType')
+            ->method('getPriceCode')
             ->will($this->returnValue($priceCode));
 
         $code = 'test_code';
@@ -469,7 +469,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ->method('getTypeId')
             ->will($this->returnValue($typeId));
         $this->priceMock->expects($this->once())
-            ->method('getPriceType')
+            ->method('getPriceCode')
             ->will($this->returnValue($priceCode));
 
         $blockMock = $this->getMockBuilder('Magento\View\Element\Template')
@@ -522,7 +522,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             ->method('getTypeId')
             ->will($this->returnValue($type));
         $this->priceMock->expects($this->once())
-            ->method('getPriceType')
+            ->method('getPriceCode')
             ->will($this->returnValue($priceCode));
 
         $blockMock = $this->getMockBuilder('Magento\Pricing\Render\Amount')
