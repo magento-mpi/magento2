@@ -14,13 +14,12 @@ use Magento\Store\Model\Website;
 
 /**
  * WEEE data helper
- *
- * @category Magento
- * @package  Magento_Weee
- * @author   Magento Core Team <core@magentocommerce.com>
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
+    /**
+     * Enabled config path
+     */
     const XML_PATH_FPT_ENABLED = 'tax/weee/enable';
 
     /**
@@ -33,14 +32,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @var \Magento\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * Tax data
      *
      * @var \Magento\Tax\Helper\Data
      */
-    protected $_taxData = null;
+    protected $_taxData;
 
     /**
      * Core store config
@@ -204,30 +203,29 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Returns diaplay type for price accordingly to current zone
+     * Returns display type for price accordingly to current zone
      *
-     * @param \Magento\Catalog\Model\Product $product
      * @param int|int[]|null                 $compareTo
      * @param string                         $zone
      * @param Store                          $store
      * @return bool|int
      */
-    public function typeOfDisplay($product, $compareTo = null, $zone = null, $store = null)
+    public function typeOfDisplay($compareTo = null, $zone = \Magento\Pricing\Render::ZONE_DEFAULT, $store = null)
     {
         if (!$this->isEnabled($store)) {
             return false;
         }
         switch ($zone) {
-            case 'product_view':
+            case \Magento\Pricing\Render::ZONE_ITEM_VIEW:
                 $type = $this->getPriceDisplayType($store);
                 break;
-            case 'product_list':
+            case \Magento\Pricing\Render::ZONE_ITEM_LIST:
                 $type = $this->getListPriceDisplayType($store);
                 break;
-            case 'sales':
+            case \Magento\Pricing\Render::ZONE_SALES:
                 $type = $this->getSalesPriceDisplayType($store);
                 break;
-            case 'email':
+            case \Magento\Pricing\Render::ZONE_EMAIL:
                 $type = $this->getEmailPriceDisplayType($store);
                 break;
             default:
@@ -267,7 +265,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $website = null,
         $calculateTaxes = false
     ) {
-        return $this->_weeeTax->getProductWeeeAttributes($product, $shipping, $billing, $website, $calculateTaxes);
+        return $this->_weeeTax->getProductWeeeAttributes(
+            $product,
+            $shipping,
+            $billing,
+            $website,
+            $calculateTaxes
+        );
     }
 
     /**
@@ -324,7 +328,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getProductWeeeAttributesForDisplay($product)
     {
         if ($this->isEnabled()) {
-            return $this->getProductWeeeAttributes($product, null, null, null, $this->typeOfDisplay($product, 1));
+            return $this->getProductWeeeAttributes($product, null, null, null, $this->typeOfDisplay(1));
         }
         return array();
     }
@@ -352,7 +356,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $shipping,
                 $billing,
                 $website,
-                $calculateTaxes ? $calculateTaxes : $this->typeOfDisplay($product, 1)
+                $calculateTaxes ? $calculateTaxes : $this->typeOfDisplay(1)
             );
         }
         return array();
@@ -367,7 +371,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getAmountForDisplay($product)
     {
         if ($this->isEnabled()) {
-            return $this->_weeeTax->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1));
+            return $this->_weeeTax->getWeeeAmount($product, null, null, null, $this->typeOfDisplay(1));
         }
         return 0;
     }
@@ -402,11 +406,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $store->convertPrice($this->_taxData->getPrice($product, $tier['website_price'], true) + $weeeAmount),
                 false
             );
-            $tier['formated_price_incl_weee'] = '<span class="price tier-' .
-                $index .
-                '-incl-tax">' .
-                $html .
-                '</span>';
+            $tier['formated_price_incl_weee'] = '<span class="price tier-' . $index . '-incl-tax">' . $html . '</span>';
             $html = $store->formatPrice(
                 $store->convertPrice($this->_taxData->getPrice($product, $tier['website_price']) + $weeeAmount),
                 false
@@ -441,16 +441,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getAmountInclTaxes($attributes)
     {
-        if (is_array($attributes)) {
-            $amount = 0;
-            foreach ($attributes as $attribute) {
-                /* @var $attribute \Magento\Object */
-                $amount += $attribute->getAmount() + $attribute->getTaxAmount();
-            }
-        } else {
+        if (!is_array($attributes)) {
             throw new \Magento\Exception('$attributes must be an array');
         }
 
-        return (double)$amount;
+        $amount = 0;
+        foreach ($attributes as $attribute) {
+            /* @var $attribute \Magento\Object */
+            $amount += $attribute->getAmount() + $attribute->getTaxAmount();
+        }
+
+        return (float) $amount;
     }
 }

@@ -366,7 +366,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
      */
     public function getTypeId()
     {
-        return (int)$this->getEntityType()->getEntityTypeId();
+        return (int) $this->getEntityType()->getEntityTypeId();
     }
 
     /**
@@ -474,12 +474,10 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
             }
         }
 
-        if (empty($attributeInstance) ||
-            !$attributeInstance instanceof AbstractAttribute ||
-            !$attributeInstance->getId() && !in_array(
-                $attributeInstance->getAttributeCode(),
-                $this->getDefaultAttributes()
-            )
+        if (empty($attributeInstance)
+            || !$attributeInstance instanceof AbstractAttribute
+            || !$attributeInstance->getId()
+            && !in_array($attributeInstance->getAttributeCode(), $this->getDefaultAttributes())
         ) {
             return false;
         }
@@ -575,7 +573,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     {
         $result = $this->_isPartialSave;
         if ($flag !== null) {
-            $this->_isPartialSave = (bool)$flag;
+            $this->_isPartialSave = (bool) $flag;
         }
         return $result;
     }
@@ -583,7 +581,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Retrieve configuration for all attributes
      *
-     * @param null|object $object
+     * @param null|\Magento\Object $object
      * @return $this
      */
     public function loadAllAttributes($object = null)
@@ -648,8 +646,8 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
      */
     public function attributesCompare($firstAttribute, $secondAttribute)
     {
-        $firstSort = $firstAttribute->getSortWeight((int)$this->_sortingSetId);
-        $secondSort = $secondAttribute->getSortWeight((int)$this->_sortingSetId);
+        $firstSort = $firstAttribute->getSortWeight((int) $this->_sortingSetId);
+        $secondSort = $secondAttribute->getSortWeight((int) $this->_sortingSetId);
 
         if ($firstSort > $secondSort) {
             return 1;
@@ -700,6 +698,9 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
                 $part = $methodArr[0];
                 $method = $methodArr[1];
                 break;
+
+            default:
+                break;
         }
         $results = array();
         foreach ($this->getAttributesByCode() as $attrCode => $attribute) {
@@ -722,6 +723,9 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
 
                 case 'source':
                     $instance = $attribute->getSource();
+                    break;
+
+                default:
                     break;
             }
 
@@ -855,7 +859,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     public function getValueTablePrefix()
     {
         if (!$this->_valueTablePrefix) {
-            $prefix = (string)$this->getEntityType()->getValueTablePrefix();
+            $prefix = (string) $this->getEntityType()->getValueTablePrefix();
             if (!empty($prefix)) {
                 $this->_valueTablePrefix = $prefix;
                 /**
@@ -1327,7 +1331,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
                         'value' => $v
                     );
                 }
-            } else if (!$this->_isAttributeValueEmpty($attribute, $v)) {
+            } elseif (!$this->_isAttributeValueEmpty($attribute, $v)) {
                 $insert[$attrId] = $v;
             }
         }
@@ -1578,7 +1582,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
         $type = $attribute->getBackendType();
         if (($type == 'int' || $type == 'decimal' || $type == 'datetime') && $value === '') {
             $value = null;
-        } else if ($type == 'decimal') {
+        } elseif ($type == 'decimal') {
             $value = $this->_localeFormat->getNumber($value);
         }
         $backendTable = $attribute->getBackendTable();
@@ -1684,9 +1688,9 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     public function delete($object)
     {
         if (is_numeric($object)) {
-            $id = (int)$object;
+            $id = (int) $object;
         } elseif ($object instanceof \Magento\Object) {
-            $id = (int)$object->getId();
+            $id = (int) $object->getId();
         }
 
         $this->_beforeDelete($object);

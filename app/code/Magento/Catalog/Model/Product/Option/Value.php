@@ -29,6 +29,11 @@ use Magento\Catalog\Model\Product\Option;
 class Value extends \Magento\Framework\Model\AbstractModel
 {
     /**
+     * Option type percent
+     */
+    const TYPE_PERCENT = 'percent';
+
+    /**
      * @var array
      */
     protected $_values = array();
@@ -210,7 +215,7 @@ class Value extends \Magento\Framework\Model\AbstractModel
      */
     public function getPrice($flag = false)
     {
-        if ($flag && $this->getPriceType() == 'percent') {
+        if ($flag && $this->getPriceType() == self::TYPE_PERCENT) {
             $basePrice = $this->getOption()->getProduct()->getFinalPrice();
             $price = $basePrice * ($this->_getData('price') / 100);
             return $price;

@@ -12,12 +12,13 @@ namespace Magento\Catalog\Block\Product;
 /**
  * Product View block
  */
-class View extends \Magento\Catalog\Block\Product\AbstractProduct implements \Magento\View\Block\IdentityInterface
+class View extends AbstractProduct implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Default MAP renderer type
      *
      * @var string
+     * @deprecated
      */
     protected $_mapRenderer = 'msrp_item';
 
@@ -140,13 +141,11 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct implements \Ma
                 $headBlock->setDescription($this->string->substr($product->getDescription(), 0, 255));
             }
             //@todo: move canonical link to separate block
-            if ($this->_productHelper->canUseCanonicalTag() && !$headBlock->getChildBlock(
-                'magento-page-head-product-canonical-link'
-            )
-            ) {
+            $childBlockName = 'magento-page-head-product-canonical-link';
+            if ($this->_productHelper->canUseCanonicalTag() && !$headBlock->getChildBlock($childBlockName)) {
                 $params = array('_ignore_category' => true);
                 $headBlock->addChild(
-                    'magento-page-head-product-canonical-link',
+                    $childBlockName,
                     'Magento\Theme\Block\Html\Head\Link',
                     array(
                         'url' => $product->getUrlModel()->getUrl($product, $params),
@@ -234,10 +233,6 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct implements \Ma
         $_request->setProductClassId($product->getTaxClassId());
         $currentTax = $this->_taxCalculation->getRate($_request);
 
-        $_regularPrice = $product->getPrice();
-        $_finalPrice = $product->getFinalPrice();
-        $_priceInclTax = $this->_taxData->getPrice($product, $_finalPrice, true);
-        $_priceExclTax = $this->_taxData->getPrice($product, $_finalPrice);
         $_tierPrices = array();
         $_tierPricesInclTax = array();
         foreach ($product->getTierPrice() as $tierPrice) {
@@ -254,10 +249,26 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct implements \Ma
             'includeTax' => $this->_taxData->priceIncludesTax() ? 'true' : 'false',
             'showIncludeTax' => $this->_taxData->displayPriceIncludingTax(),
             'showBothPrices' => $this->_taxData->displayBothPrices(),
-            'productPrice' => $this->_coreData->currency($_finalPrice, false, false),
-            'productOldPrice' => $this->_coreData->currency($_regularPrice, false, false),
-            'priceInclTax' => $this->_coreData->currency($_priceInclTax, false, false),
-            'priceExclTax' => $this->_coreData->currency($_priceExclTax, false, false),
+            'productPrice' => $this->_coreData->currency(
+                $product->getPriceInfo()->getPrice('final_price')->getValue(),
+                false,
+                false
+            ),
+            'productOldPrice' => $this->_coreData->currency(
+                $product->getPriceInfo()->getPrice('regular_price')->getAmount()->getBaseAmount(),
+                false,
+                false
+            ),
+            'inclTaxPrice' => $this->_coreData->currency(
+                $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(),
+                false,
+                false
+            ),
+            'exclTaxPrice' => $this->_coreData->currency(
+                $product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount(),
+                false,
+                false
+            ),
             'defaultTax' => $defaultTax,
             'currentTax' => $currentTax,
             'idSuffix' => '_clone',

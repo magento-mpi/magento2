@@ -24,6 +24,9 @@ namespace Magento\Backend\Model\Auth;
  */
 class Session extends \Magento\Session\SessionManager implements \Magento\Backend\Model\Auth\StorageInterface
 {
+    /**
+     * Admin session lifetime config path
+     */
     const XML_PATH_SESSION_LIFETIME = 'admin/security/session_lifetime';
 
     /**

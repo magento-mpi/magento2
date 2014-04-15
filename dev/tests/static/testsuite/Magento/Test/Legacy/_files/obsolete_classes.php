@@ -2276,6 +2276,7 @@ return array(
     ['Magento\Rating\Model\Resource\Rating', 'Magento\Review\Model\Resource\Rating'],
     ['Magento\Rating\Model\Rating\Option', 'Magento\Review\Model\Rating\Option'],
     ['Magento\Rating\Model\Observer'],
+    ['Magento\Catalog\Model\PriceCurrency'],
     [
         'Magento\Framework\App\FrontController\Plugin\Clickjacking',
         'X-Frame-Options HTTP header setting moved to server configuration'

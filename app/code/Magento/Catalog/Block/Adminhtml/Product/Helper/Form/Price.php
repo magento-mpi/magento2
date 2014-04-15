@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Product form price field helper
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 
+/**
+ * Product form price field helper
+ */
 class Price extends \Magento\Framework\Data\Form\Element\Text
 {
     /**
@@ -24,7 +20,7 @@ class Price extends \Magento\Framework\Data\Form\Element\Text
      *
      * @var \Magento\Tax\Helper\Data
      */
-    protected $_taxData = null;
+    protected $_taxData;
 
     /**
      * @var Magneto_Core_Model_StoreManager
@@ -109,9 +105,8 @@ class Price extends \Magento\Framework\Data\Form\Element\Text
      */
     protected function _getTaxObservingCode($attribute)
     {
-        $spanId = "dynamic-tax-{$attribute->getAttributeCode()}";
-
-        $html = "<script type='text/javascript'>if (dynamicTaxes == undefined) var dynamicTaxes = new Array(); dynamicTaxes[dynamicTaxes.length]='{$attribute->getAttributeCode()}'</script>";
+        $html = "<script type='text/javascript'>if (dynamicTaxes == undefined) var dynamicTaxes = new Array();"
+            . " dynamicTaxes[dynamicTaxes.length]='{$attribute->getAttributeCode()}'</script>";
         return $html;
     }
 
