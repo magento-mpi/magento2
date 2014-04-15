@@ -41,7 +41,6 @@ class AssertCatalogRuleProductInCart extends AbstractConstraint
         $product = $catalogRule->getDataFieldConfig('condition_value')['fixture']->getProduct();
         //Add product to cart
         $catalogProductView->init($product);
-        $catalogProductView->open();
         $productOptions = $product->getCustomOptions();
         if ($productOptions) {
             $customOption = $catalogProductView->getOptionsBlock();

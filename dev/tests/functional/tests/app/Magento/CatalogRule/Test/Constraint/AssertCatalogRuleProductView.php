@@ -38,7 +38,6 @@ class AssertCatalogRuleProductView extends AbstractConstraint
         $product = $catalogRule->getDataFieldConfig('condition_value')['fixture']->getProduct();
         //Open product view page
         $catalogProductView->init($product);
-        $catalogProductView->open();
 
         //Process assertions
         $this->assertOnProductView($product, $catalogProductView);
@@ -56,18 +55,28 @@ class AssertCatalogRuleProductView extends AbstractConstraint
         $priceFixture = $product->getDataFieldConfig('price')['fixture'];
         $pricePresetData = $priceFixture->getPreset();
 
-        $price = $catalogProductView->getViewBlock()->getProductPriceBlock()->getRegularPrice();
+        if (isset($pricePresetData['product_special_price'])) {
+        $regularPrice = $catalogProductView->getViewBlock()->getProductPriceBlock()->getRegularPrice();
         \PHPUnit_Framework_Assert::assertEquals(
             $pricePresetData['product_price'],
-            $price,
+            $regularPrice,
             'Product regular price on product view page is not correct.'
         );
-        if (isset($pricePresetData['product_special_price'])) {
+
             $specialPrice = $catalogProductView->getViewBlock()->getProductPriceBlock()->getSpecialPrice();
             \PHPUnit_Framework_Assert::assertEquals(
                 $pricePresetData['product_special_price'],
                 $specialPrice,
                 'Product special price on product view page is not correct.'
+            );
+        } else {
+            //Price verification
+            $price = $catalogProductView->getViewBlock()->getProductPriceBlock($product->getName())
+                ->getPrice();
+            \PHPUnit_Framework_Assert::assertContains(
+                (string)$price,
+                $pricePresetData['product_price'],
+                'Product price on category page is not correct.'
             );
         }
     }
