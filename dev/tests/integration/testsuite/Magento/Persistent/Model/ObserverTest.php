@@ -10,6 +10,7 @@ namespace Magento\Persistent\Model;
 
 /**
  * @magentoDataFixture Magento/Persistent/_files/persistent.php
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
