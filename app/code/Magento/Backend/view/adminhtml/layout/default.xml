@@ -15,7 +15,7 @@
             </action>
             <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-jquery-js">
                 <arguments>
-                    <argument name="file" xsi:type="string">jquery/jquery.js</argument>
+                    <argument name="file" xsi:type="string">jquery/jquery-1.8.2.js</argument>
                 </arguments>
             </block>
             <block class="Magento\Theme\Block\Html\Head\Script" name="magento-jquery-no-conflict-js">
@@ -25,7 +25,7 @@
             </block>
             <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-jquery-ui-js">
                 <arguments>
-                    <argument name="file" xsi:type="string">jquery/jquery-ui.js</argument>
+                    <argument name="file" xsi:type="string">jquery/jquery-ui-1.9.2.js</argument>
                 </arguments>
             </block>
             <block class="Magento\Theme\Block\Html\Head\Script" name="head-load-min-js">
