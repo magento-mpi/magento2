@@ -291,15 +291,10 @@ class Tax extends \Magento\Model\AbstractModel
                     }
 
                     $one = new \Magento\Object();
-                    $one->setName(
-                        __($attribute->getFrontend()->getLabel())
-                    )->setAmount(
-                        $amount
-                    )->setTaxAmount(
-                        $taxAmount
-                    )->setCode(
-                        $attribute->getAttributeCode()
-                    );
+                    $one->setName(__($attribute->getFrontend()->getLabel()))
+                        ->setAmount($amount)
+                        ->setTaxAmount($taxAmount)
+                        ->setCode($attribute->getAttributeCode());
 
                     $result[] = $one;
                 }

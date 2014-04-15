@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Bundle product attributes tab
- *
- * @category    Magento
- * @package     Magento_Bundle
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
+/**
+ * Bundle product attributes tab
+ */
 class Attributes extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes
 {
     /**
@@ -28,13 +24,23 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attri
     {
         parent::_prepareForm();
 
-        $special_price = $this->getForm()->getElement('special_price');
-        if ($special_price) {
-            $special_price->setRenderer(
+        $specialPrice = $this->getForm()->getElement('special_price');
+        if ($specialPrice) {
+            $specialPrice->setRenderer(
                 $this->getLayout()->createBlock(
                     'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes\Special'
                 )->setDisableChild(
                     false
+                )
+            );
+            $specialPrice->addClass(
+                implode(
+                    ' ',
+                    [
+                        'validate-greater-than-zero',
+                        'validate-number-range',
+                        'number-range-0.00-100.00'
+                    ]
                 )
             );
         }
