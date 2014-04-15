@@ -28,5 +28,4 @@ interface CustomOptionPriceInterface
      * @return AmountInterface
      */
     public function getOptionValueOldAmount(array $value = array());
-
-} 
+}
