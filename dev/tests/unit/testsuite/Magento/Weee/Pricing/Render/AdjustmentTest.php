@@ -63,7 +63,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $scopeConfigMock = $this->getMockForAbstractClass('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfigMock = $this->getMockForAbstractClass('Magento\Framework\App\Config\ScopeConfigInterface');
 
         $this->contextMock->expects($this->any())
             ->method('getEventManager')

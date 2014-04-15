@@ -36,6 +36,8 @@
   * Extracted vendor name from app/design/*/magento_<theme> into app/design/*/Magento/<theme> (MAGETWO-20865)
   * Renamed 3DSecure library into CardinalCommerce and removed flex library as unused (MAGETWO-23143)
   * Simplify Search related Data Objects (MAGETWO-22613)
+  * Moved lib/Magento/* to lib/Magento/Framework/*: (MAGETWO-20866)
+    * Moved lib/Magento/App to lib/Magento/Framework/App (MAGETWO-23476)
 * Themes update:
   * Admin theme look&feel updated
 * Modularity improvements:
