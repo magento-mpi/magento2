@@ -81,6 +81,7 @@
   * [#535] (https://github.com/magento/magento2/issues/535) -- Fixed Typo in the module name (MAGETWO-23173)
   * [#538] (https://github.com/magento/magento2/issues/538) -- Fixed missing tax amount in the invoice (MAGETWO-23175)
   * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
+  * [#488] (https://github.com/magento/magento2/issues/488) -- Converted several grids from Magento\Sales module to new layout XML config format
 * Fixed bugs:
   * Fixed implementation issues with Cron task group threading (MAGETWO-21617)
   * Fixed inability to place order during customer's registration flow (MAGETWO-22841)
@@ -105,6 +106,10 @@
   * Fixed an issue with uncorrect order of products in Add Product split button (MAGETWO-13160)
   * Fixed an issue with tier price attribute save (MAGETWO-19371)
   * Fixed possibility creating integration from config file (MAGETWO-22311)
+  * Fixed: [IE9, Chrome, FF] Allow Cookies on Frontend is not applied (MAGETWO-22856)
+  * Fixed: [IE9] It's impossible to perform ajax actions from backend grids (MAGETWO-23475)
+  * Fixed: Improper usage of DIRECTORY_SEPARATOR (MAGETWO-13237)
+  * Fixed: Nothing happens after clicking on "Add New Address" button if default address is already set (MAGETWO-23292)
 * JavaScript improvements:
   * Upgraded frontend jQuery library to version 1.11
   * Upgraded frontend jQuery UI library to version 1.10.4
