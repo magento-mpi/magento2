@@ -16,7 +16,7 @@
         _create: function() {
             var $container = this.element,
                 $template = this.element.find('.image-template'),
-                $dropPlaceholder = this.element.find('.image-placeholder'),
+                $dropPlaceholder = this.element,
                 $galleryContainer = $('#media_gallery_content'),
                 mainClass = 'base-image',
                 maximumImageCount = 5;
