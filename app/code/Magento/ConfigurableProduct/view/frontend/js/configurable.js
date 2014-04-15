@@ -329,21 +329,26 @@
          */
         _getOptionLabel: function(option, price) {
             price = parseFloat(price);
-            var tax, incl, excl;
+            //todo: use options from config
+            /*
             if (this.options.taxConfig.includeTax) {
                 tax = price / (100 + this.options.taxConfig.defaultTax) * this.options.taxConfig.defaultTax;
-                excl = price - tax;
-                incl = excl * (1 + (this.options.taxConfig.currentTax / 100));
+                excludeTax = price - tax;
+                includeTax = excl * (1 + (this.options.taxConfig.currentTax / 100));
             } else {
                 tax = price * (this.options.taxConfig.currentTax / 100);
-                excl = price;
-                incl = excl + tax;
+                excludeTax = price;
+                includeTax = excl + tax;
             }
-            price = (this.options.taxConfig.showIncludeTax || this.options.taxConfig.showBothPrices) ? incl : excl;
+            */
+
+            var includeTax = option.inclTaxPrice;
+            var excludeTax = option.exclTaxPrice;
+            price = (this.options.taxConfig.showIncludeTax || this.options.taxConfig.showBothPrices) ? includeTax : excludeTax;
             var str = option.label;
             if (price) {
                 str = (this.options.taxConfig.showBothPrices) ?
-                    str += ' ' + this._formatPrice(excl, true) + ' (' + this._formatPrice(price, true) + ' ' + this.options.taxConfig.inclTaxTitle + ')' :
+                    str += ' ' + this._formatPrice(excludeTax, true) + ' (' + this._formatPrice(price, true) + ' ' + this.options.taxConfig.inclTaxTitle + ')' :
                     str += ' ' + this._formatPrice(price, true);
             }
             return str;
