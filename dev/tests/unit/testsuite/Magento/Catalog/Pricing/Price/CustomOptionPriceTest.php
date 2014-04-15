@@ -18,7 +18,7 @@ use Magento\Pricing\PriceInfoInterface;
 class OptionPriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Pricing\Price\OptionPrice
+     * @var \Magento\Catalog\Pricing\Price\CustomOptionPrice
      */
     protected $object;
 
@@ -95,7 +95,8 @@ class OptionPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetValue()
     {
-        $optionId = 1;
+        $optionId1 = 1;
+        $optionId2 = 2;
         $optionValue = 10;
         $optionType = 'select';
         $optionValueMock = $this->getMockBuilder('Magento\Catalog\Model\Product\Option\DefaultType')
@@ -125,7 +126,7 @@ class OptionPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($optionValue));
         $optionMock->expects($this->at(0))
             ->method('getId')
-            ->will($this->returnValue($optionId));
+            ->will($this->returnValue($optionId1));
         $optionMock->expects($this->once())
             ->method('getType')
             ->will($this->returnValue($optionType));
@@ -136,14 +137,18 @@ class OptionPriceTest extends \PHPUnit_Framework_TestCase
         $optionValueMock->expects($this->once())
             ->method('getValue')
             ->will($this->returnValue($optionValue));
-        $optionIds = new \Magento\Object(['value' => '1']);
+        $optionIds = new \Magento\Object(['value' => '1,2']);
 
-        $customOptions = ['option_ids' => $optionIds, 'option_1' => $optionValueMock];
+        $customOptions = ['option_ids' => $optionIds, 'option_1' => $optionValueMock, 'option_2' => null];
         $this->product->setCustomOptions($customOptions);
-        $this->product->expects($this->once())
+        $this->product->expects($this->at(0))
             ->method('getOptionById')
-            ->with($this->equalTo($optionId))
+            ->with($this->equalTo($optionId1))
             ->will($this->returnValue($optionMock));
+        $this->product->expects($this->at(1))
+            ->method('getOptionById')
+            ->with($this->equalTo($optionId2))
+            ->will($this->returnValue(null));
         $result = $this->object->getValue();
         $this->equalTo($optionValue, $result);
 

@@ -101,7 +101,7 @@ abstract class AbstractPrice implements PriceInterface
     /**
      * @param float $amount
      * @param null|bool|string $exclude
-     * @return AmountInterface
+     * @return AmountInterface|bool|float
      */
     public function getCustomAmount($amount = null, $exclude = null)
     {
