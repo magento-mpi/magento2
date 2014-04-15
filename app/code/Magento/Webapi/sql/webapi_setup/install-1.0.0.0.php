@@ -28,7 +28,11 @@ $table = $installer->getConnection()->newTable(
     array('nullable' => false),
     'Role name is displayed in Adminhtml interface'
 )->addIndex(
-    $installer->getIdxName('webapi_role', array('role_name'), \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+    $installer->getIdxName(
+        'webapi_role',
+        array('role_name'),
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
     array('role_name'),
     array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
 )->setComment(
@@ -57,11 +61,19 @@ $table = $installer->getConnection()->newTable(
     array('unsigned' => true, 'default' => null, 'nullable' => true),
     'User role from webapi_role'
 )->addIndex(
-    $installer->getIdxName('webapi_user', array('role_id'), \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX),
+    $installer->getIdxName(
+        'webapi_user',
+        array('role_id'),
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
+    ),
     array('role_id'),
     array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX)
 )->addIndex(
-    $installer->getIdxName('webapi_user', array('user_name'), \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+    $installer->getIdxName(
+        'webapi_user',
+        array('user_name'),
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
     array('user_name'),
     array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
 )->addForeignKey(
@@ -97,7 +109,11 @@ $table = $installer->getConnection()->newTable(
     array('unsigned' => true, 'nullable' => false),
     'User role from webapi_role'
 )->addIndex(
-    $installer->getIdxName('webapi_rule', array('role_id'), \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX),
+    $installer->getIdxName(
+        'webapi_rule',
+        array('role_id'),
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
+    ),
     array('role_id'),
     array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX)
 )->addForeignKey(

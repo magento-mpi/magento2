@@ -85,7 +85,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->selectMock = $this->getMock('Zend_Db_Select', array('from', 'reset'), array(), '', false);
-        $this->adapterMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array('select'), array(), '', false);
+        $this->adapterMock =
+            $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array('select'), array(), '', false);
         $this->adapterMock->expects($this->once())
             ->method('select')
             ->will($this->returnValue($this->selectMock));

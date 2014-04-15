@@ -38,8 +38,10 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->resource = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false);
-        $this->readAdapter = $this->getMock('\Magento\Framework\DB\Adapter\AdapterInterface', array(), array(), '', false);
-        $this->writeAdapter = $this->getMock('\Magento\Framework\DB\Adapter\AdapterInterface', array(), array(), '', false);
+        $this->readAdapter =
+            $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface', array(), array(), '', false);
+        $this->writeAdapter =
+            $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface', array(), array(), '', false);
         $this->model = $objectManager->getObject(
             'Magento\Catalog\Model\Resource\Product\Link',
             array('resource' => $this->resource)

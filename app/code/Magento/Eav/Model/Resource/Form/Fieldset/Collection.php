@@ -18,12 +18,18 @@
  */
 namespace Magento\Eav\Model\Resource\Form\Fieldset;
 
+use Magento\Core\Model\EntityFactory;
 use Magento\Eav\Model\Form\Type;
+use Magento\Event\ManagerInterface;
+use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
+use Magento\Framework\Model\Resource\Db\AbstractDb;
+use Magento\Logger;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -35,22 +41,22 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected $_storeId;
 
     /**
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param EntityFactory $entityFactory
+     * @param Logger $logger
+     * @param FetchStrategyInterface $fetchStrategy
+     * @param ManagerInterface $eventManager
+     * @param StoreManagerInterface $storeManager
      * @param mixed $connection
-     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
+     * @param AbstractDb $resource
      */
     public function __construct(
-        \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
-        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        EntityFactory $entityFactory,
+        Logger $logger,
+        FetchStrategyInterface $fetchStrategy,
+        ManagerInterface $eventManager,
+        StoreManagerInterface $storeManager,
         $connection = null,
-        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
+        AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);

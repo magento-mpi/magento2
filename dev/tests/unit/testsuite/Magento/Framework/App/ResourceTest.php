@@ -134,7 +134,11 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
         )->will($this->returnValue('idxName'));
         $this->assertEquals(
             'idxName',
-            $this->_resorce->getIdxName($modelEntity, $fields, \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX)
+            $this->_resorce->getIdxName(
+                $modelEntity,
+                $fields,
+                \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
+            )
         );
     }
 

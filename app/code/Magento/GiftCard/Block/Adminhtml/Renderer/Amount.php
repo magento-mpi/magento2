@@ -9,10 +9,11 @@
  */
 namespace Magento\GiftCard\Block\Adminhtml\Renderer;
 
+use Magento\Backend\Block\Widget;
 use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\Renderer\RendererInterface;
 
-class Amount extends \Magento\Backend\Block\Widget
-    implements \Magento\Framework\Data\Form\Element\Renderer\RendererInterface
+class Amount extends Widget implements RendererInterface
 {
     /**
      * @var AbstractElement

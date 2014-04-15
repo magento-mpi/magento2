@@ -69,7 +69,13 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
 
     public function testCheckConnection()
     {
-        $connection = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array('isTableExists'), array(), '', false);
+        $connection = $this->getMock(
+            'Magento\Framework\DB\Adapter\Pdo\Mysql',
+            array('isTableExists'),
+            array(),
+            '',
+            false
+        );
         $connection->expects(
             $this->atLeastOnce()
         )->method(
@@ -128,7 +134,13 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckConnectionNoTable()
     {
-        $connection = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array('isTableExists'), array(), '', false);
+        $connection = $this->getMock(
+            'Magento\Framework\DB\Adapter\Pdo\Mysql',
+            array('isTableExists'),
+            array(),
+            '',
+            false
+        );
         $connection->expects(
             $this->once()
         )->method(

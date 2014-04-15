@@ -109,7 +109,10 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
                 "UPDATE %s SET version = '1.2' WHERE code = '" . self::$_testResourceName . "'",
                 \Magento\Framework\DB\Profiler::UPDATE
             ),
-            array("DELETE FROM %s WHERE code = '" . self::$_testResourceName . "'", \Magento\Framework\DB\Profiler::DELETE)
+            array(
+                "DELETE FROM %s WHERE code = '" . self::$_testResourceName . "'",
+                \Magento\Framework\DB\Profiler::DELETE
+            )
         );
     }
 

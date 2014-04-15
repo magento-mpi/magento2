@@ -127,7 +127,10 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_mockAdapter->query($query);
         } catch (\Exception $e) {
-            $this->assertNotContains($e->getMessage(), \Magento\Framework\DB\Adapter\AdapterInterface::ERROR_DDL_MESSAGE);
+            $this->assertNotContains(
+                $e->getMessage(),
+                \Magento\Framework\DB\Adapter\AdapterInterface::ERROR_DDL_MESSAGE
+            );
         }
 
         $select = new \Zend_Db_Select($this->_mockAdapter);
@@ -135,7 +138,10 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_mockAdapter->query($select);
         } catch (\Exception $e) {
-            $this->assertNotContains($e->getMessage(), \Magento\Framework\DB\Adapter\AdapterInterface::ERROR_DDL_MESSAGE);
+            $this->assertNotContains(
+                $e->getMessage(),
+                \Magento\Framework\DB\Adapter\AdapterInterface::ERROR_DDL_MESSAGE
+            );
         }
     }
 

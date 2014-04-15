@@ -85,7 +85,13 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Model\AbstractModel',
             array($this->contextMock, $this->registryMock, $this->resourceMock, $this->resourceCollectionMock)
         );
-        $this->adapterMock = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface', array(), array(), '', false);
+        $this->adapterMock = $this->getMock(
+            'Magento\Framework\DB\Adapter\AdapterInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->resourceMock->expects($this->any())
             ->method('_getWriteAdapter')
             ->will($this->returnValue($this->adapterMock));

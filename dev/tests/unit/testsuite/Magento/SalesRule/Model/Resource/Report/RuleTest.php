@@ -43,7 +43,13 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($select)
         );
 
-        $adapterMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array('select', 'fetchAll'), array(), '', false);
+        $adapterMock = $this->getMock(
+            'Magento\Framework\DB\Adapter\Pdo\Mysql',
+            array('select', 'fetchAll'),
+            array(),
+            '',
+            false
+        );
         $adapterMock->expects($this->once())->method('select')->will($this->returnValue($select));
         $adapterMock->expects(
             $this->once()

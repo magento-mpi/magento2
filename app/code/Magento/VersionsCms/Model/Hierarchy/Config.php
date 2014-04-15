@@ -9,9 +9,9 @@
  */
 namespace Magento\VersionsCms\Model\Hierarchy;
 
-class Config
-    extends \Magento\Framework\Config\Data\Scoped
-    implements \Magento\VersionsCms\Model\Hierarchy\ConfigInterface
+use Magento\Framework\Config\Data\Scoped;
+
+class Config extends Scoped implements ConfigInterface
 {
     /**
      * Menu layouts configuration

@@ -103,7 +103,8 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveCustomersFromSelect()
     {
-        $select = $this->getMock('Magento\Framework\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
+        $select =
+            $this->getMock('Magento\Framework\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
         $this->_segment->expects($this->any())->method('getId')->will($this->returnValue(3));
         $statement = $this->getMock(
             'Zend_Db_Statement',
