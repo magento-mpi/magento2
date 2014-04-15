@@ -24,11 +24,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     const XML_PATH_CUSTOMER_MUST_BE_LOGGED = 'checkout/options/customer_must_be_logged';
 
     /**
-     * @var array|null
-     */
-    protected $_agreements = null;
-
-    /**
      * Core store config
      *
      * @var \Magento\App\Config\ScopeConfigInterface
