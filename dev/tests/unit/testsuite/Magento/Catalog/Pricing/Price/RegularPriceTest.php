@@ -34,7 +34,7 @@ class RegularPriceTest extends \PHPUnit_Framework_TestCase
     protected $salableItemMock;
 
     /**
-     * @var \Magento\Pricing\Adjustment\Calculator
+     * @var \Magento\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $calculatorMock;
 
@@ -106,5 +106,37 @@ class RegularPriceTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceType()
     {
         $this->assertEquals(RegularPrice::PRICE_TYPE_CODE, $this->regularPrice->getPriceType());
+    }
+
+    /**
+     * @dataProvider customAmountProvider
+     * @param float $amount
+     * @param bool $exclude
+     */
+    public function testGetCustomAmount($amount, $exclude)
+    {
+        if (null === $amount) {
+            $amountValue = 42.42;
+            $this->salableItemMock->expects($this->once())
+                ->method('getPrice')
+                ->will($this->returnValue($amountValue));
+        } else {
+            $amountValue = $amount;
+        }
+        $amountMock = $this->getMockForAbstractClass('Magento\Pricing\Amount\AmountInterface');
+        $this->calculatorMock->expects($this->once())
+            ->method('getAmount')
+            ->with($amountValue, $this->salableItemMock, $exclude)
+            ->will($this->returnValue($amountMock));
+        $this->assertEquals($amountMock, $this->regularPrice->getCustomAmount($amount, $exclude));
+    }
+
+    public function customAmountProvider()
+    {
+        return [
+            [54.54, true],
+            [null, true],
+            [null, null]
+        ];
     }
 }
