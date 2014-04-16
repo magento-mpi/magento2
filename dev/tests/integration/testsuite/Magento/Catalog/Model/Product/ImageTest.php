@@ -59,19 +59,16 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $inputFile = 'watermark.png';
         $expectedFile = '/somewhere/watermark.png';
 
-        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
-        $asset->expects($this->once())
-            ->method('getSourceFile')
-            ->will($this->returnValue($expectedFile));
-        $assetRepo = $this->getMock('\Magento\View\Asset\Repository', array(), array(), '', false);
-        $assetRepo->expects($this->once())
-            ->method('createAsset')
+        /** @var \Magento\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject $viewFilesystem */
+        $viewFilesystem = $this->getMock('Magento\View\FileSystem', array(), array(), '', false);
+        $viewFilesystem->expects($this->once())
+            ->method('getStaticFileName')
             ->with($inputFile)
-            ->will($this->returnValue($asset));
+            ->will($this->returnValue($expectedFile));
 
         /** @var $model \Magento\Catalog\Model\Product\Image */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product\Image', ['assetRepo' => $assetRepo]);
+            ->create('Magento\Catalog\Model\Product\Image', ['viewFilesystem' => $viewFilesystem]);
         $processor = $this->getMock(
             'Magento\Image',
             ['save', 'keepAspectRatio', 'keepFrame', 'keepTransparency', 'constrainOnly', 'backgroundColor', 'quality',
