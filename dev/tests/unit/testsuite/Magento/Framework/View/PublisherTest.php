@@ -7,6 +7,7 @@
  */
 namespace Magento\Framework\View;
 
+use Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface;
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class PublisherTest extends \PHPUnit_Framework_TestCase
@@ -23,7 +24,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject */
     protected $viewFileSystem;
 
-    /** @var \Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var PreProcessorInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $preProcessorMock;
 
     /** @var \Magento\Framework\View\Publisher\FileFactory|\PHPUnit_Framework_MockObject_MockObject */
@@ -76,8 +77,12 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
 
         $this->viewFileSystem = $this->getMock('Magento\Framework\View\FileSystem', array(), array(), '', false);
         $this->preProcessorMock = $this->getMock('Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface');
-        $this->fileFactoryMock = $this->getMock('Magento\Framework\View\Publisher\FileFactory', array(), array(), '', false);
-        $this->publisherFileMock = $this->getMock('Magento\Framework\View\Publisher\FileInterface', array(), array(), '', false);
+        $this->fileFactoryMock = $this->getMockBuilder('Magento\Framework\View\Publisher\FileFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->publisherFileMock = $this->getMockBuilder('Magento\Framework\View\Publisher\FileInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->publisher = $this->objectManagerHelper->getObject(
             'Magento\Framework\View\Publisher',

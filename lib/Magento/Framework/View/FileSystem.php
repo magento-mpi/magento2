@@ -32,8 +32,10 @@ class FileSystem
      * @param \Magento\Framework\View\Design\FileResolution\StrategyPool $resolutionPool
      * @param Service $viewService
      */
-    public function __construct(\Magento\Framework\View\Design\FileResolution\StrategyPool $resolutionPool, Service $viewService)
-    {
+    public function __construct(
+        \Magento\Framework\View\Design\FileResolution\StrategyPool $resolutionPool,
+        Service $viewService
+    ) {
         $this->_resolutionPool = $resolutionPool;
         $this->_viewService = $viewService;
     }

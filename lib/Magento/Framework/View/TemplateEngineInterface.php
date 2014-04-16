@@ -23,5 +23,9 @@ interface TemplateEngineInterface
      * @param array $dictionary
      * @return string rendered template
      */
-    public function render(\Magento\Framework\View\Element\BlockInterface $block, $templateFile, array $dictionary = array());
+    public function render(
+        \Magento\Framework\View\Element\BlockInterface $block,
+        $templateFile,
+        array $dictionary = array()
+    );
 }

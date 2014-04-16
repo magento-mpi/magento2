@@ -40,7 +40,13 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($renderer)
         );
 
-        $layout = $this->getMock('Magento\Framework\View\Layout', array('getChildName', 'getBlock'), array(), '', false);
+        $layout = $this->getMock(
+            'Magento\Framework\View\Layout',
+            array('getChildName', 'getBlock'),
+            array(),
+            '',
+            false
+        );
 
         $layout->expects($this->once())->method('getChildName')->will($this->returnValue('renderer.list'));
 
@@ -76,7 +82,13 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function te1stGetItemRendererThrowsExceptionForNonexistentRenderer()
     {
-        $layout = $this->getMock('Magento\Framework\View\Layout', array('getChildName', 'getBlock'), array(), '', false);
+        $layout = $this->getMock(
+            'Magento\Framework\View\Layout',
+            array('getChildName', 'getBlock'),
+            array(),
+            '',
+            false
+        );
         $layout->expects($this->once())->method('getChildName')->will($this->returnValue(null));
 
         /** @var $block \Magento\Sales\Block\Items\AbstractItems */

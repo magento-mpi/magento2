@@ -70,7 +70,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->themeResolverMock = $this->getMockForAbstractClass('Magento\Framework\View\Design\Theme\ResolverInterface');
+        $this->themeResolverMock = $this->getMockForAbstractClass(
+            'Magento\Framework\View\Design\Theme\ResolverInterface'
+        );
         $this->processorMock = $this->getMock(
             'Magento\Core\Model\Layout\Merge',
             ['__destruct'],

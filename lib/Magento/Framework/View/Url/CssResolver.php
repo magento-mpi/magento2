@@ -38,8 +38,10 @@ class CssResolver
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
      */
-    public function __construct(\Magento\Framework\App\Filesystem $filesystem, \Magento\Framework\View\FileSystem $viewFileSystem)
-    {
+    public function __construct(
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\View\FileSystem $viewFileSystem
+    ) {
         $this->filesystem = $filesystem;
         $this->viewFileSystem = $viewFileSystem;
     }

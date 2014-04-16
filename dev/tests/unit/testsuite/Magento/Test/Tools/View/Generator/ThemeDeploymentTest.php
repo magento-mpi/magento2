@@ -49,7 +49,13 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(str_replace('\\', '/', BP))
         );
 
-        $viewFilesystem = $this->getMock('Magento\Framework\View\Filesystem', array('normalizePath'), array(), '', false);
+        $viewFilesystem = $this->getMock(
+            'Magento\Framework\View\Filesystem',
+            array('normalizePath'),
+            array(),
+            '',
+            false
+        );
         $viewFilesystem->expects($this->any())->method('normalizePath')->will($this->returnArgument(0));
 
         $this->_cssUrlResolver = new \Magento\Framework\View\Url\CssResolver($this->filesystem, $viewFilesystem);

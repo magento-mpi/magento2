@@ -201,7 +201,9 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function buildUniquePathDataProvider()
     {
-        $themModelWithPath = $this->getMock('Magento\Framework\View\Design\ThemeInterface', array(), array(), '', false);
+        $themModelWithPath = $this->getMockBuilder('Magento\Framework\View\Design\ThemeInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
         $themModelWithPath->expects($this->any())->method('getThemePath')->will($this->returnValue('theme/path'));
         $themModelWithId = $this->getMock('Magento\Framework\View\Design\ThemeInterface', array(), array(), '', false);
         $themModelWithId->expects($this->any())->method('getId')->will($this->returnValue(11));
@@ -234,7 +236,9 @@ class FileTest extends \PHPUnit_Framework_TestCase
                 'filePath' => 'some/file/path3',
                 'allowDuplication' => true,
                 'viewParams' => array(
-                    'themeModel' => $this->getMock('Magento\Framework\View\Design\ThemeInterface', array(), array(), '', false),
+                    'themeModel' => $this->getMockBuilder('Magento\Framework\View\Design\ThemeInterface')
+                        ->disableOriginalConstructor()
+                        ->getMock(),
                     'locale' => 'fr_FR',
                     'area' => 'some_area',
                     'module' => null
@@ -246,7 +250,9 @@ class FileTest extends \PHPUnit_Framework_TestCase
                 'filePath' => 'some/file/path4',
                 'allowDuplication' => false,
                 'viewParams' => array(
-                    'themeModel' => $this->getMock('Magento\Framework\View\Design\ThemeInterface', array(), array(), '', false),
+                    'themeModel' => $this->getMockBuilder('Magento\Framework\View\Design\ThemeInterface')
+                        ->disableOriginalConstructor()
+                        ->getMock(),
                     'locale' => 'fr_FR',
                     'area' => 'some_area',
                     'module' => 'My_Module'
@@ -258,7 +264,9 @@ class FileTest extends \PHPUnit_Framework_TestCase
                 'filePath' => 'some/file/path5',
                 'allowDuplication' => false,
                 'viewParams' => array(
-                    'themeModel' => $this->getMock('Magento\Framework\View\Design\ThemeInterface', array(), array(), '', false),
+                    'themeModel' => $this->getMockBuilder('Magento\Framework\View\Design\ThemeInterface')
+                        ->disableOriginalConstructor()
+                        ->getMock(),
                     'locale' => 'fr_FR',
                     'area' => 'some_area'
                 ),

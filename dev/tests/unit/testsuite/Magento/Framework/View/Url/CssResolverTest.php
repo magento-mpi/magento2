@@ -18,63 +18,62 @@ class CssResolverTest extends \PHPUnit_Framework_TestCase
     {
         $filesystem =
             $this->getMock('Magento\Framework\App\Filesystem', array('getPath', '__wakeup'), array(), '', false);
-        $filesystem->expects(
-            $this->any()
-        )->method(
-            'getPath'
-        )->with(
-            \Magento\Framework\App\Filesystem::ROOT_DIR
-        )->will(
-            $this->returnValue('/base_dir/')
+        $filesystem->expects($this->any())
+            ->method('getPath')
+            ->with(\Magento\Framework\App\Filesystem::ROOT_DIR)
+            ->will($this->returnValue('/base_dir/'));
+        $viewFilesystem = $this->getMock(
+            'Magento\Framework\View\Filesystem',
+            array('normalizePath'),
+            array(),
+            '',
+            false
         );
-        $viewFilesystem = $this->getMock('Magento\Framework\View\Filesystem', array('normalizePath'), array(), '', false);
-        $viewFilesystem->expects(
-            $this->any()
-        )->method(
-            'normalizePath'
-        )->will(
-            $this->returnValueMap(
-                array(
-                    array('/does/not/matter.css', '/does/not/matter.css'),
+        $viewFilesystem->expects($this->any())
+            ->method('normalizePath')
+            ->will(
+                $this->returnValueMap(
                     array(
-                        '/base_dir/pub/assets/new/location/any_new_name.css',
-                        '/base_dir/pub/assets/new/location/any_new_name.css'
-                    ),
-                    array(
-                        '/base_dir\pub/assets\new/location/any_new_name.css',
-                        '/base_dir\pub/assets\new/location/any_new_name.css'
-                    ),
-                    array(
-                        '/base_dir/pub/assets/referenced/di/any_new_name.css',
-                        '/base_dir/pub/assets/referenced/di/any_new_name.css'
-                    ),
-                    array('/base_dir/pub/any_new_name.css', '/base_dir/pub/any_new_name.css'),
-                    array('/not/base_dir/pub/new/file.css', '/not/base_dir/pub/new/file.css'),
-                    array('/base_dir/pub/css/file.css', '/base_dir/pub/css/file.css'),
-                    array('/not/base_dir/pub/css/file.css', '/not/base_dir/pub/css/file.css'),
-                    array('/base_dir/pub/new/file.css', '/base_dir/pub/new/file.css'),
-                    array(
-                        '/base_dir/pub/assets/referenced/dir/../images/h2.gif',
-                        '/base_dir/pub/assets/referenced/images/h2.gif'
-                    ),
-                    array(
-                        '/base_dir/pub/assets/referenced/dir/Magento_Theme::favicon.ico',
-                        '/base_dir/pub/assets/referenced/dir/Magento_Theme::favicon.ico'
-                    ),
-                    array(
-                        '/base_dir/pub/assets/referenced/dir/original.css',
-                        '/base_dir/pub/assets/referenced/dir/original.css'
-                    ),
-                    array(
-                        '/base_dir/pub/assets/referenced/dir/body.gif',
-                        '/base_dir/pub/assets/referenced/dir/body.gif'
-                    ),
-                    array('/base_dir/pub/dir/body.gif', '/base_dir/pub/dir/body.gif'),
-                    array('/base_dir/pub/css/body.gif', '/base_dir/pub/css/body.gif'),
-                    array('/not/base_dir/pub/css/body.gif', '/not/base_dir/pub/css/body.gif')
+                        array('/does/not/matter.css', '/does/not/matter.css'),
+                        array(
+                            '/base_dir/pub/assets/new/location/any_new_name.css',
+                            '/base_dir/pub/assets/new/location/any_new_name.css'
+                        ),
+                        array(
+                            '/base_dir\pub/assets\new/location/any_new_name.css',
+                            '/base_dir\pub/assets\new/location/any_new_name.css'
+                        ),
+                        array(
+                            '/base_dir/pub/assets/referenced/di/any_new_name.css',
+                            '/base_dir/pub/assets/referenced/di/any_new_name.css'
+                        ),
+                        array('/base_dir/pub/any_new_name.css', '/base_dir/pub/any_new_name.css'),
+                        array('/not/base_dir/pub/new/file.css', '/not/base_dir/pub/new/file.css'),
+                        array('/base_dir/pub/css/file.css', '/base_dir/pub/css/file.css'),
+                        array('/not/base_dir/pub/css/file.css', '/not/base_dir/pub/css/file.css'),
+                        array('/base_dir/pub/new/file.css', '/base_dir/pub/new/file.css'),
+                        array(
+                            '/base_dir/pub/assets/referenced/dir/../images/h2.gif',
+                            '/base_dir/pub/assets/referenced/images/h2.gif'
+                        ),
+                        array(
+                            '/base_dir/pub/assets/referenced/dir/Magento_Theme::favicon.ico',
+                            '/base_dir/pub/assets/referenced/dir/Magento_Theme::favicon.ico'
+                        ),
+                        array(
+                            '/base_dir/pub/assets/referenced/dir/original.css',
+                            '/base_dir/pub/assets/referenced/dir/original.css'
+                        ),
+                        array(
+                            '/base_dir/pub/assets/referenced/dir/body.gif',
+                            '/base_dir/pub/assets/referenced/dir/body.gif'
+                        ),
+                        array('/base_dir/pub/dir/body.gif', '/base_dir/pub/dir/body.gif'),
+                        array('/base_dir/pub/css/body.gif', '/base_dir/pub/css/body.gif'),
+                        array('/not/base_dir/pub/css/body.gif', '/not/base_dir/pub/css/body.gif')
+                    )
                 )
-            )
-        );
+            );
         $this->object = new CssResolver($filesystem, $viewFilesystem);
     }
 

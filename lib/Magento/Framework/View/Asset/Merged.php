@@ -84,7 +84,9 @@ class Merged implements \Iterator
         /** @var $asset MergeableInterface */
         foreach ($assets as $asset) {
             if (!$asset instanceof MergeableInterface) {
-                throw new \InvalidArgumentException('Asset has to implement \Magento\Framework\View\Asset\MergeableInterface.');
+                throw new \InvalidArgumentException(
+                    'Asset has to implement \Magento\Framework\View\Asset\MergeableInterface.'
+                );
             }
             if (!$this->contentType) {
                 $this->contentType = $asset->getContentType();
