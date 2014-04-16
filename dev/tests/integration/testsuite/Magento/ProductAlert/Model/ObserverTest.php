@@ -30,10 +30,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $this->_customerSession = $this->_objectManager->get(
-            'Magento\Customer\Model\Session',
-            array($logger)
+            'Magento\Customer\Model\Session'
         );
         $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Customer\Service\V1\CustomerAccountService'
@@ -82,7 +80,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->assertStringMatchesFormat(
             '%AHello %A'
-                . $this->_customerViewHelper->getCustomerName($this->_customerSession->getCustomerDataObject()) . ',%A',
+            . $this->_customerViewHelper->getCustomerName($this->_customerSession->getCustomerDataObject()) . ',%A',
             $transportBuilder->getSentMessage()->getBodyHtml()->getContent()
         );
     }
