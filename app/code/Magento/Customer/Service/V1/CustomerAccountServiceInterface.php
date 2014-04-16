@@ -12,16 +12,8 @@ namespace Magento\Customer\Service\V1;
  */
 interface CustomerAccountServiceInterface
 {
-    /** account response status @deprecated */
-    const ACCOUNT_CONFIRMATION = "confirmation";
-
-    const ACCOUNT_REGISTERED = "registered";
-
     // Constants for the type of new account email to be sent
     const NEW_ACCOUNT_EMAIL_REGISTERED = 'registered';
-
-    // welcome email, when confirmation is disabled
-    const NEW_ACCOUNT_EMAIL_CONFIRMED = 'confirmed';
 
     // welcome email, when confirmation is enabled
     const NEW_ACCOUNT_EMAIL_CONFIRMATION = 'confirmation';
@@ -54,7 +46,6 @@ interface CustomerAccountServiceInterface
      * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
      *                            the customer to a product they were looking at after pressing confirmation link.
      * @return \Magento\Customer\Service\V1\Data\Customer
-     * @throws \Exception If something goes wrong during save
      * @throws \Magento\Exception\InputException If bad input is provided
      * @throws \Magento\Exception\StateException If the provided email is already used
      */
@@ -72,11 +63,10 @@ interface CustomerAccountServiceInterface
      * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
      *                            the customer to a product they were looking at after pressing confirmation link.
      * @return \Magento\Customer\Service\V1\Data\Customer
-     * @throws \Exception If something goes wrong during save
      * @throws \Magento\Exception\InputException If bad input is provided
      * @throws \Magento\Exception\StateException If the provided email is already used
      */
-    public function createAccountWithHashedPassword(
+    public function createAccountWithPasswordHash(
         \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
         $hash,
         $redirectUrl = ''

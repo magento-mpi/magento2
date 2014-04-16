@@ -345,13 +345,13 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         //Generate password hash
         $password = $password ? $password : $this->mathRandom->getRandomString(self::DEFAULT_PASSWORD_LENGTH);
         $hash = $this->getPasswordHash($password);
-        return $this->createAccountWithHashedPassword($customerDetails, $hash, $redirectUrl);
+        return $this->createAccountWithPasswordHash($customerDetails, $hash, $redirectUrl);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createAccountWithHashedPassword(
+    public function createAccountWithPasswordHash(
         \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
         $hash,
         $redirectUrl = ''
