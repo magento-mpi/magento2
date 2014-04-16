@@ -9,7 +9,7 @@
  */
 namespace Magento\Search\Model;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 /**
  * Enterprise search model observer

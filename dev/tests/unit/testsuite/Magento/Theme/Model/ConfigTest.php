@@ -83,7 +83,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->_configData,
             $this->_scopeConfigWriter,
             $this->_storeManagerMock,
-            $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false),
             $this->_configCacheMock,
             $this->_layoutCacheMock
         );

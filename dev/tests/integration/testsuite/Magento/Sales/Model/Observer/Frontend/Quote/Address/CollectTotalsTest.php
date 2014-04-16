@@ -49,7 +49,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         $quoteAddress = $quote->getBillingAddress();
 
         $eventObserver = $objectManager->create(
-            'Magento\Event\Observer',
+            'Magento\Framework\Event\Observer',
             array('data' => array('quote_address' => $quoteAddress))
         );
         $this->model->dispatch($eventObserver);
@@ -85,7 +85,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         $quoteAddress = $quote->getBillingAddress();
 
         $eventObserver = $objectManager->create(
-            'Magento\Event\Observer',
+            'Magento\Framework\Event\Observer',
             array('data' => array('quote_address' => $quoteAddress))
         );
         $this->model->dispatch($eventObserver);

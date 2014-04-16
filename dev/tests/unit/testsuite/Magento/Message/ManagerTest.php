@@ -38,7 +38,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     protected $logger;
 
     /**
-     * @var \Magento\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventManager;
 
@@ -75,7 +75,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             array('logFile')
         )->disableOriginalConstructor()->getMock();
         $this->eventManager = $this->getMockBuilder(
-            'Magento\Event\Manager'
+            'Magento\Framework\Event\Manager'
         )->setMethods(
             array('dispatch')
         )->disableOriginalConstructor()->getMock();

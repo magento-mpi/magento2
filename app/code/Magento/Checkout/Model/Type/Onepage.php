@@ -67,7 +67,7 @@ class Onepage
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -135,7 +135,7 @@ class Onepage
     protected $_customerAccountService;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Checkout\Helper\Data $helper
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Logger $logger
@@ -159,7 +159,7 @@ class Onepage
      * @param CustomerAddressServiceInterface $customerAddressService
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Checkout\Helper\Data $helper,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Logger $logger,

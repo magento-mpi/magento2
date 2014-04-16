@@ -95,7 +95,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $controller->expects($this->once())->method('getRequest')->will($this->returnValue($request));
         $controller->expects($this->once())->method('getResponse')->will($this->returnValue($response));
-        $observer = new \Magento\Event\Observer(
+        $observer = new \Magento\Framework\Event\Observer(
             array('event' => new \Magento\Object(array('controller_action' => $controller)))
         );
 

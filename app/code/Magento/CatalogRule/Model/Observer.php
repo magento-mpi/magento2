@@ -25,7 +25,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Magento\Stdlib\DateTime\TimezoneInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface as Group;
 use Magento\Customer\Model\Session as CustomerModelSession;
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Message\ManagerInterface;
 use Magento\Rule\Model\Condition\Product\AbstractProduct;
 use Magento\Stdlib\DateTime;

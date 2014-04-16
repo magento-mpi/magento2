@@ -19,7 +19,7 @@ class View extends \Magento\Framework\App\View
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\App\ResponseInterface $response
      * @param \Magento\Framework\Config\ScopeInterface $configScope
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Translate\InlineInterface $translateInline
      * @param \Magento\Framework\App\ActionFlag $actionFlag
      * @param Layout\Filter\Acl $aclFilter
@@ -29,7 +29,7 @@ class View extends \Magento\Framework\App\View
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\App\ResponseInterface $response,
         \Magento\Framework\Config\ScopeInterface $configScope,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Translate\InlineInterface $translateInline,
         \Magento\Framework\App\ActionFlag $actionFlag,
         Layout\Filter\Acl $aclFilter

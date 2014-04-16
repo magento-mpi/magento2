@@ -186,10 +186,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Assign websites/stores permissions data after loading admin role
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function addDataAfterRoleLoad(\Magento\Event\Observer $observer)
+    public function addDataAfterRoleLoad(\Magento\Framework\Event\Observer $observer)
     {
         $this->_assignRolePermissions($observer->getEvent()->getObject());
     }
@@ -220,7 +220,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Transform array of website ids and array of store group ids into comma-separated strings
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      * @throws Exception
      */
@@ -294,7 +294,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Prepare role object permissions data before saving
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function prepareRoleSave($observer)
@@ -316,7 +316,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Copy permission scopes to new specified website
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function copyWebsiteCopyPermissions($observer)
@@ -342,7 +342,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Reinit stores only with allowed scopes
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function adminControllerPredispatch($observer)
@@ -375,7 +375,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Check access to massaction status block
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function catalogProductPrepareMassAction($observer)
@@ -416,7 +416,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit a collection
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function limitCollection($observer)
@@ -434,7 +434,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate / update a model before saving it
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function validateModelSaveBefore($observer)
@@ -452,7 +452,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Initialize a model after loading it
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function validateModelLoadAfter($observer)
@@ -470,7 +470,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate a model before delete
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function validateModelDeleteBefore($observer)
@@ -489,7 +489,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate page by current request (module, controller, action)
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function validateControllerPredispatch($observer)
@@ -550,7 +550,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Apply restrictions to misc blocks before html
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function restrictBlocks($observer)
@@ -660,7 +660,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Update store list which is available for role
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function updateRoleStores($observer)

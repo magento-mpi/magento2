@@ -8,7 +8,7 @@
 namespace Magento\Message;
 
 use Magento\Logger;
-use Magento\Event\ManagerInterface as EventManagerInterface;
+use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
 
 /**
  * Message manager model

@@ -45,7 +45,7 @@ class Area implements \Magento\Framework\App\AreaInterface
     /**
      * Event Manager
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -106,7 +106,7 @@ class Area implements \Magento\Framework\App\AreaInterface
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\TranslateInterface $translator
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\ObjectManager $objectManager
@@ -119,7 +119,7 @@ class Area implements \Magento\Framework\App\AreaInterface
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\TranslateInterface $translator,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\ObjectManager $objectManager,

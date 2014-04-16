@@ -85,7 +85,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * System event manager
      *
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 

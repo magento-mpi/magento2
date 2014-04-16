@@ -76,10 +76,10 @@ class Observer
      * Add comment cache containers to private blocks
      * Blocks are wrapped only if page is cacheable
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function processLayoutRenderElement(\Magento\Event\Observer $observer)
+    public function processLayoutRenderElement(\Magento\Framework\Event\Observer $observer)
     {
         $event = $observer->getEvent();
         /** @var \Magento\Framework\View\Layout $layout */
@@ -128,10 +128,10 @@ class Observer
      * If Built-In caching is enabled it collects array of tags
      * of incoming object and asks to clean cache.
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function flushCacheByTags(\Magento\Event\Observer $observer)
+    public function flushCacheByTags(\Magento\Framework\Event\Observer $observer)
     {
         if ($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN && $this->_config->isEnabled()) {
             $object = $observer->getEvent()->getObject();
@@ -148,10 +148,10 @@ class Observer
     /**
      * Flash Built-In cache
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function flushAllCache(\Magento\Event\Observer $observer)
+    public function flushAllCache(\Magento\Framework\Event\Observer $observer)
     {
         if ($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
             $this->_cache->clean();
@@ -174,10 +174,10 @@ class Observer
     /**
      * Register form key in session from cookie value
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function registerFormKeyFromCookie(\Magento\Event\Observer $observer)
+    public function registerFormKeyFromCookie(\Magento\Framework\Event\Observer $observer)
     {
         $formKeyFromCookie = $this->_formKey->get();
         if ($formKeyFromCookie) {

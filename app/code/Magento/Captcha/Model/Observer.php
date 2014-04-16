@@ -123,7 +123,7 @@ class Observer
     /**
      * Check Captcha On Forgot Password Page
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function checkForgotpassword($observer)
@@ -145,7 +145,7 @@ class Observer
     /**
      * Check CAPTCHA on Contact Us page
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function checkContactUsForm($observer)
@@ -166,7 +166,7 @@ class Observer
     /**
      * Check Captcha On User Login Page
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function checkUserLogin($observer)
@@ -194,7 +194,7 @@ class Observer
     /**
      * Check Captcha On Register User Page
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function checkUserCreate($observer)
@@ -218,7 +218,7 @@ class Observer
     /**
      * Check Captcha On Checkout as Guest Page
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function checkGuestCheckout($observer)
@@ -242,7 +242,7 @@ class Observer
     /**
      * Check Captcha On Checkout Register Page
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function checkRegisterCheckout($observer)
@@ -266,7 +266,7 @@ class Observer
     /**
      * Check Captcha On User Login Backend Page
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @throws \Magento\Backend\Model\Auth\Plugin\Exception
      * @return $this
      */
@@ -288,7 +288,7 @@ class Observer
     /**
      * Check Captcha On User Login Backend Page
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function checkUserForgotPasswordBackend($observer)
@@ -317,7 +317,7 @@ class Observer
     /**
      * Reset Attempts For Frontend
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return \Magento\Captcha\Model\Observer
      */
     public function resetAttemptForFrontend($observer)
@@ -328,7 +328,7 @@ class Observer
     /**
      * Reset Attempts For Backend
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return \Magento\Captcha\Model\Observer
      */
     public function resetAttemptForBackend($observer)

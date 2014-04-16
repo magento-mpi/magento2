@@ -36,10 +36,10 @@
     <preference for="Magento\Framework\Config\CacheInterface" type="Magento\Framework\App\Cache\Type\Config" />
     <preference for="Magento\Framework\Config\ValidationStateInterface" type="Magento\Framework\App\Arguments\ValidationState" />
     <preference for="Magento\Module\ModuleListInterface" type="Magento\Module\ModuleList" />
-    <preference for="Magento\Event\ConfigInterface" type="Magento\Event\Config" />
-    <preference for="Magento\Event\InvokerInterface" type="Magento\Event\Invoker\InvokerDefault" />
+    <preference for="Magento\Framework\Event\ConfigInterface" type="Magento\Framework\Event\Config" />
+    <preference for="Magento\Framework\Event\InvokerInterface" type="Magento\Framework\Event\Invoker\InvokerDefault" />
     <preference for="Magento\Interception\PluginList" type="Magento\Interception\PluginList\PluginList" />
-    <preference for="Magento\Event\ManagerInterface" type="Magento\Event\Manager\Proxy" />
+    <preference for="Magento\Framework\Event\ManagerInterface" type="Magento\Framework\Event\Manager\Proxy" />
     <preference for="Magento\Framework\View\LayoutInterface" type="Magento\Framework\View\Layout" />
     <preference for="Magento\Framework\View\Layout\ProcessorInterface" type="Magento\Core\Model\Layout\Merge" />
     <preference for="Magento\Framework\View\Url\ConfigInterface" type="Magento\Core\Model\View\Url\Config" />

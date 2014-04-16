@@ -40,7 +40,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     protected $objectManager;
 
     /**
-     * @var \Magento\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventManager;
 
@@ -106,7 +106,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
         $this->categoryHelper = $this->getMock('Magento\Catalog\Helper\Category', [], [], '', false);
         $this->objectManager = $this->getMock('Magento\ObjectManager', [], [], '', false);
-        $this->eventManager = $this->getMock('Magento\Event\ManagerInterface');
+        $this->eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface');
 
         $this->update = $this->getMock('Magento\Framework\View\Layout\ProcessorInterface');
         $this->layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);

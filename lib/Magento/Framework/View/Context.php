@@ -20,7 +20,7 @@ use Magento\Session\SessionManager;
 use Magento\Framework\App\CacheInterface as Cache;
 use Magento\Framework\App\Cache\StateInterface as CacheState;
 use Magento\UrlInterface;
-use Magento\Event\ManagerInterface;
+use Magento\Framework\Event\ManagerInterface;
 
 /**
  * Application Runtime Context

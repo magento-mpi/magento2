@@ -118,7 +118,7 @@ class Observer
      * Generate tasks schedule
      * Cleanup tasks schedule
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function dispatch($observer)

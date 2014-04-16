@@ -139,7 +139,7 @@ class Observer extends \Magento\Object
     /**
      * Duplicates giftmessage from order to quote on import or reorder
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function salesEventOrderToQuote($observer)
@@ -165,7 +165,7 @@ class Observer extends \Magento\Object
     /**
      * Duplicates giftmessage from order item to quote item on import or reorder
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function salesEventOrderItemToQuoteItem($observer)

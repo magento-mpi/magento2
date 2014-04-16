@@ -99,10 +99,10 @@ class Observer
      * Update product index when product data updated
      *
      * @deprecated since 1.11
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return \Magento\CatalogSearch\Model\Fulltext\Observer
      */
-    public function refreshProductIndex(\Magento\Event\Observer $observer)
+    public function refreshProductIndex(\Magento\Framework\Event\Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();
 
@@ -115,10 +115,10 @@ class Observer
      * Clean product index when product deleted or marked as unsearchable/invisible
      *
      * @deprecated since 1.11
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return \Magento\CatalogSearch\Model\Fulltext\Observer
      */
-    public function cleanProductIndex(\Magento\Event\Observer $observer)
+    public function cleanProductIndex(\Magento\Framework\Event\Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();
 
@@ -130,10 +130,10 @@ class Observer
     /**
      * Update all attribute-dependant index
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return \Magento\CatalogSearch\Model\Fulltext\Observer
      */
-    public function eavAttributeChange(\Magento\Event\Observer $observer)
+    public function eavAttributeChange(\Magento\Framework\Event\Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
@@ -185,10 +185,10 @@ class Observer
     /**
      * Refresh fulltext index when we add new store
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  \Magento\CatalogSearch\Model\Fulltext\Observer
      */
-    public function refreshStoreIndex(\Magento\Event\Observer $observer)
+    public function refreshStoreIndex(\Magento\Framework\Event\Observer $observer)
     {
         $storeId = $observer->getEvent()->getStore()->getId();
         $this->_getFulltextModel()->rebuildIndex($storeId);
@@ -199,10 +199,10 @@ class Observer
      * Catalog Product mass website update
      *
      * @deprecated since 1.11
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return \Magento\CatalogSearch\Model\Fulltext\Observer
      */
-    public function catalogProductWebsiteUpdate(\Magento\Event\Observer $observer)
+    public function catalogProductWebsiteUpdate(\Magento\Framework\Event\Observer $observer)
     {
         $websiteIds = $observer->getEvent()->getWebsiteIds();
         $productIds = $observer->getEvent()->getProductIds();
@@ -224,10 +224,10 @@ class Observer
     /**
      * Store delete processing
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return \Magento\CatalogSearch\Model\Fulltext\Observer
      */
-    public function cleanStoreIndex(\Magento\Event\Observer $observer)
+    public function cleanStoreIndex(\Magento\Framework\Event\Observer $observer)
     {
         $store = $observer->getEvent()->getStore();
         /* @var $store \Magento\Store\Model\Store */

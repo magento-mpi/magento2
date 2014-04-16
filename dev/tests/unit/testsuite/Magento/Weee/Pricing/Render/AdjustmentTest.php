@@ -55,7 +55,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             []
         );
         $this->weeeHelperMock = $this->getMock('\Magento\Weee\Helper\Data', [], [], '', false);
-        $eventManagerMock = $this->getMockBuilder('Magento\Event\ManagerInterface')
+        $eventManagerMock = $this->getMockBuilder('Magento\Framework\Event\ManagerInterface')
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 

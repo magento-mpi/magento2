@@ -160,7 +160,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $storeManager = $this->getMockForAbstractClass('Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
-        $eventManager = $this->getMockForAbstractClass('Magento\Event\ManagerInterface');
+        $eventManager = $this->getMockForAbstractClass('Magento\Framework\Event\ManagerInterface');
 
         /** @var Session $session */
         $session = $this->_helper->getObject(

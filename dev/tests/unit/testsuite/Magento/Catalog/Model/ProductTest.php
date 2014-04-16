@@ -80,7 +80,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->method('getAreaCode')
             ->will($this->returnValue(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE));
 
-        $eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
+        $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
         $actionValidatorMock = $this->getMock(
             '\Magento\Framework\Model\ActionValidator\RemoveAction', 
             [], 

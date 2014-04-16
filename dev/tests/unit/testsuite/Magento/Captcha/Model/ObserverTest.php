@@ -173,7 +173,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->_session->expects($this->never())->method('addError');
 
-        $this->_observer->checkContactUsForm(new \Magento\Event\Observer(array('controller_action' => $controller)));
+        $this->_observer->checkContactUsForm(new \Magento\Framework\Event\Observer(array('controller_action' => $controller)));
     }
 
     public function testCheckContactUsFormRedirectsCustomerWithWarningMessageWhenCaptchaIsRequiredAndInvalid()
@@ -242,7 +242,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             true
         );
 
-        $this->_observer->checkContactUsForm(new \Magento\Event\Observer(array('controller_action' => $controller)));
+        $this->_observer->checkContactUsForm(new \Magento\Framework\Event\Observer(array('controller_action' => $controller)));
     }
 
     public function testCheckContactUsFormDoesNotCheckCaptchaWhenItIsNotRequired()
@@ -259,7 +259,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_captcha->expects($this->any())->method('isRequired')->will($this->returnValue(false));
         $this->_captcha->expects($this->never())->method('isCorrect');
 
-        $this->_observer->checkContactUsForm(new \Magento\Event\Observer());
+        $this->_observer->checkContactUsForm(new \Magento\Framework\Event\Observer());
     }
 
     public function testCheckForgotpasswordRedirects()
@@ -328,7 +328,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             true
         );
 
-        $this->_observer->checkForgotpassword(new \Magento\Event\Observer(array('controller_action' => $controller)));
+        $this->_observer->checkForgotpassword(new \Magento\Framework\Event\Observer(array('controller_action' => $controller)));
     }
 
     public function testCheckUserCreateRedirectsError()
@@ -408,7 +408,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             true
         );
 
-        $this->_observer->checkUserCreate(new \Magento\Event\Observer(array('controller_action' => $controller)));
+        $this->_observer->checkUserCreate(new \Magento\Framework\Event\Observer(array('controller_action' => $controller)));
     }
 
     /**

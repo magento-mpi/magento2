@@ -75,7 +75,7 @@ class AmountTest extends \PHPUnit_Framework_TestCase
 
         $this->layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
 
-        $eventManager = $this->getMock('Magento\Event\ManagerStub', [], [], '', false);
+        $eventManager = $this->getMock('Magento\Framework\Event\ManagerStub', [], [], '', false);
         $config = $this->getMock('Magento\Store\Model\Store\Config', [], [], '', false);
         $scopeConfigMock = $this->getMockForAbstractClass('Magento\Framework\App\Config\ScopeConfigInterface');
         $context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);

@@ -66,7 +66,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testSalesQuoteSaveAfter()
     {
-        $observer = $this->getMock('Magento\Event\Observer', [], [], '', false);
+        $observer = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
         $observer->expects($this->once())->method('getEvent')->will(
             $this->returnValue(new \Magento\Object(
                 ['quote' => new \Magento\Object(['is_checkout_cart' => 1, 'id' => 7])]

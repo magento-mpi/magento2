@@ -211,7 +211,7 @@ class Data extends \Magento\Core\Helper\Data
     /**
      * Check whether specified action should be processed
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return bool
      */
     public function canProcess($observer)

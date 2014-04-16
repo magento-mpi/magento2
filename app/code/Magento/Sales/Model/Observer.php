@@ -45,7 +45,7 @@ class Observer
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -90,7 +90,7 @@ class Observer
     protected $_localeResolver;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Customer\Helper\Address $customerAddressHelper
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -104,7 +104,7 @@ class Observer
      * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Customer\Helper\Address $customerAddressHelper,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -250,10 +250,10 @@ class Observer
     /**
      * Set Quote information about MSRP price enabled
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function setQuoteCanApplyMsrp(\Magento\Event\Observer $observer)
+    public function setQuoteCanApplyMsrp(\Magento\Framework\Event\Observer $observer)
     {
         /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $observer->getEvent()->getQuote();
@@ -274,10 +274,10 @@ class Observer
     /**
      * Add VAT validation request date and identifier to order comments
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function addVatRequestParamsOrderComment(\Magento\Event\Observer $observer)
+    public function addVatRequestParamsOrderComment(\Magento\Framework\Event\Observer $observer)
     {
         /** @var $orderInstance \Magento\Sales\Model\Order */
         $orderInstance = $observer->getOrder();
@@ -325,7 +325,7 @@ class Observer
     /**
      * Restore initial customer group ID in quote if needed on collect_totals_after event of quote address
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function restoreQuoteCustomerGroupId($observer)

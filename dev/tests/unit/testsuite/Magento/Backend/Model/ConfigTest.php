@@ -64,7 +64,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
+        $this->_eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
         $this->_structureReaderMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Reader',
             array(),

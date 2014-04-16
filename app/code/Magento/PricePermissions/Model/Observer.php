@@ -10,7 +10,7 @@
 namespace Magento\PricePermissions\Model;
 
 use Magento\Backend\Block\Template;
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Backend\Block\Widget\Grid;
 
 /**

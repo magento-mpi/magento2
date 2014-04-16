@@ -84,7 +84,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
             array()
         )->getMock();
         $eventManagerMock = $this->getMockBuilder(
-            'Magento\Event\ManagerInterface'
+            'Magento\Framework\Event\ManagerInterface'
         )->disableOriginalConstructor()->setMethods(
             array()
         )->getMock();

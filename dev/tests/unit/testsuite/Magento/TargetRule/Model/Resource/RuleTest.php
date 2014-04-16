@@ -24,7 +24,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     protected $moduleManager;
 
     /**
-     * @var \Magento\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventManager;
 
@@ -51,7 +51,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->moduleManager = $this->getMock('Magento\Module\Manager', [], [], '', false);
-        $this->eventManager = $this->getMock('Magento\Event\ManagerInterface');
+        $this->eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $this->context = $this->getMock('Magento\Indexer\Model\CacheContext', [], [], '', false);
         $this->ruleModel = $this->getMock('Magento\TargetRule\Model\Rule', [], [], '', false);
 

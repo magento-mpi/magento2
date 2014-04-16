@@ -22,7 +22,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_eventManagerMock = $this->getMock('Magento\Event\ManagerInterface');
+        $this->_eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $this->_salesModelMock = $this->getMock('Magento\Payment\Model\Cart\SalesModel\SalesModelInterface');
         $factoryMock = $this->getMock('Magento\Payment\Model\Cart\SalesModel\Factory', array(), array(), '', false);
         $factoryMock->expects($this->once())->method('create')->will($this->returnValue($this->_salesModelMock));

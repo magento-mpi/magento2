@@ -103,7 +103,7 @@ class Observer
     /**
      * Model after save observer.
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function modelSaveAfter($observer)
@@ -114,7 +114,7 @@ class Observer
     /**
      * Model after delete observer.
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function modelDeleteAfter($observer)
@@ -125,7 +125,7 @@ class Observer
     /**
      * Model after load observer.
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function modelLoadAfter($observer)
@@ -136,7 +136,7 @@ class Observer
     /**
      * Log marked actions
      *
-     * @param \Magento\Event\Observer $observer $observer
+     * @param \Magento\Framework\Event\Observer $observer $observer
      * @return void
      */
     public function controllerPostdispatch($observer)
@@ -149,7 +149,7 @@ class Observer
     /**
      * Log successful admin sign in
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function adminSessionLoginSuccess($observer)
@@ -160,7 +160,7 @@ class Observer
     /**
      * Log failure of sign in
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function adminSessionLoginFailed($observer)

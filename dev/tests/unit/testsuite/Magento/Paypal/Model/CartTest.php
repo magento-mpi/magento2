@@ -58,7 +58,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->_salesModel)
         );
-        $eventManagerMock = $this->getMockForAbstractClass('Magento\Event\ManagerInterface');
+        $eventManagerMock = $this->getMockForAbstractClass('Magento\Framework\Event\ManagerInterface');
 
         $this->_model = new \Magento\Paypal\Model\Cart($factoryMock, $eventManagerMock, 'sales model');
     }

@@ -65,7 +65,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(true)
         );
-        $event = new \Magento\Event\Observer();
+        $event = new \Magento\Framework\Event\Observer();
         $event->setBlock($block);
         $observer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\PromotionPermissions\Model\Observer'

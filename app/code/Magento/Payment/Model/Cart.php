@@ -35,7 +35,7 @@ class Cart
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -76,12 +76,12 @@ class Cart
 
     /**
      * @param \Magento\Payment\Model\Cart\SalesModel\Factory $salesModelFactory
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Order|\Magento\Sales\Model\Quote $salesModel
      */
     public function __construct(
         \Magento\Payment\Model\Cart\SalesModel\Factory $salesModelFactory,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         $salesModel
     ) {
         $this->_eventManager = $eventManager;

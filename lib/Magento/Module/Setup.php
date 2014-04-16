@@ -67,7 +67,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     protected $_modulesReader;
 
     /**
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -757,7 +757,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     }
 
     /**
-     * @return \Magento\Event\ManagerInterface
+     * @return \Magento\Framework\Event\ManagerInterface
      */
     public function getEventManager()
     {

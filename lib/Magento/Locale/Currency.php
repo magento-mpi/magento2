@@ -17,7 +17,7 @@ class Currency implements \Magento\Locale\CurrencyInterface
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -32,12 +32,12 @@ class Currency implements \Magento\Locale\CurrencyInterface
     protected $_currencyFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param ResolverInterface $localeResolver
      * @param \Magento\CurrencyFactory $currencyFactory
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\CurrencyFactory $currencyFactory
     ) {

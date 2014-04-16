@@ -38,10 +38,10 @@ class Reindex
     /**
      * Reindex fulltext
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function fulltextReindex(\Magento\Event\Observer $observer)
+    public function fulltextReindex(\Magento\Framework\Event\Observer $observer)
     {
         /** @var $category \Magento\Catalog\Model\Category */
         $category = $observer->getDataObject();

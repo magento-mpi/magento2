@@ -43,7 +43,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $customerFactoryMock;
 
     /**
-     * @var \Magento\Event\Manager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Event\Manager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventManagerMock;
 

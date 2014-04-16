@@ -29,7 +29,7 @@ class Config extends \Magento\Object
     /**
      * Event dispatcher
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -82,7 +82,7 @@ class Config extends \Magento\Object
 
     /**
      * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\Framework\DB\TransactionFactory $transactionFactory
      * @param \Magento\Backend\Model\Config\Loader $configLoader
@@ -92,7 +92,7 @@ class Config extends \Magento\Object
      */
     public function __construct(
         \Magento\Framework\App\Config\ReinitableConfigInterface $config,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Framework\DB\TransactionFactory $transactionFactory,
         \Magento\Backend\Model\Config\Loader $configLoader,

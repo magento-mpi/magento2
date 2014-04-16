@@ -67,7 +67,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
     /**
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\View\LayoutInterface $layout
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\TranslateInterface $translator
      * @param \Magento\Framework\App\CacheInterface $cache
@@ -105,7 +105,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\View\LayoutInterface $layout,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $urlBuilder,
         \Magento\TranslateInterface $translator,
         \Magento\Framework\App\CacheInterface $cache,

@@ -96,10 +96,10 @@ class Observer
     /**
      * Theme registration
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function themeRegistration(\Magento\Event\Observer $observer)
+    public function themeRegistration(\Magento\Framework\Event\Observer $observer)
     {
         $pathPattern = $observer->getEvent()->getPathPattern();
         try {
@@ -113,11 +113,11 @@ class Observer
     /**
      * Apply customized static files to frontend
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function applyThemeCustomization(\Magento\Event\Observer $observer)
+    public function applyThemeCustomization(\Magento\Framework\Event\Observer $observer)
     {
         /** @var $themeFile \Magento\Core\Model\Theme\File */
         foreach ($this->_currentTheme->getCustomization()->getFiles() as $themeFile) {

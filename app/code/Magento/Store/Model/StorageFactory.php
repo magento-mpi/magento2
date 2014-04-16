@@ -38,7 +38,7 @@ class StorageFactory
     protected $_cache = array();
 
     /**
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -74,7 +74,7 @@ class StorageFactory
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Logger $logger
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\App\State $appState
@@ -87,7 +87,7 @@ class StorageFactory
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Logger $logger,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Framework\App\State $appState,

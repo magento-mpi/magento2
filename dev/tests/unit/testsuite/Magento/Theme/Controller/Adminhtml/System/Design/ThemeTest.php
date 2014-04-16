@@ -32,7 +32,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     protected $_request;
 
     /**
-     * @var \Magento\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventManager;
 
@@ -46,7 +46,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
 
         $this->_request = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
-        $this->eventManager = $this->getMock('\Magento\Event\ManagerInterface', array(), array(), '', false);
+        $this->eventManager = $this->getMock('\Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
         $this->view = $this->getMock('\Magento\Framework\App\ViewInterface', array(), array(), '', false);
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);

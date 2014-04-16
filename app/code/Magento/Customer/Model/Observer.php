@@ -112,7 +112,7 @@ class Observer
     /**
      * Address before save event handler
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function beforeAddressSave($observer)
@@ -143,7 +143,7 @@ class Observer
     /**
      * Address after save event handler
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function afterAddressSave($observer)

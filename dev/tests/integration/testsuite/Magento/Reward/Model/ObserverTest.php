@@ -64,9 +64,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setPost(array('reward' => $reward));
 
-        $event = new \Magento\Event(array('request' => $request, 'customer' => $customer));
+        $event = new \Magento\Framework\Event(array('request' => $request, 'customer' => $customer));
 
-        $eventObserver = new \Magento\Event\Observer(array('event' => $event));
+        $eventObserver = new \Magento\Framework\Event\Observer(array('event' => $event));
 
         $rewardObserver = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Reward\Model\Observer'

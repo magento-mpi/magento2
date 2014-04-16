@@ -16,7 +16,7 @@ use Magento\Customer\Model\CustomerRegistry;
 use Magento\Customer\Model\Metadata\Validator;
 use Magento\Customer\Model\Resource\Customer\Collection;
 use Magento\Service\V1\Data\Search\FilterGroup;
-use Magento\Event\ManagerInterface;
+use Magento\Framework\Event\ManagerInterface;
 use Magento\Exception\InputException;
 use Magento\Exception\AuthenticationException;
 use Magento\Exception\NoSuchEntityException;

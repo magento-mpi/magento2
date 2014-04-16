@@ -176,7 +176,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_assetsMock->expects($this->once())->method('add')->with($this->anything(), $asset);
 
-        $observer = new \Magento\Event\Observer();
+        $observer = new \Magento\Framework\Event\Observer();
         $this->_model->applyThemeCustomization($observer);
     }
 }

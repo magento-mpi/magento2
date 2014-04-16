@@ -25,7 +25,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $layoutInterface;
 
-    /** @var \Magento\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $managerInterface;
 
     /** @var \Magento\UrlInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -137,7 +137,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
             ['isSecure', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam']
         );
         $this->layoutInterface = $this->getMock('Magento\Framework\View\LayoutInterface');
-        $this->managerInterface = $this->getMock('Magento\Event\ManagerInterface');
+        $this->managerInterface = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $this->urlInterface = $this->getMock('Magento\UrlInterface');
         $this->translateInterface = $this->getMock('Magento\TranslateInterface');
         $this->cacheInterface = $this->getMock('Magento\Framework\App\CacheInterface');

@@ -143,10 +143,10 @@ class Observer
     /**
      * Check if synchronize process is finished and generate notification message
      *
-     * @param  \Magento\Event\Observer $observer
+     * @param  \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function checkSynchronizationOperations(\Magento\Event\Observer $observer)
+    public function checkSynchronizationOperations(\Magento\Framework\Event\Observer $observer)
     {
         $this->_flag->loadSelf();
         if ($this->_flag->isExpired()) {

@@ -144,7 +144,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -203,7 +203,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
     /**
      * @param \Magento\Framework\View\Layout\ProcessorFactory $processorFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
      * @param \Magento\Framework\Data\Structure $structure
      * @param \Magento\Framework\View\Layout\Argument\Parser $argumentParser
@@ -220,7 +220,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
     public function __construct(
         \Magento\Framework\View\Layout\ProcessorFactory $processorFactory,
         \Magento\Logger $logger,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\View\Element\BlockFactory $blockFactory,
         \Magento\Framework\Data\Structure $structure,
         \Magento\Framework\View\Layout\Argument\Parser $argumentParser,

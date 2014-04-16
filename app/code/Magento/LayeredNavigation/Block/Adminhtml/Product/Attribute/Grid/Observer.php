@@ -27,7 +27,7 @@ class Observer
     }
 
     /**
-     * @param \Magento\Event $event
+     * @param \Magento\Framework\Event $event
      * @return void
      */
     public function observe($event)

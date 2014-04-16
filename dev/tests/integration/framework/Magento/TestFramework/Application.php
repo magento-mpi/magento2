@@ -221,8 +221,8 @@ class Application
         );
 
         /** Register event observer of Integration Framework */
-        /** @var \Magento\Event\Config\Data $eventConfigData */
-        $eventConfigData = $objectManager->get('Magento\Event\Config\Data');
+        /** @var \Magento\Framework\Event\Config\Data $eventConfigData */
+        $eventConfigData = $objectManager->get('Magento\Framework\Event\Config\Data');
         $eventConfigData->merge(
             array(
                 'core_app_init_current_store_after' => array(

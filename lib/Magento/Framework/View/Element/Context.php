@@ -35,7 +35,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * Event manager
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -143,7 +143,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\View\LayoutInterface $layout
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\TranslateInterface $translator
      * @param \Magento\Framework\App\CacheInterface $cache
@@ -165,7 +165,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\View\LayoutInterface $layout,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $urlBuilder,
         \Magento\TranslateInterface $translator,
         \Magento\Framework\App\CacheInterface $cache,
@@ -225,7 +225,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * Get event manager
      *
-     * @return \Magento\Event\ManagerInterface
+     * @return \Magento\Framework\Event\ManagerInterface
      */
     public function getEventManager()
     {

@@ -26,7 +26,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\View\Layout */
     protected $_layoutMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Event\Observer */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Event\Observer */
     protected $_observerMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\PageCache\Helper\Data */
@@ -73,7 +73,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->_formKey,
             $this->_session
         );
-        $this->_observerMock = $this->getMock('Magento\Event\Observer', array('getEvent'), array(), '', false);
+        $this->_observerMock = $this->getMock('Magento\Framework\Event\Observer', array('getEvent'), array(), '', false);
         $this->_layoutMock = $this->getMock(
             'Magento\Framework\View\Layout',
             array('isCacheable', 'getBlock', 'getUpdate', 'getHandles'),
@@ -110,7 +110,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $expectedOutput
     ) {
         $eventMock = $this->getMock(
-            'Magento\Event',
+            'Magento\Framework\Event',
             array('getLayout', 'getElementName', 'getTransport'),
             array(),
             '',
@@ -229,7 +229,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $tags = array('cache_1', 'cache_group');
             $expectedTags = array('cache_1', 'cache_group', 'cache');
 
-            $eventMock = $this->getMock('Magento\Event', array('getObject'), array(), '', false);
+            $eventMock = $this->getMock('Magento\Framework\Event', array('getObject'), array(), '', false);
             $eventMock->expects($this->once())->method('getObject')->will($this->returnValue($this->_observerObject));
             $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($eventMock));
             $this->_configMock->expects(

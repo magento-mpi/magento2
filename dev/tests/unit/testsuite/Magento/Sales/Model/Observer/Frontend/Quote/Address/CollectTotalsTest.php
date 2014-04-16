@@ -85,7 +85,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->observerMock = $this->getMock('\Magento\Event\Observer', array('getQuoteAddress'), array(), '', false);
+        $this->observerMock = $this->getMock('\Magento\Framework\Event\Observer', array('getQuoteAddress'), array(), '', false);
 
         $this->quoteAddressMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address',

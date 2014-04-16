@@ -27,7 +27,7 @@ class TableCollection extends AbstractCollection
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param null $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      * @param array $fixture
@@ -36,7 +36,7 @@ class TableCollection extends AbstractCollection
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         $connection = null,
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null,
         array $fixture = []

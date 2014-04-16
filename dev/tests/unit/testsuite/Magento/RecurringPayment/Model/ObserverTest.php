@@ -10,7 +10,7 @@ namespace Magento\RecurringPayment\Model;
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Event\Observer
+     * @var \Magento\Framework\Event\Observer
      */
     protected $_observer;
 
@@ -30,7 +30,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_recurringPaymentFactory;
 
     /**
-     * @var \Magento\Event
+     * @var \Magento\Framework\Event
      */
     protected $_event;
 
@@ -46,7 +46,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_observer = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
+        $this->_observer = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
         $this->_fieldsBlock = $this->getMock(
             '\Magento\RecurringPayment\Block\Fields',
             array('getFieldLabel'),
@@ -81,7 +81,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_event = $this->getMock(
-            'Magento\Event',
+            'Magento\Framework\Event',
             array('getProductElement', 'getProduct', 'getResult', 'getBuyRequest', 'getQuote', 'getApi', 'getObject'),
             array(),
             '',

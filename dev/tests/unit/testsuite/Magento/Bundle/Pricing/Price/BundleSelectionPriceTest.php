@@ -38,7 +38,7 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject */
     protected $productMock;
 
-    /** @var \Magento\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $managerInterfaceMock;
 
     /** @var \Magento\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -87,7 +87,7 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->managerInterfaceMock = $this->getMock('Magento\Event\ManagerInterface');
+        $this->managerInterfaceMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
 
         $this->priceInfoMock = $this->getMock('\Magento\Pricing\PriceInfoInterface');
         $this->priceInfoMock->expects($this->atLeastOnce())

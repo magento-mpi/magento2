@@ -338,10 +338,10 @@ class Observer
     /**
      * Check is allowed guest checkout if quote contain downloadable product(s)
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function isAllowedGuestCheckout(\Magento\Event\Observer $observer)
+    public function isAllowedGuestCheckout(\Magento\Framework\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         /* @var $quote \Magento\Sales\Model\Quote */
@@ -374,10 +374,10 @@ class Observer
     /**
      * Initialize product options renderer with downloadable specific params
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function initOptionRenderer(\Magento\Event\Observer $observer)
+    public function initOptionRenderer(\Magento\Framework\Event\Observer $observer)
     {
         $block = $observer->getBlock();
         $block->addOptionsRenderCfg('downloadable', 'Magento\Downloadable\Helper\Catalog\Product\Configuration');

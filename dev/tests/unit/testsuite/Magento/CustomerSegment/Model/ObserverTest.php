@@ -92,7 +92,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_model->addFieldsToTargetRuleForm(
-            new \Magento\Event\Observer(
+            new \Magento\Framework\Event\Observer(
                 array('event' => new \Magento\Object(array('form' => $form, 'model' => $model, 'block' => $block)))
             )
         );
@@ -121,7 +121,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_segmentHelper->expects($this->never())->method('addSegmentFieldsToForm');
 
         $this->_model->addFieldsToTargetRuleForm(
-            new \Magento\Event\Observer(
+            new \Magento\Framework\Event\Observer(
                 array('event' => new \Magento\Object(array('form' => $form, 'model' => $model, 'block' => $block)))
             )
         );

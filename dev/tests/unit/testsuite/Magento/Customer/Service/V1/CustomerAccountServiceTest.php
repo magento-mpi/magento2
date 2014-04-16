@@ -49,7 +49,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_customerModelMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Event\ManagerInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Event\ManagerInterface
      */
     private $_eventManagerMock;
 
@@ -191,7 +191,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         )->getMock();
 
         $this->_eventManagerMock = $this->getMockBuilder(
-            '\Magento\Event\ManagerInterface'
+            '\Magento\Framework\Event\ManagerInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_customerModelMock->expects($this->any())->method('validate')->will($this->returnValue(true));
 
