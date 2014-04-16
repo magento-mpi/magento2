@@ -108,6 +108,11 @@ class Email extends \Magento\Model\AbstractModel
     protected $_transportBuilder;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $appState;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\ProductAlert\Helper\Data $productAlertData
@@ -116,6 +121,7 @@ class Email extends \Magento\Model\AbstractModel
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\App\State $appState
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -129,6 +135,7 @@ class Email extends \Magento\Model\AbstractModel
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\App\State $appState,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -139,6 +146,7 @@ class Email extends \Magento\Model\AbstractModel
         $this->_customerFactory = $customerFactory;
         $this->_appEmulation = $appEmulation;
         $this->_transportBuilder = $transportBuilder;
+        $this->appState = $appState;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -253,11 +261,9 @@ class Email extends \Magento\Model\AbstractModel
      * Retrieve price block
      *
      * @return \Magento\ProductAlert\Block\Email\Price
-     * @deprecated
      */
     protected function _getPriceBlock()
     {
-        return false;
         if (is_null($this->_priceBlock)) {
             $this->_priceBlock = $this->_productAlertData->createBlock('Magento\ProductAlert\Block\Email\Price');
         }
@@ -330,7 +336,7 @@ class Email extends \Magento\Model\AbstractModel
                 $product->setCustomerGroupId($this->_customer->getGroupId());
                 $this->_getPriceBlock()->addProduct($product);
             }
-            $block = $this->_getPriceBlock()->toHtml();
+            $block = $this->_getPriceBlock();
             $templateId = $this->_scopeConfig->getValue(
                 self::XML_PATH_EMAIL_PRICE_TEMPLATE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -342,7 +348,7 @@ class Email extends \Magento\Model\AbstractModel
                 $product->setCustomerGroupId($this->_customer->getGroupId());
                 $this->_getStockBlock()->addProduct($product);
             }
-            $block = $this->_getStockBlock()->toHtml();
+            $block = $this->_getStockBlock();
             $templateId = $this->_scopeConfig->getValue(
                 self::XML_PATH_EMAIL_STOCK_TEMPLATE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -350,6 +356,9 @@ class Email extends \Magento\Model\AbstractModel
             );
         }
 
+        $alertGrid = $this->appState->emulateAreaCode(
+            \Magento\Core\Model\App\Area::AREA_FRONTEND, array($block, 'toHtml')
+        );
         $this->_appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
 
         $transport = $this->_transportBuilder->setTemplateIdentifier(
@@ -357,7 +366,7 @@ class Email extends \Magento\Model\AbstractModel
         )->setTemplateOptions(
             array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
         )->setTemplateVars(
-            array('customerName' => $this->_customer->getName(), 'alertGrid' => $block)
+            array('customerName' => $this->_customer->getName(), 'alertGrid' => $alertGrid)
         )->setFrom(
             $this->_scopeConfig->getValue(
                 self::XML_PATH_EMAIL_IDENTITY,

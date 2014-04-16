@@ -117,22 +117,11 @@ class Schedule extends \Magento\Model\AbstractModel
 
         $d = getdate($this->_date->timestamp($time));
 
-        $match = $this->matchCronExpression(
-            $e[0],
-            $d['minutes']
-        ) && $this->matchCronExpression(
-            $e[1],
-            $d['hours']
-        ) && $this->matchCronExpression(
-            $e[2],
-            $d['mday']
-        ) && $this->matchCronExpression(
-            $e[3],
-            $d['mon']
-        ) && $this->matchCronExpression(
-            $e[4],
-            $d['wday']
-        );
+        $match = $this->matchCronExpression($e[0], $d['minutes'])
+            && $this->matchCronExpression($e[1], $d['hours'])
+            && $this->matchCronExpression($e[2], $d['mday'])
+            && $this->matchCronExpression($e[3], $d['mon'])
+            && $this->matchCronExpression($e[4], $d['wday']);
 
         if ($match) {
             $this->setCreatedAt(strftime('%Y-%m-%d %H:%M:%S', time()));
