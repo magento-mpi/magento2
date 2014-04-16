@@ -83,4 +83,18 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
     {
         return "incompatibleDataType";
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function inputException($wrappedErrorParameters)
+    {
+        $exception = new InputException();
+        if ($wrappedErrorParameters) {
+            foreach ($wrappedErrorParameters as $error) {
+                $exception->addError($error->getCode(), $error->getFieldName(), $error->getValue());
+            }
+        }
+        throw $exception;
+    }
 }

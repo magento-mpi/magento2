@@ -477,7 +477,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             // @codingStandardsIgnoreStart
             $this->assertContains(
-                '{"message":"Invalid value of \"%value\" provided for the %fieldName field.","parameters":{"fieldName":"code","value":""}}',
+                '{"message":"Invalid value of \"%value\" provided for the %fieldName field.","parameters":{"fieldName":"code","value":""}',
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
@@ -514,7 +514,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             // @codingStandardsIgnoreStart
             $this->assertContains(
-                '{"message":"Invalid value of \"%value\" provided for the %fieldName field.","parameters":{"fieldName":"taxClassId","value":"9999"}}',
+                '{"message":"Invalid value of \"%value\" provided for the %fieldName field.","parameters":{"fieldName":"taxClassId","value":9999}',
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
@@ -590,15 +590,13 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail('Expected exception');
         } catch (\Exception $e) {
-            $expectedMessage = 'No such entity with %fieldName = %value';
-
+            $expectedMessage = '{"message":"No such entity with %fieldName = %fieldValue",'
+             . '"parameters":{"fieldName":"id","fieldValue":9999}';
             $this->assertContains(
                 $expectedMessage,
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
-
-            $this->assertContains($nonExistentGroupId, $e->getMessage());
         }
     }
 

@@ -410,7 +410,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
                     'field2Name' => 'websiteId',
                     'field2Value' => 0,
                 ], $errorObj['parameters']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
+            $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
 
     }
@@ -492,7 +492,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
                     'field2Name' => 'websiteId',
                     'field2Value' => 0,
                 ], $errorObj['parameters']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
+            $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
     }
 
@@ -631,7 +631,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             $errorObj = $this->_processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(['fieldName' => 'customerId', 'fieldValue' => $invalidId], $errorObj['parameters']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
+            $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
     }
 
@@ -758,7 +758,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             $errorObj = $this->_processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(['fieldName' => 'customerId', 'fieldValue' => -1], $errorObj['parameters']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
+            $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
     }
 
