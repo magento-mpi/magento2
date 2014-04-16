@@ -408,7 +408,7 @@ class Archive extends \Magento\Backend\App\Action
         $fileName = 'creditmemo_archive.csv';
         $grid = $this->_view->getLayout()->getChildBlock('sales.creditmemo.grid', 'grid.export');
         $csvFile = $grid->getCsvFile();
-        return $this->_fileFactory->create($fileName, $csvFile, \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $csvFile, \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -421,7 +421,11 @@ class Archive extends \Magento\Backend\App\Action
         $this->_view->loadLayout(false);
         $fileName = 'creditmemo_archive.xml';
         $grid = $this->_view->getLayout()->getChildBlock('sales.creditmemo.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $grid->getExcelFile($fileName), \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create(
+            $fileName,
+            $grid->getExcelFile($fileName),
+            \Magento\Framework\App\Filesystem::VAR_DIR
+        );
     }
 
     /**
@@ -435,7 +439,7 @@ class Archive extends \Magento\Backend\App\Action
         $fileName = 'invoice_archive.csv';
         $grid = $this->_view->getLayout()->getChildBlock('sales.invoice.grid', 'grid.export');
         $csvFile = $grid->getCsvFile();
-        return $this->_fileFactory->create($fileName, $csvFile, \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $csvFile, \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -451,7 +455,7 @@ class Archive extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
 
@@ -466,7 +470,7 @@ class Archive extends \Magento\Backend\App\Action
         $fileName = 'shipment_archive.csv';
         $grid = $this->_view->getLayout()->getChildBlock('sales.shipment.grid', 'grid.export');
         $csvFile = $grid->getCsvFile();
-        return $this->_fileFactory->create($fileName, $csvFile, \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $csvFile, \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -482,7 +486,7 @@ class Archive extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
 }
