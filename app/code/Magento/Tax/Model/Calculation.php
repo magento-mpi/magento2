@@ -83,11 +83,6 @@ class Calculation extends \Magento\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Customer\Model\GroupFactory
-     */
-    protected $_groupFactory;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
@@ -122,7 +117,6 @@ class Calculation extends \Magento\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory
@@ -140,7 +134,6 @@ class Calculation extends \Magento\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Customer\Model\GroupFactory $groupFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory,
@@ -154,7 +147,6 @@ class Calculation extends \Magento\Model\AbstractModel
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
-        $this->_groupFactory = $groupFactory;
         $this->_customerSession = $customerSession;
         $this->_customerFactory = $customerFactory;
         $this->_classesFactory = $classesFactory;
