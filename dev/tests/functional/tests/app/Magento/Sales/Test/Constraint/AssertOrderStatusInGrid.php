@@ -29,8 +29,8 @@ class AssertOrderStatusInGrid extends AbstractConstraint
     /**
      * Assert order status availability in Order Status grid
      *
-     * @param \Magento\Sales\Test\Fixture\OrderStatus $orderStatus
-     * @param \Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex $orderStatusIndexPage
+     * @param OrderStatus $orderStatus
+     * @param OrderStatusIndex $orderStatusIndexPage
      * @return void
      */
     public function processAssert(

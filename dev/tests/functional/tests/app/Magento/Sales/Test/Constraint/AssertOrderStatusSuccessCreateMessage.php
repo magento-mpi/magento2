@@ -30,7 +30,7 @@ class AssertOrderStatusSuccessCreateMessage extends AbstractConstraint
     /**
      * Assert that success message is displayed after order status saved.
      *
-     * @param \Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex $orderStatusIndexPage
+     * @param OrderStatusIndex $orderStatusIndexPage
      * @return void
      */
     public function processAssert(OrderStatusIndex $orderStatusIndexPage) {

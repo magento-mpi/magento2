@@ -12,11 +12,11 @@ use Magento\Sales\Test\Page\Adminhtml\OrderStatusNew;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertDuplicateStatus
+ * Class AssertOrderStatusDuplicateStatus
  *
  * @package Magento\Sales\Test\Constraint
  */
-class AssertDuplicateStatus extends AbstractConstraint
+class AssertOrderStatusDuplicateStatus extends AbstractConstraint
 {
     const DUPLICATE_MESSAGE = 'We found another order status with the same order status code.';
 
@@ -30,7 +30,7 @@ class AssertDuplicateStatus extends AbstractConstraint
     /**
      * Assert that duplicate message is displayed
      *
-     * @param \Magento\Sales\Test\Page\Adminhtml\OrderStatusNew $orderStatusNewPage
+     * @param OrderStatusNew $orderStatusNewPage
      * @return void
      */
     public function processAssert(OrderStatusNew $orderStatusNewPage)
