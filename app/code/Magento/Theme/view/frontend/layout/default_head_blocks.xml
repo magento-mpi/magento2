@@ -55,6 +55,11 @@
                 <argument name="file" xsi:type="string">mage/translate.js</argument>
             </arguments>
         </block>
+        <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-jquery-cookie-js">
+            <arguments>
+                <argument name="file" xsi:type="string">jquery/jquery.cookie.js</argument>
+            </arguments>
+        </block>
         <block class="Magento\Theme\Block\Html\Head\Script" name="magento-cookies-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/cookies.js</argument>
