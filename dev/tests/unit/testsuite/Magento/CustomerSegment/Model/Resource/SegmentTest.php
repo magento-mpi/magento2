@@ -169,7 +169,13 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testAggregateMatchedCustomersOneWebsite($scope, $websites, $websiteIds)
     {
-        $select = $this->getMock('Magento\Framework\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
+        $select = $this->getMock(
+            'Magento\Framework\DB\Select',
+            array('joinLeft', 'from', 'columns'),
+            array(),
+            '',
+            false
+        );
         $this->_conditions->expects(
             $this->once()
         )->method(

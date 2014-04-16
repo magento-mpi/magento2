@@ -27,7 +27,10 @@ class Script extends \Magento\Framework\View\Element\AbstractBlock implements As
         parent::__construct($context, $data);
         $this->setAsset(
             $viewFileFactory->create(
-                array('file' => (string)$this->getFile(), 'contentType' => \Magento\Framework\View\Publisher::CONTENT_TYPE_JS)
+                array(
+                    'file' => (string)$this->getFile(),
+                    'contentType' => \Magento\Framework\View\Publisher::CONTENT_TYPE_JS,
+                )
             )
         );
     }

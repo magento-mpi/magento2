@@ -79,7 +79,13 @@ class EditTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $viewFilesystem = $this->getMock('\Magento\Framework\View\Filesystem', array('getFilename'), array(), '', false);
+        $viewFilesystem = $this->getMock(
+            '\Magento\Framework\View\Filesystem',
+            array('getFilename'),
+            array(),
+            '',
+            false
+        );
         $viewFilesystem->expects(
             $this->any()
         )->method(

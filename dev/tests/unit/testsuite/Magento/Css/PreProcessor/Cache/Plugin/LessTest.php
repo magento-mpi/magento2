@@ -186,7 +186,9 @@ class LessTest extends \PHPUnit_Framework_TestCase
         $this->cacheManagerMock->expects($this->once())->method('getCachedFile')->will($this->returnValue(null));
 
         $exception = new \Magento\Framework\Filesystem\FilesystemException('Test Message');
-        $proceed = function (\Magento\Framework\View\Publisher\CssFile $subject, $directory) use ($cssFile, $dir, $exception) {
+        $proceed = function (
+            \Magento\Framework\View\Publisher\CssFile $subject, $directory
+        ) use ($cssFile, $dir, $exception) {
             $this->assertEquals($subject, $cssFile);
             $this->assertEquals($directory, $dir);
             throw $exception;

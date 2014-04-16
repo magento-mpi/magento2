@@ -149,7 +149,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $asset = new \Magento\Framework\View\Asset\Remote('http://127.0.0.1/test.css');
         $file = $this->getMock('Magento\Core\Model\Theme\File', array(), array(), '', false);
-        $fileService = $this->getMock('Magento\Framework\View\Design\Theme\Customization\File\Css', array(), array(), '', false);
+        $fileService = $this->getMock(
+            'Magento\Framework\View\Design\Theme\Customization\File\Css',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $fileService->expects($this->atLeastOnce())->method('getContentType')->will($this->returnValue('css'));
 

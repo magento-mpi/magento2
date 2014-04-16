@@ -196,7 +196,11 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
              * @param \Magento\Framework\View\Design\ThemeInterface $theme
              */
             function ($themeFile, $theme) {
-                $baseFiles = self::_getCachedFiles($theme->getArea(), 'Magento\Framework\View\Layout\File\Source\Base', $theme);
+                $baseFiles = self::_getCachedFiles(
+                    $theme->getArea(),
+                    'Magento\Framework\View\Layout\File\Source\Base',
+                    $theme
+                );
                 $fileKey = $themeFile->getModule() . '/' . $themeFile->getName();
                 $this->assertArrayHasKey(
                     $fileKey,
@@ -266,8 +270,11 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
      * @param \Magento\Framework\View\Design\ThemeInterface $theme
      * @return \Magento\Framework\View\Layout\File[]
      */
-    protected static function _getCachedFiles($cacheKey, $sourceClass, \Magento\Framework\View\Design\ThemeInterface $theme)
-    {
+    protected static function _getCachedFiles(
+        $cacheKey,
+        $sourceClass,
+        \Magento\Framework\View\Design\ThemeInterface $theme
+    ) {
         if (!isset(self::$_cachedFiles[$cacheKey])) {
             /* @var $fileList \Magento\Framework\View\Layout\File[] */
             $fileList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

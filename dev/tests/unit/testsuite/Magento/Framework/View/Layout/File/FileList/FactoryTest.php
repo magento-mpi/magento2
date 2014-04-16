@@ -9,6 +9,9 @@ namespace Magento\Framework\View\Layout\File\FileList;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
+    const CREATE_EXCEPTION_MESSAGE =
+        'Magento\Framework\View\Layout\File\FileList\Collator has to implement the collate interface.';
+
     /**
      * @var \Magento\Framework\View\Layout\File\FileList\Factory
      */
@@ -28,7 +31,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $helperObjectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $collator = $helperObjectManager->getObject(\Magento\Framework\View\Layout\File\FileList\Factory::FILE_LIST_COLLATOR);
+        $collator = $helperObjectManager->getObject(
+            \Magento\Framework\View\Layout\File\FileList\Factory::FILE_LIST_COLLATOR
+        );
         $list = $helperObjectManager->getObject('Magento\Framework\View\Layout\File\FileList');
 
         $this->objectManager->expects(
@@ -56,7 +61,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException UnexpectedValueException
-     * @expectedExceptionMessage Magento\Framework\View\Layout\File\FileList\Collator has to implement the collate interface.
+     * @expectedExceptionMessage \Magento\Framework\View\Layout\File\FileList\FactoryTest::CREATE_EXCEPTION_MESSAGE
      */
     public function testCreateException()
     {

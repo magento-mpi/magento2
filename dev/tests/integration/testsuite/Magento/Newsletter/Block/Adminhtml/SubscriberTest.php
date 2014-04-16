@@ -18,7 +18,9 @@ class SubscriberTest extends \PHPUnit_Framework_TestCase
     public function testGetShowQueueAdd()
     {
         /** @var $layout \Magento\Framework\View\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
         /** @var $block \Magento\Newsletter\Block\Adminhtml\Subscriber */
         $block = $layout->createBlock('Magento\Newsletter\Block\Adminhtml\Subscriber', 'block');
         /** @var $childBlock \Magento\Framework\View\Element\Template */

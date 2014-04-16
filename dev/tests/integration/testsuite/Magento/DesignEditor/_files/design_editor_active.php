@@ -21,7 +21,9 @@ $auth->login(\Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramewor
 $session->activateDesignEditor();
 
 /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
-$theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\View\Design\ThemeInterface');
+$theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Framework\View\Design\ThemeInterface'
+);
 $theme->setData(
     array(
         'theme_code' => 'blank',

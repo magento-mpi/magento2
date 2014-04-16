@@ -48,7 +48,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'current_product',
             $objectManager->create('Magento\Catalog\Model\Product')->load(1)
         );
-        $objectManager->get('Magento\Framework\View\LayoutInterface')->createBlock('Magento\Framework\View\Element\Text', 'head');
+        $objectManager->get('Magento\Framework\View\LayoutInterface')
+            ->createBlock('Magento\Framework\View\Element\Text', 'head');
         $usedAttribute = $objectManager->get(
             'Magento\Catalog\Model\Entity\Attribute'
         )->loadByCode(

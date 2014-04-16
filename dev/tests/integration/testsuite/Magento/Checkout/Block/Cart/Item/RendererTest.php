@@ -24,8 +24,9 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface')
-            ->createBlock('Magento\Checkout\Block\Cart\Item\Renderer');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock('Magento\Checkout\Block\Cart\Item\Renderer');
         /** @var $item \Magento\Sales\Model\Quote\Item */
         $item = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote\Item');
         $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

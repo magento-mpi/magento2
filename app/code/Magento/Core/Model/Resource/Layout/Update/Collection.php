@@ -15,6 +15,11 @@ namespace Magento\Core\Model\Resource\Layout\Update;
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * Name prefix of events that are dispatched by model
      *
      * @var string
@@ -27,11 +32,6 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @var string
      */
     protected $_eventObject = 'layout_update_collection';
-
-    /**
-     * @var \Magento\Stdlib\DateTime
-     */
-    protected $dateTime;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory

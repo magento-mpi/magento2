@@ -430,7 +430,8 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     protected function _getLayoutMergeFactory($layoutStr)
     {
         /** @var $layoutProcessor \Magento\Framework\View\Layout\ProcessorInterface */
-        $layoutProcessor = $this->getMockBuilder('Magento\Framework\View\Layout\ProcessorInterface')->getMockForAbstractClass();
+        $layoutProcessor = $this->getMockBuilder('Magento\Framework\View\Layout\ProcessorInterface')
+            ->getMockForAbstractClass();
         $xml = '<layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $layoutStr . '</layouts>';
         $layoutElement = simplexml_load_string($xml);
         $layoutProcessor->expects(
@@ -535,7 +536,8 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $dirs = $this->_getFileSystem();
 
         // 5. Get layout merge model and factory
-        /** @var $processorFactory \Magento\Framework\View\Layout\ProcessorFactory|\PHPUnit_Framework_MockObject_MockObject */
+        /** @var $processorFactory \Magento\Framework\View\Layout\ProcessorFactory
+         * |\PHPUnit_Framework_MockObject_MockObject */
         $processorFactory = $this->getMock(
             'Magento\Framework\View\Layout\ProcessorFactory',
             array('create'),

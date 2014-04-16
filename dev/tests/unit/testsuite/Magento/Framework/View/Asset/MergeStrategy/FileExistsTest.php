@@ -72,7 +72,10 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->_object = new \Magento\Framework\View\Asset\MergeStrategy\FileExists($this->_strategy, $this->_filesystem);
+        $this->_object = new \Magento\Framework\View\Asset\MergeStrategy\FileExists(
+            $this->_strategy,
+            $this->_filesystem
+        );
     }
 
     public function testMergeFilesFileExists()

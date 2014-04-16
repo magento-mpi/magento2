@@ -28,7 +28,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Framework\App\State')->setAreaCode(\Magento\Framework\View\DesignInterface::DEFAULT_AREA);
+        $objectManager->get('Magento\Framework\App\State')
+            ->setAreaCode(\Magento\Framework\View\DesignInterface::DEFAULT_AREA);
         $this->_design = $objectManager->get('Magento\Framework\View\DesignInterface');
         $this->_design->setDesignTheme('vendor_test_child');
         $this->_configFactory = $objectManager->create('Magento\DesignEditor\Model\Editor\Tools\Controls\Factory');

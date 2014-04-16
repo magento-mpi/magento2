@@ -15,7 +15,9 @@ class AdditionalTest extends \PHPUnit_Framework_TestCase
     public function testGetChildHtmlList()
     {
         /** @var $layout \Magento\Framework\View\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
         /** @var $block \Magento\Catalog\Block\Product\View\Additional */
         $block = $layout->createBlock('Magento\Catalog\Block\Product\View\Additional', 'block');
 

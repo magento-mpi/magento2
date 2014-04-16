@@ -13,7 +13,13 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $layout = $this->getMock('\Magento\Framework\View\Layout', array('getBlock'), array(), '', false);
-        $template = $this->getMock('\Magento\Framework\View\Element\Template', array('getChildBlock'), array(), '', false);
+        $template = $this->getMock(
+            '\Magento\Framework\View\Element\Template',
+            array('getChildBlock'),
+            array(),
+            '',
+            false
+        );
         $layout->expects(
             $this->once()
         )->method(

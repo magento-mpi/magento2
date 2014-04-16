@@ -81,7 +81,9 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->directoryTmp = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::TMP_DIR);
 
         /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
-        $theme = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface')->getCollection()->getFirstItem();
+        $theme = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface')
+            ->getCollection()
+            ->getFirstItem();
 
         /** @var $request \Magento\Framework\App\Request\Http */
         $request = $this->_objectManager->get('Magento\Framework\App\Request\Http');

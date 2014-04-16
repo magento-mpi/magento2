@@ -44,7 +44,12 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_asset = $this->getMockForAbstractClass('Magento\Framework\View\Asset\LocalInterface', array(), '', false);
+        $this->_asset = $this->getMockForAbstractClass(
+            'Magento\Framework\View\Asset\LocalInterface',
+            array(),
+            '',
+            false
+        );
         $this->_minifier = $this->getMock('Magento\Code\Minifier', array('getMinifiedFile'), array(), '', false);
         $this->_viewUrl = $this->getMock('Magento\Framework\View\Url', array(), array(), '', false);
         $this->_logger = $this->getMock('Magento\Logger', array(), array(), '', false);

@@ -182,7 +182,8 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
 
             $modulePattern = '[A-Z][a-z]+_[A-Z][a-z]+';
             $filePattern = '[[:alnum:]_/-]+\\.[[:alnum:]_./-]+';
-            $pattern = '#' . $modulePattern . preg_quote(\Magento\Framework\View\Service::SCOPE_SEPARATOR) . $filePattern . '#S';
+            $pattern = '#' . $modulePattern . preg_quote(\Magento\Framework\View\Service::SCOPE_SEPARATOR)
+                . $filePattern . '#S';
             if (!preg_match_all($pattern, file_get_contents($file), $matches)) {
                 continue;
             }

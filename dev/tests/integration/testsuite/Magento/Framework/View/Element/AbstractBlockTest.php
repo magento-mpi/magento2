@@ -39,7 +39,9 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $this->_block = $this->getMockForAbstractClass(
             'Magento\Framework\View\Element\AbstractBlock',
             array(
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\Element\Context'),
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\Framework\View\Element\Context'
+                ),
                 array('module_name' => 'Magento_Core')
             )
         );
@@ -99,7 +101,11 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddChild()
     {
-        $parentBlock = $this->_createBlockWithLayout('testAddChild', 'testAddChild', 'Magento\Framework\View\Element\Text');
+        $parentBlock = $this->_createBlockWithLayout(
+            'testAddChild',
+            'testAddChild',
+            'Magento\Framework\View\Element\Text'
+        );
         $child = $parentBlock->addChild(
             'testAddChildAlias',
             'Magento\Framework\View\Element\Text',
@@ -120,7 +126,9 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($name, $this->_block->getNameInLayout());
 
         // Setting second time, along with the layout
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
         $layout->createBlock('Magento\Framework\View\Element\Template', $name);
         $block = $layout->getBlock($name);
         $this->assertInstanceOf('Magento\Framework\View\Element\AbstractBlock', $block);
@@ -251,7 +259,9 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
         // With layout
         /** @var $layout \Magento\Framework\View\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
         $child = $layout->createBlock('Magento\Framework\View\Element\Text', $childName);
         $layout->addBlock($this->_block, $parentName);
 
@@ -609,13 +619,18 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
      * @param string $className
      * @return array
      */
-    protected function _createSampleBlocks($qty, $withLayout = true, $className = 'Magento\Framework\View\Element\Template')
-    {
+    protected function _createSampleBlocks(
+        $qty,
+        $withLayout = true,
+        $className = 'Magento\Framework\View\Element\Template'
+    ) {
         $blocks = array();
         $names = array();
         $layout = false;
         if ($withLayout) {
-            $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
+            $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Framework\View\LayoutInterface'
+            );
         }
         for ($i = 0; $i < $qty; $i++) {
             $name = uniqid('block.');
@@ -650,7 +665,9 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
             self::$_mocks[$mockClass] = $this->getMockForAbstractClass(
                 $type,
                 array(
-                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\Element\Context'),
+                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                        'Magento\Framework\View\Element\Context'
+                    ),
                     array('module_name' => 'Magento_Core')
                 ),
                 $mockClass

@@ -654,7 +654,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->assertFileEquals($filePath, "{$publishedPath}/css/base64.css");
 
         $this->model->setDesignTheme(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\View\Design\ThemeInterface')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\Framework\View\Design\ThemeInterface'
+            )
         );
     }
 

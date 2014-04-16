@@ -80,7 +80,13 @@ class InfoTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_formRegister)
         );
 
-        $this->_context = $this->getMock('Magento\Framework\View\Element\Template\Context', array(), array(), '', false);
+        $this->_context = $this->getMock(
+            'Magento\Framework\View\Element\Template\Context',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_context->expects($this->once())->method('getUrlBuilder')->will($this->returnValue($urlBuilder));
         $this->_context->expects($this->once())->method('getLayout')->will($this->returnValue($layout));
 

@@ -12,7 +12,9 @@ use Magento\Catalog\Model\Config\Source\Product\Thumbnail as ThumbnailSource;
 /**
  * Shopping cart item render block
  */
-class Grouped extends \Magento\Checkout\Block\Cart\Item\Renderer implements \Magento\Framework\View\Block\IdentityInterface
+class Grouped
+    extends \Magento\Checkout\Block\Cart\Item\Renderer
+    implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Path in config to the setting which defines if parent or child product should be used to generate a thumbnail.

@@ -145,7 +145,13 @@ class JsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetJsFiles()
     {
-        $customization = $this->getMock('Magento\Framework\View\Design\Theme\Customization', array(), array(), '', false);
+        $customization = $this->getMock(
+            'Magento\Framework\View\Design\Theme\Customization',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_theme->expects($this->any())->method('getCustomization')->will($this->returnValue($customization));
 
         $customization->expects(

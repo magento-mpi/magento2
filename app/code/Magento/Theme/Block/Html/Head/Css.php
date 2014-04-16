@@ -26,7 +26,10 @@ class Css extends \Magento\Framework\View\Element\AbstractBlock implements Asset
 
         $this->setAsset(
             $viewFileFactory->create(
-                array('file' => (string)$this->getFile(), 'contentType' => \Magento\Framework\View\Publisher::CONTENT_TYPE_CSS)
+                array(
+                    'file' => (string)$this->getFile(),
+                    'contentType' => \Magento\Framework\View\Publisher::CONTENT_TYPE_CSS,
+                )
             )
         );
     }

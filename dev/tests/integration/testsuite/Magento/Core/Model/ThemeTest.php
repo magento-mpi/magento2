@@ -57,7 +57,8 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\Design\ThemeInterface'
         );
-        $collection = $theme->getCollection()->addTypeFilter(\Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL);
+        $collection = $theme->getCollection()
+            ->addTypeFilter(\Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL);
         /** @var $currentTheme \Magento\Framework\View\Design\ThemeInterface */
         foreach ($collection as $currentTheme) {
             $parentTheme = $currentTheme->getParentTheme();

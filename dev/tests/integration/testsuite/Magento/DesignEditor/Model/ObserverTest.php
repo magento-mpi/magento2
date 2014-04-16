@@ -23,7 +23,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testCleanJs($area, $designMode, $expectedAssets)
     {
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
         /** @var $headBlock \Magento\Theme\Block\Html\Head */
         $headBlock = $layout->createBlock('Magento\Theme\Block\Html\Head', 'head');
         $headBlock->setData('vde_design_mode', $designMode);
@@ -34,13 +36,21 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $pageAssets = $objectManager->get('Magento\Framework\View\Asset\GroupedCollection');
 
         $fixtureAssets = array(
-            array('name' => 'test_css', 'type' => \Magento\Framework\View\Publisher::CONTENT_TYPE_CSS, 'params' => array()),
+            array(
+                'name' => 'test_css',
+                'type' => \Magento\Framework\View\Publisher::CONTENT_TYPE_CSS,
+                'params' => array()
+            ),
             array(
                 'name' => 'test_css_vde',
                 'type' => \Magento\Framework\View\Publisher::CONTENT_TYPE_CSS,
                 'params' => array('flag_name' => 'vde_design_mode')
             ),
-            array('name' => 'test_js', 'type' => \Magento\Framework\View\Publisher::CONTENT_TYPE_JS, 'params' => array()),
+            array(
+                'name' => 'test_js',
+                'type' => \Magento\Framework\View\Publisher::CONTENT_TYPE_JS,
+                'params' => array()
+            ),
             array(
                 'name' => 'test_js_vde',
                 'type' => \Magento\Framework\View\Publisher::CONTENT_TYPE_JS,

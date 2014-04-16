@@ -78,7 +78,11 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
 
         $checkResult = array();
         foreach ($files as $key => $file) {
-            $checkResult[$key] = new \Magento\Framework\View\Layout\File($file['handle'] . '.xml', $file['module'], $theme);
+            $checkResult[$key] = new \Magento\Framework\View\Layout\File(
+                $file['handle'] . '.xml',
+                $file['module'],
+                $theme
+            );
             $this->fileFactory->expects(
                 $this->at($key)
             )->method(

@@ -30,7 +30,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $session->setUser($user);
 
         /** @var $layout \Magento\Framework\View\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
 
         /** @var \Magento\Backend\Block\System\Account\Edit\Form */
         $block = $layout->createBlock('Magento\Backend\Block\System\Account\Edit\Form');

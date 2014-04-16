@@ -18,7 +18,9 @@ class AddTest extends \PHPUnit_Framework_TestCase
     public function testToHtmlFormId()
     {
         /** @var $layout \Magento\Framework\View\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
 
         $block = $layout->addBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Toolbar\Add', 'block');
         $block->setArea('adminhtml')->unsetChild('setForm');

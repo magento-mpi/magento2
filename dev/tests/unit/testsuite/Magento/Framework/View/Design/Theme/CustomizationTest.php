@@ -295,6 +295,9 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(array($file))
         );
 
-        $this->assertInstanceOf('Magento\Framework\View\Design\Theme\CustomizationInterface', $this->model->delete(array(1)));
+        $this->assertInstanceOf(
+            'Magento\Framework\View\Design\Theme\CustomizationInterface',
+            $this->model->delete(array(1))
+        );
     }
 }

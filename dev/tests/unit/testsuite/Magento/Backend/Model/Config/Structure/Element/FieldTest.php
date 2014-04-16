@@ -87,7 +87,13 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_blockFactoryMock = $this->getMock('Magento\Framework\View\Element\BlockFactory', array(), array(), '', false);
+        $this->_blockFactoryMock = $this->getMock(
+            'Magento\Framework\View\Element\BlockFactory',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_depMapperMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper',
             array(),

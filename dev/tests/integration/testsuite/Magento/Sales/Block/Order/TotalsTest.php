@@ -18,7 +18,9 @@ class TotalsTest extends \PHPUnit_Framework_TestCase
             ->setAreaCode('frontend');
 
         /** @var $layout \Magento\Framework\View\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
         /** @var \Magento\Sales\Block\Order\Totals $block */
         $block = $layout->createBlock('Magento\Sales\Block\Order\Totals', 'block');
         $block->setOrder(
@@ -27,7 +29,9 @@ class TotalsTest extends \PHPUnit_Framework_TestCase
             'order/totals.phtml'
         );
 
-        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\Element\Context');
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\Element\Context'
+        );
         $childOne = $this->getMock('Magento\Framework\View\Element\Text', array('initTotals'), array($context));
         $childOne->expects($this->once())->method('initTotals');
         $layout->addBlock($childOne, 'child1', 'block');

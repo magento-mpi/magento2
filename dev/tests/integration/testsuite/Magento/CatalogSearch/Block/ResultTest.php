@@ -15,7 +15,9 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     public function testSetListOrders()
     {
         /** @var $layout \Magento\Framework\View\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
         $layout->addBlock('Magento\Framework\View\Element\Text', 'head');
         // The tested block is using head block
         /** @var $block \Magento\CatalogSearch\Block\Result */

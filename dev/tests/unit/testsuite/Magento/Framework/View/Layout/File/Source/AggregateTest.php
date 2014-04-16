@@ -44,9 +44,19 @@ class AggregateTest extends \PHPUnit_Framework_TestCase
         $this->_fileList = $this->getMock('Magento\Framework\View\Layout\File\FileList', array(), array(), '', false);
         $this->_baseFiles = $this->getMockForAbstractClass('Magento\Framework\View\Layout\File\SourceInterface');
         $this->_themeFiles = $this->getMockForAbstractClass('Magento\Framework\View\Layout\File\SourceInterface');
-        $this->_overridingBaseFiles = $this->getMockForAbstractClass('Magento\Framework\View\Layout\File\SourceInterface');
-        $this->_overridingThemeFiles = $this->getMockForAbstractClass('Magento\Framework\View\Layout\File\SourceInterface');
-        $fileListFactory = $this->getMock('Magento\Framework\View\Layout\File\FileList\Factory', array(), array(), '', false);
+        $this->_overridingBaseFiles = $this->getMockForAbstractClass(
+            'Magento\Framework\View\Layout\File\SourceInterface'
+        );
+        $this->_overridingThemeFiles = $this->getMockForAbstractClass(
+            'Magento\Framework\View\Layout\File\SourceInterface'
+        );
+        $fileListFactory = $this->getMock(
+            'Magento\Framework\View\Layout\File\FileList\Factory',
+            array(),
+            array(),
+            '',
+            false
+        );
         $fileListFactory->expects($this->once())->method('create')->will($this->returnValue($this->_fileList));
         $this->_model = new \Magento\Framework\View\Layout\File\Source\Aggregated(
             $fileListFactory,

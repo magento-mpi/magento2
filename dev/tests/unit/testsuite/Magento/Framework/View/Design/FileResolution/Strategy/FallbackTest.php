@@ -48,9 +48,15 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->fallbackFile = $this->getMockForAbstractClass('Magento\Framework\View\Design\Fallback\Rule\RuleInterface');
-        $this->fallbackLocale = $this->getMockForAbstractClass('Magento\Framework\View\Design\Fallback\Rule\RuleInterface');
-        $this->fallbackViewFile = $this->getMockForAbstractClass('Magento\Framework\View\Design\Fallback\Rule\RuleInterface');
+        $this->fallbackFile = $this->getMockForAbstractClass(
+            'Magento\Framework\View\Design\Fallback\Rule\RuleInterface'
+        );
+        $this->fallbackLocale = $this->getMockForAbstractClass(
+            'Magento\Framework\View\Design\Fallback\Rule\RuleInterface'
+        );
+        $this->fallbackViewFile = $this->getMockForAbstractClass(
+            'Magento\Framework\View\Design\Fallback\Rule\RuleInterface'
+        );
 
         $this->fallbackFactory = $this->getMock(
             'Magento\Framework\View\Design\Fallback\Factory',

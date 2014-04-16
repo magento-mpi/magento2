@@ -161,7 +161,10 @@ class Theme extends \Magento\Backend\App\Action
                 $theme->setType(\Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL);
                 $theme->save();
                 $customization = $theme->getCustomization();
-                $customization->reorder(\Magento\Framework\View\Design\Theme\Customization\File\Js::TYPE, $reorderJsFiles);
+                $customization->reorder(
+                    \Magento\Framework\View\Design\Theme\Customization\File\Js::TYPE,
+                    $reorderJsFiles
+                );
                 $customization->delete($removeJsFiles);
                 $singleFile->update($theme, $customCssData);
                 $this->messageManager->addSuccess(__('You saved the theme.'));
@@ -272,7 +275,9 @@ class Theme extends \Magento\Backend\App\Action
                 'Magento\Framework\View\Design\Theme\CustomizationInterface',
                 array('theme' => $theme)
             );
-            $customJsFiles = $customization->getFilesByType(\Magento\Framework\View\Design\Theme\Customization\File\Js::TYPE);
+            $customJsFiles = $customization->getFilesByType(
+                \Magento\Framework\View\Design\Theme\Customization\File\Js::TYPE
+            );
             $result = array('error' => false, 'files' => $customization->generateFileInfo($customJsFiles));
         } catch (\Magento\Framework\Model\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());

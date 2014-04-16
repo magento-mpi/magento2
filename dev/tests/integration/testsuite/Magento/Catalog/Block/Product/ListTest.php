@@ -115,6 +115,8 @@ class ListTest extends \PHPUnit_Framework_TestCase
 
     protected function _getLayout()
     {
-        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
     }
 }

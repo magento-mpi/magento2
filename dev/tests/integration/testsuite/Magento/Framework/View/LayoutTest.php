@@ -27,7 +27,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\Layout');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\Layout'
+        );
     }
 
     public function testConstructorStructure()
@@ -221,7 +223,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\View\Element\Text',
             $this->_layout->addBlock('Magento\Framework\View\Element\Text', 'block1')
         );
-        $block2 = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\View\Element\Text');
+        $block2 = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Framework\View\Element\Text'
+        );
         $block2->setNameInLayout('block2');
         $this->_layout->addBlock($block2, '', 'block1');
 
@@ -470,7 +474,10 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     public function testUpdateContainerAttributes()
     {
         $this->_layout->setXml(
-            simplexml_load_file(__DIR__ . '/_files/layout/container_attributes.xml', 'Magento\Framework\View\Layout\Element')
+            simplexml_load_file(
+                __DIR__ . '/_files/layout/container_attributes.xml',
+                'Magento\Framework\View\Layout\Element'
+            )
         );
         $this->_layout->generateElements();
         $result = $this->_layout->renderElement('container1', false);

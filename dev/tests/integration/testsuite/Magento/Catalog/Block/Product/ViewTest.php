@@ -40,7 +40,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function testSetLayout()
     {
         /** @var $layout \Magento\Framework\View\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
         $headBlock = $layout->createBlock('Magento\Framework\View\Element\Template', 'head');
         $layout->addBlock($this->_block);
 

@@ -20,7 +20,9 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
             'Magento\Sales\Model\Resource\Quote\Collection'
         )->getFirstItem();
         /** @var \Magento\Framework\View\LayoutInterface $layout */
-        $layout = $this->getMockBuilder('Magento\Framework\View\LayoutInterface')->disableOriginalConstructor()->getMock();
+        $layout = $this->getMockBuilder('Magento\Framework\View\LayoutInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
         $layout->expects(
             $this->once()
         )->method(

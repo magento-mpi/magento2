@@ -116,7 +116,10 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
 
         $this->registerThemes();
         $testTheme->load($testTheme->getId());
-        $this->assertNotEquals((int)$testTheme->getType(), \Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL);
+        $this->assertNotEquals(
+            (int)$testTheme->getType(),
+            \Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL
+        );
     }
 
     /**
@@ -125,7 +128,10 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
     public function testRegister()
     {
         $this->registerThemes();
-        $themePath = implode(\Magento\Framework\View\Design\ThemeInterface::PATH_SEPARATOR, array('frontend', 'test_test_theme'));
+        $themePath = implode(
+            \Magento\Framework\View\Design\ThemeInterface::PATH_SEPARATOR,
+            array('frontend', 'test_test_theme')
+        );
         $theme = $this->_model->getThemeFromDb($themePath);
         $this->assertEquals($themePath, $theme->getFullPath());
     }

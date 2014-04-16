@@ -10,7 +10,9 @@ namespace Magento\Core\Model\Theme\Data;
 /**
  * Theme filesystem data collection
  */
-class Collection extends \Magento\Core\Model\Theme\Collection implements \Magento\Framework\View\Design\Theme\ListInterface
+class Collection
+    extends \Magento\Core\Model\Theme\Collection
+    implements \Magento\Framework\View\Design\Theme\ListInterface
 {
     /**
      * Model of collection item

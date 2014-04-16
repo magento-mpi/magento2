@@ -22,7 +22,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         )->setDesignTheme(
             'Magento/plushe'
         );
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
         $layout->getUpdate()->addHandle('checkout_cart_index');
         $layout->getUpdate()->load();
         $this->assertNotEmpty($layout->getUpdate()->asSimplexml()->xpath('//block[@name="sku.failed.products"]'));

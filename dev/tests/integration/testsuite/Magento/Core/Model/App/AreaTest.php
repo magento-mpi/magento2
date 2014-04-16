@@ -78,7 +78,9 @@ class AreaTest extends \PHPUnit_Framework_TestCase
         $request = $objectManager->create('Magento\TestFramework\Request');
         $request->setServer(array('HTTP_USER_AGENT' => 'Mozilla Firefox'));
         $this->_model->detectDesign($request);
-        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\DesignInterface');
+        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\DesignInterface'
+        );
         $this->assertEquals('Magento/blank', $design->getDesignTheme()->getThemePath());
     }
 
@@ -93,7 +95,9 @@ class AreaTest extends \PHPUnit_Framework_TestCase
     public function testDetectDesignDesignChange()
     {
         $this->_model->detectDesign();
-        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\DesignInterface');
+        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\DesignInterface'
+        );
         $this->assertEquals('Magento/plushe', $design->getDesignTheme()->getThemePath());
     }
 

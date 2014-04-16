@@ -21,8 +21,14 @@ class GroupedCollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $factory = $this->getMock('Magento\Framework\View\Asset\PropertyGroupFactory', array(), array(), '', false, false);
-        $factory = $this->getMock('Magento\Framework\View\Asset\PropertyGroupFactory', array(), array(), '', false, false);
+        $factory = $this->getMock(
+            'Magento\Framework\View\Asset\PropertyGroupFactory',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
         $factory->expects(
             $this->any()
         )->method(

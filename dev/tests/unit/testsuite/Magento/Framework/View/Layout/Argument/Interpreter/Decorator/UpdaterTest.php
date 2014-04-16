@@ -33,7 +33,10 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
 
     public function testEvaluate()
     {
-        $input = array('value' => 'some text', 'updater' => array('Magento\Framework\View\Layout\Argument\UpdaterInterface'));
+        $input = array(
+            'value' => 'some text',
+            'updater' => array('Magento\Framework\View\Layout\Argument\UpdaterInterface')
+        );
         $evaluatedValue = 'some text (new)';
         $updatedValue = 'some text (updated)';
 
