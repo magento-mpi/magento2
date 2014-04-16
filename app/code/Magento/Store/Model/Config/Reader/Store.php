@@ -80,11 +80,17 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
     public function read($code = null)
     {
         if ($this->_appState->isInstalled()) {
-            if (empty($code)) {
-                $store = $this->_storeManager->getStore();
-            } else {
-                $store = $this->_storeFactory->create();
-                $store->load($code);
+            switch ($code) {
+                case empty($code):
+                    $store = $this->_storeManager->getStore();
+                    break;
+                case ($code == \Magento\App\ScopeInterface::SCOPE_DEFAULT):
+                    $store = $this->_storeManager->getDefaultStoreView();
+                    break;
+                default:
+                    $store = $this->_storeFactory->create();
+                    $store->load($code);
+                    break;
             }
 
             $websiteConfig = $this->_scopePool->getScope(
