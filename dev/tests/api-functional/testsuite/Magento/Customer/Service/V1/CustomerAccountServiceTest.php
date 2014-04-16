@@ -618,44 +618,6 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals($lastName . "Updated", $customerDetails->getCustomer()->getLastname());
     }
 
-    public function testUpdateCustomerWithoutId()
-    {
-        $customerData = $this->_createSampleCustomer();
-        $customerDetails = $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
-        $lastName = $customerDetails->getCustomer()->getLastname();
-
-        $updatedCustomer = $this->customerBuilder->populate($customerDetails->getCustomer())
-            ->setLastname($lastName . "Updated")
-            ->setId(null)
-            ->create();
-
-        $updatedCustomerDetails = $this->customerDetailsBuilder->populate($customerDetails)->setCustomer(
-            $updatedCustomer
-        )->setAddresses($customerDetails->getAddresses())->create();
-
-        $this->assertNull($updatedCustomerDetails->getCustomer()->getId());
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'UpdateCustomer'
-            ]
-        ];
-        $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
-        $requestData = ['customerDetails' => $customerDetailsAsArray];
-        $response = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertTrue($response);
-
-        //Verify if the customer is updated
-        $customerDetails = $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
-        $this->assertEquals($lastName . "Updated", $customerDetails->getCustomer()->getLastname());
-    }
-
     public function testUpdateCustomerException()
     {
         $customerData = $this->_createSampleCustomer();
