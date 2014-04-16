@@ -10,7 +10,7 @@
 namespace Magento\SalesRule\Model;
 
 use Magento\Cron\Model\Schedule;
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 class Observer
 {

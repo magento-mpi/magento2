@@ -33,7 +33,7 @@ class BundleSelectionPrice extends CatalogPrice\RegularPrice implements BundleSe
     /**
      * Event manager
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $eventManager;
 
@@ -42,14 +42,14 @@ class BundleSelectionPrice extends CatalogPrice\RegularPrice implements BundleSe
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param \Magento\Catalog\Model\Product $bundleProduct
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      */
     public function __construct(
         SaleableInterface $salableItem,
         $quantity,
         CalculatorInterface $calculator,
         \Magento\Catalog\Model\Product $bundleProduct,
-        \Magento\Event\ManagerInterface $eventManager
+        \Magento\Framework\Event\ManagerInterface $eventManager
     ) {
         $this->bundleProduct = $bundleProduct;
         $this->eventManager = $eventManager;

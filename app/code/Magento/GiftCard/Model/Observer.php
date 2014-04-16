@@ -128,10 +128,10 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Set attribute renderer on catalog product edit page
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function setAmountsRendererInForm(\Magento\Event\Observer $observer)
+    public function setAmountsRendererInForm(\Magento\Framework\Event\Observer $observer)
     {
         //adminhtml_catalog_product_edit_prepare_form
         $form = $observer->getEvent()->getForm();
@@ -145,10 +145,10 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Set giftcard amounts field as not used in mass update
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function updateExcludedFieldList(\Magento\Event\Observer $observer)
+    public function updateExcludedFieldList(\Magento\Framework\Event\Observer $observer)
     {
         //adminhtml_catalog_product_form_prepare_excluded_field_list
 
@@ -161,10 +161,10 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Generate gift card accounts after order save
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function generateGiftCardAccounts(\Magento\Event\Observer $observer)
+    public function generateGiftCardAccounts(\Magento\Framework\Event\Observer $observer)
     {
         // sales_order_save_after
 
@@ -346,10 +346,10 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Process `giftcard_amounts` attribute afterLoad logic on loading by collection
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function loadAttributesAfterCollectionLoad(\Magento\Event\Observer $observer)
+    public function loadAttributesAfterCollectionLoad(\Magento\Framework\Event\Observer $observer)
     {
         $collection = $observer->getEvent()->getCollection();
 
@@ -367,10 +367,10 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Initialize product options renderer with giftcard specific params
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function initOptionRenderer(\Magento\Event\Observer $observer)
+    public function initOptionRenderer(\Magento\Framework\Event\Observer $observer)
     {
         $block = $observer->getBlock();
         $block->addOptionsRenderCfg('giftcard', 'Magento\GiftCard\Helper\Catalog\Product\Configuration');

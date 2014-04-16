@@ -10,7 +10,7 @@ namespace Magento\Sales\Model\Resource\Sale;
 use Magento\Core\Model\EntityFactory;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
-use Magento\Event\ManagerInterface;
+use Magento\Framework\Event\ManagerInterface;
 use Magento\Logger;
 use Magento\Sales\Model\Resource\Order;
 

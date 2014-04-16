@@ -21,7 +21,7 @@ class Router extends \Magento\Framework\App\Router\AbstractRouter
     /**
      * Event manager
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -64,7 +64,7 @@ class Router extends \Magento\Framework\App\Router\AbstractRouter
      * Construct
      *
      * @param \Magento\Framework\App\ActionFactory $actionFactory
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $url
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Cms\Model\PageFactory $pageFactory
@@ -73,7 +73,7 @@ class Router extends \Magento\Framework\App\Router\AbstractRouter
      */
     public function __construct(
         \Magento\Framework\App\ActionFactory $actionFactory,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $url,
         \Magento\Framework\App\State $appState,
         \Magento\Cms\Model\PageFactory $pageFactory,

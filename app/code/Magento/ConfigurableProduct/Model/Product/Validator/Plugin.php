@@ -11,7 +11,7 @@ use Closure;
 use Magento\Framework\App\RequestInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductFactory;
-use Magento\Event\Manager;
+use Magento\Framework\Event\Manager;
 use Magento\Core\Helper;
 
 /**
@@ -20,7 +20,7 @@ use Magento\Core\Helper;
 class Plugin
 {
     /**
-     * @var \Magento\Event\Manager
+     * @var \Magento\Framework\Event\Manager
      */
     protected $eventManager;
 

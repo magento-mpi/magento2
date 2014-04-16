@@ -9,7 +9,7 @@
  */
 namespace Magento\Index\Model;
 
-use Magento\Event\ManagerInterface;
+use Magento\Framework\Event\ManagerInterface;
 use Magento\Index\Model\Resource\Process as ResourceProcess;
 use Magento\Index\Model\Resource\Process\Collection;
 

@@ -63,7 +63,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -98,7 +98,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory
      * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
      * @param \Magento\Logger $logger
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -109,7 +109,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory,
         \Magento\Stdlib\DateTime\DateTime $coreDate,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\CatalogRule\Helper\Data $catalogRuleData,
         \Magento\Logger $logger,
         \Magento\Stdlib\DateTime $dateTime

@@ -10,7 +10,7 @@
 namespace Magento\TargetRule\Model\Resource;
 
 use Magento\Catalog\Model\Product;
-use Magento\Event\ManagerInterface as EventManagerInterface;
+use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
 use Magento\Indexer\Model\CacheContext;
 use Magento\Module\Manager as ModuleManager;
 

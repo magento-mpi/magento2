@@ -33,7 +33,7 @@ class Config
     /**
      * Application event manager
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -51,7 +51,7 @@ class Config
      * @param \Magento\Framework\App\Config\ValueInterface $configData
      * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Cache\FrontendInterface $configCache
      * @param \Magento\Cache\FrontendInterface $layoutCache
      */
@@ -59,7 +59,7 @@ class Config
         \Magento\Framework\App\Config\ValueInterface $configData,
         \Magento\Framework\App\Config\Storage\WriterInterface $configWriter,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Cache\FrontendInterface $configCache,
         \Magento\Cache\FrontendInterface $layoutCache
     ) {

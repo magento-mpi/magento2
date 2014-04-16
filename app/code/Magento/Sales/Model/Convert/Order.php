@@ -18,7 +18,7 @@ class Order extends \Magento\Object
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -73,7 +73,7 @@ class Order extends \Magento\Object
     protected $_objectCopyService;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
      * @param \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory
@@ -90,7 +90,7 @@ class Order extends \Magento\Object
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory,
         \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory,

@@ -78,7 +78,7 @@ class Session extends \Magento\Session\SessionManager
     protected $_urlFactory;
 
     /**
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -106,7 +106,7 @@ class Session extends \Magento\Session\SessionManager
      * @param CustomerFactory $customerFactory
      * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Session\Generic $session
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param Converter $converter
      * @param CustomerAccountServiceInterface $customerAccountService
@@ -126,7 +126,7 @@ class Session extends \Magento\Session\SessionManager
         CustomerFactory $customerFactory,
         \Magento\UrlFactory $urlFactory,
         \Magento\Session\Generic $session,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Model\Converter $converter,
         CustomerAccountServiceInterface $customerAccountService,

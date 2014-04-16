@@ -204,7 +204,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     {
         parent::__wakeup();
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $this->_eventManager = $objectManager->get('Magento\Event\ManagerInterface');
+        $this->_eventManager = $objectManager->get('Magento\Framework\Event\ManagerInterface');
         $this->_userData = $objectManager->get('Magento\User\Helper\Data');
         $this->_config = $objectManager->get('Magento\Backend\App\ConfigInterface');
         $this->_registry = $objectManager->get('Magento\Registry');

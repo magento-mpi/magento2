@@ -209,10 +209,10 @@ class Item extends \Magento\Framework\Model\AbstractModel implements \Magento\Ob
     /**
      * Customer logout bind process
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function bindCustomerLogout(\Magento\Event\Observer $observer = null)
+    public function bindCustomerLogout(\Magento\Framework\Event\Observer $observer = null)
     {
         $this->_getResource()->purgeVisitorByCustomer($this);
 

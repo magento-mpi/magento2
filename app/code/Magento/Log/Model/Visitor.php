@@ -266,7 +266,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
      *
      * Used in event "controller_action_predispatch"
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  \Magento\Log\Model\Visitor
      */
     public function initByRequest($observer)
@@ -292,7 +292,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
      *
      * Used in event "controller_action_postdispatch"
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  \Magento\Log\Model\Visitor
      */
     public function saveByRequest($observer)
@@ -316,7 +316,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
      *
      * Used in event "customer_login"
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  \Magento\Log\Model\Visitor
      */
     public function bindCustomerLogin($observer)
@@ -334,7 +334,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
      *
      * Used in event "customer_logout"
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  \Magento\Log\Model\Visitor
      */
     public function bindCustomerLogout($observer)
@@ -347,7 +347,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
     /**
      * Create binding of checkout quote
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function bindQuoteCreate($observer)
@@ -364,7 +364,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
 
     /**
      * Destroy binding of checkout quote
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function bindQuoteDestroy($observer)
@@ -408,7 +408,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
     /**
      * Returns true if the module is required
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return bool
      */
     public function isModuleIgnored($observer)

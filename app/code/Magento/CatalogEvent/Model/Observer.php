@@ -19,7 +19,7 @@ use Magento\Registry;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\Data\Tree\Node;
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Sales\Model\Quote;
 
 class Observer

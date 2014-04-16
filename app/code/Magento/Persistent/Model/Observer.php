@@ -42,7 +42,7 @@ class Observer
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -139,7 +139,7 @@ class Observer
     /**
      * Construct
      *
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Store\Model\Resource\Website\CollectionFactory $websiteCollectionFactory
@@ -160,7 +160,7 @@ class Observer
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Persistent\Helper\Session $persistentSession,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Store\Model\Resource\Website\CollectionFactory $websiteCollectionFactory,
@@ -200,7 +200,7 @@ class Observer
     /**
      * Apply persistent data
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function applyPersistentData($observer)
@@ -220,7 +220,7 @@ class Observer
     /**
      * Apply persistent data to specific block
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function applyBlockPersistentData($observer)
@@ -300,7 +300,7 @@ class Observer
     /**
      * Emulate quote by persistent data
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function emulateQuote($observer)
@@ -333,7 +333,7 @@ class Observer
     /**
      * Set persistent data into quote
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function setQuotePersistentData($observer)
@@ -357,7 +357,7 @@ class Observer
     /**
      * Set quote to be loaded even if not active
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function setLoadPersistentQuote($observer)
@@ -374,7 +374,7 @@ class Observer
     /**
      * Prevent clear checkout session
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function preventClearCheckoutSession($observer)
@@ -389,7 +389,7 @@ class Observer
     /**
      * Make persistent quote to be guest
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function makePersistentQuoteGuest($observer)
@@ -404,7 +404,7 @@ class Observer
     /**
      * Check if checkout session should NOT be cleared
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return bool|\Magento\Persistent\Controller\Index
      */
     protected function _checkClearCheckoutSessionNecessity($observer)
@@ -425,7 +425,7 @@ class Observer
     /**
      * Reset session data when customer re-authenticates
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function customerAuthenticatedEvent($observer)
@@ -443,7 +443,7 @@ class Observer
     /**
      * Unset persistent cookie and make customer's quote as a guest
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function removePersistentCookie($observer)
@@ -464,7 +464,7 @@ class Observer
     /**
      * Disable guest checkout if we are in persistent mode
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function disableGuestCheckout($observer)
@@ -477,10 +477,10 @@ class Observer
     /**
      * Prevent express checkout
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function preventExpressCheckout(\Magento\Event\Observer $observer)
+    public function preventExpressCheckout(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_isLoggedOut()) {
             return;
@@ -610,10 +610,10 @@ class Observer
     /**
      * Check and clear session data if persistent session expired
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function checkExpirePersistentQuote(\Magento\Event\Observer $observer)
+    public function checkExpirePersistentQuote(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_persistentData->canProcess($observer)) {
             return;
@@ -672,10 +672,10 @@ class Observer
     /**
      * Update customer id and customer group id if user is in persistent session
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function updateCustomerCookies(\Magento\Event\Observer $observer)
+    public function updateCustomerCookies(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_isPersistent()) {
             return;
@@ -692,7 +692,7 @@ class Observer
     /**
      * Set persistent data to customer session
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function emulateCustomer($observer)

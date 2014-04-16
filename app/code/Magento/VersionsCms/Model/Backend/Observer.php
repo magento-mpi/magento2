@@ -9,7 +9,7 @@
  */
 namespace Magento\VersionsCms\Model\Backend;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 /**
  * Versions cms page observer for backend area

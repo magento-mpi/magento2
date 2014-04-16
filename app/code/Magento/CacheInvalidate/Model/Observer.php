@@ -52,10 +52,10 @@ class Observer
      * If Varnish caching is enabled it collects array of tags
      * of incoming object and asks to clean cache.
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function invalidateVarnish(\Magento\Event\Observer $observer)
+    public function invalidateVarnish(\Magento\Framework\Event\Observer $observer)
     {
         if ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH && $this->_config->isEnabled()) {
             $object = $observer->getEvent()->getObject();
@@ -74,10 +74,10 @@ class Observer
     /**
      * Flash Varnish cache
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function flushAllCache(\Magento\Event\Observer $observer)
+    public function flushAllCache(\Magento\Framework\Event\Observer $observer)
     {
         if ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH && $this->_config->isEnabled()) {
             $this->sendPurgeRequest('.*');

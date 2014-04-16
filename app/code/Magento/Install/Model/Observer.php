@@ -31,7 +31,7 @@ class Observer
     }
 
     /**
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function bindLocale($observer)

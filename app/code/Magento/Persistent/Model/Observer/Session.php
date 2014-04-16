@@ -9,7 +9,7 @@
  */
 namespace Magento\Persistent\Model\Observer;
 
-use Magento\Event\Observer;
+use Magento\Framework\Event\Observer;
 
 /**
  * Persistent Session Observer

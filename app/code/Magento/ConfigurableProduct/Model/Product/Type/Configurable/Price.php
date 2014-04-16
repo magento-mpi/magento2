@@ -23,7 +23,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param PriceModifierInterface $priceModifier
      */
     public function __construct(
@@ -31,7 +31,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         PriceModifierInterface $priceModifier
     ) {
         $this->priceModifier = $priceModifier;

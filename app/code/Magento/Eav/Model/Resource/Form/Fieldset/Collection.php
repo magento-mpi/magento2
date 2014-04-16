@@ -20,7 +20,7 @@ namespace Magento\Eav\Model\Resource\Form\Fieldset;
 
 use Magento\Core\Model\EntityFactory;
 use Magento\Eav\Model\Form\Type;
-use Magento\Event\ManagerInterface;
+use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
 use Magento\Framework\Model\Resource\Db\AbstractDb;
 use Magento\Logger;

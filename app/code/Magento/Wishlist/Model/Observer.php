@@ -93,7 +93,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Check move quote item to wishlist request
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  $this
      */
     public function processCartUpdateBefore($observer)
@@ -135,7 +135,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function processAddToCart($observer)
@@ -191,10 +191,10 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Customer login processing
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function customerLogin(\Magento\Event\Observer $observer)
+    public function customerLogin(\Magento\Framework\Event\Observer $observer)
     {
         $this->_wishlistData->calculate();
 
@@ -204,10 +204,10 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Customer logout processing
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function customerLogout(\Magento\Event\Observer $observer)
+    public function customerLogout(\Magento\Framework\Event\Observer $observer)
     {
         $this->_customerSession->setWishlistItemCount(0);
 

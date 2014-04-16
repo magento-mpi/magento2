@@ -42,7 +42,7 @@ class Observer
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -59,7 +59,7 @@ class Observer
     /**
      * @param \Magento\WebsiteRestriction\Model\ConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Session\Generic $session
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -69,7 +69,7 @@ class Observer
     public function __construct(
         \Magento\WebsiteRestriction\Model\ConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Session\Generic $session,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -89,7 +89,7 @@ class Observer
     /**
      * Implement website stub or private sales restriction
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function restrictWebsite($observer)
@@ -192,7 +192,7 @@ class Observer
     /**
      * Make layout load additional handler when in private sales mode
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function addPrivateSalesLayoutUpdate($observer)
