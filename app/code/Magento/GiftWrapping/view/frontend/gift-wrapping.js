@@ -51,7 +51,6 @@
          * @private
          */
         _create: function() {
-            $($.proxy(this._ready, this));
             if (this.options.allowPrintedCard) {
                 this.element.on('click', 'input:checkbox[id^="' + this.options.addPrintedCardPrefix + '"]', this.options, this.showCardPrice);
             }
@@ -71,6 +70,14 @@
             if (this.options.allowGiftReceipt || this.options.allowPrintedCard) {
                 this.processGiftReceiptCardOptions();
             }
+        },
+
+        /**
+         * Initialize gift wrapping container if it is already loaded
+         * @private
+         */
+        _init: function() {
+            this._ready();
         },
 
         /**

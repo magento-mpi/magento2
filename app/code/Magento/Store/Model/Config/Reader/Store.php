@@ -7,6 +7,8 @@
  */
 namespace Magento\Store\Model\Config\Reader;
 
+use Magento\Exception\NoSuchEntityException;
+
 class Store implements \Magento\App\Config\Scope\ReaderInterface
 {
     /**
@@ -87,6 +89,9 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
                 $store->load($code);
             }
 
+            if (!$store->getCode()) {
+                throw new NoSuchEntityException('storeCode', $code);
+            }
             $websiteConfig = $this->_scopePool->getScope(
                 \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE,
                 $store->getWebsite()->getCode()

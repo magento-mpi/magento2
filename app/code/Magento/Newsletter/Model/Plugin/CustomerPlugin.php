@@ -33,7 +33,7 @@ class CustomerPlugin
     }
 
     /**
-     * Plugin after create account that updates any newsletter subscription that may have existed.
+     * Plugin after create customer that updates any newsletter subscription that may have existed.
      *
      * @param CustomerAccountServiceInterface $subject
      * @param Customer $customer
@@ -41,7 +41,7 @@ class CustomerPlugin
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterCreateAccount(CustomerAccountServiceInterface $subject, Customer $customer)
+    public function afterCreateCustomer(CustomerAccountServiceInterface $subject, Customer $customer)
     {
         $this->subscriberFactory->create()->updateSubscription($customer->getId());
 

@@ -36,6 +36,7 @@ use Magento\Service\V1\Data\Filter;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class CustomerAccountService implements CustomerAccountServiceInterface
 {
@@ -273,8 +274,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function initiatePasswordReset($email, $websiteId, $template)
+    public function initiatePasswordReset($email, $template, $websiteId = null)
     {
+        if (is_null($websiteId)) {
+            $websiteId = $this->storeManager->getStore()->getWebsiteId();
+        }
         // load customer by email
         $customer = $this->customerRegistry->retrieveByEmail($email, $websiteId);
 
@@ -337,7 +341,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function createAccount(
+    public function createCustomer(
         Data\CustomerDetails $customerDetails,
         $password = null,
         $hash = null,
@@ -688,9 +692,12 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function isEmailAvailable($customerEmail, $websiteId)
+    public function isEmailAvailable($customerEmail, $websiteId = null)
     {
         try {
+            if (is_null($websiteId)) {
+                $websiteId = $this->storeManager->getStore()->getWebsiteId();
+            }
             $this->customerRegistry->retrieveByEmail($customerEmail, $websiteId);
             return false;
         } catch (NoSuchEntityException $e) {
