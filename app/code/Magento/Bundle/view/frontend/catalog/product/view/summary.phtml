@@ -54,18 +54,15 @@
 <script>
     //<![CDATA[
     (function ($) {
-        head.js("<?php echo $this->getViewFileUrl('Magento_Bundle::js/slide.js')?>", function() {
-            $('.product.add.form').slide({
-                    slideSpeed: 1500,
-                    slideSelector: '#bundle-slide',
-                    slideBackSelector: '.action.customization.back',
-                    bundleProductSelector: '#bundleProduct',
-                    bundleOptionsContainer: '.product.add.form',
-                    <?php if ($this->isStartCustomization()): ?>
-                    autostart: true
-                    <?php endif;?>
-                }
-            );
+        $('.product.add.form').mage('slide', {
+            'slideSpeed': 1500,
+            'slideSelector': '#bundle-slide',
+            'slideBackSelector': '.action.customization.back',
+            'bundleProductSelector': '#bundleProduct',
+            'bundleOptionsContainer': '.product.add.form',
+            <?php if ($this->isStartCustomization()): ?>
+            'autostart': true
+            <?php endif;?>
         });
     })(jQuery);
     //]]>

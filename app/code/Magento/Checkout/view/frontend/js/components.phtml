@@ -41,6 +41,13 @@
             ],
             creditCardType: [
                 '<?php echo $this->getViewFileUrl('Magento_Payment::cc-type.js') ?>'
+            ],
+            opcheckout: [
+                '<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>',
+                '<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>',
+                '<?php echo $this->getViewFileUrl('mage/validation.js')?>',
+                '<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>',
+                '<?php echo $this->getViewFileUrl('Magento_Checkout::js/opcheckout.js') ?>'
             ]
         });
     })(jQuery);

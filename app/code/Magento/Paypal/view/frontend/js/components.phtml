@@ -15,11 +15,8 @@
          * Declaration of resources needed for defined components
          */
         $.mage.component({
-            giftCard: [
-                "<?php echo $this->getViewFileUrl('Magento_GiftCardAccount::js/gift-card.js') ?>"
-            ],
-            paymentMethod: [
-                "<?php echo $this->getViewFileUrl('Magento_GiftCardAccount::js/payment-method.js') ?>"
+            opcheckoutPaypalIframe: [
+                '<?php echo $this->getViewFileUrl('Magento_Paypal::js/opcheckout.js') ?>'
             ]
         });
     })(jQuery);

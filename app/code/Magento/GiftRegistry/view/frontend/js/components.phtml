@@ -23,6 +23,13 @@
                 ],
                 rowBuilder: [
                     '<?php echo $this->getViewFileUrl('Magento_Theme::js/row-builder.js') ?>'
+                ],
+                giftRegistry: [
+                    '<?php echo $this->getViewFileUrl('Magento_Theme::js/row-builder.js')?>',
+                    '<?php echo $this->getViewFileUrl('Magento_GiftRegistry::gift-registry.js') ?>'
+                ],
+                addressOption: [
+                    '<?php echo $this->getViewFileUrl('Magento_GiftRegistry::address-option.js') ?>'
                 ]
             });
         })(jQuery);
