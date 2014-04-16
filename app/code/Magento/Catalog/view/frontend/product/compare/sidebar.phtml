@@ -50,14 +50,14 @@ $count = $_helper->getItemCount();
     </div>
     <script type="text/javascript">
         (function ($) {
-            head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/compare.js') ?>", function () {
+            head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/compare.js') ?>", head.ready(function () {
                 $('#compare-items').compareItems({
                     removeConfirmMessage: '<?php echo __('Are you sure you would like to remove this item from the compare products?') ?>',
                     removeSelector: '#compare-items a.action.delete',
                     clearAllConfirmMessage: '<?php echo __('Are you sure you would like to remove all products from your comparison?') ?>',
                     clearAllSelector: '#compare-clear-all'
                 });
-            });
+            }));
         })(jQuery);
     </script>
     <?php else: ?>

@@ -130,7 +130,7 @@
 <script type="text/javascript">
     (function($, window) {
         <?php if ($_total): ?>
-        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/list.js')?>", function() {
+        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/list.js')?>", head.ready(function () {
             $('#product-comparison').compareList({
                 windowPrintSelector: '.action.print',
                 productsInRow: 5,
@@ -138,7 +138,7 @@
                     productAddToCartSelector: 'button.action.tocart'
                 }
             });
-        });
+        }));
         <?php endif; ?>
     })(jQuery, window);
 </script>

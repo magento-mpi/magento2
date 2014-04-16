@@ -43,13 +43,13 @@ $helper = $this->helper('Magento\CatalogSearch\Helper\Data');
             <script type="text/javascript">
             //<![CDATA[
             (function($) {
-                head.js("<?php echo $this->getViewFileUrl('Magento_CatalogSearch::form-mini.js')?>", function() {
+                head.js("<?php echo $this->getViewFileUrl('Magento_CatalogSearch::form-mini.js')?>", head.ready(function () {
                     $('#search').catalogSearch({
                         formSelector: '#search_mini_form',
                         url: '<?php echo $helper->getSuggestUrl() ?>',
                         destinationSelector: '#search_autocomplete'
                     });
-                });
+                }));
             })(jQuery);
             //]]>
             </script>

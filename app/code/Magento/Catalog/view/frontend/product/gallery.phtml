@@ -39,8 +39,8 @@
 </div>
 <script type="text/javascript">
     window.onload = function() {
-        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/gallery.js');?>", function() {
+        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/gallery.js');?>", head.ready(function () {
             jQuery('#product-gallery-image').gallery();
-        });
+        }));
     };
 </script>

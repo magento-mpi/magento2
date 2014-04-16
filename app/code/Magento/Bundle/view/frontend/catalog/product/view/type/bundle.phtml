@@ -13,7 +13,7 @@
     <script type="text/javascript">
         //<![CDATA[
         (function ($) {
-            head.js("<?php echo $this->getViewFileUrl('Magento_Bundle::/bundle.js') ?>", function() {
+            head.js("<?php echo $this->getViewFileUrl('Magento_Bundle::/bundle.js') ?>", head.ready(function () {
                 $('#product_addtocart_form').bundleOption({
                     bundleConfig: <?php echo $this->getJsonConfig() ?>,
                     bundleOptionQtyPrefix: "#bundle-option-",
@@ -25,7 +25,7 @@
                         "price-excluding-tax": "#price-excluding-tax-<?php echo $_product->getId()?>"
                     }
                 });
-            });
+            }));
         })(jQuery);
         //]]>
     </script>

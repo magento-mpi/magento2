@@ -182,7 +182,7 @@
             <?php if ($_dob->isEnabled() || $customerAttributes->hasUserDefinedAttributes()): ?>
                 "<?php echo $this->getViewFileUrl('mage/validation/dob-rule.js') ?>",
             <?php endif ?>
-            function() {
+            head.ready(function () {
                 var dataForm = $('#form-validate'), ignore;
                 <?php if ($_dob->isEnabled() || $customerAttributes->hasUserDefinedAttributes()): ?>
                     ignore = 'input[id$="full"]';
@@ -222,6 +222,6 @@
                         countriesWithOptionalZip: <?php echo $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
                     });
                 <?php endif; ?>
-            });
+            }));
     })(jQuery);
 </script>

@@ -34,25 +34,25 @@
     <script type="text/javascript">
         //<![CDATA[
         (function ($) {
-            head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>", function () {
+            head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>", head.ready(function () {
                 <?php if ($this->helper('Magento\Catalog\Helper\Data')->isShowPriceOnGesture($_product)): ?>
-                    $('#<?php echo($popupId);?>').addToCart({
-                        popupId: "#<?php echo($popupId);?>",
-                        productName: '<?php echo $_product->getName() ?>',
-                        realPrice: '<?php echo $this->getRealPriceJs($_product) ?>',
-                        msrpPrice: '<?php echo $_msrpPrice ?>',
-                        priceElementId: '<?php echo $priceElementId ?>',
-                        closeButtonId: '#map-popup-close',
-                        popupCartButtonId: "#map-popup-button",
-                        addToCartUrl: "<?php echo $this->getAddToCartUrl($_product) ?>"
-                    });
-                <?php else: ?>
-                    $('#<?php echo($popupId);?>').addToCart({
-                        popupId: "#<?php echo($popupId);?>",
-                        submitUrl: "<?php echo $_product->getProductUrl() ?>"
-                    });
-                <?php endif; ?>
+                $('#<?php echo($popupId);?>').addToCart({
+                    popupId: "#<?php echo($popupId);?>",
+                    productName: '<?php echo $_product->getName() ?>',
+                    realPrice: '<?php echo $this->getRealPriceJs($_product) ?>',
+                    msrpPrice: '<?php echo $_msrpPrice ?>',
+                    priceElementId: '<?php echo $priceElementId ?>',
+                    closeButtonId: '#map-popup-close',
+                    popupCartButtonId: "#map-popup-button",
+                    addToCartUrl: "<?php echo $this->getAddToCartUrl($_product) ?>"
                 });
+                <?php else: ?>
+                $('#<?php echo($popupId);?>').addToCart({
+                    popupId: "#<?php echo($popupId);?>",
+                    submitUrl: "<?php echo $_product->getProductUrl() ?>"
+                });
+                <?php endif; ?>
+            }));
         })(jQuery);
         //]]>
     </script>

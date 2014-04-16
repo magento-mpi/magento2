@@ -138,7 +138,7 @@
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
-            function() {
+            head.ready(function () {
                 $('#form-validate').validation({
                     errorPlacement: function (error, element) {
                         var parent = element.parent();
@@ -153,7 +153,7 @@
                         'price[from]': {'less-than-equals-to': 'Please enter a valid price range.'}
                     }
                 });
-            });
+            }));
     })(jQuery);
     //]]>
 </script>

@@ -163,7 +163,7 @@
     </div>
 </form>
 <script type="text/javascript">
-    head.js("<?php echo $this->getViewFileUrl('Magento_Checkout::js/overview.js')?>", function() {
+    head.js("<?php echo $this->getViewFileUrl('Magento_Checkout::js/overview.js')?>", head.ready(function () {
         jQuery('#review-order-form').orderOverview();
-    });
+    }));
 </script>

@@ -20,14 +20,12 @@
 </div>
 
 <script type="text/javascript">
-    head.js(
-        "<?php echo $this->getViewFileUrl('Magento_Customer::js/checkout-balance.js') ?>",
-        function() {
-            jQuery('#use-reward-points').checkoutBalance({
-                amountSubstracted: <?php if ($this->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>,
-                usedAmount: <?php echo (float)$this->getQuote()->getBaseRewardCurrencyAmount(); ?>,
-                balance: <?php echo (float)$this->getCurrencyAmount(); ?>
-            });
+    head.js("<?php echo $this->getViewFileUrl('Magento_Customer::js/checkout-balance.js') ?>", head.ready(function () {
+        jQuery('#use-reward-points').checkoutBalance({
+            amountSubstracted: <?php if ($this->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>,
+            usedAmount: <?php echo (float)$this->getQuote()->getBaseRewardCurrencyAmount(); ?>,
+            balance: <?php echo (float)$this->getCurrencyAmount(); ?>
         });
+    }));
 </script>
 <?php endif; ?>

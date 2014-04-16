@@ -20,9 +20,9 @@
 </div>
 <?php if ($this->isFullyPaidAfterApplication()): ?>
     <script type="text/javascript">
-        head.js("<?php echo $this->getViewFileUrl('Magento_GiftCardAccount::js/payment-method.js')?>", function() {
+        head.js("<?php echo $this->getViewFileUrl('Magento_GiftCardAccount::js/payment-method.js')?>", head.ready(function () {
             jQuery('#co-payment-form').paymentMethod();
-        });
+        }));
     </script>
     <input id="hidden-free" type="hidden" name="payment[method]" value="free">
 <?php endif; ?>

@@ -59,8 +59,8 @@
 </div>
 <?php if ($_giftMessage): ?>
     <script type="text/javascript">
-        head.js("<?php echo $this->getViewFileUrl('Magento_Sales::gift-message.js')?>", function() {
+        head.js("<?php echo $this->getViewFileUrl('Magento_Sales::gift-message.js')?>", head.ready(function () {
             jQuery('a.action.show').add('a.action.close').giftMessage();
-        });
+        }));
     </script>
 <?php endif; ?>

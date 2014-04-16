@@ -67,13 +67,15 @@
 </div>
 
 <script type="text/javascript">
-    head.js("<?php echo $this->getViewFileUrl('jquery/jquery.tmpl.min.js')?>",
+    head.js(
+        "<?php echo $this->getViewFileUrl('jquery/jquery.tmpl.min.js')?>",
         "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
         "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
         "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
         "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
         "<?php echo $this->getViewFileUrl('Magento_Theme::js/row-builder.js')?>",
-        "<?php echo $this->getViewFileUrl('Magento_GiftRegistry::gift-registry.js')?>", function() {
+        "<?php echo $this->getViewFileUrl('Magento_GiftRegistry::gift-registry.js')?>",
+        head.ready(function () {
             jQuery('#form-validate').giftRegistry({
                 rowParentElem: '<fieldset></fieldset>',
                 rowContainerClass: 'fieldset',
@@ -82,5 +84,5 @@
                 maxRows: '<?php echo $this->getMaxRegistrant() ?>',
                 formDataPost: {"formData": <?php echo json_encode($this->getRegistrantPresets($this->getEntity()->getId())); ?>}
             });
-        });
+        }));
 </script>

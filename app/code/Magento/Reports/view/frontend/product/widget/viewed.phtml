@@ -24,7 +24,7 @@ $title = __('Recently Viewed');
     </div>
 </div>
 <script type="text/javascript">
-    head.js("<?php echo $this->getViewFileUrl('Magento_Reports::js/recently-viewed.js'); ?>", function() {
+    head.js("<?php echo $this->getViewFileUrl('Magento_Reports::js/recently-viewed.js'); ?>", head.ready(function () {
         jQuery("#recently_viewed_container").recentlyViewedProducts();
-    });
+    }));
 </script>

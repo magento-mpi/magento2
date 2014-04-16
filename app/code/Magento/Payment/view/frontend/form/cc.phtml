@@ -112,11 +112,11 @@
             <div class="adv container" data-validation-msg="validate-cc-ukss">&nbsp;</div>
         </div>
         <script type="text/javascript">
-            head.js("<?php echo $this->getViewFileUrl('Magento_Payment::cc-type.js')?>", function() {
+            head.js("<?php echo $this->getViewFileUrl('Magento_Payment::cc-type.js')?>", head.ready(function () {
                 jQuery('#<?php echo $_code ?>_cc_type').creditCardType({
                     creditCardTypeContainer: '#<?php echo $_code ?>_cc_type_ss_div'
                 });
-            });
+            }));
         </script>
     </div>
     <?php endif; ?>

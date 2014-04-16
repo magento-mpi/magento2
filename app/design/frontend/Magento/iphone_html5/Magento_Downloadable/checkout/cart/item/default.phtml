@@ -57,7 +57,7 @@
                         <?php $_product = $_item->getProduct(); ?>
                         <script type="text/javascript">
                             (function ($) {
-                                head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>", function () {
+                                head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>", head.ready(function () {
                                     $('#<?php echo $helpLinkId ?>').addToCart({
                                         popupId: "#<?php echo $helpLinkId ?>",
                                         productName: '<?php echo $_product->getName() ?>',
@@ -66,7 +66,7 @@
                                         closeButtonId: '#map-popup-close',
                                         showAddToCart: false
                                     });
-                                });
+                                }));
                             })(jQuery);
                         </script>
                     </span>

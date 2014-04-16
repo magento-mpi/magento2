@@ -54,15 +54,17 @@
 </div>
 <script>
     (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+        head.js(
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('Magento_Wishlist::wishlist.js')?>", function() {
+            "<?php echo $this->getViewFileUrl('Magento_Wishlist::wishlist.js')?>",
+            head.ready(function () {
                 $('#wishlist-info-form').wishlist({
                     infoList: true,
                     checkBoxValidationMessage: '<?php echo __('You must select items to add to the cart.');?>'
                 });
-            });
+            }));
     })(jQuery);
 </script>

@@ -32,16 +32,18 @@
 <script type="text/javascript">
     //<![CDATA[
     (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+        head.js(
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('Magento_Newsletter::newsletter.js')?>", function() {
+            "<?php echo $this->getViewFileUrl('Magento_Newsletter::newsletter.js')?>",
+            head.ready(function () {
                 $('#newsletter').newsletter({
                     formSelector: '#newsletter-validate-detail',
                     placeholder: '<?php echo __('Enter your email address') ?>'
                 });
-            });
+            }));
     })(jQuery);
     //]]>
 </script>

@@ -72,8 +72,8 @@
         "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
         "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
         "<?php echo $this->getViewFileUrl('Magento_Multishipping::js/multi-shipping.js') ?>",
-        function () {
+        head.ready(function () {
             jQuery('#checkout_multishipping_form').multiShipping().validation();
-        }
+        })
     );
 </script>

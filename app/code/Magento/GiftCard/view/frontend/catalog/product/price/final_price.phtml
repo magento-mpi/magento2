@@ -107,9 +107,9 @@
         </fieldset>
         <script type="text/javascript">
             (function($) {
-                head.js("<?php echo $this->getViewFileUrl('Magento_GiftCard::toggle-gift-card.js')?>", function() {
+                head.js("<?php echo $this->getViewFileUrl('Magento_GiftCard::toggle-gift-card.js')?>", head.ready(function () {
                     $('#giftcard-amount').toggleGiftCard();
-                });
+                }));
             })(jQuery);
         </script>
     <?php endif; ?>

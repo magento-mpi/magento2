@@ -87,11 +87,13 @@
 
 <script type="text/javascript">
     (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+        head.js(
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('Magento_Theme::js/row-builder.js')?>", function() {
+            "<?php echo $this->getViewFileUrl('Magento_Theme::js/row-builder.js')?>",
+            head.ready(function () {
                 var formDataPost;
                 <?php if (is_array($this->getFormData('recipients'))): ?>
                 formDataPost = <?php echo json_encode($this->getFormData('recipients')); ?>;
@@ -108,6 +110,6 @@
                     btnRemoveSelector: '.action.remove',
                     formDataPost: {"formData": formDataPost, "templateFields": ['recipients-name', 'recipients-email']}
                 }).validation();
-            })
+            }))
     })(jQuery);
 </script>

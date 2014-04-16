@@ -64,11 +64,13 @@
     </div>
 </form>
 <script type="text/javascript">
-    head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+    head.js(
+        "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
         "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
         "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
         "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-        "<?php echo $this->getViewFileUrl('Magento_Sales::orders-returns.js');?>", function () {
+        "<?php echo $this->getViewFileUrl('Magento_Sales::orders-returns.js');?>",
+        head.ready(function () {
             jQuery('#oar-widget-orders-and-returns-form').ordersReturns().validation();
-        });
+        }));
 </script>

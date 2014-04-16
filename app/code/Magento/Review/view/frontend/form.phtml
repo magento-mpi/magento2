@@ -81,11 +81,12 @@
 </form>
 <script>
     (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+        head.js(
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            function() {
+            head.ready(function () {
                 $('#review-form').validation({
                     errorPlacement: function (error, element) {
                         if (element.parents('#product-review-table').length) {
@@ -96,7 +97,7 @@
                         }
                     }
                 });
-            });
+            }));
     })(jQuery);
 </script>
 <?php else: ?>

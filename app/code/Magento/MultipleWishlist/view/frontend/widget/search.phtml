@@ -22,12 +22,12 @@
         <?php endif;?>
         <script type="text/javascript">
             (function($) {
-                head.js("<?php echo $this->getViewFileUrl('Magento_Wishlist::js/search.js')?>", function() {
+                head.js("<?php echo $this->getViewFileUrl('Magento_Wishlist::js/search.js')?>", head.ready(function () {
                     $('#<?php echo $this->getBlockId();?>-search_by').wishlistSearch({
                         nameFormSelector: '#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-name-form',
                         emailFormSelector: '#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-email-form'
                     });
-                });
+                }));
             })(jQuery);
         </script>
 
@@ -74,12 +74,14 @@
 </div>
 <script>
     (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+        head.js(
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+            head.ready(function () {
                 $('#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-name-form')
                     .add('#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-email-form').validation();
-            });
+            }));
     })(jQuery);
 </script>

@@ -87,7 +87,7 @@
             <?php if ($_dob->isEnabled() || $userDefinedAttributes->hasUserDefinedAttributes()): ?>
             "<?php echo $this->getViewFileUrl('mage/validation/dob-rule.js') ?>",
             <?php endif ?>
-            function() {
+            head.ready(function () {
                 $('#change-password').setPassword({
                     currentPasswordId: '#current-password',
                     passwordId: '#password',
@@ -122,6 +122,6 @@
                     ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
                 <?php endif ?>
                 });
-            });
+            }));
     })(jQuery);
 </script>

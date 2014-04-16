@@ -84,17 +84,19 @@
     </div>
     <script type="text/javascript">
         (function($) {
-            head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+            head.js(
+                "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
                 "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-                "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
+                "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+                head.ready(function () {
                     var forms = $('form[id^="gr-quick-search-widget"]');
                     forms.validation();
-                    $('#search-by').on('change', function() {
+                    $('#search-by').on('change', function () {
                         forms.hide();
                         $('#gr-quick-search-widget-' + this.value + '-form').show();
                     });
-                });
+                }));
         })(jQuery);
     </script>
 <?php endif; ?>
