@@ -512,14 +512,14 @@ class Calculation extends \Magento\Model\AbstractModel
         $request->setCountryId(
             $address->getCountryId()
         )->setRegionId(
-            $regionId
-        )->setPostcode(
-            $address->getPostcode()
-        )->setStore(
-            $store
-        )->setCustomerClassId(
-            $customerTaxClass
-        );
+                $regionId
+            )->setPostcode(
+                $address->getPostcode()
+            )->setStore(
+                $store
+            )->setCustomerClassId(
+                $customerTaxClass
+            );
         return $request;
     }
 

@@ -8,7 +8,7 @@
 
 namespace Magento\ConfigurableProduct\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price\RegularPrice;
+use Magento\Catalog\Pricing\Price\AbstractPrice;
 use Magento\Pricing\Amount\AmountInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Pricing\Adjustment\CalculatorInterface;
@@ -19,7 +19,7 @@ use Magento\Catalog\Model\Product\PriceModifierInterface;
  *
  * @package Magento\ConfigurableProduct\Pricing\Price
  */
-class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterface
+class CustomOptionPrice extends AbstractPrice implements CustomOptionPriceInterface
 {
     /**
      * Default price type
@@ -101,5 +101,15 @@ class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterfa
         } else {
             return $value['pricing_value'];
         }
+    }
+
+    /**
+     * Get price value
+     *
+     * @return float
+     */
+    public function getValue()
+    {
+        return $this->value;
     }
 }
