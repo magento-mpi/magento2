@@ -9,5 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <update handle="formkey"/>
-    <block class="Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo\Grid" name="archive.grid" as="grid" output="1"/>
+    <update handle="sales_archive_creditmemos_grid_block"/>
+    <block class="Magento\Backend\Block\Widget\Grid\Container" name="sales_creditmemo.grid.container" template="Magento_Backend::widget/grid/container/empty.phtml" output="1"/>
 </layout>

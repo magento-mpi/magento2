@@ -428,7 +428,7 @@ class Account extends \Magento\Framework\App\Action\Action
                 ->setCustomer($customer)
                 ->setAddresses($addresses)
                 ->create();
-            $customer = $this->_customerAccountService->createAccount($customerDetails, $password, null, $redirectUrl);
+            $customer = $this->_customerAccountService->createCustomer($customerDetails, $password, null, $redirectUrl);
 
             if ($this->getRequest()->getParam('is_subscribed', false)) {
                 $this->_subscriberFactory->create()->subscribeCustomerById($customer->getId());
@@ -771,7 +771,6 @@ class Account extends \Magento\Framework\App\Action\Action
             try {
                 $this->_customerAccountService->initiatePasswordReset(
                     $email,
-                    $this->_storeManager->getStore()->getWebsiteId(),
                     CustomerAccountServiceInterface::EMAIL_RESET
                 );
             } catch (NoSuchEntityException $e) {

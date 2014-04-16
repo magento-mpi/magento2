@@ -51,6 +51,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('http://magento.com/')
         );
+        $this->_storeMock->expects($this->any())->method('getCode')->will($this->returnValue('storeCode'));
 
         $this->_storeManagerMock->expects(
             $this->any()
@@ -143,7 +144,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEndpointUri()
     {
-        $expectedResult = 'http://magento.com/soap';
+        $expectedResult = 'http://magento.com/soap/storeCode';
         $actualResult = $this->_soapServer->getEndpointUri();
         $this->assertEquals($expectedResult, $actualResult, 'Endpoint URI building is invalid.');
     }
@@ -156,7 +157,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $param = "testModule1AllSoapAndRest:V1,testModule2AllSoapNoRest:V1";
         $serviceKey = \Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_SERVICES;
         $this->_requestMock->expects($this->any())->method('getParam')->will($this->returnValue($param));
-        $expectedResult = "http://magento.com/soap?{$serviceKey}={$param}&wsdl=1";
+        $expectedResult = "http://magento.com/soap/storeCode?{$serviceKey}={$param}&wsdl=1";
         $actualResult = $this->_soapServer->generateUri(true);
         $this->assertEquals($expectedResult, urldecode($actualResult), 'URI (with WSDL param) generated is invalid.');
     }
@@ -169,7 +170,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $param = "testModule1AllSoapAndRest:V1,testModule2AllSoapNoRest:V1";
         $serviceKey = \Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_SERVICES;
         $this->_requestMock->expects($this->any())->method('getParam')->will($this->returnValue($param));
-        $expectedResult = "http://magento.com/soap?{$serviceKey}={$param}";
+        $expectedResult = "http://magento.com/soap/storeCode?{$serviceKey}={$param}";
         $actualResult = $this->_soapServer->generateUri(false);
         $this->assertEquals(
             $expectedResult,

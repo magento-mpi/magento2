@@ -417,8 +417,8 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             'initiatePasswordReset'
         )->with(
             $email,
-            $websiteId,
-            CustomerAccountServiceInterface::EMAIL_REMINDER
+            CustomerAccountServiceInterface::EMAIL_REMINDER,
+            $websiteId
         );
 
         // verify success message

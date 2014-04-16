@@ -11,6 +11,7 @@ namespace Magento\Webapi\Controller;
 
 use Magento\Webapi\ServiceAuthorizationException;
 use Magento\Webapi\Exception as WebapiException;
+use Magento\Webapi\Model\PathProcessor;
 
 /**
  * TODO: Consider warnings suppression removal
@@ -60,6 +61,11 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
     protected $_localeResolver;
 
     /**
+     * @var PathProcessor
+     */
+    protected $_pathProcessor;
+
+    /**
      * @var \Magento\Framework\App\AreaList
      */
     protected $areaList;
@@ -74,6 +80,7 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param PathProcessor $pathProcessor
      * @param \Magento\Framework\App\AreaList $areaList
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -88,6 +95,7 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Locale\ResolverInterface $localeResolver,
+        PathProcessor $pathProcessor,
         \Magento\Framework\App\AreaList $areaList
     ) {
         $this->_request = $request;
@@ -99,6 +107,7 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
         $this->_oauthService = $oauthService;
         $this->_localeResolver = $localeResolver;
         $this->_layout = $layout;
+        $this->_pathProcessor = $pathProcessor;
         $this->areaList = $areaList;
     }
 
@@ -110,9 +119,8 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
      */
     public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
-        $pathParts = explode('/', trim($request->getPathInfo(), '/'));
-        array_shift($pathParts);
-        $request->setPathInfo('/' . implode('/', $pathParts));
+        $path = $this->_pathProcessor->process($request->getPathInfo());
+        $this->_request->setPathInfo($path);
         $this->areaList->getArea($this->_appState->getAreaCode())
             ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         try {

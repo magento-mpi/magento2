@@ -62,10 +62,8 @@ class AbstractInvoice extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_view->loadLayout();
-        $this->getResponse()->setBody(
-            $this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Invoice\Grid')->toHtml()
-        );
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -77,9 +75,7 @@ class AbstractInvoice extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Invoices'));
 
-        $this->_initAction()->_addContent(
-            $this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Invoice')
-        );
+        $this->_initAction();
         $this->_view->renderLayout();
     }
 
