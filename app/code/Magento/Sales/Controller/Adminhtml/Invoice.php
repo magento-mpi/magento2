@@ -30,8 +30,8 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_view->getLayout()->getChildBlock('sales.invoice.grid', 'grid.export');
         return $this->_fileFactory->create(
-            $fileName, 
-            $exportBlock->getCsvFile(), 
+            $fileName,
+            $exportBlock->getCsvFile(),
             \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
