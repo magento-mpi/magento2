@@ -29,6 +29,7 @@
   * Fixed: [IE9] It's impossible to perform ajax actions from backend grids (MAGETWO-23475)
   * Fixed: Improper usage of DIRECTORY_SEPARATOR (MAGETWO-13237)
   * Fixed: Nothing happens after clicking on "Add New Address" button if default address is already set (MAGETWO-23292)
+  * An issue with setting memory_limit to -1 causes install failure (MAGETWO-23201)
 * Framework Improvements:
   * Simplify Search related Data Objects (MAGETWO-22613)
 * Refactored the following modules to use Customer Service
@@ -39,6 +40,10 @@
   * Refactor PayPal module to use Customer Service (MAGETWO-20477)
 * JavaScript improvements:
   * Fixed possibility creating integration from config file (MAGETWO-22311)
+* Customer Service usage:
+  * Implement Service Context Provider (MAGETWO-11084)
+  * Restructure webapi.xml (MAGETWO-22665)
+  * Renamed createAccount to createCustomer in CustomerAccountService (MAGETWO-22830)
 * GitHub requests:
   * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
   * [#488] (https://github.com/magento/magento2/issues/488) -- Converted several grids from Magento\Sales module to new layout XML config format

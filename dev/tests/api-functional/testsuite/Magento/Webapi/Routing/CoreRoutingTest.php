@@ -13,33 +13,20 @@ namespace Magento\Webapi\Routing;
 
 class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
 {
-    public function testBasicRoutingPathAutoDetection()
-    {
-        $itemId = 1;
-        $serviceInfo = array(
-            'serviceInterface' => 'Magento\TestModule1\Service\V1\AllSoapAndRestInterface',
-            'method' => 'item',
-            'entityId' => $itemId
-        );
-        $requestData = array('itemId' => $itemId);
-        $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals('testProduct1', $item['name'], "Item was retrieved unsuccessfully");
-    }
-
     public function testBasicRoutingExplicitPath()
     {
         $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/testmodule1/' . $itemId,
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'testModule1AllSoapAndRestV1',
                 'operation' => 'testModule1AllSoapAndRestV1Item'
-            )
-        );
-        $requestData = array('itemId' => $itemId);
+            ]
+        ];
+        $requestData = ['itemId' => $itemId];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals('testProduct1', $item['name'], "Item was retrieved unsuccessfully");
     }
@@ -47,17 +34,17 @@ class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
     public function testDisabledIntegrationAuthorizationException()
     {
         $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/testmodule1/' . $itemId,
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'testModule1AllSoapAndRestV1',
                 'operation' => 'testModule1AllSoapAndRestV1Item'
-            )
-        );
-        $requestData = array('itemId' => $itemId);
+            ]
+        ];
+        $requestData = ['itemId' => $itemId];
 
         /** Disable integration associated with active OAuth credentials. */
         $credentials = \Magento\TestFramework\Authentication\OauthHelper::getApiAccessCredentials();
@@ -79,10 +66,12 @@ class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
     public function testExceptionSoapInternalError()
     {
         $this->_markTestAsSoapOnly();
-        $serviceInfo = array(
-            'serviceInterface' => 'Magento\TestModule3\Service\V1\ErrorInterface',
-            'method' => 'serviceException'
-        );
+        $serviceInfo = [
+            'soap' => [
+                'service' => 'testModule3ErrorV1',
+                'operation' => 'testModule3ErrorV1ServiceException'
+            ]
+        ];
         $this->setExpectedException('SoapFault', 'Generic service exception');
         $this->_webApiCall($serviceInfo);
     }
