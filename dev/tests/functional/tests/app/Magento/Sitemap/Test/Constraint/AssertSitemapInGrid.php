@@ -10,7 +10,7 @@ namespace Magento\Sitemap\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sitemap\Test\Fixture\Sitemap;
-use Magento\Sitemap\Test\Page\Adminhtml\AdminSitemapIndex;
+use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 
 /**
  * Class AssertSitemapInGrid
@@ -30,10 +30,10 @@ class AssertSitemapInGrid extends AbstractConstraint
      * Assert that sitemap availability in sitemap grid
      *
      * @param Sitemap $sitemap
-     * @param AdminSitemapIndex $sitemapPageGrid
+     * @param SitemapIndex $sitemapPageGrid
      * @return void
      */
-    public function processAssert(Sitemap $sitemap, AdminSitemapIndex $sitemapPageGrid)
+    public function processAssert(Sitemap $sitemap, SitemapIndex $sitemapPageGrid)
     {
         $sitemapPageGrid->open();
         $filter = [

@@ -9,7 +9,7 @@
 namespace Magento\Sitemap\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Sitemap\Test\Page\Adminhtml\AdminSitemapIndex;
+use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 
 /**
  * Class AssertSitemapSuccessSaveMessage
@@ -29,12 +29,12 @@ class AssertSitemapSuccessSaveMessage extends AbstractConstraint
     /**
      * Assert that success message is displayed after sitemap save
      *
-     * @param AdminSitemapIndex $sitemapPage
+     * @param SitemapIndex $sitemapPage
      * @return void
      */
-    public function processAssert(AdminSitemapIndex $sitemapPage)
+    public function processAssert(SitemapIndex $sitemapPage)
     {
-        $actualMessage = $sitemapPage->getSitemapSaveMessage()->getSuccessMessages();
+        $actualMessage = $sitemapPage->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,

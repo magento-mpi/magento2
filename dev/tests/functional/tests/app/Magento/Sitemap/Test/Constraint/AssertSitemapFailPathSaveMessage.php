@@ -9,7 +9,7 @@
 namespace Magento\Sitemap\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Sitemap\Test\Page\Adminhtml\AdminSitemapIndex;
+use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 use Magento\Sitemap\Test\Fixture\Sitemap;
 
 /**
@@ -19,7 +19,7 @@ use Magento\Sitemap\Test\Fixture\Sitemap;
  */
 class AssertSitemapFailPathSaveMessage extends AbstractConstraint
 {
-    const FAILPATH = 'Path "/%s" is not available and cannot be used.';
+    const FAIL_PATH_MESSAGE = 'Path "/%s" is not available and cannot be used.';
     /**
      * Constraint severeness
      *
@@ -30,18 +30,18 @@ class AssertSitemapFailPathSaveMessage extends AbstractConstraint
     /**
      * Assert that fail message is displayed after wrong sitemap save
      *
-     * @param AdminSitemapIndex $sitemapPage
+     * @param SitemapIndex $sitemapPage
      * @param Sitemap $sitemap
      * @return void
      */
-    public function processAssert(AdminSitemapIndex $sitemapPage, Sitemap $sitemap)
+    public function processAssert(SitemapIndex $sitemapPage, Sitemap $sitemap)
     {
-        $actualMessage = $sitemapPage->getSitemapSaveMessage()->getErrorMessages();
+        $actualMessage = $sitemapPage->getMessagesBlock()->getErrorMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            sprintf(self::FAILPATH, $sitemap->getSitemapFilename()),
+            sprintf(self::FAIL_PATH_MESSAGE, $sitemap->getSitemapFilename()),
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::FAILPATH
+            . "\nExpected: " . self::FAIL_PATH_MESSAGE
             . "\nActual: " . $actualMessage
         );
     }

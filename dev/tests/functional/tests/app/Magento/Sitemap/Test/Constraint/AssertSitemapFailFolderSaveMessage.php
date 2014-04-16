@@ -9,7 +9,7 @@
 namespace Magento\Sitemap\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Sitemap\Test\Page\Adminhtml\AdminSitemapIndex;
+use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 use Magento\Sitemap\Test\Fixture\Sitemap;
 
 /**
@@ -19,7 +19,7 @@ use Magento\Sitemap\Test\Fixture\Sitemap;
  */
 class AssertSitemapFailFolderSaveMessage extends AbstractConstraint
 {
-    const FAILFOLDER = 'Please create the specified folder "%s" before saving the sitemap.';
+    const FAIL_FOLDER_MESSAGE = 'Please create the specified folder "%s" before saving the sitemap.';
     /**
      * Constraint severeness
      *
@@ -30,18 +30,18 @@ class AssertSitemapFailFolderSaveMessage extends AbstractConstraint
     /**
      * Assert that fail message is displayed after wrong sitemap save
      *
-     * @param AdminSitemapIndex $sitemapPage
+     * @param SitemapIndex $sitemapPage
      * @param Sitemap $sitemap
      * @return void
      */
-    public function processAssert(AdminSitemapIndex $sitemapPage, Sitemap $sitemap)
+    public function processAssert(SitemapIndex $sitemapPage, Sitemap $sitemap)
     {
-        $actualMessage = $sitemapPage->getSitemapSaveMessage()->getErrorMessages();
+        $actualMessage = $sitemapPage->getMessagesBlock()->getErrorMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            sprintf(self::FAILFOLDER, $sitemap->getSitemapPath()),
+            sprintf(self::FAIL_FOLDER_MESSAGE, $sitemap->getSitemapPath()),
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::FAILFOLDER
+            . "\nExpected: " . self::FAIL_FOLDER_MESSAGE
             . "\nActual: " . $actualMessage
         );
     }

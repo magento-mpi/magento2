@@ -6,16 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sitemap\Test\Page\Adminhtml;
+namespace Magento\Sitemap\Test\Page\Adminhtml; 
 
-use Mtf\Page\BackendPage;
+use Mtf\Page\BackendPage; 
 
 /**
- * Class AdminSitemapIndex
+ * Class SitemapIndex
  *
  * @package Magento\Sitemap\Test\Page\Adminhtml
  */
-class AdminSitemapIndex extends BackendPage
+class SitemapIndex extends BackendPage
 {
     const MCA = 'admin/sitemap/index';
 
@@ -59,7 +59,7 @@ class AdminSitemapIndex extends BackendPage
     /**
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getSitemapSaveMessage()
+    public function getMessagesBlock()
     {
         return $this->getBlockInstance('messagesBlock');
     }

@@ -10,8 +10,8 @@ namespace Magento\Sitemap\Test\TestCase;
 
 use Magento\Sitemap\Test\Fixture\Sitemap;
 use Mtf\TestCase\Injectable;
-use Magento\Sitemap\Test\Page\Adminhtml\AdminSitemapIndex;
-use Magento\Sitemap\Test\Page\Adminhtml\SitemapNewIndex;
+use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
+use Magento\Sitemap\Test\Page\Adminhtml\SitemapNew;
 
 /**
  * Cover creating SitemapEntity
@@ -27,25 +27,25 @@ use Magento\Sitemap\Test\Page\Adminhtml\SitemapNewIndex;
  * @group XML_Sitemap_(MX)
  * @ZephyrId MAGETWO-23277
  */
-class CreatingSitemapEntityTest extends Injectable
+class CreateSitemapEntityTest extends Injectable
 {
     /**
-     * @var AdminSitemapIndex
+     * @var SitemapIndex
      */
     protected $adminSitemapIndex;
 
     /**
-     * @var SitemapNewIndex
+     * @var SitemapNew
      */
     protected $sitemapNewIndex;
 
     /**
-     * @param AdminSitemapIndex $adminSitemapIndex
-     * @param SitemapNewIndex $sitemapNewIndex
+     * @param SitemapIndex $adminSitemapIndex
+     * @param SitemapNew $sitemapNewIndex
      */
     public function __inject(
-        AdminSitemapIndex $adminSitemapIndex,
-        SitemapNewIndex $sitemapNewIndex
+        SitemapIndex $adminSitemapIndex,
+        SitemapNew $sitemapNewIndex
     ) {
         $this->adminSitemapIndex = $adminSitemapIndex;
         $this->sitemapNewIndex = $sitemapNewIndex;
