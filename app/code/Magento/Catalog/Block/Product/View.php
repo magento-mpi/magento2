@@ -235,7 +235,7 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
         $tierPricesList = $product->getPriceInfo()->getPrice('tier_price')->getTierPriceList();
 
         foreach ($tierPricesList as $tierPrice) {
-            $tierPrices[] = $this->_coreData->currency($tierPrice['price'], false, false);
+            $tierPrices[] = $this->_coreData->currency($tierPrice['price']->getValue(), false, false);
         }
         $config = array(
             'productId' => $product->getId(),
