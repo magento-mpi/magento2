@@ -1620,6 +1620,10 @@ return array(
         'getRatingSummary',
         'Magento\Catalog\Model\Product'
     ),
+    ['getCustomer', 'Magento\ProductAlert\Helper\Data'],
+    ['addCustomerFilter', 'Magento\ProductAlert\Model\Resource\Stock\Collection'],
+    ['addCustomerFilter', 'Magento\ProductAlert\Model\Resource\Price\Collection'],
+    ['setCustomer', 'Magento\ProductAlert\Model\Email'],
     ['getCustomer', 'Magento\Persistent\Helper\Session'],
     ['_getThemeInstance', 'Magento\View\Layout'],
     ['getArea', 'Magento\View\Layout'],
