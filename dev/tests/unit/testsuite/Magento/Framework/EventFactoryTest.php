@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Event;
+namespace Magento\Framework;
 
 class EventFactoryTest extends \PHPUnit_Framework_TestCase
 {
