@@ -25,7 +25,6 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         /** @var \Magento\Customer\Model\Session $session */
         $session = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Model\Session');
-        var_dump(get_class($session));
         $session->loginById($customerId);
     }
 
@@ -33,7 +32,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_address.php
      */
-    public function atestIndexAction()
+    public function testIndexAction()
     {
         $this->login(1);
         $this->dispatch('customer/account/index');
@@ -44,7 +43,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertContains('Green str, 67', $body);
     }
 
-    public function atestCreateAction()
+    public function testCreateAction()
     {
         $this->dispatch('customer/account/create');
         $body = $this->getResponse()->getBody();

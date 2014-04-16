@@ -70,7 +70,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_objectManager = $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_escaper = $this->getMock('Magento\Escaper', array(), array(), '', false);
         $context = $this->getMock('Magento\View\Element\Template\Context', array(), array(), '', false);
         $context->expects($this->any())->method('getEscaper')->will($this->returnValue($this->_escaper));

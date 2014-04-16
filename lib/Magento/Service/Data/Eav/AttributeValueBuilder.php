@@ -8,7 +8,7 @@
 namespace Magento\Service\Data\Eav;
 
 /**
- * Class AttributeBuilder
+ * Custom Attribute Data object builder
  */
 class AttributeValueBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
