@@ -17,6 +17,9 @@
         $.mage.component({
             opcheckoutPaypalIframe: [
                 '<?php echo $this->getViewFileUrl('Magento_Paypal::js/opcheckout.js') ?>'
+            ],
+            orderReview: [
+                '<?php echo $this->getViewFileUrl('Magento_Paypal::order-review.js') ?>'
             ]
         });
     })(jQuery);
