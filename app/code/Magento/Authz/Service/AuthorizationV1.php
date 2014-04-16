@@ -7,8 +7,8 @@
  */
 namespace Magento\Authz\Service;
 
-use Magento\Acl\Builder as AclBuilder;
-use Magento\Acl;
+use Magento\Framework\Acl\Builder as AclBuilder;
+use Magento\Framework\Acl;
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Logger;
 use Magento\Webapi\ServiceException as ServiceException;
@@ -18,7 +18,7 @@ use Magento\User\Model\Resource\Rules\CollectionFactory as RulesCollectionFactor
 use Magento\User\Model\Role;
 use Magento\User\Model\RoleFactory;
 use Magento\User\Model\RulesFactory;
-use Magento\Acl\RootResource as RootAclResource;
+use Magento\Framework\Acl\RootResource as RootAclResource;
 
 /**
  * Authorization service.

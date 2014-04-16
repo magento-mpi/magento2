@@ -10,13 +10,13 @@
  */
 namespace Magento\Authorization\Policy;
 
-use Magento\Acl\Builder;
+use Magento\Framework\Acl\Builder;
 use Magento\Authorization\Policy;
 
 class Acl implements Policy
 {
     /**
-     * @var \Magento\Acl\Builder
+     * @var \Magento\Framework\Acl\Builder
      */
     protected $_aclBuilder;
 

@@ -8,7 +8,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Acl\CacheInterface" type="Magento\Acl\Cache" />
+    <preference for="Magento\Framework\Acl\CacheInterface" type="Magento\Framework\Acl\Cache" />
     <preference for="Magento\Framework\App\AreaInterface" type="Magento\Core\Model\App\Area" />
     <preference for="Magento\Module\Updater\SetupInterface" type="Magento\Module\Setup" />
     <preference for="Magento\Module\ResourceResolverInterface" type="Magento\Module\ResourceResolver" />
@@ -92,7 +92,7 @@
             <argument name="cacheLifetime" xsi:type="string">86400</argument>
         </arguments>
     </type>
-    <type name="Magento\Acl\Cache">
+    <type name="Magento\Framework\Acl\Cache">
         <arguments>
             <argument name="cacheKey" xsi:type="string">global_acl_resources</argument>
         </arguments>

@@ -24,10 +24,10 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
     /** @var string[] */
     protected $_selectedResources;
 
-    /** @var \Magento\Acl\RootResource */
+    /** @var \Magento\Framework\Acl\RootResource */
     protected $_rootResource;
 
-    /** @var \Magento\Acl\Resource\ProviderInterface */
+    /** @var \Magento\Framework\Acl\Resource\ProviderInterface */
     protected $_resourceProvider;
 
     /** @var \Magento\Integration\Helper\Data */
@@ -46,8 +46,8 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreHelper
-     * @param \Magento\Acl\RootResource $rootResource
-     * @param \Magento\Acl\Resource\ProviderInterface $resourceProvider
+     * @param \Magento\Framework\Acl\RootResource $rootResource
+     * @param \Magento\Framework\Acl\Resource\ProviderInterface $resourceProvider
      * @param \Magento\Integration\Helper\Data $integrationData
      * @param \Magento\Webapi\Helper\Data $webapiData
      * @param array $data
@@ -57,8 +57,8 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
         \Magento\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreHelper,
-        \Magento\Acl\RootResource $rootResource,
-        \Magento\Acl\Resource\ProviderInterface $resourceProvider,
+        \Magento\Framework\Acl\RootResource $rootResource,
+        \Magento\Framework\Acl\Resource\ProviderInterface $resourceProvider,
         \Magento\Integration\Helper\Data $integrationData,
         \Magento\Webapi\Helper\Data $webapiData,
         array $data = array()

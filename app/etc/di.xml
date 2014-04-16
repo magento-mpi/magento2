@@ -178,7 +178,7 @@
             <argument name="storeManager" xsi:type="object">Magento\Store\Model\StoreManager\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Acl" shared="false" />
+    <type name="Magento\Framework\Acl" shared="false" />
     <type name="Magento\Framework\App\ObjectManager\ConfigLoader">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Config</argument>

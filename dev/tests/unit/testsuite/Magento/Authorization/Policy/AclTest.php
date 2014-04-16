@@ -22,8 +22,8 @@ class AclTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_aclMock = $this->getMock('Magento\Acl');
-        $this->_aclBuilderMock = $this->getMock('Magento\Acl\Builder', array(), array(), '', false);
+        $this->_aclMock = $this->getMock('Magento\Framework\Acl');
+        $this->_aclBuilderMock = $this->getMock('Magento\Framework\Acl\Builder', array(), array(), '', false);
         $this->_aclBuilderMock->expects($this->any())->method('getAcl')->will($this->returnValue($this->_aclMock));
         $this->_model = new \Magento\Authorization\Policy\Acl($this->_aclBuilderMock);
     }

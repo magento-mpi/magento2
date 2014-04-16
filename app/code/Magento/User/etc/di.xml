@@ -11,13 +11,13 @@
     <type name="Magento\User\Model\Role" shared="false" />
     <type name="Magento\User\Model\Resource\Rules">
         <arguments>
-            <argument name="rootResource" xsi:type="object">Magento\Acl\RootResource\Proxy</argument>
-            <argument name="aclCache" xsi:type="object">Magento\Acl\Cache\Proxy</argument>
+            <argument name="rootResource" xsi:type="object">Magento\Framework\Acl\RootResource\Proxy</argument>
+            <argument name="aclCache" xsi:type="object">Magento\Framework\Acl\Cache\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\User\Model\Resource\User">
         <arguments>
-            <argument name="aclCache" xsi:type="object">Magento\Acl\Cache\Proxy</argument>
+            <argument name="aclCache" xsi:type="object">Magento\Framework\Acl\Cache\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
@@ -27,7 +27,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Acl\Builder">
+    <type name="Magento\Framework\Acl\Builder">
         <arguments>
             <argument name="ruleLoader" xsi:type="object">Magento\User\Model\Acl\Loader\Rule</argument>
             <argument name="roleLoader" xsi:type="object">Magento\User\Model\Acl\Loader\Role</argument>

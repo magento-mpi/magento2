@@ -17,7 +17,7 @@ use Magento\User\Model\User as ModelUser;
 class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Acl\CacheInterface
+     * @var \Magento\Framework\Acl\CacheInterface
      */
     protected $_aclCache;
 
@@ -37,13 +37,13 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Construct
      *
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Acl\CacheInterface $aclCache
+     * @param \Magento\Framework\Acl\CacheInterface $aclCache
      * @param \Magento\User\Model\RoleFactory $roleFactory
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Acl\CacheInterface $aclCache,
+        \Magento\Framework\Acl\CacheInterface $aclCache,
         \Magento\User\Model\RoleFactory $roleFactory,
         \Magento\Stdlib\DateTime $dateTime
     ) {

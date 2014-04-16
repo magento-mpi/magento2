@@ -14,8 +14,8 @@ namespace Magento\Backend\Model\Auth;
  *
  * @method \Magento\User\Model\User|null getUser()
  * @method \Magento\Backend\Model\Auth\Session setUser(\Magento\User\Model\User $value)
- * @method \Magento\Acl|null getAcl()
- * @method \Magento\Backend\Model\Auth\Session setAcl(\Magento\Acl $value)
+ * @method \Magento\Framework\Acl|null getAcl()
+ * @method \Magento\Backend\Model\Auth\Session setAcl(\Magento\Framework\Acl $value)
  * @method int getUpdatedAt()
  * @method \Magento\Backend\Model\Auth\Session setUpdatedAt(int $value)
  *
@@ -39,7 +39,7 @@ class Session extends \Magento\Session\SessionManager implements \Magento\Backen
     /**
      * Access Control List builder
      *
-     * @var \Magento\Acl\Builder
+     * @var \Magento\Framework\Acl\Builder
      */
     protected $_aclBuilder;
 
@@ -60,7 +60,7 @@ class Session extends \Magento\Session\SessionManager implements \Magento\Backen
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
      * @param \Magento\Session\ValidatorInterface $validator
      * @param \Magento\Session\StorageInterface $storage
-     * @param \Magento\Acl\Builder $aclBuilder
+     * @param \Magento\Framework\Acl\Builder $aclBuilder
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Backend\App\ConfigInterface $config
      */
@@ -71,7 +71,7 @@ class Session extends \Magento\Session\SessionManager implements \Magento\Backen
         \Magento\Session\SaveHandlerInterface $saveHandler,
         \Magento\Session\ValidatorInterface $validator,
         \Magento\Session\StorageInterface $storage,
-        \Magento\Acl\Builder $aclBuilder,
+        \Magento\Framework\Acl\Builder $aclBuilder,
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Backend\App\ConfigInterface $config
     ) {

@@ -7,12 +7,13 @@
  */
 namespace Magento\Theme\Block\Html;
 
+use Magento\Framework\View\Block\IdentityInterface;
+use Magento\Framework\View\Element\Template;
+
 /**
  * Html page top menu block
  */
-class Topmenu
-    extends \Magento\Framework\View\Element\Template
-    implements \Magento\Framework\View\Block\IdentityInterface
+class Topmenu extends Template implements IdentityInterface
 {
     /**
      * Cache identities

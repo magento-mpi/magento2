@@ -93,28 +93,28 @@
     </type>
     <preference for="Magento\Authorization\RoleLocator" type="Magento\Backend\Model\Authorization\RoleLocator" />
     <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\Acl"/>
-    <preference for="Magento\Acl\Resource\ProviderInterface" type="Magento\Acl\Resource\Provider"/>
-    <type name="Magento\Acl\Resource\Config\Reader\Filesystem">
+    <preference for="Magento\Framework\Acl\Resource\ProviderInterface" type="Magento\Framework\Acl\Resource\Provider"/>
+    <type name="Magento\Framework\Acl\Resource\Config\Reader\Filesystem">
         <arguments>
-            <argument name="converter" xsi:type="object">Magento\Acl\Resource\Config\Converter\Dom</argument>
+            <argument name="converter" xsi:type="object">Magento\Framework\Acl\Resource\Config\Converter\Dom</argument>
         </arguments>
     </type>
-    <type name="Magento\Acl\Resource\Provider">
+    <type name="Magento\Framework\Acl\Resource\Provider">
         <arguments>
-            <argument name="configReader" xsi:type="object">Magento\Acl\Resource\Config\Reader\Filesystem</argument>
+            <argument name="configReader" xsi:type="object">Magento\Framework\Acl\Resource\Config\Reader\Filesystem</argument>
         </arguments>
     </type>
-    <type name="Magento\Acl\Builder">
+    <type name="Magento\Framework\Acl\Builder">
         <arguments>
-            <argument name="resourceLoader" xsi:type="object">Magento\Acl\Loader\Resource</argument>
+            <argument name="resourceLoader" xsi:type="object">Magento\Framework\Acl\Loader\Resource</argument>
         </arguments>
     </type>
-    <type name="Magento\Acl\Cache">
+    <type name="Magento\Framework\Acl\Cache">
         <arguments>
             <argument name="cacheKey" xsi:type="string">backend_acl_resources</argument>
         </arguments>
     </type>
-    <type name="Magento\Acl\RootResource">
+    <type name="Magento\Framework\Acl\RootResource">
         <arguments>
             <argument name="identifier" xsi:type="string">Magento_Adminhtml::all</argument>
         </arguments>

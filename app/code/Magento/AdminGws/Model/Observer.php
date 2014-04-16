@@ -58,7 +58,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_systemStore;
 
     /**
-     * @var \Magento\Acl\Builder
+     * @var \Magento\Framework\Acl\Builder
      */
     protected $_aclBuilder;
 
@@ -81,7 +81,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\Store\Model\System\Store $systemStore
-     * @param \Magento\Acl\Builder $aclBuilder
+     * @param \Magento\Framework\Acl\Builder $aclBuilder
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\User\Model\Resource\Role\Collection $userRoles
      * @param \Magento\Store\Model\Resource\Group\Collection $storeGroups
@@ -96,7 +96,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\AdminGws\Model\Role $role,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\Store\Model\System\Store $systemStore,
-        \Magento\Acl\Builder $aclBuilder,
+        \Magento\Framework\Acl\Builder $aclBuilder,
         \Magento\ObjectManager $objectManager,
         \Magento\User\Model\Resource\Role\Collection $userRoles,
         \Magento\Store\Model\Resource\Group\Collection $storeGroups,

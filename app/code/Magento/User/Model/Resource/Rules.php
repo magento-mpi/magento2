@@ -15,19 +15,19 @@ class Rules extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Root ACL resource
      *
-     * @var \Magento\Acl\RootResource
+     * @var \Magento\Framework\Acl\RootResource
      */
     protected $_rootResource;
 
     /**
      * Acl object cache
      *
-     * @var \Magento\Acl\CacheInterface
+     * @var \Magento\Framework\Acl\CacheInterface
      */
     protected $_aclCache;
 
     /**
-     * @var \Magento\Acl\Builder
+     * @var \Magento\Framework\Acl\Builder
      */
     protected $_aclBuilder;
 
@@ -38,17 +38,17 @@ class Rules extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Acl\Builder $aclBuilder
+     * @param \Magento\Framework\Acl\Builder $aclBuilder
      * @param \Magento\Logger $logger
-     * @param \Magento\Acl\RootResource $rootResource
-     * @param \Magento\Acl\CacheInterface $aclCache
+     * @param \Magento\Framework\Acl\RootResource $rootResource
+     * @param \Magento\Framework\Acl\CacheInterface $aclCache
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Acl\Builder $aclBuilder,
+        \Magento\Framework\Acl\Builder $aclBuilder,
         \Magento\Logger $logger,
-        \Magento\Acl\RootResource $rootResource,
-        \Magento\Acl\CacheInterface $aclCache
+        \Magento\Framework\Acl\RootResource $rootResource,
+        \Magento\Framework\Acl\CacheInterface $aclCache
     ) {
         $this->_aclBuilder = $aclBuilder;
         parent::__construct($resource);
@@ -101,7 +101,7 @@ class Rules extends \Magento\Framework\Model\Resource\Db\AbstractDb
                     $adapter->insert($this->getMainTable(), $insertData);
                 } else {
                     $acl = $this->_aclBuilder->getAcl();
-                    /** @var $resource \Magento\Acl\Resource */
+                    /** @var $resource \Magento\Framework\Acl\Resource */
                     foreach ($acl->getResources() as $resourceId) {
                         $row['permission'] = in_array($resourceId, $postedResources) ? 'allow' : 'deny';
                         $row['resource_id'] = $resourceId;
