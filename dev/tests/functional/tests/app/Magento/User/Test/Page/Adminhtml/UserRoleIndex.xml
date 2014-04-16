@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/user_role/index" >
+    <block>
+        <name>roleActions</name>
+        <class>Magento\Backend\Test\Block\GridPageActions</class>
+        <locator>.page-main-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>roleGrid</name>
+        <class>Magento\Backend\Test\Block\Widget\Grid</class>
+        <locator>#roleGrid</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>roleGrid</name>
+        <class>Magento\User\Test\Block\Adminhtml\Block\Widget\Grid\ColumnSet</class>
+        <locator>#roleGrid</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>messageBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>.messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

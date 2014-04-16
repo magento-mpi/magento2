@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<tabs>
+    <role-info>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#role_info_tabs_info</selector>
+        <strategy>css selector</strategy>
+        <fields>
+            <role_name>
+                <selector>[name='rolename']</selector>
+                <strategy>css selector</strategy>
+            </role_name>
+        </fields>
+    </role-info>
+    <role-resources-tab>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#role_info_tabs_account</selector>
+        <strategy>css selector</strategy>
+        <fields>
+            <all>
+                <input>select</input>
+            </all>
+            <roles_resources>
+                <input>jquerytree</input>
+                <selector>//fieldset//*[contains(@class,'x-tree')]</selector>
+                <strategy>xpath</strategy>
+            </roles_resources>
+        </fields>
+    </role-resources-tab>
+</tabs>

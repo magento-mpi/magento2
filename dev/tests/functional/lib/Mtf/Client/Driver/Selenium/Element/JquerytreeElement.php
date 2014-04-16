@@ -2,58 +2,49 @@
 /**
  * {license_notice}
  *
+ * @category    Mtf
+ * @package     Mtf
+ * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Mtf\Client\Driver\Selenium\Element;
 
-use Mtf\Client\Driver\Selenium\Element;
-use Mtf\Client\Element\Locator;
-
 /**
- * Typified element class for JQuery Tree elements
- * TODO: Current implementation must be completely changed to support all required JS tree functionality.
+ * Class JquerytreeElement
+ * Typified element class for JqueryTree elements
+ *
+ * @package Mtf\Client\Element
  */
-class JquerytreeElement extends Element
+class JquerytreeElement extends Tree
 {
     /**
-     * Css locator of JS tree
+     * Css class for finding tree nodes
      *
      * @var string
      */
-    protected $nodeCssClass = 'li[class*=jstree]';
-
+    protected $nodeCssClass = 'li[data-id] > ul';
     /**
-     * {@inheritdoc}
-     */
-    public function getValue()
-    {
-        /** TODO: Add processing of multiple ACL items */
-        $selectedResourcesLocator = 'li[class*="jstree-checked"]>a';
-        $aclResourceName = ltrim($this->find($selectedResourcesLocator)->getText());
-        return array($aclResourceName);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setValue($value)
-    {
-        $values = is_array($value) ? $value : array($value);
-        foreach ($values as $resourceName) {
-            $this->selectCheckbox($resourceName);
-        }
-    }
-
-    /**
-     * Select checkbox.
+     * Css class for detecting tree nodes
      *
-     * @param $resourceName
+     * @var string
      */
-    protected function selectCheckbox($resourceName)
+    protected $nodeSelector = 'li[data-id]';
+    /**
+     * Css class for fetching node's name
+     *
+     * @var string
+     */
+    protected $nodeName = 'a';
+
+    /**
+     * Get structure of the tree element
+     *
+     * @return array
+     */
+    public function getStructure()
     {
-        $checkBoxXpath = '//div[contains(@class, "jstree")]//a[text()="' . $resourceName . '"]';
-        $this->find($checkBoxXpath, Locator::SELECTOR_XPATH)->click();
+        return $this->_getNodeContent($this, 'div[class*=jstree] > ul');
     }
 }

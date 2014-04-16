@@ -1,0 +1,62 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\User\Test\TestCase;
+
+
+use Magento\User\Test\Fixture\AdminUserRole;
+use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
+use Magento\User\Test\Page\Adminhtml\UserRoleEditRole;
+use Mtf\TestCase\Injectable;
+
+/**
+ * Test Creation for CreateAdminUserRolesEntity
+ *
+ * Test Flow:
+ * 1. Log in as default admin user
+ * 2. Go to System>Permissions>User Roles
+ * 3. Press "+" button to start create New Role
+ * 4. Fill in all data according to data set
+ * 5. Save role
+ * 6. Perform assertions
+ *
+ * @group ACL_(MX)
+ * @ZephyrId MTA-46
+ */
+class CreateAdminUserRoleEntityTest extends Injectable
+{
+    /**
+     * @var UserRoleIndex
+     */
+    protected $userRoleIndex;
+
+    /**
+     * @var UserRoleEditRole
+     */
+    protected $userRoleEditRole;
+
+    public function __inject(
+        UserRoleIndex $userRoleIndex,
+        UserRoleEditRole $userRoleEditRole
+    )
+    {
+        $this->userRoleIndex = $userRoleIndex;
+        $this->userRoleEditRole = $userRoleEditRole;
+
+    }
+
+    public function testCreateUserRole(
+        AdminUserRole $role
+    ) {
+        //Steps
+        $this->userRoleIndex->open();
+        $this->userRoleIndex->getRoleActions()->addNew();
+        $this->userRoleEditRole->getRoleFormTabs()->fill($role);
+        $this->userRoleEditRole->getPageActions()->save();
+    }
+}
