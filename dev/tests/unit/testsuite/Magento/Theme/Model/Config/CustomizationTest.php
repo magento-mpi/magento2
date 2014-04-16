@@ -254,7 +254,7 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getAssignedTheme()
     {
-        return new \Magento\Object(array('id' => 1, 'theme_path' => 'magento_plushe'));
+        return new \Magento\Object(array('id' => 1, 'theme_path' => 'Magento/plushe'));
     }
 
     /**
@@ -262,7 +262,7 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getUnassignedTheme()
     {
-        return new \Magento\Object(array('id' => 2, 'theme_path' => 'magento_blank'));
+        return new \Magento\Object(array('id' => 2, 'theme_path' => 'Magento/blank'));
     }
 
     /**

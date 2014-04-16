@@ -2153,12 +2153,11 @@ return array(
     ['Magento\Translation\Helper\Data'],
     ['Magento\Translate\Factory'],
     ['Magento\Backend\Model\Translate'],
-    ['Magento\Backend\Model\Resource\Translate'],
-    ['Magento\Backend\Model\Resource\Translate\String'],
     ['Magento\DesignEditor\Model\Translate\InlineVde', 'Magento\DesignEditor\Model\Translate\Inline'],
-    ['Magento\Backend\Model\Translate\Inline'],
     ['Magento\Backend\Model\Translate\Inline\ConfigFactory'],
     ['Magento\Translate\Inline\ConfigFactory'],
+    ['Magento\Bundle\Model\Price\Index'],
+    ['Magento\Bundle\Model\Resource\Price\Index'],
     array('Magento\Core\Model\Template', 'Magento\Email\Model\AbstractTemplate'),
     array('Magento\Core\Helper\Js'),
     array('Magento\Backend\Helper\Media\Js'),
@@ -2297,4 +2296,13 @@ return array(
         'Magento\Checkout\Model\Resource\Agreement\Collection',
         'Magento\CheckoutAgreements\Model\Resource\Agreement\Collection'
     ],
+    ['Magento\Catalog\Model\PriceCurrency'],
+    [
+        'Magento\App\FrontController\Plugin\Clickjacking',
+        'X-Frame-Options HTTP header setting moved to server configuration'
+    ],
+    ['Magento\Backend\Model\Translate\Inline', 'Magento\Translate\Inline'],
+    ['Magento\Backend\Model\Resource\Translate', 'Magento\Translation\Model\Resource\Translate'],
+    ['Magento\Backend\Model\Resource\Translate\String', 'Magento\Translation\Model\Resource\String'],
+    ['Magento\Core\Model\Layout', 'Magento\View\Layout'],
 );

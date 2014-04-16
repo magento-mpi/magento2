@@ -77,6 +77,7 @@
         </arguments>
     </type>
     <type name="Magento\Service\V1\Data\FilterBuilder" shared="false" />
+    <type name="Magento\Service\V1\Data\SearchCriteriaBuilder" shared="false" />
     <type name="Magento\Message\Manager">
         <arguments>
             <argument name="session" xsi:type="object">Magento\Message\Session\Proxy</argument>
@@ -370,4 +371,5 @@
             <argument name="parser" xsi:type="object">Magento\Translate\Inline\ParserInterface\Proxy</argument>
         </arguments>
     </type>
+    <type name="Magento\View\Layout\ScheduledStructure" shared="false" />
 </config>

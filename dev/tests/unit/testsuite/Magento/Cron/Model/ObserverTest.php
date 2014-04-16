@@ -51,7 +51,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_request;
 
     /**
-     * @var \Magento\Shell|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ShellInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shell;
 
@@ -92,7 +92,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'Magento\App\Console\Request'
         )->disableOriginalConstructor()->getMock();
         $this->_shell = $this->getMockBuilder(
-            'Magento\Shell'
+            'Magento\ShellInterface'
         )->disableOriginalConstructor()->setMethods(
             array('execute')
         )->getMock();

@@ -63,7 +63,7 @@ class Price extends Block
      *
      * @var string
      */
-    protected $actualPrice = '.regular-price .price';
+    protected $actualPrice = '.actual.price .price';
 
     /**
      * 'Add to Cart' button
@@ -78,6 +78,20 @@ class Price extends Block
      * @var string
      */
     protected $closeMap = '#map-popup-close';
+
+    /**
+     * Price from selector
+     *
+     * @var string
+     */
+    protected $priceFromSelector = 'p.price-from span.price';
+
+    /**
+     * Price to selector
+     *
+     * @var string
+     */
+    protected $priceToSelector = 'p.price-to span.price';
 
     /**
      * @param string $currency
@@ -225,5 +239,25 @@ class Price extends Block
     public function closeMapBlock()
     {
         $this->_rootElement->find($this->closeMap, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Get price from
+     *
+     * @return array|string
+     */
+    public function getPriceFrom()
+    {
+        return $this->_rootElement->find($this->priceFromSelector)->getText();
+    }
+
+    /**
+     * Get price to
+     *
+     * @return array|string
+     */
+    public function getPriceTo()
+    {
+        return $this->_rootElement->find($this->priceToSelector)->getText();
     }
 }
