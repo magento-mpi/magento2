@@ -43,6 +43,7 @@
     * Moved lib/Magento/Config to lib/Magento/Framework/Config (MAGETWO-23533)
     * Moved lib/Magento/Model to lib/Magento/Framework/Model (MAGETWO-23536)
     * Moved lib/Magento/DB to lib/Magento/Framework/DB (MAGETWO-23553)
+    * Moved lib/Magento/View to lib/Magento/Framework/View (MAGETWO-23549)
 * Themes update:
   * Admin theme look&feel updated
 * Modularity improvements:
