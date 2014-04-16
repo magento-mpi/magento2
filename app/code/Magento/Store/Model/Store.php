@@ -288,6 +288,11 @@ class Store extends AbstractModel implements
     protected $_sidResolver;
 
     /**
+     * @var string
+     */
+    protected $_currencyInstalled;
+
+    /**
      * Cookie model
      *
      * @var \Magento\Stdlib\Cookie
@@ -314,6 +319,7 @@ class Store extends AbstractModel implements
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\App\Http\Context $httpContext
+     * @param string $currencyInstalled
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param bool $isCustomEntryPoint
      * @param array $data
@@ -333,6 +339,7 @@ class Store extends AbstractModel implements
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Stdlib\Cookie $cookie,
         \Magento\App\Http\Context $httpContext,
+        $currencyInstalled,
         \Magento\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()
@@ -349,6 +356,7 @@ class Store extends AbstractModel implements
         $this->_sidResolver = $sidResolver;
         $this->_cookie = $cookie;
         $this->_httpContext = $httpContext;
+        $this->_currencyInstalled = $currencyInstalled;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -805,7 +813,7 @@ class Store extends AbstractModel implements
     public function getBaseCurrency()
     {
         $currency = $this->getData('base_currency');
-        if (null === $currency) {
+       if (null === $currency) {
             $currency = \Magento\App\ObjectManager::getInstance()->create(
                 'Magento\Directory\Model\Currency'
             )->load(
@@ -932,6 +940,16 @@ class Store extends AbstractModel implements
             }
         }
         return $codes;
+    }
+
+    /**
+     * Array of installed currencies for the scope
+     *
+     * @return array
+     */
+    public function getAllowedCurrencies()
+    {
+        return explode(',', $this->_getConfig($this->_currencyInstalled));
     }
 
     /**
