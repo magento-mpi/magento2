@@ -29,6 +29,11 @@ class FileSystem
     protected $_localeFileResolution;
 
     /**
+     * @var Design\FileResolution\Fallback\StaticFile
+     */
+    protected $_staticFileResolution;
+
+    /**
      * View service
      *
      * @var Asset\Repository
@@ -41,17 +46,20 @@ class FileSystem
      * @param Design\FileResolution\Fallback\File $fallbackFile
      * @param Design\FileResolution\Fallback\TemplateFile $fallbackTemplateFile
      * @param Design\FileResolution\Fallback\LocaleFile $fallbackLocaleFile
+     * @param Design\FileResolution\Fallback\StaticFile $fallbackStaticFile
      * @param Asset\Repository $assetRepo
      */
     public function __construct(
         Design\FileResolution\Fallback\File $fallbackFile,
         Design\FileResolution\Fallback\TemplateFile $fallbackTemplateFile,
         Design\FileResolution\Fallback\LocaleFile $fallbackLocaleFile,
+        Design\FileResolution\Fallback\StaticFile $fallbackStaticFile,
         Asset\Repository $assetRepo
     ) {
         $this->_fileResolution = $fallbackFile;
         $this->_templateFileResolution = $fallbackTemplateFile;
         $this->_localeFileResolution = $fallbackLocaleFile;
+        $this->_staticFileResolution = $fallbackStaticFile;
         $this->_assetRepo = $assetRepo;
     }
 
@@ -104,6 +112,24 @@ class FileSystem
         $this->_assetRepo->updateDesignParams($params);
         return $this->_templateFileResolution
             ->getFile($params['area'], $params['themeModel'], $filePath, $params['module']);
+    }
+
+    /**
+     * Find a static view file using fallback mechanism
+     *
+     * @param string $fileId
+     * @param array $params
+     * @return string
+     */
+    public function getStaticFileName($fileId, array $params = array())
+    {
+        list($module, $filePath) = \Magento\View\Asset\Repository::extractModule($this->normalizePath($fileId));
+        if ($module) {
+            $params['module'] = $module;
+        }
+        $this->_assetRepo->updateDesignParams($params);
+        return $this->_staticFileResolution
+            ->getFile($params['area'], $params['themeModel'], $params['locale'], $filePath, $params['module']);
     }
 
     /**

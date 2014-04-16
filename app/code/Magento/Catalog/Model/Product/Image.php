@@ -133,6 +133,11 @@ class Image extends \Magento\Core\Model\AbstractModel
     protected $_assetRepo;
 
     /**
+     * @var \Magento\View\FileSystem
+     */
+    protected $_viewFilesystem;
+
+    /**
      * Core file storage database
      *
      * @var \Magento\Core\Helper\File\Storage\Database
@@ -169,6 +174,7 @@ class Image extends \Magento\Core\Model\AbstractModel
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Image\Factory $imageFactory
      * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\View\FileSystem $viewFilesystem
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -183,6 +189,7 @@ class Image extends \Magento\Core\Model\AbstractModel
         \Magento\App\Filesystem $filesystem,
         \Magento\Image\Factory $imageFactory,
         \Magento\View\Asset\Repository $assetRepo,
+        \Magento\View\FileSystem $viewFilesystem,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -196,6 +203,7 @@ class Image extends \Magento\Core\Model\AbstractModel
         $this->_mediaDirectory->create($this->_catalogProductMediaConfig->getBaseMediaPath());
         $this->_imageFactory = $imageFactory;
         $this->_assetRepo = $assetRepo;
+        $this->_viewFilesystem = $viewFilesystem;
         $this->_coreStoreConfig = $coreStoreConfig;
     }
 
@@ -754,7 +762,7 @@ class Image extends \Magento\Core\Model\AbstractModel
             }
         }
         if (!$filePath) {
-            $filePath = $this->_assetRepo->createAsset($file)->getSourceFile();
+            $filePath = $this->_viewFilesystem->getStaticFileName($file);
         }
 
         return $filePath;

@@ -35,6 +35,11 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     protected $_localeFileResolution;
 
     /**
+     * @var \Magento\View\Design\FileResolution\Fallback\StaticFile|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_staticFileResolution;
+
+    /**
      * @var \Magento\View\Asset\Repository|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_assetRepo;
@@ -50,6 +55,9 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $this->_localeFileResolution = $this->getMock('Magento\View\Design\FileResolution\Fallback\LocaleFile', array(),
             array(), '', false
         );
+        $this->_staticFileResolution = $this->getMock('Magento\View\Design\FileResolution\Fallback\StaticFile', array(),
+            array(), '', false
+        );
         $this->_assetRepo = $this->getMock('Magento\View\Asset\Repository',
             array('extractScope', 'updateDesignParams', 'createAsset'), array(), '', false
         );
@@ -58,6 +66,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
             $this->_fileResolution,
             $this->_templateFileResolution,
             $this->_localeFileResolution,
+            $this->_staticFileResolution,
             $this->_assetRepo
         );
     }
@@ -128,6 +137,25 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($expected));
 
         $actual = $this->_model->getLocaleFileName($file, $params);
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testGetViewFile()
+    {
+        $params = array(
+            'area' => 'some_area',
+            'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', array(), array(), '', false, false),
+            'locale' => 'some_locale'
+        );
+        $file = 'Some_Module::some_file.ext';
+        $expected = 'path/to/some_file.ext';
+
+        $this->_staticFileResolution->expects($this->once())
+            ->method('getFile')
+            ->with($params['area'], $params['themeModel'], $params['locale'], 'some_file.ext', 'Some_Module')
+            ->will($this->returnValue($expected));
+
+        $actual = $this->_model->getStaticFileName($file, $params);
         $this->assertEquals($expected, $actual);
     }
 

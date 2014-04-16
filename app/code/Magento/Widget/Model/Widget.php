@@ -35,6 +35,11 @@ class Widget
     protected $_assetRepo;
 
     /**
+     * @var \Magento\View\Asset\Source
+     */
+    protected $_assetSource;
+
+    /**
      * @var \Magento\View\FileSystem
      */
     protected $_viewFileSystem;
@@ -55,17 +60,20 @@ class Widget
      * @param \Magento\Escaper $escaper
      * @param \Magento\Widget\Model\Config\Data $dataStorage
      * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\View\Asset\Source $assetSource
      * @param \Magento\View\FileSystem $viewFileSystem
      */
     public function __construct(
         \Magento\Escaper $escaper,
         \Magento\Widget\Model\Config\Data $dataStorage,
         \Magento\View\Asset\Repository $assetRepo,
+        \Magento\View\Asset\Source $assetSource,
         \Magento\View\FileSystem $viewFileSystem
     ) {
         $this->_escaper = $escaper;
         $this->_dataStorage = $dataStorage;
         $this->_assetRepo = $assetRepo;
+        $this->_assetSource = $assetSource;
         $this->_viewFileSystem = $viewFileSystem;
     }
 
@@ -274,8 +282,14 @@ class Widget
         if (is_array($widget) && isset($widget['placeholder_image'])) {
             $placeholder = (string)$widget['placeholder_image'];
         }
-        if (!$placeholder || !$this->_assetRepo->createAsset($placeholder)->getSourceFile()) {
-            $placeholder = 'Magento_Widget::placeholder.gif';
+        if (!$placeholder) {
+            $asset = $this->_assetRepo->createAsset($placeholder);
+            $placeholder = $this->_assetSource->getFile($asset);
+            if ($placeholder) {
+                return $asset->getUrl();
+            } else {
+                $placeholder = 'Magento_Widget::placeholder.gif';
+            }
         }
         return $this->_assetRepo->getUrl($placeholder);
     }

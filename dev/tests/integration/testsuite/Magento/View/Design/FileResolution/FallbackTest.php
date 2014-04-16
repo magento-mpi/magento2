@@ -41,7 +41,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
      * @param string|null $module
      * @param string|null $expectedFilename
      *
-     * @dataProvider getFileDataProvider
+     * @dataProvider getTemplateFileDataProvider
      */
     public function testGetTemplateFile($file, $themePath, $module, $expectedFilename)
     {
@@ -59,18 +59,18 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function getFileDataProvider()
+    public function getTemplateFileDataProvider()
     {
         return array(
             'non-modular: no default inheritance' => array(
                 'fixture_template.phtml', 'vendor_standalone_theme', null,
                 null,
             ),
-            'non-modular: inherit same package & parent theme' => array(
+            'non-modular: inherit parent theme' => array(
                 'fixture_template.phtml', 'vendor_custom_theme', null,
                 '%s/frontend/vendor_default/templates/fixture_template.phtml',
             ),
-            'non-modular: inherit same package & grandparent theme' => array(
+            'non-modular: inherit grandparent theme' => array(
                 'fixture_template.phtml', 'vendor_custom_theme2', null,
                 '%s/frontend/vendor_default/templates/fixture_template.phtml',
             ),
@@ -82,11 +82,11 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
                 'fixture_template.phtml', 'vendor_default', 'NonExisting_Module',
                 null,
             ),
-            'modular: inherit same package & parent theme' => array(
+            'modular: inherit parent theme' => array(
                 'fixture_template.phtml', 'vendor_custom_theme', 'Fixture_Module',
                 '%s/frontend/vendor_default/Fixture_Module/templates/fixture_template.phtml',
             ),
-            'modular: inherit same package & grandparent theme' => array(
+            'modular: inherit grandparent theme' => array(
                 'fixture_template.phtml', 'vendor_custom_theme2', 'Fixture_Module',
                 '%s/frontend/vendor_default/Fixture_Module/templates/fixture_template.phtml',
             ),
@@ -102,6 +102,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetI18nCsvFile($themePath, $locale, $expectedFilename)
     {
+        /** @var \Magento\View\Design\FileResolution\Fallback\File $model */
         $model = Bootstrap::getObjectManager()->create('Magento\View\Design\FileResolution\Fallback\File');
         $themeModel = $this->themeFactory->create($themePath);
 
@@ -135,7 +136,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for the skin files fallback according to the themes inheritance
+     * Test for the static files fallback according to the themes inheritance
      *
      * @param string $file
      * @param string $themePath

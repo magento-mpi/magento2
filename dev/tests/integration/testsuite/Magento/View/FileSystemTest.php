@@ -42,6 +42,21 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 
+    public function testGetFileNameAccordingToLocale()
+    {
+        $expected = '%s/frontend/test_default/web/i18n/fr_FR/logo.gif';
+        $actual = $this->_model->getStaticFileName('logo.gif', array('locale' => 'fr_FR'));
+        $this->_testExpectedVersusActualFilename($expected, $actual);
+    }
+
+    public function testGetViewFile()
+    {
+        $expected = '%s/frontend/vendor_custom_theme/Fixture_Module/web/fixture_script.js';
+        $params = array('theme' => 'vendor_custom_theme');
+        $actual = $this->_model->getStaticFileName('Fixture_Module::fixture_script.js', $params);
+        $this->_testExpectedVersusActualFilename($expected, $actual);
+    }
+
     /**
      * Tests expected vs actual found fallback filename
      *
