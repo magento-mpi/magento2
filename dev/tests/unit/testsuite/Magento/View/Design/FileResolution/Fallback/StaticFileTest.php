@@ -8,6 +8,8 @@
 
 namespace Magento\View\Design\FileResolution\Fallback;
 
+use \Magento\View\Design\Fallback\RulePool;
+
 class StaticFileTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -32,7 +34,7 @@ class StaticFileTest extends \PHPUnit_Framework_TestCase
         $expected = 'some/file.ext';
         $this->resolver->expects($this->once())
             ->method('resolve')
-            ->with(StaticFile::TYPE, 'file.ext', 'frontend', $theme, 'en_US', 'Magento_Module')
+            ->with(RulePool::TYPE_STATIC_FILE, 'file.ext', 'frontend', $theme, 'en_US', 'Magento_Module')
             ->will($this->returnValue($expected));
         $actual = $this->object->getFile('frontend', $theme, 'en_US', 'file.ext', 'Magento_Module');
         $this->assertSame($expected, $actual);

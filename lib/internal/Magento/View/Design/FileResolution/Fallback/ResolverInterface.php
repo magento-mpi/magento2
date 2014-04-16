@@ -9,7 +9,6 @@
 namespace Magento\View\Design\FileResolution\Fallback;
 
 use Magento\View\Design\FileResolution\Fallback;
-use Magento\View\Design\Fallback\Rule\RuleInterface;
 use Magento\View\Design\ThemeInterface;
 
 /**

@@ -16,11 +16,6 @@ use Magento\View\Design\ThemeInterface;
 class StaticFile
 {
     /**
-     * Fallback resolver type
-     */
-    const TYPE = 'view';
-
-    /**
      * @var ResolverInterface
      */
     private $resolver;
@@ -47,6 +42,14 @@ class StaticFile
      */
     public function getFile($area, ThemeInterface $themeModel, $locale, $file, $module = null)
     {
-        return $this->resolver->resolve(self::TYPE, $file, $area, $themeModel, $locale, $module);
+        return $this->resolver->resolve($this->getFallbackType(), $file, $area, $themeModel, $locale, $module);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getFallbackType()
+    {
+        return \Magento\View\Design\Fallback\RulePool::TYPE_STATIC_FILE;
     }
 }

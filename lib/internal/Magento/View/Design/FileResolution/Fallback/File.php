@@ -16,11 +16,6 @@ use Magento\View\Design\ThemeInterface;
 class File
 {
     /**
-     * Fallback resolver type
-     */
-    const TYPE = 'file';
-
-    /**
      * @var ResolverInterface
      */
     private $resolver;
@@ -46,6 +41,14 @@ class File
      */
     public function getFile($area, ThemeInterface $themeModel, $file, $module = null)
     {
-        return $this->resolver->resolve(self::TYPE, $file, $area, $themeModel, null, $module);
+        return $this->resolver->resolve($this->getFallbackType(), $file, $area, $themeModel, null, $module);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getFallbackType()
+    {
+        return \Magento\View\Design\Fallback\RulePool::TYPE_FILE;
     }
 }

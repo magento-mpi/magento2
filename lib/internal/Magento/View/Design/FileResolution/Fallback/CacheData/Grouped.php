@@ -18,9 +18,9 @@ class Grouped implements Fallback\CacheDataInterface
     private $cache;
 
     /**
-     * @var bool
+     * @var bool[]
      */
-    private $isDirty = false;
+    private $isDirty = [];
 
     /**
      * @var array
@@ -59,7 +59,7 @@ class Grouped implements Fallback\CacheDataInterface
         $recordId = $this->getCacheRecordId($file, $module);
         if (!isset($this->cacheSections[$sectionId][$recordId])
             || $this->cacheSections[$sectionId][$recordId] !== $value) {
-            $this->isDirty = true;
+            $this->isDirty[$sectionId] = $sectionId;
             $this->cacheSections[$sectionId][$recordId] = $value;
         }
         return true;
@@ -115,11 +115,9 @@ class Grouped implements Fallback\CacheDataInterface
      */
     public function __destruct()
     {
-        if ($this->isDirty) {
-            foreach ($this->cacheSections as $cacheId => $section) {
-                $value = json_encode($section);
-                $this->cache->save($value, $cacheId);
-            }
+        foreach ($this->isDirty as $sectionId) {
+            $value = json_encode($this->cacheSections[$sectionId]);
+            $this->cache->save($value, $sectionId);
         }
     }
 }

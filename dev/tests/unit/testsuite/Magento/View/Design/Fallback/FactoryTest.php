@@ -89,10 +89,10 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function getRuleDataProvider()
     {
         return [
-            [\Magento\View\Design\FileResolution\Fallback\LocaleFile::TYPE],
-            [\Magento\View\Design\FileResolution\Fallback\File::TYPE],
-            [\Magento\View\Design\FileResolution\Fallback\TemplateFile::TYPE],
-            [\Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE],
+            [\Magento\View\Design\Fallback\RulePool::TYPE_LOCALE_FILE],
+            [\Magento\View\Design\Fallback\RulePool::TYPE_FILE],
+            [\Magento\View\Design\Fallback\RulePool::TYPE_TEMPLATE_FILE],
+            [\Magento\View\Design\Fallback\RulePool::TYPE_STATIC_FILE],
         ];
     }
 
@@ -142,16 +142,16 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             ],
         ];
         $exceptionsPerTypes = [
-            \Magento\View\Design\FileResolution\Fallback\LocaleFile::TYPE => [
+            \Magento\View\Design\Fallback\RulePool::TYPE_LOCALE_FILE => [
                 'no theme', 'no area'
             ],
-            \Magento\View\Design\FileResolution\Fallback\File::TYPE => [
+            \Magento\View\Design\Fallback\RulePool::TYPE_FILE => [
                 'no theme', 'no area', 'no namespace', 'no module'
             ],
-            \Magento\View\Design\FileResolution\Fallback\TemplateFile::TYPE => [
+            \Magento\View\Design\Fallback\RulePool::TYPE_TEMPLATE_FILE => [
                 'no theme', 'no area', 'no namespace', 'no module'
             ],
-            \Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE => [
+            \Magento\View\Design\Fallback\RulePool::TYPE_STATIC_FILE => [
                 'no theme', 'no area', 'no namespace', 'no module'
             ],
         ];
@@ -184,12 +184,12 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'locale' => [
-                \Magento\View\Design\FileResolution\Fallback\LocaleFile::TYPE,
+                \Magento\View\Design\Fallback\RulePool::TYPE_LOCALE_FILE,
                 [],
                 ['/area/current_theme_path', '/area/parent_theme_path'],
             ],
             'file, modular' => [
-                \Magento\View\Design\FileResolution\Fallback\File::TYPE,
+                \Magento\View\Design\Fallback\RulePool::TYPE_FILE,
                 [],
                 [
                     '/area/current_theme_path/namespace_module',
@@ -198,7 +198,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'file, non-modular' => [
-                \Magento\View\Design\FileResolution\Fallback\File::TYPE,
+                \Magento\View\Design\Fallback\RulePool::TYPE_FILE,
                 ['namespace' => null, 'module' => null],
                 [
                     '/area/current_theme_path',
@@ -207,7 +207,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             ],
 
             'template, modular' => [
-                \Magento\View\Design\FileResolution\Fallback\TemplateFile::TYPE,
+                \Magento\View\Design\Fallback\RulePool::TYPE_TEMPLATE_FILE,
                 [],
                 [
                     '/area/current_theme_path/namespace_module/templates',
@@ -216,7 +216,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'template, non-modular' => [
-                \Magento\View\Design\FileResolution\Fallback\TemplateFile::TYPE,
+                \Magento\View\Design\Fallback\RulePool::TYPE_TEMPLATE_FILE,
                 ['namespace' => null, 'module' => null],
                 [
                     '/area/current_theme_path/templates',
@@ -224,7 +224,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'template, non-modular-magento-core' => [
-                \Magento\View\Design\FileResolution\Fallback\TemplateFile::TYPE,
+                \Magento\View\Design\Fallback\RulePool::TYPE_TEMPLATE_FILE,
                 ['namespace' => 'Magento', 'module' => 'Core'],
                 [
                     '/area/current_theme_path/Magento_Core/templates',
@@ -234,7 +234,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             ],
 
             'view, modular localized' => [
-                \Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE,
+                \Magento\View\Design\Fallback\RulePool::TYPE_STATIC_FILE,
                 [],
                 [
                     '/area/current_theme_path/namespace_module/web/i18n/en_US',
@@ -246,7 +246,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'view, modular non-localized' => [
-                \Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE,
+                \Magento\View\Design\Fallback\RulePool::TYPE_STATIC_FILE,
                 ['locale' => null],
                 [
                     '/area/current_theme_path/namespace_module/web',
@@ -255,7 +255,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'view, non-modular localized' => [
-                \Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE,
+                \Magento\View\Design\Fallback\RulePool::TYPE_STATIC_FILE,
                 ['module' => null, 'namespace' => null],
                 [
                     '/area/current_theme_path/web/i18n/en_US',
@@ -266,7 +266,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'view, non-modular non-localized' => [
-                \Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE,
+                \Magento\View\Design\Fallback\RulePool::TYPE_STATIC_FILE,
                 ['module' => null, 'namespace' => null, 'locale' => null],
                 [
                     '/area/current_theme_path/web',

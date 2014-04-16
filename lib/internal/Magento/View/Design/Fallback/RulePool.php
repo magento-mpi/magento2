@@ -22,6 +22,15 @@ use Magento\View\Design\Fallback\Rule\Theme;
  */
 class RulePool
 {
+    /**#@+
+     * Supported types of fallback rules
+     */
+    const TYPE_FILE = 'file';
+    const TYPE_LOCALE_FILE = 'locale';
+    const TYPE_TEMPLATE_FILE = 'template';
+    const TYPE_STATIC_FILE = 'static';
+    /**#@-*/
+
     /**
      * File system
      *
@@ -157,16 +166,16 @@ class RulePool
             return $this->rules[$type];
         }
         switch ($type) {
-            case \Magento\View\Design\FileResolution\Fallback\File::TYPE:
+            case self::TYPE_FILE:
                 $rule = $this->createFileRule();
                 break;
-            case \Magento\View\Design\FileResolution\Fallback\LocaleFile::TYPE:
+            case self::TYPE_LOCALE_FILE:
                 $rule = $this->createLocaleFileRule();
                 break;
-            case \Magento\View\Design\FileResolution\Fallback\TemplateFile::TYPE:
+            case self::TYPE_TEMPLATE_FILE:
                 $rule = $this->createTemplateFileRule();
                 break;
-            case \Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE:
+            case self::TYPE_STATIC_FILE:
                 $rule = $this->createViewFileRule();
                 break;
             default:

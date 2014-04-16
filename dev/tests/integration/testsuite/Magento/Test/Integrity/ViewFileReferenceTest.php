@@ -60,7 +60,7 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
 
         /** @var $fallbackPool \Magento\View\Design\Fallback\RulePool */
         $fallbackPool = $objectManager->get('Magento\View\Design\Fallback\RulePool');
-        self::$_fallbackRule = $fallbackPool->getRule(\Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE);
+        self::$_fallbackRule = $fallbackPool->getRule(\Magento\View\Design\Fallback\RulePool::TYPE_STATIC_FILE);
 
         self::$_viewFilesFallback = $objectManager->get('Magento\View\Design\FileResolution\Fallback\StaticFile');
         self::$_filesFallback = $objectManager->get('Magento\View\Design\FileResolution\Fallback\File');

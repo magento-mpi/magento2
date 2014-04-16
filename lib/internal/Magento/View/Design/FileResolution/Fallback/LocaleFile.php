@@ -16,11 +16,6 @@ use Magento\View\Design\ThemeInterface;
 class LocaleFile
 {
     /**
-     * Fallback resolver type
-     */
-    const TYPE = 'locale';
-
-    /**
      * @var ResolverInterface
      */
     private $resolver;
@@ -46,6 +41,14 @@ class LocaleFile
      */
     public function getFile($area, ThemeInterface $themeModel, $locale, $file)
     {
-        return $this->resolver->resolve(self::TYPE, $file, $area, $themeModel, $locale, null);
+        return $this->resolver->resolve($this->getFallbackType(), $file, $area, $themeModel, $locale, null);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getFallbackType()
+    {
+        return \Magento\View\Design\Fallback\RulePool::TYPE_LOCALE_FILE;
     }
 }

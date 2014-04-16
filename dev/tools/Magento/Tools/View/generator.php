@@ -74,7 +74,7 @@ try {
     /** @var \Magento\Tools\View\Generator\CopyRule $generator */
     $generator = $objectManager->create('Magento\Tools\View\Generator\CopyRule', array(
         'themes' => $themes,
-        'fallbackRule' => $fallbackPool->getRule(\Magento\View\Design\FileResolution\Fallback\StaticFile::TYPE)
+        'fallbackRule' => $fallbackPool->getRule(\Magento\View\Design\Fallback\RulePool::TYPE_STATIC_FILE)
     ));
 
     $copyRules = $generator->getCopyRules();
