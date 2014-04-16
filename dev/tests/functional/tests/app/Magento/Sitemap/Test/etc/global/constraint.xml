@@ -10,17 +10,14 @@
 <constraint>
     <assertSitemapSuccessSaveMessage module="Magento_Sitemap">
         <severeness>low</severeness>
-        <require>
-        </require>
     </assertSitemapSuccessSaveMessage>
     <assertSitemapInGrid module="Magento_Sitemap">
         <severeness>low</severeness>
-        <require>
-        </require>
     </assertSitemapInGrid>
-    <assertSitemapFailSaveMessage module="Magento_Sitemap">
+    <assertSitemapFailPathSaveMessage module="Magento_Sitemap">
         <severeness>low</severeness>
-        <require>
-        </require>
-    </assertSitemapFailSaveMessage>
+    </assertSitemapFailPathSaveMessage>
+    <assertSitemapFailFolderSaveMessage module="Magento_Sitemap">
+        <severeness>low</severeness>
+    </assertSitemapFailFolderSaveMessage>
 </constraint>

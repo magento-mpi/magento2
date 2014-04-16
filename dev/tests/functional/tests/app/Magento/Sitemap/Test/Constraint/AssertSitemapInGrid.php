@@ -27,7 +27,7 @@ class AssertSitemapInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert product availability in Products Grid
+     * Assert that sitemap availability in sitemap grid
      *
      * @param Sitemap $sitemap
      * @param AdminSitemapIndex $sitemapPageGrid
@@ -35,19 +35,25 @@ class AssertSitemapInGrid extends AbstractConstraint
      */
     public function processAssert(Sitemap $sitemap, AdminSitemapIndex $sitemapPageGrid)
     {
-        $filter = ['sitemap_filename' => $sitemap->getSitemapFilename(), 'sitemap_path' => $sitemap->getSitemapPath()];
+        $sitemapPageGrid->open();
+        $filter = [
+            'sitemap_filename' => $sitemap->getSitemapFilename(),
+            'sitemap_path' => $sitemap->getSitemapPath()
+        ];
         \PHPUnit_Framework_Assert::assertTrue(
             $sitemapPageGrid->getSitemapGrid()->isRowVisible($filter),
-            'Sitemap with filename \'' . $sitemap->getSitemapFilename() . '\' and path \'' . $sitemap->getSitemapPath(
-            ) . '\'is absent in Sitemap grid.'
+            'Sitemap with filename \'' . $sitemap->getSitemapFilename() . '\' and path \''
+            . $sitemap->getSitemapPath() . '\'is absent in Sitemap grid.'
         );
     }
 
     /**
+     * Text of presence sitemap in grid.
+     *
      * @return string
      */
     public function toString()
     {
-        //
+        return 'Sitemap in grid is present.';
     }
 }

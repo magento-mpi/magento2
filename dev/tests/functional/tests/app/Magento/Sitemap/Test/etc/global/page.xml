@@ -14,7 +14,7 @@
         <class>Magento\Sitemap\Test\Page\Adminhtml\AdminSitemapIndex</class>
     </adminSitemapIndex>
     <sitemapNewIndex>
-        <mca>sitemap/new/index</mca>
+        <mca>admin/sitemap/new</mca>
         <area>adminhtml</area>
         <class>Magento\Sitemap\Test\Page\Adminhtml\SitemapNewIndex</class>
     </sitemapNewIndex>

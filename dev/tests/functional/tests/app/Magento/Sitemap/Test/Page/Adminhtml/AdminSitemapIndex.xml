@@ -21,8 +21,8 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>sitemapSaveMessage</name>
-        <class>sitemapSaveMessage</class>
+        <name>messagesBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
         <locator>#messages</locator>
         <strategy>css selector</strategy>
     </block>

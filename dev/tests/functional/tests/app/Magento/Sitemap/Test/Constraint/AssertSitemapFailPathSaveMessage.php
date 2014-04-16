@@ -10,15 +10,16 @@ namespace Magento\Sitemap\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sitemap\Test\Page\Adminhtml\AdminSitemapIndex;
+use Magento\Sitemap\Test\Fixture\Sitemap;
 
 /**
- * Class AssertSitemapSuccessSaveMessage
+ * Class AssertSitemapFailPathSaveMessage
  *
  * @package Magento\Sitemap\Test\Constraint
  */
-class AssertSitemapSuccessSaveMessage extends AbstractConstraint
+class AssertSitemapFailPathSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'The sitemap has been saved.';
+    const FAILPATH = 'Path "/%s" is not available and cannot be used.';
     /**
      * Constraint severeness
      *
@@ -27,30 +28,31 @@ class AssertSitemapSuccessSaveMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that success message is displayed after sitemap save
+     * Assert that fail message is displayed after wrong sitemap save
      *
      * @param AdminSitemapIndex $sitemapPage
+     * @param Sitemap $sitemap
      * @return void
      */
-    public function processAssert(AdminSitemapIndex $sitemapPage)
+    public function processAssert(AdminSitemapIndex $sitemapPage, Sitemap $sitemap)
     {
-        $actualMessage = $sitemapPage->getSitemapSaveMessage()->getSuccessMessages();
+        $actualMessage = $sitemapPage->getSitemapSaveMessage()->getErrorMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_MESSAGE,
+            sprintf(self::FAILPATH, $sitemap->getSitemapFilename()),
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_MESSAGE
+            . "\nExpected: " . self::FAILPATH
             . "\nActual: " . $actualMessage
         );
     }
 
     /**
-     * Text of success create sitemap assert.
+     * Text of fail create sitemap assert.
      *
      * @return string
      */
     public function toString()
     {
-        return 'Sitemap success create message is present.';
+        return 'Fail message for create sitemap is present.';
     }
 }

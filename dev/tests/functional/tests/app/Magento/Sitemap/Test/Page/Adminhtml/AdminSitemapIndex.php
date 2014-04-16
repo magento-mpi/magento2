@@ -32,8 +32,8 @@ class AdminSitemapIndex extends BackendPage
             'locator' => '#sitemapGrid',
             'strategy' => 'css selector',
         ],
-        'sitemapSaveMessage' => [
-            'name' => 'sitemapSaveMessage',
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
@@ -61,6 +61,6 @@ class AdminSitemapIndex extends BackendPage
      */
     public function getSitemapSaveMessage()
     {
-        return $this->getBlockInstance('sitemapSaveMessage');
+        return $this->getBlockInstance('messagesBlock');
     }
 }
