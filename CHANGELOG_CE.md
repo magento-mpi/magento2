@@ -107,14 +107,13 @@
   * Fixed: Admin Session expires unexpectedly (MAGETWO-21736)
   * Fixed: Scheduled Export for 'Remote FTP' does not work (MAGETWO-18584)
   * Fixed: [TD] Wrong default value for PHP memory_limit (MAGETWO-21340)
+  * Fixed Messages absence on Frontend with FPC turned off (MAGETWO-23535)
 * JavaScript improvements:
   * Upgraded frontend jQuery library to version 1.11
   * Upgraded frontend jQuery UI library to version 1.10.4
   * Modified loader widget to render content using handlebars
   * Added use strict mode to accordian widget
   * Added use strict mode to tab widget
-* GitHub requests:
-  * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
 
 2.0.0.0-dev72
 =============
