@@ -136,28 +136,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->_product, $this->_block->getProduct());
     }
 
-    public function testGetTierPriceTemplate()
-    {
-        $this->assertEquals('product/view/tierprices.phtml', $this->_block->getTierPriceTemplate());
-        $this->_block->setData('tier_price_template', 'test.phtml');
-        $this->assertEquals('test.phtml', $this->_block->getTierPriceTemplate());
-    }
-
-    public function testGetTierPrices()
-    {
-        $prices = $this->_block->getTierPrices();
-        $this->assertNotEmpty($prices);
-        $this->assertGreaterThanOrEqual(2, count($prices));
-        $this->assertArrayHasKey('price', $prices[0]);
-        $this->assertArrayHasKey('savePercent', $prices[0]);
-        $this->assertArrayHasKey('formated_price', $prices[0]);
-        $this->assertArrayHasKey('formated_price_incl_tax', $prices[0]);
-
-        $this->_product->setFinalPrice(7);
-        $prices = $this->_block->getTierPrices();
-        $this->assertEquals(1, count($prices));
-    }
-
     public function testGetImageLabel()
     {
         $this->assertEquals($this->_product->getName(), $this->_block->getImageLabel());

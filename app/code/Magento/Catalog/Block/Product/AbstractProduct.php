@@ -41,11 +41,6 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     protected $_priceBlockDefaultTemplate = 'product/price.phtml';
 
     /**
-     * @var string
-     */
-    protected $_tierPriceDefaultTemplate = 'product/view/tierprices.phtml';
-
-    /**
      * Flag which allow/disallow to use link for as low as price
      *
      * @var bool
@@ -298,85 +293,6 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
             $this->setData('product', $this->_coreRegistry->registry('product'));
         }
         return $this->getData('product');
-    }
-
-    /**
-     * Retrieve tier price template
-     *
-     * @return string
-     */
-    public function getTierPriceTemplate()
-    {
-        if (!$this->hasData('tier_price_template')) {
-            return $this->_tierPriceDefaultTemplate;
-        }
-
-        return $this->getData('tier_price_template');
-    }
-
-    /**
-     * Get tier prices (formatted)
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @return array
-     *
-     * @deprecated see \Magento\Catalog\Pricing\Price\TierPrice
-     */
-    public function getTierPrices($product = null)
-    {
-        if (is_null($product)) {
-            $product = $this->getProduct();
-        }
-        $prices = $product->getFormatedTierPrice();
-
-        $res = array();
-        if (is_array($prices)) {
-            foreach ($prices as $price) {
-                $price['price_qty'] = $price['price_qty'] * 1;
-
-                $productPrice = $product->getPrice();
-                if ($productPrice != $product->getFinalPrice()) {
-                    $productPrice = $product->getFinalPrice();
-                }
-
-                // Group price must be used for percent calculation if it is lower
-                $groupPrice = $product->getGroupPrice();
-                if ($productPrice > $groupPrice) {
-                    $productPrice = $groupPrice;
-                }
-
-                if ($price['price'] < $productPrice) {
-                    $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
-
-                    $tierPrice = $this->_storeManager->getStore()->convertPrice(
-                        $this->_taxData->getPrice($product, $price['website_price'])
-                    );
-                    $price['formated_price'] = $this->_storeManager->getStore()->formatPrice($tierPrice);
-                    $price['formated_price_incl_tax'] = $this->_storeManager->getStore()->formatPrice(
-                        $this->_storeManager->getStore()->convertPrice(
-                            $this->_taxData->getPrice($product, $price['website_price'], true)
-                        )
-                    );
-
-                    if ($this->_catalogData->canApplyMsrp($product)) {
-                        $oldPrice = $product->getFinalPrice();
-                        $product->setPriceCalculation(false);
-                        $product->setPrice($tierPrice);
-                        $product->setFinalPrice($tierPrice);
-
-                        $this->getPriceHtml($product);
-                        $product->setPriceCalculation(true);
-
-                        $price['real_price_html'] = $product->getRealPriceHtml();
-                        $product->setFinalPrice($oldPrice);
-                    }
-
-                    $res[] = $price;
-                }
-            }
-        }
-
-        return $res;
     }
 
     /**

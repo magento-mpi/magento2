@@ -29,16 +29,6 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
      */
     protected $configuredValueMock;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $blockMock;
-
-    /**
-     * @var string
-     */
-    protected $defaultTemplate = 'product/view/tierprices.phtml';
-
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -66,22 +56,11 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->typeInstanceMock)
         );
         $this->configuredValueMock = $this->getMock('Magento\Object', array('getSuperGroup'), array(), '', false);
-        // mocks for getTierPriceHtml method
-        $methods = array(
-            'setTemplate',
-            'setProduct',
-            'setListClass',
-            'setShowDetailedPrice',
-            'setCanDisplayQty',
-            'toHtml'
-        );
-        $this->blockMock = $this->getMock('Magento\Catalog\Block\Product\Price', $methods, array(), '', false);
         $layout = $this->getMock('Magento\View\LayoutInterface');
-        $layout->expects($this->any())->method('createBlock')->will($this->returnValue($this->blockMock));
         $this->groupedView = $helper->getObject(
             'Magento\GroupedProduct\Block\Product\View\Type\Grouped',
             array(
-                'data' => array('product' => $this->productMock, 'tier_price_template' => $this->defaultTemplate),
+                'data' => array('product' => $this->productMock),
                 'layout' => $layout
             )
         );
