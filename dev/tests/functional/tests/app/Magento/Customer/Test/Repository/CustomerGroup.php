@@ -2,86 +2,94 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Customer\Test\Repository;
 
-use Mtf\Factory\Factory;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class Customer Group Repository
+ * Class CustomerGroup
  *
- * @package Magento\Customer\Test\Fixture
+ * @package Magento\Customer\Test\Repository
  */
 class CustomerGroup extends AbstractRepository
 {
-    /**
-     * {inheritdoc}
-     */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array(
-            'config' => $defaultConfig,
-            'data' => $defaultData
-        );
+        $this->_data[''] = [
+            'customer_group_id' => '0',
+            'customer_group_code' => 'NOT LOGGED IN',
+            'tax_class_id' => '3',
+            'id' => '0',
+            'mtf_dataset_name' => '',
+        ];
 
-        $this->_data['valid_vat_id_domestic'] = $this->getValidDomestic($this->_data['default']);
-        $this->_data['valid_vat_id_union'] = $this->getValidUnion($this->_data['default']);
-        $this->_data['invalid_vat_id'] = $this->getInvalid($this->_data['default']);
-        $this->_data['validation_error'] = $this->getError($this->_data['default']);
-    }
+        $this->_data[''] = [
+            'customer_group_id' => '1',
+            'customer_group_code' => 'General',
+            'tax_class_id' => '3',
+            'id' => '1',
+            'mtf_dataset_name' => '',
+        ];
 
-    /**
-     * Get Valid Domestic VAT group data
-     *
-     * @param array $defaultData
-     * @return array
-     */
-    protected function getValidDomestic(array $defaultData)
-    {
-        $defaultData['data']['fields']['code']['value'] = 'Valid VAT ID-Domestic%isolation%';
-        return $defaultData;
-    }
+        $this->_data[''] = [
+            'customer_group_id' => '2',
+            'customer_group_code' => 'Wholesale',
+            'tax_class_id' => '3',
+            'id' => '2',
+            'mtf_dataset_name' => '',
+        ];
 
-    /**
-     * Get Valid Union VAT group data
-     *
-     * @param array $defaultData
-     * @return array
-     */
-    protected function getValidUnion(array $defaultData)
-    {
-        $defaultData['data']['fields']['code']['value'] = 'ValidVATID-IntraUnion%isolation%';
-        return $defaultData;
-    }
+        $this->_data[''] = [
+            'customer_group_id' => '3',
+            'customer_group_code' => 'Retailer1',
+            'tax_class_id' => '3',
+            'id' => '3',
+            'mtf_dataset_name' => '',
+        ];
 
-    /**
-     * Get Invalid VAT group data
-     *
-     * @param array $defaultData
-     * @return array
-     */
-    protected function getInvalid(array $defaultData)
-    {
-        $defaultData['data']['fields']['code']['value'] = 'Invalid VAT ID%isolation%';
-        return $defaultData;
-    }
+        $this->_data[''] = [
+            'customer_group_id' => '4',
+            'customer_group_code' => 'wer',
+            'tax_class_id' => '3',
+            'id' => '4',
+            'mtf_dataset_name' => '',
+        ];
 
-    /**
-     * Get Error group data
-     *
-     * @param array $defaultData
-     * @return array
-     */
-    protected function getError(array $defaultData)
-    {
-        $defaultData['data']['fields']['code']['value'] = 'Validation Error Group%isolation%';
-        return $defaultData;
+        $this->_data[''] = [
+            'customer_group_id' => '5',
+            'customer_group_code' => 'sagres',
+            'tax_class_id' => '3',
+            'id' => '5',
+            'mtf_dataset_name' => '',
+        ];
+
+        $this->_data[''] = [
+            'customer_group_id' => '6',
+            'customer_group_code' => '123',
+            'tax_class_id' => '3',
+            'id' => '6',
+            'mtf_dataset_name' => '',
+        ];
+
+        $this->_data[''] = [
+            'customer_group_id' => '7',
+            'customer_group_code' => '1234',
+            'tax_class_id' => '3',
+            'id' => '7',
+            'mtf_dataset_name' => '',
+        ];
+
+        $this->_data[''] = [
+            'customer_group_id' => '8',
+            'customer_group_code' => '3',
+            'tax_class_id' => '3',
+            'id' => '8',
+            'mtf_dataset_name' => '',
+        ];
+
     }
 }

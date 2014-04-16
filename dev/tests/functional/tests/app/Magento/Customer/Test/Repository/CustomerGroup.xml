@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<repository class="Magento\Customer\Test\Repository\CustomerGroup">
+    <item>
+        <customer_group_id>0</customer_group_id>
+        <customer_group_code><![CDATA[NOT LOGGED IN]]></customer_group_code>
+        <tax_class_id>3</tax_class_id>
+        <id>0</id>
+        <mtf_dataset_name><![CDATA[]]></mtf_dataset_name>
+    </item>
+    <item>
+        <customer_group_id>1</customer_group_id>
+        <customer_group_code><![CDATA[General]]></customer_group_code>
+        <tax_class_id>3</tax_class_id>
+        <id>1</id>
+        <mtf_dataset_name><![CDATA[]]></mtf_dataset_name>
+    </item>
+    <item>
+        <customer_group_id>2</customer_group_id>
+        <customer_group_code><![CDATA[Wholesale]]></customer_group_code>
+        <tax_class_id>3</tax_class_id>
+        <id>2</id>
+        <mtf_dataset_name><![CDATA[]]></mtf_dataset_name>
+    </item>
+    <item>
+        <customer_group_id>3</customer_group_id>
+        <customer_group_code><![CDATA[Retailer1]]></customer_group_code>
+        <tax_class_id>3</tax_class_id>
+        <id>3</id>
+        <mtf_dataset_name><![CDATA[]]></mtf_dataset_name>
+    </item>
+    <item>
+        <customer_group_id>4</customer_group_id>
+        <customer_group_code><![CDATA[wer]]></customer_group_code>
+        <tax_class_id>3</tax_class_id>
+        <id>4</id>
+        <mtf_dataset_name><![CDATA[]]></mtf_dataset_name>
+    </item>
+    <item>
+        <customer_group_id>5</customer_group_id>
+        <customer_group_code><![CDATA[sagres]]></customer_group_code>
+        <tax_class_id>3</tax_class_id>
+        <id>5</id>
+        <mtf_dataset_name><![CDATA[]]></mtf_dataset_name>
+    </item>
+    <item>
+        <customer_group_id>6</customer_group_id>
+        <customer_group_code>123</customer_group_code>
+        <tax_class_id>3</tax_class_id>
+        <id>6</id>
+        <mtf_dataset_name><![CDATA[]]></mtf_dataset_name>
+    </item>
+    <item>
+        <customer_group_id>7</customer_group_id>
+        <customer_group_code>1234</customer_group_code>
+        <tax_class_id>3</tax_class_id>
+        <id>7</id>
+        <mtf_dataset_name><![CDATA[]]></mtf_dataset_name>
+    </item>
+    <item>
+        <customer_group_id>8</customer_group_id>
+        <customer_group_code>3</customer_group_code>
+        <tax_class_id>3</tax_class_id>
+        <id>8</id>
+        <mtf_dataset_name><![CDATA[]]></mtf_dataset_name>
+    </item>
+</repository>

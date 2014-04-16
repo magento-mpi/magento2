@@ -2,72 +2,59 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Customer\Test\Fixture;
 
-use Mtf\Factory\Factory;
-use Mtf\Fixture\DataFixture;
+use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class Customer Group Fixture
+ * Class CustomerGroup
  *
- * @package Magento\Customer\Test\Fixture
+ * @package Fixture
  */
-class CustomerGroup extends DataFixture
+class CustomerGroup extends InjectableFixture
 {
     /**
-     * Create customer group
+     * @var string
      */
-    public function persist()
-    {
-        $this->_data['fields']['id']['value'] = Factory::getApp()->magentoCustomerCreateCustomerGroup($this);
-    }
+    protected $repositoryClass = 'Magento\Customer\Test\Repository\CustomerGroup';
 
     /**
-     * Initialize fixture data
+     * @var string
      */
-    protected function _initData()
-    {
-        $this->_data = array(
-            'fields' => array(
-                'code' => array(
-                    'value' => 'Test group %isolation%',
-                ),
-                'tax_class' => array(
-                    'value' => 'Retail Customer',
-                    'input_value' => 3,
-                ),
-            ),
-        );
-        $this->_defaultConfig = array();
+    protected $handlerInterface = 'Magento\Customer\Test\Handler\CustomerGroup\CustomerGroupInterface';
 
-        $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoCustomerCustomerGroup($this->_dataConfig, $this->_data);
+    protected $defaultDataSet = [
+        'code' => 'customer_code_%isolation%',
+        'tax_class' => 'Retail Customer',
+    ];
+
+    protected $code = [
+        'attribute_code' => 'code',
+        'backend_type' => 'varchar',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => 'text',
+    ];
+
+    protected $tax_class = [
+        'attribute_code' => 'tax_class',
+        'backend_type' => 'varchar',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => 'select',
+    ];
+
+    public function getCode()
+    {
+        return $this->getData('code');
     }
 
-    /**
-     * Get group name
-     *
-     * @return string
-     */
-    public function getGroupName()
+    public function getTaxClass()
     {
-        return $this->getData('fields/code/value');
-    }
-
-    /**
-     * Get group id
-     *
-     * @return string
-     */
-    public function getGroupId()
-    {
-        return $this->getData('fields/id/value');
+        return $this->getData('tax_class');
     }
 }

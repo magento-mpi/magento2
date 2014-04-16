@@ -26,4 +26,13 @@
         <data_set />
         <data_config />
     </address>
+    <customerGroup module="Magento_Customer">
+        <type>flat</type>
+        <entity_type>customer_group</entity_type>
+        <collection>Magento\Customer\Model\Resource\Group\Collection</collection>
+        <identifier>name</identifier>
+        <fields />
+        <data_set />
+        <data_config />
+    </customerGroup>
 </fixture>

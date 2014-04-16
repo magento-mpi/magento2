@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="customer/group/index" >
+    <block>
+        <name>messages</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>#messages .messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>gridPageActions</name>
+        <class>Magento\Backend\Test\Block\GridPageActions</class>
+        <locator>.page-main-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>customerGroupGrid</name>
+        <class>Magento\Backend\Block\Widget\Grid</class>
+        <locator>#customerGroupGrid</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>
