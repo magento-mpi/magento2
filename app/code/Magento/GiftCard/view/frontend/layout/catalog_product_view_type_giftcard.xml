@@ -24,4 +24,7 @@
             <block class="Magento\CatalogInventory\Block\Stockqty\DefaultStockqty" name="product.info.giftcard.extra" as="product_type_data_extra" template="stockqty/default.phtml"/>
         </block>
     </referenceBlock>
+    <referenceBlock name="head.components">
+        <block class="Magento\View\Element\Template" name="giftcard_page_head_components" template="Magento_GiftCard::js/components.phtml"/>
+    </referenceBlock>
 </layout>
