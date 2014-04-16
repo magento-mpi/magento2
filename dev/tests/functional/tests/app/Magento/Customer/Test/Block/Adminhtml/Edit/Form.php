@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: orykh
- * Date: 14.04.14
- * Time: 18:14
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Customer\Test\Block\Adminhtml\Edit;
