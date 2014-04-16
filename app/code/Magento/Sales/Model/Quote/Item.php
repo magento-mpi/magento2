@@ -479,9 +479,9 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
             if (in_array($code, $this->_notRepresentOptions)) {
                 continue;
             }
-            if (!isset(
-                $options2[$code]
-            ) || $options2[$code]->getValue() === null || $options2[$code]->getValue() != $option->getValue()
+            if (!isset($options2[$code]) ||
+                $options2[$code]->getValue() === null ||
+                $options2[$code]->getValue() != $option->getValue()
             ) {
                 return false;
             }
@@ -547,6 +547,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         if ($product) {
             return $product->getTypeId();
         }
+        // $product should always exist or there will be an error in getProduct()
         return $this->_getData('product_type');
     }
 
@@ -814,7 +815,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     public function getBuyRequest()
     {
         $option = $this->getOptionByCode('info_buyRequest');
-        $buyRequest = new \Magento\Object($option ? unserialize($option->getValue()) : null);
+        $buyRequest = new \Magento\Object($option ? unserialize($option->getValue()) : []);
 
         // Overwrite standard buy request qty, because item qty could have changed since adding to quote
         $buyRequest->setOriginalQty($buyRequest->getQty())->setQty($this->getQty() * 1);
