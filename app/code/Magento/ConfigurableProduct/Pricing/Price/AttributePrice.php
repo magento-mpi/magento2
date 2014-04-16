@@ -67,7 +67,8 @@ class AttributePrice extends AbstractPrice
     /**
      * Returns prices for configurable product options
      *
-     * @return mixed
+     * @param array $options
+     * @return array
      */
     public function getPriceOptions(array $options = [])
     {
