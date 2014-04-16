@@ -52,7 +52,7 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
      */
     public function isShowPriceOnGesture()
     {
-        return $this->catalogDataHelper->isShowPriceOnGesture($this->salableItem);
+        return $this->catalogDataHelper->isShowPriceOnGesture($this->product);
     }
 
     /**
@@ -62,7 +62,7 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
      */
     public function getMsrpPriceMessage()
     {
-        return $this->catalogDataHelper->getMsrpPriceMessage($this->salableItem);
+        return $this->catalogDataHelper->getMsrpPriceMessage($this->product);
     }
 
     /**
