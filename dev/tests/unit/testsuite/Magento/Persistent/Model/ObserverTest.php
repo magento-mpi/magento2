@@ -15,12 +15,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Event
+     * @var \Magento\Framework\Event
      */
     protected $_event;
 
     /**
-     * @var \Magento\Event\Observer
+     * @var \Magento\Framework\Event\Observer
      */
     protected $_observer;
 
@@ -60,8 +60,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->_event = new \Magento\Event();
-        $this->_observer = new \Magento\Event\Observer();
+        $this->_event = new \Magento\Framework\Event();
+        $this->_observer = new \Magento\Framework\Event\Observer();
         $this->_observer->setEvent($this->_event);
 
         $this->_customerSession = $this->getMockBuilder(

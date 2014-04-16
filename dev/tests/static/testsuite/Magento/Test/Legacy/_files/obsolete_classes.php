@@ -1310,7 +1310,7 @@ return array(
     array('Magento\Core\Controller\FrontInterface', 'Magento\Framework\App\FrontControllerInterface'),
     array('Magento\Core\Model\App\Handler'),
     array('Magento\Core\Model\App\Proxy'),
-    array('Magento\Core\Model\Event\Config\SchemaLocator', 'Magento\Event\Config\SchemaLocator'),
+    array('Magento\Core\Model\Event\Config\SchemaLocator', 'Magento\Framework\Event\Config\SchemaLocator'),
     array('Magento\Core\Controller\Varien\Router\AbstractRouter'),
     array('Magento\Core\Controller\Varien\AbstractAction'),
     array('Magento\Core\Controller\Varien\Exception'),

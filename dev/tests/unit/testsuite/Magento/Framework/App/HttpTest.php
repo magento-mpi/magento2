@@ -98,7 +98,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_responseMock)
         );
         $this->_eventManagerMock = $this->getMockBuilder(
-            'Magento\Event\Manager'
+            'Magento\Framework\Event\Manager'
         )->disableOriginalConstructor()->setMethods(
             ['dispatch']
         )->getMock();

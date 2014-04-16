@@ -86,7 +86,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_eventManagerMock = $this->getMock(
-            'Magento\Event\ManagerInterface',
+            'Magento\Framework\Event\ManagerInterface',
             array(),
             array(),
             '',

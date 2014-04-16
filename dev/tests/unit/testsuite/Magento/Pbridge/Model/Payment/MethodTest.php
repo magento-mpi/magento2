@@ -61,7 +61,7 @@ class MethodTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_model = new \Magento\Pbridge\Model\Payment\Method(
-            $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false),
             $paymentHelper,
             $config,
             $this->getMock('Magento\Logger\AdapterFactory', array(), array(), '', false),

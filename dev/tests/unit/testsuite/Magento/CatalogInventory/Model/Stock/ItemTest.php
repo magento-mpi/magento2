@@ -24,7 +24,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     protected $resource;
 
     /**
-     * @var \Magento\Event\Manager | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Event\Manager | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventManager;
 
@@ -38,7 +38,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->eventManager = $this->getMock(
-            'Magento\Event\Manager',
+            'Magento\Framework\Event\Manager',
             ['dispatch'],
             [],
             '',

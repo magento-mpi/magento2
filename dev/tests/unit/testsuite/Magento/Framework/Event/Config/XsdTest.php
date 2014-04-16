@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Event\Config;
+namespace Magento\Framework\Event\Config;
 
 class XsdTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,7 +22,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_xsdSchema = BP . '/lib/Magento/Event/etc/events.xsd';
+        $this->_xsdSchema = BP . '/lib/Magento/Framework/Event/etc/events.xsd';
         $this->_xsdValidator = new \Magento\TestFramework\Utility\XsdValidator();
     }
 

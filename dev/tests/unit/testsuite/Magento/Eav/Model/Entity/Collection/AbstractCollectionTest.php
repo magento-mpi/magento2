@@ -30,7 +30,7 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     protected $fetchStrategyMock;
 
     /**
-     * @var \Magento\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventManagerMock;
 
@@ -70,7 +70,7 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
+        $this->eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
         $this->configMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
         $this->coreResourceMock = $this->getMock(
             'Magento\Framework\App\Resource',

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Event\Invoker;
+namespace Magento\Framework\Event\Invoker;
 
 class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +15,7 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
     protected $_observerFactoryMock;
 
     /**
-     * @var \Magento\Event\Observer|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Event\Observer|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_observerMock;
 
@@ -30,14 +30,14 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
     protected $_appStateMock;
 
     /**
-     * @var \Magento\Event\Invoker\InvokerDefault
+     * @var \Magento\Framework\Event\Invoker\InvokerDefault
      */
     protected $_invokerDefault;
 
     protected function setUp()
     {
-        $this->_observerFactoryMock = $this->getMock('Magento\Event\ObserverFactory', array(), array(), '', false);
-        $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
+        $this->_observerFactoryMock = $this->getMock('Magento\Framework\Event\ObserverFactory', array(), array(), '', false);
+        $this->_observerMock = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
         $this->_listenerMock = $this->getMock(
             'Magento_Some_Model_Observer_Some',
             array('method_name'),
@@ -47,7 +47,7 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
         );
         $this->_appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
 
-        $this->_invokerDefault = new \Magento\Event\Invoker\InvokerDefault(
+        $this->_invokerDefault = new \Magento\Framework\Event\Invoker\InvokerDefault(
             $this->_observerFactoryMock,
             $this->_appStateMock
         );

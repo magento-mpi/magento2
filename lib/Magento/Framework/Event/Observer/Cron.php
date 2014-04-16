@@ -25,10 +25,10 @@ class Cron extends \Magento\Framework\Event\Observer
      * 
      * Supports $this->setCronExpr('* 0-5,10-59/5 2-10,15-25 january-june/2 mon-fri')
      *
-     * @param \Magento\Event $event
+     * @param \Magento\Framework\Event $event
      * @return boolean
      */
-    public function isValidFor(\Magento\Event $event)
+    public function isValidFor(\Magento\Framework\Event $event)
     {
         $e = preg_split('#\s+#', $this->getCronExpr(), null, PREG_SPLIT_NO_EMPTY);
         if (sizeof($e) !== 5) {

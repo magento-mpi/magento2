@@ -57,7 +57,7 @@ class Manager implements ManagerInterface
     {
         \Magento\Profiler::start('EVENT:' . $eventName, array('group' => 'EVENT', 'name' => $eventName));
         foreach ($this->_eventConfig->getObservers($eventName) as $observerConfig) {
-            $event = new \Magento\Event($data);
+            $event = new \Magento\Framework\Event($data);
             $event->setName($eventName);
 
             $wrapper = new Observer();

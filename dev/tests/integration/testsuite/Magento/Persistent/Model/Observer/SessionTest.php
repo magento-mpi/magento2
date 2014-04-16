@@ -58,8 +58,8 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSynchronizePersistentOnLogin()
     {
-        $event = new \Magento\Event();
-        $observer = new \Magento\Event\Observer(array('event' => $event));
+        $event = new \Magento\Framework\Event();
+        $observer = new \Magento\Framework\Event\Observer(array('event' => $event));
 
         /** @var $customer \Magento\Customer\Model\Customer */
         $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load(1);

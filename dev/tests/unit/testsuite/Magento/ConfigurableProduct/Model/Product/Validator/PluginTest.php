@@ -66,7 +66,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->eventManagerMock = $this->getMock('Magento\Event\Manager', array(), array(), '', false);
+        $this->eventManagerMock = $this->getMock('Magento\Framework\Event\Manager', array(), array(), '', false);
         $this->productFactoryMock = $this->getMock(
             'Magento\Catalog\Model\ProductFactory',
             array('create'),

@@ -46,9 +46,9 @@ try {
     $entities = $generator->getGeneratedEntities();
 
     $allowedTypes = 'Allowed entity types are: ' . implode(', ', $entities) . '.';
-    $example = 'Example: php -f entity_generator.php -- -t factory -c \Magento\Event\Observer ' .
+    $example = 'Example: php -f entity_generator.php -- -t factory -c \Magento\Framework\Event\Observer ' .
         '-g /var/mage/m2ee/generation' .
-        ' - will generate file /var/mage/m2ee/generation/Magento/Event/ObserverFactory.php';
+        ' - will generate file /var/mage/m2ee/generation/Magento/Framework/Event/ObserverFactory.php';
 
     echo $e->getMessage() . "\n";
     echo $e->getUsageMessage() . "\n";

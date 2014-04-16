@@ -83,10 +83,10 @@ class Collection
     /**
      * Dispatches an event to all observers in the collection
      *
-     * @param \Magento\Event $event
+     * @param \Magento\Framework\Event $event
      * @return $this
      */
-    public function dispatch(\Magento\Event $event)
+    public function dispatch(\Magento\Framework\Event $event)
     {
         foreach ($this->_observers as $observer) {
             $observer->dispatch($event);

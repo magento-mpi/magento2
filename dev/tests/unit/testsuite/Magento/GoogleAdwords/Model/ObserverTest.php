@@ -50,8 +50,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_eventObserverMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
-        $this->_eventMock = $this->getMock('Magento\Event', array('getOrderIds'), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
+        $this->_eventMock = $this->getMock('Magento\Framework\Event', array('getOrderIds'), array(), '', false);
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManager->getObject(

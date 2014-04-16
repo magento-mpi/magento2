@@ -13,7 +13,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Event\Observer
+     * @var \Magento\Framework\Event\Observer
      */
     protected $_observer;
 
@@ -27,7 +27,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\GiftCardAccount\Model\Observer');
         $this->_event = new \Magento\Object();
-        $this->_observer = new \Magento\Event\Observer(array('event' => $this->_event));
+        $this->_observer = new \Magento\Framework\Event\Observer(array('event' => $this->_event));
     }
 
     /**

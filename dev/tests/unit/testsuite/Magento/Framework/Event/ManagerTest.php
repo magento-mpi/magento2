@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Event;
+namespace Magento\Framework\Event;
 
 class ManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,16 +40,16 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     protected $_eventConfigMock;
 
     /**
-     * @var \Magento\Event\Manager
+     * @var \Magento\Framework\Event\Manager
      */
     protected $_eventManager;
 
     protected function setUp()
     {
-        $this->_invoker = $this->getMock('Magento\Event\InvokerInterface');
-        $this->_eventConfigMock = $this->getMock('Magento\Event\ConfigInterface');
+        $this->_invoker = $this->getMock('Magento\Framework\Event\InvokerInterface');
+        $this->_eventConfigMock = $this->getMock('Magento\Framework\Event\ConfigInterface');
 
-        $this->_eventManager = new \Magento\Event\Manager($this->_invoker, $this->_eventConfigMock);
+        $this->_eventManager = new \Magento\Framework\Event\Manager($this->_invoker, $this->_eventConfigMock);
     }
 
     public function testDispatch()

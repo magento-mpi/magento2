@@ -9,9 +9,9 @@
 /**
  * Event manager stub
  */
-namespace Magento\Event;
+namespace Magento\Framework\Event;
 
-class ManagerStub implements \Magento\Event\ManagerInterface
+class ManagerStub implements \Magento\Framework\Event\ManagerInterface
 {
     /**
      * Stub dispatch event

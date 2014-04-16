@@ -34,7 +34,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             array('__wakeup', 'getIdFieldName', 'getConnection', 'beginTransaction', 'delete', 'commit', 'rollBack'));
 
         $appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
-        $eventDispatcherMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false, false);
+        $eventDispatcherMock = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false, false);
         $cacheManagerMock = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false, false);
         $loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
         $actionValidatorMock = $this->getMock(

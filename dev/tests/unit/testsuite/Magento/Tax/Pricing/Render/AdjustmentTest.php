@@ -57,7 +57,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $eventManagerMock = $this->getMockBuilder('Magento\Event\ManagerInterface')
+        $eventManagerMock = $this->getMockBuilder('Magento\Framework\Event\ManagerInterface')
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 

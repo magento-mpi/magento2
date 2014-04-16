@@ -11,7 +11,7 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
 {
     public function testSaveMergedJsCssMustBeCleaned()
     {
-        $eventDispatcher = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
+        $eventDispatcher = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
         $appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $cacheManager = $this->getMock('Magento\Framework\App\CacheInterface');
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);

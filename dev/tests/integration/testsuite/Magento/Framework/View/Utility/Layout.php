@@ -89,7 +89,7 @@ class Layout
         return array(
             'processorFactory' => $objectManager->get('Magento\Framework\View\Layout\ProcessorFactory'),
             'logger' => $objectManager->get('Magento\Logger'),
-            'eventManager' => $objectManager->get('Magento\Event\ManagerInterface'),
+            'eventManager' => $objectManager->get('Magento\Framework\Event\ManagerInterface'),
             'blockFactory' => $objectManager->create('Magento\Framework\View\Element\BlockFactory', array()),
             'structure' => $objectManager->create('Magento\Framework\Data\Structure', array()),
             'argumentParser' => $objectManager->get('Magento\Framework\View\Layout\Argument\Parser'),

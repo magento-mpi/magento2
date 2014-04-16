@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Event;
+namespace Magento\Framework\Event;
 
 class EventFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\EventFactory
+     * @var \Magento\Framework\EventFactory
      */
     protected $_model;
 
@@ -20,15 +20,15 @@ class EventFactoryTest extends \PHPUnit_Framework_TestCase
     protected $_objectManagerMock;
 
     /**
-     * @var \Magento\Event
+     * @var \Magento\Framework\Event
      */
     protected $_expectedObject;
 
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_model = new \Magento\EventFactory($this->_objectManagerMock);
-        $this->_expectedObject = $this->getMockBuilder('Magento\Event')->getMock();
+        $this->_model = new \Magento\Framework\EventFactory($this->_objectManagerMock);
+        $this->_expectedObject = $this->getMockBuilder('Magento\Framework\Event')->getMock();
     }
 
     public function testCreate()
@@ -39,7 +39,7 @@ class EventFactoryTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            'Magento\Event',
+            'Magento\Framework\Event',
             $arguments
         )->will(
             $this->returnValue($this->_expectedObject)

@@ -53,7 +53,7 @@ class ReindexTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($fulltextReindex)
         );
 
-        $observer = new \Magento\Event\Observer(
+        $observer = new \Magento\Framework\Event\Observer(
             array('data_object' => new \Magento\Object(array('affected_product_ids' => $affectedProduct)))
         );
 
