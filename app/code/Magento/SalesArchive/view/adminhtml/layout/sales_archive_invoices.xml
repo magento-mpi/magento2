@@ -8,9 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+    <update handle="sales_archive_invoices_grid_block"/>
     <referenceContainer name="content">
-        <block class="Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice" name="archive">
-            <block class="Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice\Grid" name="archive.grid" as="grid"/>
-        </block>
+        <block class="Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice" name="sales_invoice.grid.container"/>
     </referenceContainer>
 </layout>

@@ -333,31 +333,12 @@ class Archive extends \Magento\Backend\App\Action
      */
     protected function _export($type)
     {
-        $action = strtolower((string)$this->getRequest()->getParam('action'));
         $this->_view->loadLayout(false);
         $layout = $this->_view->getLayout();
 
-        switch ($action) {
-            case 'invoice':
-                $fileName = 'invoice_archive.' . $type;
-                $grid = $layout->createBlock('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice\Grid');
-                break;
-            case 'shipment':
-                $fileName = 'shipment_archive.' . $type;
-                $grid = $layout->createBlock('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment\Grid');
-                break;
-            case 'creditmemo':
-                $fileName = 'creditmemo_archive.' . $type;
-                $grid = $layout->createBlock(
-                    'Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo\Grid'
-                );
-                break;
-            default:
-                $fileName = 'orders_archive.' . $type;
-                /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $grid  */
-                $grid = $layout->getChildBlock('sales.order.grid', 'grid.export');
-                break;
-        }
+        $fileName = 'orders_archive.' . $type;
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $grid */
+        $grid = $layout->getChildBlock('sales.order.grid', 'grid.export');
 
         if ($type == 'csv') {
             return $this->_fileFactory->create($fileName, $grid->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
@@ -414,5 +395,94 @@ class Archive extends \Magento\Backend\App\Action
         }
 
         return $this->_authorization->isAllowed($acl);
+    }
+
+    /**
+     * Export credit memo grid archive grid to CSV format
+     *
+     * @return ResponseInterface
+     */
+    public function exportCreditmemoCsvAction()
+    {
+        $this->_view->loadLayout(false);
+        $fileName = 'creditmemo_archive.csv';
+        $grid = $this->_view->getLayout()->getChildBlock('sales.creditmemo.grid', 'grid.export');
+        $csvFile = $grid->getCsvFile();
+        return $this->_fileFactory->create($fileName, $csvFile, \Magento\App\Filesystem::VAR_DIR);
+    }
+
+    /**
+     * Export credit memo grid  archive grid to Excel XML format
+     *
+     * @return ResponseInterface
+     */
+    public function exportCreditmemoExcelAction()
+    {
+        $this->_view->loadLayout(false);
+        $fileName = 'creditmemo_archive.xml';
+        $grid = $this->_view->getLayout()->getChildBlock('sales.creditmemo.grid', 'grid.export');
+        return $this->_fileFactory->create($fileName, $grid->getExcelFile($fileName), \Magento\App\Filesystem::VAR_DIR);
+    }
+
+    /**
+     * Export archive invoice to CSV format
+     *
+     * @return ResponseInterface
+     */
+    public function exportInvoiceCsvAction()
+    {
+        $this->_view->loadLayout(false);
+        $fileName = 'invoice_archive.csv';
+        $grid = $this->_view->getLayout()->getChildBlock('sales.invoice.grid', 'grid.export');
+        $csvFile = $grid->getCsvFile();
+        return $this->_fileFactory->create($fileName, $csvFile, \Magento\App\Filesystem::VAR_DIR);
+    }
+
+    /**
+     * Export archive invoice grid to Excel XML format
+     *
+     * @return ResponseInterface
+     */
+    public function exportInvoiceExcelAction()
+    {
+        $this->_view->loadLayout(false);
+        $fileName = 'invoice_archive.xml';
+        $exportBlock = $this->_view->getLayout()->getChildBlock('sales.invoice.grid', 'grid.export');
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getExcelFile($fileName),
+            \Magento\App\Filesystem::VAR_DIR
+        );
+    }
+
+    /**
+     * Export archive shipment grid to CSV format
+     *
+     * @return ResponseInterface
+     */
+    public function exportShipmentCsvAction()
+    {
+        $this->_view->loadLayout(false);
+        $fileName = 'shipment_archive.csv';
+        $grid = $this->_view->getLayout()->getChildBlock('sales.shipment.grid', 'grid.export');
+        $csvFile = $grid->getCsvFile();
+        return $this->_fileFactory->create($fileName, $csvFile, \Magento\App\Filesystem::VAR_DIR);
+    }
+
+    /**
+     * Export archive shipment grid to Excel XML format
+     *
+     * @return ResponseInterface
+     */
+    public function exportShipmentExcelAction()
+    {
+        $this->_view->loadLayout(false);
+        $fileName = 'shipment_archive.xml';
+        $exportBlock = $this->_view->getLayout()->getChildBlock('sales.shipment.grid', 'grid.export');
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getExcelFile($fileName),
+            \Magento\App\Filesystem::VAR_DIR
+        );
     }
 }
