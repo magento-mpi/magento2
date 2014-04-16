@@ -83,7 +83,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
         if (isset($configUimap[$baseCodePoolName])) {
             foreach ($configUimap[$baseCodePoolName] as $area => $areaFiles) {
                 foreach ($areaFiles as $file) {
-                    $explode = explode(DIRECTORY_SEPARATOR, $file);
+                    $explode = explode('/', $file);
                     $fileName = trim(end($explode), '.yml');
                     $this->_uimapFilesData[$area][$fileName][] = $file;
                     foreach ($codePoolNames as $codePoolName) {
