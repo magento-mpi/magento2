@@ -47,7 +47,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
 
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectHelper->getObject('Magento\Bundle\Pricing\Price\SpecialPrice', [
-            'product' => $this->saleable,
+            'saleableItem' => $this->saleable,
             'localeDate' => $this->localeDate
         ]);
     }
