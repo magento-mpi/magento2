@@ -15,7 +15,7 @@
  * @package     Magento_Archive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Archive;
+namespace Magento\Framework\Archive;
 
 interface ArchiveInterface
 {

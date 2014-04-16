@@ -9,7 +9,7 @@
  */
 namespace Magento\Connect;
 
-use Magento\Archive;
+use Magento\Framework\Archive;
 
 /**
  * Class for convertiong old magento PEAR packages to new one

@@ -9,9 +9,9 @@
 /**
  * Helper class that simplifies bz2 files stream reading and writing
  */
-namespace Magento\Archive\Helper\File;
+namespace Magento\Framework\Archive\Helper\File;
 
-class Bz extends \Magento\Archive\Helper\File
+class Bz extends \Magento\Framework\Archive\Helper\File
 {
     /**
      * {@inheritdoc}

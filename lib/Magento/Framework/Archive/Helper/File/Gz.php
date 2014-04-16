@@ -9,9 +9,9 @@
 /**
 * Helper class that simplifies gz files stream reading and writing
 */
-namespace Magento\Archive\Helper\File;
+namespace Magento\Framework\Archive\Helper\File;
 
-class Gz extends \Magento\Archive\Helper\File
+class Gz extends \Magento\Framework\Archive\Helper\File
 {
     /**
      * {@inheritdoc}

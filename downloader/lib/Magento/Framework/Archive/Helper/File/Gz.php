@@ -7,27 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Archive\Helper\File;
+namespace Magento\Framework\Archive\Helper\File;
 
 /**
-* Helper class that simplifies bz2 files stream reading and writing
+* Helper class that simplifies gz files stream reading and writing
 *
 * @category    Magento
 * @package     Magento_Archive
 * @author      Magento Core Team <core@magentocommerce.com>
 */
-class Bz extends \Magento\Archive\Helper\File
+class Gz extends \Magento\Framework\Archive\Helper\File
 {
     /**
-     * Open bz archive file
-     *
      * @param string $mode
      * @return void
-     * @throws \Magento\Exception
+     * @see \Magento\Framework\Archive\Helper\File::_open()
      */
     protected function _open($mode)
     {
-        $this->_fileHandler = @bzopen($this->_filePath, $mode);
+        $this->_fileHandler = @gzopen($this->_filePath, $mode);
 
         if (false === $this->_fileHandler) {
             throw new \Magento\Exception('Failed to open file ' . $this->_filePath);
@@ -35,46 +33,44 @@ class Bz extends \Magento\Archive\Helper\File
     }
 
     /**
-     * Write data to bz archive
-     *
      * @param string $data
      * @return void
-     * @throws \Magento\Exception
+     * @see \Magento\Framework\Archive\Helper\File::_write()
      */
     protected function _write($data)
     {
-        $result = @bzwrite($this->_fileHandler, $data);
+        $result = @gzwrite($this->_fileHandler, $data);
 
-        if (false === $result) {
+        if (empty($result) && !empty($data)) {
             throw new \Magento\Exception('Failed to write data to ' . $this->_filePath);
         }
     }
 
     /**
-     * Read data from bz archive
-     *
      * @param int $length
      * @return string
-     * @throws \Magento\Exception
+     * @see \Magento\Framework\Archive\Helper\File::_read()
      */
     protected function _read($length)
     {
-        $data = bzread($this->_fileHandler, $length);
-
-        if (false === $data) {
-            throw new \Magento\Exception('Failed to read data from ' . $this->_filePath);
-        }
-
-        return $data;
+        return gzread($this->_fileHandler, $length);
     }
 
     /**
-     * Close bz archive
-     *
+     * @return int|false
+     * @see \Magento\Framework\Archive\Helper\File::_eof()
+     */
+    protected function _eof()
+    {
+        return gzeof($this->_fileHandler);
+    }
+
+    /**
      * @return void
+     * @see \Magento\Framework\Archive\Helper\File::_close()
      */
     protected function _close()
     {
-        bzclose($this->_fileHandler);
+        gzclose($this->_fileHandler);
     }
 }

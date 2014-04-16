@@ -48,16 +48,16 @@ class Fs extends AbstractRollback
             );
         }
 
-        $archiver = new \Magento\Archive();
+        $archiver = new \Magento\Framework\Archive();
 
         /**
          * we need these fake initializations because all magento's files in filesystem will be deleted and autoloader
          * wont be able to load classes that we need for unpacking
          */
-        new \Magento\Archive\Tar();
-        new \Magento\Archive\Gz();
-        new \Magento\Archive\Helper\File('');
-        new \Magento\Archive\Helper\File\Gz('');
+        new \Magento\Framework\Archive\Tar();
+        new \Magento\Framework\Archive\Gz();
+        new \Magento\Framework\Archive\Helper\File('');
+        new \Magento\Framework\Archive\Helper\File\Gz('');
 
         $fsHelper->rm($this->_snapshot->getRootDir(), $this->_snapshot->getIgnorePaths());
         $archiver->unpack($snapshotPath, $this->_snapshot->getRootDir());

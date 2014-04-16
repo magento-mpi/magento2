@@ -43,7 +43,7 @@ class Db extends AbstractBackup
 
         $this->_lastOperationSucceed = false;
 
-        $archiveManager = new \Magento\Archive();
+        $archiveManager = new \Magento\Framework\Archive();
         $source = $archiveManager->unpack($this->getBackupPath(), $this->getBackupsDir());
 
         $file = new \Magento\Backup\Filesystem\Iterator\File($source);

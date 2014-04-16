@@ -109,7 +109,7 @@ class Ftp extends \Magento\Backup\Filesystem\Rollback\AbstractRollback
     {
         $snapshotPath = $this->_snapshot->getBackupPath();
 
-        $archiver = new \Magento\Archive();
+        $archiver = new \Magento\Framework\Archive();
         $archiver->unpack($snapshotPath, $tmpDir);
     }
 

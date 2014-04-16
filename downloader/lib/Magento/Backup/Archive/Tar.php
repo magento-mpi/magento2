@@ -10,13 +10,13 @@
 namespace Magento\Backup\Archive;
 
 /**
- * Extended version of \Magento\Archive\Tar that supports filtering
+ * Extended version of \Magento\Framework\Archive\Tar that supports filtering
  *
  * @category    Magento
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Tar extends \Magento\Archive\Tar
+class Tar extends \Magento\Framework\Archive\Tar
 {
     /**
      * Filenames or filename parts that are used for filtering files
@@ -26,13 +26,13 @@ class Tar extends \Magento\Archive\Tar
     protected $_skipFiles = array();
 
     /**
-     * Overridden \Magento\Archive\Tar::_createTar method that does the same actions as it's parent but filters
+     * Overridden \Magento\Framework\Archive\Tar::_createTar method that does the same actions as it's parent but filters
      * files using \Magento\Backup\Filesystem\Iterator\Filter
      *
      * @param bool $skipRoot
      * @param bool $finalize
      * @return void
-     * @see \Magento\Archive\Tar::_createTar()
+     * @see \Magento\Framework\Archive\Tar::_createTar()
      */
     protected function _createTar($skipRoot = false, $finalize = false)
     {

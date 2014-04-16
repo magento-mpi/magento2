@@ -7,11 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
-
-use Magento\Archive\Bz;
-use Magento\Archive\Gz;
-use Magento\Archive\Tar;
+namespace Magento\Framework;
 
 /**
  * Class to work with archives
@@ -35,7 +31,7 @@ class Archive
     /**
      * Current archiver is used for compress.
      *
-     * @var \Magento\Archive\Tar|\Magento\Archive\Gz|\Magento\Archive\Bz
+     * @var \Magento\Framework\Archive\Tar|\Magento\Framework\Archive\Gz|\Magento\Framework\Archive\Bz
      */
     protected $_archiver = null;
 
@@ -64,7 +60,7 @@ class Archive
      * Create object of current archiver by $extension.
      *
      * @param string $extension
-     * @return Tar|Gz|Bz
+     * @return \Magento\Framework\Archive\Tar|\Magento\Framework\Archive\Gz|\Magento\Framework\Archive\Bz
      */
     protected function _getArchiver($extension)
     {
@@ -73,7 +69,7 @@ class Archive
         } else {
             $format = self::DEFAULT_ARCHIVER;
         }
-        $class = '\\Magento\Archive\\' . ucfirst($format);
+        $class = 'Magento\Framework\Archive\\' . ucfirst($format);
         $this->_archiver = new $class();
         return $this->_archiver;
     }
@@ -82,7 +78,7 @@ class Archive
      * Split current format to list of archivers.
      *
      * @param string $source
-     * @return string[]|string
+     * @return array
      */
     protected function _getArchivers($source)
     {
@@ -103,7 +99,7 @@ class Archive
      *
      * @param string $source
      * @param string $destination
-     * @param boolean $skipRoot skip first level parent
+     * @param bool $skipRoot skip first level parent
      * @return string Path to file
      */
     public function pack($source, $destination = 'packed.tgz', $skipRoot = false)
@@ -156,6 +152,8 @@ class Archive
             }
             $source = $this->_getArchiver($archivers[$i])->unpack($source, $packed);
 
+            //var_dump($packed, $source);
+
             if ($clearInterm && $interimSource && $i >= 0) {
                 unlink($interimSource);
             }
@@ -186,7 +184,7 @@ class Archive
      * Check file is archive.
      *
      * @param string $file
-     * @return boolean
+     * @return bool
      */
     public function isArchive($file)
     {
@@ -200,8 +198,8 @@ class Archive
     /**
      * Check file is TAR.
      *
-     * @param string $file
-     * @return boolean
+     * @param mixed $file
+     * @return bool
      */
     public function isTar($file)
     {

@@ -11,7 +11,7 @@
 /**
 * Helper class that simplifies files stream reading and writing
 */
-namespace Magento\Archive\Helper;
+namespace Magento\Framework\Archive\Helper;
 
 class File
 {

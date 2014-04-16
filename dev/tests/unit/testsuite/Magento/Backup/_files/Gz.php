@@ -12,7 +12,7 @@
 /**
  * Mock class to work with gz archives
  */
-namespace Magento\Archive;
+namespace Magento\Framework\Archive;
 
 class Gz
 {

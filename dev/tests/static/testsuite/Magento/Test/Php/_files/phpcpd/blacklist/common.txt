@@ -97,7 +97,7 @@ Magento/Webapi/Model
 Magento/Widget/Model/Widget/Instance
 Magento/Wishlist/Block
 Magento/Wishlist/Model
-lib/Magento/Archive
+lib/Magento/Framework/Archive
 lib/Magento/Connect/Channel
 lib/Magento/HTTP/Client
 lib/Magento/Acl

@@ -15,11 +15,11 @@
  * @package     Magento_Archive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Archive;
+namespace Magento\Framework\Archive;
 
-use Magento\Archive\Helper\File;
+use Magento\Framework\Archive\Helper\File;
 
-class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\ArchiveInterface
+class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento\Framework\Archive\ArchiveInterface
 {
     /**
      * Tar block size

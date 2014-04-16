@@ -9,18 +9,18 @@
  */
 
 /**
- * Class to work with bzip2 archives
+ * Class to work with gz archives
  *
  * @category    Magento
  * @package     Magento_Archive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Archive;
+namespace Magento\Framework\Archive;
 
-class Bz extends \Magento\Archive\AbstractArchive implements \Magento\Archive\ArchiveInterface
+class Gz extends \Magento\Framework\Archive\AbstractArchive implements \Magento\Framework\Archive\ArchiveInterface
 {
     /**
-     * Pack file by BZIP2 compressor.
+     * Pack file by GZ compressor.
      *
      * @param string $source
      * @param string $destination
@@ -28,11 +28,11 @@ class Bz extends \Magento\Archive\AbstractArchive implements \Magento\Archive\Ar
      */
     public function pack($source, $destination)
     {
-        $fileReader = new \Magento\Archive\Helper\File($source);
+        $fileReader = new \Magento\Framework\Archive\Helper\File($source);
         $fileReader->open('r');
 
-        $archiveWriter = new \Magento\Archive\Helper\File\Bz($destination);
-        $archiveWriter->open('w');
+        $archiveWriter = new \Magento\Framework\Archive\Helper\File\Gz($destination);
+        $archiveWriter->open('wb9');
 
         while (!$fileReader->eof()) {
             $archiveWriter->write($fileReader->read());
@@ -45,7 +45,7 @@ class Bz extends \Magento\Archive\AbstractArchive implements \Magento\Archive\Ar
     }
 
     /**
-     * Unpack file by BZIP2 compressor.
+     * Unpack file by GZ compressor.
      *
      * @param string $source
      * @param string $destination
@@ -58,10 +58,10 @@ class Bz extends \Magento\Archive\AbstractArchive implements \Magento\Archive\Ar
             $destination = $destination . $file;
         }
 
-        $archiveReader = new \Magento\Archive\Helper\File\Bz($source);
+        $archiveReader = new \Magento\Framework\Archive\Helper\File\Gz($source);
         $archiveReader->open('r');
 
-        $fileWriter = new \Magento\Archive\Helper\File($destination);
+        $fileWriter = new \Magento\Framework\Archive\Helper\File($destination);
         $fileWriter->open('w');
 
         while (!$archiveReader->eof()) {

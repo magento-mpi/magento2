@@ -38,7 +38,7 @@ class Writer
     /**
      * Archivator is used for extract DEFAULT_NAME_PACKAGE.
      *
-     * @var \Magento\Archive
+     * @var \Magento\Framework\Archive
      */
     protected $_archivator = null;
 
@@ -80,12 +80,12 @@ class Writer
     /**
      * Retrieve archivator.
      *
-     * @return \Magento\Archive
+     * @return \Magento\Framework\Archive
      */
     protected function _getArchivator()
     {
         if (is_null($this->_archivator)) {
-            $this->_archivator = new \Magento\Archive();
+            $this->_archivator = new \Magento\Framework\Archive();
         }
         return $this->_archivator;
     }

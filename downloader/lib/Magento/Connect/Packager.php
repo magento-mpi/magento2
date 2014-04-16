@@ -55,7 +55,7 @@ class Packager
 
     /**
      * Archiver object
-     * @var \Magento\Archive
+     * @var \Magento\Framework\Archive
      */
     protected $_archiver = null;
 
@@ -68,12 +68,12 @@ class Packager
     /**
      * Get Archiver object
      *
-     * @return \Magento\Archive
+     * @return \Magento\Framework\Archive
      */
     public function getArchiver()
     {
         if (is_null($this->_archiver)) {
-            $this->_archiver = new \Magento\Archive();
+            $this->_archiver = new \Magento\Framework\Archive();
         }
         return $this->_archiver;
     }

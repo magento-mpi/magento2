@@ -19,18 +19,18 @@ namespace Magento\Connect;
 final class Converter
 {
     /**
-     * @var \Magento\Archive
+     * @var \Magento\Framework\Archive
      */
     protected $_archiver;
 
     /**
      *
-     * @return \Magento\Archive
+     * @return \Magento\Framework\Archive
      */
     public function arc()
     {
         if (!$this->_archiver) {
-            $this->_archiver = new \Magento\Archive();
+            $this->_archiver = new \Magento\Framework\Archive();
         }
         return $this->_archiver;
     }

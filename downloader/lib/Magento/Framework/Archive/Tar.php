@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Archive;
+namespace Magento\Framework\Archive;
 
 /**
  * Class to work with tar archives
@@ -16,7 +16,7 @@ namespace Magento\Archive;
  * @package     Magento_Archive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\ArchiveInterface
+class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento\Framework\Archive\ArchiveInterface
 {
     /**
      * Tar block size
@@ -50,14 +50,14 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
     /**
      * Tarball data writer
      *
-     * @var \Magento\Archive\Helper\File
+     * @var \Magento\Framework\Archive\Helper\File
      */
     protected $_writer;
 
     /**
      * Tarball data reader
      *
-     * @var \Magento\Archive\Helper\File
+     * @var \Magento\Framework\Archive\Helper\File
      */
     protected $_reader;
 
@@ -71,11 +71,11 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
     /**
      * Initialize tarball writer
      *
-     * @return \Magento\Archive\Tar
+     * @return \Magento\Framework\Archive\Tar
      */
     protected function _initWriter()
     {
-        $this->_writer = new \Magento\Archive\Helper\File($this->_destinationFilePath);
+        $this->_writer = new \Magento\Framework\Archive\Helper\File($this->_destinationFilePath);
         $this->_writer->open('w');
 
         return $this;
@@ -95,11 +95,11 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
     /**
      * Destroy tarball writer
      *
-     * @return \Magento\Archive\Tar
+     * @return \Magento\Framework\Archive\Tar
      */
     protected function _destroyWriter()
     {
-        if ($this->_writer instanceof \Magento\Archive\Helper\File) {
+        if ($this->_writer instanceof \Magento\Framework\Archive\Helper\File) {
             $this->_writer->close();
             $this->_writer = null;
         }
@@ -110,7 +110,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
     /**
      * Get tarball writer
      *
-     * @return \Magento\Archive\Helper\File
+     * @return \Magento\Framework\Archive\Helper\File
      */
     protected function _getWriter()
     {
@@ -124,11 +124,11 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
     /**
      * Initialize tarball reader
      *
-     * @return \Magento\Archive\Tar
+     * @return \Magento\Framework\Archive\Tar
      */
     protected function _initReader()
     {
-        $this->_reader = new \Magento\Archive\Helper\File($this->_getCurrentFile());
+        $this->_reader = new \Magento\Framework\Archive\Helper\File($this->_getCurrentFile());
         $this->_reader->open('r');
 
         return $this;
@@ -137,11 +137,11 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
     /**
      * Destroy tarball reader
      *
-     * @return \Magento\Archive\Tar
+     * @return \Magento\Framework\Archive\Tar
      */
     protected function _destroyReader()
     {
-        if ($this->_reader instanceof \Magento\Archive\Helper\File) {
+        if ($this->_reader instanceof \Magento\Framework\Archive\Helper\File) {
             $this->_reader->close();
             $this->_reader = null;
         }
@@ -152,7 +152,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
     /**
      * Get tarball reader
      *
-     * @return \Magento\Archive\Helper\File
+     * @return \Magento\Framework\Archive\Helper\File
      */
     protected function _getReader()
     {
@@ -167,7 +167,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
      * Set option that define ability skip first catalog level.
      *
      * @param mixed $skipRoot
-     * @return \Magento\Archive\Tar
+     * @return \Magento\Framework\Archive\Tar
      */
     protected function _setSkipRoot($skipRoot)
     {
@@ -179,7 +179,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
      * Set file which is packing.
      *
      * @param string $file
-     * @return \Magento\Archive\Tar
+     * @return \Magento\Framework\Archive\Tar
      */
     protected function _setCurrentFile($file)
     {
@@ -191,7 +191,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
      * Set path to file where tarball should be placed
      *
      * @param string $destinationFilePath
-     * @return \Magento\Archive\Tar
+     * @return \Magento\Framework\Archive\Tar
      */
     protected function _setDestinationFilePath($destinationFilePath)
     {
@@ -213,7 +213,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
      * Set path to file which is packing.
      *
      * @param string $path
-     * @return \Magento\Archive\Tar
+     * @return \Magento\Framework\Archive\Tar
      */
     protected function _setCurrentPath($path)
     {
@@ -325,7 +325,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
         $fileSize = 0;
 
         if (is_file($currentFile) && !is_link($currentFile)) {
-            $fileReader = new \Magento\Archive\Helper\File($currentFile);
+            $fileReader = new \Magento\Framework\Archive\Helper\File($currentFile);
             $fileReader->open('r');
 
             while (!$fileReader->eof()) {
@@ -596,7 +596,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
      */
     protected function _extractAndWriteFile($fileHeader, $destination)
     {
-        $fileWriter = new \Magento\Archive\Helper\File($destination);
+        $fileWriter = new \Magento\Framework\Archive\Helper\File($destination);
         $fileWriter->open('w', $fileHeader['mode']);
 
         $archiveReader = $this->_getReader();

@@ -130,7 +130,7 @@ class Filesystem extends AbstractBackup
 
         $backupPath = $this->getBackupPath();
 
-        $gzPacker = new \Magento\Archive\Gz();
+        $gzPacker = new \Magento\Framework\Archive\Gz();
         $gzPacker->pack($tarTmpPath, $backupPath);
 
         if (!is_file($backupPath) || filesize($backupPath) == 0) {

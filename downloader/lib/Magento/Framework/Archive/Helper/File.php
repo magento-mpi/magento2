@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Archive\Helper;
+namespace Magento\Framework\Archive\Helper;
 
 /**
 * Helper class that simplifies files stream reading and writing

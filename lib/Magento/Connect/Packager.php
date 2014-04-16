@@ -29,7 +29,7 @@ class Packager
 
     /**
      *
-     * @var \Magento\Archive
+     * @var \Magento\Framework\Archive
      */
     protected $_archiver = null;
 
@@ -40,12 +40,12 @@ class Packager
 
     /**
      *
-     * @return \Magento\Archive
+     * @return \Magento\Framework\Archive
      */
     public function getArchiver()
     {
         if (is_null($this->_archiver)) {
-            $this->_archiver = new \Magento\Archive();
+            $this->_archiver = new \Magento\Framework\Archive();
         }
         return $this->_archiver;
     }
@@ -312,7 +312,7 @@ class Packager
      */
     public function getLocalModifiedFiles($chanName, $package, $cacheObj, $configObj)
     {
-        $p = $cachObj->getPackageObject($chanName, $package);
+        $p = $cacheObj->getPackageObject($chanName, $package);
         $hashContents = $p->getHashContents();
         $listModified = array();
         foreach ($hashContents as $file => $hash) {
