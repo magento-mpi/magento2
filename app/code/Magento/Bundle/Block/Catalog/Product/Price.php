@@ -94,40 +94,6 @@ class Price extends \Magento\Catalog\Block\Product\Price
     }
 
     /**
-     * Convert block to html string
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-//        $product = $this->getProduct();
-//        if ($this->getMAPTemplate()
-//            && $this->_catalogData->canApplyMsrp($product)
-//            && $product->getPriceType() != \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC
-//        ) {
-//            $hiddenPriceHtml = parent::_toHtml();
-//            if ($this->_catalogData->isShowPriceOnGesture($product)) {
-//                $this->setWithoutPrice(true);
-//            }
-//            $realPriceHtml = parent::_toHtml();
-//            $this->unsWithoutPrice();
-//            $addToCartUrl = $this->getLayout()->getBlock('product.info.bundle')->getAddToCartUrl($product);
-//            $product->setAddToCartUrl($addToCartUrl);
-//            $html = $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Price')
-//                ->setTemplate($this->getMAPTemplate())
-//                ->setRealPriceHtml($hiddenPriceHtml)
-//                ->setPriceElementIdPrefix('bundle-price-')
-//                ->setIdSuffix($this->getIdSuffix())
-//                ->setProduct($product)
-//                ->toHtml();
-//
-//            return $realPriceHtml . $html;
-//        }
-
-        return parent::_toHtml();
-    }
-
-    /**
      * @param null|string|bool|int|\Magento\Store\Model\Store $storeId
      * @return bool|\Magento\Store\Model\Website
      */
