@@ -7,16 +7,6 @@
  */
 namespace Magento\Customer\Model\ImportExport\Export;
 
-/**
- * Export customer address entity model
- *
- * @category    Magento
- * @package     Magento_ImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
- * @todo refactor in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
- *
- * @method \Magento\Customer\Model\Resource\Address\Attribute\Collection getAttributeCollection() getAttributeCollection()
- */
 class Address extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
 {
     /**#@+
@@ -90,7 +80,7 @@ class Address extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
     /**
      * Customers whose address are exported
      *
-     * @var \Magento\ImportExport\Model\Export\Entity\Eav\Customer
+     * @var Customer
      */
     protected $_customerEntity;
 
@@ -118,7 +108,7 @@ class Address extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerColFactory
-     * @param \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory
+     * @param \Magento\Customer\Model\ImportExport\Export\CustomerFactory $eavCustomerFactory
      * @param \Magento\Customer\Model\Resource\Address\CollectionFactory $addressColFactory
      * @param array $data
      */

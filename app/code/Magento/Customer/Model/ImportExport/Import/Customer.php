@@ -7,16 +7,6 @@
  */
 namespace Magento\Customer\Model\ImportExport\Import;
 
-/**
- * Import entity customer model
- *
- * @category    Magento
- * @package     Magento_ImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
- *
- * @todo finish moving dependencies to constructor in the scope of
- * @todo https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
- */
 class Customer extends AbstractCustomer
 {
     /**

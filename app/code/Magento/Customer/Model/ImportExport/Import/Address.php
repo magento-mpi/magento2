@@ -7,12 +7,6 @@
  */
 namespace Magento\Customer\Model\ImportExport\Import;
 
-/**
- * Import entity customer address model
- *
- * @todo finish moving dependencies to constructor in the scope of
- * @todo https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
- */
 class Address extends AbstractCustomer
 {
     /**#@+

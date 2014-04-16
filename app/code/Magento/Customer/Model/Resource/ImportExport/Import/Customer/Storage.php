@@ -7,13 +7,6 @@
  */
 namespace Magento\Customer\Model\Resource\ImportExport\Import\Customer;
 
-/**
- * Customer storage
- *
- * @category    Magento
- * @package     Magento_ImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Storage
 {
     /**

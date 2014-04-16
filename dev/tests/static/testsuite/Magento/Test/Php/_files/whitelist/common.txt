@@ -66,7 +66,7 @@ app/code/Magento/GoogleShopping/Model/AttributeFactory.php
 app/code/Magento/Eav/Model/Entity/Attribute/Config
 app/code/Magento/Eav/Model/Entity/Attribute/Config.php
 app/code/Magento/Email
-app/code/Magento/ImportExport/Model/Import/Entity/CustomerComposite.php
+app/code/Magento/Customer/Model/ImportExport
 app/code/Magento/ImportExport/Model/Export/Config
 app/code/Magento/ImportExport/Model/Export/Config.php
 app/code/Magento/ImportExport/Model/Export/ConfigInterface.php

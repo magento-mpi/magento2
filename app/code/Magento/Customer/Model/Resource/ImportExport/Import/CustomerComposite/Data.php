@@ -9,13 +9,6 @@ namespace Magento\Customer\Model\Resource\ImportExport\Import\CustomerComposite;
 
 use Magento\Customer\Model\ImportExport\Import\CustomerComposite;
 
-/**
- * ImportExport customer_composite entity import data abstract resource model
- *
- * @category    Magento
- * @package     Magento_ImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Data extends \Magento\ImportExport\Model\Resource\Import\Data
 {
     /**

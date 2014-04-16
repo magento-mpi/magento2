@@ -2,13 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
- * @subpackage  integration_tests
- * @copyright   {copyright}
+* @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Customer\Model\ImportExport\Import;
+
+use Magento\ImportExport\Model\Import;
 
 /**
  * Test for class \Magento\Customer\Model\ImportExport\Import\Customer which covers validation logic
@@ -43,7 +42,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\ImportExport\Import\Customer');
-        $this->_model->setParameters(['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE]);
+        $this->_model->setParameters(['behavior' => Import::BEHAVIOR_ADD_UPDATE]);
 
         $propertyAccessor = new \ReflectionProperty($this->_model, '_messageTemplates');
         $propertyAccessor->setAccessible(true);
@@ -78,7 +77,6 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         // 1 of this customers is already exist, but its first and last name were changed in file
         $expectAddedCustomers = 5;
 
-
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/customers_to_import.csv',
             $this->directoryWrite
@@ -95,11 +93,10 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $customersCollection->resetData();
         $customersCollection->clear();
 
-        $this->_model->setParameters(
-            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE)
-        )->setSource(
-                $source
-            )->isDataValid();
+        $this->_model
+            ->setParameters(['behavior' => Import::BEHAVIOR_ADD_UPDATE])
+            ->setSource($source)
+            ->isDataValid();
 
         $this->_model->importData();
 
@@ -161,7 +158,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
 
         $this->_model->setParameters(
-            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE)
+            array('behavior' => Import::BEHAVIOR_DELETE)
         )->setSource(
                 $source
             )->isDataValid();
@@ -196,8 +193,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateRowInvalidEmail()
     {
-        $this->
-            _customerData[Customer::COLUMN_EMAIL] = 'wrong_email@format';
+        $this->_customerData[Customer::COLUMN_EMAIL] = 'wrong_email@format';
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertEquals(1, $this->_model->getErrorsCount());
         $this->assertArrayHasKey(
@@ -208,9 +204,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateRowInvalidWebsite()
     {
-        $this->
-            _customerData[Customer::COLUMN_WEBSITE] =
-            'not_existing_web_site';
+        $this->_customerData[Customer::COLUMN_WEBSITE] = 'not_existing_web_site';
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertEquals(1, $this->_model->getErrorsCount());
         $this->assertArrayHasKey(
@@ -267,11 +261,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateEmailForDeleteBehavior()
     {
-        $this->
-            _customerData[Customer::COLUMN_EMAIL] =
-            'new.customer@example.com';
-
-        $this->_model->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE));
+        $this->_customerData[Customer::COLUMN_EMAIL] = 'new.customer@example.com';
+        $this->_model->setParameters(array('behavior' => Import::BEHAVIOR_DELETE));
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertGreaterThan(0, $this->_model->getErrorsCount());
         $this->assertArrayHasKey(
