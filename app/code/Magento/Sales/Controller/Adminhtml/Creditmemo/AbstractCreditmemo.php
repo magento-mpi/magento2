@@ -62,9 +62,7 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_initAction()->_addContent(
-            $this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Creditmemo')
-        );
+        $this->_initAction();
         $this->_view->renderLayout();
     }
 
@@ -178,5 +176,16 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Sales::sales_creditmemo');
+    }
+
+    /**
+     * Creditmemo grid
+     *
+     * @return void
+     */
+    public function gridAction()
+    {
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 }

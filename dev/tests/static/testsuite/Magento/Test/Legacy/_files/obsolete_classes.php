@@ -2114,8 +2114,11 @@ return array(
         'Magento\Usa\Model\Shipping\Carrier\AbstractCarrier\Source\Requesttype',
         'Magento\Shipping\Model\Config\Source\Online\Requesttype'
     ),
-    ['Magento\PubSub'],
-    ['Magento\Outbound'],
+    array('Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'),
+    array('Magento\Catalog\Model\Product\Indexer\Price'),
+    array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
+    ['Magento\PubSub'], // unused library code which was removed
+    ['Magento\Outbound'], // unused library code which was removed
     array('Magento\Indexer\Model\Processor\CacheInvalidate', 'Magento\Indexer\Model\Processor\InvalidateCache'),
     array(
         'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Reviews',
@@ -2187,8 +2190,6 @@ return array(
         'Magento\Core\App\Request\RewriteService',
         'Magento\UrlRewrite\App\Request\RewriteService'
     ),
-    ['Magento\Catalog\Model\Product\Indexer\Price'],
-    ['Magento\Catalog\Model\Resource\Product\Indexer\Price'],
     ['Magento\Framework\App\ConfigInterface', 'Magento\Framework\App\Config\ScopeConfigInterface'],
     ['Magento\Core\Model\Store\ConfigInterface', 'Magento\Framework\App\Config\ScopeConfigInterface'],
     ['Magento\Core\Model\Store\Config', 'Magento\Framework\App\Config\ScopeConfigInterface'],
@@ -2242,7 +2243,6 @@ return array(
     ['Magento\Core\Model\Resource\Setup\Generic'],
     ['Magento\Newsletter\Model\Resource\Setup'],
     ['Magento\SalesRule\Model\Resource\Setup'],
-    ['Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'],
     array('Magento\Core\Model\Session', 'Magento\Session\Generic'),
     array('Magento\Core\Model\Session\Config', 'Magento\Session\Config'),
     array('Magento\Core\Model\Session\SidResolver', 'Magento\Session\SidResolver'),
@@ -2276,6 +2276,11 @@ return array(
     ['Magento\Rating\Model\Resource\Rating', 'Magento\Review\Model\Resource\Rating'],
     ['Magento\Rating\Model\Rating\Option', 'Magento\Review\Model\Rating\Option'],
     ['Magento\Rating\Model\Observer'],
+    array('Magento\Sales\Block\Adminhtml\Invoice\Grid'),
+    array('Magento\Sales\Block\Adminhtml\Shipment\Grid'),
+    array('Magento\Sales\Block\Adminhtml\Creditmemo\Grid'),
+    array('Magento\Sales\Block\Adminhtml\Transactions\Grid'),
+    array('Magento\Sales\Block\Adminhtml\Transactions\Child\Grid'),
     ['Magento\Catalog\Model\PriceCurrency'],
     [
         'Magento\Framework\App\FrontController\Plugin\Clickjacking',

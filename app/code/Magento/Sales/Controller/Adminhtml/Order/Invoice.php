@@ -13,7 +13,7 @@ use Magento\Model\Exception;
 use Magento\Framework\App\ResponseInterface;
 
 /**
- * Adminhtml sales order edit controller
+ * Adminhtml sales order invoice edit controller
  *
  * @category   Magento
  * @package    Magento_Sales
@@ -66,11 +66,10 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     /**
      * Initialize invoice model instance
      *
-     * @param bool $update
      * @return \Magento\Sales\Model\Order\Invoice
      * @throws Exception
      */
-    protected function _initInvoice($update = false)
+    protected function _initInvoice()
     {
         $this->_title->add(__('Invoices'));
 
@@ -431,6 +430,8 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     }
 
     /**
+     * Add comment to invoice action
+     *
      * @return void
      */
     public function addCommentAction()

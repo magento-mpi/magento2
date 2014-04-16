@@ -139,7 +139,7 @@ class Observer
                     '%s -f %s -- --group=%s',
                     array(
                         PHP_BINARY,
-                        BP . DIRECTORY_SEPARATOR . \Magento\Framework\App\Filesystem::PUB_DIR .  DIRECTORY_SEPARATOR . 'cron.php',
+                        BP . '/' . \Magento\Framework\App\Filesystem::PUB_DIR . '/cron.php',
                         $groupId
                     )
                 );

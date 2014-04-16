@@ -403,7 +403,7 @@ class Index extends \Magento\Backend\App\Action
                 if ($isExistingCustomer) {
                     $this->_customerAccountService->updateCustomer($customerDetails);
                 } else {
-                    $customer = $this->_customerAccountService->createAccount($customerDetails);
+                    $customer = $this->_customerAccountService->createCustomer($customerDetails);
                     $customerId = $customer->getId();
                 }
 
@@ -476,8 +476,8 @@ class Index extends \Magento\Backend\App\Action
             $customer = $this->_customerAccountService->getCustomer($customerId);
             $this->_customerAccountService->initiatePasswordReset(
                 $customer->getEmail(),
-                $customer->getWebsiteId(),
-                CustomerAccountServiceInterface::EMAIL_REMINDER
+                CustomerAccountServiceInterface::EMAIL_REMINDER,
+                $customer->getWebsiteId()
             );
             $this->messageManager->addSuccess(__('Customer will receive an email with a link to reset password.'));
         } catch (NoSuchEntityException $exception) {
