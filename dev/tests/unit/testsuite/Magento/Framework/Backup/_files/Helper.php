@@ -12,7 +12,7 @@
 /**
  * Mock Filesystem helper
  */
-namespace Magento\Backup\Filesystem;
+namespace Magento\Framework\Backup\Filesystem;
 
 class Helper
 {

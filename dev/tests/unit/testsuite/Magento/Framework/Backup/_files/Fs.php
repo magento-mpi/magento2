@@ -12,14 +12,14 @@
 /**
  * Mock rollback worker for rolling back via local filesystem
  */
-namespace Magento\Backup\Filesystem\Rollback;
+namespace Magento\Framework\Backup\Filesystem\Rollback;
 
-class Fs extends AbstractRollback
+class Fs extends \Magento\Framework\Backup\Filesystem\Rollback\AbstractRollback
 {
     /**
      * Mock Files rollback implementation via local filesystem
      *
-     * @see \Magento\Backup\Filesystem\Rollback\AbstractRollback::run()
+     * @see \Magento\Framework\Backup\Filesystem\Rollback\AbstractRollback::run()
      */
     public function run()
     {

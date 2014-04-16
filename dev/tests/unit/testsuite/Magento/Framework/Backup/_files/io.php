@@ -8,13 +8,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backup;
+namespace Magento\Framework\Backup;
 
 
 /**
  * Mock is_dir function
  *
- * @see \Magento\Backup\Filesystem
+ * @see \Magento\Framework\Backup\Filesystem
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 function is_dir($path)
@@ -25,7 +25,7 @@ function is_dir($path)
 /**
  * Mock is_dir function
  *
- * @see \Magento\Backup\Filesystem
+ * @see \Magento\Framework\Backup\Filesystem
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 function is_writable($path)
@@ -36,7 +36,7 @@ function is_writable($path)
 /**
  * Mock disk_free_space function
  *
- * @see \Magento\Backup\Filesystem
+ * @see \Magento\Framework\Backup\Filesystem
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 function disk_free_space($path)
@@ -47,7 +47,7 @@ function disk_free_space($path)
 /**
  * Mock is_file function
  *
- * @see \Magento\Backup\Filesystem
+ * @see \Magento\Framework\Backup\Filesystem
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 function is_file($path)
@@ -58,7 +58,7 @@ function is_file($path)
 /**
  * Mock filesize function
  *
- * @see \Magento\Backup\Filesystem
+ * @see \Magento\Framework\Backup\Filesystem
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 function filesize($path)
@@ -69,7 +69,7 @@ function filesize($path)
 /**
  * Mock unlink function
  *
- * @see \Magento\Backup\Filesystem
+ * @see \Magento\Framework\Backup\Filesystem
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 function unlink($path)
@@ -80,7 +80,7 @@ function unlink($path)
 /**
  * Mock rmdir function
  *
- * @see \Magento\Backup\Filesystem
+ * @see \Magento\Framework\Backup\Filesystem
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 function rmdir($path)

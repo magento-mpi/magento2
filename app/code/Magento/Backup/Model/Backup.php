@@ -14,7 +14,7 @@ namespace Magento\Backup\Model;
  * @method string getName()
  * @method string getTime()
  */
-class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterface
+class Backup extends \Magento\Object implements \Magento\Framework\Backup\Db\BackupInterface
 {
     /* internal constants */
     const COMPRESS_RATE = 9;
@@ -271,7 +271,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
      * @param bool $write
      * @return $this
      * @throws \Magento\Backup\Exception
-     * @throws \Magento\Backup\Exception\NotEnoughPermissions
+     * @throws \Magento\Framework\Backup\Exception\NotEnoughPermissions
      */
     public function open($write = false)
     {
@@ -297,7 +297,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
                 \Magento\Framework\App\Filesystem::WRAPPER_CONTENT_ZLIB
             );
         } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
-            throw new \Magento\Backup\Exception\NotEnoughPermissions(
+            throw new \Magento\Framework\Backup\Exception\NotEnoughPermissions(
                 __('Sorry, but we cannot read from or write to backup file "%1".', $this->getFileName())
             );
         }

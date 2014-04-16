@@ -12,7 +12,7 @@
 /**
  * Mock class to work with tar archives
  */
-namespace Magento\Backup\Archive;
+namespace Magento\Framework\Backup\Archive;
 
 class Tar
 {

@@ -39,7 +39,7 @@ dev/tools/Magento/Tools/I18n/Zend
 lib/Magento/Framework/App/Config/Element.php
 lib/Magento/Framework/Archive
 lib/Magento/Autoload/Simple.php
-lib/Magento/Backup
+lib/Magento/Framework/Backup
 lib/Magento/Cache/Backend/Database.php
 lib/Magento/Cache/Backend/Eaccelerator.php
 lib/Magento/Cache/Backend/Memcached.php

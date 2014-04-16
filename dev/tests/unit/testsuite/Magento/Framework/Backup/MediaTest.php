@@ -8,13 +8,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backup;
+namespace Magento\Framework\Backup;
 
 require_once __DIR__ . '/_files/Gz.php';
 require_once __DIR__ . '/_files/Tar.php';
 require_once __DIR__ . '/_files/Fs.php';
 require_once __DIR__ . '/_files/Helper.php';
 require_once __DIR__ . '/_files/io.php';
+
 class MediaTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,18 +24,18 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     protected $_filesystemMock;
 
     /**
-     * @var \Magento\Backup\Factory
+     * @var \Magento\Framework\Backup\Factory
      */
     protected $_backupFactoryMock;
 
     /**
-     * @var \Magento\Backup\Db
+     * @var \Magento\Framework\Backup\Db
      */
     protected $_backupDbMock;
 
     protected function setUp()
     {
-        $this->_backupDbMock = $this->getMock('Magento\Backup\Db', array(), array(), '', false);
+        $this->_backupDbMock = $this->getMock('Magento\Framework\Backup\Db', array(), array(), '', false);
         $this->_backupDbMock->expects($this->any())->method('setBackupExtension')->will($this->returnSelf());
 
         $this->_backupDbMock->expects($this->any())->method('setTime')->will($this->returnSelf());
@@ -54,7 +55,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->_backupDbMock->expects($this->any())->method('create')->will($this->returnValue(true));
 
         $this->_filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
-        $this->_backupFactoryMock = $this->getMock('Magento\Backup\Factory', array(), array(), '', false);
+        $this->_backupFactoryMock = $this->getMock('Magento\Framework\Backup\Factory', array(), array(), '', false);
         $this->_backupFactoryMock->expects(
             $this->once()
         )->method(
@@ -74,7 +75,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         $rootDir = __DIR__ . '/_files/data';
 
-        $model = new \Magento\Backup\Media($this->_filesystemMock, $this->_backupFactoryMock);
+        $model = new \Magento\Framework\Backup\Media($this->_filesystemMock, $this->_backupFactoryMock);
         $model->setRootDir($rootDir);
         $model->{$action}();
         $this->assertTrue($model->getIsSuccess());

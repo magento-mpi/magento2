@@ -1042,7 +1042,7 @@ final class Controller
             $type = $this->_getBackupTypeByCode($archiveType);
 
             $backupManager = \Magento\Core\Model\ObjectManager::getInstance()->get(
-                'Magento\Backup\Factory'
+                'Magento\Framework\Backup\Factory'
             )->create(
                 $type
             )->setBackupExtension(
@@ -1062,15 +1062,15 @@ final class Controller
                 $backupManager
             );
 
-            if ($type != \Magento\Backup\Factory::TYPE_DB) {
+            if ($type != \Magento\Framework\Backup\Factory::TYPE_DB) {
                 $backupManager->setRootDir(\Mage::getBaseDir())->addIgnorePaths($this->_getBackupIgnorePaths());
             }
             $backupManager->create();
             $connect->runHtmlConsole($this->_getCreateBackupSuccessMessageByType($type));
             $isSuccess = true;
-        } catch (\Magento\Backup\Exception\NotEnoughFreeSpace $e) {
+        } catch (\Magento\Framework\Backup\Exception\NotEnoughFreeSpace $e) {
             $connect->runHtmlConsole('Not enough free space to create backup.');
-        } catch (\Magento\Backup\Exception\NotEnoughPermissions $e) {
+        } catch (\Magento\Framework\Backup\Exception\NotEnoughPermissions $e) {
             $connect->runHtmlConsole('Not enough permissions to create backup.');
         } catch (\Exception $e) {
             $connect->runHtmlConsole('An error occurred while creating the backup.');
@@ -1086,10 +1086,10 @@ final class Controller
     protected function _getExtensionType($type)
     {
         $extensionType = array(
-            \Magento\Backup\Factory::TYPE_SYSTEM_SNAPSHOT => 'tgz',
-            \Magento\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'tgz',
-            \Magento\Backup\Factory::TYPE_MEDIA => 'tgz',
-            \Magento\Backup\Factory::TYPE_DB => 'gz'
+            \Magento\Framework\Backup\Factory::TYPE_SYSTEM_SNAPSHOT => 'tgz',
+            \Magento\Framework\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'tgz',
+            \Magento\Framework\Backup\Factory::TYPE_MEDIA => 'tgz',
+            \Magento\Framework\Backup\Factory::TYPE_DB => 'gz'
         );
 
         return $extensionType[$type];
@@ -1122,10 +1122,10 @@ final class Controller
     protected function _getBackupTypeByCode($code)
     {
         $typeMap = array(
-            1 => \Magento\Backup\Factory::TYPE_DB,
-            2 => \Magento\Backup\Factory::TYPE_SYSTEM_SNAPSHOT,
-            3 => \Magento\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA,
-            4 => \Magento\Backup\Factory::TYPE_MEDIA
+            1 => \Magento\Framework\Backup\Factory::TYPE_DB,
+            2 => \Magento\Framework\Backup\Factory::TYPE_SYSTEM_SNAPSHOT,
+            3 => \Magento\Framework\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA,
+            4 => \Magento\Framework\Backup\Factory::TYPE_MEDIA
         );
 
         if (!isset($typeMap[$code])) {
@@ -1144,10 +1144,11 @@ final class Controller
     protected function _getCreateBackupSuccessMessageByType($type)
     {
         $messagesMap = array(
-            \Magento\Backup\Factory::TYPE_SYSTEM_SNAPSHOT => 'System backup has been created',
-            \Magento\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'System (excluding Media) backup has been created',
-            \Magento\Backup\Factory::TYPE_MEDIA => 'Database and media backup has been created',
-            \Magento\Backup\Factory::TYPE_DB => 'Database backup has been created'
+            \Magento\Framework\Backup\Factory::TYPE_SYSTEM_SNAPSHOT => 'System backup has been created',
+            \Magento\Framework\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA =>
+                'System (excluding Media) backup has been created',
+            \Magento\Framework\Backup\Factory::TYPE_MEDIA => 'Database and media backup has been created',
+            \Magento\Framework\Backup\Factory::TYPE_DB => 'Database backup has been created'
         );
 
         if (!isset($messagesMap[$type])) {
