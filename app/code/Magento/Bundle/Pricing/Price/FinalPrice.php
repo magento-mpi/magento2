@@ -29,19 +29,6 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
     protected $calculator;
 
     /**
-     * @param Product $product
-     * @param float $quantity
-     * @param BundleCalculatorInterface $calculator
-     */
-    public function __construct(
-        Product $product,
-        $quantity,
-        BundleCalculatorInterface $calculator
-    ) {
-        parent::__construct($product, $quantity, $calculator);
-    }
-
-    /**
      * @return float
      */
     public function getValue()

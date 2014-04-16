@@ -40,7 +40,6 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
     ) {
         parent::__construct($product, $quantity, $calculator);
         $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_CODE);
-        $this->baseAmount = $this->getValue();
     }
 
     /**

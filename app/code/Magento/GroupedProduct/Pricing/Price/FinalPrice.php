@@ -11,7 +11,6 @@
 namespace Magento\GroupedProduct\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price\AbstractPrice;
-use Magento\Pricing\Adjustment\Calculator;
 use Magento\Catalog\Model\Product;
 use Magento\GroupedProduct\Model\Product\Type\Grouped;
 
@@ -29,18 +28,6 @@ class FinalPrice extends AbstractPrice
      * @var Product
      */
     protected $minProduct;
-
-    /**
-     * @param Product $product
-     * @param Calculator $calculator
-     */
-    public function __construct(
-        Product $product,
-        Calculator $calculator
-    ) {
-        $this->product = $product;
-        $this->calculator = $calculator;
-    }
 
     /**
      * Return minimal product price
