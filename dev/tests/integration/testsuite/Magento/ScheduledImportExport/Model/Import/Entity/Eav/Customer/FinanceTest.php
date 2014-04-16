@@ -13,7 +13,7 @@
  * Test class for \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance
  */
 namespace Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer;
-
+use \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection;
 class FinanceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -21,16 +21,16 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        /** @var $testWebsite \Magento\Core\Model\Website */
+        /** @var $testWebsite \Magento\Store\Model\Website */
         $testWebsite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Core\Model\Website'
+            'Magento\Store\Model\Website'
         )->load(
             'test'
         );
         if ($testWebsite->getId()) {
             // Clear test website info from application cache.
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Core\Model\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->clearWebsiteCache(
                 $testWebsite->getId()
             );
@@ -44,9 +44,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/ScheduledImportExport/_files/website.php
      * @magentoAppArea adminhtml
      *
+     * @codingStandardsIgnoreStart
      * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_importData
      * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_updateRewardPointsForCustomer
-     * @codingStandardsIgnoreStart
      * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_updateCustomerBalanceForCustomer
      * @codingStandardsIgnoreEnd
      * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_getComment
@@ -60,18 +60,18 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var $testWebsite \Magento\Core\Model\Website */
+        /** @var $testWebsite \Magento\Store\Model\Website */
         $testWebsite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Core\Model\Website'
+            'Magento\Store\Model\Website'
         )->load(
             'test'
         );
-        $objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsite($testWebsite->getId());
+        $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsite($testWebsite->getId());
 
         // load websites to have ability get website code by id.
         $websiteCodes = array();
-        $websites = $objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsites();
-        /** @var $website \Magento\Core\Model\Website */
+        $websites = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsites();
+        /** @var $website \Magento\Store\Model\Website */
         foreach ($websites as $website) {
             $websiteCodes[$website->getId()] = $website->getCode();
         }
@@ -99,11 +99,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $model->validateData();
         $model->importData();
 
-        $rewardPointsKey =
-            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS;
-        $customerBalanceKey =
-            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
-            COLUMN_CUSTOMER_BALANCE;
+        $rewardPointsKey = Collection::COLUMN_REWARD_POINTS;
+        $customerBalanceKey = Collection::COLUMN_CUSTOMER_BALANCE;
 
         $customerCollection = $objectManager->create('Magento\Customer\Model\Resource\Customer\Collection');
         /** @var $customer \Magento\Customer\Model\Customer */
@@ -219,8 +216,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     protected function _csvToArray($content)
     {
-        $emailKey = \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL;
-        $websiteKey = \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE;
+        $emailKey = Finance::COLUMN_EMAIL;
+        $websiteKey = Finance::COLUMN_FINANCE_WEBSITE;
 
         $header = array();
         $data = array();

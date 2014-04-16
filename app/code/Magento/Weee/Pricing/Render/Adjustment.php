@@ -15,6 +15,9 @@ use Magento\Pricing\Render\AbstractAdjustment;
 use Magento\Pricing\PriceCurrencyInterface;
 use Magento\Weee\Model\Tax;
 
+/**
+ * Weee Tax Price Adjustment
+ */
 class Adjustment extends AbstractAdjustment
 {
     /**
@@ -140,7 +143,7 @@ class Adjustment extends AbstractAdjustment
      * Returns display type for price accordingly to current zone
      *
      * @param int|int[]|null $compareTo
-     * @param \Magento\Core\Model\Store|null $store
+     * @param \Magento\Store\Model\Store|null $store
      * @return bool|int
      */
     protected function typeOfDisplay($compareTo = null, $store = null)

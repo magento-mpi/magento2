@@ -1,0 +1,93 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\CatalogRule\Test\Fixture\CatalogRule">
+    <module>Magento_CatalogRule</module>
+    <type>eav</type>
+    <entity_type>catalog_rule</entity_type>
+    <collection>Magento\CatalogRule\Model\Resource\Rule\Product\Price\Collection</collection>
+    <fields>
+        <name>
+            <attribute_code>name</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input>text</input>
+            <group>rule_information</group>
+        </name>
+        <is_active>
+            <attribute_code>is_active</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input>select</input>
+            <group>rule_information</group>
+        </is_active>
+        <website_ids>
+            <attribute_code>website_ids</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input>multiselect</input>
+            <group>rule_information</group>
+        </website_ids>
+        <customer_group_ids>
+            <attribute_code>customer_group_ids</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input>multiselect</input>
+            <group>rule_information</group>
+        </customer_group_ids>
+        <website_ids>
+            <attribute_code>website_ids</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input>multiselect</input>
+            <group>rule_information</group>
+        </website_ids>
+        <simple_action>
+            <attribute_code>simple_action</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required>0</is_required>
+            <default_value></default_value>
+            <input>select</input>
+            <group>actions</group>
+        </simple_action>
+        <discount_amount>
+            <attribute_code>discount_amount</attribute_code>
+            <backend_type>decimal</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input>text</input>
+            <group>actions</group>
+        </discount_amount>
+        <condition_type>
+            <attribute_code>conditions</attribute_code>
+            <backend_type>virtual</backend_type>
+            <is_required>0</is_required>
+            <group>conditions</group>
+            <input>select</input>
+        </condition_type>
+        <condition_value>
+            <attribute_code>conditions</attribute_code>
+            <backend_type>virtual</backend_type>
+            <is_required>0</is_required>
+            <group>conditions</group>
+            <fixture>Magento\CatalogRule\Test\Fixture\Conditions</fixture>
+        </condition_value>
+        <id>
+            <attribute_code>id</attribute_code>
+            <backend_type>virtual</backend_type>
+        </id>
+    </fields>
+    <repository_class>Magento\CatalogRule\Test\Repository\CatalogRule</repository_class>
+    <handler_interface>Magento\CatalogRule\Test\Handler\CatalogRule\CatalogRuleInterface</handler_interface>
+</fixture>

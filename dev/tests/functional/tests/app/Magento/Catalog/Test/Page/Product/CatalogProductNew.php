@@ -58,13 +58,6 @@ class CatalogProductNew extends Page
     protected $messagesBlock = '#messages .messages';
 
     /**
-     * Selector for message block
-     *
-     * @var string
-     */
-    protected $messagesSelector = '#messages.messages .messages';
-
-    /**
      * Custom constructor
      */
     protected function _init()

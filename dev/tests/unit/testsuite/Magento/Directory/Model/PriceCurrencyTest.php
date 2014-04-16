@@ -19,7 +19,7 @@ class PriceCurrencyTest extends \PHPUnit_Framework_TestCase
     protected $priceCurrency;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManager;
 
@@ -30,7 +30,7 @@ class PriceCurrencyTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->storeManager = $this->getMockBuilder('Magento\Core\Model\StoreManager')
+        $this->storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -183,7 +183,7 @@ class PriceCurrencyTest extends \PHPUnit_Framework_TestCase
 
     protected function getStoreMock($baseCurrency)
     {
-        $store = $this->getMockBuilder('Magento\Core\Model\Store')
+        $store = $this->getMockBuilder('Magento\Store\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
 

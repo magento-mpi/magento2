@@ -34,7 +34,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     protected $priceBox;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\LayoutInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $layout;
 
@@ -85,8 +85,8 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->priceInfo));
 
         $eventManager = $this->getMock('Magento\Event\ManagerStub', [], [], '', false);
-        $config = $this->getMock('Magento\Core\Model\Store\Config', [], [], '', false);
-        $this->layout = $this->getMock('Magento\Core\Model\Layout', [], [], '', false);
+        $config = $this->getMock('Magento\Store\Model\Store\Config', [], [], '', false);
+        $this->layout = $this->getMock('Magento\View\Layout', [], [], '', false);
 
         $this->priceBox = $this->getMock('Magento\Pricing\Render\PriceBox', [], [], '', false);
         $this->logger = $this->getMock('Magento\Logger', [], [], '', false);
@@ -96,6 +96,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             ->method('getBlock')
             ->will($this->returnValue($this->priceBox));
 
+        $scopeConfigMock = $this->getMockForAbstractClass('Magento\App\Config\ScopeConfigInterface');
         $context = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
         $context->expects($this->any())
             ->method('getEventManager')
@@ -109,6 +110,9 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->any())
             ->method('getLogger')
             ->will($this->returnValue($this->logger));
+        $context->expects($this->any())
+            ->method('getScopeConfig')
+            ->will($this->returnValue($scopeConfigMock));
 
         $this->rendererPool = $this->getMockBuilder('Magento\Pricing\Render\RendererPool')
             ->disableOriginalConstructor()

@@ -164,7 +164,7 @@ class Attribute extends \Magento\Backend\App\Action
 
             $this->_title->add($attributeObject->getFrontendLabel());
         } else {
-            $this->_title->add(__('New Customer Address Attribute'));
+            $this->_title->add(__('New Customer Attribute'));
         }
 
         $attributeData = $this->_getSession()->getAttributeData(true);

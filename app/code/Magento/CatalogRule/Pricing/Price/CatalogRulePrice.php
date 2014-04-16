@@ -14,7 +14,7 @@ use Magento\Catalog\Pricing\Price\AbstractPrice;
 use Magento\Pricing\Adjustment\Calculator;
 use Magento\Catalog\Model\Product;
 use Magento\Stdlib\DateTime\TimezoneInterface;
-use Magento\Core\Model\StoreManager;
+use Magento\Store\Model\StoreManager;
 use Magento\Customer\Model\Session;
 use Magento\CatalogRule\Model\Resource\RuleFactory;
 
@@ -34,7 +34,7 @@ class CatalogRulePrice extends AbstractPrice
     protected $dateTime;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Store\Model\StoreManager
      */
     protected $storeManager;
 
