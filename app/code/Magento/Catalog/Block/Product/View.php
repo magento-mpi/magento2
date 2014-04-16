@@ -231,16 +231,11 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
         $currentTax = $this->_taxCalculation->getRate($_request);
 
         $tierPrices = array();
-        $tierPricesInclTax = array();
 
-        $tierPricesList = $product->getPriceInfo()->getPrice('tier_price')->getStoredTierPrices();
-        $tierPricesInclTaxList = $product->getPriceInfo()->getPrice('tier_price')->getTierPriceList();
+        $tierPricesList = $product->getPriceInfo()->getPrice('tier_price')->getTierPriceList();
 
         foreach ($tierPricesList as $tierPrice) {
             $tierPrices[] = $this->_coreData->currency($tierPrice['price'], false, false);
-        }
-        foreach ($tierPricesInclTaxList as $tierPrice) {
-            $tierPricesInclTax[] = $this->_coreData->currency($tierPrice['price'], false, false);
         }
         $config = array(
             'productId' => $product->getId(),
@@ -276,8 +271,7 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
             'plusDispositionTax' => 0,
             'oldMinusDisposition' => 0,
             'minusDisposition' => 0,
-            'tierPrices' => $tierPrices,
-            'tierPricesInclTax' => $tierPricesInclTax
+            'tierPrices' => $tierPrices
         );
 
         $responseObject = new \Magento\Object();

@@ -26,7 +26,7 @@
         </action>
     </referenceBlock>
     <referenceBlock name="product.info">
-        <block class="Magento\Catalog\Block\Catalog\Product\View" name="bundle.summary" as="form_top" template="catalog/product/view/summary.phtml">
+        <block class="Magento\Catalog\Block\Product\View" name="bundle.summary" as="form_top" template="catalog/product/view/summary.phtml">
             <block class="Magento\Catalog\Block\Product\View" name="product.info.addtocart.bundle" as="addtocart" template="product/view/addtocart.phtml"/>
             <block class="Magento\Catalog\Block\Product\View" name="product.info.addto.bundle" as="addto" template="product/view/addto.phtml"/>
         </block>
@@ -43,7 +43,7 @@
     <move element="product.price.tier" destination="product.info.options.wrapper.bottom" before="-" />
     <referenceBlock name="product.info.options.wrapper.bottom">
         <block class="Magento\CatalogInventory\Block\Qtyincrements" name="product.info.qtyincrements" before="-" template="qtyincrements.phtml"/>
-        <block class="Magento\Catalog\Block\Catalog\Product\View" name="bundle.back.button" as="backButton" after="-" template="catalog/product/view/backbutton.phtml"/>
+        <block class="Magento\Catalog\Block\Product\View" name="bundle.back.button" as="backButton" after="-" template="catalog/product/view/backbutton.phtml"/>
         <action method="unsetChild">
             <argument name="block" xsi:type="string">product.info.addtocart</argument>
         </action>
@@ -61,6 +61,6 @@
     <referenceContainer name="product.info.type">
         <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle" name="product.info.bundle" as="product_type_data" template="catalog/product/view/type/bundle.phtml"/>
         <container name="product.info.bundle.extra" after="product.info.bundle" as="product_type_data_extra" label="Product Extra Info"/>
-        <block class="Magento\Catalog\Block\Catalog\Product\View" name="customize.button" as="customize_button" template="catalog/product/view/customize.phtml"/>
+        <block class="Magento\Catalog\Block\Product\View" name="customize.button" as="customize_button" template="catalog/product/view/customize.phtml"/>
     </referenceContainer>
 </layout>
