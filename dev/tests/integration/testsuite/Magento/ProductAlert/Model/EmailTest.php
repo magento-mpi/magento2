@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ProductAlert
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\ProductAlert\Model;
 
 class EmailTest extends \PHPUnit_Framework_TestCase
@@ -15,54 +13,30 @@ class EmailTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\ProductAlert\Model\Email
      */
-    protected $_model;
+    protected $_emailModel;
+
+    /**
+     * @var \Magento\TestFramework\ObjectManager
+     */
+    protected $_objectManager;
 
     /**
      * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
      */
-    protected $_customerService;
+    protected $_customerAccountService;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Customer\Helper\View
      */
-    protected $_transportBuilder;
-
-    /**
-     * @var \Magento\ProductAlert\Block\Email\Price
-     */
-    protected $_block;
+    protected $_customerViewHelper;
 
     protected function setUp()
     {
-        $this->_customerService = $this->getMock(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface', [], [], '', false
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_customerAccountService = $this->_objectManager->create(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
         );
-        $this->_block = $this->getMock('Magento\ProductAlert\Block\Email\Price', [], [], '', false);
-        $blockEmail = $this->getMock('Magento\ProductAlert\Block\Email\AbstractEmail', [], [], '', false);
-        $this->_block->expects($this->any())->method('setStore')->will($this->returnValue($blockEmail));
-        $productAlertData = $this->getMock('Magento\ProductAlert\Helper\Data', [], [], '', false);
-        $productAlertData->expects($this->any())->method('createBlock')->will($this->returnValue($this->_block));
-        $this->_transportBuilder = $this->getMock('Magento\Mail\Template\TransportBuilder', [], [], '', false);
-        $this->_transportBuilder->expects($this->any())->method('setTemplateIdentifier')->will($this->returnSelf());
-        $this->_transportBuilder->expects($this->any())->method('setTemplateOptions')->will($this->returnSelf());
-        $this->_transportBuilder->expects($this->any())->method('setFrom')->will($this->returnSelf());
-        $transport = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\ProductAlert\Model\MockedMailTransport'
-        );
-        $this->_transportBuilder->expects($this->any())->method('getTransport')->will($this->returnValue($transport));
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\ProductAlert\Model\Email', [
-                'customerAccountService' => $this->_customerService,
-                'productAlertData' => $productAlertData,
-                'transportBuilder' => $this->_transportBuilder
-            ]
-        );
-    }
-
-    public function testSetCustomerId()
-    {
-        $this->_customerService->expects($this->once())->method('getCustomer')->with(123);
-        $this->_model->setCustomerId(123);
+        $this->_customerViewHelper = $this->_objectManager->create('Magento\Customer\Helper\View');
     }
 
     /**
@@ -71,46 +45,48 @@ class EmailTest extends \PHPUnit_Framework_TestCase
      */
     public function testSend()
     {
-        $customerService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\CustomerAccountService'
+        $this->_objectManager->configure(
+            [
+                'Magento\ProductAlert\Model\Email' => [
+                    'arguments' => [
+                        'transportBuilder' => [
+                            'instance' => 'Magento\TestFramework\Mail\Template\TransportBuilderMock'
+                        ]
+                    ]
+                ],
+                'preferences' => [
+                    'Magento\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock'
+                ]
+            ]
         );
-        $customer = $customerService->getCustomer(1);
-        $this->_customerService->expects($this->any())->method('getCustomer')->with(1)->will(
-            $this->returnValue($customer)
-        );
-        $website = $this->getMock('Magento\Core\Model\Website', [], [], '', false);
-        $website->expects($this->any())->method('getDefaultGroup')->will(
-            $this->returnValue(new \Magento\Object(['default_store' => 1]))
-        );
-        $website->expects($this->any())->method('getDefaultStore')->will(
-            $this->returnValue( new \Magento\Object(['id' => 1]))
-        );
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
-        $product->load(1);
-        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Helper\View');
-        $this->_transportBuilder->expects($this->once())->method('setTemplateVars')->with(
-            array('customerName' => $helper->getCustomerName($customer), 'alertGrid' => $this->_block->toHtml())
-        )->will($this->returnSelf());
-        $this->_transportBuilder->expects($this->once())->method('addTo')->with(
-            $customer->getEmail(),
-            $helper->getCustomerName($customer)
-        )->will($this->returnSelf());
-        $this->_model->addPriceProduct($product);
-        $this->_model->setWebsite($website);
-        $this->_model->setCustomerId(1);
-        $this->_model->send();
-    }
-}
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()
+            ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
 
-class MockedMailTransport implements \Magento\Mail\TransportInterface
-{
-    /**
-     * Mock of send a mail using transport
-     *
-     * @return void
-     */
-    public function sendMessage()
-    {
-        return;
+        $this->_emailModel = $this->_objectManager->create('Magento\ProductAlert\Model\Email');
+
+        /** @var \Magento\Store\Model\Website $website */
+        $website = $this->_objectManager->create('Magento\Store\Model\Website');
+        $website->load(1);
+        $this->_emailModel->setWebsite($website);
+
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
+        $customer = $this->_customerAccountService->getCustomer(1);
+        $this->_emailModel->setCustomerData($customer);
+
+        /** @var \Magento\Catalog\Model\Product $product */
+        $product = $this->_objectManager->create('Magento\Catalog\Model\Product');
+        $product->load(1);
+
+        $this->_emailModel->addPriceProduct($product);
+
+        $this->_emailModel->send();
+
+        /** @var \Magento\TestFramework\Mail\Template\TransportBuilderMock $transportBuilder */
+        $transportBuilder = $this->_objectManager->get('Magento\TestFramework\Mail\Template\TransportBuilderMock');
+        $this->assertStringMatchesFormat(
+            '%AHello '
+            . $this->_customerViewHelper->getCustomerName($customer) . '%A',
+            $transportBuilder->getSentMessage()->getBodyHtml()->getContent()
+        );
     }
 }
