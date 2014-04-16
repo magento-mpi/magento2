@@ -43,8 +43,8 @@ class Creditmemo extends \Magento\Sales\Controller\Adminhtml\Creditmemo\Abstract
         $fileName = 'creditmemos.xml';
         $grid = $this->_view->getLayout()->getChildBlock('sales.creditmemo.grid', 'grid.export');
         return $this->_fileFactory->create(
-            $fileName, 
-            $grid->getExcelFile($fileName), 
+            $fileName,
+            $grid->getExcelFile($fileName),
             \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
