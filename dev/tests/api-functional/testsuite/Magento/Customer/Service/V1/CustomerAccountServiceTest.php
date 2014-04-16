@@ -350,7 +350,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
             $this->assertEquals("Reset password token mismatch.", $errorObj['message']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
         }
     }
 
@@ -402,8 +402,15 @@ class CustomerAccountServiceTest extends WebapiAbstract
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
-            $this->assertEquals("No such entity with email = dummy@example.com websiteId = 0", $errorObj['message']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
+            $this->assertEquals('No such entity with %fieldName = %fieldValue, %field2Name = %field2Value',
+                $errorObj['message']);
+            $this->assertEquals([
+                    'fieldName' => 'email',
+                    'fieldValue' => 'dummy@example.com',
+                    'field2Name' => 'websiteId',
+                    'field2Value' => 0,
+                ], $errorObj['parameters']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
         }
 
     }
@@ -477,8 +484,15 @@ class CustomerAccountServiceTest extends WebapiAbstract
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
-            $this->assertEquals("No such entity with email = dummy@example.com websiteId = 0", $errorObj['message']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
+            $this->assertEquals('No such entity with %fieldName = %fieldValue, %field2Name = %field2Value',
+                $errorObj['message']);
+            $this->assertEquals([
+                    'fieldName' => 'email',
+                    'fieldValue' => 'dummy@example.com',
+                    'field2Name' => 'websiteId',
+                    'field2Value' => 0,
+                ], $errorObj['parameters']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
         }
     }
 
@@ -598,7 +612,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ]
         ];
 
-        $expectedMessage = 'No such entity with customerId = ' . $invalidId;
+        $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
         try {
             if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
@@ -616,7 +630,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
+            $this->assertEquals(['fieldName' => 'customerId', 'fieldValue' => $invalidId], $errorObj['parameters']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
         }
     }
 
@@ -727,7 +742,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
         ];
         $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
         $requestData = ['customerDetails' => $customerDetailsAsArray];
-        $expectedMessage = 'No such entity with customerId = -1';
+
+        $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -741,7 +757,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
+            $this->assertEquals(['fieldName' => 'customerId', 'fieldValue' => -1], $errorObj['parameters']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
         }
     }
 

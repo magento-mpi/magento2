@@ -227,7 +227,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             ]
         ];
         $requestData = ['storeId' => $nonExistentStoreId];
-        $expectedMessage = "No such entity with storeId = $nonExistentStoreId";
+        $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -244,6 +244,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
+            $this->assertContains((string)$nonExistentStoreId, $e->getMessage());
         }
     }
 
@@ -315,7 +316,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $requestData = ['groupId' => $groupId];
 
-        $expectedMessage = "No such entity with groupId = $groupId";
+        $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -332,6 +333,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
+            $this->assertContains((string)$groupId, $e->getMessage());
         }
     }
 
@@ -400,29 +402,17 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = "Customer Group already exists.\n"
-            . "{\n"
-            . "\tcode: INVALID_FIELD_VALUE\n"
-            . "\tcode: " . $duplicateGroupCode . "\n"
-            . "\tparams: []\n"
-            . " }\n";
-
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail("Expected exception");
         } catch (\Exception $e) {
             $errorData = json_decode($e->getMessage(), true);
 
-            $this->assertTrue(
-                isset($errorData['errors'][0]['message']),
-                'Invalid error message format: ' . $e->getMessage()
-            );
-
-            $this->assertCount(1, $errorData['errors']);
-            $errorData = $errorData['errors'][0];
-
-            $this->assertEquals($expectedMessage, $errorData['message'], 'Invalid error message');
-            $this->assertEquals(400, $errorData['http_code'], 'Invalid HTTP code');
+            $this->assertContains('Invalid value of "%value" provided for the %fieldName field.',
+                $errorData['message']);
+            $this->assertContains('"parameters":{"fieldName":"code","value":"Duplicate Group Code REST"}',
+                $e->getMessage());
+            $this->assertEquals(400, $e->getCode(), 'Invalid HTTP code');
         }
     }
 
@@ -481,22 +471,17 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = 'One or more input exceptions have occurred.\n'
-            . '{\n'
-            . '\tcode: INVALID_FIELD_VALUE\n'
-            . '\tcode: \n'
-            . '\tparams: []\n'
-            . ' }';
-
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail("Expected exception");
         } catch (\Exception $e) {
+            // @codingStandardsIgnoreStart
             $this->assertContains(
-                $expectedMessage,
+                '{"message":"Invalid value of \"%value\" provided for the %fieldName field.","parameters":{"fieldName":"code","value":""}}',
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
+            // @codingStandardsIgnoreEnd
         }
     }
 
@@ -523,22 +508,17 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = 'One or more input exceptions have occurred.\n'
-            . '{\n'
-            . '\tcode: INVALID_FIELD_VALUE\n'
-            . '\ttaxClassId: ' . $invalidTaxClassId . '\n'
-            . '\tparams: []\n'
-            . ' }';
-
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail("Expected exception");
         } catch (\Exception $e) {
+            // @codingStandardsIgnoreStart
             $this->assertContains(
-                $expectedMessage,
+                '{"message":"Invalid value of \"%value\" provided for the %fieldName field.","parameters":{"fieldName":"taxClassId","value":"9999"}}',
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
+            // codingStandardsIgnoreEnd
         }
     }
 
@@ -608,15 +588,17 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
-            $this->fail("Expected exception");
+            $this->fail('Expected exception');
         } catch (\Exception $e) {
-            $expectedMessage = "No such entity with id = $nonExistentGroupId";
+            $expectedMessage = 'No such entity with %fieldName = %value';
 
             $this->assertContains(
                 $expectedMessage,
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
+
+            $this->assertContains($nonExistentGroupId, $e->getMessage());
         }
     }
 
