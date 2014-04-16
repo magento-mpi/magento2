@@ -99,12 +99,29 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
         $this->addColumn(
             'created_at',
-            array('header' => __('Purchase Date'), 'index' => 'created_at', 'type' => 'datetime', 'width' => '100px')
+            array('header' => __('Purchase Date'), 'index' => 'created_at', 'type' => 'datetime')
         );
 
-        $this->addColumn('billing_name', array('header' => __('Bill-to Name'), 'index' => 'billing_name'));
+        $this->addColumn(
+            'billing_name',
+            array(
+                'header' => __('Bill-to Name'),
+                'index' => 'billing_name',
+                'header_css_class' => 'col-name',
+                'column_css_class' => 'col-name'
 
-        $this->addColumn('shipping_name', array('header' => __('Ship-to Name'), 'index' => 'shipping_name'));
+            )
+        );
+
+        $this->addColumn(
+            'shipping_name',
+            array(
+                'header' => __('Ship-to Name'),
+                'index' => 'shipping_name',
+                'header_css_class' => 'col-name',
+                'column_css_class' => 'col-name'
+            )
+        );
 
         $this->addColumn(
             'base_grand_total',

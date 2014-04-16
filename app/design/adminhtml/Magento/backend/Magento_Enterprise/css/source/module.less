@@ -1,46 +1,38 @@
-/**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
- */
+///**
+//  * {license_notice}
+//  *
+//  * @copyright  {copyright}
+//  * @license    {license_link}
+//  */
 
-@import "clearless/all.less";
-@import "styles/base.less";
-@import "vars.less";
-@import "lib/buttons.less";
-@import "styles/admin.less";
-@import "styles/debug.less";
+// .adminhtml-invitation-index,
+// .adminhtml-targetrule-index,
+// .adminhtml-giftwrapping-index,
+// .adminhtml-customersegment-index,
+// .adminhtml-giftregistry-index,
+// .adminhtml-giftcardaccount-index  {
+//     &:extend(.CustomGridView all);
+//     &:extend(.CustomGridAction all);
+//     .page-actions {
+//         .add {
+//             &:extend(.PrimaryAddButton all);
+//         }
+//     }
+// }
 
-.adminhtml-invitation-index,
-.adminhtml-targetrule-index,
-.adminhtml-giftwrapping-index,
-.adminhtml-customersegment-index,
-.adminhtml-giftregistry-index,
-.adminhtml-giftcardaccount-index  {
-    &:extend(.CustomGridView all);
-    &:extend(.CustomGridAction all);
-    .page-actions {
-        .add {
-            &:extend(.PrimaryAddButton all);
-        }
-    }
-}
-
-.adminhtml-report-invitation-customer,
-.adminhtml-report-invitation-order,
-.adminhtml-report-invitation-index {
-    &:extend(.CustomGridView all);
-}
-
+// .adminhtml-report-invitation-customer,
+// .adminhtml-report-invitation-order,
+// .adminhtml-report-invitation-index {
+//     &:extend(.CustomGridView all);
+// }
 
 /*
     Reports - Customer Segment
 -------------------------------------- */
 
-.adminhtml-report-customer-customersegment-segment {
-    &:extend(.CustomGridView all);
-}
+// .adminhtml-report-customer-customersegment-segment {
+//     &:extend(.CustomGridView all);
+// }
 
 /*
     Reports - Customer Segment Report
@@ -161,11 +153,11 @@
     box-shadow: none;
 }
 
-.adminhtml-giftwrapping-edit .store-switcher {
-    float: left;
-    position: relative;
-    bottom: -14px;
-}
+// .adminhtml-giftwrapping-edit .store-switcher {
+//     float: left;
+//     position: relative;
+//     bottom: -14px;
+// }
 .adminhtml-giftwrapping-index .col-id {
     width: 35px;
 }
@@ -315,15 +307,6 @@
     background-color: #fbfaf6;
 }
 
-.eq-ie8 .invitation_information .data-table tbody tr td,
-.eq-ie8 .invitation_information .data-table tbody tr th,
-.eq-ie8 .invitee_information .data-table tbody tr td,
-.eq-ie8 .invitee_information .data-table tbody tr th,
-.eq-ie8 .inviter_information .data-table tbody tr td,
-.eq-ie8 .inviter_information .data-table tbody tr th {
-    border-bottom: 1px solid #ededed;
-}
-
 [class^=" adminhtml-giftregistry-"] {
     .fieldset-wrapper-content .data-table td {
         vertical-align: top;
@@ -364,15 +347,5 @@
                 }
             }
         }
-    }
-}
-
-[class^=" invitations-report-"] {
-    .grid-actions .required:after {
-        content: '';
-    }
-    .grid-actions .required .label span:after {
-        content: '*';
-        color: #f00;
     }
 }
