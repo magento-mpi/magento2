@@ -51,7 +51,6 @@
          * @private
          */
         _create: function() {
-            $($.proxy(this._ready, this));
             if (this.options.allowPrintedCard) {
                 this.element.on('click', 'input:checkbox[id^="' + this.options.addPrintedCardPrefix + '"]', this.options, this.showCardPrice);
             }
