@@ -8,13 +8,13 @@
 namespace Magento\ConfigurableProduct\Block\Cart\Item\Renderer;
 
 use Magento\Catalog\Model\Config\Source\Product\Thumbnail as ThumbnailSource;
+use Magento\Checkout\Block\Cart\Item\Renderer;
+use Magento\Framework\View\Block\IdentityInterface;
 
 /**
  * Shopping cart item render block for configurable products.
  */
-class Configurable
-    extends \Magento\Checkout\Block\Cart\Item\Renderer
-    implements \Magento\Framework\View\Block\IdentityInterface
+class Configurable extends Renderer implements IdentityInterface
 {
     /**
      * Path in config to the setting which defines if parent or child product should be used to generate a thumbnail.
