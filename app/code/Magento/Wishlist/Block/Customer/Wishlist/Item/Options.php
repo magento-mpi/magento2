@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Wishlist block customer items
- *
- * @category   Magento
- * @package    Magento_Wishlist
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Wishlist\Block\Customer\Wishlist\Item;
 
+/**
+ * Wishlist block customer items
+ */
 class Options extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**

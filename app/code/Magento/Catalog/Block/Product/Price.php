@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product;
 
 /**
  * Product price block
- *
- * @category   Magento
- * @package    Magento_Catalog
  */
-namespace Magento\Catalog\Block\Product;
-
 class Price extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
 {
     /**
