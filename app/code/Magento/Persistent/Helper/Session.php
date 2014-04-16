@@ -22,13 +22,6 @@ class Session extends \Magento\Core\Helper\Data
     protected $_sessionModel;
 
     /**
-     * Persistent customer
-     *
-     * @var null|\Magento\Customer\Service\V1\Data\Customer
-     */
-    protected $_customer;
-
-    /**
      * Is "Remember Me" checked
      *
      * @var null|bool
@@ -57,13 +50,6 @@ class Session extends \Magento\Core\Helper\Data
     protected $_checkoutSession;
 
     /**
-     * Customer account service
-     *
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
-     */
-    protected $_customerAccountService;
-
-    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -72,7 +58,6 @@ class Session extends \Magento\Core\Helper\Data
      * @param Data $persistentData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -84,13 +69,11 @@ class Session extends \Magento\Core\Helper\Data
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Persistent\Model\SessionFactory $sessionFactory,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         $dbCompatibleMode = true
     ) {
         $this->_persistentData = $persistentData;
         $this->_checkoutSession = $checkoutSession;
         $this->_sessionFactory = $sessionFactory;
-        $this->_customerAccountService = $customerAccountService;
 
         parent::__construct(
             $context,
@@ -171,19 +154,5 @@ class Session extends \Magento\Core\Helper\Data
     public function setRememberMeChecked($checked = true)
     {
         $this->_isRememberMeChecked = $checked;
-    }
-
-    /**
-     * Return persistent customer
-     *
-     * @return \Magento\Customer\Service\V1\Data\Customer|null
-     */
-    public function getCustomerDataObject()
-    {
-        if (is_null($this->_customer)) {
-            $customerId = $this->getSession()->getCustomerId();
-            $this->_customer = $this->_customerAccountService->getCustomer($customerId);
-        }
-        return $this->_customer;
     }
 }

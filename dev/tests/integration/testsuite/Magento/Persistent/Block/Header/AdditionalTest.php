@@ -23,55 +23,64 @@ class AdditionalTest extends \PHPUnit_Framework_TestCase
      */
     protected $_persistentSessionHelper;
 
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\ObjectManager
+     */
+    protected $_objectManager;
+
     public function setUp()
     {
-        /** @var \Magento\Persistent\Model\Session $persistentSession */
-        $persistentSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Persistent\Model\Session'
-        );
-        $persistentSession->loadByCustomerId(1);
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $this->_persistentSessionHelper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Persistent\Helper\Session'
-        );
-        $this->_persistentSessionHelper->setSession($persistentSession);
+        /** @var \Magento\Persistent\Helper\Session $persistentSessionHelper */
+        $this->_persistentSessionHelper = $this->_objectManager->create('Magento\Persistent\Helper\Session');
 
-        /** @var \Magento\Persistent\Helper\Data $persistentHelper */
-        $persistentHelper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Persistent\Helper\Data',
-            ['persistentSession' => $this->_persistentSessionHelper]
-        );
+        $this->_customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
 
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Persistent\Block\Header\Additional',
-            ['persistentHelper' => $persistentHelper]
-        );
+        $this->_block = $this->_objectManager->create('Magento\Persistent\Block\Header\Additional');
     }
 
     /**
      * @magentoConfigFixture current_store persistent/options/customer 1
      * @magentoConfigFixture current_store persistent/options/enabled 1
+     * @magentoConfigFixture current_store persistent/options/remember_enabled 1
+     * @magentoConfigFixture current_store persistent/options/remember_default 1
+     * @magentoAppArea frontend
+     * @magentoAppIsolation enabled
      */
     public function testToHtml()
     {
+        $this->_customerSession->loginById(1);
         /** @var \Magento\Customer\Helper\View $customerViewHelper */
-        $customerViewHelper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+        $customerViewHelper = $this->_objectManager->create(
             'Magento\Customer\Helper\View'
         );
-
+        $customerAccountService = $this->_objectManager->create(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        );
         /** @var \Magento\Escaper $escaper */
-        $escaper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+        $escaper = $this->_objectManager->create(
             'Magento\Escaper'
         );
-        $translation = __('(Not %1?)',
-            $escaper->escapeHtml(
-                $customerViewHelper->getCustomerName($this->_persistentSessionHelper->getCustomerDataObject())
+        $persistentName = $escaper->escapeHtml(
+            $customerViewHelper->getCustomerName(
+                $customerAccountService->getCustomer(
+                    $this->_persistentSessionHelper->getSession()->getCustomerId()
+                )
             )
         );
+
+        $translation = __('(Not %1?)', $persistentName);
 
         $this->assertStringMatchesFormat(
             '%A<span>%A<a%Ahref="' . $this->_block->getHref() . '"%A>' . $translation . '</a>%A</span>%A',
             $this->_block->toHtml()
         );
+        $this->_customerSession->logout();
     }
 }

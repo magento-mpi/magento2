@@ -107,12 +107,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ]
         );
         $this->_observer->emulateWelcomeBlock($block);
-
-        $translation = __('Welcome, %1!',
-            $this->_escaper->escapeHtml(
-                $this->_customerViewHelper->getCustomerName($this->_persistentSessionHelper->getCustomerDataObject())
+        $customerName = $this->_escaper->escapeHtml(
+            $this->_customerViewHelper->getCustomerName(
+                $this->_customerAccountService->getCustomer(
+                    $this->_persistentSessionHelper->getSession()->getCustomerId()
+                )
             )
         );
+        $translation = __('Welcome, %1!', $customerName);
         $this->assertStringMatchesFormat('%A' . $translation . '%A', $block->getWelcome());
         $this->_customerSession->logout();
     }
@@ -142,9 +144,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_customerSession->loginById(1);
 
-        $this->_checkoutSession->expects($this->once())->method('setCustomerData')->with(
-            $this->_persistentSessionHelper->getCustomerDataObject()
+        $customer = $this->_customerAccountService->getCustomer(
+            $this->_persistentSessionHelper->getSession()->getCustomerId()
         );
+        $this->_checkoutSession->expects($this->once())->method('setCustomerData')->with($customer);
         $this->_customerSession->logout();
 
         $this->_observer->emulateQuote($observer);
@@ -170,12 +173,15 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_observer->emulateCustomer($observer);
+        $customer = $this->_customerAccountService->getCustomer(
+            $this->_persistentSessionHelper->getSession()->getCustomerId()
+        );
         $this->assertEquals(
-            $this->_persistentSessionHelper->getCustomerDataObject()->getId(),
+            $customer->getId(),
             $this->_customerSession->getCustomerId()
         );
         $this->assertEquals(
-            $this->_persistentSessionHelper->getCustomerDataObject()->getGroupId(),
+            $customer->getGroupId(),
             $this->_customerSession->getCustomerGroupId()
         );
     }

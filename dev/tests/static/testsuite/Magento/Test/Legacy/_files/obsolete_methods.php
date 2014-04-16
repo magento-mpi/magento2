@@ -1631,4 +1631,6 @@ return array(
     ['getCustomer', 'Magento\Tax\Model\Calculation', 'Magento\Tax\Model\Calculation::getCustomerData'],
     ['setCustomer', 'Magento\Tax\Model\Calculation', 'Magento\Tax\Model\Calculation::setCustomerData'],
     ['setCustomer', 'Magento\Checkout\Model\Session', 'Magento\Checkout\Model\Session::setCustomerData'],
+    ['getPersistentName', 'Magento\Persistent\Helper\Data'],
+    ['getCustomerDataObject', 'Magento\Persistent\Helper\Session'],
 );
