@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,9 +10,6 @@ namespace Magento\Invitation\Model\Source\Invitation;
 
 /**
  * Invitation group id options source
- *
- * @category   Magento
- * @package    Magento_Invitation
  */
 class GroupId implements \Magento\Option\ArrayInterface
 {

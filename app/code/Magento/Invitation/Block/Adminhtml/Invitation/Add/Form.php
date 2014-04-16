@@ -11,7 +11,7 @@
 namespace Magento\Invitation\Block\Adminhtml\Invitation\Add;
 
 /**
- * Invintation create form
+ * Invitation create form
  *
  * @category   Magento
  * @package    Magento_Invitation
