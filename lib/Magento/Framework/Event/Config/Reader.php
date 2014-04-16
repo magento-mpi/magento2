@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Event\Config;
+namespace Magento\Framework\Event\Config;
 
 class Reader extends \Magento\Framework\Config\Reader\Filesystem
 {
@@ -20,8 +20,8 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
-     * @param \Magento\Event\Config\Converter $converter
-     * @param \Magento\Event\Config\SchemaLocator $schemaLocator
+     * @param \Magento\Framework\Event\Config\Converter $converter
+     * @param \Magento\Framework\Event\Config\SchemaLocator $schemaLocator
      * @param \Magento\Framework\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
@@ -30,8 +30,8 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      */
     public function __construct(
         \Magento\Framework\Config\FileResolverInterface $fileResolver,
-        \Magento\Event\Config\Converter $converter,
-        \Magento\Event\Config\SchemaLocator $schemaLocator,
+        \Magento\Framework\Event\Config\Converter $converter,
+        \Magento\Framework\Event\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'events.xml',
         $idAttributes = array(),

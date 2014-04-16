@@ -16,9 +16,9 @@
  * @package    Magento_Event
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Event\Observer;
+namespace Magento\Framework\Event\Observer;
 
-class Regex extends \Magento\Event\Observer
+class Regex extends \Magento\Framework\Event\Observer
 {
     /**
      * Checkes the observer's event_regex against event's name

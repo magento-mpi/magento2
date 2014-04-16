@@ -16,9 +16,9 @@
  * @package    Magento_Event
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Event\Observer;
+namespace Magento\Framework\Event\Observer;
 
-class Cron extends \Magento\Event\Observer
+class Cron extends \Magento\Framework\Event\Observer
 {
     /**
      * Checks the observer's cron string against event's name

@@ -7,9 +7,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Event;
+namespace Magento\Framework\Event;
 
-use Magento\Event;
+use Magento\Framework\Event;
 
 class Observer extends \Magento\Object
 {

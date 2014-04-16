@@ -7,17 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Event\Invoker;
+namespace Magento\Framework\Event\Invoker;
 
 use Zend\Stdlib\Exception\LogicException;
-use Magento\Event\Observer;
+use Magento\Framework\Event\Observer;
 
-class InvokerDefault implements \Magento\Event\InvokerInterface
+class InvokerDefault implements \Magento\Framework\Event\InvokerInterface
 {
     /**
      * Observer model factory
      *
-     * @var \Magento\Event\ObserverFactory
+     * @var \Magento\Framework\Event\ObserverFactory
      */
     protected $_observerFactory;
 
@@ -29,10 +29,10 @@ class InvokerDefault implements \Magento\Event\InvokerInterface
     protected $_appState;
 
     /**
-     * @param \Magento\Event\ObserverFactory $observerFactory
+     * @param \Magento\Framework\Event\ObserverFactory $observerFactory
      * @param \Magento\Framework\App\State $appState
      */
-    public function __construct(\Magento\Event\ObserverFactory $observerFactory, \Magento\Framework\App\State $appState)
+    public function __construct(\Magento\Framework\Event\ObserverFactory $observerFactory, \Magento\Framework\App\State $appState)
     {
         $this->_observerFactory = $observerFactory;
         $this->_appState = $appState;

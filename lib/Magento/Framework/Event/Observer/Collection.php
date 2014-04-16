@@ -16,7 +16,7 @@
  * @package    Magento_Event
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Event\Observer;
+namespace Magento\Framework\Event\Observer;
 
 class Collection
 {
@@ -49,7 +49,7 @@ class Collection
      * Returns observer by its name
      *
      * @param string $observerName
-     * @return \Magento\Event\Observer
+     * @return \Magento\Framework\Event\Observer
      */
     public function getObserverByName($observerName)
     {
@@ -59,10 +59,10 @@ class Collection
     /**
      * Adds an observer to the collection
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function addObserver(\Magento\Event\Observer $observer)
+    public function addObserver(\Magento\Framework\Event\Observer $observer)
     {
         $this->_observers[$observer->getName()] = $observer;
         return $this;

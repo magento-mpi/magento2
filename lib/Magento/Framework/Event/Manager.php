@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Event;
+namespace Magento\Framework\Event;
 
 class Manager implements ManagerInterface
 {

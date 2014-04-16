@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Event;
+namespace Magento\Framework\Event;
 
 class WrapperFactory
 {
@@ -28,10 +28,10 @@ class WrapperFactory
      * Create wrapper instance
      *
      * @param array $arguments
-     * @return \Magento\Event\Observer
+     * @return \Magento\Framework\Event\Observer
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Magento\Event\Observer', $arguments);
+        return $this->_objectManager->create('Magento\Framework\Event\Observer', $arguments);
     }
 }

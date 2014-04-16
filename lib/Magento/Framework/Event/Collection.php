@@ -16,9 +16,9 @@
  * @package    Magento_Event
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Event;
+namespace Magento\Framework\Event;
 
-use Magento\Event;
+use Magento\Framework\Event;
 
 class Collection
 {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Event\Config;
+namespace Magento\Framework\Event\Config;
 
 class Data extends \Magento\Framework\Config\Data\Scoped
 {
@@ -24,14 +24,14 @@ class Data extends \Magento\Framework\Config\Data\Scoped
     protected $_appState;
 
     /**
-     * @param \Magento\Event\Config\Reader $reader
+     * @param \Magento\Framework\Event\Config\Reader $reader
      * @param \Magento\Framework\Config\ScopeInterface $configScope
      * @param \Magento\Framework\Config\CacheInterface $cache
      * @param \Magento\Framework\App\State $appState
      * @param string $cacheId
      */
     public function __construct(
-        \Magento\Event\Config\Reader $reader,
+        \Magento\Framework\Event\Config\Reader $reader,
         \Magento\Framework\Config\ScopeInterface $configScope,
         \Magento\Framework\Config\CacheInterface $cache,
         \Magento\Framework\App\State $appState,

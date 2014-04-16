@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Event;
+namespace Magento\Framework\Event;
 
-use Magento\Event\Config\Data;
+use Magento\Framework\Event\Config\Data;
 
 class Config implements ConfigInterface
 {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Event;
+namespace Magento\Framework\Event;
 
 interface InvokerInterface
 {
@@ -15,8 +15,8 @@ interface InvokerInterface
      * Dispatch event
      *
      * @param array $configuration
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function dispatch(array $configuration, \Magento\Event\Observer $observer);
+    public function dispatch(array $configuration, \Magento\Framework\Event\Observer $observer);
 }
