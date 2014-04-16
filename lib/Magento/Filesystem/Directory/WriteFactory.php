@@ -20,8 +20,9 @@ class WriteFactory
      */
     public function create(array $config, \Magento\Filesystem\DriverFactory $driverFactory)
     {
-        $directoryDriver = isset($config['driver']) ? $config['driver'] : null;
-        $driver = $driverFactory->get($directoryDriver);
+        $protocolCode = isset($config['protocol']) ? $config['protocol'] : null;
+        $driverClass = isset($config['driver']) ? $config['driver'] : null;
+        $driver = $driverFactory->get($protocolCode, $driverClass);
         $factory = new \Magento\Filesystem\File\WriteFactory($driverFactory);
 
         return new \Magento\Filesystem\Directory\Write($config, $factory, $driver);

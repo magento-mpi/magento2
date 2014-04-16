@@ -34,7 +34,7 @@ class ReadFactory
      */
     public function create($path, $protocol = null, DriverInterface $driver = null)
     {
-        $driver = $protocol ? $this->driverFactory->get($protocol, $driver) : $driver;
+        $driver = $protocol ? $this->driverFactory->get($protocol, get_class($driver)) : $driver;
         return new \Magento\Filesystem\File\Read($path, $driver);
     }
 }

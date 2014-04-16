@@ -37,7 +37,7 @@ class WriteFactory
      */
     public function create($path, $protocol = null, DriverInterface $driver = null, $mode = 'r')
     {
-        $driver = $protocol ? $this->driverFactory->get($protocol, $driver) : $driver;
+        $driver = $protocol ? $this->driverFactory->get($protocol, get_class($driver)) : $driver;
         return new \Magento\Filesystem\File\Write($path, $driver, $mode);
     }
 }

@@ -33,18 +33,18 @@ class DriverFactory
      * Get a driver instance according the given scheme.
      *
      * @param null|string $protocolCode
-     * @param DriverInterface $driver
+     * @param string $driverClass
      * @return DriverInterface
      * @throws FilesystemException
      */
-    public function get($protocolCode = null, DriverInterface $driver = null)
+    public function get($protocolCode = null, $driverClass = null)
     {
-        $driverClass = '\Magento\Filesystem\Driver\File';
-        if ($protocolCode !== null) {
-            $driverClass = $this->directoryList->getProtocolConfig($protocolCode)['driver'];
+        if (!$driverClass) {
+            $driverClass = $protocolCode ? $this->directoryList->getProtocolConfig($protocolCode)['driver']
+                : '\Magento\Filesystem\Driver\File';
         }
         if (!isset($this->drivers[$driverClass])) {
-            $this->drivers[$driverClass] = new $driverClass($driver);
+            $this->drivers[$driverClass] = new $driverClass();
             if (!$this->drivers[$driverClass] instanceof DriverInterface) {
                 throw new FilesystemException("Invalid filesystem driver class: " . $driverClass);
             }
