@@ -110,7 +110,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             ->method('getCustomization')
             ->will($this->returnValue($this->customization));
 
-        $this->request->expects($this->never())
+        $this->request->expects($this->at(0))
             ->method('getParam')
             ->with(\Magento\Theme\Helper\Storage::PARAM_THEME_ID)
             ->will($this->returnValue(6));
