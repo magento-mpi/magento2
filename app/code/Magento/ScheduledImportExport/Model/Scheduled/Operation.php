@@ -565,6 +565,7 @@ class Operation extends \Magento\Model\AbstractModel
     /**
      * Check if data has 'server_type' and it's valid
      *
+     * @return null
      * @throws \Magento\Model\Exception
      */
     protected function validateAdapterType()
