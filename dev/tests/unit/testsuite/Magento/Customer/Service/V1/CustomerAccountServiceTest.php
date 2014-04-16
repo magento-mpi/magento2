@@ -1685,7 +1685,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 $this->throwException(
                     new NoSuchEntityException(
                         NoSuchEntityException::MESSAGE_SINGLE_FIELD,
-                        ['fieldName' => 'testField', 'fieldValue' => 'value',]
+                        ['fieldName' => 'testField', 'fieldValue' => 'value']
                     )
                 )
             );

@@ -10,6 +10,7 @@
 namespace Magento\Webapi;
 
 use Magento\Exception\ErrorMessage;
+use Magento\Webapi\Model\Soap\Fault;
 
 class Exception extends \RuntimeException
 {
@@ -116,10 +117,7 @@ class Exception extends \RuntimeException
      */
     public function getOriginator()
     {
-        return $this->getHttpCode() <
-            500 ?
-            \Magento\Webapi\Model\Soap\Fault::FAULT_CODE_SENDER :
-            \Magento\Webapi\Model\Soap\Fault::FAULT_CODE_RECEIVER;
+        return $this->getHttpCode() < 500 ? Fault::FAULT_CODE_SENDER : Fault::FAULT_CODE_RECEIVER;
     }
 
     /**
@@ -151,5 +149,4 @@ class Exception extends \RuntimeException
     {
         return $this->_errors;
     }
-
 }

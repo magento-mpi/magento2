@@ -237,7 +237,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->throwException(new NoSuchEntityException(
                     NoSuchEntityException::MESSAGE_SINGLE_FIELD,
-                    ['fieldName' => 'customerId', 'fieldValue' => $customerId,]
+                    ['fieldName' => 'customerId', 'fieldValue' => $customerId]
                 )
             )
         );

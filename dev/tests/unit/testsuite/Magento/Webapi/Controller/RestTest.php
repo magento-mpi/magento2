@@ -1,7 +1,5 @@
 <?php
 /**
- * Test Rest controller.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,6 +9,11 @@ namespace Magento\Webapi\Controller;
 
 use Magento\Exception\AuthorizationException;
 
+/**
+ * Test Rest controller.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class RestTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webapi\Controller\Rest */
@@ -64,102 +67,58 @@ class RestTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMockBuilder(
-            'Magento\Webapi\Controller\Rest\Request'
-        )->setMethods(
-            ['isSecure', 'getRequestData']
-        )->disableOriginalConstructor()->getMock();
-
-        $this->_responseMock = $this->getMockBuilder(
-            'Magento\Webapi\Controller\Rest\Response'
-        )->setMethods(
-            ['sendResponse', 'getHeaders', 'prepareResponse']
-        )->disableOriginalConstructor()->getMock();
-
-        $this->_routerMock = $this->getMockBuilder(
-            'Magento\Webapi\Controller\Rest\Router'
-        )->setMethods(
-            ['match']
-        )->disableOriginalConstructor()->getMock();
-
-        $this->_routeMock = $this->getMockBuilder(
-            'Magento\Webapi\Controller\Rest\Router\Route'
-        )->setMethods(
-            ['isSecure', 'getServiceMethod', 'getServiceClass', 'getAclResources', 'getParameters']
-        )->disableOriginalConstructor()->getMock();
-
-        $this->_objectManagerMock = $this->getMockBuilder(
-            'Magento\ObjectManager'
-        )->disableOriginalConstructor()->getMock();
-
-        $this->_serviceMock = $this->getMockBuilder(
-            self::SERVICE_ID
-        )->setMethods(
-            [self::SERVICE_METHOD]
-        )->disableOriginalConstructor()->getMock();
-
+        $this->_requestMock = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Request')
+            ->setMethods(['isSecure', 'getRequestData'])->disableOriginalConstructor()->getMock();
+        $this->_responseMock = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Response')
+            ->setMethods(['sendResponse', 'getHeaders', 'prepareResponse'])->disableOriginalConstructor()->getMock();
+        $this->_routerMock = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Router')->setMethods(['match'])
+            ->disableOriginalConstructor()->getMock();
+        $this->_routeMock = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Router\Route')
+            ->setMethods(['isSecure', 'getServiceMethod', 'getServiceClass', 'getAclResources', 'getParameters'])
+            ->disableOriginalConstructor()->getMock();
+        $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->disableOriginalConstructor()
+            ->getMock();
+        $this->_serviceMock = $this->getMockBuilder(self::SERVICE_ID)->setMethods([self::SERVICE_METHOD])
+            ->disableOriginalConstructor()->getMock();
         $this->_appStateMock = $this->getMockBuilder('Magento\App\State')->disableOriginalConstructor()->getMock();
-
-        $this->_oauthServiceMock = $this->getMockBuilder('\Magento\Oauth\OauthInterface')->
-            setMethods(['validateAccessTokenRequest'])->getMockForAbstractClass();
-
-        $this->_authzServiceMock = $this->getMockBuilder(
-            'Magento\Authz\Service\AuthorizationV1Interface'
-        )->disableOriginalConstructor()->getMock();
-
+        $this->_oauthServiceMock = $this->getMockBuilder('\Magento\Oauth\OauthInterface')
+            ->setMethods(['validateAccessTokenRequest'])->getMockForAbstractClass();
+        $this->_authzServiceMock = $this->getMockBuilder('Magento\Authz\Service\AuthorizationV1Interface')
+            ->disableOriginalConstructor()->getMock();
         $layoutMock = $this->getMockBuilder('Magento\View\LayoutInterface')->disableOriginalConstructor()->getMock();
-
         $errorProcessorMock = $this->getMock('Magento\Webapi\Controller\ErrorProcessor', [], [], '', false);
         $errorProcessorMock->expects($this->any())->method('maskException')->will($this->returnArgument(0));
-
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->serializerMock = $this->getMockBuilder('\Magento\Webapi\Controller\ServiceArgsSerializer')
-            ->disableOriginalConstructor()
-            ->setMethods(['getInputData'])->getMock();
+            ->disableOriginalConstructor()->setMethods(['getInputData'])->getMock();
         $this->areaListMock = $this->getMock('\Magento\App\AreaList', [], [], '', false);
         $this->areaMock = $this->getMock('Magento\App\AreaInterface');
         $this->areaListMock->expects($this->any())->method('getArea')->will($this->returnValue($this->areaMock));
-
         /** Init SUT. */
-        $this->_restController = $objectManager->getObject(
-            'Magento\Webapi\Controller\Rest',
-            [
-                'request' => $this->_requestMock,
-                'response' => $this->_responseMock,
-                'router' => $this->_routerMock,
-                'objectManager' => $this->_objectManagerMock,
-                'appState' => $this->_appStateMock,
-                'layout' => $layoutMock,
-                'oauthService' => $this->_oauthServiceMock,
-                'authorizationService' => $this->_authzServiceMock,
-                'serializer' => $this->serializerMock,
-                'errorProcessor' => $errorProcessorMock,
-                'areaList' => $this->areaListMock
-            ]
-        );
-
+        $this->_restController =
+            $objectManager->getObject('Magento\Webapi\Controller\Rest',
+                [
+                    'request' => $this->_requestMock,
+                    'response' => $this->_responseMock,
+                    'router' => $this->_routerMock,
+                    'objectManager' => $this->_objectManagerMock,
+                    'appState' => $this->_appStateMock,
+                    'layout' => $layoutMock,
+                    'oauthService' => $this->_oauthServiceMock,
+                    'authorizationService' => $this->_authzServiceMock,
+                    'serializer' => $this->serializerMock,
+                    'errorProcessor' => $errorProcessorMock,
+                    'areaList' => $this->areaListMock
+                ]
+            );
         // Set default expectations used by all tests
-        $this->_routeMock->expects(
-            $this->any()
-        )->method(
-            'getServiceClass'
-        )->will(
-            $this->returnValue(self::SERVICE_ID)
-        );
-
-        $this->_routeMock->expects(
-            $this->any()
-        )->method(
-            'getServiceMethod'
-        )->will(
-            $this->returnValue(self::SERVICE_METHOD)
-        );
+        $this->_routeMock->expects($this->any())->method('getServiceClass')->will($this->returnValue(self::SERVICE_ID));
+        $this->_routeMock->expects($this->any())->method('getServiceMethod')
+            ->will($this->returnValue(self::SERVICE_METHOD));
         $this->_routerMock->expects($this->any())->method('match')->will($this->returnValue($this->_routeMock));
-
         $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnValue($this->_serviceMock));
         $this->_responseMock->expects($this->any())->method('prepareResponse')->will($this->returnValue([]));
         $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue(null));
-
         parent::setUp();
     }
 
@@ -235,7 +194,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
         $this->_oauthServiceMock->expects(
             $this->any())->method('validateAccessTokenRequest')->will($this->returnValue('fred')
         );
-        $this->_routeMock->expects($this->any())->method('getAclResources')->will($this->returnValue(['5','6']));
+        $this->_routeMock->expects($this->any())->method('getAclResources')->will($this->returnValue(['5', '6']));
 
         $this->_restController->dispatch($this->_requestMock);
         /** Ensure that response contains proper error message. */

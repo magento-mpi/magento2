@@ -50,10 +50,7 @@ class GroupRegistry
         $group = $this->groupFactory->create();
         $group->load($groupId);
         if (is_null($group->getId())) {
-            throw new NoSuchEntityException(
-                NoSuchEntityException::MESSAGE_SINGLE_FIELD,
-                ['fieldName' => 'groupId', 'fieldValue' => $groupId,]
-            );
+            throw NoSuchEntityException::singleField('groupId', $groupId);
         }
         $this->registry[$groupId] = $group;
         return $group;

@@ -15,4 +15,4 @@ namespace Magento\Exception;
 class EmailNotConfirmedException extends AuthenticationException
 {
     const EMAIL_NOT_CONFIRMED = 'Email not confirmed';
-} 
+}

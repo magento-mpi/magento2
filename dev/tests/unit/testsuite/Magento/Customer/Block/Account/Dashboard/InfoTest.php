@@ -57,19 +57,19 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
         $this->customerCurrentService = $this->getMockForAbstractClass(
             'Magento\Customer\Service\V1\CustomerCurrentServiceInterface',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array()
+            []
         );
 
-        $urlBuilder = $this->getMockForAbstractClass('Magento\UrlInterface', array(), '', false);
+        $urlBuilder = $this->getMockForAbstractClass('Magento\UrlInterface', [], '', false);
         $urlBuilder->expects($this->any())->method('getUrl')->will($this->returnValue(self::CHANGE_PASSWORD_URL));
 
-        $layout = $this->getMockForAbstractClass('Magento\View\LayoutInterface', array(), '', false);
-        $this->_formRegister = $this->getMock('Magento\Customer\Block\Form\Register', array(), array(), '', false);
+        $layout = $this->getMockForAbstractClass('Magento\View\LayoutInterface', [], '', false);
+        $this->_formRegister = $this->getMock('Magento\Customer\Block\Form\Register', [], [], '', false);
         $layout->expects(
             $this->any()
         )->method(
@@ -80,26 +80,26 @@ class InfoTest extends \PHPUnit_Framework_TestCase
                 $this->returnValue($this->_formRegister)
             );
 
-        $this->_context = $this->getMock('Magento\View\Element\Template\Context', array(), array(), '', false);
+        $this->_context = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
         $this->_context->expects($this->once())->method('getUrlBuilder')->will($this->returnValue($urlBuilder));
         $this->_context->expects($this->once())->method('getLayout')->will($this->returnValue($layout));
 
-        $this->_customerSession = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
+        $this->_customerSession = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
         $this->_customerSession->expects($this->any())->method('getId')->will($this->returnValue(self::CUSTOMER_ID));
 
-        $this->_customer = $this->getMock('Magento\Customer\Service\V1\Data\Customer', array(), array(), '', false);
+        $this->_customer = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
         $this->_customer->expects($this->any())->method('getEmail')->will($this->returnValue(self::EMAIL_ADDRESS));
         $this->_helperView = $this->getMockBuilder(
             '\Magento\Customer\Helper\View'
         )->disableOriginalConstructor()->getMock();
         $this->_subscriberFactory = $this->getMock(
             'Magento\Newsletter\Model\SubscriberFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
-        $this->_subscriber = $this->getMock('Magento\Newsletter\Model\Subscriber', array(), array(), '', false);
+        $this->_subscriber = $this->getMock('Magento\Newsletter\Model\Subscriber', [], [], '', false);
         $this->_subscriber->expects($this->any())->method('loadByEmail')->will($this->returnSelf());
         $this->_subscriberFactory->expects(
             $this->any()
@@ -140,7 +140,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
                 'getCustomer'
             )->will($this->throwException(new NoSuchEntityException(
                         NoSuchEntityException::MESSAGE_SINGLE_FIELD,
-                        ['fieldName' => 'customerId', 'fieldValue' => 1,]
+                        ['fieldName' => 'customerId', 'fieldValue' => 1]
                     )
                 )
             );
@@ -195,7 +195,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
      */
     public function getIsSubscribedProvider()
     {
-        return array(array(true, true), array(false, false));
+        return [[true, true], [false, false]];
     }
 
     /**
@@ -218,6 +218,6 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
     public function isNewsletterEnabledProvider()
     {
-        return array(array(true, true), array(false, false));
+        return [[true, true], [false, false]];
     }
 }

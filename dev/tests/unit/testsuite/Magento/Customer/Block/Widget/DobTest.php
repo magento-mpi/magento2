@@ -132,7 +132,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
             )->will(
                 $this->throwException(new NoSuchEntityException(
                         NoSuchEntityException::MESSAGE_SINGLE_FIELD,
-                        ['fieldName' => 'field', 'fieldValue' => 'value',]
+                        ['fieldName' => 'field', 'fieldValue' => 'value']
                     )
                 )
             );
@@ -160,7 +160,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
             )->will(
                 $this->throwException(new NoSuchEntityException(
                         NoSuchEntityException::MESSAGE_SINGLE_FIELD,
-                        ['fieldName' => 'field', 'fieldValue' => 'value',]
+                        ['fieldName' => 'field', 'fieldValue' => 'value']
                     )
                 )
             );
@@ -336,7 +336,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
             )->will(
                 $this->throwException(new NoSuchEntityException(
                         NoSuchEntityException::MESSAGE_SINGLE_FIELD,
-                        ['fieldName' => 'field', 'fieldValue' => 'value',]
+                        ['fieldName' => 'field', 'fieldValue' => 'value']
                     )
                 )
             );
@@ -384,7 +384,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
             )->will(
                 $this->throwException(new NoSuchEntityException(
                         NoSuchEntityException::MESSAGE_SINGLE_FIELD,
-                        ['fieldName' => 'field', 'fieldValue' => 'value',]
+                        ['fieldName' => 'field', 'fieldValue' => 'value']
                     )
                 )
             );

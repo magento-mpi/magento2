@@ -14,4 +14,4 @@ namespace Magento\Exception;
 class InvalidEmailOrPasswordException extends AuthenticationException
 {
     const INVALID_EMAIL_OR_PASSWORD = 'Invalid email or password';
-} 
+}

@@ -1,7 +1,5 @@
 <?php
 /**
- * Helper for errors processing.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -17,6 +15,11 @@ use Magento\Exception\LocalizedException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Webapi\Exception as WebapiException;
 
+/**
+ * Helper for errors processing.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ErrorProcessor
 {
     const DEFAULT_SHUTDOWN_FUNCTION = 'apiShutdownFunction';
@@ -99,7 +102,9 @@ class ErrorProcessor
             // Map HTTP codes for LocalizedExceptions according to exception type
             if ($exception instanceof NoSuchEntityException) {
                 $httpCode = WebapiException::HTTP_NOT_FOUND;
-            } elseif (($exception instanceof AuthorizationException) || ($exception instanceof AuthenticationException)) {
+            } elseif (($exception instanceof AuthorizationException)
+                || ($exception instanceof AuthenticationException)
+            ) {
                 $httpCode = WebapiException::HTTP_UNAUTHORIZED;
             } else {
                 // Input, Expired, InvalidState exceptions will fall to here
@@ -130,8 +135,8 @@ class ErrorProcessor
                 $exception->getCode(),
                 WebapiException::HTTP_INTERNAL_ERROR,
                 [],
-                null,
                 '',
+                null,
                 $stackTrace
             );
         }

@@ -74,7 +74,6 @@ class Response extends \Magento\Webapi\Controller\Response
      */
     protected function _renderMessages()
     {
-        $formattedMessages = $this->getMessages();
         $responseHttpCode = null;
         /** @var \Exception $exception */
         foreach ($this->getException() as $exception) {
@@ -84,7 +83,7 @@ class Response extends \Magento\Webapi\Controller\Response
             );
             if ($maskedException->getErrors()) {
                 $messageData['errors'] = [];
-                foreach($maskedException->getErrors() as $errorMessage) {
+                foreach ($maskedException->getErrors() as $errorMessage) {
                     $errorData['message'] = $errorMessage->getRawMessage();
                     $errorData['parameters'] = $errorMessage->getParameters();
                     $messageData['errors'][] = $errorData;
