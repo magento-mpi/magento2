@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Backup;
+namespace Magento\Framework\Backup;
 
 class Factory
 {
@@ -77,7 +77,7 @@ class Factory
         if (!in_array($type, $this->_allowedTypes)) {
             throw new \Magento\Exception('Current implementation not supported this type (' . $type . ') of backup.');
         }
-        $class = 'Magento\Backup\\' . ucfirst($type);
+        $class = 'Magento\Framework\Backup\\' . ucfirst($type);
         return $this->_objectManager->create($class);
     }
 }

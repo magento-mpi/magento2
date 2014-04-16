@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backup\Db;
+namespace Magento\Framework\Backup\Db;
 
 class BackupFactory
 {
@@ -42,7 +42,7 @@ class BackupFactory
      * Create backup model
      *
      * @param array $arguments
-     * @return \Magento\Backup\Db\BackupInterface
+     * @return \Magento\Framework\Backup\Db\BackupInterface
      */
     public function createBackupModel(array $arguments = array())
     {
@@ -53,7 +53,7 @@ class BackupFactory
      * Create backup Db model
      *
      * @param array $arguments
-     * @return \Magento\Backup\Db\BackupDbInterface
+     * @return \Magento\Framework\Backup\Db\BackupDbInterface
      */
     public function createBackupDbModel(array $arguments = array())
     {

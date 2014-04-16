@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backup\Db;
+namespace Magento\Framework\Backup\Db;
 
 interface BackupDbInterface
 {
@@ -15,5 +15,5 @@ interface BackupDbInterface
      * @param BackupInterface $backup
      * @return void
      */
-    public function createBackup(\Magento\Backup\Db\BackupInterface $backup);
+    public function createBackup(\Magento\Framework\Backup\Db\BackupInterface $backup);
 }

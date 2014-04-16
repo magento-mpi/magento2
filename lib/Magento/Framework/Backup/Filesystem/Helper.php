@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backup\Filesystem;
+namespace Magento\Framework\Backup\Filesystem;
 
 /**
  * Filesystem helper
@@ -66,7 +66,7 @@ class Helper
             \RecursiveIteratorIterator::CHILD_FIRST
         );
 
-        $iterator = new \Magento\Backup\Filesystem\Iterator\Filter($filesystemIterator, $skipPaths);
+        $iterator = new \Magento\Framework\Backup\Filesystem\Iterator\Filter($filesystemIterator, $skipPaths);
 
         foreach ($iterator as $item) {
             $item->isDir() ? @rmdir($item->__toString()) : @unlink($item->__toString());
@@ -105,7 +105,7 @@ class Helper
             \RecursiveIteratorIterator::CHILD_FIRST
         );
 
-        $iterator = new \Magento\Backup\Filesystem\Iterator\Filter($filesystemIterator, $skipFiles);
+        $iterator = new \Magento\Framework\Backup\Filesystem\Iterator\Filter($filesystemIterator, $skipFiles);
 
         foreach ($iterator as $item) {
             if ($item->isLink()) {

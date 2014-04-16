@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backup;
+namespace Magento\Framework\Backup;
 
 /**
  * Class to work system backup that excludes media folder
@@ -16,7 +16,7 @@ namespace Magento\Backup;
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Nomedia extends \Magento\Backup\Media
+class Nomedia extends \Magento\Framework\Backup\Media
 {
     /**
      * Overlap getType

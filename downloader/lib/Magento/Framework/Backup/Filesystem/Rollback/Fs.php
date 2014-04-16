@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backup\Filesystem\Rollback;
+namespace Magento\Framework\Backup\Filesystem\Rollback;
 
 /**
  * Rollback worker for rolling back via local filesystem
@@ -16,12 +16,12 @@ namespace Magento\Backup\Filesystem\Rollback;
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Fs extends \Magento\Backup\Filesystem\Rollback\AbstractRollback
+class Fs extends \Magento\Framework\Backup\Filesystem\Rollback\AbstractRollback
 {
     /**
      * Files rollback implementation via local filesystem
      *
-     * @see \Magento\Backup\Filesystem\Rollback\AbstractRollback::run()
+     * @see \Magento\Framework\Backup\Filesystem\Rollback\AbstractRollback::run()
      * @return void
      * @throws \Magento\Exception
      */
@@ -30,19 +30,19 @@ class Fs extends \Magento\Backup\Filesystem\Rollback\AbstractRollback
         $snapshotPath = $this->_snapshot->getBackupPath();
 
         if (!is_file($snapshotPath) || !is_readable($snapshotPath)) {
-            throw new \Magento\Backup\Exception\CantLoadSnapshot('Cant load snapshot archive');
+            throw new \Magento\Framework\Backup\Exception\CantLoadSnapshot('Cant load snapshot archive');
         }
 
-        $fsHelper = new \Magento\Backup\Filesystem\Helper();
+        $fsHelper = new \Magento\Framework\Backup\Filesystem\Helper();
 
         $filesInfo = $fsHelper->getInfo(
             $this->_snapshot->getRootDir(),
-            \Magento\Backup\Filesystem\Helper::INFO_WRITABLE,
+            \Magento\Framework\Backup\Filesystem\Helper::INFO_WRITABLE,
             $this->_snapshot->getIgnorePaths()
         );
 
         if (!$filesInfo['writable']) {
-            throw new \Magento\Backup\Exception\NotEnoughPermissions(
+            throw new \Magento\Framework\Backup\Exception\NotEnoughPermissions(
                 'Unable to make rollback because not all files are writable'
             );
         }

@@ -16,7 +16,7 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backup\Filesystem\Iterator;
+namespace Magento\Framework\Backup\Filesystem\Iterator;
 
 class File extends \SplFileObject
 {

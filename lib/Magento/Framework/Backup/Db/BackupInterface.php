@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backup\Db;
+namespace Magento\Framework\Backup\Db;
 
 interface BackupInterface
 {

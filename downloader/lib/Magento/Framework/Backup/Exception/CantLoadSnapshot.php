@@ -15,8 +15,8 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backup\Exception;
+namespace Magento\Framework\Backup\Exception;
 
-class CantLoadSnapshot extends \Magento\Backup\BackupException
+class CantLoadSnapshot extends \Magento\Framework\Backup\BackupException
 {
 }

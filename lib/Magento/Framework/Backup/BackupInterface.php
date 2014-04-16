@@ -15,7 +15,7 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backup;
+namespace Magento\Framework\Backup;
 
 interface BackupInterface
 {

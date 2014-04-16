@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Backup\Filesystem\Iterator;
+namespace Magento\Framework\Backup\Filesystem\Iterator;
 
 /**
  * File lines iterator

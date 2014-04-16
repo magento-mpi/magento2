@@ -15,9 +15,9 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backup;
+namespace Magento\Framework\Backup;
 
-class Media extends \Magento\Backup\Snapshot
+class Media extends \Magento\Framework\Backup\Snapshot
 {
     /**
      * Implementation Rollback functionality for Media
@@ -47,7 +47,7 @@ class Media extends \Magento\Backup\Snapshot
      * Overlap getType
      *
      * @return string
-     * @see \Magento\Backup\BackupInterface::getType()
+     * @see \Magento\Framework\Backup\BackupInterface::getType()
      */
     public function getType()
     {
@@ -57,7 +57,7 @@ class Media extends \Magento\Backup\Snapshot
     /**
      * Add all folders and files except media and db backup to ignore list
      *
-     * @return \Magento\Backup\Media
+     * @return \Magento\Framework\Backup\Media
      */
     protected function _prepareIgnoreList()
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backup\Filesystem\Rollback;
+namespace Magento\Framework\Backup\Filesystem\Rollback;
 
 /**
  * Rollback worker for rolling back via ftp
@@ -38,7 +38,7 @@ class Ftp extends AbstractRollback
         $snapshotPath = $this->_snapshot->getBackupPath();
 
         if (!is_file($snapshotPath) || !is_readable($snapshotPath)) {
-            throw new \Magento\Backup\Exception\CantLoadSnapshot('Cant load snapshot archive');
+            throw new \Magento\Framework\Backup\Exception\CantLoadSnapshot('Cant load snapshot archive');
         }
 
         $this->_initFtpClient();
@@ -47,7 +47,7 @@ class Ftp extends AbstractRollback
         $tmpDir = $this->_createTmpDir();
         $this->_unpackSnapshot($tmpDir);
 
-        $fsHelper = new \Magento\Backup\Filesystem\Helper();
+        $fsHelper = new \Magento\Framework\Backup\Filesystem\Helper();
 
         $this->_cleanupFtp();
         $this->_uploadBackupToFtp($tmpDir);
@@ -59,7 +59,7 @@ class Ftp extends AbstractRollback
      * Initialize ftp client and connect to ftp
      *
      * @return void
-     * @throws \Magento\Backup\Exception\FtpConnectionFailed
+     * @throws \Magento\Framework\Backup\Exception\FtpConnectionFailed
      */
     protected function _initFtpClient()
     {
@@ -67,7 +67,7 @@ class Ftp extends AbstractRollback
             $this->_ftpClient = new \Magento\System\Ftp();
             $this->_ftpClient->connect($this->_snapshot->getFtpConnectString());
         } catch (\Exception $e) {
-            throw new \Magento\Backup\Exception\FtpConnectionFailed($e->getMessage());
+            throw new \Magento\Framework\Backup\Exception\FtpConnectionFailed($e->getMessage());
         }
     }
 
@@ -96,7 +96,7 @@ class Ftp extends AbstractRollback
         @unlink($validationFilePath);
 
         if (!$fileExistsOnFtp) {
-            throw new \Magento\Backup\Exception\FtpValidationFailed('Failed to validate ftp account');
+            throw new \Magento\Framework\Backup\Exception\FtpValidationFailed('Failed to validate ftp account');
         }
     }
 
@@ -125,7 +125,7 @@ class Ftp extends AbstractRollback
         $result = @mkdir($tmpDir);
 
         if (false === $result) {
-            throw new \Magento\Backup\Exception\NotEnoughPermissions('Failed to create directory ' . $tmpDir);
+            throw new \Magento\Framework\Backup\Exception\NotEnoughPermissions('Failed to create directory ' . $tmpDir);
         }
 
         return $tmpDir;
@@ -145,7 +145,7 @@ class Ftp extends AbstractRollback
             \RecursiveIteratorIterator::CHILD_FIRST
         );
 
-        $iterator = new \Magento\Backup\Filesystem\Iterator\Filter(
+        $iterator = new \Magento\Framework\Backup\Filesystem\Iterator\Filter(
             $filesystemIterator,
             $this->_snapshot->getIgnorePaths()
         );
@@ -172,7 +172,7 @@ class Ftp extends AbstractRollback
             \RecursiveIteratorIterator::SELF_FIRST
         );
 
-        $iterator = new \Magento\Backup\Filesystem\Iterator\Filter(
+        $iterator = new \Magento\Framework\Backup\Filesystem\Iterator\Filter(
             $filesystemIterator,
             $this->_snapshot->getIgnorePaths()
         );
@@ -190,7 +190,7 @@ class Ftp extends AbstractRollback
             } else {
                 $result = $this->_ftpClient->put($ftpPath, $item->__toString());
                 if (false === $result) {
-                    throw new \Magento\Backup\Exception\NotEnoughPermissions(
+                    throw new \Magento\Framework\Backup\Exception\NotEnoughPermissions(
                         'Failed to upload file ' . $item->__toString() . ' to ftp'
                     );
                 }

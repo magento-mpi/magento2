@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backup;
+namespace Magento\Framework\Backup;
 
 /**
  * Class to work with database backups
@@ -16,17 +16,17 @@ namespace Magento\Backup;
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Db extends \Magento\Backup\AbstractBackup
+class Db extends \Magento\Framework\Backup\AbstractBackup
 {
     /**
-     * @var \Magento\Backup\Db\BackupFactory
+     * @var \Magento\Framework\Backup\Db\BackupFactory
      */
     protected $_backupFactory;
 
     /**
-     * @param \Magento\Backup\Db\BackupFactory $backupFactory
+     * @param \Magento\Framework\Backup\Db\BackupFactory $backupFactory
      */
-    public function __construct(\Magento\Backup\Db\BackupFactory $backupFactory)
+    public function __construct(\Magento\Framework\Backup\Db\BackupFactory $backupFactory)
     {
         $this->_backupFactory = $backupFactory;
     }
@@ -46,7 +46,7 @@ class Db extends \Magento\Backup\AbstractBackup
         $archiveManager = new \Magento\Framework\Archive();
         $source = $archiveManager->unpack($this->getBackupPath(), $this->getBackupsDir());
 
-        $file = new \Magento\Backup\Filesystem\Iterator\File($source);
+        $file = new \Magento\Framework\Backup\Filesystem\Iterator\File($source);
         foreach ($file as $statement) {
             $this->getResourceModel()->runCommand($statement);
         }

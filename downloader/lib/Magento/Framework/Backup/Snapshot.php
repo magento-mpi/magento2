@@ -15,14 +15,14 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backup;
+namespace Magento\Framework\Backup;
 
-class Snapshot extends \Magento\Backup\Filesystem
+class Snapshot extends \Magento\Framework\Backup\Filesystem
 {
     /**
      * Database backup manager
      *
-     * @var \Magento\Backup\Db
+     * @var \Magento\Framework\Backup\Db
      */
     protected $_dbBackupManager;
 
@@ -34,7 +34,7 @@ class Snapshot extends \Magento\Backup\Filesystem
     protected $_filesystem;
 
     /**
-     * @var \Magento\Backup\Factory
+     * @var \Magento\Framework\Backup\Factory
      */
     protected $_backupFactory;
 
@@ -42,7 +42,7 @@ class Snapshot extends \Magento\Backup\Filesystem
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param Factory $backupFactory
      */
-    public function __construct(\Magento\Framework\App\Filesystem $filesystem, \Magento\Backup\Factory $backupFactory)
+    public function __construct(\Magento\Framework\App\Filesystem $filesystem, \Magento\Framework\Backup\Factory $backupFactory)
     {
         $this->_filesystem = $filesystem;
         $this->_backupFactory = $backupFactory;
@@ -101,7 +101,7 @@ class Snapshot extends \Magento\Backup\Filesystem
      * Overlap getType
      *
      * @return string
-     * @see \Magento\Backup\BackupInterface::getType()
+     * @see \Magento\Framework\Backup\BackupInterface::getType()
      */
     public function getType()
     {
@@ -111,12 +111,12 @@ class Snapshot extends \Magento\Backup\Filesystem
     /**
      * Create Db Instance
      *
-     * @return \Magento\Backup\BackupInterface
+     * @return \Magento\Framework\Backup\BackupInterface
      */
     protected function _createDbBackupInstance()
     {
         return $this->_backupFactory->create(
-            \Magento\Backup\Factory::TYPE_DB
+            \Magento\Framework\Backup\Factory::TYPE_DB
         )->setBackupExtension(
             'gz'
         )->setTime(
@@ -131,7 +131,7 @@ class Snapshot extends \Magento\Backup\Filesystem
     /**
      * Get database backup manager
      *
-     * @return \Magento\Backup\Db
+     * @return \Magento\Framework\Backup\Db
      */
     protected function _getDbBackupManager()
     {
@@ -145,10 +145,10 @@ class Snapshot extends \Magento\Backup\Filesystem
     /**
      * Set Db backup manager
      *
-     * @param \Magento\Backup\AbstractBackup $manager
-     * @return \Magento\Backup\Snapshot
+     * @param \Magento\Framework\Backup\AbstractBackup $manager
+     * @return \Magento\Framework\Backup\Snapshot
      */
-    public function setDbBackupManager(\Magento\Backup\AbstractBackup $manager)
+    public function setDbBackupManager(\Magento\Framework\Backup\AbstractBackup $manager)
     {
         $this->_dbBackupManager = $manager;
         return $this;
@@ -167,7 +167,7 @@ class Snapshot extends \Magento\Backup\Filesystem
     /**
      * Remove Db backup after added it to the snapshot
      *
-     * @return \Magento\Backup\Snapshot
+     * @return \Magento\Framework\Backup\Snapshot
      */
     protected function _removeDbBackup()
     {
