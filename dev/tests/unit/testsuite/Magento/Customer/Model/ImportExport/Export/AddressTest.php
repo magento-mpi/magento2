@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Export\Entity\Eav\Customer;
+namespace Magento\Customer\Model\ImportExport\Export;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
