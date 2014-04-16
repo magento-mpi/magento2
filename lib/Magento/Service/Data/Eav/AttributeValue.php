@@ -13,7 +13,7 @@ namespace Magento\Service\Data\Eav;
 class AttributeValue extends \Magento\Service\Data\AbstractObject
 {
     /**#@+
-     * Constant used as keys into $_data
+     * Constant used as key into $_data
      */
     const ATTRIBUTE_CODE = 'attribute_code';
     const VALUE = 'value';
