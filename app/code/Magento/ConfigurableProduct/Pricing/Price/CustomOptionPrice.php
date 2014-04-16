@@ -32,19 +32,19 @@ class CustomOptionPrice extends RegularPrice implements CustomOptionPriceInterfa
     protected $priceModifier;
 
     /**
-     * @param Product $product
+     * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param PriceModifierInterface $modifier
      */
     public function __construct(
-        Product $product,
+        Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
         PriceModifierInterface $modifier
     ) {
         $this->priceModifier = $modifier;
-        parent::__construct($product, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator);
     }
 
     /**

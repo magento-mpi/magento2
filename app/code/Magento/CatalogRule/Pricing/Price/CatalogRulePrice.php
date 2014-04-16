@@ -49,7 +49,7 @@ class CatalogRulePrice extends AbstractPrice
     protected $resourceRuleFactory;
 
     /**
-     * @param Product $product
+     * @param Product $saleableItem
      * @param float $quantity
      * @param Calculator $calculator
      * @param TimezoneInterface $dateTime
@@ -58,7 +58,7 @@ class CatalogRulePrice extends AbstractPrice
      * @param RuleFactory $catalogRuleResourceFactory
      */
     public function __construct(
-        Product $product,
+        Product $saleableItem,
         $quantity,
         Calculator $calculator,
         TimezoneInterface $dateTime,
@@ -66,7 +66,7 @@ class CatalogRulePrice extends AbstractPrice
         Session $customerSession,
         RuleFactory $catalogRuleResourceFactory
     ) {
-        parent::__construct($product, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator);
         $this->dateTime = $dateTime;
         $this->storeManager = $storeManager;
         $this->customerSession = $customerSession;

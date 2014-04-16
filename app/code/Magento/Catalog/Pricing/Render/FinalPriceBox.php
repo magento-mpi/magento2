@@ -72,8 +72,7 @@ class FinalPriceBox extends BasePriceBox
      */
     public function renderAmountMinimal()
     {
-        //@TODO Implement 'minimal_price' final price is a minimum price
-
+        /** @var \Magento\Catalog\Pricing\Price\FinalPrice $price */
         $price = $this->getPriceType(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE);
         $id = $this->getPriceId() ? $this->getPriceId() : 'product-minimal-price-' . $this->getSaleableItem()->getId();
         return $this->renderAmount(

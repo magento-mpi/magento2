@@ -37,14 +37,14 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
     protected $eventManager;
 
     /**
-     * @param Product $product
+     * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param \Magento\Catalog\Model\Product $bundleProduct
      * @param \Magento\Event\ManagerInterface $eventManager
      */
     public function __construct(
-        Product $product,
+        Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
         \Magento\Catalog\Model\Product $bundleProduct,
@@ -52,7 +52,7 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
     ) {
         $this->bundleProduct = $bundleProduct;
         $this->eventManager = $eventManager;
-        parent::__construct($product, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator);
     }
 
     /**
@@ -71,7 +71,7 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
         } else {
             if ($this->product->getSelectionPriceType()) {
                 // calculate price for selection type percent
-                // @todo get rid of final price data manipulation that should fire event to apply catalog rules
+
                 $product = clone $this->bundleProduct;
                 $price = $product->getPriceInfo()
                     ->getPrice(CatalogPrice\RegularPrice::PRICE_CODE, $this->quantity)

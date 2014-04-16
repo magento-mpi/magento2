@@ -74,7 +74,6 @@ class PriceBox extends Template implements PriceBoxRenderInterface
      */
     public function getSaleableItem()
     {
-        // @todo move to abstract pricing block
         return $this->saleableItem;
     }
 
@@ -83,7 +82,6 @@ class PriceBox extends Template implements PriceBoxRenderInterface
      */
     public function getPrice()
     {
-        // @todo move to abstract pricing block
         return $this->price;
     }
 

@@ -39,7 +39,7 @@ class FinalPriceBox extends PriceBox
 
     /**
      * @param Template\Context $context
-     * @param Product $product
+     * @param Product $saleableItem
      * @param PriceInterface $price
      * @param RendererPool $rendererPool
      * @param PriceCurrencyInterface $priceCurrency
@@ -47,7 +47,7 @@ class FinalPriceBox extends PriceBox
      */
     public function __construct(
         Template\Context $context,
-        Product $product,
+        Product $saleableItem,
         PriceInterface $price,
         RendererPool $rendererPool,
         PriceCurrencyInterface $priceCurrency,
@@ -56,7 +56,7 @@ class FinalPriceBox extends PriceBox
         $this->priceCurrency = $priceCurrency;
         parent::__construct(
             $context,
-            $product,
+            $saleableItem,
             $price,
             $rendererPool,
             $data

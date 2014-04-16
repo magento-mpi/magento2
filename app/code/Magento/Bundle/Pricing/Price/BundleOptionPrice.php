@@ -37,19 +37,19 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
     protected $maximalPrice;
 
     /**
-     * @param Product $product
+     * @param Product $saleableItem
      * @param float $quantity
      * @param BundleCalculatorInterface $calculator
      * @param BundleSelectionFactory $bundleSelectionFactory
      */
     public function __construct(
-        Product $product,
+        Product $saleableItem,
         $quantity,
         BundleCalculatorInterface $calculator,
         BundleSelectionFactory $bundleSelectionFactory
     ) {
         $this->selectionFactory = $bundleSelectionFactory;
-        parent::__construct($product, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator);
         $this->product->setQty($this->quantity);
     }
 

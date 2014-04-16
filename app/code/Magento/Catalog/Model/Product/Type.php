@@ -164,12 +164,12 @@ class Type
     /**
      * Get Product Price Info object
      *
-     * @param Product $product
+     * @param Product $saleableItem
      * @return \Magento\Pricing\PriceInfoInterface
      */
-    public function getPriceInfo(Product $product)
+    public function getPriceInfo(Product $saleableItem)
     {
-        return $this->_priceInfoFactory->create($product);
+        return $this->_priceInfoFactory->create($saleableItem);
     }
 
     /**

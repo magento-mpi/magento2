@@ -63,19 +63,19 @@ abstract class AbstractPrice implements PriceInterface
     protected $value;
 
     /**
-     * @param Product $product
+     * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
      */
     public function __construct(
-        Product $product,
+        Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator
     ) {
-        $this->product = $product;
+        $this->product = $saleableItem;
         $this->quantity = $quantity;
         $this->calculator = $calculator;
-        $this->priceInfo = $product->getPriceInfo();
+        $this->priceInfo = $saleableItem->getPriceInfo();
     }
 
     /**

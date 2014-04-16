@@ -38,7 +38,7 @@ class PriceBox extends PriceBoxRender
 
     /**
      * @param Context $context
-     * @param Product $product
+     * @param Product $saleableItem
      * @param PriceInterface $price
      * @param RendererPool $rendererPool
      * @param Data $coreDataHelper
@@ -47,7 +47,7 @@ class PriceBox extends PriceBoxRender
      */
     public function __construct(
         Context $context,
-        Product $product,
+        Product $saleableItem,
         PriceInterface $price,
         RendererPool $rendererPool,
         Data $coreDataHelper,
@@ -56,7 +56,7 @@ class PriceBox extends PriceBoxRender
     ) {
         $this->coreDataHelper = $coreDataHelper;
         $this->mathRandom = $mathRandom;
-        parent::__construct($context, $product, $price, $rendererPool);
+        parent::__construct($context, $saleableItem, $price, $rendererPool);
     }
 
     /**

@@ -41,8 +41,8 @@ interface MsrpPriceInterface
     /**
      * Check if can apply Minimum Advertise price to product in specific visibility
      *
-     * @param Product $product
+     * @param Product $saleableItem
      * @return bool
      */
-    public function canApplyMsrp(Product $product);
+    public function canApplyMsrp(Product $saleableItem);
 }
