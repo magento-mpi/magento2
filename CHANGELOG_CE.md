@@ -7,6 +7,8 @@
     * Downloadable (MAGETWO-20404)
   * Resolved dependencies of price calculation from Tax module (MAGETWO-20457)
   * Resolved dependencies of price calculation from Weee tax module (MAGETWO-20458)
+* Themes update:
+  * Updated the look&feel of the Admin theme (Data Grid Visual Styling)
 * Fixed bugs:
   * An issue with the inability to save product with grouped price when Price Scope = Website was fixed (MAGETWO-21709)
   * An issue with fatal error on attempt to edit product from wishlist if more than one store view available was fixed (MAGETWO-20859)
