@@ -1,3 +1,5 @@
+* Modularity improvements:
+  * Introduced a new CheckoutAgreements module. Moved all "Terms and Conditions" related logic from Magento_Checkout to Magento_CheckoutAgreements
 * Pricing Improvements:
   * Added price calculation component to library (MAGETWO-18226)
   * Eliminated price calculation from blocks and templates and implemented new calculation models for the next product types
