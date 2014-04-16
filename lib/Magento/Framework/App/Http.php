@@ -12,7 +12,7 @@ namespace Magento\Framework\App;
 use Magento\Framework\App\ObjectManager\ConfigLoader;
 use Magento\Framework\App\Request\Http as RequestHttp;
 use Magento\Framework\App\Response\Http as ResponseHttp;
-use Magento\Event;
+use Magento\Framework\Event;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -25,7 +25,7 @@ class Http implements \Magento\Framework\AppInterface
     protected $_objectManager;
 
     /**
-     * @var \Magento\Event\Manager
+     * @var \Magento\Framework\Event\Manager
      */
     protected $_eventManager;
 

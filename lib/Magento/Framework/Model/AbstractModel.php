@@ -94,7 +94,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Application Event Dispatcher
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -195,7 +195,7 @@ abstract class AbstractModel extends \Magento\Object
     public function __wakeup()
     {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $this->_eventManager = $objectManager->get('Magento\Event\ManagerInterface');
+        $this->_eventManager = $objectManager->get('Magento\Framework\Event\ManagerInterface');
         $this->_cacheManager = $objectManager->get('Magento\Framework\App\CacheInterface');
         $this->_registry = $objectManager->get('Magento\Registry');
         $context = $objectManager->get('Magento\Framework\Model\Context');

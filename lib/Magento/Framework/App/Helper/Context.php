@@ -22,7 +22,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_moduleManager;
 
     /**
-     * @var  \Magento\Event\ManagerInterface
+     * @var  \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -62,7 +62,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Framework\App\RequestInterface $httpRequest
      * @param \Magento\Cache\ConfigInterface $cacheConfig
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\HTTP\Header $httpHeader
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
@@ -75,7 +75,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Module\Manager $moduleManager,
         \Magento\Framework\App\RequestInterface $httpRequest,
         \Magento\Cache\ConfigInterface $cacheConfig,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $urlBuilder,
         \Magento\HTTP\Header $httpHeader,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
@@ -132,7 +132,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Event\ManagerInterface
+     * @return \Magento\Framework\Event\ManagerInterface
      */
     public function getEventManager()
     {

@@ -92,7 +92,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
     /**
      * Event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -100,7 +100,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
      * @param \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
@@ -108,7 +108,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
         \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
         \Magento\Logger $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         $connection = null,
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {

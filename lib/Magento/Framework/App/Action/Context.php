@@ -25,7 +25,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_objectManager;
 
     /**
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -58,7 +58,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\App\ResponseInterface $response
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $url
      * @param \Magento\Framework\App\Response\RedirectInterface $redirect
      * @param \Magento\Framework\App\ActionFlag $actionFlag
@@ -69,7 +69,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\App\ResponseInterface $response,
         \Magento\ObjectManager $objectManager,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $url,
         \Magento\Framework\App\Response\RedirectInterface $redirect,
         \Magento\Framework\App\ActionFlag $actionFlag,
@@ -96,7 +96,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Event\ManagerInterface
+     * @return \Magento\Framework\Event\ManagerInterface
      */
     public function getEventManager()
     {

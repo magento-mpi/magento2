@@ -23,7 +23,7 @@ class Event extends \Magento\Object
     /**
      * Observers collection
      *
-     * @var \Magento\Event\Observer\Collection
+     * @var \Magento\Framework\Event\Observer\Collection
      */
     protected $_observers;
 
@@ -36,14 +36,14 @@ class Event extends \Magento\Object
      */
     public function __construct(array $data = array())
     {
-        $this->_observers = new \Magento\Event\Observer\Collection();
+        $this->_observers = new \Magento\Framework\Event\Observer\Collection();
         parent::__construct($data);
     }
 
     /**
      * Returns all the registered observers for the event
      *
-     * @return \Magento\Event\Observer\Collection
+     * @return \Magento\Framework\Event\Observer\Collection
      */
     public function getObservers()
     {
@@ -53,10 +53,10 @@ class Event extends \Magento\Object
     /**
      * Register an observer for the event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function addObserver(\Magento\Event\Observer $observer)
+    public function addObserver(\Magento\Framework\Event\Observer $observer)
     {
         $this->getObservers()->addObserver($observer);
         return $this;
