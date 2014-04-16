@@ -11,7 +11,7 @@ namespace Magento\Store\Model\Storage;
 /**
  * Test class for \Magento\Store\Model\Storage\DefaultStorage
  */
-class DefaultTest extends \PHPUnit_Framework_TestCase
+class DefaultStorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var DefaultStorage
@@ -124,15 +124,6 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
             $this->_websiteFactoryMock,
             $this->_groupFactoryMock
         );
-    }
-
-    protected function tearDown()
-    {
-        unset($this->_storeFactoryMock);
-        unset($this->_websiteFactoryMock);
-        unset($this->_groupFactoryMock);
-        unset($this->_storeMock);
-        unset($this->_model);
     }
 
     public function testHasSingleStore()

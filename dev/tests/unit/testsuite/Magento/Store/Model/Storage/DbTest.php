@@ -84,20 +84,6 @@ class DbTest extends \PHPUnit_Framework_TestCase
         return $this->getMock($className, $methods, array(), '', false, false);
     }
 
-    protected function tearDown()
-    {
-        unset($this->_storeFactoryMock);
-        unset($this->_storeMock);
-        unset($this->_websiteFactoryMock);
-        unset($this->_websiteMock);
-        unset($this->_groupFactoryMock);
-        unset($this->_groupMock);
-        unset($this->_appStateMock);
-        unset($this->_helperDataMock);
-        unset($this->_storeMock);
-        unset($this->_model);
-    }
-
     public function testGetWebsite()
     {
         $this->assertSame($this->_websiteMock, $this->_model->getWebsite($this->_websiteMock));
