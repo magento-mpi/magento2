@@ -33,7 +33,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Invoice\Grid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
-        \Magento\Sales\Model\Resource\Order\Invoice\Grid\CollectionFactory $collectionFactory,
+        \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory,
         \Magento\Core\Helper\Url $coreUrl,
         array $data = array()
     ) {
@@ -67,7 +67,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Invoice\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/invoicesgrid', array('_current' => true));
+        return $this->getUrl('*/*/invoicesgrid', array('_current' => true));
     }
 
     /**

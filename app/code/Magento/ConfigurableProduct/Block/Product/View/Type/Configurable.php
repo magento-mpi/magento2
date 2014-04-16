@@ -9,7 +9,6 @@
  */
 namespace Magento\ConfigurableProduct\Block\Product\View\Type;
 
-use Magento\Catalog\Model\Product\PriceModifierInterface;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
 
@@ -24,6 +23,13 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @var array
      */
     protected $_prices = array();
+
+    /**
+     * Prepared prices
+     *
+     * @var array
+     */
+    protected $_resPrices = array();
 
     /**
      * Catalog product
@@ -55,7 +61,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Catalog\Helper\Product\Price $priceHelper
      * @param CustomerAccountService $customerAccountService
      * @param array $data
-     *
+     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -131,7 +137,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * Retrieve current store
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getCurrentStore()
     {
@@ -165,7 +171,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
 
         foreach ($this->getAllowProducts() as $product) {
             $productId = $product->getId();
-            $image = $this->_imageHelper->init($product, 'image');
+            $this->_imageHelper->init($product, 'image');
 
             foreach ($this->getAllowAttributes() as $attribute) {
                 $productAttribute = $attribute->getProductAttribute();
@@ -179,10 +185,12 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                     $options[$productAttributeId][$attributeValue] = array();
                 }
                 $options[$productAttributeId][$attributeValue][] = $productId;
-                !$product->getImage() ||
-                    $product->getImage() ===
-                    'no_selection' ? $options['images'][$productAttributeId][$attributeValue][$productId] = null :
-                    ($options['images'][$productAttributeId][$attributeValue][$productId] = (string)$image);
+
+                if (!$product->getImage() || $product->getImage() === 'no_selection') {
+                    $options['images'][$productAttributeId][$attributeValue][$productId] = $baseImageUrl;
+                } else {
+                    $options['images'][$productAttributeId][$attributeValue][$productId] = (string)$this->_imageHelper;
+                }
             }
         }
 
@@ -283,10 +291,9 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     protected function getAttributeConfigValue($preConfiguredValues, $attributeId)
     {
-        if( $this->hasPreConfiguredValues()) {
+        if ($this->hasPreConfiguredValues()) {
             $configValue = $preConfiguredValues->getData('super_attribute/' . $attributeId);
-            if($configValue)
-            {
+            if ($configValue) {
                 return $configValue;
             }
         }
@@ -322,7 +329,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         return $this->_registerJsPrice($this->_convertPrice($price, true));
     }
 
-     /**
+    /**
      * Replace ',' on '.' for js
      *
      * @param float $price
@@ -422,7 +429,6 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * Prepare formatted values for options choose
      *
      * @param array $optionPrices
-     * @return mixed
      */
     protected function formatOptionsValues(array $optionPrices = array())
     {
@@ -440,7 +446,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param int $attributeId
      * @return array
      */
-    protected function collectOptionsAttributes($info, $attributeId)
+    protected function collectOptionsAttributes(array $info = array(), $attributeId)
     {
         $attributes = array();
         if ($this->_validateAttributeInfo($info)) {
@@ -491,12 +497,12 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * Get Products Index
      *
-     * @param $options
-     * @param $attributeId
-     * @param $value
+     * @param array $options
+     * @param int $attributeId
+     * @param array $value
      * @return array
      */
-    protected function getProductsIndex($options, $attributeId, $value)
+    protected function getProductsIndex(array $options = array(), $attributeId, array $value = array())
     {
         if (isset($options[$attributeId][$value['value_index']])) {
             return $options[$attributeId][$value['value_index']];

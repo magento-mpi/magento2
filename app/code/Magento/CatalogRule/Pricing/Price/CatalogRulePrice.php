@@ -12,9 +12,9 @@ namespace Magento\CatalogRule\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price\AbstractPrice;
 use Magento\Pricing\Adjustment\Calculator;
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Catalog\Model\Product;
 use Magento\Stdlib\DateTime\TimezoneInterface;
-use Magento\Core\Model\StoreManager;
+use Magento\Store\Model\StoreManager;
 use Magento\Customer\Model\Session;
 use Magento\CatalogRule\Model\Resource\RuleFactory;
 
@@ -34,7 +34,7 @@ class CatalogRulePrice extends AbstractPrice
     protected $dateTime;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Store\Model\StoreManager
      */
     protected $storeManager;
 
@@ -49,7 +49,7 @@ class CatalogRulePrice extends AbstractPrice
     protected $resourceRuleFactory;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param Product $product
      * @param float $quantity
      * @param Calculator $calculator
      * @param TimezoneInterface $dateTime
@@ -58,7 +58,7 @@ class CatalogRulePrice extends AbstractPrice
      * @param RuleFactory $catalogRuleResourceFactory
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        Product $product,
         $quantity,
         Calculator $calculator,
         TimezoneInterface $dateTime,
@@ -66,7 +66,7 @@ class CatalogRulePrice extends AbstractPrice
         Session $customerSession,
         RuleFactory $catalogRuleResourceFactory
     ) {
-        parent::__construct($salableItem, $quantity, $calculator);
+        parent::__construct($product, $quantity, $calculator);
         $this->dateTime = $dateTime;
         $this->storeManager = $storeManager;
         $this->customerSession = $customerSession;
@@ -86,7 +86,7 @@ class CatalogRulePrice extends AbstractPrice
                     $this->dateTime->scopeTimeStamp($this->storeManager->getStore()->getId()),
                     $this->storeManager->getStore()->getWebsiteId(),
                     $this->customerSession->getCustomerGroupId(),
-                    $this->salableItem->getId()
+                    $this->product->getId()
                 );
             $this->value = $this->value ? floatval($this->value) : false;
         }

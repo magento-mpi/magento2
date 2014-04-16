@@ -22,7 +22,7 @@ class Observer
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -66,7 +66,7 @@ class Observer
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
@@ -74,7 +74,7 @@ class Observer
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_backendSession = $backendSession;
@@ -230,7 +230,7 @@ class Observer
     public function cleanStoreIndex(\Magento\Event\Observer $observer)
     {
         $store = $observer->getEvent()->getStore();
-        /* @var $store \Magento\Core\Model\Store */
+        /* @var $store \Magento\Store\Model\Store */
 
         $this->_getFulltextModel()->cleanIndex($store->getId());
 

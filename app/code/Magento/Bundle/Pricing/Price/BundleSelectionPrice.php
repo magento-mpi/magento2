@@ -10,7 +10,7 @@
 namespace Magento\Bundle\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price as CatalogPrice;
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Catalog\Model\Product;
 use Magento\Bundle\Model\Product\Price;
 use Magento\Pricing\Adjustment\CalculatorInterface;
 
@@ -37,14 +37,14 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
     protected $eventManager;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param Product $product
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param \Magento\Catalog\Model\Product $bundleProduct
      * @param \Magento\Event\ManagerInterface $eventManager
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        Product $product,
         $quantity,
         CalculatorInterface $calculator,
         \Magento\Catalog\Model\Product $bundleProduct,
@@ -52,7 +52,7 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
     ) {
         $this->bundleProduct = $bundleProduct;
         $this->eventManager = $eventManager;
-        parent::__construct($salableItem, $quantity, $calculator);
+        parent::__construct($product, $quantity, $calculator);
     }
 
     /**
@@ -69,7 +69,7 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
                 ->getPrice(FinalPrice::PRICE_CODE, $this->quantity)
                 ->getValue();
         } else {
-            if ($this->salableItem->getSelectionPriceType()) {
+            if ($this->product->getSelectionPriceType()) {
                 // calculate price for selection type percent
                 // @todo get rid of final price data manipulation that should fire event to apply catalog rules
                 $product = clone $this->bundleProduct;
@@ -81,10 +81,10 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
                     'catalog_product_get_final_price',
                     array('product' => $product, 'qty' => $this->bundleProduct->getQty())
                 );
-                $value = $product->getData('final_price') * ($this->salableItem->getSelectionPriceValue() / 100);
+                $value = $product->getData('final_price') * ($this->product->getSelectionPriceValue() / 100);
             } else {
                 // calculate price for selection type fixed
-                $value = $this->salableItem->getSelectionPriceValue() * $this->quantity;
+                $value = $this->product->getSelectionPriceValue() * $this->quantity;
             }
         }
         $this->value = $this->bundleProduct->getPriceInfo()

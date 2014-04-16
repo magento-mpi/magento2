@@ -70,11 +70,11 @@ class Account extends \Magento\App\Action\Action
     /** @var \Magento\Newsletter\Model\SubscriberFactory */
     protected $_subscriberFactory;
 
-    /** @var \Magento\Core\Model\StoreManagerInterface */
+    /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $_storeManager;
 
-    /** @var \Magento\Core\Model\Store\Config */
-    protected $_storeConfig;
+    /** @var \Magento\App\Config\ScopeConfigInterface */
+    protected $_scopeConfig;
 
     /** @var \Magento\Core\Helper\Data */
     protected $coreHelperData;
@@ -113,8 +113,8 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Helper\Data $coreHelperData
      * @param \Magento\Escaper $escaper
      * @param \Magento\App\State $appState
@@ -137,8 +137,8 @@ class Account extends \Magento\App\Action\Action
         \Magento\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Helper\Data $coreHelperData,
         \Magento\Escaper $escaper,
         \Magento\App\State $appState,
@@ -158,7 +158,7 @@ class Account extends \Magento\App\Action\Action
         $this->_formKeyValidator = $formKeyValidator;
         $this->_subscriberFactory = $subscriberFactory;
         $this->_storeManager = $storeManager;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->coreHelperData = $coreHelperData;
         $this->escaper = $escaper;
         $this->appState = $appState;
@@ -324,8 +324,9 @@ class Account extends \Magento\App\Action\Action
             $this->_getSession()->setBeforeAuthUrl($this->_customerHelperData->getAccountUrl());
             // Redirect customer to the last page visited after logging in
             if ($this->_getSession()->isLoggedIn()) {
-                if (!$this->_storeConfig->getConfigFlag(
-                    \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
+                if (!$this->_scopeConfig->isSetFlag(
+                    \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
                 ) {
                     $referer = $this->getRequest()->getParam(\Magento\Customer\Helper\Data::REFERER_QUERY_PARAM_NAME);
@@ -570,8 +571,9 @@ class Account extends \Magento\App\Action\Action
         $this->_addWelcomeMessage();
 
         $successUrl = $this->_createUrl()->getUrl('*/*/index', array('_secure' => true));
-        if (!$this->_storeConfig->getConfigFlag(
-            \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
+        if (!$this->_scopeConfig->isSetFlag(
+            \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ) && $this->_getSession()->getBeforeAuthUrl()
         ) {
             $successUrl = $this->_getSession()->getBeforeAuthUrl(true);
@@ -774,7 +776,6 @@ class Account extends \Magento\App\Action\Action
                     CustomerAccountServiceInterface::EMAIL_RESET
                 );
             } catch (NoSuchEntityException $e) {
-                // Do nothing, we don't want anyone to use this action to determine which email accounts are registered.
             } catch (\Exception $exception) {
                 $this->messageManager->addException($exception, __('Unable to send password reset email.'));
                 $this->_redirect('*/*/forgotpassword');
@@ -978,7 +979,7 @@ class Account extends \Magento\App\Action\Action
     /**
      * Check whether VAT ID validation is enabled
      *
-     * @param \Magento\Core\Model\Store|string|int $store
+     * @param \Magento\Store\Model\Store|string|int $store
      * @return bool
      */
     protected function _isVatValidationEnabled($store = null)

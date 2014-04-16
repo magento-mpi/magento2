@@ -31,7 +31,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_categoryFactory = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager = null;
 
@@ -39,13 +39,13 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\AdminGws\Helper\Data $adminGwsData
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
         \Magento\AdminGws\Helper\Data $adminGwsData,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($role);
         $this->_adminGwsData = $adminGwsData;
@@ -475,7 +475,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Save correct store list in rating (while Managing Ratings)
      *
-     * @param \Magento\Rating\Model\Rating $model
+     * @param \Magento\Review\Model\Rating $model
      * @return void
      */
     public function ratingSaveBefore($model)
@@ -786,7 +786,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Make websites read-only
      *
-     * @param \Magento\Core\Model\Website $model
+     * @param \Magento\Store\Model\Website $model
      * @return void
      */
     public function coreWebsiteLoadAfter($model)
@@ -797,7 +797,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Disallow saving websites
      *
-     * @param \Magento\Core\Model\Website $model
+     * @param \Magento\Store\Model\Website $model
      * @return void
      */
     public function coreWebsiteSaveBefore($model)
@@ -808,7 +808,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Disallow deleting websites
      *
-     * @param \Magento\Core\Model\Website $model
+     * @param \Magento\Store\Model\Website $model
      * @return void
      */
     public function coreWebsiteDeleteBefore($model)
@@ -819,7 +819,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Set store group or store read-only
      *
-     * @param \Magento\Core\Model\Store|\Magento\Core\Model\Store\Group $model
+     * @param \Magento\Store\Model\Store|\Magento\Store\Model\Group $model
      * @return void
      */
     public function coreStoreGroupLoadAfter($model)
@@ -833,7 +833,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Disallow saving store group or store
      *
-     * @param \Magento\Core\Model\Store|\Magento\Core\Model\Store\Group $model
+     * @param \Magento\Store\Model\Store|\Magento\Store\Model\Group $model
      * @return void
      */
     public function coreStoreGroupSaveBefore($model)
@@ -883,7 +883,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Disallow deleting store group or store
      *
-     * @param \Magento\Core\Model\Store|\Magento\Core\Model\Store\Group $model
+     * @param \Magento\Store\Model\Store|\Magento\Store\Model\Group $model
      * @return void
      */
     public function coreStoreGroupDeleteBefore($model)

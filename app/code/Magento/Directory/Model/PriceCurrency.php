@@ -7,7 +7,7 @@
  */
 namespace Magento\Directory\Model;
 
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Logger;
 
 /**
@@ -49,7 +49,7 @@ class PriceCurrency implements \Magento\Pricing\PriceCurrencyInterface
      * Convert and format price value for specified store or passed currency
      *
      * @param float $amount
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @param Currency|string|null $currency
      * @return float
      */
@@ -65,7 +65,7 @@ class PriceCurrency implements \Magento\Pricing\PriceCurrencyInterface
      * @param float $amount
      * @param bool $includeContainer
      * @param int $precision
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @param Currency|string|null $currency
      * @return string
      */
@@ -85,7 +85,7 @@ class PriceCurrency implements \Magento\Pricing\PriceCurrencyInterface
      * @param float $amount
      * @param bool $includeContainer
      * @param int $precision
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @param Currency|string|null $currency
      * @return string
      */
@@ -103,7 +103,7 @@ class PriceCurrency implements \Magento\Pricing\PriceCurrencyInterface
     /**
      * Get currency model
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @param Currency|string|null $currency
      * @return Currency
      */
@@ -124,13 +124,13 @@ class PriceCurrency implements \Magento\Pricing\PriceCurrencyInterface
     /**
      * Get store model
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
-     * @return \Magento\Core\Model\Store
+     * @param null|string|bool|int|\\Magento\Store\Model\Store $store
+     * @return \\Magento\Store\Model\Store
      */
     protected function getStore($store = null)
     {
         try {
-            if (!$store instanceof \Magento\Core\Model\Store) {
+            if (!$store instanceof \Magento\Store\Model\Store) {
                 $store = $this->storeManager->getStore($store);
             }
         } catch (\Exception $e) {

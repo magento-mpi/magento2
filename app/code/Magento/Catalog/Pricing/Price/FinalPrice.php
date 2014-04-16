@@ -11,7 +11,7 @@
 namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Pricing\Adjustment\CalculatorInterface;
-use Magento\Pricing\Object\SaleableInterface;
+use \Magento\Catalog\Model\Product;
 
 /**
  * Final price model
@@ -29,16 +29,16 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
     protected $basePrice;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param Product $product
      * @param float $quantity
      * @param CalculatorInterface $calculator
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        Product $product,
         $quantity,
         CalculatorInterface $calculator
     ) {
-        parent::__construct($salableItem, $quantity, $calculator);
+        parent::__construct($product, $quantity, $calculator);
         $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_CODE);
         $this->baseAmount = $this->getValue();
     }
@@ -60,11 +60,11 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
      */
     public function getMinimalPrice()
     {
-        $minimalPrice = $this->salableItem->getMinimalPrice();
+        $minimalPrice = $this->product->getMinimalPrice();
         if ($minimalPrice === null) {
             $minimalPrice = $this->getValue();
         }
-        return $this->calculator->getAmount($minimalPrice, $this->salableItem);
+        return $this->calculator->getAmount($minimalPrice, $this->product);
     }
 
     /**
@@ -74,6 +74,6 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
      */
     public function getMaximalPrice()
     {
-        return $this->calculator->getAmount($this->getValue(), $this->salableItem);
+        return $this->calculator->getAmount($this->getValue(), $this->product);
     }
 }

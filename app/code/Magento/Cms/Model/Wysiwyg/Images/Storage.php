@@ -27,7 +27,7 @@ class Storage extends \Magento\Object
     /**
      * Config object
      *
-     * @var \Magento\Core\Model\Config\Element
+     * @var \Magento\App\Config\Element
      */
     protected $_config;
 

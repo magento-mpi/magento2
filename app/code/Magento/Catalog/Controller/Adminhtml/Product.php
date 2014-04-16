@@ -235,8 +235,11 @@ class Product extends \Magento\Backend\App\Action
 
         $this->_setActiveMenu('Magento_Catalog::catalog_products');
 
-        if (!$this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->isSingleStoreMode()
-            && ($switchBlock = $this->_view->getLayout()->getBlock('store_switcher'))
+        if (!$this->_objectManager->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->isSingleStoreMode() && ($switchBlock = $this->_view->getLayout()->getBlock(
+            'store_switcher'
+        ))
         ) {
             $switchBlock->setDefaultStoreName(__('Default Values'))
                 ->setWebsiteIds($product->getWebsiteIds())
@@ -267,9 +270,13 @@ class Product extends \Magento\Backend\App\Action
     {
         $elementId = $this->getRequest()->getParam('element_id', md5(microtime()));
         $storeId = $this->getRequest()->getParam('store_id', 0);
-        $storeMediaUrl = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore($storeId)
-            ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA);
+        $storeMediaUrl = $this->_objectManager->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getStore(
+            $storeId
+        )->getBaseUrl(
+            \Magento\UrlInterface::URL_TYPE_MEDIA
+        );
 
         $content = $this->_view->getLayout()->createBlock(
             'Magento\Catalog\Block\Adminhtml\Helper\Form\Wysiwyg\Content',
@@ -425,8 +432,6 @@ class Product extends \Magento\Backend\App\Action
             ->setProductsRelated($this->getRequest()->getPost('products_crosssell', null));
         $this->_view->renderLayout();
     }
-
-
 
     /**
      * Validate product

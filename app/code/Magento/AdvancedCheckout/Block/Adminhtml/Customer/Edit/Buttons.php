@@ -33,7 +33,7 @@ class Buttons extends \Magento\Customer\Block\Adminhtml\Edit
         ) && !$this->_authorization->isAllowed(
             'Magento_AdvancedCheckout::update'
         ) || $this->_storeManager->getStore(
-            \Magento\Core\Model\Store::ADMIN_CODE
+            \Magento\Store\Model\Store::ADMIN_CODE
         )->getWebsiteId() == $customerWebsite
         ) {
             return $this;
@@ -41,10 +41,11 @@ class Buttons extends \Magento\Customer\Block\Adminhtml\Edit
         $container = $this->getParentBlock();
         if ($container instanceof \Magento\Backend\Block\Template && $container->getCustomerId()) {
             $url = $this->_urlBuilder->getUrl('checkout/index', array('customer' => $container->getCustomerId()));
-            $container->addButton(
+
+            $this->getToolbar()->addChild(
                 'manage_quote',
-                array('label' => __('Manage Shopping Cart'), 'onclick' => "setLocation('" . $url . "')"),
-                0
+                'Magento\Backend\Block\Widget\Button',
+                array('label' => __('Manage Shopping Cart'), 'onclick' => "setLocation('" . $url . "')")
             );
         }
         return $this;

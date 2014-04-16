@@ -245,7 +245,7 @@ class ListProduct extends AbstractProduct implements IdentityInterface
     }
 
     /**
-     * @param array|string|integer|\Magento\Core\Model\Config\Element $code
+     * @param array|string|integer|\Magento\App\Config\Element $code
      * @return $this
      */
     public function addAttribute($code)

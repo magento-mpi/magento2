@@ -12,7 +12,7 @@ namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Catalog\Helper\Data;
 use Magento\Pricing\Adjustment\CalculatorInterface;
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Catalog\Model\Product;
 
 /**
  * MSRP price model
@@ -30,18 +30,18 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
     protected $catalogDataHelper;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param Product $product
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param Data $catalogDataHelper
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        Product $product,
         $quantity,
         CalculatorInterface $calculator,
         Data $catalogDataHelper
     ) {
-        parent::__construct($salableItem, $quantity, $calculator);
+        parent::__construct($product, $quantity, $calculator);
         $this->catalogDataHelper = $catalogDataHelper;
     }
 
@@ -78,11 +78,11 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
     /**
      * Check if can apply Minimum Advertise price to product
      *
-     * @param SaleableInterface $saleableItem
+     * @param Product $product
      * @return bool
      */
-    public function canApplyMsrp(SaleableInterface $saleableItem)
+    public function canApplyMsrp(Product $product)
     {
-        return $this->catalogDataHelper->canApplyMsrp($saleableItem);
+        return $this->catalogDataHelper->canApplyMsrp($product);
     }
 }

@@ -8,8 +8,8 @@
 namespace Magento\Bundle\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price\AbstractPrice;
-use Magento\Pricing\Object\SaleableInterface;
 use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
+use Magento\Catalog\Model\Product;
 
 /**
  * Bundle option price model
@@ -37,20 +37,20 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
     protected $maximalPrice;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param Product $product
      * @param float $quantity
      * @param BundleCalculatorInterface $calculator
      * @param BundleSelectionFactory $bundleSelectionFactory
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        Product $product,
         $quantity,
         BundleCalculatorInterface $calculator,
         BundleSelectionFactory $bundleSelectionFactory
     ) {
         $this->selectionFactory = $bundleSelectionFactory;
-        parent::__construct($salableItem, $quantity, $calculator);
-        $this->salableItem->setQty($this->quantity);
+        parent::__construct($product, $quantity, $calculator);
+        $this->product->setQty($this->quantity);
     }
 
     /**
@@ -88,15 +88,15 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
             return $this->priceOptions;
         }
         /** @var \Magento\Bundle\Model\Product\Type $typeInstance */
-        $typeInstance = $this->salableItem->getTypeInstance();
-        $typeInstance->setStoreFilter($this->salableItem->getStoreId(), $this->salableItem);
+        $typeInstance = $this->product->getTypeInstance();
+        $typeInstance->setStoreFilter($this->product->getStoreId(), $this->product);
 
         /** @var \Magento\Bundle\Model\Resource\Option\Collection $optionCollection */
-        $optionCollection = $typeInstance->getOptionsCollection($this->salableItem);
+        $optionCollection = $typeInstance->getOptionsCollection($this->product);
 
         $selectionCollection = $typeInstance->getSelectionsCollection(
-            $typeInstance->getOptionsIds($this->salableItem),
-            $this->salableItem
+            $typeInstance->getOptionsIds($this->product),
+            $this->product
         );
 
         $this->priceOptions = $optionCollection->appendSelections($selectionCollection, false, false);
@@ -118,7 +118,7 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
      */
     protected function createSelection($selection)
     {
-        return $this->selectionFactory->create($this->salableItem, $selection, $selection->getSelectionQty());
+        return $this->selectionFactory->create($this->product, $selection, $selection->getSelectionQty());
     }
 
     /**
@@ -180,6 +180,6 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
      */
     public function getAmount()
     {
-        return $this->calculator->getOptionsAmount($this->salableItem);
+        return $this->calculator->getOptionsAmount($this->product);
     }
 }

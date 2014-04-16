@@ -13,7 +13,7 @@ namespace Magento\Invitation\Model\Adminhtml\System\Config\Backend;
  * Backend model for max_invitation_amount_per_send to set it's pervious value
  * in case admin user will enter invalid data (for example zero) bc this value can't be unlimited.
  */
-class Limited extends \Magento\Core\Model\Config\Value
+class Limited extends \Magento\App\Config\Value
 {
     /**
      * @var \Magento\Message\ManagerInterface
@@ -23,8 +23,7 @@ class Limited extends \Magento\Core\Model\Config\Value
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -33,14 +32,13 @@ class Limited extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
         $this->messageManager = $messageManager;
     }
 

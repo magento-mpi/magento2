@@ -53,6 +53,11 @@ class UrlrewriteEdit extends Page
     protected $typeSelectorBlock = '[data-ui-id="urlrewrite-type-selector"]';
 
     /**
+     * @var string
+     */
+    protected $pageActionsBlock = '.page-main-actions';
+
+    /**
      * Init page. Set page URL.
      */
     protected function _init()
@@ -106,6 +111,16 @@ class UrlrewriteEdit extends Page
     {
         return Factory::getBlockFactory()->getMagentoBackendUrlrewriteSelector(
             $this->_browser->find($this->typeSelectorBlock)
+        );
+    }
+
+    /**
+     * @return \Magento\Backend\Test\Block\FormPageActions
+     */
+    public function getActionsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendFormPageActions(
+            $this->_browser->find($this->pageActionsBlock)
         );
     }
 }

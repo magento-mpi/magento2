@@ -21,11 +21,11 @@ class Observer extends \Magento\Model\AbstractModel
     protected $_giftCardData = null;
 
     /**
-     * Core store config
+     * Scope config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Message\ManagerInterface
@@ -61,7 +61,7 @@ class Observer extends \Magento\Model\AbstractModel
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -80,26 +80,25 @@ class Observer extends \Magento\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder ,
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\UrlInterface $urlModel
      * @param \Magento\GiftCard\Helper\Data $giftCardData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Model\Resource\Db\Collection\AbstractCollection $resourceCollection
      * @param array $data
      *
-     * @throws \InvalidArgumentException
      */
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\View\LayoutInterface $layout,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory,
@@ -108,7 +107,7 @@ class Observer extends \Magento\Model\AbstractModel
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\UrlInterface $urlModel,
         \Magento\GiftCard\Helper\Data $giftCardData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
         array $data = array()
@@ -122,7 +121,7 @@ class Observer extends \Magento\Model\AbstractModel
         $this->messageManager = $messageManager;
         $this->_urlModel = $urlModel;
         $this->_giftCardData = $giftCardData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -170,8 +169,9 @@ class Observer extends \Magento\Model\AbstractModel
         // sales_order_save_after
 
         $order = $observer->getEvent()->getOrder();
-        $requiredStatus = $this->_coreStoreConfig->getConfig(
+        $requiredStatus = $this->_scopeConfig->getValue(
             \Magento\GiftCard\Model\Giftcard::XML_PATH_ORDER_ITEM_STATUS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $order->getStore()
         );
         $loadedInvoices = array();
@@ -311,8 +311,9 @@ class Observer extends \Magento\Model\AbstractModel
                         )->setTemplateVars(
                             $templateData
                         )->setFrom(
-                            $this->_coreStoreConfig->getConfig(
+                            $this->_scopeConfig->getValue(
                                 \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_IDENTITY,
+                                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                                 $item->getOrder()->getStoreId()
                             )
                         )->addTo(

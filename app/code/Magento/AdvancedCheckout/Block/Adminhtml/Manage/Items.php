@@ -190,7 +190,7 @@ class Items extends \Magento\Backend\Block\Template
     /**
      * Return current store from registry
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {

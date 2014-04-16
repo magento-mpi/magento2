@@ -37,7 +37,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory,
-        \Magento\Sales\Model\Resource\Order\Creditmemo\Grid\CollectionFactory $collectionFactory,
+        \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory,
         array $data = array()
     ) {
         $this->_creditmemoFactory = $creditmemoFactory;
@@ -59,13 +59,23 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
+     * Retrieve collection class
+     *
+     * @return string
+     */
+    protected function _getCollectionClass()
+    {
+        return '\Magento\Sales\Model\Resource\Order\Creditmemo\Grid\Collection';
+    }
+
+    /**
      * Prepare collection
      *
      * @return $this
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_collectionFactory->create();
+        $collection = $this->_collectionFactory->create($this->_getCollectionClass());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

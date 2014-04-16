@@ -40,7 +40,7 @@ class CustomOptionPrice extends AbstractPrice implements CustomOptionPriceInterf
             return $this->value;
         }
         $this->value = false;
-        $optionIds = $this->salableItem->getCustomOption('option_ids');
+        $optionIds = $this->product->getCustomOption('option_ids');
         if (!$optionIds) {
             return $this->value;
         }
@@ -66,11 +66,11 @@ class CustomOptionPrice extends AbstractPrice implements CustomOptionPriceInterf
     {
         $value = 0.;
         foreach ($values as $optionId) {
-            $option = $this->salableItem->getOptionById($optionId);
+            $option = $this->product->getOptionById($optionId);
             if (!$option) {
                 continue;
             }
-            $confItemOption = $this->salableItem->getCustomOption('option_' . $option->getId());
+            $confItemOption = $this->product->getCustomOption('option_' . $option->getId());
 
             $group = $option->groupFactory($option->getType())
                 ->setOption($option)
@@ -91,7 +91,7 @@ class CustomOptionPrice extends AbstractPrice implements CustomOptionPriceInterf
             return $this->priceOptions;
         }
         $this->priceOptions = [];
-        $options = $this->salableItem->getOptions();
+        $options = $this->product->getOptions();
         if ($options) {
             /** @var $optionItem \Magento\Catalog\Model\Product\Option */
             foreach ($options as $optionItem) {
