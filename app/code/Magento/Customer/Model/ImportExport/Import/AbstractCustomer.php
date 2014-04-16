@@ -2,12 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Customer\Model\ImportExport\Import;
+
+use Magento\Customer\Model\Resource\ImportExport\Import\Customer\Storage;
 
 /**
  * Import entity abstract customer model
@@ -55,7 +55,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
     /**
      * Customer collection wrapper
      *
-     * @var \Magento\Customer\Model\Resource\ImportExport\Import\Customer\Storage
+     * @var Storage
      */
     protected $_customerStorage;
 
@@ -226,7 +226,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
     /**
      * Get customer storage
      *
-     * @return \Magento\ImportExport\Model\Resource\Customer\Storage
+     * @return Storage
      */
     public function getCustomerStorage()
     {

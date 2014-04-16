@@ -217,7 +217,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             $storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
-            $this->getMock('Magento\ImportExport\Model\Resource\Customer\StorageFactory', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory', array(), array(), '', false),
             $authSession,
             $moduleHelper,
             $customerFactory,
@@ -261,9 +261,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
         $connection = $this->getMock('stdClass');
 
-        /** @var $customerStorage \Magento\ImportExport\Model\Resource\Customer\Storage */
+        /** @var $customerStorage \Magento\Customer\Model\Resource\ImportExport\Import\Customer\Storage */
         $customerStorage = $this->getMock(
-            'Magento\ImportExport\Model\Resource\Customer\Storage',
+            'Magento\Customer\Model\Resource\ImportExport\Import\Customer\Storage',
             array('load'),
             array(),
             '',

@@ -287,7 +287,7 @@
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
             <word>Reward</word>
-            <path>dev/tests/unit/testsuite/Magento/ImportExport/Model/Import/Entity/_files/customer_composite_prepare_row_for_db.csv</path>
+            <path>dev/tests/unit/testsuite/Magento/Customer/Model/ImportExport/Import/_files/customer_composite_prepare_row_for_db.csv</path>
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
