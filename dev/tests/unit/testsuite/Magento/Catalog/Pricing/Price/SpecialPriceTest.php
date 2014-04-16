@@ -32,7 +32,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
         $specialPriceModel = $this->objectManager->getObject(
             'Magento\Catalog\Pricing\Price\SpecialPrice',
             [
-                'salableItem' => $this->prepareSalebleItem($specialPrice),
+                'product' => $this->prepareSalebleItem($specialPrice),
                 'localeDate'  => $this->prepareLocaleDate($isValidInterval)
             ]
         );
