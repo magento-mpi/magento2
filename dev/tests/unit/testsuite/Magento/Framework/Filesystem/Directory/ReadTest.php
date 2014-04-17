@@ -42,8 +42,14 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->driver = $this->getMock('Magento\Filesystem\Driver\File', array(), array(), '', false);
-        $this->fileFactory = $this->getMock('Magento\Filesystem\File\ReadFactory', array(), array(), '', false);
+        $this->driver = $this->getMock('Magento\Framework\Filesystem\Driver\File', array(), array(), '', false);
+        $this->fileFactory = $this->getMock(
+            'Magento\Framework\Filesystem\File\ReadFactory',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->read = new \Magento\Framework\Filesystem\Directory\Read(
             array('path' => $this->path),
             $this->fileFactory,
@@ -100,7 +106,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
         $protocol = 'ftp';
         $contents = 'contents';
 
-        $fileMock = $this->getMock('Magento\Filesystem\File\Read', [], [], '', false);
+        $fileMock = $this->getMock('Magento\Framework\Filesystem\File\Read', [], [], '', false);
         $fileMock->expects($this->once())
             ->method('readAll')
             ->with($flag, $context)

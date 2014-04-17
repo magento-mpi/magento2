@@ -545,8 +545,8 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      * @param string $fileContent
      * @return bool|int
      * @throws \Magento\Io\IoException
-     * @throws \Magento\Filesystem\FilesystemException
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Filesystem\FilesystemException
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function writeData($filePath, $fileContent)
     {
@@ -568,7 +568,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      * Check if data has 'server_type' and it's valid
      *
      * @return null
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function validateAdapterType()
     {
@@ -578,7 +578,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
             || !$fileInfo['server_type']
             || !isset($availableTypes[$fileInfo['server_type']])
         ) {
-            throw new \Magento\Model\Exception(__('Please correct the server type.'));
+            throw new \Magento\Framework\Model\Exception(__('Please correct the server type.'));
         }
     }
 
@@ -589,8 +589,8 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      * @param string $destination
      * @return string
      * @throws \Magento\Io\IoException
-     * @throws \Magento\Filesystem\FilesystemException
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Filesystem\FilesystemException
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function readData($source, $destination)
     {
@@ -605,13 +605,13 @@ class Operation extends \Magento\Framework\Model\AbstractModel
         } else {
             $varDirectory = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::VAR_DIR);
             if (!$varDirectory->isExist($source)) {
-                throw new \Magento\Model\Exception(__('Import path %1 not exists', $source));
+                throw new \Magento\Framework\Model\Exception(__('Import path %1 not exists', $source));
             }
             $contents = $varDirectory->readFile($varDirectory->getRelativePath($source));
             $result = $tmpDirectory->writeFile($destination, $contents);
         }
         if (!$result) {
-            throw new \Magento\Model\Exception(__('Could\'t read file'));
+            throw new \Magento\Framework\Model\Exception(__('Could\'t read file'));
         }
 
         return $tmpDirectory->getAbsolutePath($destination);
