@@ -82,7 +82,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
         $this->_logMock = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $this->_sidResolverMock = $this->getMock('\Magento\Session\SidResolverInterface', array(), array(), '', false);
+        $this->_sidResolverMock = $this->getMock('\Magento\Framework\Session\SidResolverInterface', array(), array(), '', false);
         $this->_appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $this->_storage = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->_cookie = $this->getMock('Magento\Stdlib\Cookie', array(), array(), '', false);
@@ -141,7 +141,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         )->method(
             'isSetFlag'
         )->with(
-            \Magento\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
+            \Magento\Framework\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )->will(
             $this->returnValue(true)

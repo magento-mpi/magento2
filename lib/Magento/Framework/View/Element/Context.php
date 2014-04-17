@@ -70,14 +70,14 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * Session
      *
-     * @var \Magento\Session\SessionManagerInterface
+     * @var \Magento\Framework\Session\SessionManagerInterface
      */
     protected $_session;
 
     /**
      * SID Resolver
      *
-     * @var \Magento\Session\SidResolverInterface
+     * @var \Magento\Framework\Session\SidResolverInterface
      */
     protected $_sidResolver;
 
@@ -148,8 +148,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\TranslateInterface $translator
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Framework\View\DesignInterface $design
-     * @param \Magento\Session\SessionManagerInterface $session
-     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Framework\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Framework\View\ConfigInterface $viewConfig
@@ -170,8 +170,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\TranslateInterface $translator,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Framework\View\DesignInterface $design,
-        \Magento\Session\SessionManagerInterface $session,
-        \Magento\Session\SidResolverInterface $sidResolver,
+        \Magento\Framework\Session\SessionManagerInterface $session,
+        \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\View\Url $viewUrl,
         \Magento\Framework\View\ConfigInterface $viewConfig,
@@ -255,7 +255,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * Get session
      *
-     * @return \Magento\Session\SessionManagerInterface
+     * @return \Magento\Framework\Session\SessionManagerInterface
      */
     public function getSession()
     {
@@ -265,7 +265,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * Get SID resolver
      *
-     * @return \Magento\Session\SidResolverInterface
+     * @return \Magento\Framework\Session\SidResolverInterface
      */
     public function getSidResolver()
     {

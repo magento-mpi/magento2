@@ -390,7 +390,7 @@ class Returns extends \Magento\Framework\App\Action\Action
             $response = array('error' => true, 'message' => __('The wrong RMA was selected.'));
         }
         if (is_array($response)) {
-            $this->_objectManager->get('Magento\Session\Generic')->setErrorMessage($response['message']);
+            $this->_objectManager->get('Magento\Framework\Session\Generic')->setErrorMessage($response['message']);
         }
 
         $this->_view->addPageLayoutHandles();
@@ -436,7 +436,7 @@ class Returns extends \Magento\Framework\App\Action\Action
             $response = array('error' => true, 'message' => __('The wrong RMA was selected.'));
         }
         if (is_array($response)) {
-            $this->_objectManager->get('Magento\Session\Generic')->setErrorMessage($response['message']);
+            $this->_objectManager->get('Magento\Framework\Session\Generic')->setErrorMessage($response['message']);
         }
 
         $this->_view->addPageLayoutHandles();

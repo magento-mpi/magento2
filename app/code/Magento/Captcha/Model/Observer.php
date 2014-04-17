@@ -55,7 +55,7 @@ class Observer
     protected $_typeOnepage;
 
     /**
-     * @var \Magento\Session\SessionManagerInterface
+     * @var \Magento\Framework\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -81,7 +81,7 @@ class Observer
 
     /**
      * @param Resource\LogFactory $resLogFactory
-     * @param \Magento\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Checkout\Model\Type\Onepage $typeOnepage
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Helper\Data $customerData
@@ -96,7 +96,7 @@ class Observer
      */
     public function __construct(
         Resource\LogFactory $resLogFactory,
-        \Magento\Session\SessionManagerInterface $session,
+        \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Checkout\Model\Type\Onepage $typeOnepage,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Helper\Data $customerData,

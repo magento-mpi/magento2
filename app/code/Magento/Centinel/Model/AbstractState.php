@@ -55,7 +55,7 @@ abstract class AbstractState extends \Magento\Object
      * @param string $key
      * @param string|int $index
      * @return mixed
-     * @see \Magento\Session\SessionManager::getData()
+     * @see \Magento\Framework\Session\SessionManager::getData()
      */
     public function getData($key = '', $index = null)
     {

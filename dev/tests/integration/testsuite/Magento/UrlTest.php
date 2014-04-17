@@ -397,7 +397,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     public function testSessionUrlVar()
     {
         $sessionId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Session\Generic'
+            'Magento\Framework\Session\Generic'
         )->getSessionId();
         $sessionUrl = $this->_model->sessionUrlVar('<a href="http://example.com/?___SID=U">www.example.com</a>');
         $this->assertEquals('<a href="http://example.com/?SID=' . $sessionId . '">www.example.com</a>', $sessionUrl);

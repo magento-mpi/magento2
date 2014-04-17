@@ -80,8 +80,8 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
      * @param \Magento\Backend\Model\Url\ScopeResolver $scopeResolver
-     * @param \Magento\Session\Generic $session
-     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Framework\Session\Generic $session
+     * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
      * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -102,8 +102,8 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\Backend\Model\Url\ScopeResolver $scopeResolver,
-        \Magento\Session\Generic $session,
-        \Magento\Session\SidResolverInterface $sidResolver,
+        \Magento\Framework\Session\Generic $session,
+        \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
         \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,

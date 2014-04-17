@@ -83,7 +83,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     /**
      * Installer data model to store data between installations steps
      *
-     * @var \Magento\Install\Model\Installer\Data|\Magento\Session\Generic
+     * @var \Magento\Install\Model\Installer\Data|\Magento\Framework\Session\Generic
      */
     protected $_dataModel;
 

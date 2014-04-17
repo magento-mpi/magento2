@@ -66,7 +66,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Customer\Helper\View $customerHelperView
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
-     * @param \Magento\Session\Generic $wishlistSession
+     * @param \Magento\Framework\Session\Generic $wishlistSession
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
      */
     public function __construct(
@@ -81,7 +81,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         \Magento\Customer\Helper\View $customerHelperView,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
-        \Magento\Session\Generic $wishlistSession,
+        \Magento\Framework\Session\Generic $wishlistSession,
         \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
     ) {
         $this->_itemFactory = $itemFactory;

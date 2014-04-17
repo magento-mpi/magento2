@@ -68,7 +68,7 @@ class WizardTest extends \PHPUnit_Framework_TestCase
     protected $_wizardMock;
 
     /**
-     * @var \Magento\Session\Generic
+     * @var \Magento\Framework\Session\Generic
      */
     protected $_sessionMock;
 
@@ -217,7 +217,7 @@ class WizardTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(false)
         );
 
-        $this->_sessionMock = $this->getMock('\Magento\Session\Generic', array('getLocale'), array(), '', false);
+        $this->_sessionMock = $this->getMock('\Magento\Framework\Session\Generic', array('getLocale'), array(), '', false);
         $this->_sessionMock->expects($this->any())->method('getLocale')->will($this->returnValue(self::LOCALE));
 
         $this->_block = $this->_objectManager->getObject(

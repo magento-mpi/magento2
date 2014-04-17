@@ -389,12 +389,12 @@ return array(
     array(
         'XML_PATH_USE_FRONTEND_SID',
         '\Magento\Core\Model\Session\AbstractSession',
-        '\Magento\Session\SidResolver::XML_PATH_USE_FRONTEND_SID'
+        '\Magento\Framework\Session\SidResolver::XML_PATH_USE_FRONTEND_SID'
     ),
     array(
         'SESSION_ID_QUERY_PARAM',
         '\Magento\Core\Model\Session\AbstractSession',
-        '\Magento\Session\SidResolverInterface::SESSION_ID_QUERY_PARAM'
+        '\Magento\Framework\Session\SidResolverInterface::SESSION_ID_QUERY_PARAM'
     ),
     array(
         'XML_PATH_COOKIE_DOMAIN',

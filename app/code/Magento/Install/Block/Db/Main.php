@@ -32,20 +32,20 @@ class Main extends \Magento\Framework\View\Element\Template
     /**
      * Install installer config
      *
-     * @var \Magento\Session\Generic
+     * @var \Magento\Framework\Session\Generic
      */
     protected $_session;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Installer\Config $installerConfig
-     * @param \Magento\Session\Generic $session
+     * @param \Magento\Framework\Session\Generic $session
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Install\Model\Installer\Config $installerConfig,
-        \Magento\Session\Generic $session,
+        \Magento\Framework\Session\Generic $session,
         array $data = array()
     ) {
         parent::__construct($context, $data);

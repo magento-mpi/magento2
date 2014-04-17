@@ -65,7 +65,7 @@ class Service extends \Magento\Object
     /**
      * Centinel session
      *
-     * @var \Magento\Session\SessionManagerInterface
+     * @var \Magento\Framework\Session\SessionManagerInterface
      */
     protected $_centinelSession;
 
@@ -99,7 +99,7 @@ class Service extends \Magento\Object
      * @param \Magento\Centinel\Model\Config $config
      * @param \Magento\Centinel\Model\ApiFactory $apiFactory
      * @param \Magento\UrlInterface $url
-     * @param \Magento\Session\SessionManagerInterface $centinelSession
+     * @param \Magento\Framework\Session\SessionManagerInterface $centinelSession
      * @param \Magento\Centinel\Model\StateFactory $stateFactory
      * @param \Magento\Framework\Data\Form\FormKey $formKey
      * @param string $urlPrefix
@@ -109,7 +109,7 @@ class Service extends \Magento\Object
         \Magento\Centinel\Model\Config $config,
         \Magento\Centinel\Model\ApiFactory $apiFactory,
         \Magento\UrlInterface $url,
-        \Magento\Session\SessionManagerInterface $centinelSession,
+        \Magento\Framework\Session\SessionManagerInterface $centinelSession,
         \Magento\Centinel\Model\StateFactory $stateFactory,
         \Magento\Framework\Data\Form\FormKey $formKey,
         $urlPrefix = 'centinel/index/',

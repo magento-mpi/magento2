@@ -87,7 +87,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
      * @param \Magento\Authorizenet\Model\Authorizenet\RequestFactory $requestFactory
      * @param \Magento\Authorizenet\Model\Authorizenet\ResultFactory $resultFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Authorizenet\Helper\Data $authorizenetData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
@@ -111,7 +111,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
         \Magento\Authorizenet\Model\Authorizenet\RequestFactory $requestFactory,
         \Magento\Authorizenet\Model\Authorizenet\ResultFactory $resultFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Session\SessionManagerInterface $session,
+        \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Authorizenet\Helper\Data $authorizenetData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,

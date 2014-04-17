@@ -10,5 +10,5 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Session\SessionManagerInterface" type="Magento\Backend\Model\Session" />
+    <preference for="Magento\Framework\Session\SessionManagerInterface" type="Magento\Backend\Model\Session" />
 </config>

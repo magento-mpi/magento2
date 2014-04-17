@@ -45,7 +45,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManager->getConstructArguments(
             'Magento\Customer\Model\Session',
-            array('storage' => new \Magento\Session\Storage())
+            array('storage' => new \Magento\Framework\Session\Storage())
         );
         $this->_customerSession = $this->getMock(
             'Magento\Customer\Model\Session',

@@ -78,7 +78,7 @@ class Form extends \Magento\Framework\View\Element\Template
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Session\Generic $reviewSession
+     * @param \Magento\Framework\Session\Generic $reviewSession
      * @param \Magento\Review\Helper\Data $reviewData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -90,7 +90,7 @@ class Form extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Session\Generic $reviewSession,
+        \Magento\Framework\Session\Generic $reviewSession,
         \Magento\Review\Helper\Data $reviewData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,

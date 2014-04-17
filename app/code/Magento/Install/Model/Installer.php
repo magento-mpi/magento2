@@ -116,7 +116,7 @@ class Installer extends \Magento\Object
     /**
      * Install session
      *
-     * @var \Magento\Session\Generic
+     * @var \Magento\Framework\Session\Generic
      */
     protected $_session;
 
@@ -183,7 +183,7 @@ class Installer extends \Magento\Object
      * @param Installer\Pear $installerPear
      * @param Installer\Db $installerDb
      * @param Installer\Config $installerConfig
-     * @param \Magento\Session\Generic $session
+     * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Framework\App\Resource $resource
@@ -210,7 +210,7 @@ class Installer extends \Magento\Object
         \Magento\Install\Model\Installer\Pear $installerPear,
         \Magento\Install\Model\Installer\Db $installerDb,
         \Magento\Install\Model\Installer\Config $installerConfig,
-        \Magento\Session\Generic $session,
+        \Magento\Framework\Session\Generic $session,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Math\Random $mathRandom,
         \Magento\Framework\App\Resource $resource,

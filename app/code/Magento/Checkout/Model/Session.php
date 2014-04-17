@@ -13,7 +13,7 @@ use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Sales\Model\Quote;
 
-class Session extends \Magento\Session\SessionManager
+class Session extends \Magento\Framework\Session\SessionManager
 {
     /**
      * Checkout state begin
@@ -80,11 +80,11 @@ class Session extends \Magento\Session\SessionManager
 
     /**
      * @param \Magento\Framework\App\Request\Http $request
-     * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Magento\Session\Config\ConfigInterface $sessionConfig
-     * @param \Magento\Session\SaveHandlerInterface $saveHandler
-     * @param \Magento\Session\ValidatorInterface $validator
-     * @param \Magento\Session\StorageInterface $storage
+     * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Framework\Session\Config\ConfigInterface $sessionConfig
+     * @param \Magento\Framework\Session\SaveHandlerInterface $saveHandler
+     * @param \Magento\Framework\Session\ValidatorInterface $validator
+     * @param \Magento\Framework\Session\StorageInterface $storage
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
@@ -95,11 +95,11 @@ class Session extends \Magento\Session\SessionManager
      */
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
-        \Magento\Session\SidResolverInterface $sidResolver,
-        \Magento\Session\Config\ConfigInterface $sessionConfig,
-        \Magento\Session\SaveHandlerInterface $saveHandler,
-        \Magento\Session\ValidatorInterface $validator,
-        \Magento\Session\StorageInterface $storage,
+        \Magento\Framework\Session\SidResolverInterface $sidResolver,
+        \Magento\Framework\Session\Config\ConfigInterface $sessionConfig,
+        \Magento\Framework\Session\SaveHandlerInterface $saveHandler,
+        \Magento\Framework\Session\ValidatorInterface $validator,
+        \Magento\Framework\Session\StorageInterface $storage,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,

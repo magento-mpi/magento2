@@ -30,7 +30,7 @@ class Observer
     protected $_customerHelper;
 
     /**
-     * @var \Magento\Session\Generic
+     * @var \Magento\Framework\Session\Generic
      */
     protected $_session;
 
@@ -61,7 +61,7 @@ class Observer
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerHelper
-     * @param \Magento\Session\Generic $session
+     * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Framework\App\ActionFlag $actionFlag
@@ -71,7 +71,7 @@ class Observer
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Data $customerHelper,
-        \Magento\Session\Generic $session,
+        \Magento\Framework\Session\Generic $session,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\UrlFactory $urlFactory,
         \Magento\Framework\App\ActionFlag $actionFlag

@@ -40,8 +40,8 @@ class NavigationMode extends \Magento\Url
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
      * @param \Magento\Url\ScopeResolverInterface $scopeResolver
-     * @param \Magento\Session\Generic $session
-     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Framework\Session\Generic $session
+     * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
      * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
      * @param \Magento\DesignEditor\Helper\Data $helper
@@ -54,8 +54,8 @@ class NavigationMode extends \Magento\Url
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\Url\ScopeResolverInterface $scopeResolver,
-        \Magento\Session\Generic $session,
-        \Magento\Session\SidResolverInterface $sidResolver,
+        \Magento\Framework\Session\Generic $session,
+        \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
         \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
         \Magento\DesignEditor\Helper\Data $helper,

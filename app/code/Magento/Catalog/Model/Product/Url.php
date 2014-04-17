@@ -56,7 +56,7 @@ class Url extends \Magento\Object
     protected $_storeManager;
 
     /**
-     * @var \Magento\Session\SidResolverInterface
+     * @var \Magento\Framework\Session\SidResolverInterface
      */
     protected $_sidResolver;
 
@@ -68,7 +68,7 @@ class Url extends \Magento\Object
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Filter\FilterManager $filter
-     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param array $data
      */
     public function __construct(
@@ -77,7 +77,7 @@ class Url extends \Magento\Object
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Filter\FilterManager $filter,
-        \Magento\Session\SidResolverInterface $sidResolver,
+        \Magento\Framework\Session\SidResolverInterface $sidResolver,
         array $data = array()
     ) {
         $this->_urlRewrite = $urlRewriteFactory->create();

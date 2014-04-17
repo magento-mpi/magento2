@@ -275,7 +275,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     /**
      * Add visitor-segment relation for specified website
      *
-     * @param \Magento\Session\SessionManagerInterface $visitorSession
+     * @param \Magento\Framework\Session\SessionManagerInterface $visitorSession
      * @param int $websiteId
      * @param array $segmentIds
      * @return $this
@@ -303,7 +303,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     /**
      * Remove visitor-segment relation for specified website
      *
-     * @param \Magento\Session\SessionManagerInterface $visitorSession
+     * @param \Magento\Framework\Session\SessionManagerInterface $visitorSession
      * @param int $websiteId
      * @param array $segmentIds
      * @return $this

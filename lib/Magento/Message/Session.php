@@ -10,6 +10,6 @@ namespace Magento\Message;
 /**
  * Message session model
  */
-class Session extends \Magento\Session\Generic
+class Session extends \Magento\Framework\Session\Generic
 {
 }

@@ -35,14 +35,14 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Session
      *
-     * @var \Magento\Session\SessionManagerInterface
+     * @var \Magento\Framework\Session\SessionManagerInterface
      */
     protected $_session;
 
     /**
      * SID Resolver
      *
-     * @var \Magento\Session\SidResolverInterface
+     * @var \Magento\Framework\Session\SidResolverInterface
      */
     protected $_sidResolver;
 

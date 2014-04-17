@@ -15,7 +15,7 @@
     <preference for="Magento\Framework\AuthorizationInterface" type="Magento\Framework\Authorization" />
     <preference for="Magento\Framework\Authorization\Policy" type="Magento\Framework\Authorization\Policy\DefaultPolicy" />
     <preference for="Magento\Framework\Authorization\RoleLocator" type="Magento\Framework\Authorization\RoleLocator\DefaultRoleLocator" />
-    <preference for="Magento\Session\SessionManagerInterface" type="Magento\Session\Generic" />
+    <preference for="Magento\Framework\Session\SessionManagerInterface" type="Magento\Session\Generic" />
     <preference for="Magento\Core\Model\DataService\ConfigInterface" type="Magento\Core\Model\DataService\Config" />
     <preference for="Magento\Framework\App\Config\ScopeConfigInterface" type="Magento\Framework\App\Config" />
     <preference for="Magento\Framework\App\Config\ReinitableConfigInterface" type="Magento\Framework\App\ReinitableConfig" />
@@ -40,8 +40,8 @@
     <preference for="Magento\Translate\InlineInterface" type="Magento\Translate\Inline" />
     <preference for="Magento\Translate\Inline\ConfigInterface" type="Magento\Translation\Model\Inline\Config" />
     <preference for="Magento\Translate\Inline\ParserInterface" type="Magento\Translation\Model\Inline\Parser" />
-    <preference for="Magento\Session\ValidatorInterface" type="Magento\Session\Validator" />
-    <preference for="Magento\Session\StorageInterface" type="Magento\Session\Storage" />
+    <preference for="Magento\Framework\Session\ValidatorInterface" type="Magento\Framework\Session\Validator" />
+    <preference for="Magento\Framework\Session\StorageInterface" type="Magento\Framework\Session\Storage" />
     <preference for="Magento\Url\RouteParamsResolverInterface" type="Magento\Core\Model\Url\RouteParamsResolver" />
     <preference for="Magento\Url\QueryParamsResolverInterface" type="Magento\Url\QueryParamsResolver" />
     <preference for="Magento\Url\ScopeResolverInterface" type="Magento\Core\Model\Url\ScopeResolver" />
@@ -193,7 +193,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Session\Validator">
+    <type name="Magento\Framework\Session\Validator">
         <arguments>
             <argument name="skippedUserAgentList" xsi:type="array">
                 <item name="flash" xsi:type="string">Shockwave Flash</item>
@@ -284,11 +284,11 @@
             <argument name="cryptKey" xsi:type="init_parameter">Magento\Encryption\Encryptor::PARAM_CRYPT_KEY</argument>
         </arguments>
     </type>
-    <type name="Magento\Session\Config">
+    <type name="Magento\Framework\Session\Config">
         <arguments>
-            <argument name="savePath" xsi:type="init_parameter">Magento\Session\Config::PARAM_SESSION_SAVE_PATH</argument>
-            <argument name="cacheLimiter" xsi:type="init_parameter">Magento\Session\Config::PARAM_SESSION_CACHE_LIMITER</argument>
-            <argument name="saveMethod" xsi:type="init_parameter">Magento\Session\Config::PARAM_SESSION_SAVE_METHOD</argument>
+            <argument name="savePath" xsi:type="init_parameter">Magento\Framework\Session\Config::PARAM_SESSION_SAVE_PATH</argument>
+            <argument name="cacheLimiter" xsi:type="init_parameter">Magento\Framework\Session\Config::PARAM_SESSION_CACHE_LIMITER</argument>
+            <argument name="saveMethod" xsi:type="init_parameter">Magento\Framework\Session\Config::PARAM_SESSION_SAVE_METHOD</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\App\Helper\Context">
@@ -353,17 +353,17 @@
         <plugin name="storeCheck" type="Magento\Store\App\Action\Plugin\StoreCheck" sortOrder="10"/>
         <plugin name="designLoader" type="Magento\Core\App\Action\Plugin\Design" sortOrder="30"/>
     </type>
-    <virtualType name="Magento\Core\Model\Session\Storage" type="Magento\Session\Storage">
+    <virtualType name="Magento\Core\Model\Session\Storage" type="Magento\Framework\Session\Storage">
         <arguments>
             <argument name="namespace" xsi:type="string">core</argument>
         </arguments>
     </virtualType>
-    <type name="Magento\Session\Generic">
+    <type name="Magento\Framework\Session\Generic">
         <arguments>
             <argument name="storage" xsi:type="object">Magento\Core\Model\Session\Storage</argument>
         </arguments>
     </type>
-    <virtualType name="Magento\Message\Session\Storage" type="Magento\Session\Storage">
+    <virtualType name="Magento\Message\Session\Storage" type="Magento\Framework\Session\Storage">
         <arguments>
             <argument name="namespace" xsi:type="string">message</argument>
         </arguments>

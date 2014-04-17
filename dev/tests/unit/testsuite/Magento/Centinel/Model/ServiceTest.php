@@ -43,7 +43,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     public function testLookup()
     {
         $centinelSession = $this->getMock(
-            'Magento\Session\SessionManager',
+            'Magento\Framework\Session\SessionManager',
             array('setData', 'getData'),
             array(),
             '',

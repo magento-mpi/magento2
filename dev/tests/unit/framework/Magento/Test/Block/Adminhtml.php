@@ -78,8 +78,8 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
     {
         // These mocks are accessed via context
         $this->_designMock          = $this->_makeMock('Magento\Framework\View\DesignInterface');
-        $this->_sessionMock         = $this->_makeMock('Magento\Session\Generic');
-        $this->_sidResolver         = $this->_makeMock('Magento\Session\SidResolver');
+        $this->_sessionMock         = $this->_makeMock('Magento\Framework\Session\Generic');
+        $this->_sidResolver         = $this->_makeMock('Magento\Framework\Session\SidResolver');
         $this->_translatorMock      = $this->_makeMock('Magento\TranslateInterface');
         $this->_layoutMock          = $this->_makeMock('Magento\Framework\View\Layout');
         $this->_requestMock         = $this->_makeMock('Magento\Framework\App\RequestInterface');

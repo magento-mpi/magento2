@@ -245,7 +245,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $sessionArgs = $helper->getConstructArguments(
             'Magento\Customer\Model\Session',
-            array('storage' => new \Magento\Session\Storage())
+            array('storage' => new \Magento\Framework\Session\Storage())
         );
         $session = $this->getMock(
             'Magento\Customer\Model\Session',

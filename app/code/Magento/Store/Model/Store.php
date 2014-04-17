@@ -207,7 +207,7 @@ class Store extends AbstractModel implements
     /**
      * Session entity
      *
-     * @var \Magento\Session\SessionManagerInterface
+     * @var \Magento\Framework\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -283,7 +283,7 @@ class Store extends AbstractModel implements
     protected $_config;
 
     /**
-     * @var \Magento\Session\SidResolverInterface
+     * @var \Magento\Framework\Session\SidResolverInterface
      */
     protected $_sidResolver;
 
@@ -311,7 +311,7 @@ class Store extends AbstractModel implements
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
      * @param StoreManagerInterface $storeManager
-     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -330,7 +330,7 @@ class Store extends AbstractModel implements
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\App\Config\ReinitableConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Session\SidResolverInterface $sidResolver,
+        \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\Stdlib\Cookie $cookie,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -392,13 +392,13 @@ class Store extends AbstractModel implements
     /**
      * Retrieve store session object
      *
-     * @return \Magento\Session\SessionManagerInterface
+     * @return \Magento\Framework\Session\SessionManagerInterface
      */
     protected function _getSession()
     {
         if (!$this->_session) {
             $this->_session = \Magento\Framework\App\ObjectManager::getInstance()->create(
-                'Magento\Session\SessionManagerInterface'
+                'Magento\Framework\Session\SessionManagerInterface'
             )->start(
                 'store_' . $this->getCode()
             );

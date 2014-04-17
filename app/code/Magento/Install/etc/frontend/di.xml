@@ -15,7 +15,7 @@
             </argument>
         </arguments>
     </type>
-    <virtualType name="Magento\Install\Model\Session\Storage" type="Magento\Session\Storage">
+    <virtualType name="Magento\Install\Model\Session\Storage" type="Magento\Framework\Session\Storage">
         <arguments>
             <argument name="namespace" xsi:type="string">install</argument>
         </arguments>

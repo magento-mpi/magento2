@@ -66,7 +66,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
         $valueMap = array(
             array('Magento\Framework\View\Asset\MergeService', $mergeService),
-            array('Magento\Session\SessionManager', $session)
+            array('Magento\Framework\Session\SessionManager', $session)
         );
         $objectManager->expects($this->any())->method('get')->will($this->returnValueMap($valueMap));
 

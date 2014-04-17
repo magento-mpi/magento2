@@ -52,7 +52,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
-     * @param \Magento\Session\Generic $session
+     * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Locale\ListsInterface $localeLists
      * @param \Magento\Locale\ResolverInterface $localeResolver
@@ -62,7 +62,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
-        \Magento\Session\Generic $session,
+        \Magento\Framework\Session\Generic $session,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Locale\ListsInterface $localeLists,
         \Magento\Locale\ResolverInterface $localeResolver,

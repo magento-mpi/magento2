@@ -18,12 +18,12 @@
             </argument>
         </arguments>
     </type>
-    <virtualType name="Magento\Reports\Model\Session\Storage" type="Magento\Session\Storage">
+    <virtualType name="Magento\Reports\Model\Session\Storage" type="Magento\Framework\Session\Storage">
         <arguments>
             <argument name="namespace" xsi:type="string">reports</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Magento\Reports\Model\Session" type="Magento\Session\Generic">
+    <virtualType name="Magento\Reports\Model\Session" type="Magento\Framework\Session\Generic">
         <arguments>
             <argument name="storage" xsi:type="object">Magento\Reports\Model\Session\Storage</argument>
         </arguments>
