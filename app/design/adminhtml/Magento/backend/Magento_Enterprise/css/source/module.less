@@ -349,3 +349,38 @@
         }
     }
 }
+
+//
+//    Stores -> Gift Registry
+// --------------------------------------
+.adminhtml-giftregistry-index {
+    .col-label {
+        &:extend(.col-370-max all);
+    }
+    .col-is_listed {
+        &:extend(.col-70 all);
+    }
+}
+
+//
+//    Reports -> Invitations
+// --------------------------------------
+[class^=' invitations-report-invitation'] {
+    [class^='col-inv-'] {
+        &:extend(.col-70 all);
+    }
+    .grid .col-period {
+        &:extend(.col-auto all);
+    }
+}
+
+//
+//    Reports -> Wish List Report
+// --------------------------------------
+.multiplewishlist-report-customer-wishlist-wishlist .grid {
+    .col-name,
+    .col-subject,
+    .col-product {
+        &:extend(.col-220-max all);
+    }
+}

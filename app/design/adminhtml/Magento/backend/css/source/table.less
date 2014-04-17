@@ -1348,17 +1348,8 @@ td.col-sku {
 }
 
 //
-//    Reports -> Invitations
+//    Reports -> Ordered Products Report
 // --------------------------------------
-[class^=' invitations-report-invitation'] {
-    [class^='col-inv-'] {
-        &:extend(.col-70 all);
-    }
-    .grid .col-period {
-        &:extend(.col-auto all);
-    }
-}
-
 .reports-report-product-sold .grid .col-name {
     max-width: 720px;
     width: 720px;
@@ -1375,16 +1366,6 @@ td.col-sku {
     }
 }
 
-//
-//    Reports -> Newsletter Problem Reports
-// --------------------------------------
-.multiplewishlist-report-customer-wishlist-wishlist .grid {
-    .col-name,
-    .col-subject,
-    .col-product {
-        &:extend(.col-220-max all);
-    }
-}
 
 //
 //    Stroes -> Tax rules
@@ -1416,18 +1397,6 @@ td.col-sku {
 .adminhtml-system-store-index .grid td {
     &:extend(.ellipsis all);
     max-width: 310px;
-}
-
-//
-//    Stores -> Gift Registry
-// --------------------------------------
-.adminhtml-giftregistry-index {
-    .col-label {
-        &:extend(.col-370-max all);
-    }
-    .col-is_listed {
-        &:extend(.col-70 all);
-    }
 }
 
 //
