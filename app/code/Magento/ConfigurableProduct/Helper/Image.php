@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: tshevchenko
- * Date: 16.04.14
- * Time: 16:21
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\ConfigurableProduct\Helper;

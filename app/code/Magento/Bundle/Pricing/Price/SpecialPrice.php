@@ -10,7 +10,7 @@
 
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price\BasePrice;
+use Magento\Catalog\Pricing\Price\BasePrice as CatalogBasePrice;
 
 /**
  * Special price model
@@ -48,7 +48,7 @@ class SpecialPrice extends \Magento\Catalog\Pricing\Price\SpecialPrice
     protected function getBasePrice($qty = null)
     {
         return $this->priceInfo
-            ->getPrice(BasePrice::PRICE_CODE, $qty)
+            ->getPrice(CatalogBasePrice::PRICE_CODE, $qty)
             ->getValue();
     }
 }

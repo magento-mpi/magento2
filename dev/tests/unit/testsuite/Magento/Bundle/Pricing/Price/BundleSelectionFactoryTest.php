@@ -29,8 +29,8 @@ class BundleSelectionFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->bundleMock = $this->getMock('Magento\Pricing\Object\SaleableInterface');
-        $this->selectionMock = $this->getMock('Magento\Pricing\Object\SaleableInterface');
+        $this->bundleMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $this->selectionMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
 
         $this->objectManagerMock = $this->getMock('Magento\ObjectManager');
 

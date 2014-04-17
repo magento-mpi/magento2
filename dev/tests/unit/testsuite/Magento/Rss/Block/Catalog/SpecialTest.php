@@ -26,7 +26,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     protected $imageHelperMock;
 
     /**
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $storeMock;
 
@@ -80,18 +80,18 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
 
         $eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', [], [], '', false);
         $requestMock = $this->getMock('Magento\App\RequestInterface', [], [], '', false);
-        $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface', [], [], '', false);
+        $storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $urlBuilderMock = $this->getMock('Magento\UrlInterface', [], [], '', false);
-        $this->storeMock = $this->getMock('Magento\Core\Model\Store', [], [], '', false);
-        $storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config', [], [], '', false);
+        $this->storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
+        $scopeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface', [], [], '', false);
         $cacheStateMock = $this->getMock('Magento\App\Cache\StateInterface', [], [], '', false);
 
         $templateContextMock->expects($this->any())
             ->method('getRequest')
             ->will($this->returnValue($requestMock));
         $templateContextMock->expects($this->any())
-            ->method('getStoreConfig')
-            ->will($this->returnValue($storeConfigMock));
+            ->method('getScopeConfig')
+            ->will($this->returnValue($scopeConfigMock));
         $templateContextMock->expects($this->any())
             ->method('getCacheState')
             ->will($this->returnValue($cacheStateMock));

@@ -44,7 +44,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
      */
     protected function prepareMock()
     {
-        $this->saleableInterfaceMock = $this->getMock('Magento\Pricing\Object\SaleableInterface');
+        $this->saleableInterfaceMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->bundleCalculatorMock = $this->getMock('Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface');
 
         $this->basePriceMock = $this->getMock('Magento\Bundle\Pricing\Price\BasePrice', [], [], '', false);
