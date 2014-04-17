@@ -10,6 +10,7 @@
 namespace Magento\AdvancedCheckout\Helper;
 
 use Magento\Sales\Model\Quote\Item;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * Enterprise Checkout Helper
@@ -365,7 +366,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
                 if ($this->_customerSession) {
                     $groupId = $this->_customerSession->getCustomerGroupId();
-                    $result = $groupId === \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID || in_array(
+                    $result = $groupId === CustomerGroupServiceInterface::NOT_LOGGED_IN_ID || in_array(
                         $groupId,
                         $this->getSkuCustomerGroups()
                     );
