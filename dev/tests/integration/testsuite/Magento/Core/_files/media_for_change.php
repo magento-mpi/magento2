@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\AreaList')
     ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
     ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
 $designDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir() . '/media_for_change';
@@ -30,8 +30,8 @@ foreach ($files as $file) {
 $appInstallDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir();
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
     array(
-        \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-            \Magento\App\Filesystem::THEMES_DIR => array('path' => "{$appInstallDir}/media_for_change")
+        \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
+            \Magento\Framework\App\Filesystem::THEMES_DIR => array('path' => "{$appInstallDir}/media_for_change")
         )
     )
 );

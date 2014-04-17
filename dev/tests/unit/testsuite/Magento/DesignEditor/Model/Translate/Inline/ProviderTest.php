@@ -21,7 +21,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
     protected $translateInline;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
 
@@ -29,7 +29,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
     {
         $this->translateVde = $this->getMock('Magento\DesignEditor\Model\Translate\Inline', [], [], '', false);
         $this->translateInline = $this->getMock('Magento\Translate\Inline', [], [], '', false);
-        $this->request = $this->getMock('Magento\App\RequestInterface', [], [], '', false);
+        $this->request = $this->getMock('Magento\Framework\App\RequestInterface', [], [], '', false);
     }
 
     /**

@@ -53,7 +53,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -65,7 +65,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\ProductFactory $productFactory,

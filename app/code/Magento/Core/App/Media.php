@@ -9,8 +9,8 @@
  */
 namespace Magento\Core\App;
 
-use Magento\App\State;
-use Magento\AppInterface;
+use Magento\Framework\App\State;
+use Magento\Framework\AppInterface;
 use Magento\ObjectManager;
 use Magento\Core\Model\File\Storage\Request;
 use Magento\Core\Model\File\Storage\Response;
@@ -18,7 +18,7 @@ use Magento\Core\Model\File\Storage\Response;
 class Media implements AppInterface
 {
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_applicationState;
 
@@ -73,7 +73,7 @@ class Media implements AppInterface
     protected $_response;
 
     /**
-     * @var \Magento\App\Filesystem $filesystem
+     * @var \Magento\Framework\App\Filesystem $filesystem
      */
     protected $filesystem;
 
@@ -92,7 +92,7 @@ class Media implements AppInterface
      * @param string $mediaDirectory
      * @param string $configCacheFile
      * @param string $relativeFileName
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
         State $applicationState,
@@ -104,7 +104,7 @@ class Media implements AppInterface
         $mediaDirectory,
         $configCacheFile,
         $relativeFileName,
-        \Magento\App\Filesystem $filesystem
+        \Magento\Framework\App\Filesystem $filesystem
     ) {
         $this->_applicationState = $applicationState;
         $this->_objectManager = $objectManager;
@@ -116,13 +116,13 @@ class Media implements AppInterface
         $this->_configCacheFile = $configCacheFile;
         $this->_relativeFileName = $relativeFileName;
         $this->filesystem = $filesystem;
-        $this->directory = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
+        $this->directory = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
     }
 
     /**
      * Run application
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function launch()
     {

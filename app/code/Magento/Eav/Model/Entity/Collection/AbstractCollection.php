@@ -99,7 +99,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     protected $_eavConfig;
 
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resource;
 
@@ -124,7 +124,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
@@ -136,7 +136,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
@@ -229,7 +229,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     {
         if ($entity instanceof \Magento\Eav\Model\Entity\AbstractEntity) {
             $this->_entity = $entity;
-        } elseif (is_string($entity) || $entity instanceof \Magento\App\Config\Element) {
+        } elseif (is_string($entity) || $entity instanceof \Magento\Framework\App\Config\Element) {
             $this->_entity = $this->_eavEntityFactory->create()->setType($entity);
         } else {
             throw new \Magento\Eav\Exception(__('Invalid entity supplied: %1', print_r($entity, 1)));
@@ -444,7 +444,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      *
      * If $attribute == '*' select all attributes
      *
-     * @param array|string|integer|\Magento\App\Config\Element $attribute
+     * @param array|string|integer|\Magento\Framework\App\Config\Element $attribute
      * @param bool|string $joinType flag for joining attribute
      * @return $this
      * @throws \Magento\Eav\Exception

@@ -19,7 +19,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     /** @var array */
     protected $_attributes;
 
-    /** @var \Magento\App\RequestInterface */
+    /** @var \Magento\Framework\App\RequestInterface */
     protected $_request;
 
     /** @var array */
@@ -74,7 +74,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
             'region_id' => 12,
             'region' => 'California'
         );
-        $this->_request = $objectManager->get('Magento\App\RequestInterface');
+        $this->_request = $objectManager->get('Magento\Framework\App\RequestInterface');
         $this->_request->setParams($requestData);
 
         $this->_expected = array_merge($this->_attributes, $requestData);

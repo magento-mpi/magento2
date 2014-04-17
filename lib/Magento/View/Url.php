@@ -20,7 +20,7 @@ class Url
     /**
      * File system
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
 
@@ -76,7 +76,7 @@ class Url
     /**
      * Constructor
      *
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\View\Url\ConfigInterface $config
      * @param \Magento\View\Service $viewService
@@ -86,7 +86,7 @@ class Url
      * @param array $fileUrlMap
      */
     public function __construct(
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\UrlInterface $urlBuilder,
         \Magento\View\Url\ConfigInterface $config,
         \Magento\View\Service $viewService,
@@ -163,7 +163,7 @@ class Url
                 ) . $relativePath;
 
                 if ($this->_isStaticFilesSigned() && $this->_viewService->isViewFileOperationAllowed()) {
-                    $directory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
+                    $directory = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
                     $fileMTime = $directory->stat($directory->getRelativePath($publicFilePath))['mtime'];
                     $url .= '?' . $fileMTime;
                 }

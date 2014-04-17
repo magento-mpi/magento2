@@ -9,7 +9,7 @@
  */
 namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 
 /**
  * Customer Segment reports controller
@@ -40,7 +40,7 @@ class Customersegment extends \Magento\Backend\App\Action
     protected $_collectionFactory;
 
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
@@ -48,13 +48,13 @@ class Customersegment extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
         \Magento\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
@@ -235,7 +235,7 @@ class Customersegment extends \Magento\Backend\App\Action
             return $this->_fileFactory->create(
                 $fileName,
                 $content->getExcelFile($fileName),
-                \Magento\App\Filesystem::VAR_DIR
+                \Magento\Framework\App\Filesystem::VAR_DIR
             );
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));
@@ -257,7 +257,7 @@ class Customersegment extends \Magento\Backend\App\Action
             return $this->_fileFactory->create(
                 $fileName,
                 $content->getCsvFile($fileName),
-                \Magento\App\Filesystem::VAR_DIR
+                \Magento\Framework\App\Filesystem::VAR_DIR
             );
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));

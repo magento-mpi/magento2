@@ -547,9 +547,9 @@ class Store extends Action
                 'db'
             )->setPath(
                 $this->_objectManager->get(
-                    'Magento\App\Filesystem'
+                    'Magento\Framework\App\Filesystem'
                 )->getPath(
-                    \Magento\App\Filesystem::VAR_DIR
+                    \Magento\Framework\App\Filesystem::VAR_DIR
                 ) . '/backups'
             );
 

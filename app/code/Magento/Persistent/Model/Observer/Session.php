@@ -167,7 +167,7 @@ class Session
         /** @var $sessionModel \Magento\Persistent\Model\Session */
         $sessionModel = $this->_persistentSession->getSession();
 
-        /** @var $request \Magento\App\RequestInterface */
+        /** @var $request \Magento\Framework\App\RequestInterface */
         $request = $observer->getEvent()->getRequest();
 
         // Quote Id could be changed only by logged in customer
@@ -193,7 +193,7 @@ class Session
             return;
         }
 
-        /** @var $controllerAction \Magento\App\RequestInterface */
+        /** @var $controllerAction \Magento\Framework\App\RequestInterface */
         $request = $observer->getEvent()->getRequest();
         if ($request) {
             $rememberMeCheckbox = $request->getPost('persistent_remember_me');
@@ -221,7 +221,7 @@ class Session
             return;
         }
 
-        /** @var $request \Magento\App\RequestInterface */
+        /** @var $request \Magento\Framework\App\RequestInterface */
         $request = $observer->getEvent()->getRequest();
 
         if ($this->_customerSession->isLoggedIn() || $request->getFullActionName() == 'customer_account_logout') {

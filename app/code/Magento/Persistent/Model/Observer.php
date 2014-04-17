@@ -54,7 +54,7 @@ class Observer
     /**
      * Request http
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_requestHttp;
 
@@ -142,7 +142,7 @@ class Observer
      * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory
-     * @param \Magento\App\RequestInterface $requestHttp
+     * @param \Magento\Framework\App\RequestInterface $requestHttp
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Escaper $escaper
      * @param \Magento\Message\ManagerInterface $messageManager
@@ -163,7 +163,7 @@ class Observer
         \Magento\Persistent\Model\SessionFactory $sessionFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory,
-        \Magento\App\RequestInterface $requestHttp,
+        \Magento\Framework\App\RequestInterface $requestHttp,
         \Magento\View\LayoutInterface $layout,
         \Magento\Escaper $escaper,
         \Magento\Message\ManagerInterface $messageManager,

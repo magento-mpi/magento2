@@ -54,7 +54,7 @@ class Session extends \Magento\Session\SessionManager implements \Magento\Backen
     protected $_config;
 
     /**
-     * @param \Magento\App\Request\Http $request
+     * @param \Magento\Framework\App\Request\Http $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
@@ -65,7 +65,7 @@ class Session extends \Magento\Session\SessionManager implements \Magento\Backen
      * @param \Magento\Backend\App\ConfigInterface $config
      */
     public function __construct(
-        \Magento\App\Request\Http $request,
+        \Magento\Framework\App\Request\Http $request,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Session\SaveHandlerInterface $saveHandler,

@@ -25,7 +25,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     protected $_storeManagerMock;
 
     /**
-     * @var \Magento\App\Resource|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Resource|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceMock;
 
@@ -41,10 +41,10 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $contextMock = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
+        $contextMock = $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false);
 
         $this->_resourceMock = $this->getMock(
-            'Magento\App\Resource',
+            'Magento\Framework\App\Resource',
             array('getTableName', 'getConnection'),
             array(),
             '',

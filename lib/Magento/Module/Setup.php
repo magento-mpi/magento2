@@ -55,7 +55,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     /**
      * Modules configuration
      *
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resourceModel;
 
@@ -96,7 +96,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     /**
      * Filesystem instance
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
 
@@ -126,7 +126,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
         $this->_migrationFactory = $context->getMigrationFactory();
         $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
         $this->filesystem = $context->getFilesystem();
-        $this->modulesDir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
+        $this->modulesDir = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
         $this->_connectionName = $connectionName;
     }
 
@@ -765,7 +765,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     }
 
     /**
-     * @return \Magento\App\Filesystem
+     * @return \Magento\Framework\App\Filesystem
      */
     public function getFilesystem()
     {

@@ -24,7 +24,7 @@ class AbstractCatalogTest extends \PHPUnit_Framework_TestCase
     {
         $priceHtmlForTest = '<html>Price is 10 for example</html>';
         $templateContextMock = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
-        $httpContextMock = $this->getMock('Magento\App\Http\Context', [], [], '', false);
+        $httpContextMock = $this->getMock('Magento\Framework\App\Http\Context', [], [], '', false);
         $helperMock = $this->getMock('Magento\Catalog\Helper\Data', [], [], '', false);
         $productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $layoutMock = $this->getMockForAbstractClass(

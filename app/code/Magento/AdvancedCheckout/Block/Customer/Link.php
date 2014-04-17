@@ -23,13 +23,13 @@ class Link extends \Magento\View\Element\Html\Link\Current
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\App\DefaultPathInterface $defaultPath
+     * @param \Magento\Framework\App\DefaultPathInterface $defaultPath
      * @param \Magento\AdvancedCheckout\Helper\Data $customerHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\App\DefaultPathInterface $defaultPath,
+        \Magento\Framework\App\DefaultPathInterface $defaultPath,
         \Magento\AdvancedCheckout\Helper\Data $customerHelper,
         array $data = array()
     ) {

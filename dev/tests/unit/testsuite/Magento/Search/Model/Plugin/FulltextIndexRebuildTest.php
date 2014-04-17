@@ -59,7 +59,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_searchHelperMock = $this->getMock('Magento\Search\Helper\Data', array(), array(), '', false);
-        $this->_cacheMock = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false);
+        $this->_cacheMock = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false);
         $this->_searchEngineMock = $this->getMock('Magento\Search\Model\Resource\Engine', array(), array(), '', false);
         $this->_fulltextSearchMock = $this->getMock(
             'Magento\CatalogSearch\Model\Fulltext',

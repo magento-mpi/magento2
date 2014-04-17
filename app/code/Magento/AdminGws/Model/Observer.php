@@ -43,7 +43,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -87,7 +87,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\Store\Model\Resource\Group\Collection $storeGroups
      * @param \Magento\AdminGws\Model\ConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Stdlib\String $string
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -102,7 +102,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\Store\Model\Resource\Group\Collection $storeGroups,
         \Magento\AdminGws\Model\ConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Stdlib\String $string
     ) {
         $this->_backendAuthSession = $backendAuthSession;
@@ -498,7 +498,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return;
         }
 
-        /** @var \Magento\App\RequestInterface $request */
+        /** @var \Magento\Framework\App\RequestInterface $request */
         $request = $observer->getEvent()->getRequest();
         // initialize controllers map
         if (null === $this->_controllersMap) {

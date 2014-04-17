@@ -124,7 +124,7 @@ class Invitation extends \Magento\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -140,7 +140,7 @@ class Invitation extends \Magento\Model\AbstractModel
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -156,7 +156,7 @@ class Invitation extends \Magento\Model\AbstractModel
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

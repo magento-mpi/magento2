@@ -23,7 +23,7 @@ class Observer
     /**
      * Instance of http request
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -135,7 +135,7 @@ class Observer
     /**
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -144,7 +144,7 @@ class Observer
     public function __construct(
         \Magento\PricePermissions\Helper\Data $pricePermData,
         \Magento\Registry $coreRegistry,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\ProductFactory $productFactory,

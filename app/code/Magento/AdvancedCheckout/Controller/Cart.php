@@ -18,7 +18,7 @@
  */
 namespace Magento\AdvancedCheckout\Controller;
 
-class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Controller\Product\View\ViewInterface
+class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**
      * Get checkout session model instance

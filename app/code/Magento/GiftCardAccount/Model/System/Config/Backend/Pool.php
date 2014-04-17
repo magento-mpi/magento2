@@ -9,7 +9,7 @@
  */
 namespace Magento\GiftCardAccount\Model\System\Config\Backend;
 
-class Pool extends \Magento\App\Config\Value
+class Pool extends \Magento\Framework\App\Config\Value
 {
     /**
      * Gift card account pool
@@ -21,7 +21,7 @@ class Pool extends \Magento\App\Config\Value
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\GiftCardAccount\Model\Pool $giftCardAccountPool
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -30,7 +30,7 @@ class Pool extends \Magento\App\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\GiftCardAccount\Model\Pool $giftCardAccountPool,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
