@@ -84,10 +84,10 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $this->_store->expects($this->any())->method('getId')->will($this->returnValue(1));
 
 
-        $appState = $this->getMock('Magento\App\State', array(), array(), '', false);
+        $appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
 
         $eventDispatcher = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false, false);
-        $cacheManager = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false, false);
+        $cacheManager = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false, false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $actionValidatorMock = $this->getMock(
             '\Magento\Model\ActionValidator\RemoveAction',
@@ -134,11 +134,11 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $request = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
+        $request = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false);
         $escaper = $this->getMock('Magento\Escaper', array('escapeHtml'), array(), '', false, false);
         $escaper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
         $mathRandom = $this->getMock('Magento\Math\Random', array(), array(), '', false, false);
-        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $inlineTranslate = $this->getMock(
             '\Magento\Translate\Inline\StateInterface',
             array(),

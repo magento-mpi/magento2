@@ -93,7 +93,7 @@ abstract class AbstractType
     const OPTION_PREFIX = 'option_';
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
 
@@ -172,7 +172,7 @@ abstract class AbstractType
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Logger $logger
      * @param array $data
@@ -185,7 +185,7 @@ abstract class AbstractType
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Registry $coreRegistry,
         \Magento\Logger $logger,
         array $data = array()
@@ -492,7 +492,7 @@ abstract class AbstractType
                         $path = dirname($dst);
 
                         try {
-                            $rootDir = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
+                            $rootDir = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
                             $rootDir->create($rootDir->getRelativePath($path));
                         } catch (\Magento\Filesystem\FilesystemException $e) {
                             throw new \Magento\Model\Exception(

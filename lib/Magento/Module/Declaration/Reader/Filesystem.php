@@ -14,7 +14,7 @@ use Magento\Module\Declaration\Converter\Dom;
 use Magento\Module\Declaration\SchemaLocator;
 use Magento\Module\DependencyManagerInterface;
 use Magento\Config\ValidationStateInterface;
-use Magento\App\State;
+use Magento\Framework\App\State;
 
 class Filesystem extends \Magento\Config\Reader\Filesystem
 {
@@ -30,7 +30,7 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
     protected $_allowedModules;
 
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $appState;
 

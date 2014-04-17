@@ -76,7 +76,7 @@ class View extends \Magento\Rma\Block\Form
     protected $_itemFormFactory;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
@@ -114,7 +114,7 @@ class View extends \Magento\Rma\Block\Form
      * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Helper\View $customerView
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Registry $registry
      * @param array $data
@@ -133,7 +133,7 @@ class View extends \Magento\Rma\Block\Form
         \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Helper\View $customerView,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Registry $registry,
         array $data = array()

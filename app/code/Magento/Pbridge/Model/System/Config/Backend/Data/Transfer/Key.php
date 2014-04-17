@@ -17,7 +17,7 @@
  */
 namespace Magento\Pbridge\Model\System\Config\Backend\Data\Transfer;
 
-class Key extends \Magento\App\Config\Value
+class Key extends \Magento\Framework\App\Config\Value
 {
     /**
      * Checks data transfer key length

@@ -14,13 +14,13 @@ class PrivacyHeader
     /**
      * Add HTTP header to response that allows browsers accept third-party cookies
      *
-     * @param \Magento\App\ActionInterface $subject
-     * @param \Magento\App\ResponseInterface $response
+     * @param \Magento\Framework\App\ActionInterface $subject
+     * @param \Magento\Framework\App\ResponseInterface $response
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDispatch(\Magento\App\ActionInterface $subject, $response)
+    public function afterDispatch(\Magento\Framework\App\ActionInterface $subject, $response)
     {
         if ($response) {
             $response->setHeader("P3P", 'CP="CAO PSA OUR"', true);

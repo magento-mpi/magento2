@@ -87,14 +87,14 @@ class Banner extends \Magento\Model\Resource\Db\AbstractDb
     private $_catRuleColFactory = null;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Banner\Model\Config $bannerConfig
      * @param \Magento\Banner\Model\Resource\Salesrule\CollectionFactory $salesruleColFactory
      * @param \Magento\Banner\Model\Resource\Catalogrule\CollectionFactory $catRuleColFactory
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Banner\Model\Config $bannerConfig,
         \Magento\Banner\Model\Resource\Salesrule\CollectionFactory $salesruleColFactory,

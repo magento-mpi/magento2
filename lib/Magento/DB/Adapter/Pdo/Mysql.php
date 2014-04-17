@@ -9,7 +9,7 @@
  */
 namespace Magento\DB\Adapter\Pdo;
 
-use Magento\App\Filesystem;
+use Magento\Framework\App\Filesystem;
 use Magento\Cache\FrontendInterface;
 use Magento\DB\Adapter\AdapterInterface;
 use Magento\DB\Ddl\Table;

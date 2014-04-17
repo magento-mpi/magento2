@@ -16,8 +16,8 @@
  */
 namespace Magento\CatalogPermissions\Model;
 
-use Magento\App\Action\Action;
-use Magento\App\ActionFlag;
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\ActionFlag;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\CatalogPermissions\App\ConfigInterface;
