@@ -21,4 +21,7 @@
             </action>
         </block>
     </referenceContainer>
+    <referenceBlock name="head.components">
+        <block class="Magento\View\Element\Template" name="captcha_page_head_components" template="Magento_Captcha::js/components.phtml"/>
+    </referenceBlock>
 </layout>
