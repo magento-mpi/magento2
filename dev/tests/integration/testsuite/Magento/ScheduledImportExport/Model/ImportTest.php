@@ -61,7 +61,13 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             'Magento\ScheduledImportExport\Model\Scheduled\Operation',
             array('filesystem' => $filesystem)
         );
-        $operation->setFileInfo(array('file_name' => __DIR__ . '/../_files/product.csv', 'server_type' => 'file'));
+        $operation->setFileInfo(
+            [
+                'file_name' => 'product.csv',
+                'server_type' => 'file',
+                'file_path' => '/../_files'
+            ]
+        );
         $model->runSchedule($operation);
 
         $product = $productModel->loadByAttribute('sku', 'product_100500');
