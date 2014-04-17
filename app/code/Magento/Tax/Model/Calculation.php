@@ -14,7 +14,7 @@ use Magento\Customer\Service\V1\Data\Region as RegionDataObject;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as AddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface as GroupServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Tax Calculation Model

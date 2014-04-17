@@ -7,7 +7,7 @@
  */
 namespace Magento\Convert;
 
-use Magento\Exception;
+use Magento\Framework\Exception;
 
 /**
  * Convert the array data to SimpleXMLElement object

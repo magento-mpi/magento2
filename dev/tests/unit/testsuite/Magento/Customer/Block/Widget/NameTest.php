@@ -9,7 +9,7 @@ namespace Magento\Customer\Block\Widget;
 
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 

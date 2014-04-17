@@ -336,7 +336,7 @@ class Editor extends \Magento\Backend\App\Action
                     break;
 
                 default:
-                    throw new \Magento\Exception('Invalid revert mode "%s"', $revertTo);
+                    throw new \Magento\Framework\Exception('Invalid revert mode "%s"', $revertTo);
             }
             $response = array('message' => $message);
         } catch (\Exception $e) {

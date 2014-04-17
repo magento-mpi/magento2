@@ -170,12 +170,12 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Option\Arra
      *
      * @param string|array $field
      * @param string|int|array $condition
-     * @throws \Magento\Exception if some error in the input could be detected.
+     * @throws \Magento\Framework\Exception if some error in the input could be detected.
      * @return $this
      */
     public function addFieldToFilter($field, $condition)
     {
-        throw new \Magento\Exception('Not implemented');
+        throw new \Magento\Framework\Exception('Not implemented');
     }
 
     /**

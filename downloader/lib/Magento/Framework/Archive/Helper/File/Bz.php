@@ -23,14 +23,14 @@ class Bz extends \Magento\Framework\Archive\Helper\File
      *
      * @param string $mode
      * @return void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _open($mode)
     {
         $this->_fileHandler = @bzopen($this->_filePath, $mode);
 
         if (false === $this->_fileHandler) {
-            throw new \Magento\Exception('Failed to open file ' . $this->_filePath);
+            throw new \Magento\Framework\Exception('Failed to open file ' . $this->_filePath);
         }
     }
 
@@ -39,14 +39,14 @@ class Bz extends \Magento\Framework\Archive\Helper\File
      *
      * @param string $data
      * @return void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _write($data)
     {
         $result = @bzwrite($this->_fileHandler, $data);
 
         if (false === $result) {
-            throw new \Magento\Exception('Failed to write data to ' . $this->_filePath);
+            throw new \Magento\Framework\Exception('Failed to write data to ' . $this->_filePath);
         }
     }
 
@@ -55,14 +55,14 @@ class Bz extends \Magento\Framework\Archive\Helper\File
      *
      * @param int $length
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _read($length)
     {
         $data = bzread($this->_fileHandler, $length);
 
         if (false === $data) {
-            throw new \Magento\Exception('Failed to read data from ' . $this->_filePath);
+            throw new \Magento\Framework\Exception('Failed to read data from ' . $this->_filePath);
         }
 
         return $data;

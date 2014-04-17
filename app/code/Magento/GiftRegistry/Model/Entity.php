@@ -1104,7 +1104,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      *
      * @param array $items
      * @return void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @throws \Magento\Framework\Model\Exception
      */
     protected function _validateItems($items)
@@ -1118,7 +1118,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
                     $stockItem->loadByProduct($model->getProductId());
                     // not \Magento\Framework\Model\Exception intentionally
                     if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
-                        throw new \Magento\Exception(__('Please correct the  gift registry item quantity.'));
+                        throw new \Magento\Framework\Exception(__('Please correct the  gift registry item quantity.'));
                     }
                 }
             } else {

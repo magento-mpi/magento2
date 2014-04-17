@@ -144,7 +144,7 @@ class Design extends Action
             try {
                 $design->delete();
                 $this->messageManager->addSuccess(__('You deleted the design change.'));
-            } catch (\Magento\Exception $e) {
+            } catch (\Magento\Framework\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __("Cannot delete the design change."));

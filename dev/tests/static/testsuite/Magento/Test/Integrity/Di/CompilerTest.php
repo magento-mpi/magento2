@@ -400,7 +400,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $this->_shell->execute($this->_command, array($this->_generationDir, $this->_compilationDir));
-        } catch (\Magento\Exception $exception) {
+        } catch (\Magento\Framework\Exception $exception) {
             $this->fail($exception->getPrevious()->getMessage());
         }
     }

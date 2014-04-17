@@ -7,7 +7,7 @@
  */
 namespace Magento\Css\PreProcessor\Cache\Import;
 
-use Magento\Exception;
+use Magento\Framework\Exception;
 use Magento\Framework\App\Filesystem;
 
 /**

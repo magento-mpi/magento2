@@ -123,7 +123,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 $this->escapeHtml($customer->getLastname()),
                 $this->escapeHtml($customer->getEmail())
             );
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             $customerText = ($review->getStoreId() == \Magento\Store\Model\Store::DEFAULT_STORE_ID)
                 ? __('Administrator') : __('Guest');
         }

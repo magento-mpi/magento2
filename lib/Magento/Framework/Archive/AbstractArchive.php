@@ -41,7 +41,7 @@ class AbstractArchive
      *
      * @param string $source
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _readFile($source)
     {
@@ -49,7 +49,7 @@ class AbstractArchive
         if (is_file($source) && is_readable($source)) {
             $data = @file_get_contents($source);
             if ($data === false) {
-                throw new \Magento\Exception("Can't get contents from: " . $source);
+                throw new \Magento\Framework\Exception("Can't get contents from: " . $source);
             }
         }
         return $data;

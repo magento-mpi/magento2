@@ -48,7 +48,7 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
      * @param \Magento\Framework\App\Filesystem\DirectoryList $directoryList
      * @param array $arguments
      * @return App\Arguments\Proxy
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function createAppArguments(
         \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
@@ -56,7 +56,7 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
     ) {
         if ($this->appArgumentsProxy) {
             // Framework constraint: this is ambiguous situation, because it is not clear what to do with older instance
-            throw new \Magento\Exception('Only one creation of application arguments is supported');
+            throw new \Magento\Framework\Exception('Only one creation of application arguments is supported');
         }
         $appArguments = parent::createAppArguments($directoryList, $arguments);
         $this->appArgumentsProxy = new App\Arguments\Proxy($appArguments);

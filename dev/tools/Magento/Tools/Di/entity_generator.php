@@ -69,6 +69,6 @@ try {
     } else {
         print "Can't generate class {$className}. This class either not generated entity, or it already exists.\n";
     }
-} catch (\Magento\Exception $e) {
+} catch (\Magento\Framework\Exception $e) {
     print "Error! {$e->getMessage()}\n";
 }

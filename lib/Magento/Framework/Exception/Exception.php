@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Exception;
+namespace Magento\Framework\Exception;
 
 abstract class Exception extends \Magento\Webapi\ServiceException
 {

@@ -22,7 +22,7 @@ class Fs extends AbstractRollback
      * Files rollback implementation via local filesystem
      *
      * @return void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      *
      * @see AbstractRollback::run()
      */

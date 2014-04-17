@@ -26,7 +26,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage Object already exists in registry (#1). Old object class: stdClass
      */
     public function testSaveWhenObjectAlreadyExistsInRegistry()
@@ -58,7 +58,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage The reference already exists: refName. New index: idx, old index: idx
      */
     public function testReferenceWhenReferenceAlreadyExist()

@@ -139,7 +139,7 @@ class CssResolverTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $originalFile
      * @param string $newFile
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage Offset can be calculated for internal resources only.
      * @dataProvider replaceCssRelativeUrlsExceptionDataProvider
      */

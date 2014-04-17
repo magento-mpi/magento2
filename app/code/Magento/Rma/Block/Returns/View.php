@@ -413,7 +413,7 @@ class View extends \Magento\Rma\Block\Form
 
     /**
      * @return \Magento\Customer\Service\V1\Data\Customer|null
-     * @throws \Magento\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getCustomerData()
     {

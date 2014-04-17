@@ -361,7 +361,7 @@ class MergeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException        \Magento\Exception
+     * @expectedException        \Magento\Framework\Exception
      * @expectedExceptionMessage Invalid layout update handle
      */
     public function testLoadWithInvalidArgumentThrowsException()

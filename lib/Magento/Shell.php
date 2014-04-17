@@ -46,7 +46,7 @@ class Shell implements ShellInterface
      * @param string $command Command with optional argument markers '%s'
      * @param string[] $arguments Argument values to substitute markers with
      * @return string Output of an executed command
-     * @throws \Magento\Exception If a command returns non-zero exit code
+     * @throws \Magento\Framework\Exception If a command returns non-zero exit code
      */
     public function execute($command, array $arguments = array())
     {
@@ -57,7 +57,7 @@ class Shell implements ShellInterface
         $this->log($output);
         if ($exitCode) {
             $commandError = new \Exception($output, $exitCode);
-            throw new \Magento\Exception("Command `{$command}` returned non-zero exit code.", 0, $commandError);
+            throw new \Magento\Framework\Exception("Command `{$command}` returned non-zero exit code.", 0, $commandError);
         }
         return $output;
     }

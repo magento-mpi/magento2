@@ -113,7 +113,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage Command `non_existing_command 2>&1` returned non-zero exit code
      * @expectedExceptionCode 0
      */
@@ -135,7 +135,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
             /* Force command to return non-zero exit code */
             $commandArgs[count($commandArgs) - 1] .= ' exit(42);';
             $this->testExecute($command, $commandArgs, ''); // no result is expected in a case of a command failure
-        } catch (\Magento\Exception $e) {
+        } catch (\Magento\Framework\Exception $e) {
             $this->assertInstanceOf('Exception', $e->getPrevious());
             $this->assertEquals($expectedError, $e->getPrevious()->getMessage());
             $this->assertEquals(42, $e->getPrevious()->getCode());

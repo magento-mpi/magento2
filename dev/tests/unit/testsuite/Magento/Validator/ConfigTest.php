@@ -251,7 +251,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      * Check XSD schema validates invalid config files
      *
      * @dataProvider getInvalidXmlFiles
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      *
      * @param array|string $configFile
      */

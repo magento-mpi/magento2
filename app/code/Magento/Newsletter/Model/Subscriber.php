@@ -8,7 +8,7 @@
 namespace Magento\Newsletter\Model;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Subscriber model
@@ -348,7 +348,7 @@ class Subscriber extends \Magento\Framework\Model\AbstractModel
                 $this->setSubscriberConfirmCode($this->randomSequence());
                 $this->save();
             }
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
         }
         return $this;
     }

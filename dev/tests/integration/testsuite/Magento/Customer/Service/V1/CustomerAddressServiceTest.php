@@ -8,8 +8,8 @@
 
 namespace Magento\Customer\Service\V1;
 
-use Magento\Exception\InputException;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1;
 use Magento\Customer\Service\V1\Data\AddressConverter;
 
@@ -197,7 +197,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $this->_service->getAddress(12345);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
-            $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+            $this->assertSame($exception->getCode(), \Magento\Framework\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame($exception->getParams(), array('addressId' => 12345));
         }
     }
@@ -286,7 +286,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $this->_service->saveAddresses($customerId, array($firstAddress, $secondAddress));
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (InputException $exception) {
-            $this->assertSame($exception->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
+            $this->assertSame($exception->getCode(), \Magento\Framework\Exception\InputException::INPUT_EXCEPTION);
             $this->assertSame(
                 $exception->getParams(),
                 array(
@@ -498,7 +498,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $addressDataObject = $this->_service->getAddress($addressId);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
-            $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+            $this->assertSame($exception->getCode(), \Magento\Framework\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame($exception->getParams(), array('addressId' => $addressId));
         }
     }
@@ -513,7 +513,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $this->_service->deleteAddress(12345);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
-            $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+            $this->assertSame($exception->getCode(), \Magento\Framework\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame($exception->getParams(), array('addressId' => 12345));
         }
     }

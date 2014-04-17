@@ -246,7 +246,7 @@ class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento
      *
      * @param bool $skipRoot
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      *
      * @deprecated after 1.7.0.0
      */
@@ -264,7 +264,7 @@ class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento
         if (is_dir($file)) {
             $treeDir = scandir($file);
             if (empty($treeDir)) {
-                throw new \Magento\Exception('Can\'t scan dir: ' . $file);
+                throw new \Magento\Framework\Exception('Can\'t scan dir: ' . $file);
             }
             array_shift($treeDir);
             /* remove  './'*/
@@ -285,7 +285,7 @@ class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento
      * @param bool $skipRoot
      * @param bool $finalize
      * @return void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _createTar($skipRoot = false, $finalize = false)
     {
@@ -299,7 +299,7 @@ class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento
             $dirFiles = scandir($file);
 
             if (false === $dirFiles) {
-                throw new \Magento\Exception('Can\'t scan dir: ' . $file);
+                throw new \Magento\Framework\Exception('Can\'t scan dir: ' . $file);
             }
 
             array_shift($dirFiles);
@@ -424,7 +424,7 @@ class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento
      *
      * @param string $destination path to file is unpacked
      * @return string[] list of files
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _unpackCurrentTar($destination)
     {
@@ -447,7 +447,7 @@ class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento
                     $mkdirResult = @mkdir($dirname, 0777, true);
 
                     if (false === $mkdirResult) {
-                        throw new \Magento\Exception('Failed to create directory ' . $dirname);
+                        throw new \Magento\Framework\Exception('Failed to create directory ' . $dirname);
                     }
                 }
 
@@ -459,7 +459,7 @@ class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento
                     $mkdirResult = @mkdir($currentFile, $header['mode'], true);
 
                     if (false === $mkdirResult) {
-                        throw new \Magento\Exception('Failed to create directory ' . $currentFile);
+                        throw new \Magento\Framework\Exception('Failed to create directory ' . $currentFile);
                     }
                 }
                 $list[] = $currentFile . '/';

@@ -80,17 +80,17 @@ class File
      * @param string $mode
      * @param int $chmod
      * @return void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function open($mode = 'w+', $chmod = 0666)
     {
         if ($this->_isWritableMode($mode)) {
             if (!is_writable($this->_fileLocation)) {
-                throw new \Magento\Exception('Permission denied to write to ' . $this->_fileLocation);
+                throw new \Magento\Framework\Exception('Permission denied to write to ' . $this->_fileLocation);
             }
 
             if (is_file($this->_filePath) && !is_writable($this->_filePath)) {
-                throw new \Magento\Exception(
+                throw new \Magento\Framework\Exception(
                     "Can't open file " . $this->_fileName . " for writing. Permission denied."
                 );
             }
@@ -98,11 +98,11 @@ class File
 
         if ($this->_isReadableMode($mode) && (!is_file($this->_filePath) || !is_readable($this->_filePath))) {
             if (!is_file($this->_filePath)) {
-                throw new \Magento\Exception('File ' . $this->_filePath . ' does not exist');
+                throw new \Magento\Framework\Exception('File ' . $this->_filePath . ' does not exist');
             }
 
             if (!is_readable($this->_filePath)) {
-                throw new \Magento\Exception('Permission denied to read file ' . $this->_filePath);
+                throw new \Magento\Framework\Exception('Permission denied to read file ' . $this->_filePath);
             }
         }
 
@@ -169,14 +169,14 @@ class File
      *
      * @param string $mode
      * @return void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _open($mode)
     {
         $this->_fileHandler = @fopen($this->_filePath, $mode);
 
         if (false === $this->_fileHandler) {
-            throw new \Magento\Exception('Failed to open file ' . $this->_filePath);
+            throw new \Magento\Framework\Exception('Failed to open file ' . $this->_filePath);
         }
     }
 
@@ -185,14 +185,14 @@ class File
      *
      * @param string $data
      * @return void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _write($data)
     {
         $result = @fwrite($this->_fileHandler, $data);
 
         if (false === $result) {
-            throw new \Magento\Exception('Failed to write data to ' . $this->_filePath);
+            throw new \Magento\Framework\Exception('Failed to write data to ' . $this->_filePath);
         }
     }
 
@@ -201,14 +201,14 @@ class File
      *
      * @param int $length
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _read($length)
     {
         $result = fread($this->_fileHandler, $length);
 
         if (false === $result) {
-            throw new \Magento\Exception('Failed to read data from ' . $this->_filePath);
+            throw new \Magento\Framework\Exception('Failed to read data from ' . $this->_filePath);
         }
 
         return $result;
@@ -260,12 +260,12 @@ class File
      * Check whether file is opened
      *
      * @return void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _checkFileOpened()
     {
         if (!$this->_fileHandler) {
-            throw new \Magento\Exception('File not opened');
+            throw new \Magento\Framework\Exception('File not opened');
         }
     }
 }

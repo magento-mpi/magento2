@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class DobTest extends \PHPUnit_Framework_TestCase
 {

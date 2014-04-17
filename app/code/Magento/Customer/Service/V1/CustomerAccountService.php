@@ -17,10 +17,10 @@ use Magento\Customer\Model\Metadata\Validator;
 use Magento\Customer\Model\Resource\Customer\Collection;
 use Magento\Service\V1\Data\Search\FilterGroup;
 use Magento\Framework\Event\ManagerInterface;
-use Magento\Exception\InputException;
-use Magento\Exception\AuthenticationException;
-use Magento\Exception\NoSuchEntityException;
-use Magento\Exception\StateException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\AuthenticationException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
 use Magento\Mail\Exception as MailException;
 use Magento\Math\Random;
 use Magento\Service\V1\Data\SearchCriteria;
@@ -523,7 +523,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param FilterGroup $filterGroup
      * @param Collection $collection
      * @return void
-     * @throws \Magento\Exception\InputException
+     * @throws \Magento\Framework\Exception\InputException
      */
     protected function addFilterGroupToCollection(FilterGroup $filterGroup, Collection $collection)
     {
@@ -545,7 +545,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param string $password Plain text password
      * @param string $hash Hashed password ready to be saved
      * @throws \Magento\Customer\Exception If something goes wrong during save
-     * @throws \Magento\Exception\InputException If bad input is provided
+     * @throws \Magento\Framework\Exception\InputException If bad input is provided
      * @return int customer ID
      */
     protected function saveCustomer(
@@ -773,9 +773,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param int $customerId
      * @param string $resetPasswordLinkToken
      * @return CustomerModel
-     * @throws \Magento\Exception\StateException If token is expired or mismatched
-     * @throws \Magento\Exception\InputException If token or customer id is invalid
-     * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
+     * @throws \Magento\Framework\Exception\StateException If token is expired or mismatched
+     * @throws \Magento\Framework\Exception\InputException If token or customer id is invalid
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer doesn't exist
      */
     private function validateResetPasswordToken($customerId, $resetPasswordLinkToken)
     {

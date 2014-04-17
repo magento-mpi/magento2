@@ -53,7 +53,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
                 'php -f %s -- --source %s --destination %s',
                 array(BP . '/dev/tools/Magento/Tools/View/generator.php', BP . '/app/design', $this->tmpDir)
             );
-        } catch (\Magento\Exception $exception) {
+        } catch (\Magento\Framework\Exception $exception) {
             $this->fail($exception->getPrevious()->getMessage());
         }
     }

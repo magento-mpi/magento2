@@ -22,7 +22,7 @@ class Media extends \Magento\Framework\Backup\Snapshot
     /**
      * Implementation Rollback functionality for Media
      *
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @return bool
      */
     public function rollback()
@@ -34,7 +34,7 @@ class Media extends \Magento\Framework\Backup\Snapshot
     /**
      * Implementation Create Backup functionality for Media
      *
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @return bool
      */
     public function create()

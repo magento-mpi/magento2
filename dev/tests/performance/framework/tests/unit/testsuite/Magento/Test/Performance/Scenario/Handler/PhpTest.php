@@ -122,7 +122,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
      */
     public function testRunException()
     {
-        $failure = new \Magento\Exception(
+        $failure = new \Magento\Framework\Exception(
             'Command returned non-zero exit code.',
             0,
             new \Exception('command failure message', 1)

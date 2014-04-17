@@ -89,13 +89,13 @@ class Collection extends \Magento\Framework\Data\Collection implements ListInter
     /**
      * Return target dir for themes with theme configuration file
      *
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @return array|string
      */
     public function getTargetPatterns()
     {
         if (empty($this->_targetDirs)) {
-            throw new \Magento\Exception('Please specify at least one target pattern to theme config file.');
+            throw new \Magento\Framework\Exception('Please specify at least one target pattern to theme config file.');
         }
         return $this->_targetDirs;
     }

@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Exception;
+namespace Magento\Framework\Exception;
 
-class NoSuchEntityException extends \Magento\Exception\Exception
+class NoSuchEntityException extends \Magento\Framework\Exception\Exception
 {
     const NO_SUCH_ENTITY = 0;
 

@@ -880,7 +880,7 @@ final class Controller
      * Begin install package(s)
      *
      * @return void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function startInstall()
     {
@@ -920,7 +920,7 @@ final class Controller
             if (!$isSuccess) {
                 $this->endInstall();
                 $this->cleanCache();
-                throw new \Magento\Exception(
+                throw new \Magento\Framework\Exception(
                     'The installation process has been canceled because of the backup creation error'
                 );
             }

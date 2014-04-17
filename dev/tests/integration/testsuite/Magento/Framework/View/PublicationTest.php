@@ -135,7 +135,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @dataProvider getViewUrlExceptionDataProvider
      */
     public function testGetViewUrlException($file)
@@ -157,7 +157,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Test on vulnerability for protected files
      *
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage because it does not reside in a public directory
      * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled

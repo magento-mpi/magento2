@@ -116,7 +116,7 @@ class Minified implements MergeableInterface
         try {
             $this->file = $this->minifier->getMinifiedFile($originalFile);
         } catch (\Exception $e) {
-            $this->logger->logException(new \Magento\Exception('Could not minify file: ' . $originalFile, 0, $e));
+            $this->logger->logException(new \Magento\Framework\Exception('Could not minify file: ' . $originalFile, 0, $e));
             $this->file = $originalFile;
         }
         if ($this->file == $originalFile) {

@@ -579,7 +579,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             } else {
                 try {
                     $defaultBillingAddress = $this->_addressService->getDefaultBillingAddress($customer->getId());
-                } catch (\Magento\Exception\NoSuchEntityException $e) {
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                 }
                 if (isset($defaultBillingAddress)) {
                     /** @var \Magento\Sales\Model\Quote\Address $billingAddress */
@@ -592,7 +592,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             if (null === $shippingAddress) {
                 try {
                     $defaultShippingAddress = $this->_addressService->getDefaultShippingAddress($customer->getId());
-                } catch (\Magento\Exception\NoSuchEntityException $e) {
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                 }
                 if (isset($defaultShippingAddress)) {
                     /** @var \Magento\Sales\Model\Quote\Address $shippingAddress */

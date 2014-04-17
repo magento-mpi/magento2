@@ -104,7 +104,7 @@ class Reader
         $handle = fopen($this->_file, 'r');
         try {
             $data = $this->_loadResource($handle);
-        } catch (\Magento\Exception $e) {
+        } catch (\Magento\Framework\Exception $e) {
             fclose($handle);
             throw $e;
         }
@@ -127,7 +127,7 @@ class Reader
                 $data .= fread($resource, 10240);
             }
         } else {
-            throw new \Magento\Exception('Unsupported resource type');
+            throw new \Magento\Framework\Exception('Unsupported resource type');
         }
         return $data;
     }

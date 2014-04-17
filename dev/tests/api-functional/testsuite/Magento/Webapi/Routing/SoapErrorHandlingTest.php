@@ -129,7 +129,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             ]
         ];
 
-        $expectedException = new \Magento\Exception\InputException();
+        $expectedException = new \Magento\Framework\Exception\InputException();
         foreach ($parameters as $error) {
             $expectedException->addError(
                 $error['code'],

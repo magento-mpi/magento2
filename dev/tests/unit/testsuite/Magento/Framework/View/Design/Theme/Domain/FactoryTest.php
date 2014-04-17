@@ -62,7 +62,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $themeDomainFactory = new \Magento\Framework\View\Design\Theme\Domain\Factory($objectManager);
 
         $this->setExpectedException(
-            'Magento\Exception',
+            'Magento\Framework\Exception',
             sprintf('Invalid type of theme domain model "%s"', $wrongThemeType)
         );
         $themeDomainFactory->create($themeMock);

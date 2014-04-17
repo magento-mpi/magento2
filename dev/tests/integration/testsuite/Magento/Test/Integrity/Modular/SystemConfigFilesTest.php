@@ -49,7 +49,7 @@ class SystemConfigFilesTest extends \PHPUnit_Framework_TestCase
                 'Magento\Backend\Model\Config\Structure\Reader',
                 array('moduleReader' => $configMock, 'runtimeValidation' => true)
             );
-        } catch (\Magento\Exception $exp) {
+        } catch (\Magento\Framework\Exception $exp) {
             $this->fail($exp->getMessage());
         }
     }

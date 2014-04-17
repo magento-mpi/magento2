@@ -10,9 +10,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Exception;
+namespace Magento\Framework\Exception;
 
-class InputException extends \Magento\Exception\Exception
+class InputException extends \Magento\Framework\Exception\Exception
 {
     // This will always be the value of $this->code
     const INPUT_EXCEPTION = 0;

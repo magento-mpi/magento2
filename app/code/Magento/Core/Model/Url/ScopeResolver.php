@@ -36,7 +36,7 @@ class ScopeResolver implements \Magento\Url\ScopeResolverInterface
     {
         $scope = $this->_storeManager->getStore($scopeId);
         if (!$scope instanceof \Magento\Url\ScopeInterface) {
-            throw new \Magento\Exception('Invalid scope object');
+            throw new \Magento\Framework\Exception('Invalid scope object');
         }
 
         return $scope;

@@ -532,7 +532,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
      * Schedule structural changes for move directive
      *
      * @param \Magento\Framework\View\Layout\Element $node
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @return $this
      */
     protected function _scheduleMove($node)
@@ -547,7 +547,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
                 array($destination, $siblingName, $isAfter, $alias)
             );
         } else {
-            throw new \Magento\Exception('Element name and destination must be specified.');
+            throw new \Magento\Framework\Exception('Element name and destination must be specified.');
         }
         return $this;
     }
@@ -766,13 +766,13 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
      *
      * @param string $elementName
      * @return \Magento\Framework\View\Element\AbstractBlock|void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _generateBlock($elementName)
     {
         list($type, $node, $actions, $args) = $this->_scheduledStructure->getElement($elementName);
         if ($type !== Element::TYPE_BLOCK) {
-            throw new \Magento\Exception("Unexpected element type specified for generating block: {$type}.");
+            throw new \Magento\Framework\Exception("Unexpected element type specified for generating block: {$type}.");
         }
 
 
@@ -824,7 +824,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
      * @param string $label
      * @param array $options
      * @return void
-     * @throws \Magento\Exception If any of arguments are invalid
+     * @throws \Magento\Framework\Exception If any of arguments are invalid
      */
     protected function _generateContainer($name, $label, array $options)
     {
@@ -851,7 +851,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
             $allowedTags
         )
         ) {
-            throw new \Magento\Exception(
+            throw new \Magento\Framework\Exception(
                 __(
                     'Html tag "%1" is forbidden for usage in containers. Consider to use one of the allowed: %2.',
                     $options[Element::CONTAINER_OPT_HTML_TAG],
@@ -862,7 +862,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
         if (empty($options[Element::CONTAINER_OPT_HTML_TAG]) && (!empty($options[Element::CONTAINER_OPT_HTML_ID]) ||
             !empty($options[Element::CONTAINER_OPT_HTML_CLASS]))
         ) {
-            throw new \Magento\Exception('HTML ID or class will not have effect, if HTML tag is not specified.');
+            throw new \Magento\Framework\Exception('HTML ID or class will not have effect, if HTML tag is not specified.');
         }
         foreach ($options as $key => $value) {
             $this->_structure->setAttribute($name, $key, $value);
@@ -1079,7 +1079,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
      *
      * @param string $name
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _renderBlock($name)
     {

@@ -30,7 +30,7 @@ class Mysql extends \Magento\TestFramework\Db\AbstractDb
      * @param string $schema
      * @param string $varPath
      * @param \Magento\Shell $shell
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function __construct($host, $user, $password, $schema, $varPath, \Magento\Shell $shell)
     {

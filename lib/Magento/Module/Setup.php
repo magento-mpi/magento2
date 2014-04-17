@@ -426,7 +426,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      * @param string $fromVersion
      * @param string $toVersion
      * @return false|string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _modifyResourceDb($actionType, $fromVersion, $toVersion)
     {
@@ -479,7 +479,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
                     $this->_logger->log("Failed resource setup: {$fileName}");
                 }
             } catch (\Exception $e) {
-                throw new \Magento\Exception(sprintf('Error in file: "%s" - %s', $fileName, $e->getMessage()), 0, $e);
+                throw new \Magento\Framework\Exception(sprintf('Error in file: "%s" - %s', $fileName, $e->getMessage()), 0, $e);
             }
             $version = $file['toVersion'];
             $this->getConnection()->allowDdlCache();

@@ -258,7 +258,7 @@ class Bootstrap
      *
      * @param \SimpleXMLElement $dbConfig
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _determineDbVendorName(\SimpleXMLElement $dbConfig)
@@ -266,7 +266,7 @@ class Bootstrap
         $dbVendorAlias = 'mysql4';
         $dbVendorMap = array('mysql4' => 'mysql');
         if (!array_key_exists($dbVendorAlias, $dbVendorMap)) {
-            throw new \Magento\Exception("Database vendor '{$dbVendorAlias}' is not supported.");
+            throw new \Magento\Framework\Exception("Database vendor '{$dbVendorAlias}' is not supported.");
         }
         return $dbVendorMap[$dbVendorAlias];
     }

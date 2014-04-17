@@ -56,7 +56,7 @@ class Crypt
         try {
             $maxKeySize = mcrypt_enc_get_key_size($this->_handle);
             if (strlen($key) > $maxKeySize) {
-                throw new \Magento\Exception('Key must not exceed ' . $maxKeySize . ' bytes.');
+                throw new \Magento\Framework\Exception('Key must not exceed ' . $maxKeySize . ' bytes.');
             }
             $initVectorSize = mcrypt_enc_get_iv_size($this->_handle);
             if (true === $initVector) {
@@ -70,7 +70,7 @@ class Crypt
                 /* Set vector to zero bytes to not use it */
                 $initVector = str_repeat("\0", $initVectorSize);
             } else if (!is_string($initVector) || strlen($initVector) != $initVectorSize) {
-                throw new \Magento\Exception('Init vector must be a string of ' . $initVectorSize . ' bytes.');
+                throw new \Magento\Framework\Exception('Init vector must be a string of ' . $initVectorSize . ' bytes.');
             }
             $this->_initVector = $initVector;
         } catch (\Exception $e) {

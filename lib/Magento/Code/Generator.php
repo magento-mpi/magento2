@@ -65,7 +65,7 @@ class Generator
      *
      * @param string $className
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @throws \InvalidArgumentException
      */
     public function generateClass($className)
@@ -102,7 +102,7 @@ class Generator
         $generator = new $generatorClass($entityName, $className, $this->_ioObject);
         if (!$generator->generate()) {
             $errors = $generator->getErrors();
-            throw new \Magento\Exception(implode(' ', $errors));
+            throw new \Magento\Framework\Exception(implode(' ', $errors));
         }
 
         return self::GENERATION_SUCCESS;

@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Exception;
+namespace Magento\Framework\Exception;
 
-class AuthorizationException extends \Magento\Exception\Exception
+class AuthorizationException extends \Magento\Framework\Exception\Exception
 {
     const UNAUTHENTICATED_USER = 0;
 

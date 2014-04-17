@@ -12,7 +12,7 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressConverter;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Customer account form block
@@ -147,7 +147,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     {
         try {
             $group = $this->_groupService->getGroup($groupId);
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             $group = null;
         }
         return $group;

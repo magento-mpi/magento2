@@ -88,7 +88,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Constructor test
      *
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testConstructorException()
     {

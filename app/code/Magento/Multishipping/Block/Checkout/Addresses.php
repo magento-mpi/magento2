@@ -124,7 +124,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
 
             try {
                 $addresses = $this->_customerAddressService->getAddresses($this->getCustomerId());
-            } catch (\Magento\Exception\NoSuchEntityException $e) {
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                 /** Customer does not exist */
             }
             /** @var \Magento\Customer\Service\V1\Data\Address $address */

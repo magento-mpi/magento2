@@ -208,7 +208,7 @@ class Head extends \Magento\Framework\View\Element\Template
             foreach ($assets as $asset) {
                 $result .= sprintf($template, $asset->getUrl());
             }
-        } catch (\Magento\Exception $e) {
+        } catch (\Magento\Framework\Exception $e) {
             $this->_logger->logException($e);
             $result .= sprintf($template, $this->_getNotFoundUrl());
         }

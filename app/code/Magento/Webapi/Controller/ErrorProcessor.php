@@ -97,7 +97,7 @@ class ErrorProcessor
             }
 
             $wrappedErrors = array();
-            if ($exception instanceof \Magento\Exception\InputException) {
+            if ($exception instanceof \Magento\Framework\Exception\InputException) {
                 $wrappedErrors = $exception->getErrors();
             }
 

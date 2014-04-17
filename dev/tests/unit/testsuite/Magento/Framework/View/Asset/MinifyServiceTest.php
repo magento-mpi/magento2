@@ -110,7 +110,7 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage Minification adapter is not specified for 'js' content type
      */
     public function testGetAssetsNoAdapterDefined()

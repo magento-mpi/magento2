@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class TaxvatTest extends \PHPUnit_Framework_TestCase
 {
@@ -88,7 +88,7 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributeMetadata'
         )->will(
-            $this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value'))
+            $this->throwException(new \Magento\Framework\Exception\NoSuchEntityException('field', 'value'))
         );
         $this->assertSame(false, $this->_block->isEnabled());
     }

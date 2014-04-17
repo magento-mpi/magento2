@@ -411,7 +411,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testInsertWithoutCreateBlock()
     {

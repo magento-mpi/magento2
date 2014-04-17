@@ -126,7 +126,7 @@ class Cache
      * @param string $idx
      * @param array|string $tags
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function save($object, $idx = null, $tags = null)
     {
@@ -152,7 +152,7 @@ class Cache
         }
 
         if (isset($this->_objects[$idx])) {
-            throw new \Magento\Exception(
+            throw new \Magento\Framework\Exception(
                 'Object already exists in registry (' . $idx . '). Old object class: ' . get_class(
                     $this->_objects[$idx]
                 ) . ', new object class: ' . get_class(
@@ -186,7 +186,7 @@ class Cache
      * @param string|array $refName
      * @param string $idx
      * @return bool|void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function reference($refName, $idx)
     {
@@ -198,7 +198,7 @@ class Cache
         }
 
         if (isset($this->_references[$refName])) {
-            throw new \Magento\Exception(
+            throw new \Magento\Framework\Exception(
                 'The reference already exists: ' .
                 $refName .
                 '. New index: ' .

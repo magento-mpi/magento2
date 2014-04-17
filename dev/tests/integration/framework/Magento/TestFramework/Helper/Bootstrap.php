@@ -35,12 +35,12 @@ class Bootstrap
      * Set self instance for static access
      *
      * @param \Magento\TestFramework\Helper\Bootstrap $instance
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public static function setInstance(\Magento\TestFramework\Helper\Bootstrap $instance)
     {
         if (self::$_instance) {
-            throw new \Magento\Exception('Helper instance cannot be redefined.');
+            throw new \Magento\Framework\Exception('Helper instance cannot be redefined.');
         }
         self::$_instance = $instance;
     }
@@ -49,12 +49,12 @@ class Bootstrap
      * Self instance getter
      *
      * @return \Magento\TestFramework\Helper\Bootstrap
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public static function getInstance()
     {
         if (!self::$_instance) {
-            throw new \Magento\Exception('Helper instance is not defined yet.');
+            throw new \Magento\Framework\Exception('Helper instance is not defined yet.');
         }
         return self::$_instance;
     }

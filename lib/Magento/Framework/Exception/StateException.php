@@ -1,5 +1,5 @@
 <?php
-namespace Magento\Exception;
+namespace Magento\Framework\Exception;
 
 /**
  * {license_notice}

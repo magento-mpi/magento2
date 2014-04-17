@@ -114,7 +114,7 @@ class UrlResolver implements PreProcessorInterface
                 $publisherFile->buildPublicViewFilename(),
                 $callback
             );
-        } catch (\Magento\Exception $e) {
+        } catch (\Magento\Framework\Exception $e) {
             $this->logger->logException($e);
         }
 

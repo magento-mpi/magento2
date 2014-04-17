@@ -9,7 +9,7 @@
  */
 namespace Magento\TestModule3\Service\V1;
 
-use Magento\Exception\InputException;
+use Magento\Framework\Exception\InputException;
 use Magento\TestModule3\Service\V1\Entity\Parameter;
 use Magento\TestModule3\Service\V1\Entity\ParameterBuilder;
 

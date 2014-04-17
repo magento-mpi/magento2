@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Exception;
+namespace Magento\Framework\Exception;
 
-class AuthenticationException extends \Magento\Exception\Exception
+class AuthenticationException extends \Magento\Framework\Exception\Exception
 {
     const UNKNOWN = 0;
 

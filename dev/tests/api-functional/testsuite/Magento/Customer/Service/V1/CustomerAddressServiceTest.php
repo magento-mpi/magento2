@@ -44,19 +44,19 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         try {
             $fixtureFirstAddressId = 1;
             $this->customerAddressService->deleteAddress($fixtureFirstAddressId);
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             /** First address fixture was not used */
         }
         try {
             $fixtureSecondAddressId = 2;
             $this->customerAddressService->deleteAddress($fixtureSecondAddressId);
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             /** Second address fixture was not used */
         }
         try {
             $fixtureCustomerId = 1;
             $this->customerService->deleteCustomer($fixtureCustomerId);
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             /** Customer fixture was not used */
         }
 
@@ -195,7 +195,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $response = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertTrue($response, 'Expected response should be true.');
 
-        $this->setExpectedException('Magento\Exception\NoSuchEntityException', 'No such entity with addressId = 1');
+        $this->setExpectedException('Magento\Framework\Exception\NoSuchEntityException', 'No such entity with addressId = 1');
         $this->customerAddressService->getAddress($fixtureAddressId);
     }
 

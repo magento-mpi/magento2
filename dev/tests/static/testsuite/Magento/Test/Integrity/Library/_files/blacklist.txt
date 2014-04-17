@@ -37,12 +37,12 @@ lib/Magento/Framework/Data/Collection.php
 lib/Magento/Framework/Data/Form.php
 lib/Magento/Framework/Data/Form/FormKey.php
 
-lib/Magento/Exception/AuthenticationException.php
-lib/Magento/Exception/AuthorizationException.php
-lib/Magento/Exception/Exception.php
-lib/Magento/Exception/InputException.php
-lib/Magento/Exception/NoSuchEntityException.php
-lib/Magento/Exception/StateException.php
+lib/Magento/Framework/Exception/AuthenticationException.php
+lib/Magento/Framework/Exception/AuthorizationException.php
+lib/Magento/Framework/Exception/Exception.php
+lib/Magento/Framework/Exception/InputException.php
+lib/Magento/Framework/Exception/NoSuchEntityException.php
+lib/Magento/Framework/Exception/StateException.php
 
 lib/Magento/Filter/Object/Grid.php
 lib/Magento/Filter/Object.php

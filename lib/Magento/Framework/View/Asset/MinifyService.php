@@ -152,13 +152,13 @@ class MinifyService
      *
      * @param string $contentType
      * @return mixed
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function getAdapter($contentType)
     {
         $adapterClass = $this->config->getAssetMinificationAdapter($contentType);
         if (!$adapterClass) {
-            throw new \Magento\Exception("Minification adapter is not specified for '{$contentType}' content type");
+            throw new \Magento\Framework\Exception("Minification adapter is not specified for '{$contentType}' content type");
         }
 
         $adapter = $this->objectManager->create($adapterClass);

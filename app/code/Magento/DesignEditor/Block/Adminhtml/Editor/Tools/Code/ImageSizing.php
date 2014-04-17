@@ -93,7 +93,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
                 \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory::TYPE_IMAGE_SIZING,
                 $this->_themeContext->getStagingTheme()
             );
-        } catch (\Magento\Exception $e) {
+        } catch (\Magento\Framework\Exception $e) {
             $isFilePresent = false;
         }
 

@@ -17,6 +17,6 @@
  */
 namespace Magento\Framework\Backup;
 
-class BackupException extends \Magento\Exception
+class BackupException extends \Magento\Framework\Exception
 {
 }

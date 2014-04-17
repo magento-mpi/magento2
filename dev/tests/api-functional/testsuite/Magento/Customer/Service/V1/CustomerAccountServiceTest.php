@@ -515,7 +515,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         //Verify if the customer is deleted
         $this->setExpectedException(
-            'Magento\Exception\NoSuchEntityException',
+            'Magento\Framework\Exception\NoSuchEntityException',
             sprintf("No such entity with customerId = %s", $customerData[Customer::ID])
         );
         $this->_getCustomerDetails($customerData[Customer::ID]);

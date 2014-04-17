@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Account\Dashboard;
 
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Test class for \Magento\Customer\Block\Account\Dashboard\Info.

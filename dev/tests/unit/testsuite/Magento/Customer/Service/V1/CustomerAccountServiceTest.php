@@ -11,8 +11,8 @@ namespace Magento\Customer\Service\V1;
 use Magento\Customer\Model\Converter;
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Service\V1\Data\SearchCriteriaBuilder;
-use Magento\Exception\InputException;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Service\V1\Data\FilterBuilder;
 use Magento\Mail\Exception as MailException;
@@ -304,8 +304,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException  \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INVALID_STATE
+     * @expectedException  \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::INVALID_STATE
      */
     public function testActivateAccountAlreadyActive()
     {
@@ -349,8 +349,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->activateCustomer(self::ID, self::EMAIL_CONFIRMATION_KEY);
             $this->fail('Expected exception not thrown.');
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            $this->assertSame($e->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            $this->assertSame($e->getCode(), \Magento\Framework\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
                 $e->getParams(),
                 [
@@ -361,8 +361,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::INPUT_MISMATCH
      */
     public function testActivateAccountBadKey()
     {
@@ -454,7 +454,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\AuthenticationException
+     * @expectedException \Magento\Framework\Exception\AuthenticationException
      * @expectedExceptionMessage exception message
      */
     public function testLoginAccountWithException()
@@ -512,8 +512,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::EXPIRED
      */
     public function testValidateResetPasswordLinkTokenExpired()
     {
@@ -542,8 +542,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::INPUT_MISMATCH
      */
     public function testValidateResetPasswordLinkTokenInvalid()
     {
@@ -586,8 +586,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->validateResetPasswordLinkToken(1, $resetToken);
             $this->fail("Expected NoSuchEntityException not caught");
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            $this->assertSame($e->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            $this->assertSame($e->getCode(), \Magento\Framework\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
                 $e->getParams(),
                 [
@@ -666,8 +666,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->initiatePasswordReset($email, CustomerAccountServiceInterface::EMAIL_RESET, 0);
             $this->fail("Expected NoSuchEntityException not caught");
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            $this->assertSame($e->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            $this->assertSame($e->getCode(), \Magento\Framework\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
                 $e->getParams(),
                 [
@@ -833,8 +833,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::EXPIRED
      */
     public function testResetPasswordTokenExpired()
     {
@@ -868,8 +868,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::INPUT_MISMATCH
      */
     public function testResetPasswordTokenInvalid()
     {
@@ -923,8 +923,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->resetPassword($invalidCustomerId, $resetToken, $password);
             $this->fail("Expected NoSuchEntityException not caught");
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            $this->assertSame($e->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            $this->assertSame($e->getCode(), \Magento\Framework\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
                 $e->getParams(),
                 [
@@ -1019,8 +1019,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INVALID_STATE
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::INVALID_STATE
      */
     public function testResendConfirmationNotNeeded()
     {
@@ -1637,7 +1637,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      */
     public function testGetCustomerDetailsWithException()
     {

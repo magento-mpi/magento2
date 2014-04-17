@@ -27,7 +27,7 @@ class CacheFilesTest extends \PHPUnit_Framework_TestCase
         );
         try {
             $reader->read($area);
-        } catch (\Magento\Exception $exception) {
+        } catch (\Magento\Framework\Exception $exception) {
             $this->fail($exception->getMessage());
         }
     }

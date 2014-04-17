@@ -126,7 +126,7 @@ lib/Magento/Framework/Backup/Db
 lib/Magento/Framework/Backup/Factory.php
 lib/Magento/Cache/Core.php
 lib/Magento/Convert
-lib/Magento/Exception
+lib/Magento/Framework/Exception
 lib/Magento/Stdlib/DateTime.php
 lib/Magento/Object.php
 lib/Magento/Framework/App

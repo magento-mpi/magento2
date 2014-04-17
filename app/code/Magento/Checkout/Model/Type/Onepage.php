@@ -19,7 +19,7 @@ use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Model\Metadata\Form;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadata;
 

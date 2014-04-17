@@ -2344,7 +2344,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      *
      * @param array $options
      * @param string $ddlType Table DDL Column type constant
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @return string
      * @throws \Zend_Db_Exception
      */

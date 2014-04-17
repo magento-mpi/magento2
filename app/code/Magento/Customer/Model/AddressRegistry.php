@@ -8,7 +8,7 @@
 
 namespace Magento\Customer\Model;
 
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Model\AddressFactory;
 
 /**

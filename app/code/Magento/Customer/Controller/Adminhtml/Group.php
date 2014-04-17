@@ -8,7 +8,7 @@
 namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Data\CustomerGroup;
 use Magento\Customer\Service\V1\Data\CustomerGroupBuilder;

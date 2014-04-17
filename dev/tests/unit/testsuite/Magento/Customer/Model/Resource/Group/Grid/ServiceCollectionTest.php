@@ -176,7 +176,7 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
      * @param string[] $fields
      * @param array $conditions
      *
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage When passing in a field array there must be a matching condition array
      * @dataProvider addFieldToFilterInconsistentArraysDataProvider
      */

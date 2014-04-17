@@ -127,7 +127,7 @@ class Quote extends \Magento\Framework\Session\SessionManager
                 try {
                     $customerData = $this->_customerService->getCustomer($this->getCustomerId());
                     $this->_quote->assignCustomer($customerData);
-                } catch (\Magento\Exception\NoSuchEntityException $e) {
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                     /** Customer does not exist */
                 }
                 $customerGroupId = $this->_scopeConfig->getValue(

@@ -297,7 +297,7 @@ class Index extends \Magento\Framework\App\Action\Action
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
-        } catch (\Magento\Exception $e) {
+        } catch (\Magento\Framework\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__("We couldn't update the gift registry."));

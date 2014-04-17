@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Exception
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,6 +12,6 @@
  */
 namespace Magento;
 
-class BootstrapException extends \Magento\Exception
+class BootstrapException extends \Magento\Framework\Exception
 {
 }

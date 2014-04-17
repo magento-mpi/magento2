@@ -63,13 +63,13 @@ class Application
      *
      * @param \Magento\TestFramework\Performance\Config $config
      * @param \Magento\Shell $shell
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function __construct(\Magento\TestFramework\Performance\Config $config, \Magento\Shell $shell)
     {
         $installerScript = $config->getApplicationBaseDir() . '/dev/shell/install.php';
         if (!is_file($installerScript)) {
-            throw new \Magento\Exception("File '{$installerScript}' is not found.");
+            throw new \Magento\Framework\Exception("File '{$installerScript}' is not found.");
         }
         $this->_installerScript = realpath($installerScript);
         $this->_config = $config;
@@ -137,13 +137,13 @@ class Application
      * Install application according to installation options
      *
      * @return \Magento\TestFramework\Application
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _install()
     {
         $installOptions = $this->_config->getInstallOptions();
         if (!$installOptions) {
-            throw new \Magento\Exception('Trying to install Magento, but installation options are not set');
+            throw new \Magento\Framework\Exception('Trying to install Magento, but installation options are not set');
         }
 
         // Populate install options with global options

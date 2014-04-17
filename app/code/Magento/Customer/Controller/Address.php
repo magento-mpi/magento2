@@ -8,7 +8,7 @@
 namespace Magento\Customer\Controller;
 
 use Magento\Framework\App\RequestInterface;
-use Magento\Exception\InputException;
+use Magento\Framework\Exception\InputException;
 
 /**
  * Customer address controller

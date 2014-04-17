@@ -70,12 +70,12 @@ class Factory
      *
      * @param string $type
      * @return \Magento\Framework\Backup\BackupInterface
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function create($type)
     {
         if (!in_array($type, $this->_allowedTypes)) {
-            throw new \Magento\Exception('Current implementation not supported this type (' . $type . ') of backup.');
+            throw new \Magento\Framework\Exception('Current implementation not supported this type (' . $type . ') of backup.');
         }
         $class = 'Magento\Framework\Backup\\' . ucfirst($type);
         return $this->_objectManager->create($class);

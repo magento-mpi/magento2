@@ -25,7 +25,7 @@ class Request extends \Magento\Object
      * @param string $method
      * @param array $args
      * @return mixed
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function __call($method, $args)
     {
@@ -57,7 +57,7 @@ class Request extends \Magento\Object
                 //\Magento\Profiler::stop('HAS: '.get_class($this).'::'.$method);
                 return isset($this->_data[$key]);
         }
-        throw new \Magento\Exception(
+        throw new \Magento\Framework\Exception(
             "Invalid method " . get_class($this) . "::" . $method . "(" . print_r($args, 1) . ")"
         );
     }

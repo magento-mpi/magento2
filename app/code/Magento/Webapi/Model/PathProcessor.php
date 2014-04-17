@@ -8,7 +8,7 @@
  */
 namespace Magento\Webapi\Model;
 
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class PathProcessor
 {

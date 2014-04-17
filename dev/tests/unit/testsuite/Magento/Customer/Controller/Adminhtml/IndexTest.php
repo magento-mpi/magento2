@@ -8,7 +8,7 @@
 namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\Customer;
 
 /**

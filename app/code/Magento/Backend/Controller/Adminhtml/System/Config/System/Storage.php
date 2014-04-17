@@ -139,7 +139,7 @@ class Storage extends \Magento\Backend\App\Action
                             $this->_objectManager->get(
                                 'Magento\Logger'
                             )->logException(
-                                new \Magento\Exception(
+                                new \Magento\Framework\Exception(
                                     __('The timeout limit for response from synchronize process was reached.')
                                 )
                             );

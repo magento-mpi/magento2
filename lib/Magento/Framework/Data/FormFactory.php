@@ -45,14 +45,14 @@ class FormFactory
      *
      * @param array $data
      * @return \Magento\Framework\Data\Form
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function create(array $data = array())
     {
         /** @var $form \Magento\Framework\Data\Form */
         $form = $this->_objectManager->create($this->_instanceName, $data);
         if (!$form instanceof \Magento\Framework\Data\Form) {
-            throw new \Magento\Exception($this->_instanceName . ' doesn\'t extend \Magento\Framework\Data\Form');
+            throw new \Magento\Framework\Exception($this->_instanceName . ' doesn\'t extend \Magento\Framework\Data\Form');
         }
         return $form;
     }

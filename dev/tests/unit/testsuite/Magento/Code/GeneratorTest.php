@@ -75,7 +75,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @dataProvider generateValidClassDataProvider
      */
     public function testGenerateClass($className, $entityType)
@@ -147,7 +147,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testGenerateClassWithError()
     {

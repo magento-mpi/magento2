@@ -2,9 +2,9 @@
 
 namespace Magento\Customer\Service\V1;
 use Magento\Customer\Service\V1;
-use Magento\Exception\InputException;
-use Magento\Exception\NoSuchEntityException;
-use Magento\Exception\StateException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
 use Magento\Service\V1\Data\FilterBuilder;
 use Magento\Service\V1\Data\SearchCriteria;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -119,7 +119,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException \Magento\Exception\AuthenticationException
+     * @expectedException \Magento\Framework\Exception\AuthenticationException
      * @expectedExceptionMessage Invalid login or password
      */
     public function testLoginWrongPassword()
@@ -129,7 +129,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\AuthenticationException
+     * @expectedException \Magento\Framework\Exception\AuthenticationException
      * @expectedExceptionMessage Invalid login or password
      */
     public function testLoginWrongUsername()
@@ -153,7 +153,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException \Magento\Exception\AuthenticationException
+     * @expectedException \Magento\Framework\Exception\AuthenticationException
      * @expectedExceptionMessage Password doesn't match for this account
      */
     public function testChangePasswordWrongPassword()
@@ -162,7 +162,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      */
     public function testChangePasswordWrongUser()
     {
@@ -191,8 +191,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
      *
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::INPUT_MISMATCH
      */
     public function testActivateCustomerConfirmationKeyWrongKey()
     {
@@ -240,8 +240,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
      * @magentoAppArea frontend
      *
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INVALID_STATE
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::INVALID_STATE
      */
     public function testActivateCustomerAlreadyActive()
     {
@@ -267,8 +267,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::EXPIRED
      */
     public function testValidateResetPasswordLinkTokenExpired()
     {
@@ -424,8 +424,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::EXPIRED
      */
     public function testResetPasswordTokenExpired()
     {
@@ -556,8 +556,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INVALID_STATE
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::INVALID_STATE
      */
     public function testResendConfirmationNotNeeded()
     {
@@ -1135,7 +1135,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param mixed $custId
      * @dataProvider invalidCustomerIdsDataProvider
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      * @expectedExceptionMessage No such entity with customerId =
      */
     public function testGetCustomerInvalidIds($custId)
@@ -1287,7 +1287,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer_sample.php
      * @magentoAppIsolation enabled
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      */
     public function testGetCustomerDetailsWithException()
     {
@@ -1300,7 +1300,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoAppIsolation enabled
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      * @expectedExceptionMessage No such entity with customerId = 1
      */
     public function testDeleteCustomer()
@@ -1314,7 +1314,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      *
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      * @expectedExceptionMessage No such entity with customerId = 1
      */
     public function testDeleteCustomerWithAddress()

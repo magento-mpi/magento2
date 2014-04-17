@@ -293,7 +293,7 @@ class Application
      * @param string $adminUserName
      * @param string $adminPassword
      * @param string $adminRoleName
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function install($adminUserName, $adminPassword, $adminRoleName)
     {
@@ -319,7 +319,7 @@ class Application
         /* Make sure that local.xml does not contain an invalid installation date */
         $installDate = (string)$this->_localXml->install->date;
         if ($installDate && strtotime($installDate)) {
-            throw new \Magento\Exception('Local configuration must contain an invalid installation date.');
+            throw new \Magento\Framework\Exception('Local configuration must contain an invalid installation date.');
         }
 
         /* Replace local.xml */
@@ -353,7 +353,7 @@ class Application
         $localXml = file_get_contents($targetLocalXml);
         $localXml = str_replace($installDate, date('r'), $localXml, $replacementCount);
         if ($replacementCount != 1) {
-            throw new \Magento\Exception("Unable to replace installation date properly in '{$targetLocalXml}' file.");
+            throw new \Magento\Framework\Exception("Unable to replace installation date properly in '{$targetLocalXml}' file.");
         }
         file_put_contents($targetLocalXml, $localXml, LOCK_EX);
 
@@ -397,7 +397,7 @@ class Application
     /**
      * Create a directory with write permissions or don't touch existing one
      *
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @param string $dir
      */
     protected function _ensureDirExists($dir)
@@ -407,7 +407,7 @@ class Application
             mkdir($dir, 0777);
             umask($old);
         } elseif (!is_dir($dir)) {
-            throw new \Magento\Exception("'$dir' is not a directory.");
+            throw new \Magento\Framework\Exception("'$dir' is not a directory.");
         }
     }
 

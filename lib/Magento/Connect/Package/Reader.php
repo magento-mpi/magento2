@@ -97,14 +97,14 @@ class Reader
      * Read content file.
      *
      * @return string Content of file $file
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _readFile()
     {
         $handle = fopen($this->_file, 'r');
         try {
             $data = $this->_loadResource($handle);
-        } catch (\Magento\Exception $e) {
+        } catch (\Magento\Framework\Exception $e) {
             fclose($handle);
             throw $e;
         }
@@ -117,7 +117,7 @@ class Reader
      *
      * @param resource &$resource only file resources are supported at the moment
      * @return \Magento\Connect\Package
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _loadResource(&$resource)
     {
@@ -128,7 +128,7 @@ class Reader
                 $data .= fread($resource, 10240);
             }
         } else {
-            throw new \Magento\Exception('Unsupported resource type');
+            throw new \Magento\Framework\Exception('Unsupported resource type');
         }
         return $data;
     }

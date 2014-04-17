@@ -714,7 +714,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         try {
             $params = array_merge(array('_secure' => $this->getRequest()->isSecure()), $params);
             return $this->_viewUrl->getViewFileUrl($file, $params);
-        } catch (\Magento\Exception $e) {
+        } catch (\Magento\Framework\Exception $e) {
             $this->_logger->logException($e);
             return $this->_getNotFoundUrl();
         }

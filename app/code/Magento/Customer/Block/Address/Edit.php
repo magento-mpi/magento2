@@ -10,7 +10,7 @@ namespace Magento\Customer\Block\Address;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Customer address edit block

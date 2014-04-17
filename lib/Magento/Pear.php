@@ -9,7 +9,7 @@
  */
 namespace Magento;
 
-use Magento\Exception;
+use Magento\Framework\Exception;
 use Magento\Pear\Frontend;
 use Magento\Pear\Registry as PearRegistry;
 

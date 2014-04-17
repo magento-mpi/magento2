@@ -84,7 +84,7 @@ class ThemeDeployment
      * @param string $configPermitted
      * @param string|null $configForbidden
      * @param bool $isDryRun
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -114,7 +114,7 @@ class ThemeDeployment
         $conflicts = array_intersect($this->_permitted, $this->_forbidden);
         if ($conflicts) {
             $message = 'Conflicts: the following extensions are added both to permitted and forbidden lists: %s';
-            throw new \Magento\Exception(sprintf($message, implode(', ', $conflicts)));
+            throw new \Magento\Framework\Exception(sprintf($message, implode(', ', $conflicts)));
         }
     }
 
@@ -123,12 +123,12 @@ class ThemeDeployment
      *
      * @param string $path
      * @return array
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _loadConfig($path)
     {
         if (!file_exists($path)) {
-            throw new \Magento\Exception("Config file does not exist: {$path}");
+            throw new \Magento\Framework\Exception("Config file does not exist: {$path}");
         }
 
         $contents = include $path;
@@ -169,7 +169,7 @@ class ThemeDeployment
      * @param string $destinationDir
      * @param array $context
      * @return void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _copyDirStructure($sourceDir, $destinationDir, $context)
     {
@@ -217,7 +217,7 @@ class ThemeDeployment
                     $extension,
                     $fileSource
                 );
-                throw new \Magento\Exception($message);
+                throw new \Magento\Framework\Exception($message);
             }
 
             if (file_exists($fileSource)) {
@@ -234,7 +234,7 @@ class ThemeDeployment
      * @param string $fileDestination
      * @param array $context
      * @return void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _deployFile($fileSource, $fileDestination, $context)
     {
@@ -256,7 +256,7 @@ class ThemeDeployment
                 if (count($parts) == 2) {
                     list($module, $file) = $parts;
                     if (!strlen($module) || !strlen($file)) {
-                        throw new \Magento\Exception("Wrong module url: {$relativeUrl}");
+                        throw new \Magento\Framework\Exception("Wrong module url: {$relativeUrl}");
                     }
                     $relPath = \Magento\Framework\View\DeployedFilesManager::buildDeployedFilePath(
                         $destContext['area'],

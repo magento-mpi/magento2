@@ -30,7 +30,7 @@ class Backup
      * get Backup Instance By File Name
      *
      * @param  string $type
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @return \Magento\Framework\Backup\BackupInterface
      */
     public static function getBackupInstance($type)
@@ -38,7 +38,7 @@ class Backup
         $class = 'Magento\Framework\Backup\\' . ucfirst($type);
 
         if (!in_array($type, self::$_allowedBackupTypes) || !class_exists($class, true)) {
-            throw new \Magento\Exception('Current implementation not supported this type (' . $type . ') of backup.');
+            throw new \Magento\Framework\Exception('Current implementation not supported this type (' . $type . ') of backup.');
         }
 
         return new $class();
