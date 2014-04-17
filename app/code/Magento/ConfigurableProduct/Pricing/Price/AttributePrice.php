@@ -113,7 +113,7 @@ class AttributePrice extends AbstractPrice
                         'oldPrice' => $this->_registerJsPrice($optionValueOldAmount->getValue()),
                         'inclTaxPrice' => $this->_registerJsPrice($optionValueAmount->getValue()),
                         'exclTaxPrice' => $this->_registerJsPrice($optionValueAmount->getBaseAmount()),
-                        'products' => $this->getProductsIndex($options, $attributeId, $value)
+                        'products' => $this->getProductsIndex($attributeId, $options, $value)
                     ];
                     $optionPrices[] = $price;
                 }
@@ -134,12 +134,12 @@ class AttributePrice extends AbstractPrice
     /**
      * Get Products Index
      *
-     * @param array $options
      * @param int $attributeId
+     * @param array $options
      * @param array $value
      * @return array
      */
-    protected function getProductsIndex(array $options = array(), $attributeId, array $value = array())
+    protected function getProductsIndex($attributeId, array $options = array(), array $value = array())
     {
         if (isset($options[$attributeId][$value['value_index']])) {
             return $options[$attributeId][$value['value_index']];
