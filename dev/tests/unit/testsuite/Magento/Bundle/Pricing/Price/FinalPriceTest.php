@@ -91,7 +91,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->will($this->returnValue($optionsValue));
 
-        $this->basePriceMock->expects($this->once())->method('applyDiscount')
+        $this->basePriceMock->expects($this->once())->method('calculateBaseValue')
             ->with($this->equalTo($optionsValue))
             ->will($this->returnValue($discountValue));
 

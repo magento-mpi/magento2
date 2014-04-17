@@ -54,7 +54,7 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Bundle\Pricing\Price\BasePrice::applyDiscount
+     * @covers \Magento\Bundle\Pricing\Price\BasePrice::calculateBaseValue
      * @covers \Magento\Bundle\Pricing\Price\BasePrice::getValue
      */
     public function testGetValue()
