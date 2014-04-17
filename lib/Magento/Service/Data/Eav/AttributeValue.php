@@ -17,6 +17,7 @@ class AttributeValue extends \Magento\Service\Data\AbstractObject
      */
     const ATTRIBUTE_CODE = 'attribute_code';
     const VALUE = 'value';
+    /**#@-*/
 
     /**
      * Get attribute code

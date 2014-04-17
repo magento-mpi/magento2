@@ -8,6 +8,7 @@
 namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Convert\ConvertArray;
+use Magento\Service\EavDataObjectConverter;
 
 /**
  * Class AddressConverter converts Address Service Data Object to an array
@@ -24,7 +25,7 @@ class AddressConverter
     {
         // preserve street
         $street = $addressDataObject->getStreet();
-        $addressArray = $addressDataObject->__toArray();
+        $addressArray =  EavDataObjectConverter::toFlatArray($addressDataObject);
         // Unset street since it doesn't need to be processed by ConvertArray::toFlatArray
         unset($addressArray[Address::KEY_STREET]);
         $flatAddressArray = ConvertArray::toFlatArray($addressArray);

@@ -48,6 +48,11 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     private $_attributeMetadataBuilder;
 
     /**
+     * @var array
+     */
+    private $customerDataObjectMethods;
+
+    /**
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory
      * @param \Magento\Store\Model\StoreManager $storeManager
@@ -224,10 +229,19 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     public function getCustomCustomerAttributeMetadata()
     {
         $customAttributes = [];
+        if (!$this->customerDataObjectMethods) {
+            $this->customerDataObjectMethods = array_flip(
+                get_class_methods('Magento\Customer\Service\V1\Data\Customer')
+            );
+        }
         foreach ($this->getAllCustomerAttributeMetadata() as $attributeMetadata) {
-            if (!$attributeMetadata->isSystem()
-                /** Even though disable_auto_group_change is system attribute, it should be available to the clients */
-                || $attributeMetadata->getAttributeCode() == 'disable_auto_group_change'
+            $attributeCode = $attributeMetadata->getAttributeCode();
+            $camelCaseKey = $this->_snakeCaseToCamelCase($attributeCode);
+            $isDataObjectMethod = isset($this->customerDataObjectMethods['get' . $camelCaseKey]);
+
+            /** Even though disable_auto_group_change is system attribute, it should be available to the clients */
+            if (!$isDataObjectMethod && (!$attributeMetadata->isSystem()
+                    || $attributeCode == 'disable_auto_group_change')
             ) {
                 $customAttributes[] = $attributeMetadata;
             }
@@ -247,5 +261,21 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             }
         }
         return $customAttributes;
+    }
+
+    /**
+     * Converts an input string from snake_case to upper CamelCase.
+     *
+     * @param string $input
+     * @return string
+     */
+    protected function _snakeCaseToCamelCase($input)
+    {
+        $output = '';
+        $segments = explode('_', $input);
+        foreach ($segments as $segment) {
+            $output .= ucfirst($segment);
+        }
+        return $output;
     }
 }

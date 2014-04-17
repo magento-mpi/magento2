@@ -11,6 +11,7 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 use Magento\Customer\Service\V1\Data\CustomerBuilder as CustomerDataObjectBuilder;
+use Magento\Service\EavDataObjectConverter;
 
 /**
  * Customer Model converter.
@@ -119,7 +120,7 @@ class Converter
     {
         $customerModel = $this->_customerFactory->create();
 
-        $attributes = \Magento\Service\DataObjectConverter::toFlatArray($customer);
+        $attributes = EavDataObjectConverter::toFlatArray($customer);
         foreach ($attributes as $attributeCode => $attributeValue) {
             // avoid setting password through set attribute
             if ($attributeCode == 'password') {
@@ -153,7 +154,7 @@ class Converter
         \Magento\Customer\Model\Customer $customerModel,
         CustomerDataObject $customerData
     ) {
-        $attributes = \Magento\Service\DataObjectConverter::toFlatArray($customerData);
+        $attributes = EavDataObjectConverter::toFlatArray($customerData);
         foreach ($attributes as $attributeCode => $attributeValue) {
             $customerModel->setDataUsingMethod($attributeCode, $attributeValue);
         }
@@ -179,13 +180,15 @@ class Converter
         foreach ($customerModel->getAttributes() as $attribute) {
             $attrCode = $attribute->getAttributeCode();
             $value = $customerModel->getDataUsingMethod($attrCode);
-            if (null === $value) {
-                continue;
-            }
-            if ($attrCode == 'entity_id') {
-                $attributes[CustomerDataObject::ID] = $value;
-            } else {
-                $attributes[$attrCode] = $value;
+            //try getData if getDataUsingMethod returns null. eg 'sample_attribute_1' fails using getDataUsingMethod.
+            //Probably a bug in \Magento\Object::_underscore does not allow keys with numbers
+            $value = $value ? $value : $customerModel->getData($attrCode);
+            if (null !== $value) {
+                if ($attrCode == 'entity_id') {
+                    $attributes[CustomerDataObject::ID] = $value;
+                } else {
+                    $attributes[$attrCode] = $value;
+                }
             }
         }
 

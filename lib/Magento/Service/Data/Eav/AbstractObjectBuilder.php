@@ -29,13 +29,16 @@ abstract class AbstractObjectBuilder extends \Magento\Service\Data\AbstractObjec
     /**
      * Set array of custom attributes
      *
-     * @param array $attributes
+     * @param \Magento\Service\Data\Eav\AttributeValue[] $attributes
      * @return $this
      */
-    public function setCustomAttributes($attributes)
+    public function setCustomAttributes(array $attributes)
     {
-        foreach ($attributes as $attributeCode => $attributeValue) {
-            $this->setCustomAttribute($attributeCode, $attributeValue);
+        $customAttributesCodes = $this->getCustomAttributesCodes();
+        foreach ($attributes as $attribute) {
+            if (in_array($attribute->getAttributeCode(), $customAttributesCodes)) {
+                $this->_data[AbstractObject::CUSTOM_ATTRIBUTES_KEY][] = $attribute;
+            }
         }
         return $this;
     }
@@ -56,7 +59,7 @@ abstract class AbstractObjectBuilder extends \Magento\Service\Data\AbstractObjec
                 ->setAttributeCode($attributeCode)
                 ->setValue($attributeValue)
                 ->create();
-            $this->_data[AbstractObject::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $valueObject;
+            $this->_data[AbstractObject::CUSTOM_ATTRIBUTES_KEY][] = $valueObject;
         }
         return $this;
     }
@@ -82,12 +85,18 @@ abstract class AbstractObjectBuilder extends \Magento\Service\Data\AbstractObjec
         $dataObjectMethods = get_class_methods($this->_getDataObjectType());
         foreach ($data as $key => $value) {
             /* First, verify is there any getter for the key on the Service Data Object */
+            $camelCaseKey = $this->_snakeCaseToCamelCase($key);
             $possibleMethods = array(
-                'get' . $this->_snakeCaseToCamelCase($key),
-                'is' . $this->_snakeCaseToCamelCase($key)
+                'get' . $camelCaseKey,
+                'is' . $camelCaseKey
             );
-            if ($key == AbstractObject::CUSTOM_ATTRIBUTES_KEY) {
-                $this->_setDataValues($value);
+            if ($key == AbstractObject::CUSTOM_ATTRIBUTES_KEY && !empty($data[$key])) {
+                foreach ($data[$key] as $customAttribute) {
+                    $this->setCustomAttribute(
+                        $customAttribute[AttributeValue::ATTRIBUTE_CODE],
+                        $customAttribute[AttributeValue::VALUE]
+                    );
+                }
             } elseif (array_intersect($possibleMethods, $dataObjectMethods)) {
                 $this->_data[$key] = $value;
             } else {
