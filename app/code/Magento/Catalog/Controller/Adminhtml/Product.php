@@ -37,7 +37,7 @@ class Product extends \Magento\Backend\App\Action
     protected $registry;
 
     /**
-     * @var \Magento\Stdlib\DateTime\Filter\Date
+     * @var \Magento\Framework\Stdlib\DateTime\Filter\Date
      */
     protected $_dateFilter;
 
@@ -74,7 +74,7 @@ class Product extends \Magento\Backend\App\Action
     /**
      * @param Action\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Stdlib\DateTime\Filter\Date $dateFilter
+     * @param \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
      * @param Product\Initialization\Helper $initializationHelper
      * @param Product\Initialization\StockDataFilter $stockFilter
      * @param \Magento\Catalog\Model\Product\Copier $productCopier
@@ -86,7 +86,7 @@ class Product extends \Magento\Backend\App\Action
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Registry $registry,
-        \Magento\Stdlib\DateTime\Filter\Date $dateFilter,
+        \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter $stockFilter,
         \Magento\Catalog\Model\Product\Copier $productCopier,

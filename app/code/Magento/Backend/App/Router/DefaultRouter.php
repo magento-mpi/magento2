@@ -48,7 +48,7 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
      * @param string $routerId
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
-     * @param \Magento\Code\NameBuilder $nameBuilder
+     * @param \Magento\Framework\Code\NameBuilder $nameBuilder
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -63,7 +63,7 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId,
-        \Magento\Code\NameBuilder $nameBuilder,
+        \Magento\Framework\Code\NameBuilder $nameBuilder,
         \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Backend\App\ConfigInterface $backendConfig
     ) {

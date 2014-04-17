@@ -74,8 +74,11 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $authStorageMock = $this->getMock(
-            'Magento\Backend\Model\Auth\StorageInterface',
-            array('isFirstPageAfterLogin', 'processLogout', 'processLogin ')
+            'Magento\Backend\Model\Auth\Session',
+            array('isFirstPageAfterLogin', 'processLogout', 'processLogin'),
+            array(),
+            '',
+            false
         );
         $this->_authMock->expects($this->once())->method('getAuthStorage')->will($this->returnValue($authStorageMock));
         $authStorageMock->expects($this->once())->method('isFirstPageAfterLogin')->will($this->returnValue(true));

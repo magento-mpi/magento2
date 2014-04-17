@@ -16,6 +16,6 @@ class Configurator implements \Magento\Framework\ObjectManager\DynamicConfigInte
      */
     public function getConfiguration()
     {
-        return array('preferences' => array('Magento\Stdlib\Cookie' => 'Magento\TestFramework\Cookie'));
+        return array('preferences' => array('Magento\Framework\Stdlib\Cookie' => 'Magento\TestFramework\Cookie'));
     }
 }

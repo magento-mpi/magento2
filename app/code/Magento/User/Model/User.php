@@ -109,7 +109,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     protected $_encryptor;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
@@ -132,7 +132,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
      * @param \Magento\User\Model\RoleFactory $roleFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -149,7 +149,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
         \Magento\User\Model\RoleFactory $roleFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Encryption\EncryptorInterface $encryptor,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,

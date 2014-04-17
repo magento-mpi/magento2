@@ -7,7 +7,7 @@
  */
 namespace Magento\Interception\Code\Generator;
 
-class Interceptor extends \Magento\Code\Generator\EntityAbstract
+class Interceptor extends \Magento\Framework\Code\Generator\EntityAbstract
 {
     /**
      * Entity type

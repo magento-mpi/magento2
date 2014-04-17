@@ -30,7 +30,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
             $this->returnCallback(array($this, 'parserMockCallback'))
         );
 
-        $booleanUtils = $this->getMock('\Magento\Stdlib\BooleanUtils');
+        $booleanUtils = $this->getMock('\Magento\Framework\Stdlib\BooleanUtils');
         $booleanUtils->expects(
             $this->any()
         )->method(

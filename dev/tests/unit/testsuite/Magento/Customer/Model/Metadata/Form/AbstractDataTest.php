@@ -16,7 +16,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Metadata\Form\ExtendsAbstractData */
     protected $_model;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Stdlib\DateTime\TimezoneInterface */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Stdlib\DateTime\TimezoneInterface */
     protected $_localeMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Locale\ResolverInterface */
@@ -40,7 +40,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_localeMock = $this->getMockBuilder(
-            'Magento\Stdlib\DateTime\TimezoneInterface'
+            'Magento\Framework\Stdlib\DateTime\TimezoneInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_localeResolverMock = $this->getMockBuilder(
             'Magento\Locale\ResolverInterface'
@@ -152,7 +152,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
             )->method(
                 'getDateFormat'
             )->with(
-                $this->equalTo(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
+                $this->equalTo(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
             )->will(
                 $this->returnValue($output)
             );

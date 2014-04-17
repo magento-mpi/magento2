@@ -60,7 +60,7 @@ class Collection extends \Magento\Framework\Data\Collection\Filesystem
     protected function _generateRow($filename)
     {
         $row = parent::_generateRow($filename);
-        $date = new \Magento\Stdlib\DateTime\Date(
+        $date = new \Magento\Framework\Stdlib\DateTime\Date(
             str_replace('.csv', '', $row['basename']),
             'yyyyMMddHH',
             $this->_localeResolver->getLocaleCode()
@@ -69,7 +69,7 @@ class Collection extends \Magento\Framework\Data\Collection\Filesystem
         /**
          * Used in date filter, becouse $date contains hours
          */
-        $dateWithoutHours = new \Magento\Stdlib\DateTime\Date(
+        $dateWithoutHours = new \Magento\Framework\Stdlib\DateTime\Date(
             str_replace('.csv', '', $row['basename']),
             'yyyyMMdd',
             $this->_localeResolver->getLocaleCode()

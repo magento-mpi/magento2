@@ -15,7 +15,7 @@ namespace Magento\Bundle\Model\Sales\Order\Pdf\Items;
 class Invoice extends AbstractItems
 {
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
@@ -25,7 +25,7 @@ class Invoice extends AbstractItems
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\Stdlib\String $coreString
+     * @param \Magento\Framework\Stdlib\String $coreString
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -36,7 +36,7 @@ class Invoice extends AbstractItems
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Filter\FilterManager $filterManager,
-        \Magento\Stdlib\String $coreString,
+        \Magento\Framework\Stdlib\String $coreString,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

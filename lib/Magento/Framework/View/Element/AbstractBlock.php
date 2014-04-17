@@ -139,7 +139,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $filterManager;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -742,7 +742,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      */
     public function formatDate(
         $date = null,
-        $format = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
+        $format = \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
         $showTime = false
     ) {
         return $this->_localeDate->formatDate($date, $format, $showTime);
@@ -758,7 +758,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      */
     public function formatTime(
         $time = null,
-        $format = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
+        $format = \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
         $showDate = false
     ) {
         return $this->_localeDate->formatTime($time, $format, $showDate);

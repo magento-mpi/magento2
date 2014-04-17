@@ -7,6 +7,12 @@
  */
 namespace Magento\Backend\Model;
 
+use Magento\TestFramework\Helper\ObjectManager;
+
+/**
+ * Class AuthTest
+ * @package Magento\Backend\Model
+ */
 class AuthTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -34,13 +40,14 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         $this->_eventManagerMock = $this->getMock('\Magento\Framework\Event\ManagerInterface');
         $this->_credentialStorage = $this->getMock('\Magento\Backend\Model\Auth\Credential\StorageInterface');
         $this->_modelFactoryMock = $this->getMock('\Magento\Core\Model\Factory', array(), array(), '', false);
-        $this->_model = new \Magento\Backend\Model\Auth(
-            $this->_eventManagerMock,
-            $this->getMock('\Magento\Backend\Helper\Data', array(), array(), '', false),
-            $this->getMock('\Magento\Backend\Model\Auth\StorageInterface'),
-            $this->_credentialStorage,
-            $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface'),
-            $this->_modelFactoryMock
+        $objectManager= new ObjectManager($this);
+        $this->_model = $objectManager->getObject(
+            'Magento\Backend\Model\Auth',
+            [
+                'eventManager' => $this->_eventManagerMock,
+                'credentialStorage' => $this->_credentialStorage,
+                'modelFactory' => $this->_modelFactoryMock
+            ]
         );
     }
 

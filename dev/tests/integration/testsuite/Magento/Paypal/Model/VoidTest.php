@@ -25,7 +25,7 @@ class VoidTest extends \PHPUnit_Framework_TestCase
         $scopeConfig = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
         $logger = $objectManager->get('Magento\Logger');
         $logAdapterFactory = $objectManager->get('Magento\Logger\AdapterFactory');
-        $localeDate = $objectManager->get('Magento\Stdlib\DateTime\TimezoneInterface');
+        $localeDate = $objectManager->get('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
         $centinelService = $objectManager->get('Magento\Centinel\Model\Service');
         $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
         $configFactory = $objectManager->get('Magento\Paypal\Model\ConfigFactory');

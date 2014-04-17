@@ -27,7 +27,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $classReader = new \Magento\Code\Reader\ClassReader();
+        $classReader = new \Magento\Framework\Code\Reader\ClassReader();
         $relations = new \Magento\Framework\ObjectManager\Relations\Runtime($classReader);
         $definitions = new \Magento\Framework\ObjectManager\Definition\Runtime($classReader);
         $config = new \Magento\Interception\ObjectManager\Config($relations, $definitions);

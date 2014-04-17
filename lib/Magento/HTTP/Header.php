@@ -22,15 +22,15 @@ class Header
     protected $_request;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $_converter;
 
     /**
      * @param \Magento\Framework\App\RequestInterface $httpRequest
-     * @param \Magento\Stdlib\String $converter
+     * @param \Magento\Framework\Stdlib\String $converter
      */
-    public function __construct(\Magento\Framework\App\RequestInterface $httpRequest, \Magento\Stdlib\String $converter)
+    public function __construct(\Magento\Framework\App\RequestInterface $httpRequest, \Magento\Framework\Stdlib\String $converter)
     {
         $this->_request = $httpRequest;
         $this->_converter = $converter;

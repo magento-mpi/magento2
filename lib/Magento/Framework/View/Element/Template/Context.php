@@ -75,7 +75,7 @@ class Context extends \Magento\Framework\View\Element\Context
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
@@ -102,7 +102,7 @@ class Context extends \Magento\Framework\View\Element\Context
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\View\FileSystem $viewFileSystem,

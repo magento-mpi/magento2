@@ -22,13 +22,13 @@ use Magento\CatalogRule\Model\Resource\Rule\Collection;
 use Magento\CatalogRule\Model\Rule\Product\Price;
 use Magento\Registry;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\Stdlib\DateTime\TimezoneInterface;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface as Group;
 use Magento\Customer\Model\Session as CustomerModelSession;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Message\ManagerInterface;
 use Magento\Rule\Model\Condition\Product\AbstractProduct;
-use Magento\Stdlib\DateTime;
+use Magento\Framework\Stdlib\DateTime;
 
 class Observer
 {
@@ -83,7 +83,7 @@ class Observer
     protected $_storeManager;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 

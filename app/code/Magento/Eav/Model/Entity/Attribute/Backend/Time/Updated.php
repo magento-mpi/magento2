@@ -15,15 +15,15 @@ namespace Magento\Eav\Model\Entity\Attribute\Backend\Time;
 class Updated extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
-    public function __construct(\Magento\Logger $logger, \Magento\Stdlib\DateTime $dateTime)
+    public function __construct(\Magento\Logger $logger, \Magento\Framework\Stdlib\DateTime $dateTime)
     {
         $this->dateTime = $dateTime;
         parent::__construct($logger);

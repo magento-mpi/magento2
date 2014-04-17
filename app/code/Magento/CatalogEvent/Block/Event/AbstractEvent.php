@@ -80,7 +80,7 @@ abstract class AbstractEvent extends \Magento\Framework\View\Element\Template
     {
         if ($format === null) {
             $format = $this->_localeDate->getTimeFormat(
-                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+                \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
             );
         }
 
@@ -99,7 +99,7 @@ abstract class AbstractEvent extends \Magento\Framework\View\Element\Template
     {
         if ($format === null) {
             $format = $this->_localeDate->getDateFormat(
-                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+                \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
             );
         }
 
@@ -128,12 +128,12 @@ abstract class AbstractEvent extends \Magento\Framework\View\Element\Template
      */
     protected function _getEventDate($type, $event, $format)
     {
-        $date = new \Magento\Stdlib\DateTime\Date($this->_localeResolver->getLocale());
+        $date = new \Magento\Framework\Stdlib\DateTime\Date($this->_localeResolver->getLocale());
         // changing timezone to UTC
-        $date->setTimezone(\Magento\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE);
+        $date->setTimezone(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE);
 
         $dateString = $event->getData('date_' . $type);
-        $date->set($dateString, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+        $date->set($dateString, \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
 
         $timezone = $this->_scopeConfig->getValue($this->_localeDate->getDefaultTimezonePath(), \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($timezone) {

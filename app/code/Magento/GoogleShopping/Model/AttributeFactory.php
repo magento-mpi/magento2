@@ -33,19 +33,19 @@ class AttributeFactory
     protected $_gsData;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $_string;
 
     /**
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\GoogleShopping\Helper\Data $gsData
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
         \Magento\GoogleShopping\Helper\Data $gsData,
-        \Magento\Stdlib\String $string
+        \Magento\Framework\Stdlib\String $string
     ) {
         $this->_objectManager = $objectManager;
         $this->_gsData = $gsData;

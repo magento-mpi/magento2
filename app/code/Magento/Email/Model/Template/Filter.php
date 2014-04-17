@@ -109,7 +109,7 @@ class Filter extends \Magento\Filter\Template
     protected $_appState;
 
     /**
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
      * @param \Magento\Framework\View\Url $viewUrl
@@ -124,7 +124,7 @@ class Filter extends \Magento\Filter\Template
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
         \Magento\Framework\View\Url $viewUrl,

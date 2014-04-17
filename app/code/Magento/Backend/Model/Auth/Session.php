@@ -54,6 +54,11 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
     protected $_config;
 
     /**
+     * @var \Magento\Framework\Stdlib\Cookie
+     */
+    protected $_cookie;
+
+    /**
      * @param \Magento\Framework\App\Request\Http $request
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\Session\Config\ConfigInterface $sessionConfig
@@ -63,6 +68,7 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
      * @param \Magento\Framework\Acl\Builder $aclBuilder
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Backend\App\ConfigInterface $config
+     * @param \Magento\Framework\Stdlib\Cookie $cookie
      */
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
@@ -73,11 +79,13 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
         \Magento\Framework\Session\StorageInterface $storage,
         \Magento\Framework\Acl\Builder $aclBuilder,
         \Magento\Backend\Model\UrlInterface $backendUrl,
-        \Magento\Backend\App\ConfigInterface $config
+        \Magento\Backend\App\ConfigInterface $config,
+        \Magento\Framework\Stdlib\Cookie $cookie
     ) {
         $this->_config = $config;
         $this->_aclBuilder = $aclBuilder;
         $this->_backendUrl = $backendUrl;
+        $this->_cookie = $cookie;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start();
     }
@@ -149,10 +157,34 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
         }
 
         if ($this->getUser() && $this->getUser()->getId()) {
-            $this->setUpdatedAt($currentTime);
             return true;
         }
         return false;
+    }
+
+    /**
+     * Set session UpdatedAt to current time and update cookie expiration time
+     *
+     * @return void
+     */
+    public function prolong()
+    {
+        $lifetime = $this->_config->getValue(self::XML_PATH_SESSION_LIFETIME);
+        $currentTime = time();
+
+        $this->setUpdatedAt($currentTime);
+        $cookieValue = $this->_cookie->get($this->getName());
+        if ($cookieValue) {
+            $this->_cookie->set(
+                $this->getName(),
+                $cookieValue,
+                $lifetime,
+                $this->sessionConfig->getCookiePath(),
+                $this->sessionConfig->getCookieDomain(),
+                $this->sessionConfig->getCookieSecure(),
+                $this->sessionConfig->getCookieHttpOnly()
+            );
+        }
     }
 
     /**

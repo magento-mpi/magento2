@@ -91,7 +91,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 '',
                 false
             ),
-            $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\Resource\Customer\CollectionFactory', array(), array(), '', false),
             $this->getMock(

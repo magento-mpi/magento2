@@ -95,12 +95,12 @@ class DefinitionFactory
             $result = new $definitionModel($definitions);
         } else {
             $autoloader = new \Magento\Framework\Autoload\IncludePath();
-            $generatorIo = new \Magento\Code\Generator\Io(
+            $generatorIo = new \Magento\Framework\Code\Generator\Io(
                 $this->_filesystemDriver,
                 $autoloader,
                 $this->_generationDir
             );
-            $generator = new \Magento\Code\Generator(
+            $generator = new \Magento\Framework\Code\Generator(
                 $autoloader,
                 $generatorIo,
                 array(
@@ -109,7 +109,7 @@ class DefinitionFactory
                     InterceptionGenerator\Interceptor::ENTITY_TYPE => '\Magento\Interception\Code\Generator\Interceptor'
                 )
             );
-            $autoloader = new \Magento\Code\Generator\Autoloader($generator);
+            $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);
             spl_autoload_register(array($autoloader, 'load'));
 
             $result = new Runtime();

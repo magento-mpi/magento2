@@ -84,7 +84,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                         'label' => $this->_settlement->getFieldLabel('transaction_initiation_date'),
                         'value' => $this->formatDate(
                             $model->getData('transaction_initiation_date'),
-                            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
+                            \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
                             true
                         )
                     ),
@@ -92,7 +92,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                         'label' => $this->_settlement->getFieldLabel('transaction_completion_date'),
                         'value' => $this->formatDate(
                             $model->getData('transaction_completion_date'),
-                            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
+                            \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
                             true
                         )
                     ),

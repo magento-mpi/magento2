@@ -127,7 +127,7 @@ class Queue extends \Magento\Backend\App\Action
             }
 
             $queue->setQueueStartAt(
-                $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->gmtDate()
+                $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime')->gmtDate()
             )->setQueueStatus(
                 \Magento\Newsletter\Model\Queue::STATUS_SENDING
             )->save();

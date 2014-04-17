@@ -37,7 +37,7 @@ class Template extends \Magento\Framework\View\Element\Template
     protected $formKey;
 
     /**
-     * @var \Magento\Code\NameBuilder
+     * @var \Magento\Framework\Code\NameBuilder
      */
     protected $nameBuilder;
 

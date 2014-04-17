@@ -244,8 +244,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $addressId = $objectManager->get('Magento\ImportExport\Model\Resource\Helper')
             ->getNextAutoincrement($tableName);
 
-        /** @var \Magento\Stdlib\DateTime $dateTime */
-        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Stdlib\DateTime');
+        /** @var \Magento\Framework\Stdlib\DateTime $dateTime */
+        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\Stdlib\DateTime');
 
         $entityData = array(
             'entity_id' => $addressId,

@@ -55,7 +55,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             '\Magento\CatalogRule\Model\Resource\RuleFactory', array(), array(), '', false
         );
         $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
-        $this->localeDateMock = $this->getMock('\Magento\Stdlib\DateTime\TimezoneInterface');
+        $this->localeDateMock = $this->getMock('\Magento\Framework\Stdlib\DateTime\TimezoneInterface');
         $this->customerSessionMock = $this->getMock('\Magento\Customer\Model\Session', array(), array(), '', false);
         $this->eventManagerMock = $this->getMock('\Magento\Framework\Event\ManagerInterface');
         $this->taxHelperMock = $this->getMock('\Magento\Tax\Helper\Data', array(), array(), '', false);

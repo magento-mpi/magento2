@@ -67,7 +67,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Filter\FilterManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $filterManager;
 
-    /** @var \Magento\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $timezoneInterface;
 
     /** @var \Magento\Framework\Translate\Inline\StateInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -100,7 +100,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Data\Form\FormKey|\PHPUnit_Framework_MockObject_MockObject */
     protected $formKey;
 
-    /** @var \Magento\Code\NameBuilder|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Code\NameBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $nameBuilder;
 
     /** @var \Magento\Backend\Block\Template\Context|\PHPUnit_Framework_MockObject_MockObject */
@@ -151,7 +151,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->logger = $this->getMock('Magento\Logger', [], [], '', false);
         $this->escaper = $this->getMock('Magento\Escaper');
         $this->filterManager = $this->getMock('Magento\Filter\FilterManager', [], [], '', false);
-        $this->timezoneInterface = $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface');
+        $this->timezoneInterface = $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
         $this->translateState = $this->getMock('Magento\Framework\Translate\Inline\StateInterface');
         $this->appFilesystem = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
         $this->viewFilesystem = $this->getMock('Magento\Framework\View\FileSystem', [], [], '', false);
@@ -162,7 +162,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->backendSession = $this->getMock('Magento\Backend\Model\Session', [], [], '', false);
         $this->random = $this->getMock('Magento\Math\Random');
         $this->formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', [], [], '', false);
-        $this->nameBuilder = $this->getMock('Magento\Code\NameBuilder');
+        $this->nameBuilder = $this->getMock('Magento\Framework\Code\NameBuilder');
 
         $this->context = $this->getMock(
             'Magento\Backend\Block\Template\Context',

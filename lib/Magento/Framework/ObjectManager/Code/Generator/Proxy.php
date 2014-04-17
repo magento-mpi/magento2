@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\ObjectManager\Code\Generator;
 
-class Proxy extends \Magento\Code\Generator\EntityAbstract
+class Proxy extends \Magento\Framework\Code\Generator\EntityAbstract
 {
     /**
      * Entity type

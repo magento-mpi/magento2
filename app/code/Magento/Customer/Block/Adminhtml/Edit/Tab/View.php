@@ -74,7 +74,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     protected $_logFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
@@ -88,7 +88,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      * @param \Magento\Log\Model\CustomerFactory $logFactory
      * @param \Magento\Registry $registry
      * @param \Magento\Log\Model\Visitor $modelVisitor
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -103,7 +103,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         \Magento\Log\Model\CustomerFactory $logFactory,
         \Magento\Registry $registry,
         \Magento\Log\Model\Visitor $modelVisitor,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -191,7 +191,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     {
         return $this->formatDate(
             $this->getCustomer()->getCreatedAt(),
-            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
+            \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
             true
         );
     }
@@ -206,7 +206,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
             $this->getCustomer()->getCreatedAt(),
             true
         );
-        return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
+        return $this->formatDate($date, \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
     }
 
     /**
@@ -230,7 +230,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     {
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
-            return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
+            return $this->formatDate($date, \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
         }
         return __('Never');
     }
@@ -243,7 +243,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
             $date = $this->_localeDate->scopeDate($this->getCustomer()->getStoreId(), $date, true);
-            return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
+            return $this->formatDate($date, \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
         }
         return __('Never');
     }

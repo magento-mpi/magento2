@@ -106,7 +106,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
     /**
      * Cookie model
      *
-     * @var \Magento\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\Cookie
      */
     protected $_cookie;
 
@@ -127,7 +127,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
      * @param WebsiteFactory $websiteFactory
      * @param Factory $groupFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Stdlib\Cookie $cookie
+     * @param \Magento\Framework\Stdlib\Cookie $cookie
      * @param State $appState
      * @param \Magento\Core\Helper\Data $helper
      * @param bool $isSingleStoreAllowed
@@ -138,7 +138,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
         WebsiteFactory $websiteFactory,
         Factory $groupFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
-        \Magento\Stdlib\Cookie $cookie,
+        \Magento\Framework\Stdlib\Cookie $cookie,
         State $appState,
         \Magento\Core\Helper\Data $helper,
         $isSingleStoreAllowed,

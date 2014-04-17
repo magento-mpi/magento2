@@ -1717,7 +1717,7 @@ return array(
     array('Magento\Adminhtml\Block\Report\Wishlist', 'Magento\Reports\Block\Adminhtml\Wishlist'),
     array('Magento\Framework\App\Dir\Verification', 'Magento\Framework\App\Filesystem\DirectoryList\Verification'),
     array('Magento\Backend\Helper\Addresses'),
-    array('Magento\Core\Model\Cookie', 'Magento\Stdlib\Cookie'),
+    array('Magento\Core\Model\Cookie', 'Magento\Framework\Stdlib\Cookie'),
     array('Magento\Core\Model\Logger', 'Magento\Logger'),
     array('Magento\Core\Block\Template\Context', 'Magento\Framework\View\Element\Template\Context'),
     array('Magento\Page\Block\Template\Container'),
@@ -2004,10 +2004,10 @@ return array(
     array('Magento\Core\Model\Input\Filter\MaliciousCode', 'Magento\Filter\Input\MaliciousCode'),
     array('Magento\Core\Model\Option\ArrayInterface', 'Magento\Option\ArrayInterface'),
     array('Magento\Core\Model\Option\ArrayPool', 'Magento\Option\ArrayPool'),
-    array('Magento\Core\Helper\String', 'Magento\Code\NameBuilder'),
+    array('Magento\Core\Helper\String', 'Magento\Framework\Code\NameBuilder'),
     array('Magento\Core\Model\Context', 'Magento\Framework\Model\Context'),
     array('Magento\Core\Model\Registry', 'Magento\Registry'),
-    array('Magento\Code\Plugin\InvocationChain'),
+    array('Magento\Framework\Code\Plugin\InvocationChain'),
     array('RecurringProfile', 'RecurringPayment'), // recurring profile was renamed to recurring payment
     array('Recurring\Profile', 'Recurring\Payment'), // recurring profile was renamed to recurring payment
     array('Magento\Catalog\Helper\Product\Flat'),
@@ -2017,12 +2017,12 @@ return array(
     array(
         'Magento\Core\Model\LocaleInterface',
         'Magento\Locale\ResolverInterface, Magento\Locale\CurrencyInterface,' .
-        'Magento\Locale\FormatInterface, Magento\Stdlib\DateTime\TimezoneInterface'
+        'Magento\Locale\FormatInterface, Magento\Framework\Stdlib\DateTime\TimezoneInterface'
     ),
     array(
         'Magento\Core\Model\Locale',
         'Magento\Locale\Resolver, Magento\Locale\Currency, Magento\Locale\Format, ' .
-        'Magento\Stdlib\DateTime\Timezone, Magento\Locale\Lists'
+        'Magento\Framework\Stdlib\DateTime\Timezone, Magento\Locale\Lists'
     ),
     array('Magento\Core\Model\Locale\Hierarchy\Config\Converter', 'Magento\Locale\Hierarchy\Config\Converter'),
     array('Magento\Core\Model\Locale\Hierarchy\Config\FileResolver', 'Magento\Locale\Hierarchy\Config\FileResolver'),
@@ -2030,7 +2030,7 @@ return array(
     array('Magento\Core\Model\Locale\Hierarchy\Config\SchemaLocator', 'Magento\Locale\Hierarchy\Config\SchemaLocator'),
     array('Magento\Core\Model\Locale\Config', 'Magento\Locale\Config'),
     array('Magento\Core\Model\Locale\Validator', 'Magento\Locale\Validator'),
-    array('Magento\Core\Model\Date', 'Magento\Stdlib\DateTime\DateTime'),
+    array('Magento\Core\Model\Date', 'Magento\Framework\Stdlib\DateTime\DateTime'),
     array('Magento\Shipping\Model\Config\Source\Flatrate', 'Magento\OfflineShipping\Model\Config\Source\Flatrate'),
     array('Magento\Shipping\Model\Carrier\Flatrate', 'Magento\OfflineShipping\Model\Carrier\Flatrate'),
     array('Magento\Usa\Block\Adminhtml\Dhl\Unitofmeasure', 'Magento\Dhl\Block\Adminhtml\Unitofmeasure'),

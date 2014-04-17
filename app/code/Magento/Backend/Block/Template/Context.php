@@ -34,7 +34,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
     protected $formKey;
 
     /**
-     * @var \Magento\Code\NameBuilder
+     * @var \Magento\Framework\Code\NameBuilder
      */
     protected $nameBuilder;
 
@@ -55,7 +55,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
@@ -66,7 +66,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Framework\Data\Form\FormKey $formKey
-     * @param \Magento\Code\NameBuilder $nameBuilder
+     * @param \Magento\Framework\Code\NameBuilder $nameBuilder
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -87,7 +87,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\View\FileSystem $viewFileSystem,
@@ -98,7 +98,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Math\Random $mathRandom,
         \Magento\Framework\Data\Form\FormKey $formKey,
-        \Magento\Code\NameBuilder $nameBuilder
+        \Magento\Framework\Code\NameBuilder $nameBuilder
     ) {
         $this->_authorization = $authorization;
         $this->_backendSession = $backendSession;

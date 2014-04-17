@@ -194,7 +194,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
             ->getTimezone() : $this
             ->_localeDate
             ->getDefaultTimezone();
-        if ($timezone == \Magento\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE) {
+        if ($timezone == \Magento\Framework\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE) {
             $timezone = 'America/Los_Angeles';
         }
         return $timezone;

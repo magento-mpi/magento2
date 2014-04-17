@@ -52,7 +52,7 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
     protected $_viewUrl;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -360,11 +360,11 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
             $this->setValue(
                 $this->_localeDate->date(
                     $this->getData('value'),
-                    \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                    \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                     null,
                     false
                 )->toString(
-                    \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT
+                    \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT
                 )
             );
             $this->setIsValueParsed(true);
@@ -587,8 +587,8 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
         );
         if ($this->getInputType() == 'date') {
             // date format intentionally hard-coded
-            $elementParams['input_format'] = \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
-            $elementParams['date_format'] = \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
+            $elementParams['input_format'] = \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
+            $elementParams['date_format'] = \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
         }
         return $this->getForm()->addField(
             $this->getPrefix() . '__' . $this->getId() . '__value',

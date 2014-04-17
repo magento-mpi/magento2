@@ -99,9 +99,9 @@ class Attribute extends Action
         try {
             if ($attributesData) {
                 $dateFormat = $this->_objectManager->get(
-                    'Magento\Stdlib\DateTime\TimezoneInterface'
+                    'Magento\Framework\Stdlib\DateTime\TimezoneInterface'
                 )->getDateFormat(
-                    \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                    \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
                 );
                 $storeId = $this->_helper->getSelectedStoreId();
 
@@ -120,7 +120,7 @@ class Attribute extends Action
                         if (!empty($value)) {
                             $filterInput = new \Zend_Filter_LocalizedToNormalized(array('date_format' => $dateFormat));
                             $filterInternal = new \Zend_Filter_NormalizedToLocalized(
-                                array('date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
+                                array('date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
                             );
                             $value = $filterInternal->filter($filterInput->filter($value));
                         } else {

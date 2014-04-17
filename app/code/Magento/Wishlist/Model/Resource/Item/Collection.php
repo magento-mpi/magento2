@@ -96,7 +96,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected $_storeManager;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -148,7 +148,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Framework\App\Resource $coreResource
@@ -170,7 +170,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Stdlib\DateTime\DateTime $date,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Framework\App\Resource $coreResource,
@@ -468,13 +468,13 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         $now = $this->_date->date();
         $gmtOffset = (int)$this->_date->getGmtOffset();
         if (isset($constraints['from'])) {
-            $lastDay = new \Magento\Stdlib\DateTime\Date($now, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $lastDay = new \Magento\Framework\Stdlib\DateTime\Date($now, \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
             $lastDay->subSecond($gmtOffset)->subDay(intval($constraints['from']));
             $filter['to'] = $lastDay;
         }
 
         if (isset($constraints['to'])) {
-            $firstDay = new \Magento\Stdlib\DateTime\Date($now, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $firstDay = new \Magento\Framework\Stdlib\DateTime\Date($now, \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
             $firstDay->subSecond($gmtOffset)->subDay(intval($constraints['to']) + 1);
             $filter['from'] = $firstDay;
         }

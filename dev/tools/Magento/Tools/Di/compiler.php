@@ -49,9 +49,9 @@ try {
     $log = new Log($logWriter, $errorWriter);
     $serializer = $opt->getOption('serializer') == 'binary' ? new Serializer\Igbinary() : new Serializer\Standard();
 
-    $validator = new \Magento\Code\Validator();
-    $validator->add(new \Magento\Code\Validator\ConstructorIntegrity());
-    $validator->add(new \Magento\Code\Validator\ContextAggregation());
+    $validator = new \Magento\Framework\Code\Validator();
+    $validator->add(new \Magento\Framework\Code\Validator\ConstructorIntegrity());
+    $validator->add(new \Magento\Framework\Code\Validator\ContextAggregation());
 
     // 1 Code generation
     // 1.1 Code scan
@@ -70,12 +70,12 @@ try {
     $entities['interceptors'] = $interceptorScanner->collectEntities($files['di']);
 
     // 1.2 Generation of Factory and Additional Classes
-    $generatorIo = new \Magento\Code\Generator\Io(
+    $generatorIo = new \Magento\Framework\Code\Generator\Io(
         new \Magento\Framework\Filesystem\Driver\File(),
         null,
         $generationDir
     );
-    $generator = new \Magento\Code\Generator(
+    $generator = new \Magento\Framework\Code\Generator(
         null,
         $generatorIo,
         array(
@@ -89,15 +89,15 @@ try {
         sort($entities[$type]);
         foreach ($entities[$type] as $entityName) {
             switch ($generator->generateClass($entityName)) {
-                case \Magento\Code\Generator::GENERATION_SUCCESS:
+                case \Magento\Framework\Code\Generator::GENERATION_SUCCESS:
                     $log->add(Log::GENERATION_SUCCESS, $entityName);
                     break;
 
-                case \Magento\Code\Generator::GENERATION_ERROR:
+                case \Magento\Framework\Code\Generator::GENERATION_ERROR:
                     $log->add(Log::GENERATION_ERROR, $entityName);
                     break;
 
-                case \Magento\Code\Generator::GENERATION_SKIP:
+                case \Magento\Framework\Code\Generator::GENERATION_SKIP:
                 default:
                     //no log
                     break;
@@ -124,15 +124,15 @@ try {
     foreach (array('interceptors', 'di') as $type) {
         foreach ($entities[$type] as $entityName) {
             switch ($generator->generateClass($entityName)) {
-                case \Magento\Code\Generator::GENERATION_SUCCESS:
+                case \Magento\Framework\Code\Generator::GENERATION_SUCCESS:
                     $log->add(Log::GENERATION_SUCCESS, $entityName);
                     break;
 
-                case \Magento\Code\Generator::GENERATION_ERROR:
+                case \Magento\Framework\Code\Generator::GENERATION_ERROR:
                     $log->add(Log::GENERATION_ERROR, $entityName);
                     break;
 
-                case \Magento\Code\Generator::GENERATION_SKIP:
+                case \Magento\Framework\Code\Generator::GENERATION_SKIP:
                 default:
                     //no log
                     break;

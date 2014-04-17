@@ -17,11 +17,11 @@ class Runtime implements \Magento\Framework\ObjectManager\Definition
     protected $_definitions = array();
 
     /**
-     * @param \Magento\Code\Reader\ClassReader $reader
+     * @param \Magento\Framework\Code\Reader\ClassReader $reader
      */
-    public function __construct(\Magento\Code\Reader\ClassReader $reader = null)
+    public function __construct(\Magento\Framework\Code\Reader\ClassReader $reader = null)
     {
-        $this->_reader = $reader ?: new \Magento\Code\Reader\ClassReader();
+        $this->_reader = $reader ?: new \Magento\Framework\Code\Reader\ClassReader();
     }
 
     /**

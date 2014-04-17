@@ -86,7 +86,7 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
                 'date',
                 array(
                     // hardcoded because hardcoded values delimiter
-                    'format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                    'format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                     'label' => $label,
                     'image' => $this->getViewFileUrl('images/grid-cal.gif'),
                     // won't work through Event.observe()

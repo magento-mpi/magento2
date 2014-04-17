@@ -67,7 +67,7 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
         $attributeFactory = new \Magento\GoogleShopping\Model\AttributeFactory(
             $objectManager,
             $this->_createGsData(),
-            new \Magento\Stdlib\String()
+            new \Magento\Framework\Stdlib\String()
         );
         $attribute = $attributeFactory->createAttribute($name);
         $this->assertEquals($name, $attribute->getName());
@@ -110,7 +110,7 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
         $attributeFactory = new \Magento\GoogleShopping\Model\AttributeFactory(
             $objectManager,
             $this->_createGsData(),
-            new \Magento\Stdlib\String()
+            new \Magento\Framework\Stdlib\String()
         );
         $attribute = $attributeFactory->createAttribute('name');
         $this->assertEquals('name', $attribute->getName());
@@ -136,7 +136,7 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
         $attributeFactory = new \Magento\GoogleShopping\Model\AttributeFactory(
             $objectManager,
             $this->_createGsData(),
-            new \Magento\Stdlib\String()
+            new \Magento\Framework\Stdlib\String()
         );
         $attribute = $attributeFactory->create();
         $this->assertEquals('some value', $attribute);

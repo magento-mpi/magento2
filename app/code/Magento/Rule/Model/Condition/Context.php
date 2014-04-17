@@ -20,7 +20,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     protected $_viewUrl;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -41,14 +41,14 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
 
     /**
      * @param \Magento\Framework\View\Url $viewUrl
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Rule\Model\ConditionFactory $conditionFactory
      * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Framework\View\Url $viewUrl,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Rule\Model\ConditionFactory $conditionFactory,
         \Magento\Logger $logger
@@ -69,7 +69,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Stdlib\DateTime\TimezoneInterface
+     * @return \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     public function getLocaleDate()
     {

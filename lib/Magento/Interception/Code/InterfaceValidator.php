@@ -18,16 +18,16 @@ class InterfaceValidator
     /**
      * Arguments reader model
      *
-     * @var \Magento\Code\Reader\ArgumentsReader
+     * @var \Magento\Framework\Code\Reader\ArgumentsReader
      */
     protected $_argumentsReader;
 
     /**
-     * @param \Magento\Code\Reader\ArgumentsReader $argumentsReader
+     * @param \Magento\Framework\Code\Reader\ArgumentsReader $argumentsReader
      */
-    public function __construct(\Magento\Code\Reader\ArgumentsReader $argumentsReader = null)
+    public function __construct(\Magento\Framework\Code\Reader\ArgumentsReader $argumentsReader = null)
     {
-        $this->_argumentsReader = $argumentsReader ?: new \Magento\Code\Reader\ArgumentsReader();
+        $this->_argumentsReader = $argumentsReader ?: new \Magento\Framework\Code\Reader\ArgumentsReader();
     }
 
     /**

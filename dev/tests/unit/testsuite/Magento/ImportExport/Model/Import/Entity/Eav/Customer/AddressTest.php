@@ -108,7 +108,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected $_coreDataMock;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $_stringLib;
 
@@ -125,7 +125,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->markTestSkipped();
         $this->_objectManagerMock = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->_stringLib = new \Magento\Stdlib\String();
+        $this->_stringLib = new \Magento\Framework\Stdlib\String();
         $this->_model = $this->_getModelMock();
     }
 
@@ -472,7 +472,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 '',
                 false
             ),
-            new \Magento\Stdlib\DateTime(),
+            new \Magento\Framework\Stdlib\DateTime(),
             $this->_getModelDependencies()
         );
 

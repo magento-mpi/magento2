@@ -81,7 +81,7 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
     protected $_storeManager;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -106,7 +106,7 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
     protected $mathRandom;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
@@ -123,12 +123,12 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
      * @param ResourceWishlist $resource
      * @param Collection $resourceCollection
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
      * @param ItemFactory $wishlistItemFactory
      * @param CollectionFactory $wishlistCollectionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param bool $useCurrentWebsite
      * @param array $data
      */
@@ -140,12 +140,12 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
         ResourceWishlist $resource,
         Collection $resourceCollection,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Stdlib\DateTime\DateTime $date,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
         ItemFactory $wishlistItemFactory,
         CollectionFactory $wishlistCollectionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Math\Random $mathRandom,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         $useCurrentWebsite = true,
         array $data = array()
     ) {

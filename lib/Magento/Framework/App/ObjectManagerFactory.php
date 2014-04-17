@@ -76,7 +76,7 @@ class ObjectManagerFactory
         $diConfig = new $configClass($relations, $definitions);
         $appMode = $appArguments->get(State::PARAM_MODE, State::MODE_DEFAULT);
 
-        $booleanUtils = new \Magento\Stdlib\BooleanUtils();
+        $booleanUtils = new \Magento\Framework\Stdlib\BooleanUtils();
         $argInterpreter = $this->createArgumentInterpreter($booleanUtils);
 
         $argumentMapper = new \Magento\Framework\ObjectManager\Config\Mapper\Dom($argInterpreter);
@@ -103,7 +103,7 @@ class ObjectManagerFactory
             'Magento\Interception\Definition' => $definitionFactory->createPluginDefinition(),
             'Magento\Framework\ObjectManager\Config' => $diConfig,
             'Magento\Framework\ObjectManager\Definition' => $definitions,
-            'Magento\Stdlib\BooleanUtils' => $booleanUtils,
+            'Magento\Framework\Stdlib\BooleanUtils' => $booleanUtils,
             'Magento\Framework\ObjectManager\Config\Mapper\Dom' => $argumentMapper,
             $configClass => $diConfig
         ];
@@ -156,11 +156,11 @@ class ObjectManagerFactory
     /**
      * Return newly created instance on an argument interpreter, suitable for processing DI arguments
      *
-     * @param \Magento\Stdlib\BooleanUtils $booleanUtils
+     * @param \Magento\Framework\Stdlib\BooleanUtils $booleanUtils
      * @return \Magento\Framework\Data\Argument\InterpreterInterface
      */
     protected function createArgumentInterpreter(
-        \Magento\Stdlib\BooleanUtils $booleanUtils
+        \Magento\Framework\Stdlib\BooleanUtils $booleanUtils
     ) {
         $constInterpreter = new \Magento\Framework\Data\Argument\Interpreter\Constant();
         $result = new \Magento\Framework\Data\Argument\Interpreter\Composite(

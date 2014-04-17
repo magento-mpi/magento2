@@ -112,16 +112,15 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
     public function testRead()
     {
-
         $this->_filesystemDirectoryMock->expects(
-            $this->at(0)
+            $this->at(1)
         )->method(
             'readFile'
         )->will(
             $this->returnValue(file_get_contents($this->_paths[0]))
         );
         $this->_filesystemDirectoryMock->expects(
-            $this->at(2)
+            $this->at(3)
         )->method(
             'readFile'
         )->will(

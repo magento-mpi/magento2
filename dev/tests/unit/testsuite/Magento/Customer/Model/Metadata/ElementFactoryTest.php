@@ -31,7 +31,7 @@ class ElementFactoryTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_elementFactory = new ElementFactory($this->_objectManager, new \Magento\Stdlib\String());
+        $this->_elementFactory = new ElementFactory($this->_objectManager, new \Magento\Framework\Stdlib\String());
     }
 
     /** TODO fix when Validation is implemented MAGETWO-17341 */

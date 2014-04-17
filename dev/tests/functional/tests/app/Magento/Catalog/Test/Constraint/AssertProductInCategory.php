@@ -60,7 +60,7 @@ class AssertProductInCategory extends AbstractConstraint
         $pricePresetData = $priceFixture->getPreset();
 
         //Regular price verification
-        if (isset($presetData['category_special_price'])) {
+        if (isset($pricePresetData['category_special_price'])) {
             $regularPrice = $catalogCategoryView->getListProductBlock()->getProductPriceBlock($product->getName())
                 ->getRegularPrice();
             \PHPUnit_Framework_Assert::assertEquals(

@@ -111,7 +111,7 @@ class Design extends \Magento\Backend\Block\Widget\Form\Generic implements
             array('legend' => __('Custom Design'), 'class' => 'fieldset-wide', 'disabled' => $isElementDisabled)
         );
 
-        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
 
         $designFieldset->addField(
             'custom_theme_from',
