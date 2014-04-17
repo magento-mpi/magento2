@@ -2,26 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Model\Import\Entity\Eav\Customer;
+
+use Magento\ImportExport\Model\Import\AbstractEntity;
+
 /**
  * Test class for \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
  *
- * @todo Fix tests in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
- */
-namespace Magento\ImportExport\Model\Import\Entity\Eav\Customer;
-use \Magento\ImportExport\Model\Import\AbstractEntity;
-use \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address;
-
-/**
- * Class AddressTest
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- *
  */
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
