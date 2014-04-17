@@ -2,55 +2,70 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Customer\Test\TestCase;
 
-use Mtf\Factory\Factory;
-use Mtf\TestCase\Functional;
+use Mtf\TestCase\Injectable;
+use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
+use Magento\Customer\Test\Page\Adminhtml\CustomerIndexNew;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Fixture\AddressInjectable;
 
-class BackendCustomerCreateTest extends Functional
+/**
+ * Test Coverage for CreateCustomerBackendEntity
+ *
+ * General Flow:
+ * 1. Log in as default admin user.
+ * 2. Go to Customers > All Customers
+ * 3. Press "Add New Customer" button
+ * 4. Fill form
+ * 5. Click "Save Customer" button
+ * 6. Perform all assertions
+ *
+ * @ticketId MAGETWO-23424
+ */
+class BackendCustomerCreateTest extends Injectable
 {
     /**
-     * Login into backend area before test
+     * @var CustomerInjectable
      */
-    protected function setUp()
-    {
-        Factory::getApp()->magentoBackendLoginUser();
+    protected $customer;
+
+    /**
+     * @var CustomerIndex
+     */
+    protected $pageCustomerIndex;
+
+    /**
+     * @var CustomerIndexNew
+     */
+    protected $pageCustomerIndexNew;
+
+    /**
+     * @param CustomerIndex $pageCustomerIndex
+     * @param CustomerIndexNew $pageCustomerIndexNew
+     */
+    public function __inject(
+        CustomerIndex $pageCustomerIndex,
+        CustomerIndexNew $pageCustomerIndexNew
+    ) {
+        $this->pageCustomerIndex = $pageCustomerIndex;
+        $this->pageCustomerIndexNew = $pageCustomerIndexNew;
     }
 
     /**
-     * New customer creation in backend
-     *
-     * @ZephyrId MAGETWO-12516
+     * @param CustomerInjectable $customer
+     * @param AddressInjectable $address
      */
-    public function testCreateCustomer()
+    public function testBackendCustomerCreate(CustomerInjectable $customer, AddressInjectable $address)
     {
-        //Data
-        $customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
-        $customerFixture->switchData('backend_customer');
-        $searchData = array(
-            'email' => $customerFixture->getEmail()
-        );
-        //Pages
-        $customerPage = Factory::getPageFactory()->getCustomerIndex();
-        $customerCreatePage = Factory::getPageFactory()->getCustomerNew();
-        //Steps
-        $customerPage->open();
-        $customerPage->getActionsBlock()->addNew();
-        $customerCreatePage->getNewCustomerForm()->fill($customerFixture);
-        $customerCreatePage->getPageActionsBlock()->saveAndContinue();
-        $customerCreatePage->getMessageBlock()->assertSuccessMessage($customerFixture);
-        //Verifying
-        $customerPage->open();
-        $this->assertTrue(
-            $customerPage->getGridBlock()->isRowVisible($searchData),
-            'Customer email "' . $searchData['email'] . '" not found in the grid'
-        );
+        // Steps
+        $this->pageCustomerIndex->open();
+        $this->pageCustomerIndex->getPageActions()->addNew();
+        $this->pageCustomerIndexNew->getCustomerForm()->fillCustomer($customer, $address);
+        $this->pageCustomerIndexNew->getPageActions()->save();
     }
 }

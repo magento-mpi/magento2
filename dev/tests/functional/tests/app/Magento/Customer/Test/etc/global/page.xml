@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page>
+    <backendCustomerIndex>
+        <mca>customer/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Customer\Test\Page\Adminhtml\CustomerIndex</class>
+    </backendCustomerIndex>
+    <backendCustomerIndexNew>
+        <mca>customer/index/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\Customer\Test\Page\Adminhtml\CustomerIndexNew</class>
+    </backendCustomerIndexNew>
+    <backendCustomerIndexEdit>
+        <mca>customer/index/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit</class>
+    </backendCustomerIndexEdit>
+</page>

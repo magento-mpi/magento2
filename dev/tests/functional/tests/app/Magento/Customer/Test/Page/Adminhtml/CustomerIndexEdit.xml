@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="customer/index/edit" >
+    <block>
+        <name>customerForm</name>
+        <class>Magento\Customer\Test\Block\Adminhtml\Edit\CustomerForm</class>
+        <locator>[id="page:main-container"]</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

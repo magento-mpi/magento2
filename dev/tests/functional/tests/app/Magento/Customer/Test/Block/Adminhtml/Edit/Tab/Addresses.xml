@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <selector>#customer_info_tabs_addresses_content</selector>
+    <strategy>css selector</strategy>
+    <fields>
+        <firstname>
+            <selector>[name$="[firstname]"]</selector>
+            <strategy>css selector</strategy>
+        </firstname>
+        <lastname>
+            <selector>[name$="[lastname]"]</selector>
+            <strategy>css selector</strategy>
+        </lastname>
+        <street>
+            <selector>[name$="[street][0]"]</selector>
+            <strategy>css selector</strategy>
+        </street>
+        <city>
+            <selector>[name$="[city]"]</selector>
+            <strategy>css selector</strategy>
+        </city>
+        <country_id>
+            <input>select</input>
+            <selector>[name$="[country_id]"]</selector>
+            <strategy>css selector</strategy>
+        </country_id>
+        <region_id>
+            <input>select</input>
+            <selector>[name$="[region_id]"]</selector>
+            <strategy>css selector</strategy>
+        </region_id>
+        <postcode>
+            <selector>[name$="[postcode]"]</selector>
+            <strategy>css selector</strategy>
+        </postcode>
+        <telephone>
+            <selector>[name$="[telephone]"]</selector>
+            <strategy>css selector</strategy>
+        </telephone>
+    </fields>
+</mapping>
