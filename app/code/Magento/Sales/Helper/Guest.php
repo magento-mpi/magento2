@@ -39,7 +39,7 @@ class Guest extends \Magento\Core\Helper\Data
     protected $_customerSession;
 
     /**
-     * @var \Magento\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\Cookie
      */
     protected $_coreCookie;
 
@@ -61,7 +61,7 @@ class Guest extends \Magento\Core\Helper\Data
      * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Stdlib\Cookie $coreCookie
+     * @param \Magento\Framework\Stdlib\Cookie $coreCookie
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\App\ViewInterface $view
@@ -75,7 +75,7 @@ class Guest extends \Magento\Core\Helper\Data
         \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Stdlib\Cookie $coreCookie,
+        \Magento\Framework\Stdlib\Cookie $coreCookie,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\App\ViewInterface $view,

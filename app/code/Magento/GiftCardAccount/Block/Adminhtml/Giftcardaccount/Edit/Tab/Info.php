@@ -159,7 +159,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
                 'title' => __('Expiration Date'),
                 'image' => $this->getViewFileUrl('images/grid-cal.gif'),
                 'date_format' => $this->_localeDate->getDateFormat(
-                    \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                    \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
                 )
             )
         );

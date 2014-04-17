@@ -3,11 +3,11 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    \Magento\Stdlib
+ * @package    \Magento\Framework\Stdlib
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Stdlib;
+namespace Magento\Framework\Stdlib;
 
 /**
  * Converter of date formats
@@ -42,12 +42,12 @@ class DateTime
      * Convert date to UNIX timestamp
      * Returns current UNIX timestamp if date is true
      *
-     * @param \Magento\Stdlib\DateTime\DateInterface|bool $date
+     * @param \Magento\Framework\Stdlib\DateTime\DateInterface|bool $date
      * @return int
      */
     public function toTimestamp($date)
     {
-        if ($date instanceof \Magento\Stdlib\DateTime\DateInterface) {
+        if ($date instanceof \Magento\Framework\Stdlib\DateTime\DateInterface) {
             return $date->getTimestamp();
         }
 
@@ -83,7 +83,7 @@ class DateTime
             return $this->now(!$includeTime);
         }
 
-        if ($date instanceof \Magento\Stdlib\DateTime\DateInterface) {
+        if ($date instanceof \Magento\Framework\Stdlib\DateTime\DateInterface) {
             if ($includeTime) {
                 return $date->toString(self::DATETIME_INTERNAL_FORMAT);
             } else {

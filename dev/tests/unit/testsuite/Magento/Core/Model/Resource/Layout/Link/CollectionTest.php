@@ -37,7 +37,7 @@ class CollectionTest extends \Magento\Core\Model\Resource\Layout\AbstractTestCas
             $this->getMock('Magento\Logger', array(), array(), '', false),
             $this->getMockForAbstractClass('Magento\Framework\Data\Collection\Db\FetchStrategyInterface'),
             $eventManager,
-            $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true),
+            $this->getMock('Magento\Framework\Stdlib\DateTime', null, array(), '', true),
             null,
             $this->_getResource($select)
         );

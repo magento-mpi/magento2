@@ -84,7 +84,7 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
             'id' => $this->getFilterElementId($attribute->getAttributeCode()),
             'class' => 'input-text input-text-range-date',
             'date_format' => $this->_localeDate->getDateFormat(
-                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
             ),
             'image' => $this->getViewFileUrl('images/grid-cal.gif')
         );

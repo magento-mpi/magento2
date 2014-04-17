@@ -27,7 +27,7 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
     /**
      * Cookie mock
      *
-     * @var \Magento\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $cookieMock;
 
@@ -58,7 +58,7 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->cookieMock = $this->getMock('Magento\Stdlib\Cookie', array(), array(), '', false);
+        $this->cookieMock = $this->getMock('Magento\Framework\Stdlib\Cookie', array(), array(), '', false);
         $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array('isPost'), array(), '', false);
         $this->configMock = $this->getMock('Magento\PageCache\Model\Config', array('isEnabled'), array(), '', false);
         $this->messageManagerMock = $this->getMockBuilder('Magento\Message\Manager')

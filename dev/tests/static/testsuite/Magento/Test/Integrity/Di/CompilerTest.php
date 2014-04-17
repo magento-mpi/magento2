@@ -72,7 +72,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
         $this->_command = 'php ' . $basePath . '/dev/tools/Magento/Tools/Di/compiler.php --generation=%s --di=%s';
 
-        $booleanUtils = new \Magento\Stdlib\BooleanUtils();
+        $booleanUtils = new \Magento\Framework\Stdlib\BooleanUtils();
         $constInterpreter = new \Magento\Framework\Data\Argument\Interpreter\Constant();
         $argumentInterpreter = new \Magento\Framework\Data\Argument\Interpreter\Composite(
             [

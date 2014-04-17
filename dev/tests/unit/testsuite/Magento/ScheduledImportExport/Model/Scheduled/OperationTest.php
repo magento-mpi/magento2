@@ -68,7 +68,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     protected $valueFactoryMock;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime | Mock
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime | Mock
      */
     protected $datetimeMock;
 
@@ -78,7 +78,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     protected $configScopeMock;
 
     /**
-     * @var \Magento\Stdlib\String | Mock
+     * @var \Magento\Framework\Stdlib\String | Mock
      */
     protected $stringStdLibMock;
 
@@ -128,13 +128,13 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $this->valueFactoryMock = $this->getMockBuilder('Magento\Framework\App\Config\ValueFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->datetimeMock = $this->getMockBuilder('Magento\Stdlib\DateTime\DateTime')
+        $this->datetimeMock = $this->getMockBuilder('Magento\Framework\Stdlib\DateTime\DateTime')
             ->disableOriginalConstructor()
             ->getMock();
         $this->configScopeMock = $this->getMockBuilder('Magento\Framework\App\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->stringStdLibMock = $this->getMockBuilder('Magento\Stdlib\String')
+        $this->stringStdLibMock = $this->getMockBuilder('Magento\Framework\Stdlib\String')
             ->disableOriginalConstructor()
             ->getMock();
         $this->transportBuilderMock = $this->getMockBuilder('Magento\Mail\Template\TransportBuilder')
@@ -221,7 +221,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $dateModelMock = $this->getMock('Magento\Stdlib\DateTime\DateTime', array('date'), array(), '', false);
+        $dateModelMock = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTime', array('date'), array(), '', false);
         $dateModelMock->expects(
             $this->any()
         )->method(
@@ -268,7 +268,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Callback to use instead of \Magento\Stdlib\DateTime\DateTime::date()
+     * Callback to use instead of \Magento\Framework\Stdlib\DateTime\DateTime::date()
      *
      * @param string $format
      * @param int|string $input

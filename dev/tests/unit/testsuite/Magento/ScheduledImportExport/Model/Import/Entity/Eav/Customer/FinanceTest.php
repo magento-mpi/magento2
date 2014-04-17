@@ -208,7 +208,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance(
             $coreData,
-            new \Magento\Stdlib\String(),
+            new \Magento\Framework\Stdlib\String(),
             $scopeConfig,
             $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),

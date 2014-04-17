@@ -175,7 +175,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
     {
         return $this->formatDate(
             $this->getEntity()->getCreatedAt(),
-            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
+            \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
             true
         );
     }

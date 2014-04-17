@@ -5,15 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Stdlib;
+namespace Magento\Framework\Stdlib;
 
 /**
- * Magento\Stdlib\ArrayUtilsTest test case
+ * Magento\Framework\Stdlib\ArrayUtilsTest test case
  */
 class ArrayUtilsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Stdlib\ArrayUtils
+     * @var \Magento\Framework\Stdlib\ArrayUtils
      */
     protected $_arrayUtils;
 
@@ -23,7 +23,7 @@ class ArrayUtilsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Stdlib\ArrayUtils::ksortMultibyte
+     * @covers \Magento\Framework\Stdlib\ArrayUtils::ksortMultibyte
      * @dataProvider ksortMultibyteDataProvider
      */
     public function testKsortMultibyte($input, $locale)
@@ -47,7 +47,7 @@ class ArrayUtilsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Stdlib\ArrayUtils::decorateArray
+     * @covers \Magento\Framework\Stdlib\ArrayUtils::decorateArray
      */
     public function testDecorateArray()
     {

@@ -77,7 +77,7 @@ class Cc extends \Magento\Payment\Block\Info
     /**
      * Retrieve CC expiration date
      *
-     * @return \Magento\Stdlib\DateTime\Date
+     * @return \Magento\Framework\Stdlib\DateTime\Date
      */
     public function getCcExpDate()
     {

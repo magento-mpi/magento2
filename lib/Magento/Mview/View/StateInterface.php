@@ -115,7 +115,7 @@ interface StateInterface
     /**
      * Set state updated time
      *
-     * @param string|int|\Magento\Stdlib\DateTime\DateInterface $updated
+     * @param string|int|\Magento\Framework\Stdlib\DateTime\DateInterface $updated
      * @return \Magento\Mview\View\StateInterface
      */
     public function setUpdated($updated);

@@ -21,7 +21,7 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\CatalogRule\Model\Rule\Job;
 use Magento\Framework\Model\Exception;
-use Magento\Stdlib\DateTime\Filter\Date;
+use Magento\Framework\Stdlib\DateTime\Filter\Date;
 use Magento\Registry;
 use Magento\Rule\Model\Condition\AbstractCondition;
 use Magento\Rule\Model\Action\AbstractAction;
@@ -44,7 +44,7 @@ class Catalog extends Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Stdlib\DateTime\Filter\Date
+     * @var \Magento\Framework\Stdlib\DateTime\Filter\Date
      */
     protected $_dateFilter;
 

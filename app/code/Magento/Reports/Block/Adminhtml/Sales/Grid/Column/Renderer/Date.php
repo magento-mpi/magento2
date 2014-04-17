@@ -52,7 +52,7 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Date
 
                         default:
                             self::$_format = $this->_localeDate->getDateFormat(
-                                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+                                \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
                             );
                             break;
                     }
@@ -81,7 +81,7 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Date
                     $dateFormat = 'yyyy';
                     break;
                 default:
-                    $dateFormat = \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
+                    $dateFormat = \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
                     break;
             }
 

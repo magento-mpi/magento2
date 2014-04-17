@@ -89,8 +89,8 @@ class Returns extends \Magento\Framework\App\Action\Action
             return;
         }
 
-        /** @var \Magento\Stdlib\DateTime\DateTime $coreDate */
-        $coreDate = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
+        /** @var \Magento\Framework\Stdlib\DateTime\DateTime $coreDate */
+        $coreDate = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
         if ($this->_canViewOrder($order)) {
             $post = $this->getRequest()->getPost();
             if ($post && !empty($post['items'])) {
@@ -303,8 +303,8 @@ class Returns extends \Magento\Framework\App\Action\Action
                 $comment = trim(strip_tags($comment));
 
                 if (!empty($comment)) {
-                    /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
-                    $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
+                    /** @var $dateModel \Magento\Framework\Stdlib\DateTime\DateTime */
+                    $dateModel = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
                     /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
                     $statusHistory = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
                     $result = $statusHistory->setRmaEntityId(

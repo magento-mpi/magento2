@@ -156,7 +156,7 @@ class Edit extends \Magento\Backend\Block\Widget\Button\SplitButton
         $sourceChange->loadByThemeId($this->_themeContext->getEditableTheme()->getId());
         $dateMessage = $this->_localeDate->date(
             $sourceChange->getChangeTime(),
-            \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
+            \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
         )->toString();
         $message = __('Do you want to restore the version saved at %1?', $dateMessage);
 

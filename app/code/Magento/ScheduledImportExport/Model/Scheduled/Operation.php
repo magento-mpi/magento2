@@ -70,7 +70,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
     /**
      * Date model
      *
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_dateModel;
 
@@ -102,7 +102,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
@@ -131,9 +131,9 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
      * @param \Magento\Framework\App\Config\ValueFactory $configValueFactory
-     * @param \Magento\Stdlib\DateTime\DateTime $dateModel
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateModel
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Io\Ftp $ftpAdapter
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -148,9 +148,9 @@ class Operation extends \Magento\Framework\Model\AbstractModel
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
         \Magento\Framework\App\Config\ValueFactory $configValueFactory,
-        \Magento\Stdlib\DateTime\DateTime $dateModel,
+        \Magento\Framework\Stdlib\DateTime\DateTime $dateModel,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Io\Ftp $ftpAdapter,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
@@ -175,7 +175,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
     /**
      * Date model getter
      *
-     * @return \Magento\Stdlib\DateTime\DateTime
+     * @return \Magento\Framework\Stdlib\DateTime\DateTime
      */
     public function getDateModel()
     {

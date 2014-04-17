@@ -67,7 +67,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Filter\FilterManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $filterManager;
 
-    /** @var \Magento\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $timezoneInterface;
 
     /** @var \Magento\Translate\Inline\StateInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -151,7 +151,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->logger = $this->getMock('Magento\Logger', [], [], '', false);
         $this->escaper = $this->getMock('Magento\Escaper');
         $this->filterManager = $this->getMock('Magento\Filter\FilterManager', [], [], '', false);
-        $this->timezoneInterface = $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface');
+        $this->timezoneInterface = $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
         $this->translateState = $this->getMock('Magento\Translate\Inline\StateInterface');
         $this->appFilesystem = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
         $this->viewFilesystem = $this->getMock('Magento\Framework\View\FileSystem', [], [], '', false);

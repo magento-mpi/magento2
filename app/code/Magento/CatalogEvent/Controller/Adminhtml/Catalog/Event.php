@@ -18,7 +18,7 @@ use Magento\Backend\App\Action\Context;
 use Magento\CatalogEvent\Model\Event as ModelEvent;
 use Magento\CatalogEvent\Model\EventFactory;
 use Magento\Framework\Model\Exception;
-use Magento\Stdlib\DateTime\Filter\DateTime;
+use Magento\Framework\Stdlib\DateTime\Filter\DateTime;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Registry;
 

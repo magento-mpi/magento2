@@ -13,13 +13,13 @@ use Magento\CatalogEvent\Model\Resource\Event as ResourceEvent;
 use Magento\Framework\Model\Exception;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
-use Magento\Stdlib\DateTime\TimezoneInterface;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Registry;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Core\Model\File\Uploader;
 use Magento\Framework\Data\Collection\Db;
-use Magento\Stdlib\DateTime;
+use Magento\Framework\Stdlib\DateTime;
 use Magento\UrlInterface;
 
 /**
@@ -80,7 +80,7 @@ class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\O
     protected $_isReadonly = false;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 

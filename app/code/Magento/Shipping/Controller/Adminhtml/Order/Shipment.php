@@ -596,7 +596,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             $pdf = $this->_objectManager->create('Magento\Shipping\Model\Order\Pdf\Packaging')->getPdf($shipment);
             return $this->_fileFactory->create(
                 'packingslip' . $this->_objectManager->get(
-                    'Magento\Stdlib\DateTime\DateTime'
+                    'Magento\Framework\Stdlib\DateTime\DateTime'
                 )->date(
                     'Y-m-d_H-i-s'
                 ) . '.pdf',

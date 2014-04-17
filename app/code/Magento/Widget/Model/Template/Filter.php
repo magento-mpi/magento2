@@ -25,7 +25,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
     protected $_widget;
 
     /**
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
      * @param \Magento\Framework\View\Url $viewUrl
@@ -39,7 +39,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
      * @param \Magento\Widget\Model\Widget $widget
      */
     public function __construct(
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
         \Magento\Framework\View\Url $viewUrl,

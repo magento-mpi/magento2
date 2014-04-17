@@ -115,7 +115,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $createdAt = $this->_block->formatDate(
             $this->_loadCustomer()->getCreatedAt(),
-            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
+            \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
             true
         );
         $this->assertEquals($createdAt, $this->_block->getCreateDate());
@@ -130,7 +130,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $date = $this->_context->getLocaleDate()->scopeDate($customer->getStoreId(), $customer->getCreatedAt(), true);
         $storeCreateDate = $this->_block->formatDate(
             $date,
-            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
+            \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
             true
         );
         $this->assertEquals($storeCreateDate, $this->_block->getStoreCreateDate());
@@ -142,9 +142,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function testGetStoreCreateDateTimezone()
     {
         /**
-         * @var \Magento\Stdlib\DateTime\TimezoneInterface $defaultTimeZonePath
+         * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface $defaultTimeZonePath
          */
-        $defaultTimeZonePath = $this->_objectManager->get('Magento\Stdlib\DateTime\TimezoneInterface')
+        $defaultTimeZonePath = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\TimezoneInterface')
             ->getDefaultTimezonePath();
         $timezone = $this->_context->getScopeConfig()->getValue(
             $defaultTimeZonePath,

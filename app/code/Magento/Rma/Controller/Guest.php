@@ -152,8 +152,8 @@ class Guest extends \Magento\Framework\App\Action\Action
         }
 
         $post = $this->getRequest()->getPost();
-        /** @var \Magento\Stdlib\DateTime\DateTime $coreDate */
-        $coreDate = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
+        /** @var \Magento\Framework\Stdlib\DateTime\DateTime $coreDate */
+        $coreDate = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
         if ($post && !empty($post['items'])) {
             try {
                 /** @var $urlModel \Magento\UrlInterface */
@@ -257,7 +257,7 @@ class Guest extends \Magento\Framework\App\Action\Action
                     )->setStatus(
                         $this->_coreRegistry->registry('current_rma')->getStatus()
                     )->setCreatedAt(
-                        $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->gmtDate()
+                        $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime')->gmtDate()
                     )->save();
                     $result->setStoreId($this->_coreRegistry->registry('current_rma')->getStoreId());
                     $result->sendCustomerCommentEmail();

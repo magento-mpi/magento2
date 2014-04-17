@@ -45,7 +45,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
     protected $_directory;
 
     /**
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Logger $logger
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Core\Helper\Data $coreData
@@ -53,7 +53,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Logger $logger,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Core\Helper\Data $coreData,

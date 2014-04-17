@@ -22,15 +22,15 @@ class Dir
     protected $_modulesDirectory;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $_string;
 
     /**
      * @param Filesystem $filesystem
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      */
-    public function __construct(Filesystem $filesystem, \Magento\Stdlib\String $string)
+    public function __construct(Filesystem $filesystem, \Magento\Framework\Stdlib\String $string)
     {
         $this->_modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES_DIR);
         $this->_string = $string;

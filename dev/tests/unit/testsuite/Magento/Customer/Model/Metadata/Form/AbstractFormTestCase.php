@@ -10,7 +10,7 @@ namespace Magento\Customer\Model\Metadata\Form;
 /** Test Magento\Customer\Model\Metadata\Form\Multiline */
 abstract class AbstractFormTestCase extends \PHPUnit_Framework_TestCase
 {
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Stdlib\DateTime\TimezoneInterface */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Stdlib\DateTime\TimezoneInterface */
     protected $localeMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Locale\ResolverInterface */
@@ -24,7 +24,7 @@ abstract class AbstractFormTestCase extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->localeMock = $this->getMockBuilder('Magento\Stdlib\DateTime\TimezoneInterface')->getMock();
+        $this->localeMock = $this->getMockBuilder('Magento\Framework\Stdlib\DateTime\TimezoneInterface')->getMock();
         $this->localeResolverMock = $this->getMockBuilder('Magento\Locale\ResolverInterface')->getMock();
         $this->loggerMock = $this->getMockBuilder('Magento\Logger')->disableOriginalConstructor()->getMock();
         $this->attributeMetadataMock = $this->getMockBuilder(

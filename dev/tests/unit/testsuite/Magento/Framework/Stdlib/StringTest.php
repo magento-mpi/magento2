@@ -5,15 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Stdlib;
+namespace Magento\Framework\Stdlib;
 
 /**
- * Magento\Stdlib\StringTest test case
+ * Magento\Framework\Stdlib\StringTest test case
  */
 class StringTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $_string;
 
@@ -23,7 +23,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Stdlib\String::split
+     * @covers \Magento\Framework\Stdlib\String::split
      */
     public function testStrSplit()
     {
@@ -37,7 +37,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Stdlib\String::splitInjection
+     * @covers \Magento\Framework\Stdlib\String::splitInjection
      */
     public function testSplitInjection()
     {
@@ -46,7 +46,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Stdlib\String::cleanString
+     * @covers \Magento\Framework\Stdlib\String::cleanString
      */
     public function testCleanString()
     {
@@ -55,7 +55,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Stdlib\String::strpos
+     * @covers \Magento\Framework\Stdlib\String::strpos
      */
     public function testStrpos()
     {

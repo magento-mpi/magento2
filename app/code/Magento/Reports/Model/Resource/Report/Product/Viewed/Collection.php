@@ -235,9 +235,9 @@ class Collection extends \Magento\Reports\Model\Resource\Report\Collection\Abstr
             $selectUnions = array();
 
             // apply date boundaries (before calling $this->_applyDateRangeFilter())
-            $dtFormat = \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
-            $periodFrom = !is_null($this->_from) ? new \Magento\Stdlib\DateTime\Date($this->_from, $dtFormat) : null;
-            $periodTo = !is_null($this->_to) ? new \Magento\Stdlib\DateTime\Date($this->_to, $dtFormat) : null;
+            $dtFormat = \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
+            $periodFrom = !is_null($this->_from) ? new \Magento\Framework\Stdlib\DateTime\Date($this->_from, $dtFormat) : null;
+            $periodTo = !is_null($this->_to) ? new \Magento\Framework\Stdlib\DateTime\Date($this->_to, $dtFormat) : null;
             if ('year' == $this->_period) {
 
                 if ($periodFrom) {

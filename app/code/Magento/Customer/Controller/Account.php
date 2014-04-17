@@ -60,7 +60,7 @@ class Account extends \Magento\Framework\App\Action\Action
     /** @var \Magento\Customer\Model\Metadata\FormFactory */
     protected $_formFactory;
 
-    /** @var \Magento\Stdlib\String */
+    /** @var \Magento\Framework\Stdlib\String */
     protected $string;
 
     /** @var \Magento\Core\App\Action\FormKeyValidator */
@@ -109,7 +109,7 @@ class Account extends \Magento\Framework\App\Action\Action
      * @param \Magento\Customer\Helper\Data $customerHelperData
      * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -133,7 +133,7 @@ class Account extends \Magento\Framework\App\Action\Action
         \Magento\Customer\Helper\Data $customerHelperData,
         \Magento\UrlFactory $urlFactory,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

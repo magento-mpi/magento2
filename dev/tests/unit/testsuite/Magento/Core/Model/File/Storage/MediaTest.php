@@ -28,7 +28,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     protected $_storageHelperMock;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_mediaHelperMock;
 

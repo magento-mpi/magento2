@@ -28,7 +28,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected $_persistentSession;
 
     /**
-     * @var \Magento\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cookieMock;
 
@@ -41,7 +41,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_persistentSession = $this->_objectManager->get('Magento\Persistent\Helper\Session');
-        $this->_cookieMock = $this->getMock('Magento\Stdlib\Cookie', array('set'), array(), '', false);
+        $this->_cookieMock = $this->getMock('Magento\Framework\Stdlib\Cookie', array('set'), array(), '', false);
         $this->_customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
         $this->_model = $this->_objectManager->create(
             'Magento\Persistent\Model\Observer\Session',

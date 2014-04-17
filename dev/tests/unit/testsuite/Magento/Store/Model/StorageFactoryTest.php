@@ -42,7 +42,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     protected $_appStateMock;
 
     /**
-     * @var \Magento\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\Cookie
      */
     protected $_cookie;
 
@@ -85,7 +85,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_sidResolverMock = $this->getMock('\Magento\Framework\Session\SidResolverInterface', array(), array(), '', false);
         $this->_appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $this->_storage = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->_cookie = $this->getMock('Magento\Stdlib\Cookie', array(), array(), '', false);
+        $this->_cookie = $this->getMock('Magento\Framework\Stdlib\Cookie', array(), array(), '', false);
         $this->_httpContext = $this->getMock('Magento\Framework\App\Http\Context', array(), array(), '', false);
         $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 

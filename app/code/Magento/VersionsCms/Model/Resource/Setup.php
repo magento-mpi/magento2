@@ -15,21 +15,21 @@ namespace Magento\VersionsCms\Model\Resource;
 class Setup extends \Magento\Module\Setup
 {
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_coreDate;
 
     /**
      * @param \Magento\Module\Setup\Context $context
      * @param string $resourceName
-     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
         \Magento\Module\Setup\Context $context,
         $resourceName,
-        \Magento\Stdlib\DateTime\DateTime $coreDate,
+        \Magento\Framework\Stdlib\DateTime\DateTime $coreDate,
         $moduleName = 'Magento_VersionsCms',
         $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {

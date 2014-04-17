@@ -72,7 +72,7 @@ class Options extends \Magento\Framework\View\Element\Template
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Model\Product\Option $option
      * @param \Magento\Registry $registry
-     * @param \Magento\Stdlib\ArrayUtils $arrayUtils
+     * @param \Magento\Framework\Stdlib\ArrayUtils $arrayUtils
      * @param array $data
      */
     public function __construct(
@@ -82,7 +82,7 @@ class Options extends \Magento\Framework\View\Element\Template
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Model\Product\Option $option,
         \Magento\Registry $registry,
-        \Magento\Stdlib\ArrayUtils $arrayUtils,
+        \Magento\Framework\Stdlib\ArrayUtils $arrayUtils,
         array $data = array()
     ) {
         $this->_coreData = $coreData;

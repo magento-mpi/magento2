@@ -90,7 +90,7 @@ class Detail extends \Magento\Backend\Block\Widget\Container
             $this->_txn->getTxnId(),
             $this->formatDate(
                 $this->_txn->getCreatedAt(),
-                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
+                \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
                 true
             )
         );
@@ -125,7 +125,7 @@ class Detail extends \Magento\Backend\Block\Widget\Container
             $this->_txn->getCreatedAt()
         ) ? $this->formatDate(
             $this->_txn->getCreatedAt(),
-            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
+            \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
             true
         ) : __(
             'N/A'

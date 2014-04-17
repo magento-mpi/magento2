@@ -12,7 +12,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Stdlib\DateTime;
+namespace Magento\Framework\Stdlib\DateTime;
 
 class DateTime
 {
@@ -24,14 +24,14 @@ class DateTime
     private $_offset = 0;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
     /**
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      */
-    public function __construct(\Magento\Stdlib\DateTime\TimezoneInterface $localeDate)
+    public function __construct(\Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate)
     {
         $this->_localeDate = $localeDate;
         $this->_offset = $this->calculateOffset($this->_localeDate->getConfigTimezone());

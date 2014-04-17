@@ -248,7 +248,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             ),
             $catalogDataMock,
             $scopeConfig,
-            new \Magento\Stdlib\DateTime(),
+            new \Magento\Framework\Stdlib\DateTime(),
             $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
         );
     }

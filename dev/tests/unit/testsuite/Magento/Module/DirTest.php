@@ -20,7 +20,7 @@ class DirTest extends \PHPUnit_Framework_TestCase
     protected $filesystemMock;
 
     /**
-     * @var \Magento\Stdlib\String|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\String|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_stringMock;
 
@@ -40,7 +40,7 @@ class DirTest extends \PHPUnit_Framework_TestCase
             false,
             false
         );
-        $this->_stringMock = $this->getMock('Magento\Stdlib\String', array(), array(), '', false, false);
+        $this->_stringMock = $this->getMock('Magento\Framework\Stdlib\String', array(), array(), '', false, false);
 
         $this->_stringMock->expects($this->once())->method('upperCaseWords')->will($this->returnValue('Test/Module'));
 

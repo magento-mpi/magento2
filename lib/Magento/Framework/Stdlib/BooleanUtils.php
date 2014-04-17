@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Stdlib;
+namespace Magento\Framework\Stdlib;
 
 /**
  * Utility methods for the boolean data type

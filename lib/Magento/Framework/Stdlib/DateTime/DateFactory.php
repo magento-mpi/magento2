@@ -5,7 +5,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Stdlib\DateTime;
+namespace Magento\Framework\Stdlib\DateTime;
 
 class DateFactory
 {
@@ -25,7 +25,7 @@ class DateFactory
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
-        $instanceName = 'Magento\Stdlib\DateTime\DateInterface'
+        $instanceName = 'Magento\Framework\Stdlib\DateTime\DateInterface'
     ) {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
@@ -35,7 +35,7 @@ class DateFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento\Stdlib\DateTime\DateInterface
+     * @return \Magento\Framework\Stdlib\DateTime\DateInterface
      */
     public function create(array $data = array())
     {

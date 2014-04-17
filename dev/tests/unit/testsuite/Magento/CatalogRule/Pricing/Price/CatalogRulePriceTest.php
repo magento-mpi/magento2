@@ -26,7 +26,7 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
     protected $salableItemMock;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $dataTimeMock;
 
@@ -83,7 +83,7 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->dataTimeMock = $this->getMockForAbstractClass(
-            'Magento\Stdlib\DateTime\TimezoneInterface',
+            'Magento\Framework\Stdlib\DateTime\TimezoneInterface',
             [],
             '',
             false,

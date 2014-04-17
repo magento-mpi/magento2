@@ -24,7 +24,7 @@ class MessageBox
     /**
      * Cookie
      *
-     * @var \Magento\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\Cookie
      */
     protected $cookie;
 
@@ -46,13 +46,13 @@ class MessageBox
     protected $messageManager;
 
     /**
-     * @param \Magento\Stdlib\Cookie $cookie
+     * @param \Magento\Framework\Stdlib\Cookie $cookie
      * @param \Magento\Framework\App\Request\Http $request
      * @param \Magento\PageCache\Model\Config $config
      * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
-        \Magento\Stdlib\Cookie $cookie,
+        \Magento\Framework\Stdlib\Cookie $cookie,
         \Magento\Framework\App\Request\Http $request,
         \Magento\PageCache\Model\Config $config,
         \Magento\Message\ManagerInterface $messageManager

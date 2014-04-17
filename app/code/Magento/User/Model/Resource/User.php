@@ -29,7 +29,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $_roleFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
@@ -39,13 +39,13 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Framework\Acl\CacheInterface $aclCache
      * @param \Magento\User\Model\RoleFactory $roleFactory
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Acl\CacheInterface $aclCache,
         \Magento\User\Model\RoleFactory $roleFactory,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Framework\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_aclCache = $aclCache;

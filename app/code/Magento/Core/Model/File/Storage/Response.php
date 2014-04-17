@@ -26,12 +26,12 @@ class Response extends Http
     /**
      * Constructor
      *
-     * @param \Magento\Stdlib\Cookie              $cookie
+     * @param \Magento\Framework\Stdlib\Cookie              $cookie
      * @param \Magento\Framework\App\Http\Context           $context
      * @param \Magento\File\Transfer\Adapter\Http $transferAdapter
      */
     public function __construct(
-        \Magento\Stdlib\Cookie $cookie,
+        \Magento\Framework\Stdlib\Cookie $cookie,
         \Magento\Framework\App\Http\Context $context,
         \Magento\File\Transfer\Adapter\Http $transferAdapter
     ) {

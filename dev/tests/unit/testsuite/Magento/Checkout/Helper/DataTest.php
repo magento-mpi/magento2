@@ -87,7 +87,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $checkoutSession = $this->getMock('\Magento\Checkout\Model\Session', array(), array(), '', false);
 
-        $localeDate = $this->getMock('\Magento\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false);
+        $localeDate = $this->getMock('\Magento\Framework\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false);
         $localeDate->expects($this->any())->method('date')->will($this->returnValue('Oct 02, 2013'));
 
         $collectionFactory = $this->getMock(

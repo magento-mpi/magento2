@@ -438,7 +438,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
@@ -465,7 +465,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\UrlInterface $urlBuilder
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Ogone\Model\Config $config
      * @param array $data
      */
@@ -477,7 +477,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\UrlInterface $urlBuilder,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Ogone\Model\Config $config,
         array $data = array()
     ) {

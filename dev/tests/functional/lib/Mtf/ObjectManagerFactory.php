@@ -8,7 +8,7 @@
 
 namespace Mtf;
 
-use Magento\Stdlib\BooleanUtils;
+use Magento\Framework\Stdlib\BooleanUtils;
 use Mtf\System\Config as SystemConfig;
 use Mtf\ObjectManager\Factory;
 use Magento\Framework\ObjectManager as MagentoObjectManager;
@@ -102,11 +102,11 @@ class ObjectManagerFactory
     /**
      * Return newly created instance on an argument interpreter, suitable for processing DI arguments
      *
-     * @param \Magento\Stdlib\BooleanUtils $booleanUtils
+     * @param \Magento\Framework\Stdlib\BooleanUtils $booleanUtils
      * @return \Magento\Framework\Data\Argument\InterpreterInterface
      */
     protected function createArgumentInterpreter(
-        \Magento\Stdlib\BooleanUtils $booleanUtils
+        \Magento\Framework\Stdlib\BooleanUtils $booleanUtils
     ) {
         $constInterpreter = new \Magento\Framework\Data\Argument\Interpreter\Constant();
         $result = new \Magento\Framework\Data\Argument\Interpreter\Composite(

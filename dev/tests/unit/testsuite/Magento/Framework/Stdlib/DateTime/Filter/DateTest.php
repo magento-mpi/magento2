@@ -3,19 +3,19 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Stdlib\DateTime\Filter;
+namespace Magento\Framework\Stdlib\DateTime\Filter;
 
 class DateTest extends \PHPUnit_Framework_TestCase
 {
     public function testFilter()
     {
-        $localeMock = $this->getMock('\Magento\Stdlib\DateTime\TimezoneInterface');
+        $localeMock = $this->getMock('\Magento\Framework\Stdlib\DateTime\TimezoneInterface');
         $localeMock->expects(
             $this->once()
         )->method(
             'getDateFormat'
         )->with(
-            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+            \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
         )->will(
             $this->returnValue('MM-dd-yyyy')
         );

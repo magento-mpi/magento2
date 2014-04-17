@@ -551,7 +551,7 @@ class Order extends \Magento\Backend\App\Action
             if ($flag) {
                 return $this->_fileFactory->create(
                     'invoice' . $this->_objectManager->get(
-                        'Magento\Stdlib\DateTime\DateTime'
+                        'Magento\Framework\Stdlib\DateTime\DateTime'
                     )->date(
                         'Y-m-d_H-i-s'
                     ) . '.pdf',
@@ -604,7 +604,7 @@ class Order extends \Magento\Backend\App\Action
             if ($flag) {
                 return $this->_fileFactory->create(
                     'packingslip' . $this->_objectManager->get(
-                        'Magento\Stdlib\DateTime\DateTime'
+                        'Magento\Framework\Stdlib\DateTime\DateTime'
                     )->date(
                         'Y-m-d_H-i-s'
                     ) . '.pdf',
@@ -657,7 +657,7 @@ class Order extends \Magento\Backend\App\Action
             if ($flag) {
                 return $this->_fileFactory->create(
                     'creditmemo' . $this->_objectManager->get(
-                        'Magento\Stdlib\DateTime\DateTime'
+                        'Magento\Framework\Stdlib\DateTime\DateTime'
                     )->date(
                         'Y-m-d_H-i-s'
                     ) . '.pdf',
@@ -756,7 +756,7 @@ class Order extends \Magento\Backend\App\Action
             if ($flag) {
                 return $this->_fileFactory->create(
                     'docs' . $this->_objectManager->get(
-                        'Magento\Stdlib\DateTime\DateTime'
+                        'Magento\Framework\Stdlib\DateTime\DateTime'
                     )->date(
                         'Y-m-d_H-i-s'
                     ) . '.pdf',

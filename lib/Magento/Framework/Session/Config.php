@@ -71,7 +71,7 @@ class Config implements ConfigInterface
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $_stringHelper;
 
@@ -109,7 +109,7 @@ class Config implements ConfigInterface
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Stdlib\String $stringHelper
+     * @param \Magento\Framework\Stdlib\String $stringHelper
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\App\Filesystem $filesystem
@@ -121,7 +121,7 @@ class Config implements ConfigInterface
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Stdlib\String $stringHelper,
+        \Magento\Framework\Stdlib\String $stringHelper,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\App\Filesystem $filesystem,

@@ -24,7 +24,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $_configMock;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $_stringHelperMock;
 
@@ -47,7 +47,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
-        $this->_stringHelperMock = $this->getMock('\Magento\Stdlib\String', array(), array(), '', false, false);
+        $this->_stringHelperMock = $this->getMock('\Magento\Framework\Stdlib\String', array(), array(), '', false, false);
         $this->_requestMock = $this->getMock(
             '\Magento\Framework\App\Request\Http',
             array('getBasePath', 'isSecure', 'getHttpHost'),

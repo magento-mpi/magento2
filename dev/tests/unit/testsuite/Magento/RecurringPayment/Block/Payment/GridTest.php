@@ -93,7 +93,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($store));
 
         $locale = $this->getMockBuilder(
-            '\Magento\Stdlib\DateTime\TimezoneInterface'
+            '\Magento\Framework\Stdlib\DateTime\TimezoneInterface'
         )->disableOriginalConstructor()->setMethods(
             array('formatDate')
         )->getMockForAbstractClass();

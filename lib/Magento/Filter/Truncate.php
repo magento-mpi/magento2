@@ -36,19 +36,19 @@ class Truncate implements \Zend_Filter_Interface
     protected $breakWords;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
     /**
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param int $length
      * @param string $etc
      * @param string &$remainder
      * @param bool $breakWords
      */
     public function __construct(
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         $length = 80,
         $etc = '...',
         &$remainder = '',

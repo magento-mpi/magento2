@@ -39,7 +39,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
     /** @var  \Zend_Oauth_Http_Utility */
     private $_httpUtilityMock;
 
-    /** @var \Magento\Stdlib\DateTime\DateTime */
+    /** @var \Magento\Framework\Stdlib\DateTime\DateTime */
     private $_dateMock;
 
     private $_oauthToken;
@@ -124,7 +124,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
             array('sign')
         )->getMock();
         $this->_dateMock = $this->getMockBuilder(
-            'Magento\Stdlib\DateTime\DateTime'
+            'Magento\Framework\Stdlib\DateTime\DateTime'
         )->disableOriginalConstructor()->getMock();
 
         $nonceGenerator = new \Magento\Integration\Model\Oauth\Nonce\Generator(

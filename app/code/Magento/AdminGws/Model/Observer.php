@@ -73,7 +73,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_userRoles;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
@@ -88,7 +88,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\AdminGws\Model\ConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -103,7 +103,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\AdminGws\Model\ConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Stdlib\String $string
+        \Magento\Framework\Stdlib\String $string
     ) {
         $this->_backendAuthSession = $backendAuthSession;
         $this->_systemStore = $systemStore;

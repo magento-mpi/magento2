@@ -41,7 +41,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             array('create'),
             array(
                 'objectManager' => $this->getMock('Magento\Framework\ObjectManager'),
-                'string' => $this->getMock('Magento\Stdlib\String')
+                'string' => $this->getMock('Magento\Framework\Stdlib\String')
             )
         );
 
@@ -158,7 +158,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             array('create'),
             array(
                 'objectManager' => $this->getMock('Magento\Framework\ObjectManager'),
-                'string' => $this->getMock('Magento\Stdlib\String')
+                'string' => $this->getMock('Magento\Framework\Stdlib\String')
             )
         );
         $attrDataFactory->expects(
@@ -205,7 +205,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             array('create'),
             array(
                 'objectManager' => $this->getMock('Magento\Framework\ObjectManager'),
-                'string' => $this->getMock('Magento\Stdlib\String')
+                'string' => $this->getMock('Magento\Framework\Stdlib\String')
             )
         );
         $attrDataFactory->expects(
@@ -247,7 +247,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             array(),
             array(
                 'objectManager' => $this->getMock('Magento\Framework\ObjectManager'),
-                'string' => $this->getMock('Magento\Stdlib\String')
+                'string' => $this->getMock('Magento\Framework\Stdlib\String')
             )
         );
         $validator = new \Magento\Eav\Model\Validator\Attribute\Data($attrDataFactory);
@@ -264,7 +264,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             array(),
             array(
                 'objectManager' => $this->getMock('Magento\Framework\ObjectManager'),
-                'string' => $this->getMock('Magento\Stdlib\String')
+                'string' => $this->getMock('Magento\Framework\Stdlib\String')
             )
         );
         $validator = new \Magento\Eav\Model\Validator\Attribute\Data($attrDataFactory);
@@ -298,7 +298,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             array('create'),
             array(
                 'objectManager' => $this->getMock('Magento\Framework\ObjectManager'),
-                'string' => $this->getMock('Magento\Stdlib\String')
+                'string' => $this->getMock('Magento\Framework\Stdlib\String')
             )
         );
         $validator = new \Magento\Eav\Model\Validator\Attribute\Data($factory);

@@ -76,7 +76,7 @@ class History extends \Magento\Framework\Model\AbstractModel
     /**
      * Date time formatter
      *
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
@@ -94,7 +94,7 @@ class History extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Reward\Model\Resource\Reward\History $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\Reward $reward
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Reward\Model\Reward\Rate $rewardRate
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -106,7 +106,7 @@ class History extends \Magento\Framework\Model\AbstractModel
         \Magento\Reward\Model\Resource\Reward\History $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\Reward $reward,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Reward\Model\Reward\Rate $rewardRate,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

@@ -10,26 +10,26 @@
  */
 
 /**
- * \Magento\Stdlib\DateTime test case
+ * \Magento\Framework\Stdlib\DateTime test case
  */
-namespace Magento\Stdlib;
+namespace Magento\Framework\Stdlib;
 
 class DateTimeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $_dateTime;
 
     protected function setUp()
     {
-        $this->_dateTime = new \Magento\Stdlib\DateTime();
+        $this->_dateTime = new \Magento\Framework\Stdlib\DateTime();
     }
 
     public function testToTimestamp()
     {
-        $date = new \Magento\Stdlib\DateTime\Date();
-        $dateTime = new \Magento\Stdlib\DateTime();
+        $date = new \Magento\Framework\Stdlib\DateTime\Date();
+        $dateTime = new \Magento\Framework\Stdlib\DateTime();
         $this->assertEquals($date->getTimestamp(), $dateTime->toTimestamp($date));
 
         $this->assertEquals(time(), $dateTime->toTimestamp(true));
@@ -40,8 +40,8 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
 
     public function testNow()
     {
-        $this->assertEquals(date(\Magento\Stdlib\DateTime::DATE_PHP_FORMAT), $this->_dateTime->now(true));
-        $this->assertEquals(date(\Magento\Stdlib\DateTime::DATETIME_PHP_FORMAT), $this->_dateTime->now(false));
+        $this->assertEquals(date(\Magento\Framework\Stdlib\DateTime::DATE_PHP_FORMAT), $this->_dateTime->now(true));
+        $this->assertEquals(date(\Magento\Framework\Stdlib\DateTime::DATETIME_PHP_FORMAT), $this->_dateTime->now(false));
     }
 
     /**
@@ -52,7 +52,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormatDate($date, $includeTime, $expectedFormat, $expectedResult = null)
     {
-        $dateTime = new \Magento\Stdlib\DateTime();
+        $dateTime = new \Magento\Framework\Stdlib\DateTime();
         $actual = $dateTime->formatDate($date, $includeTime);
         if ($expectedFormat != '') {
             $expectedResult = date($expectedFormat);
@@ -71,7 +71,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     {
         // Take care when calling date here as it can be called much earlier than when testFormatDate
         // executes thus causing a discrepancy in the actual vs expected time. See MAGETWO-10296
-        $date = new \Magento\Stdlib\DateTime\Date();
+        $date = new \Magento\Framework\Stdlib\DateTime\Date();
         return array(
             'null' => array(null, false, ''),
             'null including Time' => array(null, true, ''),

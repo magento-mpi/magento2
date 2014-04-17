@@ -43,7 +43,7 @@ class Export extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
      * @param \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory
      * @param \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat
      * @param array $data
@@ -57,7 +57,7 @@ class Export extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
         \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory,
         \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat,
         array $data = array()

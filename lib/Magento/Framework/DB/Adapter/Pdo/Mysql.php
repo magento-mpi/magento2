@@ -18,8 +18,8 @@ use Magento\Framework\DB\Profiler;
 use Magento\Framework\DB\Select;
 use Magento\Framework\DB\Statement\Parameter;
 use Magento\Debug;
-use Magento\Stdlib\DateTime;
-use Magento\Stdlib\String;
+use Magento\Framework\Stdlib\DateTime;
+use Magento\Framework\Stdlib\String;
 
 class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
 {
@@ -317,7 +317,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     /**
      * Convert date to DB format
      *
-     * @param int|string|\Magento\Stdlib\DateTime\DateInterface $date
+     * @param int|string|\Magento\Framework\Stdlib\DateTime\DateInterface $date
      * @return \Zend_Db_Expr
      */
     public function convertDate($date)
@@ -328,7 +328,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     /**
      * Convert date and time to DB format
      *
-     * @param   int|string|\Magento\Stdlib\DateTime\DateInterface $datetime
+     * @param   int|string|\Magento\Framework\Stdlib\DateTime\DateInterface $datetime
      * @return \Zend_Db_Expr
      */
     public function convertDateTime($datetime)
@@ -2743,7 +2743,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     /**
      * Format Date to internal database date format
      *
-     * @param int|string|\Magento\Stdlib\DateTime\DateInterface $date
+     * @param int|string|\Magento\Framework\Stdlib\DateTime\DateInterface $date
      * @param bool $includeTime
      * @return \Zend_Db_Expr
      */

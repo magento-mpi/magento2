@@ -5,11 +5,11 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    \Magento\Stdlib
+ * @package    \Magento\Framework\Stdlib
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Stdlib\DateTime\Timezone;
+namespace Magento\Framework\Stdlib\DateTime\Timezone;
 
 class ValidationException extends \Exception
 {

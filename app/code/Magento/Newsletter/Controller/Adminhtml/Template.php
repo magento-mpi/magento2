@@ -185,7 +185,7 @@ class Template extends \Magento\Backend\App\Action
             )->setTemplateStyles(
                 $request->getParam('styles')
             )->setModifiedAt(
-                $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->gmtDate()
+                $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime')->gmtDate()
             );
 
             if (!$template->getId()) {

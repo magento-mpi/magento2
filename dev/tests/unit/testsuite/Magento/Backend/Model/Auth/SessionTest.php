@@ -26,7 +26,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected $sessionConfig;
 
     /**
-     * @var \Magento\Stdlib\Cookie | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\Cookie | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $cookie;
 
@@ -43,7 +43,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->config = $this->getMock('Magento\Backend\App\Config', ['getValue'], [], '', false);
-        $this->cookie = $this->getMock('Magento\Stdlib\Cookie', ['get', 'set'], [], '', false);
+        $this->cookie = $this->getMock('Magento\Framework\Stdlib\Cookie', ['get', 'set'], [], '', false);
         $this->storage = $this->getMock('Magento\Framework\Session\Storage', ['getUser'], [], '', false);
         $this->sessionConfig = $this->getMock(
             'Magento\Framework\Session\Config',

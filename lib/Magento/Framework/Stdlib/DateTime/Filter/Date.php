@@ -7,9 +7,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Stdlib\DateTime\Filter;
+namespace Magento\Framework\Stdlib\DateTime\Filter;
 
-use Magento\Stdlib\DateTime\TimezoneInterface;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 class Date implements \Zend_Filter_Interface
 {
@@ -42,7 +42,7 @@ class Date implements \Zend_Filter_Interface
             array('date_format' => $this->_localeDate->getDateFormat(TimezoneInterface::FORMAT_TYPE_SHORT))
         );
         $this->_normalToLocalFilter = new \Zend_Filter_NormalizedToLocalized(
-            array('date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
+            array('date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
         );
     }
 

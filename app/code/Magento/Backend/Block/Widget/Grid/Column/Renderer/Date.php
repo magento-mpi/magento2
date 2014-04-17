@@ -47,7 +47,7 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
             if (is_null(self::$_format)) {
                 try {
                     self::$_format = $this->_localeDate->getDateFormat(
-                        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+                        \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
                     );
                 } catch (\Exception $e) {
                     $this->_logger->logException($e);
@@ -72,7 +72,7 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
                 if ($this->getColumn()->getGmtoffset()) {
                     $data = $this->_localeDate->date(
                         $data,
-                        \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
+                        \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
                     )->toString(
                         $format
                     );
@@ -83,7 +83,7 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
                 if ($this->getColumn()->getTimezone()) {
                     $data = $this->_localeDate->date(
                         $data,
-                        \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
+                        \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
                     )->toString(
                         $format
                     );
