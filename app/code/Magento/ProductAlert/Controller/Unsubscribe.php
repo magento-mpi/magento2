@@ -16,8 +16,9 @@ namespace Magento\ProductAlert\Controller;
  * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-use Magento\Framework\App\Action\NotFoundException;
+
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Action\Context;
 
 class Unsubscribe extends \Magento\Framework\App\Action\Action
 {
@@ -27,11 +28,11 @@ class Unsubscribe extends \Magento\Framework\App\Action\Action
     protected $_customerSession;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        Context $context,
         \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_customerSession = $customerSession;

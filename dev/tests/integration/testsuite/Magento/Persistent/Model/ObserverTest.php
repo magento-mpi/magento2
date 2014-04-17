@@ -98,7 +98,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_customerSession->loginById(1);
 
-        $httpContext = new \Magento\App\Http\Context();
+        $httpContext = new \Magento\Framework\App\Http\Context();
         $httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, 1, 1);
         $block = $this->_objectManager->create(
             'Magento\Sales\Block\Reorder\Sidebar',
@@ -130,7 +130,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testEmulateQuote()
     {
-        $requestMock = $this->getMockBuilder('Magento\App\Request\Http')->disableOriginalConstructor()->setMethods(
+        $requestMock = $this->getMockBuilder(
+            'Magento\Framework\App\Request\Http'
+        )->disableOriginalConstructor()->setMethods(
             []
         )->getMock();
         $requestMock->expects($this->once())->method('getFullActionName')->will($this->returnValue('valid_action'));
