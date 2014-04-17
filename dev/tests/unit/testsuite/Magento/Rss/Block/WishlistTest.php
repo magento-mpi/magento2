@@ -98,12 +98,14 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
             true,
             ['getUrl']
         );
-        $this->storeConfigMock = $this->getMock(
-            'Magento\Core\Model\Store\Config',
-            ['getConfig'],
+        $this->storeConfigMock = $this->getMockForAbstractClass(
+            'Magento\App\Config\ScopeConfigInterface',
             [],
             '',
-            false
+            true,
+            true,
+            true,
+            ['getConfig']
         );
         $this->imageHelperMock = $this->getMock('Magento\Catalog\Helper\Image', [], [], '', false);
 
@@ -120,7 +122,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
             ->method('getWishlistHelper')
             ->will($this->returnValue($this->wishlistHelperMock));
         $templateContextMock->expects($this->once())
-            ->method('getStoreConfig')
+            ->method('getScopeConfig')
             ->will($this->returnValue($this->storeConfigMock));
         $templateContextMock->expects($this->once())
             ->method('getUrlBuilder')
@@ -189,11 +191,21 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
             ->method('getUrl')
             ->will($this->returnValue($wishlistSharingUrl));
         $this->storeConfigMock->expects($this->any())
-            ->method('getConfig')
+            ->method('getValue')
             ->will($this->returnValueMap(
                     [
-                        ['advanced/modules_disable_output/Magento_Rss', null, null],
-                        ['general/locale/code', null, $locale]
+                        [
+                            'advanced/modules_disable_output/Magento_Rss',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            null,
+                            null
+                        ],
+                        [
+                            'general/locale/code',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            null,
+                            $locale
+                        ]
                     ]
                 )
             );
