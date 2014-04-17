@@ -9,21 +9,16 @@
  * @license     {license_link}
  */
 (function ($) {
-    $.validator.addMethod('validate-rating', function () {
-        var ratings = $('#detailed_rating').find('.field-rating'),
-            error = true;
+    $.validator.addMethod(
+        'validate-rating',
+        function () {
+            var ratings = $('#detailed_rating').find('.field-rating'),
+                noError = true;
 
-        ratings.each(function (i, rating) {
-            var inputs = $(rating).find('input');
-
-            inputs.each(function (j, input) {
-                if ($(input).is(':checked')) {
-                    error = false;
-                }
+            ratings.each(function (index, rating) {
+                noError = noError && $(rating).find('input:checked').length > 0;
             });
-
-            return error != true;
-        });
-        return !error;
-    }, 'Please select one of each ratings above.');
+            return noError;
+        },
+        'Please select one of each ratings above.');
 })(jQuery);
