@@ -104,7 +104,7 @@ class Unsubscribe extends \Magento\App\Action\Action
             $this->_objectManager->create(
                 'Magento\ProductAlert\Model\Price'
             )->deleteCustomer(
-                    $this->_customerSession->getCustomerId(),
+                $this->_customerSession->getCustomerId(),
                 $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
             );
             $this->messageManager->addSuccess(__('You will no longer receive price alerts for this product.'));
@@ -163,7 +163,7 @@ class Unsubscribe extends \Magento\App\Action\Action
             $this->_objectManager->create(
                 'Magento\ProductAlert\Model\Stock'
             )->deleteCustomer(
-                    $this->_customerSession->getCustomerId(),
+                $this->_customerSession->getCustomerId(),
                 $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
             );
             $this->messageManager->addSuccess(__('You will no longer receive stock alerts.'));
