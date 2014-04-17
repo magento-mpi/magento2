@@ -24,7 +24,7 @@
         _bind: function() {
             this._labels.on({
                 click: $.proxy(function(e) {
-                    $('[id="' + $(e.currentTarget).attr('for') + '"]').attr('checked', true);
+                    $('[id="' + $(e.currentTarget).attr('for') + '"]').prop('checked', true);
                     this._updateRating();
                 }, this),
 
