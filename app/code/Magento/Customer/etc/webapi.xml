@@ -121,12 +121,6 @@
             <resource ref="Magento_Customer::manage"/>
         </resources>
     </route>
-    <route url="/V1/customerAccounts/customer" method="PUT">
-        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="saveCustomer"/>
-        <resources>
-            <resource ref="Magento_Customer::manage"/>
-        </resources>
-    </route>
     <route url="/V1/customerAccounts/:customerId" method="GET">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="getCustomerDetails"/>
         <resources>

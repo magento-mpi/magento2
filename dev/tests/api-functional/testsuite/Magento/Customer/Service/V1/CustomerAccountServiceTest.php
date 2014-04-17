@@ -130,7 +130,14 @@ class CustomerAccountServiceTest extends WebapiAbstract
     {
         $serviceInfo = [
             'rest' => ['resourcePath' => self::RESOURCE_PATH, 'httpMethod' => RestConfig::HTTP_METHOD_POST]
+            ,
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'CreateCustomer'
+            ]
         ];
+
         $customerDetailsAsArray = $this->_createSampleCustomerDetailsData()->__toArray();
         unset($customerDetailsAsArray['customer']['firstname']);
         unset($customerDetailsAsArray['customer']['email']);
@@ -139,26 +146,32 @@ class CustomerAccountServiceTest extends WebapiAbstract
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail('Expected exception did not occur.');
         } catch (\Exception $e) {
-            $this->assertEquals(400, $e->getCode());
-            $exceptionData = $this->_processRestExceptionResult($e);
-            $expectedExceptionData = [
-                    'message' => InputException::DEFAULT_MESSAGE,
-                    'errors' => [
-                        [
-                            'message' => InputException::REQUIRED_FIELD,
-                            'parameters' => [
-                                'fieldName' => 'firstname',
-                            ]
-                        ],
-                        [
-                            'message' => InputException::INVALID_FIELD_VALUE,
-                            'parameters' => [
-                                'fieldName' => 'email',
-                                'value' => ''
+            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+                $this->assertInstanceOf('SoapFault', $e);
+                $exceptionData = $e->getMessage();
+                $expectedExceptionData = "SOAP-ERROR: Encoding: object has no 'email' property";
+            } else {
+                $this->assertEquals(400, $e->getCode());
+                $exceptionData = $this->_processRestExceptionResult($e);
+                $expectedExceptionData = [
+                        'message' => InputException::DEFAULT_MESSAGE,
+                        'errors' => [
+                            [
+                                'message' => InputException::REQUIRED_FIELD,
+                                'parameters' => [
+                                    'fieldName' => 'firstname',
+                                ]
+                            ],
+                            [
+                                'message' => InputException::INVALID_FIELD_VALUE,
+                                'parameters' => [
+                                    'fieldName' => 'email',
+                                    'value' => ''
+                                ]
                             ]
                         ]
-                    ]
-            ];
+                ];
+            }
             $this->assertEquals($expectedExceptionData, $exceptionData);
         }
     }
@@ -274,15 +287,30 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/changePassword',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'ChangePassword'
             ]
         ];
         $requestData = ['currentPassword' => 'test@123', 'newPassword' => '123@test'];
-        $this->_webApiCall($serviceInfo, $requestData);
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $requestData['customerId'] = $customerData['id'];
+            $this->_webApiCall($serviceInfo, $requestData);
+        } else {
+            $this->_webApiCall($serviceInfo, $requestData);
+        }
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/authenticate',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Authenticate'
             ]
         ];
         $requestData = ['username' => $customerData[Customer::EMAIL], 'password' => '123@test'];
