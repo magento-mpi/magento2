@@ -32,14 +32,15 @@
   * An issue with setting memory_limit to -1 causes install failure (MAGETWO-23201)
 * Framework Improvements:
   * Simplify Search related Data Objects (MAGETWO-22613)
-  * Moved lib/Magento/* to lib/Magento/Framework/*: (MAGETWO-20866)
-    * Moved lib/Magento/App to lib/Magento/Framework/App (MAGETWO-23476)
-    * Moved lib/Magento/Data to lib/Magento/Framework/Data (MAGETWO-23531)
-    * Moved lib/Magento/Filesystem to lib/Magento/Framework/Filesystem (MAGETWO-23532)
-    * Moved lib/Magento/Config to lib/Magento/Framework/Config (MAGETWO-23533)
-    * Moved lib/Magento/Model to lib/Magento/Framework/Model (MAGETWO-23536)
-    * Moved lib/Magento/DB to lib/Magento/Framework/DB (MAGETWO-23553)
-    * Moved lib/Magento/View to lib/Magento/Framework/View (MAGETWO-23549)
+  * Moved lib/Magento/* to lib/Magento/Framework/* (Part 1): (MAGETWO-20866)
+    * Moved lib/Magento/App to lib/Magento/Framework/App
+  * Moved lib/Magento/* to lib/Magento/Framework/* (Part 2): (MAGETWO-23646)
+    * Moved lib/Magento/Data to lib/Magento/Framework/Data
+    * Moved lib/Magento/Filesystem to lib/Magento/Framework/Filesystem
+    * Moved lib/Magento/Config to lib/Magento/Framework/Config
+    * Moved lib/Magento/Model to lib/Magento/Framework/Model
+    * Moved lib/Magento/DB to lib/Magento/Framework/DB
+    * Moved lib/Magento/View to lib/Magento/Framework/View
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
   * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)
