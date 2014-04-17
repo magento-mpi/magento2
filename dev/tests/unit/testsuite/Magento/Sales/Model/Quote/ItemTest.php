@@ -267,6 +267,13 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($existingQuantity, $this->model->getQty());
     }
 
+    public function testSetQtyOptions()
+    {
+        $value = ['a' => 'b'];
+        $this->model->setQtyOptions($value);
+        $this->assertEquals($value, $this->model->getQtyOptions());
+    }
+
     public function testSetProduct()
     {
         $productMock = $this->generateProductMock(
