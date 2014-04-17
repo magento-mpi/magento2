@@ -45,6 +45,7 @@
     * Moved lib/Magento/Archive to lib/Magento/Framework/Archive
     * Moved lib/Magento/Backup to lib/Magento/Framework/Backup
     * Moved lib/Magento/Event to lib/Magento/Framework/Event
+    * Moved lib/Magento/Acl to lib/Magento/Framework/Acl
     * Moved lib/Magento/Authorization to lib/Magento/Framework/Authorization
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
