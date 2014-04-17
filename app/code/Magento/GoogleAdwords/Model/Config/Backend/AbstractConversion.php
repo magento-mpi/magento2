@@ -12,7 +12,7 @@ namespace Magento\GoogleAdwords\Model\Config\Backend;
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-abstract class AbstractConversion extends \Magento\App\Config\Value
+abstract class AbstractConversion extends \Magento\Framework\App\Config\Value
 {
     /**
      * @var \Magento\Validator\Object
@@ -27,7 +27,7 @@ abstract class AbstractConversion extends \Magento\App\Config\Value
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Validator\ObjectFactory $validatorCompositeFactory
      * @param \Magento\GoogleAdwords\Model\Validator\Factory $validatorFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
@@ -37,7 +37,7 @@ abstract class AbstractConversion extends \Magento\App\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Validator\ObjectFactory $validatorCompositeFactory,
         \Magento\GoogleAdwords\Model\Validator\Factory $validatorFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,

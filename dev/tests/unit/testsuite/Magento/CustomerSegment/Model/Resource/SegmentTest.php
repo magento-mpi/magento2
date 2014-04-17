@@ -52,7 +52,7 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_resource = $this->getMock(
-            'Magento\App\Resource',
+            'Magento\Framework\App\Resource',
             array('getConnection', 'getTableName'),
             array(),
             '',

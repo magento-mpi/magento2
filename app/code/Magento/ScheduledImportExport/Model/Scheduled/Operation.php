@@ -75,12 +75,12 @@ class Operation extends \Magento\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\App\Config\ValueFactory
+     * @var \Magento\Framework\App\Config\ValueFactory
      */
     protected $_configValueFactory;
 
@@ -107,7 +107,7 @@ class Operation extends \Magento\Model\AbstractModel
     /**
      * Filesystem instance
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
 
@@ -119,13 +119,13 @@ class Operation extends \Magento\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
-     * @param \Magento\App\Config\ValueFactory $configValueFactory
+     * @param \Magento\Framework\App\Config\ValueFactory $configValueFactory
      * @param \Magento\Stdlib\DateTime\DateTime $dateModel
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Model\Resource\AbstractResource $resource
@@ -135,13 +135,13 @@ class Operation extends \Magento\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
-        \Magento\App\Config\ValueFactory $configValueFactory,
+        \Magento\Framework\App\Config\ValueFactory $configValueFactory,
         \Magento\Stdlib\DateTime\DateTime $dateModel,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\String $string,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Model\Resource\AbstractResource $resource = null,
@@ -434,7 +434,7 @@ class Operation extends \Magento\Model\AbstractModel
             $operation->addLogComment($e->getMessage());
         }
 
-        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::LOG_DIR);
+        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::LOG_DIR);
         $filePath = $this->getHistoryFilePath();
 
         if ($logDirectory->isExist($logDirectory->getRelativePath($filePath))) {
@@ -480,8 +480,8 @@ class Operation extends \Magento\Model\AbstractModel
         $extension = pathinfo($fileInfo['file_name'], PATHINFO_EXTENSION);
         $filePath = $fileInfo['file_name'];
 
-        $varDirectory = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::VAR_DIR);
-        $tmpDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR);
+        $varDirectory = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::VAR_DIR);
+        $tmpDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::SYS_TMP_DIR);
         $tmpFile = uniqid(time(), true) . '.' . $extension;
         $tmpFilePath = $tmpDirectory->getAbsolutePath($tmpFile);
 
@@ -514,7 +514,7 @@ class Operation extends \Magento\Model\AbstractModel
         $fileInfo = $this->getFileInfo();
         $fileName = $operation->getScheduledFileName() . '.' . $fileInfo['file_format'];
         try {
-            $varDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+            $varDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
             $varDirectory->writeFile($fileInfo['file_path'] . '/' . $fileName, $fileContent);
         } catch (\Magento\Filesystem\FilesystemException $e) {
             throw new \Magento\Model\Exception(
@@ -585,7 +585,7 @@ class Operation extends \Magento\Model\AbstractModel
      */
     protected function _saveOperationHistory($source)
     {
-        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::LOG_DIR);
+        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::LOG_DIR);
         $filePath = $logDirectory->getRelativePath($this->getHistoryFilePath());
 
         try {
@@ -604,7 +604,7 @@ class Operation extends \Magento\Model\AbstractModel
      */
     public function getHistoryFilePath()
     {
-        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::LOG_DIR);
+        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::LOG_DIR);
         $dirPath = self::LOG_DIRECTORY . date('Y/m/d') . '/' . self::FILE_HISTORY_DIRECTORY;
         $logDirectory->create($dirPath);
 

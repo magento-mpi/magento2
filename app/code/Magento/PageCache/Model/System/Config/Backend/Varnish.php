@@ -13,7 +13,7 @@ namespace Magento\PageCache\Model\System\Config\Backend;
  * Class Varnish
  * @package Magento\PageCache\Model\System\Config\Backend
  */
-class Varnish extends \Magento\App\Config\Value
+class Varnish extends \Magento\Framework\App\Config\Value
 {
     /**
      * @var array

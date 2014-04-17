@@ -151,7 +151,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Application configuration
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -166,7 +166,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $_processorFactory;
 
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_appState;
 
@@ -191,9 +191,14 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $themeResolver;
 
     /**
-     * @var \Magento\App\ScopeResolverInterface
+     * @var \Magento\Framework\App\ScopeResolverInterface
      */
     protected $scopeResolver;
+
+    /**
+     * @var bool
+     */
+    protected $cacheable;
 
     /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
@@ -204,12 +209,13 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param \Magento\View\Layout\Argument\Parser $argumentParser
      * @param \Magento\Data\Argument\InterpreterInterface $argumentInterpreter
      * @param \Magento\View\Layout\ScheduledStructure $scheduledStructure
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\View\Design\Theme\ResolverInterface $themeResolver
-     * @param \Magento\App\ScopeResolverInterface $scopeResolver
+     * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param string $scopeType
+     * @param bool $cacheable
      */
     public function __construct(
         \Magento\View\Layout\ProcessorFactory $processorFactory,
@@ -220,12 +226,13 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\View\Layout\Argument\Parser $argumentParser,
         \Magento\Data\Argument\InterpreterInterface $argumentInterpreter,
         \Magento\View\Layout\ScheduledStructure $scheduledStructure,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\State $appState,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\View\Design\Theme\ResolverInterface $themeResolver,
-        \Magento\App\ScopeResolverInterface $scopeResolver,
-        $scopeType
+        \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
+        $scopeType,
+        $cacheable = true
     ) {
         $this->_eventManager = $eventManager;
         $this->_scopeConfig = $scopeConfig;
@@ -236,7 +243,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $this->argumentInterpreter = $argumentInterpreter;
         $this->_elementClass = 'Magento\View\Layout\Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
-        $this->_renderingOutput = new \Magento\Object();
+        $this->_renderingOutput = new \Magento\Object;
         $this->_scheduledStructure = $scheduledStructure;
         $this->_processorFactory = $processorFactory;
         $this->_logger = $logger;
@@ -244,6 +251,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $this->scopeType = $scopeType;
         $this->themeResolver = $themeResolver;
         $this->scopeResolver = $scopeResolver;
+        $this->cacheable = $cacheable;
     }
 
     /**
@@ -1336,7 +1344,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @param string|\Magento\View\Element\AbstractBlock $block
      * @param array $attributes
-     * @throws \Magento\Model\Exception
+     * @throws \Exception
      * @return \Magento\View\Element\AbstractBlock
      */
     protected function _getBlockInstance($block, array $attributes = array())
@@ -1345,7 +1353,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
             try {
                 $block = $this->_blockFactory->createBlock($block, $attributes);
             } catch (\ReflectionException $e) {
-                // incorrect class name
+                $this->_logger->log($e->getMessage());
             }
         }
         if (!$block instanceof \Magento\View\Element\AbstractBlock) {
@@ -1464,7 +1472,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @param string $type
      * @throws \Magento\Model\Exception
-     * @return \Magento\App\Helper\AbstractHelper
+     * @return \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getBlockSingleton($type)
     {
@@ -1607,7 +1615,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      */
     public function isCacheable()
     {
-        return !(bool)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cacheable="false"]'));
+        $cacheableXml = !(bool)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cacheable="false"]'));
+        return $this->cacheable && $cacheableXml;
     }
 
     /**

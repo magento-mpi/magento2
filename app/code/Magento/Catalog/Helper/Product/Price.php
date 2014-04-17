@@ -13,7 +13,7 @@ use Magento\Customer\Service\V1\Data\Customer;
 /**
  * Collection of tax module calls
  */
-class Price extends \Magento\App\Helper\AbstractHelper
+class Price extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * @var \Magento\Tax\Helper\Data

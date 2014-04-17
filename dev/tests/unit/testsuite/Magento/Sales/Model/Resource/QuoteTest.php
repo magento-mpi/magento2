@@ -18,7 +18,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resourceMock;
 
@@ -46,7 +46,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->_adapterMock = $this->getMock('\Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         $this->_adapterMock->expects($this->any())->method('select')->will($this->returnValue($this->_selectMock));
 
-        $this->_resourceMock = $this->getMock('\Magento\App\Resource', array(), array(), '', false);
+        $this->_resourceMock = $this->getMock('\Magento\Framework\App\Resource', array(), array(), '', false);
         $this->_resourceMock->expects(
             $this->any()
         )->method(

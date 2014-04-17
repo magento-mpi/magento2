@@ -38,7 +38,7 @@ class LogTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->processorMock = $this->getMock('\Magento\Logging\Model\Processor', array(), array(), '', false);
-        $this->requestMock = $this->getMock('\Magento\App\Request\Http', array(), array(), '', false);
+        $this->requestMock = $this->getMock('\Magento\Framework\App\Request\Http', array(), array(), '', false);
         $this->requestMock->expects(
             $this->once()
         )->method(
@@ -46,7 +46,7 @@ class LogTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('taction')
         );
-        $this->subjectMock = $this->getMock('Magento\App\ActionInterface');
+        $this->subjectMock = $this->getMock('Magento\Framework\App\ActionInterface');
         $this->closureMock = function () {
             return 'Expected';
         };
