@@ -11,7 +11,7 @@ namespace Magento\Store\Model\Storage;
 /**
  * Test class for \Magento\Store\Model\Storage\DefaultStorage
  */
-class DefaultTest extends \PHPUnit_Framework_TestCase
+class DefaultStorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var DefaultStorage
@@ -126,15 +126,6 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    protected function tearDown()
-    {
-        unset($this->_storeFactoryMock);
-        unset($this->_websiteFactoryMock);
-        unset($this->_groupFactoryMock);
-        unset($this->_storeMock);
-        unset($this->_model);
-    }
-
     public function testHasSingleStore()
     {
         $this->assertEquals(false, $this->_model->hasSingleStore());
@@ -157,6 +148,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     {
         $websiteId = 'testWebsite';
         $this->assertInstanceOf('Magento\Store\Model\Website', $this->_model->getWebsite($websiteId));
+        $this->assertSame($this->_websiteMock, $this->_model->getWebsite($this->_websiteMock));
     }
 
     public function testGetWebsiteEmptyString()
@@ -189,6 +181,8 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     {
         $groupId = 'testGroup';
         $this->assertInstanceOf('Magento\Store\Model\Group', $this->_model->getGroup($groupId));
+
+        $this->assertSame($this->_groupMock, $this->_model->getGroup($this->_groupMock));
     }
 
     public function testGetGroupsWithDefault()
