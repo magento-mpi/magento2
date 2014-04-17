@@ -10,6 +10,9 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <remove name="wish-list-link" />
     <remove name="wishlist_sidebar" />
+    <referenceBlock name="head.components">
+        <block class="Magento\View\Element\Js\Components" name="multiplewishlist_page_head_components" template="Magento_MultipleWishlist::js/components.phtml"/>
+    </referenceBlock>
     <referenceBlock name="top.links">
         <block class="Magento\MultipleWishlist\Block\Link" name="multiple-wish-list-link"/>
     </referenceBlock>
