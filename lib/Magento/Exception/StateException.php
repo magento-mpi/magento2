@@ -1,6 +1,5 @@
 <?php
 /**
- * State Exception
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -8,6 +7,9 @@
  */
 namespace Magento\Exception;
 
+/**
+ * State Exception
+ */
 class StateException extends LocalizedException
 {
 

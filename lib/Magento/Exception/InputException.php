@@ -7,6 +7,9 @@
  */
 namespace Magento\Exception;
 
+/**
+ * Exception to be thrown when there is an issue with the Input to a function call.
+ */
 class InputException extends AbstractAggregateException
 {
     const DEFAULT_MESSAGE = 'One or more input exceptions have occurred.';
@@ -26,5 +29,28 @@ class InputException extends AbstractAggregateException
     public function __construct($message = self::DEFAULT_MESSAGE, $params = [], \Exception $cause = null)
     {
         parent::__construct($message, $params, $cause);
+    }
+
+    /**
+     * Creates an InputException for when a specific field was provided with an invalid value.
+     *
+     * @param string $fieldName Name of the field which had an invalid value provided.
+     * @param string $fieldValue The invalid value that was provided for the field.
+     * @return InputException
+     */
+    public static function invalidFieldValue($fieldName, $fieldValue)
+    {
+        return new InputException(self::INVALID_FIELD_VALUE, ['fieldName' => $fieldName, 'value' => $fieldValue]);
+    }
+
+    /**
+     * Creates an InputException for a missing required field.
+     *
+     * @param string $fieldName Name of the missing required field.
+     * @return InputException
+     */
+    public static function requiredField($fieldName)
+    {
+        return new InputException(self::REQUIRED_FIELD, ['fieldName' => $fieldName]);
     }
 }

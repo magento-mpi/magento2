@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer service is responsible for customer business workflow encapsulation
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -27,7 +25,7 @@ use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Model\ClassModelFactory as TaxClassModelFactory;
 
 /**
- * Class CustomerGroupService
+ * Customer service is responsible for customer business workflow encapsulation
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -253,13 +251,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     public function saveGroup(Data\CustomerGroup $group)
     {
         if (!$group->getCode()) {
-            throw new InputException(
-                InputException::INVALID_FIELD_VALUE,
-                [
-                    'fieldName' => 'code',
-                    'value' => $group->getCode(),
-                ]
-            );
+            InputException::invalidFieldValue('code', $group->getCode());
         }
 
         $customerGroup = null;
@@ -268,10 +260,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             try {
                 $customerGroup = $this->_groupRegistry->retrieve($group->getId());
             } catch (NoSuchEntityException $e) {
-                throw new NoSuchEntityException(
-                    NoSuchEntityException::MESSAGE_SINGLE_FIELD,
-                    ['fieldName' => 'id', 'fieldValue' => $group->getId()]
-                );
+                throw NoSuchEntityException::singleField('id', $group->getId());
             }
         }
 
@@ -291,15 +280,12 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         try {
             $customerGroup->save();
         } catch (\Magento\Model\Exception $e) {
-            /* Would like a better way to determine this error condition but
-               difficult to do without imposing more database calls
-            */
+            /**
+             * Would like a better way to determine this error condition but
+             *  difficult to do without imposing more database calls
+             */
             if ($e->getMessage() === __('Customer Group already exists.')) {
-                $e = new InputException('Customer Group already exists.');
-                $e->addError(InputException::INVALID_FIELD_VALUE,
-                    ['fieldName' => 'code', 'value' => $group->getCode()]
-                );
-                throw $e;
+                throw InputException::invalidFieldValue('code', $group->getCode());
             }
             throw $e;
         }
@@ -323,8 +309,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         if (is_null($taxClassModel->getId())
             || $taxClassModel->getClassType() !== TaxClassModel::TAX_CLASS_TYPE_CUSTOMER
             ) {
-            throw new InputException(InputException::INVALID_FIELD_VALUE,
-                ['fieldName' => 'taxClassId', 'value' => $group->getTaxClassId()]);
+            throw InputException::invalidFieldValue('taxClassId', $group->getTaxClassId());
         }
     }
 
@@ -334,7 +319,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     public function deleteGroup($groupId)
     {
         if (!$this->canDelete($groupId)) {
-            throw new StateException(__("Cannot delete group."));
+            throw new StateException('Cannot delete group.');
         }
 
         // Get group so we can throw an exception if it doesn't exist
