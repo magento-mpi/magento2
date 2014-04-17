@@ -100,7 +100,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Data\Form\FormKey|\PHPUnit_Framework_MockObject_MockObject */
     protected $formKey;
 
-    /** @var \Magento\Code\NameBuilder|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Code\NameBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $nameBuilder;
 
     /** @var \Magento\Backend\Block\Template\Context|\PHPUnit_Framework_MockObject_MockObject */
@@ -162,7 +162,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->backendSession = $this->getMock('Magento\Backend\Model\Session', [], [], '', false);
         $this->random = $this->getMock('Magento\Math\Random');
         $this->formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', [], [], '', false);
-        $this->nameBuilder = $this->getMock('Magento\Code\NameBuilder');
+        $this->nameBuilder = $this->getMock('Magento\Framework\Code\NameBuilder');
 
         $this->context = $this->getMock(
             'Magento\Backend\Block\Template\Context',

@@ -69,7 +69,7 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
         )->with(
             'js'
         )->will(
-            $this->returnValue('Magento\Code\Minifier\AdapterInterface')
+            $this->returnValue('Magento\Framework\Code\Minifier\AdapterInterface')
         );
 
         $self = $this;
@@ -160,7 +160,7 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
         )->with(
             'js'
         )->will(
-            $this->returnValue('Magento\Code\Minifier\AdapterInterface')
+            $this->returnValue('Magento\Framework\Code\Minifier\AdapterInterface')
         );
 
         $this->_objectManager->expects($this->at(1))->method('create')->with($expectedStrategy);
@@ -174,11 +174,11 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
     public function getAssetsAppModesDataProvider()
     {
         return array(
-            'production' => array(\Magento\Framework\App\State::MODE_PRODUCTION, 'Magento\Code\Minifier\Strategy\Lite'),
-            'default' => array(\Magento\Framework\App\State::MODE_DEFAULT, 'Magento\Code\Minifier\Strategy\Generate'),
+            'production' => array(\Magento\Framework\App\State::MODE_PRODUCTION, 'Magento\Framework\Code\Minifier\Strategy\Lite'),
+            'default' => array(\Magento\Framework\App\State::MODE_DEFAULT, 'Magento\Framework\Code\Minifier\Strategy\Generate'),
             'developer' => array(
                 \Magento\Framework\App\State::MODE_DEVELOPER,
-                'Magento\Code\Minifier\Strategy\Generate'
+                'Magento\Framework\Code\Minifier\Strategy\Generate'
             )
         );
     }

@@ -338,7 +338,7 @@
             <argument name="stateCollection" xsi:type="object" shared="false">Magento\Mview\View\State\CollectionInterface</argument>
         </arguments>
     </type>
-    <type name="Magento\Code\Generator">
+    <type name="Magento\Framework\Code\Generator">
         <arguments>
             <argument name="generatedEntities" xsi:type="array">
                 <item name="factory" xsi:type="string">\Magento\Framework\ObjectManager\Code\Generator\Factory</item>

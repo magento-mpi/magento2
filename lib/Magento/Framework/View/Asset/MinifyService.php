@@ -36,7 +36,7 @@ class MinifyService
     /**
      * Minfiers
      *
-     * @var \Magento\Code\Minifier[]
+     * @var \Magento\Framework\Code\Minifier[]
      */
     protected $minifiers = array();
 
@@ -102,7 +102,7 @@ class MinifyService
      * Get minifier object configured with specified content type
      *
      * @param string $contentType
-     * @return \Magento\Code\Minifier
+     * @return \Magento\Framework\Code\Minifier
      */
     protected function getMinifier($contentType)
     {
@@ -111,11 +111,11 @@ class MinifyService
             $strategyParams = array('adapter' => $adapter);
             switch ($this->appState->getMode()) {
                 case \Magento\Framework\App\State::MODE_PRODUCTION:
-                    $strategy = $this->objectManager->create('Magento\Code\Minifier\Strategy\Lite', $strategyParams);
+                    $strategy = $this->objectManager->create('Magento\Framework\Code\Minifier\Strategy\Lite', $strategyParams);
                     break;
                 default:
                     $strategy = $this->objectManager->create(
-                        'Magento\Code\Minifier\Strategy\Generate',
+                        'Magento\Framework\Code\Minifier\Strategy\Generate',
                         $strategyParams
                     );
             }
@@ -126,7 +126,7 @@ class MinifyService
             );
 
             $this->minifiers[$contentType] = $this->objectManager->create(
-                'Magento\Code\Minifier',
+                'Magento\Framework\Code\Minifier',
                 array('strategy' => $strategy, 'directoryName' => $baseDir)
             );
         }

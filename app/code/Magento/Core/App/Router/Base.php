@@ -73,7 +73,7 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
     protected $_defaultPath;
 
     /**
-     * @var \Magento\Code\NameBuilder
+     * @var \Magento\Framework\Code\NameBuilder
      */
     protected $nameBuilder;
 
@@ -88,7 +88,7 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
      * @param string $routerId
-     * @param \Magento\Code\NameBuilder $nameBuilder
+     * @param \Magento\Framework\Code\NameBuilder $nameBuilder
      * @throws \InvalidArgumentException
      */
     public function __construct(
@@ -102,7 +102,7 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId,
-        \Magento\Code\NameBuilder $nameBuilder
+        \Magento\Framework\Code\NameBuilder $nameBuilder
     ) {
         parent::__construct($actionFactory);
         $this->_responseFactory = $responseFactory;

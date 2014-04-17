@@ -2004,10 +2004,10 @@ return array(
     array('Magento\Core\Model\Input\Filter\MaliciousCode', 'Magento\Filter\Input\MaliciousCode'),
     array('Magento\Core\Model\Option\ArrayInterface', 'Magento\Option\ArrayInterface'),
     array('Magento\Core\Model\Option\ArrayPool', 'Magento\Option\ArrayPool'),
-    array('Magento\Core\Helper\String', 'Magento\Code\NameBuilder'),
+    array('Magento\Core\Helper\String', 'Magento\Framework\Code\NameBuilder'),
     array('Magento\Core\Model\Context', 'Magento\Framework\Model\Context'),
     array('Magento\Core\Model\Registry', 'Magento\Registry'),
-    array('Magento\Code\Plugin\InvocationChain'),
+    array('Magento\Framework\Code\Plugin\InvocationChain'),
     array('RecurringProfile', 'RecurringPayment'), // recurring profile was renamed to recurring payment
     array('Recurring\Profile', 'Recurring\Payment'), // recurring profile was renamed to recurring payment
     array('Magento\Catalog\Helper\Product\Flat'),

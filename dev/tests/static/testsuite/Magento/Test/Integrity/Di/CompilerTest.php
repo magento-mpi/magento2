@@ -45,7 +45,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     protected $_mapper;
 
     /**
-     * @var \Magento\Code\Validator
+     * @var \Magento\Framework\Code\Validator
      */
     protected $_validator;
 
@@ -97,11 +97,11 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             $booleanUtils,
             new \Magento\Framework\ObjectManager\Config\Mapper\ArgumentParser()
         );
-        $this->_validator = new \Magento\Code\Validator();
-        $this->_validator->add(new \Magento\Code\Validator\ConstructorIntegrity());
-        $this->_validator->add(new \Magento\Code\Validator\ContextAggregation());
-        $this->_validator->add(new \Magento\Code\Validator\TypeDuplication());
-        $this->_validator->add(new \Magento\Code\Validator\ArgumentSequence());
+        $this->_validator = new \Magento\Framework\Code\Validator();
+        $this->_validator->add(new \Magento\Framework\Code\Validator\ConstructorIntegrity());
+        $this->_validator->add(new \Magento\Framework\Code\Validator\ContextAggregation());
+        $this->_validator->add(new \Magento\Framework\Code\Validator\TypeDuplication());
+        $this->_validator->add(new \Magento\Framework\Code\Validator\ArgumentSequence());
         $this->pluginValidator = new \Magento\Interception\Code\InterfaceValidator();
     }
 
@@ -275,7 +275,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $this->_validator->validate($className);
-        } catch (\Magento\Code\ValidationException $exceptions) {
+        } catch (\Magento\Framework\Code\ValidationException $exceptions) {
             $this->fail($exceptions->getMessage());
         } catch (\ReflectionException $exceptions) {
             $this->fail($exceptions->getMessage());
@@ -316,12 +316,12 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     public function testConstructorIntegrity()
     {
         $autoloader = new \Magento\Framework\Autoload\IncludePath();
-        $generatorIo = new \Magento\Code\Generator\Io(
+        $generatorIo = new \Magento\Framework\Code\Generator\Io(
             new \Magento\Framework\Filesystem\Driver\File(),
             $autoloader,
             $this->_generationDir
         );
-        $generator = new \Magento\Code\Generator(
+        $generator = new \Magento\Framework\Code\Generator(
             $autoloader,
             $generatorIo,
             array(
@@ -329,7 +329,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
                 => 'Magento\Framework\ObjectManager\Code\Generator\Factory'
             )
         );
-        $autoloader = new \Magento\Code\Generator\Autoloader($generator);
+        $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);
         spl_autoload_register(array($autoloader, 'load'));
 
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);

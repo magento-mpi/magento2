@@ -63,7 +63,7 @@ class Standard extends \Magento\Core\App\Router\Base
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
      * @param string $routerId
-     * @param \Magento\Code\NameBuilder $nameBuilder
+     * @param \Magento\Framework\Code\NameBuilder $nameBuilder
      * @param \Magento\Framework\App\RouterListInterface $routerList
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\UrlRewrite\App\Request\RewriteService $urlRewriteService
@@ -84,7 +84,7 @@ class Standard extends \Magento\Core\App\Router\Base
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId,
-        \Magento\Code\NameBuilder $nameBuilder,
+        \Magento\Framework\Code\NameBuilder $nameBuilder,
         \Magento\Framework\App\RouterListInterface $routerList,
         \Magento\Framework\ObjectManager $objectManager,
         \Magento\UrlRewrite\App\Request\RewriteService $urlRewriteService,

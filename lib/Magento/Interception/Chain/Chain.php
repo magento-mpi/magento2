@@ -8,7 +8,7 @@
  */
 namespace Magento\Interception\Chain;
 
-use Magento\Code\GeneratorTest\SourceClassWithNamespace\Interceptor;
+use Magento\Framework\Code\GeneratorTest\SourceClassWithNamespace\Interceptor;
 use Magento\Interception\Definition;
 use Magento\Interception\PluginList;
 
