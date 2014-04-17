@@ -13,6 +13,7 @@ use Magento\Catalog\Pricing\Price as CatalogPrice;
 use Magento\Catalog\Model\Product;
 use Magento\Bundle\Model\Product\Price;
 use Magento\Pricing\Adjustment\CalculatorInterface;
+use Magento\Event\ManagerInterface;
 
 /**
  * Bundle option price
@@ -28,6 +29,11 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
      * @var \Magento\Catalog\Model\Product
      */
     protected $bundleProduct;
+
+    /**
+     * @var BasePrice
+     */
+    protected $bundleBasePrice;
 
     /**
      * Event manager
@@ -48,11 +54,13 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
         $quantity,
         CalculatorInterface $calculator,
         Product $bundleProduct,
-        \Magento\Event\ManagerInterface $eventManager
+        ManagerInterface $eventManager
     ) {
-        $this->bundleProduct = $bundleProduct;
-        $this->eventManager = $eventManager;
         parent::__construct($saleableItem, $quantity, $calculator);
+        $this->bundleProduct = $bundleProduct;
+        $this->bundleBasePrice = $this->bundleProduct->getPriceInfo()
+            ->getPrice(CatalogPrice\BasePrice::PRICE_CODE, $this->quantity);
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -87,9 +95,7 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
                 $value = $this->product->getSelectionPriceValue() * $this->quantity;
             }
         }
-        $this->value = $this->bundleProduct->getPriceInfo()
-            ->getPrice(CatalogPrice\BasePrice::PRICE_CODE, $this->quantity)
-            ->applyDiscount($value);
+        $this->value = $this->bundleBasePrice->calculateBaseValue($value);
         return $this->value;
     }
 }

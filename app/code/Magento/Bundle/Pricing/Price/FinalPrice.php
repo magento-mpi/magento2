@@ -29,11 +29,16 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
     protected $calculator;
 
     /**
+     * @var BasePrice
+     */
+    protected $basePrice;
+
+    /**
      * @return float
      */
     public function getValue()
     {
-        return parent::getValue() + $this->basePrice->applyDiscount($this->getBundleOptionPrice()->getValue());
+        return parent::getValue() + $this->basePrice->calculateBaseValue($this->getBundleOptionPrice()->getValue());
     }
 
     /**
