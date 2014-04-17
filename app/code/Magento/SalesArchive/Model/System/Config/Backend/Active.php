@@ -26,7 +26,7 @@ class Active extends \Magento\Backend\Model\Config\Backend\Cache implements
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\SalesArchive\Model\Archive $archive
      * @param \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection
      * @param \Magento\Model\Resource\AbstractResource $resource
@@ -36,7 +36,7 @@ class Active extends \Magento\Backend\Model\Config\Backend\Cache implements
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\SalesArchive\Model\Archive $archive,
         \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection,
         \Magento\Model\Resource\AbstractResource $resource = null,

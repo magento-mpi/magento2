@@ -44,7 +44,7 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -69,14 +69,14 @@ class Observer
     protected $inlineTranslation;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Resource\Sitemap\CollectionFactory $collectionFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sitemap\Model\Resource\Sitemap\CollectionFactory $collectionFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
@@ -135,7 +135,7 @@ class Observer
                 )
             )->setTemplateOptions(
                 array(
-                    'area' => \Magento\App\Area::AREA_ADMIN,
+                    'area' => \Magento\Framework\App\Area::AREA_ADMIN,
                     'store' => $this->_storeManager->getStore()->getId()
                 )
             )->setTemplateVars(

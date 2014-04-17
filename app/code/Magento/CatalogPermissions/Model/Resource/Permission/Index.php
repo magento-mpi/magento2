@@ -34,11 +34,11 @@ class Index extends \Magento\Model\Resource\Db\AbstractDb
     protected $storeManager;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param Helper $helper
      * @param StoreManagerInterface $storeManager
      */
-    public function __construct(\Magento\App\Resource $resource, Helper $helper, StoreManagerInterface $storeManager)
+    public function __construct(\Magento\Framework\App\Resource $resource, Helper $helper, StoreManagerInterface $storeManager)
     {
         $this->helper = $helper;
         $this->storeManager = $storeManager;

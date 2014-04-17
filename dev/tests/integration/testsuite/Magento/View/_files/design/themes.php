@@ -8,9 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\AreaList')
     ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
-    ->load(\Magento\App\Area::PART_CONFIG);
+    ->load(\Magento\Framework\App\Area::PART_CONFIG);
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(array(
     'preferences' => array(
         'Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data'

@@ -373,7 +373,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($collection as $theme) {
-            $this->assertEquals(\Magento\App\Area::AREA_FRONTEND, $theme->getArea());
+            $this->assertEquals(\Magento\Framework\App\Area::AREA_FRONTEND, $theme->getArea());
             $this->assertEquals(ThemeInterface::TYPE_PHYSICAL, $theme->getType());
         }
     }
@@ -389,7 +389,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($collection as $theme) {
-            $this->assertEquals(\Magento\App\Area::AREA_FRONTEND, $theme->getArea());
+            $this->assertEquals(\Magento\Framework\App\Area::AREA_FRONTEND, $theme->getArea());
             $this->assertEquals(ThemeInterface::TYPE_PHYSICAL, $theme->getType());
         }
     }

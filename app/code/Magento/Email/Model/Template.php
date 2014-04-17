@@ -122,7 +122,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     protected $_sendingException = null;
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
 
@@ -139,7 +139,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     /**
      * Scope config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -163,10 +163,10 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\FileSystem $viewFileSystem
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Template\FilterFactory $emailFilterFactory
      * @param Template\Config $emailConfig
      * @param array $data
@@ -179,10 +179,10 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
         \Magento\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
         StoreManagerInterface $storeManager,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\View\Url $viewUrl,
         \Magento\View\FileSystem $viewFileSystem,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Email\Model\Template\FilterFactory $emailFilterFactory,
         \Magento\Email\Model\Template\Config $emailConfig,
         array $data = array()
@@ -222,7 +222,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
         );
         if ($fileName) {
             $uploadDir = \Magento\Backend\Model\Config\Backend\Email\Logo::UPLOAD_DIR;
-            $mediaDirectory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
+            $mediaDirectory = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
             if ($mediaDirectory->isFile($uploadDir . '/' . $fileName)) {
                 return $this->_storeManager->getStore()->getBaseUrl(
                     \Magento\UrlInterface::URL_TYPE_MEDIA
@@ -241,7 +241,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     {
         return $this->_viewUrl->getViewFileUrl(
             'Magento_Email::logo_email.gif',
-            array('area' => \Magento\App\Area::AREA_FRONTEND)
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND)
         );
     }
 
@@ -320,7 +320,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
         $templateTypeCode = $templateType == 'html' ? self::TYPE_HTML : self::TYPE_TEXT;
         $this->setTemplateType($templateTypeCode);
 
-        $modulesDirectory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
+        $modulesDirectory = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
         $templateText = $modulesDirectory->readFile($modulesDirectory->getRelativePath($templateFile));
 
         if (preg_match('/<!--@subject\s*(.*?)\s*@-->/u', $templateText, $matches)) {

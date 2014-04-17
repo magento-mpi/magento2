@@ -50,7 +50,7 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Registry $registry
      * @param array $data
      */
@@ -60,7 +60,7 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Registry $registry,
         array $data = array()
     ) {

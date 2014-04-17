@@ -7,22 +7,22 @@
  */
 namespace Magento\Install\App\Action\Plugin;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
 class Design
 {
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
     /**
-     * @var \Magento\App\AreaList
+     * @var \Magento\Framework\App\AreaList
      */
     protected $_areaList;
 
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $appState;
 
@@ -38,15 +38,15 @@ class Design
 
     /**
      * @param RequestInterface $request
-     * @param \Magento\App\AreaList $areaList
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\AreaList $areaList
+     * @param \Magento\Framework\App\State $appState
      * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\View\Design\Theme\ListInterface $themeList
      */
     public function __construct(
-        \Magento\App\RequestInterface $request,
-        \Magento\App\AreaList $areaList,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\App\AreaList $areaList,
+        \Magento\Framework\App\State $appState,
         \Magento\View\DesignInterface $viewDesign,
         \Magento\View\Design\Theme\ListInterface $themeList
     ) {
@@ -70,7 +70,7 @@ class Design
     {
         $areaCode = $this->appState->getAreaCode();
         $area = $this->_areaList->getArea($areaCode);
-        $area->load(\Magento\App\Area::PART_CONFIG);
+        $area->load(\Magento\Framework\App\Area::PART_CONFIG);
 
         $themePath = $this->_viewDesign->getConfigurationDesignTheme($areaCode);
         $themeFullPath = $areaCode . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR . $themePath;
@@ -78,6 +78,6 @@ class Design
         $this->_viewDesign->setDesignTheme($themeModel);
 
         $area->detectDesign($this->_request);
-        $area->load(\Magento\App\Area::PART_TRANSLATE);
+        $area->load(\Magento\Framework\App\Area::PART_TRANSLATE);
     }
 }

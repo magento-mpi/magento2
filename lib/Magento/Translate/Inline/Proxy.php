@@ -71,7 +71,7 @@ class Proxy extends \Magento\Translate\Inline
      */
     public function __wakeup()
     {
-        $this->objectManager = \Magento\App\ObjectManager::getInstance();
+        $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
     }
 
     /**

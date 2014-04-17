@@ -24,9 +24,9 @@ class NewTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(\Magento\App\Area::AREA_FRONTEND);
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(\Magento\Framework\App\Area::AREA_FRONTEND);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\Http\Context'
+            'Magento\Framework\App\Http\Context'
         )->setValue(
             \Magento\Customer\Helper\Data::CONTEXT_GROUP,
             \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID,

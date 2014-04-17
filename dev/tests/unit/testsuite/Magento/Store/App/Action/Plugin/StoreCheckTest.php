@@ -55,12 +55,12 @@ class StoreCheckTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->_storeMock)
         );
-        $this->subjectMock = $this->getMock('Magento\App\Action\Action', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Framework\App\Action\Action', array(), array(), '', false);
         $this->closureMock = function () {
             return 'Expected';
         };
-        $this->requestMock = $this->getMock('Magento\App\RequestInterface');
-        $this->appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\RequestInterface');
+        $this->appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
 
         $this->_plugin = new \Magento\Store\App\Action\Plugin\StoreCheck($this->_storeManagerMock, $this->appStateMock);
     }

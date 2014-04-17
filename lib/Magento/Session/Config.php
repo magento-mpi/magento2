@@ -66,7 +66,7 @@ class Config implements ConfigInterface
     protected $options = array();
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -76,7 +76,7 @@ class Config implements ConfigInterface
     protected $_stringHelper;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_httpRequest;
 
@@ -93,12 +93,12 @@ class Config implements ConfigInterface
     );
 
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_appState;
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
 
@@ -108,11 +108,11 @@ class Config implements ConfigInterface
     protected $_scopeType;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\String $stringHelper
-     * @param \Magento\App\RequestInterface $request
-     * @param \Magento\App\State $appState
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param string $scopeType
      * @param string $saveMethod
      * @param null|string $savePath
@@ -120,11 +120,11 @@ class Config implements ConfigInterface
      * @param string $lifetimePath
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\String $stringHelper,
-        \Magento\App\RequestInterface $request,
-        \Magento\App\State $appState,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\App\State $appState,
+        \Magento\Framework\App\Filesystem $filesystem,
         $scopeType,
         $saveMethod = \Magento\Session\SaveHandlerInterface::DEFAULT_HANDLER,
         $savePath = null,

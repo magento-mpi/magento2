@@ -203,7 +203,7 @@ class User extends \Magento\Model\AbstractModel implements \Magento\Backend\Mode
     public function __wakeup()
     {
         parent::__wakeup();
-        $objectManager = \Magento\App\ObjectManager::getInstance();
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $this->_eventManager = $objectManager->get('Magento\Event\ManagerInterface');
         $this->_userData = $objectManager->get('Magento\User\Helper\Data');
         $this->_config = $objectManager->get('Magento\Backend\App\ConfigInterface');
@@ -427,7 +427,7 @@ class User extends \Magento\Model\AbstractModel implements \Magento\Backend\Mode
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $this->_config->getValue(self::XML_PATH_FORGOT_EMAIL_TEMPLATE)
         )->setTemplateOptions(
-            array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => 0)
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 0)
         )->setTemplateVars(
             array('user' => $this, 'store' => $this->_storeManager->getStore(0))
         )->setFrom(
@@ -453,7 +453,7 @@ class User extends \Magento\Model\AbstractModel implements \Magento\Backend\Mode
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $this->_config->getValue(self::XML_PATH_RESET_PASSWORD_TEMPLATE)
         )->setTemplateOptions(
-            array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => 0)
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 0)
         )->setTemplateVars(
             array('user' => $this, 'store' => $this->_storeManager->getStore(0))
         )->setFrom(

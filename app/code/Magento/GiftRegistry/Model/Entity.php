@@ -168,7 +168,7 @@ class Entity extends \Magento\Model\AbstractModel
     protected $storeManager;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
 
@@ -183,7 +183,7 @@ class Entity extends \Magento\Model\AbstractModel
     protected $mathRandom;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -211,10 +211,10 @@ class Entity extends \Magento\Model\AbstractModel
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\Logging\Model\Event\ChangesFactory $changesFactory
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Escaper $escaper
      * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\GiftRegistry\Model\Resource\Entity $resource
      * @param \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection
@@ -239,10 +239,10 @@ class Entity extends \Magento\Model\AbstractModel
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\Logging\Model\Event\ChangesFactory $changesFactory,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Escaper $escaper,
         \Magento\Math\Random $mathRandom,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\GiftRegistry\Model\Resource\Entity $resource = null,
         \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection = null,
@@ -465,7 +465,7 @@ class Entity extends \Magento\Model\AbstractModel
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
         )->setTemplateVars(
             $templateVars
         )->setFrom(
@@ -578,7 +578,7 @@ class Entity extends \Magento\Model\AbstractModel
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
         )->setTemplateVars(
             $templateVars
         )->setFrom(
@@ -633,7 +633,7 @@ class Entity extends \Magento\Model\AbstractModel
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
         )->setTemplateVars(
             $templateVars
         )->setFrom(

@@ -41,7 +41,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
     /**
      * Request model
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -76,21 +76,21 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
     /**
      * Scope config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
      * @param \Magento\Store\Model\StorageFactory $factory
-     * @param \Magento\App\RequestInterface $request
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param string $scopeCode
      * @param string $scopeType
      */
     public function __construct(
         \Magento\Store\Model\StorageFactory $factory,
-        \Magento\App\RequestInterface $request,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         $scopeCode = '',
         $scopeType = ScopeInterface::SCOPE_STORE
     ) {

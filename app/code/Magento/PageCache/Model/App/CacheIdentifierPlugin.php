@@ -17,13 +17,13 @@ class CacheIdentifierPlugin
     /**
      * Constructor
      *
-     * @param \Magento\View\DesignExceptions  $designExceptions
-     * @param \Magento\App\RequestInterface   $request
+     * @param \Magento\View\DesignExceptions $designExceptions
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\PageCache\Model\Config $config
      */
     public function __construct(
         \Magento\View\DesignExceptions $designExceptions,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\PageCache\Model\Config $config
     ) {
         $this->designExceptions = $designExceptions;
@@ -34,12 +34,12 @@ class CacheIdentifierPlugin
     /**
      * Adds a theme key to identifier for a built-in cache if user-agent theme rule is actual
      *
-     * @param \Magento\App\PageCache\Identifier $identifier
+     * @param \Magento\Framework\App\PageCache\Identifier $identifier
      * @param string $result
      * @return string
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterGetValue(\Magento\App\PageCache\Identifier $identifier, $result)
+    public function afterGetValue(\Magento\Framework\App\PageCache\Identifier $identifier, $result)
     {
         if ($this->config->getType() == \Magento\PageCache\Model\Config::BUILT_IN && $this->config->isEnabled()) {
             $ruleDesignException = $this->designExceptions->getThemeByRequest($this->request);

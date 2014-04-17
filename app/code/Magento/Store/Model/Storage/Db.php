@@ -9,7 +9,7 @@
  */
 namespace Magento\Store\Model\Storage;
 
-use Magento\App\State;
+use Magento\Framework\App\State;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\Group;
 use Magento\Store\Model\StoreFactory;
@@ -105,7 +105,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
     /**
      * Scope config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -113,7 +113,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
      * @param StoreFactory $storeFactory
      * @param WebsiteFactory $websiteFactory
      * @param \Magento\Store\Model\GroupFactory $groupFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param State $appState
      * @param bool $isSingleStoreAllowed
      * @param null $currentStore
@@ -122,7 +122,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
         StoreFactory $storeFactory,
         WebsiteFactory $websiteFactory,
         \Magento\Store\Model\GroupFactory $groupFactory,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         State $appState,
         $isSingleStoreAllowed,
         $currentStore = null

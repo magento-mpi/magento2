@@ -199,11 +199,11 @@ class Observer
          */
         $controller = $observer->getControllerAction();
         /**
-         * @var \Magento\App\ResponseInterface $response
+         * @var \Magento\Framework\App\ResponseInterface $response
          */
         $response = $controller->getResponse();
         /**
-         * @var \Magento\App\RequestInterface $request
+         * @var \Magento\Framework\App\RequestInterface $request
          */
         $request = $controller->getRequest();
 

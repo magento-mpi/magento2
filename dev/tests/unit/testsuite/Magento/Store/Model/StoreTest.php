@@ -135,7 +135,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetBaseUrl($type, $secure, $expectedPath, $expectedBaseUrl)
     {
-        $request = $this->getMock('\Magento\App\RequestInterface', array(
+        $request = $this->getMock('\Magento\Framework\App\RequestInterface', array(
             'getRequestString',
             'getModuleName',
             'setModuleName',
@@ -146,8 +146,8 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         ), array(), '', false);
         $request->expects($this->any())->method('getDistroBaseUrl')->will($this->returnValue('http://distro.com/'));
 
-        /** @var \Magento\App\Config\ReinitableConfigInterface $configMock */
-        $configMock = $this->getMockForAbstractClass('\Magento\App\Config\ReinitableConfigInterface');
+        /** @var \Magento\Framework\App\Config\ReinitableConfigInterface $configMock */
+        $configMock = $this->getMockForAbstractClass('\Magento\Framework\App\Config\ReinitableConfigInterface');
         $configMock->expects($this->atLeastOnce())
             ->method('getValue')
             ->will($this->returnCallback(
@@ -252,8 +252,8 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         $expectedPath = 'web/unsecure/base_link_url';
         $expectedBaseUrl = 'http://domain.com/web/unsecure/base_link_url/test_script.php/';
-        /** @var \Magento\App\Config\ReinitableConfigInterface $configMock */
-        $configMock = $this->getMockForAbstractClass('\Magento\App\Config\ReinitableConfigInterface');
+        /** @var \Magento\Framework\App\Config\ReinitableConfigInterface $configMock */
+        $configMock = $this->getMockForAbstractClass('\Magento\Framework\App\Config\ReinitableConfigInterface');
         $configMock->expects($this->atLeastOnce())
             ->method('getValue')
             ->will($this->returnCallback(
@@ -309,9 +309,9 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $sidResolver = $this->getMockForAbstractClass('\Magento\Session\SidResolverInterface');
         $sidResolver->expects($this->any())->method('getSessionIdQueryParam')->will($this->returnValue('SID'));
 
-        $config = $this->getMockForAbstractClass('\Magento\App\Config\ReinitableConfigInterface');
+        $config = $this->getMockForAbstractClass('\Magento\Framework\App\Config\ReinitableConfigInterface');
 
-        $request = $this->getMock('\Magento\App\RequestInterface', array(
+        $request = $this->getMock('\Magento\Framework\App\RequestInterface', array(
             'getRequestString',
             'getModuleName',
             'setModuleName',
@@ -401,13 +401,13 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetBaseCurrency($priceScope, $currencyCode)
     {
-        /** @var \Magento\App\Config\ReinitableConfigInterface $config */
-        $config = $this->getMockForAbstractClass('\Magento\App\Config\ReinitableConfigInterface');
+        /** @var \Magento\Framework\App\Config\ReinitableConfigInterface $config */
+        $config = $this->getMockForAbstractClass('\Magento\Framework\App\Config\ReinitableConfigInterface');
         $config->expects($this->any())
             ->method('getValue')
             ->will($this->returnValueMap(array(
                 array('catalog/price/scope', ScopeInterface::SCOPE_STORE, 'scope_code', $priceScope),
-                array('currency/options/base', \Magento\App\ScopeInterface::SCOPE_DEFAULT, null, 'USD'),
+                array('currency/options/base', \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT, null, 'USD'),
                 array('currency/options/base', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 'scope_code', 'UAH'),
             )));
 
@@ -420,7 +420,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         );
         $currencyFactory->expects($this->any())->method('create')->will($this->returnValue($currency));
 
-        $appState = $this->getMock('\Magento\App\State', array(), array(), '', false);
+        $appState = $this->getMock('\Magento\Framework\App\State', array(), array(), '', false);
         $appState->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
         /** @var \Magento\Store\Model\Store $model */
         $model = $this->objectManagerHelper->getObject('Magento\Store\Model\Store',

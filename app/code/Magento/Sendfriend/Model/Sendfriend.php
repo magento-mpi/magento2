@@ -174,7 +174,7 @@ class Sendfriend extends \Magento\Model\AbstractModel
                 $this->_sendfriendData->getEmailTemplate()
             )->setTemplateOptions(
                 array(
-                    'area' => \Magento\App\Area::AREA_FRONTEND,
+                    'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
                     'store' => $this->_storeManager->getStore()->getId()
                 )
             )->setFrom(

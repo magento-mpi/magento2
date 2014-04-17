@@ -589,7 +589,7 @@ class Rma extends \Magento\Model\AbstractModel
             $transport = $this->_transportBuilder->setTemplateIdentifier(
                 $template
             )->setTemplateOptions(
-                array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId())
+                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId())
             )->setTemplateVars(
                 array(
                     'rma' => $this,

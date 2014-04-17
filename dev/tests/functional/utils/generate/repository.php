@@ -25,11 +25,11 @@ set_include_path($path);
 $appRoot = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
 require $appRoot . '/app/bootstrap.php';
 
-$objectManagerFactory = new \Magento\App\ObjectManagerFactory();
+$objectManagerFactory = new \Magento\Framework\App\ObjectManagerFactory();
 
 $arguments = $_SERVER;
 $objectManager = $objectManagerFactory->create(BP, $arguments);
 \Mtf\ObjectManagerFactory::configure($objectManager);
-$objectManager->get('Magento\App\State')->setAreaCode('frontend');
+$objectManager->get('Magento\Framework\App\State')->setAreaCode('frontend');
 $objectManager->create('Mtf\Util\Generate\Repository')->launch();
 \Mtf\Util\Generate\GenerateResult::displayResults();

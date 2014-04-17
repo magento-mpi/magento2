@@ -19,12 +19,12 @@ class Context
     protected $session;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
     /**
-     * @var \Magento\App\Request\Http
+     * @var \Magento\Framework\App\Request\Http
      */
     protected $httpRequest;
 
@@ -35,14 +35,14 @@ class Context
 
     /**
      * @param \Magento\Session\SessionManagerInterface $session
-     * @param \Magento\App\Http\Context $httpContext
-     * @param \Magento\App\Request\Http $httpRequest
+     * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Request\Http $httpRequest
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Session\SessionManagerInterface $session,
-        \Magento\App\Http\Context $httpContext,
-        \Magento\App\Request\Http $httpRequest,
+        \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Framework\App\Request\Http $httpRequest,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->session      = $session;
@@ -52,15 +52,15 @@ class Context
     }
 
     /**
-     * @param \Magento\App\Action\Action $subject
+     * @param \Magento\Framework\App\Action\Action $subject
      * @param callable $proceed
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return mixed
      */
     public function aroundDispatch(
-        \Magento\App\Action\Action $subject,
+        \Magento\Framework\App\Action\Action $subject,
         \Closure $proceed,
-        \Magento\App\RequestInterface $request
+        \Magento\Framework\App\RequestInterface $request
     ) {
         $this->httpContext->setValue(
             \Magento\Core\Helper\Data::CONTEXT_CURRENCY,

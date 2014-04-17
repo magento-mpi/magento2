@@ -12,7 +12,7 @@ namespace Magento\VersionsCms\Helper;
 /**
  * Base helper
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Array of admin users in system
@@ -27,11 +27,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_userCollectionFactory;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\User\Model\Resource\User\CollectionFactory $userCollectionFactory
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\User\Model\Resource\User\CollectionFactory $userCollectionFactory
     ) {
         $this->_userCollectionFactory = $userCollectionFactory;

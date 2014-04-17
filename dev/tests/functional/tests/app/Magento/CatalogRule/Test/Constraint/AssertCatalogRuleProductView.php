@@ -8,8 +8,10 @@
 
 namespace Magento\CatalogRule\Test\Constraint;
 
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
+use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
@@ -27,18 +29,26 @@ class AssertCatalogRuleProductView extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogProductView $catalogProductView
+     * @param CmsIndex $cmsIndex
      * @param CatalogRule $catalogRule
      */
     public function processAssert(
+        CatalogCategoryView $catalogCategoryView,
         CatalogProductView $catalogProductView,
+        CmsIndex $cmsIndex,
         CatalogRule $catalogRule
     ) {
         /** @var CatalogProductSimple $product */
         $product = $catalogRule->getDataFieldConfig('condition_value')['fixture']->getProduct();
+        /** @var Category $category */
+        $category = $product->getDataFieldConfig('category_ids')['fixture']->getCategory();
+        $cmsIndex->open();
+        $cmsIndex->getTopmenu()->selectCategoryByName($category->getCategoryName());
         //Open product view page
+        $catalogCategoryView->getListProductBlock()->openProductViewPage($product->getName());
         $catalogProductView->init($product);
-        $catalogProductView->open();
 
         //Process assertions
         $this->assertOnProductView($product, $catalogProductView);
@@ -56,18 +66,28 @@ class AssertCatalogRuleProductView extends AbstractConstraint
         $priceFixture = $product->getDataFieldConfig('price')['fixture'];
         $pricePresetData = $priceFixture->getPreset();
 
-        $price = $catalogProductView->getViewBlock()->getProductPriceBlock()->getRegularPrice();
+        if (isset($pricePresetData['product_special_price'])) {
+        $regularPrice = $catalogProductView->getViewBlock()->getProductPriceBlock()->getRegularPrice();
         \PHPUnit_Framework_Assert::assertEquals(
             $pricePresetData['product_price'],
-            $price,
+            $regularPrice,
             'Product regular price on product view page is not correct.'
         );
-        if (isset($pricePresetData['product_special_price'])) {
+
             $specialPrice = $catalogProductView->getViewBlock()->getProductPriceBlock()->getSpecialPrice();
             \PHPUnit_Framework_Assert::assertEquals(
                 $pricePresetData['product_special_price'],
                 $specialPrice,
                 'Product special price on product view page is not correct.'
+            );
+        } else {
+            //Price verification
+            $price = $catalogProductView->getViewBlock()->getProductPriceBlock($product->getName())
+                ->getPrice();
+            \PHPUnit_Framework_Assert::assertContains(
+                (string)$price,
+                $pricePresetData['product_price'],
+                'Product price on category page is not correct.'
             );
         }
     }

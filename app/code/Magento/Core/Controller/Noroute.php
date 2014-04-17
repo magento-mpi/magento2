@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Controller;
 
-use Magento\App\Action\Action;
+use Magento\Framework\App\Action\Action;
 
 class Noroute extends Action
 {

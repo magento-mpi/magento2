@@ -44,7 +44,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         foreach (array(\Magento\Weee\Model\Tax::DISPLAY_INCL, \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR) as $mode) {
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\App\Config\MutableScopeConfigInterface'
+                'Magento\Framework\App\Config\MutableScopeConfigInterface'
             )->setValue(
                 'tax/weee/display',
                 $mode,
@@ -63,7 +63,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL
         ) as $mode) {
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\App\Config\MutableScopeConfigInterface'
+                'Magento\Framework\App\Config\MutableScopeConfigInterface'
             )->setValue(
                 'tax/weee/display',
                 $mode,

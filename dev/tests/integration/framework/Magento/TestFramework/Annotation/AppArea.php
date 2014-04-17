@@ -22,9 +22,9 @@ class AppArea
      * @var array
      */
     private $_allowedAreas = array(
-        \Magento\App\Area::AREA_GLOBAL,
+        \Magento\Framework\App\Area::AREA_GLOBAL,
         \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
-        \Magento\App\Area::AREA_FRONTEND,
+        \Magento\Framework\App\Area::AREA_FRONTEND,
         'install',
         'webapi_rest',
         'webapi_soap',

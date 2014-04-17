@@ -20,7 +20,7 @@ namespace Magento\AdminGws\Model;
 class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -47,7 +47,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     private $_storeManager = null;
 
     /**
-     * @var \Magento\App\ResponseInterface
+     * @var \Magento\Framework\App\ResponseInterface
      */
     protected $_response = null;
 
@@ -72,7 +72,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_productFactoryRes;
 
     /**
-     * @var \Magento\App\ActionFlag
+     * @var \Magento\Framework\App\ActionFlag
      */
     protected $_actionFlag;
 
@@ -88,11 +88,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes
      * @param \Magento\Registry $registry
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ResponseInterface $response
-     * @param \Magento\App\ActionFlag $actionFlag
+     * @param \Magento\Framework\App\ResponseInterface $response
+     * @param \Magento\Framework\App\ActionFlag $actionFlag
      * @param \Magento\Message\ManagerInterface $messageManager
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -104,11 +104,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory,
         \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes,
         \Magento\Registry $registry,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\ObjectManager $objectManager,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ResponseInterface $response,
-        \Magento\App\ActionFlag $actionFlag,
+        \Magento\Framework\App\ResponseInterface $response,
+        \Magento\Framework\App\ActionFlag $actionFlag,
         \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_registry = $registry;
@@ -594,7 +594,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     protected function _redirect($url = null)
     {
-        $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
+        $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
         if (null === $url) {
             $url = $this->_backendUrl->getUrl('adminhtml/*/denied');
         } elseif (is_array($url)) {

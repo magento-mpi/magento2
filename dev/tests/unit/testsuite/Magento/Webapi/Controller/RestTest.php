@@ -32,7 +32,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
     /** @var \stdClass */
     protected $_serviceMock;
 
-    /** @var \Magento\App\State */
+    /** @var \Magento\Framework\App\State */
     protected $_appStateMock;
 
     /** @var \Magento\Authz\Service\AuthorizationV1Interface */
@@ -93,7 +93,9 @@ class RestTest extends \PHPUnit_Framework_TestCase
             array(self::SERVICE_METHOD)
         )->disableOriginalConstructor()->getMock();
 
-        $this->_appStateMock = $this->getMockBuilder('Magento\App\State')->disableOriginalConstructor()->getMock();
+        $this->_appStateMock = $this->getMockBuilder('Magento\Framework\App\State')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->_authzServiceMock = $this->getMockBuilder(
             'Magento\Authz\Service\AuthorizationV1Interface'
@@ -108,8 +110,8 @@ class RestTest extends \PHPUnit_Framework_TestCase
         $this->serializerMock = $this->getMockBuilder('\Magento\Webapi\Controller\ServiceArgsSerializer')
             ->disableOriginalConstructor()
             ->setMethods(['getInputData'])->getMock();
-        $this->areaListMock = $this->getMock('\Magento\App\AreaList', array(), array(), '', false);
-        $this->areaMock = $this->getMock('Magento\App\AreaInterface');
+        $this->areaListMock = $this->getMock('\Magento\Framework\App\AreaList', array(), array(), '', false);
+        $this->areaMock = $this->getMock('Magento\Framework\App\AreaInterface');
         $this->areaListMock->expects($this->any())->method('getArea')->will($this->returnValue($this->areaMock));
 
         /** Init SUT. */

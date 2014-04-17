@@ -25,15 +25,15 @@ class DesignLoaderTest extends \PHPUnit_Framework_TestCase
     protected $_requestMock;
 
     /**
-     * @var \Magento\App\State|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $appState;
 
     protected function setUp()
     {
-        $this->_areaListMock = $this->getMock('\Magento\App\AreaList', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
-        $this->appState = $this->getMock('Magento\App\State', array(), array(), '', false);
+        $this->_areaListMock = $this->getMock('\Magento\Framework\App\AreaList', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $this->appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $this->_model = new \Magento\View\DesignLoader(
             $this->_requestMock,
             $this->_areaListMock,
@@ -43,13 +43,13 @@ class DesignLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function testLoad()
     {
-        $area = $this->getMock('Magento\App\Area', array(), array(), '', false);
+        $area = $this->getMock('Magento\Framework\App\Area', array(), array(), '', false);
         $this->appState->expects($this->once())->method('getAreaCode')->will($this->returnValue('area'));
         $this->_areaListMock->expects($this->once())->method('getArea')->with('area')->will($this->returnValue($area));
         $area->expects($this->at(0))->method('load')
-            ->with(\Magento\App\Area::PART_DESIGN)->will($this->returnValue($area));
+            ->with(\Magento\Framework\App\Area::PART_DESIGN)->will($this->returnValue($area));
         $area->expects($this->at(1))->method('load')
-            ->with(\Magento\App\Area::PART_TRANSLATE)->will($this->returnValue($area));
+            ->with(\Magento\Framework\App\Area::PART_TRANSLATE)->will($this->returnValue($area));
         $this->_model->load($this->_requestMock);
     }
 }

@@ -142,12 +142,12 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
     public function testImportData($behavior, $sourceFile, array $dataBefore, array $dataAfter, array $errors = array())
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
-            ->loadArea(\Magento\App\Area::AREA_FRONTEND);
+            ->loadArea(\Magento\Framework\App\Area::AREA_FRONTEND);
         // set entity adapter parameters
         $this->_entityAdapter->setParameters(array('behavior' => $behavior));
-        /** @var \Magento\App\Filesystem $filesystem */
-        $filesystem = $this->_objectManager->create('Magento\App\Filesystem');
-        $rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
+        /** @var \Magento\Framework\App\Filesystem $filesystem */
+        $filesystem = $this->_objectManager->create('Magento\Framework\App\Filesystem');
+        $rootDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
 
         // set fixture CSV file
         $result = $this->_entityAdapter->setSource(

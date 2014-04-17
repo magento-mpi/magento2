@@ -138,7 +138,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -179,7 +179,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Helper\Data $salesData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\Order\Shipment\Item\CollectionFactory $shipmentItemCollectionFactory
      * @param \Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory
@@ -197,7 +197,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Helper\Data $salesData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\Order\Shipment\Item\CollectionFactory $shipmentItemCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory,
@@ -572,7 +572,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
             $this->_transportBuilder->setTemplateIdentifier(
                 $templateId
             )->setTemplateOptions(
-                array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
             )->setTemplateVars(
                 array(
                     'order' => $order,
@@ -609,7 +609,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
                 $this->_transportBuilder->setTemplateIdentifier(
                     $templateId
                 )->setTemplateOptions(
-                    array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                    array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
                 )->setTemplateVars(
                     array(
                         'order' => $order,
@@ -685,7 +685,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
             $this->_transportBuilder->setTemplateIdentifier(
                 $templateId
             )->setTemplateOptions(
-                array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
             )->setTemplateVars(
                 array(
                     'order' => $order,
@@ -721,7 +721,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
                 $this->_transportBuilder->setTemplateIdentifier(
                     $templateId
                 )->setTemplateOptions(
-                    array('area' => \Magento\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                    array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
                 )->setTemplateVars(
                     array(
                         'order' => $order,

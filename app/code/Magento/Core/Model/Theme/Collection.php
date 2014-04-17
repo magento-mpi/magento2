@@ -42,7 +42,7 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
     public function __construct(\Magento\Core\Model\EntityFactory $entityFactory, \Magento\Filesystem $filesystem)
     {
         parent::__construct($entityFactory);
-        $this->_directory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::THEMES_DIR);
+        $this->_directory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::THEMES_DIR);
     }
 
     /**
@@ -51,7 +51,7 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
      * @param string $area
      * @return $this
      */
-    public function addDefaultPattern($area = \Magento\App\Area::AREA_FRONTEND)
+    public function addDefaultPattern($area = \Magento\Framework\App\Area::AREA_FRONTEND)
     {
         $this->addTargetPattern(implode('/', array($area, '*/*', 'theme.xml')));
         return $this;

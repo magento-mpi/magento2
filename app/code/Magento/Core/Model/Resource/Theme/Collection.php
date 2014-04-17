@@ -52,7 +52,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      * @param string $area
      * @return $this
      */
-    public function addAreaFilter($area = \Magento\App\Area::AREA_FRONTEND)
+    public function addAreaFilter($area = \Magento\Framework\App\Area::AREA_FRONTEND)
     {
         $this->getSelect()->where('main_table.area=?', $area);
         return $this;
@@ -188,7 +188,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     ) {
 
         $this->addAreaFilter(
-            \Magento\App\Area::AREA_FRONTEND
+            \Magento\Framework\App\Area::AREA_FRONTEND
         )->addTypeFilter(
             \Magento\View\Design\ThemeInterface::TYPE_PHYSICAL
         );
@@ -206,7 +206,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      * @return $this
      */
     public function filterThemeCustomizations(
-        $area = \Magento\App\Area::AREA_FRONTEND,
+        $area = \Magento\Framework\App\Area::AREA_FRONTEND,
         $type = \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
     ) {
         $this->addAreaFilter($area)->addTypeFilter($type);
@@ -223,7 +223,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
             'theme_title',
             \Magento\Data\Collection::SORT_ORDER_ASC
         )->filterVisibleThemes()->addAreaFilter(
-            \Magento\App\Area::AREA_FRONTEND
+            \Magento\Framework\App\Area::AREA_FRONTEND
         );
         return $labels->toOptionArray();
     }

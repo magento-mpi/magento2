@@ -21,7 +21,7 @@ class AgreementsProvider implements AgreementsProviderInterface
     /** @var \Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory */
     protected $agreementCollectionFactory;
 
-    /** @var \Magento\App\Config\ScopeConfigInterface */
+    /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
     protected $scopeConfig;
 
     /** @var  \Magento\Store\Model\StoreManagerInterface */
@@ -30,12 +30,12 @@ class AgreementsProvider implements AgreementsProviderInterface
     /**
      * @param Resource\Agreement\CollectionFactory $agreementCollectionFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->agreementCollectionFactory = $agreementCollectionFactory;
         $this->storeManager = $storeManager;
