@@ -555,7 +555,7 @@ class Operation extends \Magento\Model\AbstractModel
             $filePath = '/' . trim($filePath, '\\/');
             $result = $this->ftpAdapter->write($filePath, $fileContent);
         } else {
-            $varDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+            $varDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
             $result = $varDirectory->writeFile($filePath, $fileContent);
         }
 
@@ -592,7 +592,7 @@ class Operation extends \Magento\Model\AbstractModel
      */
     protected function readData($source, $destination)
     {
-        $tmpDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR);
+        $tmpDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::SYS_TMP_DIR);
 
         $this->validateAdapterType();
         $fileInfo = $this->getFileInfo();
@@ -601,7 +601,7 @@ class Operation extends \Magento\Model\AbstractModel
             $source = '/' . trim($source, '\\/');
             $result = $this->ftpAdapter->read($source, $tmpDirectory->getAbsolutePath($destination));
         } else {
-            $varDirectory = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::VAR_DIR);
+            $varDirectory = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::VAR_DIR);
             if (!$varDirectory->isExist($source)) {
                 throw new \Magento\Model\Exception(__('Import path %1 not exists', $source));
             }

@@ -50,7 +50,7 @@ class AuthenticationTest extends \PHPUnit_Framework_TestCase
     public function testAroundDispatchProlongStorage()
     {
         $subject = $this->getMock('Magento\Backend\Controller\Adminhtml\Index', [], [], '', false);
-        $request = $this->getMock('\Magento\App\Request\Http', ['getActionName'], [], '', false);
+        $request = $this->getMock('\Magento\Framework\App\Request\Http', ['getActionName'], [], '', false);
         $user = $this->getMock('Magento\User\Model\User', ['reload', '__wakeup'], [], '', false);
         $storage = $this->getMock('Magento\Backend\Model\Auth\Session', ['prolong', 'refreshAcl'], [], '', false);
 

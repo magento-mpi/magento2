@@ -43,7 +43,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     protected $registryMock;
 
     /**
-     * @var \Magento\App\Filesystem | Mock
+     * @var \Magento\Framework\App\Filesystem | Mock
      */
     protected $filesystemMock;
 
@@ -63,7 +63,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     protected $dataFactoryMock;
 
     /**
-     * @var \Magento\App\Config\ValueFactory | Mock
+     * @var \Magento\Framework\App\Config\ValueFactory | Mock
      */
     protected $valueFactoryMock;
 
@@ -73,7 +73,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     protected $datetimeMock;
 
     /**
-     * @var \Magento\App\Config | Mock
+     * @var \Magento\Framework\App\Config | Mock
      */
     protected $configScopeMock;
 
@@ -110,7 +110,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $this->registryMock = $this->getMockBuilder('Magento\Registry')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->filesystemMock = $this->getMockBuilder('Magento\App\Filesystem')
+        $this->filesystemMock = $this->getMockBuilder('Magento\Framework\App\Filesystem')
             ->disableOriginalConstructor()
             ->getMock();
         $this->storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManager')
@@ -125,13 +125,13 @@ class OperationTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['create'])
             ->disableOriginalConstructor()
             ->getMock();
-        $this->valueFactoryMock = $this->getMockBuilder('Magento\App\Config\ValueFactory')
+        $this->valueFactoryMock = $this->getMockBuilder('Magento\Framework\App\Config\ValueFactory')
             ->disableOriginalConstructor()
             ->getMock();
         $this->datetimeMock = $this->getMockBuilder('Magento\Stdlib\DateTime\DateTime')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->configScopeMock = $this->getMockBuilder('Magento\App\Config')
+        $this->configScopeMock = $this->getMockBuilder('Magento\Framework\App\Config')
             ->disableOriginalConstructor()
             ->getMock();
         $this->stringStdLibMock = $this->getMockBuilder('Magento\Stdlib\String')
@@ -215,7 +215,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
      * Get mocked model
      *
      * @param array $fileInfo
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation| \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getScheduledOperationModel(array $fileInfo)
     {
