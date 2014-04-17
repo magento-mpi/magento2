@@ -32,6 +32,10 @@
   * Fixed: Improper usage of DIRECTORY_SEPARATOR (MAGETWO-13237)
   * Fixed: Nothing happens after clicking on "Add New Address" button if default address is already set (MAGETWO-23292)
   * An issue with setting memory_limit to -1 causes install failure (MAGETWO-23201)
+  * Fixed: Admin Session expires unexpectedly (MAGETWO-21736)
+  * Fixed: Scheduled Export for 'Remote FTP' does not work (MAGETWO-18584)
+  * Fixed: [TD] Wrong default value for PHP memory_limit (MAGETWO-21340)
+  * Fixed Messages absence on Frontend with FPC turned off (MAGETWO-23535)
 * Framework Improvements:
   * Simplify Search related Data Objects (MAGETWO-22613)
   * Moved lib/Magento/* to lib/Magento/Framework/*: (MAGETWO-20866)

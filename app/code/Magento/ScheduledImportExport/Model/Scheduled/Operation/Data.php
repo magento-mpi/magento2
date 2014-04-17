@@ -24,6 +24,16 @@ class Data
     const STATUS_PENDING = 2;
 
     /**
+     * Storage key for FTP
+     */
+    const FTP_STORAGE = 'ftp';
+
+    /**
+     * Storage key for local filesystem
+     */
+    const FILE_STORAGE = 'file';
+
+    /**
      * @var \Magento\ImportExport\Model\Import\ConfigInterface
      */
     protected $_importConfig;
@@ -86,7 +96,7 @@ class Data
      */
     public function getServerTypesOptionArray()
     {
-        return array('file' => __('Local Server'), 'ftp' => __('Remote FTP'));
+        return array(self::FILE_STORAGE => __('Local Server'), self::FTP_STORAGE => __('Remote FTP'));
     }
 
     /**
