@@ -15,6 +15,9 @@
          * Declaration of resources needed for defined components
          */
         $.mage.component({
+            accordion: [
+                '<?php echo $this->getViewFileUrl('Magento_Checkout::js/accordion.js') ?>'
+            ],
             opcheckoutPaypalIframe: [
                 '<?php echo $this->getViewFileUrl('Magento_Paypal::js/opcheckout.js') ?>'
             ],

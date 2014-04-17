@@ -11,7 +11,7 @@
     <update handle="page_one_column"/>
     <update handle="checkout_cart_item_renderers" />
     <referenceBlock name="head.components">
-        <block class="Magento\View\Element\Js\Components" name="checkout_page_head_components" template="Magento_Checkout::js/components.phtml"/>
+        <block class="Magento\View\Element\Js\Components" name="checkout_cart_head_components" template="Magento_Checkout::js/components.phtml"/>
     </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Checkout\Block\Cart" name="checkout.cart" template="cart.phtml">
