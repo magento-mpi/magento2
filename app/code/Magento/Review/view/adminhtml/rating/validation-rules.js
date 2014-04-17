@@ -9,25 +9,20 @@
  * @license     {license_link}
  */
 (function ($) {
-    $.validator.addMethod('validate-rating', function() {
-        var ratings = $('#detailed_rating').find('.field-rating');
-        var inputs;
-        var error = 1;
+    $.validator.addMethod('validate-rating', function () {
+        var ratings = $('#detailed_rating').find('.field-rating'),
+            error = true;
 
-        ratings.each(function(i, rating) {
-            if (i > 0) {
-                inputs = $(rating).find('input');
+        ratings.each(function (i, rating) {
+            var inputs = $(rating).find('input');
 
-                inputs.each(function(j, input) {
-                    if ($(input).is(':checked')) {
-                        error = 0;
-                    }
-                });
-
-                if (error == 1) {
-                    return false;
+            inputs.each(function (j, input) {
+                if ($(input).is(':checked')) {
+                    error = false;
                 }
-            }
+            });
+
+            return error != true;
         });
         return !error;
     }, 'Please select one of each ratings above.');
