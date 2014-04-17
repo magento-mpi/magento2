@@ -804,6 +804,66 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals($expectedCustomerDetails, $customerDetailsResponse);
     }
 
+    public function testUpdateCustomerDetailsByEmail()
+    {
+        $customerData = $this->_createSampleCustomer();
+        $customerId = $customerData[Customer::ID];
+        $customerDetails = $this->customerAccountService->getCustomerDetails($customerId);
+        $customer = $customerDetails->getCustomer();
+        $customerAddress = $customerDetails->getAddresses();
+        $firstName = $customer->getFirstname() . 'updated';
+        $lastName = $customer->getLastname() . 'updated';
+        $newEmail = 'updatedemail@sample.com';
+        $email = $customer->getEmail();
+        $city = 'San Jose';
+
+        $customerData = array_merge(
+            $customer->__toArray(),
+            [
+                'firstname' => $firstName,
+                'lastname' => $lastName,
+                'email' => $newEmail,
+                'id' => null
+            ]
+        );
+
+        $addressId = $customerAddress[0]->getId();
+        $newAddress = array_merge($customerAddress[0]->__toArray(), ['city' => $city]);
+        $this->customerBuilder->populateWithArray($customerData);
+        $this->addressBuilder->populateWithArray($newAddress);
+        $this->customerDetailsBuilder->setCustomer(($this->customerBuilder->create()))
+            ->setAddresses(array($this->addressBuilder->create(), $customerAddress[1]));
+        $updatedCustomerDetails = $this->customerDetailsBuilder->create();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/updateByEmail',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'UpdateCustomerDetailsByEmail'
+            ]
+        ];
+        $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
+        $requestData = ['customerEmail' => $email, 'customerDetails' => $customerDetailsAsArray];
+        $response = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertTrue($response);
+
+        //Verify if the customer is updated
+        $customerDetails = $this->customerAccountService->getCustomerDetails($customerId);
+        $updateCustomerData = $customerDetails->getCustomer();
+        $this->assertEquals($firstName, $updateCustomerData->getFirstname());
+        $this->assertEquals($lastName, $updateCustomerData->getLastname());
+        $this->assertEquals($newEmail, $updateCustomerData->getEmail());
+        foreach ($customerDetails->getAddresses() as $newAddress) {
+            if ($newAddress->getId() == $addressId) {
+                $this->assertEquals($city, $newAddress->getCity());
+            }
+        }
+    }
+
     public function testDeleteCustomerByEmail()
     {
         $customerData = $this->_createSampleCustomer();

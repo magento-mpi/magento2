@@ -1444,6 +1444,52 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoAppArea frontend
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
+     */
+    public function testUpdateCustomerDetailsByEmail()
+    {
+        $customerId = 1;
+        $firstName = 'Firstsave';
+        $lastName = 'Lastsave';
+        $newEmail = 'newcustomeremail@example.com';
+        $city = 'San Jose';
+
+        $customerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
+        $email = $customerDetails->getCustomer()->getEmail();
+        $customerData = array_merge(
+            $customerDetails->getCustomer()->__toArray(),
+            [
+                'firstname' => $firstName,
+                'lastname' => $lastName,
+                'email' => $newEmail,
+                'id' => null
+            ]
+        );
+        $addresses = $customerDetails->getAddresses();
+        $addressId = $addresses[0]->getId();
+        $newAddress = array_merge($addresses[0]->__toArray(), ['city' => $city]);
+        $this->_customerBuilder->populateWithArray($customerData);
+        $this->_addressBuilder->populateWithArray($newAddress);
+        $this->_customerDetailsBuilder->setCustomer(($this->_customerBuilder->create()))
+            ->setAddresses(array($this->_addressBuilder->create(), $addresses[1]));
+        $this->_customerAccountService->updateCustomerDetailsByEmail($email, $this->_customerDetailsBuilder->create());
+
+        $updatedCustomerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
+        $updateCustomerData=$updatedCustomerDetails->getCustomer();
+        $this->assertEquals($firstName, $updateCustomerData->getFirstname());
+        $this->assertEquals($lastName, $updateCustomerData->getLastname());
+        $this->assertEquals($newEmail, $updateCustomerData->getEmail());
+        $this->assertEquals(2, count($updatedCustomerDetails->getAddresses()));
+
+        foreach ($updatedCustomerDetails->getAddresses() as $newAddress) {
+            if ($newAddress->getId() == $addressId) {
+                $this->assertEquals($city, $newAddress->getCity());
+            }
+        }
+    }
+    /**
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoAppIsolation enabled

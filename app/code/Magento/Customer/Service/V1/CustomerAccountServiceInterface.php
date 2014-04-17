@@ -300,6 +300,19 @@ interface CustomerAccountServiceInterface
     public function getCustomerDetailsByEmail($customerEmail, $websiteId = null);
 
     /**
+     * Update Customer Account and its details
+     *
+     * @param string $customerEmail
+     * @param \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
+     * @throws \Magento\Exception\NoSuchEntityException If customer with customerDetails is not found.
+     * @return bool True if this customer was updated
+     */
+    public function updateCustomerDetailsByEmail(
+        $customerEmail,
+        \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
+    );
+
+    /**
      * Delete Customer by email
      *
      * @param string $customerEmail
