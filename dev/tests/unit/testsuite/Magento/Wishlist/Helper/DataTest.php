@@ -37,7 +37,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->with('*/*/*', array('_current' => true, '_use_rewrite' => true, '_scope_to_url' => true))
             ->will($this->returnValue($url));
 
-        $context = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false);
         $context->expects($this->once())
             ->method('getUrlBuilder')
             ->will($this->returnValue($urlBuilder));

@@ -45,7 +45,7 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
+        $this->_appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
 
         $this->_invokerDefault = new \Magento\Event\Invoker\InvokerDefault(
             $this->_observerFactoryMock,
@@ -131,7 +131,7 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getMode'
         )->will(
-            $this->returnValue(\Magento\App\State::MODE_DEVELOPER)
+            $this->returnValue(\Magento\Framework\App\State::MODE_DEVELOPER)
         );
 
         $this->_invokerDefault->dispatch(
@@ -174,7 +174,7 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getMode'
         )->will(
-            $this->returnValue(\Magento\App\State::MODE_PRODUCTION)
+            $this->returnValue(\Magento\Framework\App\State::MODE_PRODUCTION)
         );
 
         $this->_invokerDefault->dispatch(

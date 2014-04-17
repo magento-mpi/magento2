@@ -7,7 +7,7 @@
  */
 namespace Magento\CatalogEvent\Model;
 
-use Magento\App\Filesystem;
+use Magento\Framework\App\Filesystem;
 use Magento\Catalog\Model\Category;
 use Magento\CatalogEvent\Model\Resource\Event as ResourceEvent;
 use Magento\Model\Exception;

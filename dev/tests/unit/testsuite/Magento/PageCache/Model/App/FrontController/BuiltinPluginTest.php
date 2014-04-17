@@ -21,27 +21,27 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
     protected $configMock;
 
     /**
-     * @var \Magento\App\PageCache\Version|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\PageCache\Version|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $versionMock;
 
     /**
-     * @var \Magento\App\PageCache\Kernel|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\PageCache\Kernel|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $kernelMock;
 
     /**
-     * @var \Magento\App\State|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $stateMock;
 
     /**
-     * @var \Magento\App\Response\Http|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Response\Http|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $responseMock;
 
     /**
-     * @var \Magento\App\FrontControllerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\FrontControllerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $frontControllerMock;
 
@@ -51,7 +51,7 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
     protected $closure;
 
     /**
-     * @var \Magento\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $requestMock;
 
@@ -61,18 +61,18 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->configMock = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
-        $this->versionMock = $this->getMock('Magento\App\PageCache\Version', array(), array(), '', false);
-        $this->kernelMock = $this->getMock('Magento\App\PageCache\Kernel', array(), array(), '', false);
-        $this->stateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
+        $this->versionMock = $this->getMock('Magento\Framework\App\PageCache\Version', array(), array(), '', false);
+        $this->kernelMock = $this->getMock('Magento\Framework\App\PageCache\Kernel', array(), array(), '', false);
+        $this->stateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $this->frontControllerMock = $this->getMock(
-            'Magento\App\FrontControllerInterface',
+            'Magento\Framework\App\FrontControllerInterface',
             array(),
             array(),
             '',
             false
         );
-        $this->requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
-        $this->responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false);
+        $this->responseMock = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
         $response = $this->responseMock;
         $this->closure = function () use ($response) {
             return $response;
@@ -107,7 +107,7 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
         $this->stateMock->expects($this->any())
             ->method('getMode')
             ->will($this->returnValue($state));
-        if ($state == \Magento\App\State::MODE_DEVELOPER) {
+        if ($state == \Magento\Framework\App\State::MODE_DEVELOPER) {
             $this->responseMock->expects($this->at(1))
                 ->method('setHeader')
                 ->with('X-Magento-Cache-Control');
@@ -148,7 +148,7 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
         $this->stateMock->expects($this->any())
             ->method('getMode')
             ->will($this->returnValue($state));
-        if ($state == \Magento\App\State::MODE_DEVELOPER) {
+        if ($state == \Magento\Framework\App\State::MODE_DEVELOPER) {
             $this->responseMock->expects($this->once())
                 ->method('setHeader')
                 ->with('X-Magento-Cache-Debug');
@@ -185,8 +185,8 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
     public function dataProvider()
     {
         return array(
-            'developer_mode' => array(\Magento\App\State::MODE_DEVELOPER),
-            'production' => array(\Magento\App\State::MODE_PRODUCTION),
+            'developer_mode' => array(\Magento\Framework\App\State::MODE_DEVELOPER),
+            'production' => array(\Magento\Framework\App\State::MODE_PRODUCTION),
         );
     }
 }

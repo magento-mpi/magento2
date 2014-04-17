@@ -9,7 +9,7 @@
  */
 namespace Magento\Module\Dir;
 
-use Magento\App\Filesystem;
+use Magento\Framework\App\Filesystem;
 use Magento\Config\FileIterator;
 use Magento\Config\FileIteratorFactory;
 use Magento\Filesystem\Directory\Read;

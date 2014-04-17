@@ -10,7 +10,7 @@
 namespace Magento\Invitation\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
-use Magento\App\Action\AbstractAction;
+use Magento\Framework\App\Action\AbstractAction;
 
 class Index extends \Magento\Backend\App\Action
 {

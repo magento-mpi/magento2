@@ -9,12 +9,12 @@
  */
 namespace Magento\Newsletter\Controller;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Customers newsletter subscription controller
  */
-class Manage extends \Magento\App\Action\Action
+class Manage extends \Magento\Framework\App\Action\Action
 {
     /**
      * Customer session
@@ -54,7 +54,7 @@ class Manage extends \Magento\App\Action\Action
     protected $_subscriberFactory;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -64,7 +64,7 @@ class Manage extends \Magento\App\Action\Action
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -87,7 +87,7 @@ class Manage extends \Magento\App\Action\Action
      * Check customer authentication for some actions
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {

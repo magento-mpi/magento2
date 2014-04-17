@@ -20,11 +20,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_blockInjections = array(
         'Magento\Model\Context',
         'Magento\Registry',
-        'Magento\App\Filesystem',
+        'Magento\Framework\App\Filesystem',
         'Magento\View\Url',
         'Magento\View\FileSystem',
         'Magento\Core\Model\View\Design',
-        'Magento\App\Config\ScopeConfigInterface',
+        'Magento\Framework\App\Config\ScopeConfigInterface',
         'Magento\Email\Model\Template\Config'
     );
 

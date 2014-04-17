@@ -9,7 +9,7 @@
  */
 namespace Magento\PageCache\Controller;
 
-class Block extends \Magento\App\Action\Action
+class Block extends \Magento\Framework\App\Action\Action
 {
     /**
      * Returns block content depends on ajax request

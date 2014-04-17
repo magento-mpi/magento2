@@ -12,7 +12,7 @@ namespace Magento\VersionsCms\Helper;
 /**
  * CMS Hierarchy data helper
  */
-class Hierarchy extends \Magento\App\Helper\AbstractHelper
+class Hierarchy extends \Magento\Framework\App\Helper\AbstractHelper
 {
     const XML_PATH_HIERARCHY_ENABLED = 'cms/hierarchy/enabled';
 
@@ -31,7 +31,7 @@ class Hierarchy extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -41,13 +41,13 @@ class Hierarchy extends \Magento\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_scopeConfig = $scopeConfig;

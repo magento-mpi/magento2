@@ -17,7 +17,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetReturnAddressData($useStoreAddress, $scopeConfigData, $mockConfig, $expectedResult)
     {
-        $scopeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $scopeConfigMock->expects(
             $this->atLeastOnce()
         )->method(
@@ -38,7 +38,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->returnValueMap($scopeConfigData)
         );
 
-        $context = $this->getMock('Magento\App\Helper\Context', array('getApp'), array(), '', false, false);
+        $context = $this->getMock('Magento\Framework\App\Helper\Context', array('getApp'), array(), '', false, false);
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var \Magento\Rma\Helper\Data $model */

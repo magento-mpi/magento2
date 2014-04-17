@@ -139,7 +139,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
          */
             function ($application, $file) {
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\App\State'
+                    'Magento\Framework\App\State'
                 )->setAreaCode(
                         $application
                     );
