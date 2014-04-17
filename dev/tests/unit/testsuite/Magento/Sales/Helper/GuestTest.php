@@ -96,12 +96,12 @@ class GuestTest extends \PHPUnit_Framework_TestCase
             'Magento\Sales\Helper\Guest',
             [
                 'context'         => $context,
-                'customerSession' => $this->mockCustomerSession,
-                'orderFactory'    => $this->mockOrderFactory,
                 'coreCookie'      => $this->mockCookie,
                 'coreRegistry'    => $this->mockRegistry,
+                'customerSession' => $this->mockCustomerSession,
+                'orderFactory'    => $this->mockOrderFactory,
+                'storeManager'    => $this->mockStoreManager,
                 'view'            => $this->mockView,
-                'storeManager'    => $this->mockStoreManager
             ]
         );
     }
@@ -378,6 +378,8 @@ class GuestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Return a mock order with the methods provided mocked to be returned by the appropriate factory
+     *
      * @param array $methods
      * @return \PHPUnit_Framework_MockObject_MockObject | \Magento\Sales\Model\Order
      */
@@ -396,7 +398,9 @@ class GuestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param null $redirectName
+     * Create a mock response object
+     *
+     * @param null $redirectName if provided will make sure that generated url is set as the redirect patch
      * @return \PHPUnit_Framework_MockObject_MockObject | \Magento\App\ResponseInterface
      */
     private function getMockResponse($redirectName = null)
@@ -420,8 +424,10 @@ class GuestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $post
-     * @return \Magento\App\RequestInterface
+     * Returns a mock request object
+     *
+     * @param array $post list of data to be returned by getPost
+     * @return \PHPUnit_Framework_MockObject_MockObject | \Magento\App\RequestInterface
      */
     private function getMockRequest(array $post)
     {
