@@ -31,6 +31,13 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     protected $fileFactory;
 
     /**
+     * Directory path
+     *
+     * @var string
+     */
+    protected $path;
+
+    /**
      * Set up
      */
     protected function setUp()
@@ -43,7 +50,11 @@ class ReadTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->read = new \Magento\Framework\Filesystem\Directory\Read(array(), $this->fileFactory, $this->driver);
+        $this->read = new \Magento\Framework\Filesystem\Directory\Read(
+            array('path' => $this->path),
+            $this->fileFactory,
+            $this->driver
+        );
     }
 
     /**
@@ -66,5 +77,52 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     {
         $this->driver->expects($this->once())->method('stat')->will($this->returnValue(array('some-stat-data')));
         $this->assertEquals(array('some-stat-data'), $this->read->stat('correct-path'));
+    }
+
+    public function testReadFileNoProtocol()
+    {
+        $path = 'filepath';
+        $flag = 'flag';
+        $context = 'context';
+        $contents = 'contents';
+
+        $this->driver->expects($this->once())
+            ->method('getAbsolutePath')
+            ->with($this->path, $path)
+            ->will($this->returnValue($path));
+        $this->driver->expects($this->once())
+            ->method('fileGetContents')
+            ->with($path, $flag, $context)
+            ->will($this->returnValue($contents));
+
+        $this->assertEquals($contents, $this->read->readFile($path, $flag, $context));
+    }
+
+    public function testReadFileCustomProtocol()
+    {
+        $path = 'filepath';
+        $flag = 'flag';
+        $context = 'context';
+        $protocol = 'ftp';
+        $contents = 'contents';
+
+        $fileMock = $this->getMock('Magento\Framework\Filesystem\File\Read', [], [], '', false);
+        $fileMock->expects($this->once())
+            ->method('readAll')
+            ->with($flag, $context)
+            ->will($this->returnValue($contents));
+
+        $this->driver->expects($this->once())
+            ->method('getAbsolutePath')
+            ->with($this->path, $path, $protocol)
+            ->will($this->returnValue($path));
+        $this->driver->expects($this->never())
+            ->method('fileGetContents');
+        $this->fileFactory->expects($this->once())
+            ->method('create')
+            ->with($path, $protocol, $this->driver)
+            ->will($this->returnValue($fileMock));
+
+        $this->assertEquals($contents, $this->read->readFile($path, $flag, $context, $protocol));
     }
 }

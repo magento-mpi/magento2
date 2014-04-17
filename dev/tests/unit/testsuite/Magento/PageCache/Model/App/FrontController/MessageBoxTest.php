@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\App\FrontController\Plugin;
+namespace Magento\PageCache\Model\App\FrontController;
 
 /**
  * Class MessageBoxTest
@@ -93,9 +93,9 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
         $this->cookieMock->expects($this->once())
             ->method('set')
             ->with(
-                $this->equalTo(\Magento\Core\App\FrontController\Plugin\MessageBox::COOKIE_NAME),
+                $this->equalTo(MessageBox::COOKIE_NAME),
                 1,
-                $this->equalTo(\Magento\Core\App\FrontController\Plugin\MessageBox::COOKIE_PERIOD),
+                $this->equalTo(MessageBox::COOKIE_PERIOD),
                 '/'
             );
         $this->assertInstanceOf(
