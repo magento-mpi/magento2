@@ -60,7 +60,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Customer address export model
      *
-     * @var \Magento\Customer\Model\ImportExport\Export\Address
+     * @var Address
      */
     protected $_model;
 
