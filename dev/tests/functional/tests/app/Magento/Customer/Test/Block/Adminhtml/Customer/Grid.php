@@ -16,12 +16,12 @@ use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
  * @package Magento\Customer\Test\Block\Adminhtml\Customer
  */
 class Grid extends AbstractGrid {
-    protected $filters = array(
+    protected $filters = [
         'name' => [
             'selector' => '#customerGrid_filter_name'
         ],
-        'email' => array(
+        'email' => [
             'selector' => '#customerGrid_filter_email',
-        )
-    );
+        ],
+    ];
 }

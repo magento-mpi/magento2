@@ -2,56 +2,51 @@
 /**
  * {license_notice}
  *
- * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Test\Page;
+namespace Magento\Customer\Test\Page; 
 
-use Mtf\Page\Page;
-use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
+use Mtf\Page\FrontendPage; 
 
 /**
- * Customer Create page on frontend
+ * Class CustomerAccountCreate
  *
  * @package Magento\Customer\Test\Page
  */
-class CustomerAccountCreate extends Page
+class CustomerAccountCreate extends FrontendPage
 {
-    /**
-     * URL for customer Create
-     */
     const MCA = 'customer/account/create';
 
-    /**
-     * Customer Create form
-     *
-     * @var string
-     */
-    protected $createForm = '#form-validate';
+    protected $_blocks = [
+        'createForm' => [
+            'name' => 'createForm',
+            'class' => 'Magento\Customer\Test\Block\Form\Register',
+            'locator' => '#form-validate',
+            'strategy' => 'css selector',
+        ],
+        'messageBlock' => [
+            'name' => 'messageBlock',
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '.page.messages',
+            'strategy' => 'css selector',
+        ],
+    ];
 
     /**
-     * Custom constructor
-     */
-    protected function _init()
-    {
-        $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-    }
-
-    /**
-     * Get Customer Create form
-     *
-     * @return \Magento\Customer\Test\Block\Form\Create
+     * @return \Magento\Customer\Test\Block\Form\Register
      */
     public function getCreateForm()
     {
-        return Factory::getBlockFactory()->getMagentoCustomerFormCreate(
-            $this->_browser->find($this->createForm, Locator::SELECTOR_CSS)
-        );
+        return $this->getBlockInstance('createForm');
+    }
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessageBlock()
+    {
+        return $this->getBlockInstance('messageBlock');
     }
 }

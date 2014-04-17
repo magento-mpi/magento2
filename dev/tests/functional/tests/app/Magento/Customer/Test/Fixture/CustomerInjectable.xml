@@ -175,6 +175,15 @@
             <default_value></default_value>
             <input>select</input>
         </website_id>
+        <is_subscribed>
+            <attribute_code>is_subscribed</attribute_code>
+        </is_subscribed>
+        <password>
+            <attribute_code>password</attribute_code>
+        </password>
+        <password_confirmation>
+            <attribute_code>password_confirmation</attribute_code>
+        </password_confirmation>
     </fields>
     <repository_class>Magento\Customer\Test\Repository\CustomerInjectable</repository_class>
     <handler_interface>Magento\Customer\Test\Handler\CustomerInjectable\CustomerInjectableInterface</handler_interface>

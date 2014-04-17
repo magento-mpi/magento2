@@ -8,6 +8,15 @@
  */
 -->
 <page>
+    <customerAccountCreate>
+        <mca>customer/account/create</mca>
+        <class>Magento\Customer\Test\Page\CustomerAccountCreate</class>
+    </customerAccountCreate>
+    <newsletterSubscriber>
+        <mca>newsletter/subscriber</mca>
+        <area>adminhtml</area>
+        <class>Magento\Customer\Test\Page\Adminhtml\NewsletterSubscriber</class>
+    </newsletterSubscriber>
     <backendCustomerIndex>
         <mca>customer/index</mca>
         <area>adminhtml</area>

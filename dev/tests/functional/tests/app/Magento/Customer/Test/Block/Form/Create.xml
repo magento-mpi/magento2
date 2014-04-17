@@ -12,7 +12,12 @@
         <firstname />
         <lastname />
         <email />
+        <is_subscribed>
+            <input>checkbox</input>
+        </is_subscribed>
         <password />
-        <confirmation />
+        <password_confirmation>
+                <selector>[name=confirmation]</selector>
+        </password_confirmation>
     </fields>
 </mapping>

@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="customer/account/create" >
+    <block>
+        <name>createForm</name>
+        <class>Magento\Customer\Test\Block\Form\Register</class>
+        <locator>#form-validate</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>messageBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>.page.messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

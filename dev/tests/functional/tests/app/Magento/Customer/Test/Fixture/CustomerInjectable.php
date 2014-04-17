@@ -232,6 +232,18 @@ class CustomerInjectable extends InjectableFixture
         'group' => self::GROUP_ACCOUNT_INFORMATION,
     ];
 
+    protected $is_subscribed = [
+        'attribute_code' => 'is_subscribed',
+    ];
+
+    protected $password = [
+        'attribute_code' => 'password',
+    ];
+
+    protected $password_confirmation = [
+        'attribute_code' => 'password_confirmation',
+    ];
+
     public function getConfirmation()
     {
         return $this->getData('confirmation');
@@ -345,5 +357,20 @@ class CustomerInjectable extends InjectableFixture
     public function getWebsiteId()
     {
         return $this->getData('website_id');
+    }
+
+    public function getIsSubscribed()
+    {
+        return $this->getData('is_subscribed');
+    }
+
+    public function getPassword()
+    {
+        return $this->getData('password');
+    }
+
+    public function getPasswordConfirmation()
+    {
+        return $this->getData('password_confirmation');
     }
 }
