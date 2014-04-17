@@ -86,7 +86,7 @@ class AttributePrice extends AbstractPrice
                 'options' => []
             ];
 
-            $optionPrices = array();
+            $optionPrices = [];
             $prices = $attribute->getPrices();
             if (is_array($prices)) {
                 foreach ($prices as $value) {
@@ -139,12 +139,12 @@ class AttributePrice extends AbstractPrice
      * @param array $value
      * @return array
      */
-    protected function getProductsIndex(array $options = array(), $attributeId, array $value = array())
+    protected function getProductsIndex(array $options = [], $attributeId, array $value = [])
     {
         if (isset($options[$attributeId][$value['value_index']])) {
             return $options[$attributeId][$value['value_index']];
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -218,7 +218,7 @@ class AttributePrice extends AbstractPrice
      *
      * @param array $optionPrices
      */
-    protected function formatOptionsValues(array $optionPrices = array())
+    protected function formatOptionsValues(array $optionPrices = [])
     {
         foreach ($optionPrices as $optionPrice) {
             foreach ($optionPrices as $additional) {
