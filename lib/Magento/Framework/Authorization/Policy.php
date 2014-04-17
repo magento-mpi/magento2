@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Authorization;
+namespace Magento\Framework\Authorization;
 
 interface Policy
 {

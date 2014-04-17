@@ -26,7 +26,7 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
     protected $_logger;
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -47,7 +47,7 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\HTTP\Authentication $httpAuthentication
      * @param \Magento\Logger $logger
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      */
     public function __construct(
         \Magento\Backend\Model\Auth $auth,
@@ -57,7 +57,7 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\HTTP\Authentication $httpAuthentication,
         \Magento\Logger $logger,
-        \Magento\AuthorizationInterface $authorization
+        \Magento\Framework\AuthorizationInterface $authorization
     ) {
         $this->_httpAuthentication = $httpAuthentication;
         $this->_logger = $logger;

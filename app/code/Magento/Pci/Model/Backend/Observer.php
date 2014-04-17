@@ -23,7 +23,7 @@ class Observer
     /**
      * Authorization interface
      *
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -91,7 +91,7 @@ class Observer
     protected $messageManager;
 
     /**
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
      * @param \Magento\Pci\Model\Resource\Admin\User $userResource
      * @param \Magento\Backend\Model\UrlInterface $url
@@ -103,7 +103,7 @@ class Observer
      * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
-        \Magento\AuthorizationInterface $authorization,
+        \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Backend\App\ConfigInterface $backendConfig,
         \Magento\Pci\Model\Resource\Admin\User $userResource,
         \Magento\Backend\Model\UrlInterface $url,

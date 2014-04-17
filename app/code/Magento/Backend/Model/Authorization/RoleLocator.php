@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Model\Authorization;
 
-class RoleLocator implements \Magento\Authorization\RoleLocator
+class RoleLocator implements \Magento\Framework\Authorization\RoleLocator
 {
     /**
      * Authentication service

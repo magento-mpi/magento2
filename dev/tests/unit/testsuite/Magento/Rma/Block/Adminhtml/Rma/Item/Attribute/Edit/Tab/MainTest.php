@@ -88,7 +88,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManagerInterface;
 
-    /** @var \Magento\AuthorizationInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\AuthorizationInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $authorizationInterface;
 
     /** @var \Magento\Backend\Model\Session|\PHPUnit_Framework_MockObject_MockObject */
@@ -158,7 +158,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->templateEnginePool = $this->getMock('Magento\Framework\View\TemplateEnginePool', [], [], '', false);
         $this->appState = $this->getMock('Magento\Framework\App\State', [], [], '', false);
         $this->storeManagerInterface = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->authorizationInterface = $this->getMock('Magento\AuthorizationInterface');
+        $this->authorizationInterface = $this->getMock('Magento\Framework\AuthorizationInterface');
         $this->backendSession = $this->getMock('Magento\Backend\Model\Session', [], [], '', false);
         $this->random = $this->getMock('Magento\Math\Random');
         $this->formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', [], [], '', false);

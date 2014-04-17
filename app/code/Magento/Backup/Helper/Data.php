@@ -18,7 +18,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_filesystem;
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -39,14 +39,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Index\Model\Resource\Process\CollectionFactory $processFactory
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\AuthorizationInterface $authorization,
+        \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\Index\Model\Resource\Process\CollectionFactory $processFactory
     ) {

@@ -51,7 +51,7 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
     protected $_session;
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 

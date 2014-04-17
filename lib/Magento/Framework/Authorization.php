@@ -7,31 +7,31 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
-class Authorization implements \Magento\AuthorizationInterface
+class Authorization implements \Magento\Framework\AuthorizationInterface
 {
     /**
      * ACL policy
      *
-     * @var \Magento\Authorization\Policy
+     * @var \Magento\Framework\Authorization\Policy
      */
     protected $_aclPolicy;
 
     /**
      * ACL role locator
      *
-     * @var \Magento\Authorization\RoleLocator
+     * @var \Magento\Framework\Authorization\RoleLocator
      */
     protected $_aclRoleLocator;
 
     /**
-     * @param \Magento\Authorization\Policy $aclPolicy
-     * @param \Magento\Authorization\RoleLocator $roleLocator
+     * @param \Magento\Framework\Authorization\Policy $aclPolicy
+     * @param \Magento\Framework\Authorization\RoleLocator $roleLocator
      */
     public function __construct(
-        \Magento\Authorization\Policy $aclPolicy,
-        \Magento\Authorization\RoleLocator $roleLocator
+        \Magento\Framework\Authorization\Policy $aclPolicy,
+        \Magento\Framework\Authorization\RoleLocator $roleLocator
     ) {
         $this->_aclPolicy = $aclPolicy;
         $this->_aclRoleLocator = $roleLocator;

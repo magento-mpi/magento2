@@ -14,7 +14,7 @@ namespace Magento\Backend\Block\Template;
 class Context extends \Magento\Framework\View\Element\Template\Context
 {
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -62,7 +62,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
      * @param \Magento\Framework\View\TemplateEnginePool $enginePool
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Framework\Data\Form\FormKey $formKey
@@ -94,7 +94,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
         \Magento\Framework\View\TemplateEnginePool $enginePool,
         \Magento\Framework\App\State $appState,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\AuthorizationInterface $authorization,
+        \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Math\Random $mathRandom,
         \Magento\Framework\Data\Form\FormKey $formKey,
@@ -145,7 +145,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
     /**
      * Retrieve Authorization
      *
-     * @return \Magento\AuthorizationInterface
+     * @return \Magento\Framework\AuthorizationInterface
      */
     public function getAuthorization()
     {

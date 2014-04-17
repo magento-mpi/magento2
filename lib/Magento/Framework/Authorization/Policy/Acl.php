@@ -8,10 +8,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Authorization\Policy;
+namespace Magento\Framework\Authorization\Policy;
 
 use Magento\Framework\Acl\Builder;
-use Magento\Authorization\Policy;
+use Magento\Framework\Authorization\Policy;
 
 class Acl implements Policy
 {

@@ -15,7 +15,7 @@ namespace Magento\Backend\App\Action;
 class Context extends \Magento\Framework\App\Action\Context
 {
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -70,7 +70,7 @@ class Context extends \Magento\Framework\App\Action\Context
      * @param \Magento\Framework\App\ViewInterface $view
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Backend\Model\Session $session
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Helper\Data $helper
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
@@ -90,7 +90,7 @@ class Context extends \Magento\Framework\App\Action\Context
         \Magento\Framework\App\ViewInterface $view,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Backend\Model\Session $session,
-        \Magento\AuthorizationInterface $authorization,
+        \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Helper\Data $helper,
         \Magento\Backend\Model\UrlInterface $backendUrl,
@@ -131,7 +131,7 @@ class Context extends \Magento\Framework\App\Action\Context
     }
 
     /**
-     * @return \Magento\AuthorizationInterface
+     * @return \Magento\Framework\AuthorizationInterface
      */
     public function getAuthorization()
     {

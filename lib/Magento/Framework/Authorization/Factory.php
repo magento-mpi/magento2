@@ -1,15 +1,15 @@
 <?php
 /**
- * Factory class for \Magento\Authorization
+ * Factory class for \Magento\Framework\Authorization
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Authorization;
+namespace Magento\Framework\Authorization;
 
-use Magento\Authorization;
+use Magento\Framework\Authorization;
 use Magento\ObjectManager;
 
 class Factory
@@ -17,7 +17,7 @@ class Factory
     /**
      * Entity class name
      */
-    const CLASS_NAME = 'Magento\Authorization';
+    const CLASS_NAME = 'Magento\Framework\Authorization';
 
     /**
      * Object Manager instance

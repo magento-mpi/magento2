@@ -209,7 +209,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
 
         $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
         $configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
-        $authMock = $this->getMock('Magento\AuthorizationInterface');
+        $authMock = $this->getMock('Magento\Framework\AuthorizationInterface');
         $authMock->expects($this->any())->method('filterAclNodes')->will($this->returnSelf());
         $backendSession = $this->getMock(
             'Magento\Backend\Model\Session',
@@ -238,7 +238,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
             array('Magento\Framework\App\Config\ScopeConfigInterface', $configMock),
             array('Magento\Framework\Event\ManagerInterface', $eventManager),
             array('Magento\Store\Model\StoreManager', $storeManager),
-            array('Magento\AuthorizationInterface', $authMock),
+            array('Magento\Framework\AuthorizationInterface', $authMock),
             array('Magento\Backend\Model\Session', $backendSession),
             array('Magento\Translate\Inline', $inlineMock),
             array('Magento\Backend\Model\Layout\Filter\Acl', $aclFilterMock)

@@ -1,15 +1,15 @@
 <?php
 /**
  * Links Authorization component with application.
- * Responsible for providing the identifier of currently logged in role to \Magento\Authorization component.
- * Should be implemented by application developer that uses \Magento\Authorization component.
+ * Responsible for providing the identifier of currently logged in role to \Magento\Framework\Authorization component.
+ * Should be implemented by application developer that uses \Magento\Framework\Authorization component.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Authorization;
+namespace Magento\Framework\Authorization;
 
 interface RoleLocator
 {

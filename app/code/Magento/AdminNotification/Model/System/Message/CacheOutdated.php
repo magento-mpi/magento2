@@ -15,7 +15,7 @@ class CacheOutdated implements \Magento\AdminNotification\Model\System\MessageIn
     protected $_urlBuilder;
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -25,12 +25,12 @@ class CacheOutdated implements \Magento\AdminNotification\Model\System\MessageIn
     protected $_cacheTypeList;
 
     /**
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
      */
     public function __construct(
-        \Magento\AuthorizationInterface $authorization,
+        \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\UrlInterface $urlBuilder,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
     ) {

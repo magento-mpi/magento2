@@ -17,7 +17,7 @@ namespace Magento\Backend\Block;
 class Template extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -90,7 +90,7 @@ class Template extends \Magento\Framework\View\Element\Template
     /**
      * Make this public so that templates can use it properly with template engine
      *
-     * @return \Magento\AuthorizationInterface
+     * @return \Magento\Framework\AuthorizationInterface
      */
     public function getAuthorization()
     {

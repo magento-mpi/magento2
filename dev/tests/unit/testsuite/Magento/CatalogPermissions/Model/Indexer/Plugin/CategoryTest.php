@@ -23,7 +23,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     protected $appConfigMock;
 
     /**
-     * @var \Magento\AuthorizationInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\AuthorizationInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $authorizationMock;
 
@@ -65,7 +65,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->authorizationMock = $this->getMock('Magento\Authorization', array('isAllowed'), array(), '', false);
+        $this->authorizationMock = $this->getMock('Magento\Framework\Authorization', array('isAllowed'), array(), '', false);
 
         $this->permissionFactoryMock = $this->getMock(
             'Magento\CatalogPermissions\Model\PermissionFactory',

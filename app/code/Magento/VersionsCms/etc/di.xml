@@ -11,7 +11,7 @@
     <preference for="Magento\VersionsCms\Model\Hierarchy\ConfigInterface" type="Magento\VersionsCms\Model\Hierarchy\Config" />
     <type name="Magento\VersionsCms\Model\Config">
         <arguments>
-            <argument name="authorization" xsi:type="object">Magento\Authorization\Proxy</argument>
+            <argument name="authorization" xsi:type="object">Magento\Framework\Authorization\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">

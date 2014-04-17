@@ -53,7 +53,7 @@ class Observer
     protected $_view;
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -74,7 +74,7 @@ class Observer
      * @param \Magento\Logger $logger
      * @param Report\SettlementFactory $settlementFactory
      * @param \Magento\Framework\App\ViewInterface $view
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      */
@@ -85,7 +85,7 @@ class Observer
         \Magento\Logger $logger,
         \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory,
         \Magento\Framework\App\ViewInterface $view,
-        \Magento\AuthorizationInterface $authorization,
+        \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
         \Magento\Checkout\Model\Session $checkoutSession
     ) {

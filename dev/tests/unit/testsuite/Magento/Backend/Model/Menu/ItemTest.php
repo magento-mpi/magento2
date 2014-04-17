@@ -67,7 +67,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_aclMock = $this->getMock('Magento\AuthorizationInterface');
+        $this->_aclMock = $this->getMock('Magento\Framework\AuthorizationInterface');
         $this->_scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_menuFactoryMock = $this->getMock(
             'Magento\Backend\Model\MenuFactory',

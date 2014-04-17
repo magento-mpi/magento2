@@ -12,9 +12,9 @@
 /**
  * Default authorization policy. Allows access to all resources
  */
-namespace Magento\Authorization\Policy;
+namespace Magento\Framework\Authorization\Policy;
 
-class DefaultPolicy implements \Magento\Authorization\Policy
+class DefaultPolicy implements \Magento\Framework\Authorization\Policy
 {
     /**
      * Check whether given role has access to give id

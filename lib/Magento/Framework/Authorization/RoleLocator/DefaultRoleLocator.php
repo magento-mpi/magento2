@@ -8,9 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Authorization\RoleLocator;
+namespace Magento\Framework\Authorization\RoleLocator;
 
-class DefaultRoleLocator implements \Magento\Authorization\RoleLocator
+class DefaultRoleLocator implements \Magento\Framework\Authorization\RoleLocator
 {
     /**
      * Retrieve current role

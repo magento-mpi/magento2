@@ -7,18 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Authorization\Policy;
+namespace Magento\Framework\Authorization\Policy;
 
 class DefaultTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Authorization\Policy\DefaultPolicy
+     * @var \Magento\Framework\Authorization\Policy\DefaultPolicy
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new \Magento\Authorization\Policy\DefaultPolicy();
+        $this->_model = new \Magento\Framework\Authorization\Policy\DefaultPolicy();
     }
 
     public function testIsAllowedReturnsTrueForAnyResource()

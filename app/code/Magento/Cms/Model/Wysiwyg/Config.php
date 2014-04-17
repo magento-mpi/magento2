@@ -29,7 +29,7 @@ class Config extends \Magento\Object
     const IMAGE_DIRECTORY = 'wysiwyg';
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -83,7 +83,7 @@ class Config extends \Magento\Object
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Cms\Helper\Data $cmsData
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Core\Model\Variable\Config $variableConfig
      * @param \Magento\Widget\Model\Widget\Config $widgetConfig
@@ -95,7 +95,7 @@ class Config extends \Magento\Object
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Cms\Helper\Data $cmsData,
-        \Magento\AuthorizationInterface $authorization,
+        \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Framework\View\Url $viewUrl,
         \Magento\Core\Model\Variable\Config $variableConfig,
         \Magento\Widget\Model\Widget\Config $widgetConfig,

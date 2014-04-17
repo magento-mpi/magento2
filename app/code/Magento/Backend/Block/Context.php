@@ -17,7 +17,7 @@ namespace Magento\Backend\Block;
 class Context extends \Magento\Framework\View\Element\Context
 {
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -39,7 +39,7 @@ class Context extends \Magento\Framework\View\Element\Context
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -63,7 +63,7 @@ class Context extends \Magento\Framework\View\Element\Context
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
-        \Magento\AuthorizationInterface $authorization
+        \Magento\Framework\AuthorizationInterface $authorization
     ) {
         $this->_authorization = $authorization;
         parent::__construct(
@@ -91,7 +91,7 @@ class Context extends \Magento\Framework\View\Element\Context
     /**
      * Retrieve Authorization
      *
-     * @return \Magento\AuthorizationInterface
+     * @return \Magento\Framework\AuthorizationInterface
      */
     public function getAuthorization()
     {

@@ -30,7 +30,7 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->markTestSkipped('Bug with phpunit 3.7: PHPUnit_Framework_Exception: Class "%s" already exists');
-        $this->_authorizationMock = $this->getMockBuilder('Magento\AuthorizationInterface')->getMock();
+        $this->_authorizationMock = $this->getMockBuilder('Magento\Framework\AuthorizationInterface')->getMock();
 
         $this->_urlModelMock = $this->getMock(
             'Magento\Backend\Model\Url',

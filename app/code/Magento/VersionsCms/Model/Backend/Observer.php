@@ -24,7 +24,7 @@ class Observer
     protected $_config;
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -119,7 +119,7 @@ class Observer
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\VersionsCms\Model\Config $config
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
@@ -141,7 +141,7 @@ class Observer
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\Registry $coreRegistry,
         \Magento\VersionsCms\Model\Config $config,
-        \Magento\AuthorizationInterface $authorization,
+        \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\Backend\Model\UrlInterface $backendUrl,
