@@ -37,9 +37,9 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
         $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
         $mediaDirectory = $objectManager->get(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\App\Filesystem::MEDIA_DIR
+            \Magento\Framework\App\Filesystem::MEDIA_DIR
         );
 
         self::$_mediaTmpDir = $mediaDirectory->getAbsolutePath($config->getBaseTmpMediaPath());
@@ -62,9 +62,9 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
         $mediaDirectory = $objectManager->get(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\App\Filesystem::MEDIA_DIR
+            \Magento\Framework\App\Filesystem::MEDIA_DIR
         );
 
         if ($mediaDirectory->isExist($config->getBaseMediaPath())) {

@@ -17,7 +17,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\PageCache\Model\Config */
     protected $_configMock;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\App\PageCache\Cache */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\PageCache\Cache */
     protected $_cacheMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Element\AbstractBlock */
@@ -32,7 +32,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\PageCache\Helper\Data */
     protected $_helperMock;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Cache\TypeListInterface */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Cache\TypeListInterface */
     protected $_typeListMock;
 
     /** @var \Magento\Object */
@@ -41,7 +41,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\PageCache\Model\Observer */
     protected $_observerObject;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\PageCache\FormKey */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\PageCache\FormKey */
     protected $_formKey;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Session\Generic */
@@ -59,10 +59,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_cacheMock = $this->getMock('Magento\App\PageCache\Cache', array('clean'), array(), '', false);
+        $this->_cacheMock = $this->getMock('Magento\Framework\App\PageCache\Cache', array('clean'), array(), '', false);
         $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', array(), array(), '', false);
-        $this->_typeListMock = $this->getMock('Magento\App\Cache\TypeList', array(), array(), '', false);
-        $this->_formKey = $this->getMock('Magento\App\PageCache\FormKey', array(), array(), '', false);
+        $this->_typeListMock = $this->getMock('Magento\Framework\App\Cache\TypeList', array(), array(), '', false);
+        $this->_formKey = $this->getMock('Magento\Framework\App\PageCache\FormKey', array(), array(), '', false);
         $this->_session = $this->getMock('Magento\Session\Generic', array('setData'), array(), '', false);
 
         $this->_model = new \Magento\PageCache\Model\Observer(

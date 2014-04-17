@@ -32,7 +32,7 @@ class Data extends \Magento\CustomAttributeManagement\Helper\Data
     protected $_customerAddress = null;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Filter\FilterManager $filterManager
@@ -40,7 +40,7 @@ class Data extends \Magento\CustomAttributeManagement\Helper\Data
      * @param Customer $customerCustomer
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Filter\FilterManager $filterManager,

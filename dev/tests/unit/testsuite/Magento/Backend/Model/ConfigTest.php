@@ -33,7 +33,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $_transFactoryMock;
 
     /**
-     * @var \Magento\App\Config\ReinitableConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Config\ReinitableConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appConfigMock;
 
@@ -95,7 +95,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_appConfigMock = $this->getMock('Magento\App\Config\ReinitableConfigInterface');
+        $this->_appConfigMock = $this->getMock('Magento\Framework\App\Config\ReinitableConfigInterface');
         $this->_configLoaderMock = $this->getMock(
             'Magento\Backend\Model\Config\Loader',
             array('getConfigByPath'),
@@ -104,7 +104,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_dataFactoryMock = $this->getMock(
-            'Magento\App\Config\ValueFactory',
+            'Magento\Framework\App\Config\ValueFactory',
             array(),
             array(),
             '',
@@ -232,7 +232,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_model->setGroups(array('1' => array('fields' => array('key' => array('data')))));
 
         $backendModel = $this->getMock(
-            'Magento\App\Config\Value',
+            'Magento\Framework\App\Config\Value',
             array('setPath', 'addData', '__sleep', '__wakeup'),
             array(),
             '',

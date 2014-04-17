@@ -30,7 +30,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
     protected $_pbridgeData;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_scopeConfig;
 
@@ -40,7 +40,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
         $this->_methodInstance = $this->getMock('Magento\Payment\Model\Method\Cc', array(), array(), '', false);
         $this->_paymentData = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
         $this->_pbridgeData = $this->getMock('Magento\Pbridge\Helper\Data', array(), array(), '', false);
-        $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $paymentFactory = $this->getMock('Magento\Payment\Model\Method\Factory', array('create'), array(), '', false);
         $paymentFactory->expects(
             $this->once()

@@ -83,9 +83,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $session->setUser($user);
 
         $directory = $objectManager->create(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\App\Filesystem::ROOT_DIR
+            \Magento\Framework\App\Filesystem::ROOT_DIR
         );
 
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance.csv';
@@ -156,9 +156,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         }
 
         $directory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\App\Filesystem::ROOT_DIR
+            \Magento\Framework\App\Filesystem::ROOT_DIR
         );
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/../_files/customer_finance_delete.csv',

@@ -65,19 +65,19 @@ class Import extends \Magento\Object
     /**
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_checkoutData = $checkoutData;
         parent::__construct($data);
         $this->_uploaderFactory = $uploaderFactory;
-        $this->varDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $this->varDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**

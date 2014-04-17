@@ -57,14 +57,14 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $context;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Index\Model\Indexer $indexer
      * @param ModuleManager $moduleManager
      * @param EventManagerInterface $eventManager
      * @param CacheContext $context
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Index\Model\Indexer $indexer,
         ModuleManager $moduleManager,
         EventManagerInterface $eventManager,

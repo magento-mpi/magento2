@@ -12,7 +12,7 @@ namespace Magento\Search\Model\Adminhtml\Search\Grid;
 class Options implements \Magento\Option\ArrayInterface
 {
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -27,12 +27,12 @@ class Options implements \Magento\Option\ArrayInterface
     protected $_searchResourceModel;
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Registry $registry
      * @param \Magento\Search\Model\Resource\Recommendations $searchResourceModel
      */
     public function __construct(
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Registry $registry,
         \Magento\Search\Model\Resource\Recommendations $searchResourceModel
     ) {

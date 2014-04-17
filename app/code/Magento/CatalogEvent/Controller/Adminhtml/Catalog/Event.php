@@ -11,8 +11,8 @@
  */
 namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog;
 
-use Magento\App\RequestInterface;
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\CatalogEvent\Model\Event as ModelEvent;

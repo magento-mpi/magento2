@@ -19,7 +19,7 @@ class ContextPlugin
     protected $customerSession;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
@@ -35,13 +35,13 @@ class ContextPlugin
 
     /**
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\CustomerSegment\Model\Customer $customerSegment
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\CustomerSegment\Model\Customer $customerSegment,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
@@ -52,15 +52,15 @@ class ContextPlugin
     }
 
     /**
-     * @param \Magento\App\Action\Action $subject
+     * @param \Magento\Framework\App\Action\Action $subject
      * @param callable $proceed
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return \Closure
      */
     public function aroundDispatch(
-        \Magento\App\Action\Action $subject,
+        \Magento\Framework\App\Action\Action $subject,
         \Closure $proceed,
-        \Magento\App\RequestInterface $request
+        \Magento\Framework\App\RequestInterface $request
     ) {
         if ($this->customerSession->getCustomerId()) {
             $customerSegmentIds = $this->customerSegment->getCustomerSegmentIdsForWebsite(

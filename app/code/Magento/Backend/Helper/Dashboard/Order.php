@@ -20,19 +20,19 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
     protected $_orderCollection;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Reports\Model\Resource\Order\Collection $orderCollection
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\State $appState,
         \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Reports\Model\Resource\Order\Collection $orderCollection,
         $dbCompatibleMode = true

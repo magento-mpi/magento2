@@ -9,7 +9,7 @@
  */
 namespace Magento\Reward\Controller\Adminhtml\Reward;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 
 /**
  * Reward admin rate controller
@@ -40,10 +40,10 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Check if module functionality enabled
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
         if (!$this->_objectManager->get(
             'Magento\Reward\Helper\Data'

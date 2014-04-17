@@ -16,7 +16,7 @@ namespace Magento\CatalogInventory\Model\System\Config\Backend;
 
 use Magento\Model\Exception;
 
-class Qtyincrements extends \Magento\App\Config\Value
+class Qtyincrements extends \Magento\Framework\App\Config\Value
 {
     /**
      * Validate data before save

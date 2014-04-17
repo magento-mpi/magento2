@@ -45,7 +45,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = Bootstrap::getObjectManager();
-        $objectManager->get('Magento\App\State')->setAreaCode('adminhtml');
+        $objectManager->get('Magento\Framework\App\State')->setAreaCode('adminhtml');
 
         $this->coreRegistry = $objectManager->get('Magento\Registry');
         $this->coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, self::$customerId);

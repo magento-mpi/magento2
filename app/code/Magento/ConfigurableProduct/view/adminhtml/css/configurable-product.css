@@ -1,0 +1,12 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+#configurable-attributes-container .col-name {
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

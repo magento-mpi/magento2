@@ -14,7 +14,7 @@ use Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type;
 /**
  * Catalog data helper
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     const PRICE_SCOPE_GLOBAL = 0;
 
@@ -154,7 +154,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_escaper;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -164,13 +164,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param Category $catalogCategory
      * @param Product $catalogProduct
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory
      * @param \Magento\Escaper $escaper
      * @param string $templateFilterModel
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -180,7 +180,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         Category $catalogCategory,
         Product $catalogProduct,
         \Magento\Registry $coreRegistry,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory,
         \Magento\Escaper $escaper,
         $templateFilterModel
