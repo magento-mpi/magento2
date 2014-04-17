@@ -179,7 +179,6 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $existingQuantity = 2;
         $quantityToAdd = 3;
-        $preparedQuantityToAdd = 4;
 
         $parentItemMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Item')
             ->setMethods(['addChild', '__wakeup'])
@@ -598,7 +597,9 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->will($this->returnValue(1234));
 
-        $this->assertTrue($this->model->compareOptions([$optionCode1 => $optionMock1], [$optionCode1 => $optionMock1]));
+        $this->assertTrue(
+            $this->model->compareOptions([$optionCode1 => $optionMock1], [$optionCode1 => $optionMock1])
+        );
     }
 
     public function testCompareOptionsDifferentValues()
@@ -615,7 +616,9 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->will($this->returnValue(7890));
 
-        $this->assertFalse($this->model->compareOptions([$optionCode1 => $optionMock1], [$optionCode2 => $optionMock2]));
+        $this->assertFalse(
+            $this->model->compareOptions([$optionCode1 => $optionMock1], [$optionCode2 => $optionMock2])
+        );
     }
 
     public function testCompareOptionsNullValues()
@@ -632,7 +635,9 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->will($this->returnValue(null));
 
-        $this->assertFalse($this->model->compareOptions([$optionCode1 => $optionMock1], [$optionCode2 => $optionMock2]));
+        $this->assertFalse(
+            $this->model->compareOptions([$optionCode1 => $optionMock1], [$optionCode2 => $optionMock2])
+        );
     }
 
     public function testCompareOptionsMultipleEquals()
@@ -649,7 +654,12 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->will($this->returnValue(7890));
 
-        $this->assertFalse($this->model->compareOptions([$optionCode1 => $optionMock1, $optionCode2 => $optionMock2], [$optionCode1 => $optionMock1, $optionCode2 => $optionMock2]));
+        $this->assertFalse(
+            $this->model->compareOptions(
+                [$optionCode1 => $optionMock1, $optionCode2 => $optionMock2],
+                [$optionCode1 => $optionMock1, $optionCode2 => $optionMock2]
+            )
+        );
     }
 
     public function testGetQtyOptions()
