@@ -113,12 +113,20 @@ for ($i = 0; $i < $storesCount; $i++) {
     $store->addData(
         array(
             'store_id'      => $store_id,
-            'code'          => $storeCode,
             'name'          => $storeName,
             'website_id'    => $website_id,
             'group_id'      => $group_id
         )
     );
+
+    if ($store_id == null) {
+        $store->addData(
+            array(
+                'code' => $storeCode
+            )
+        );
+    }
+
     $store->save();
 
     $group_number++;
