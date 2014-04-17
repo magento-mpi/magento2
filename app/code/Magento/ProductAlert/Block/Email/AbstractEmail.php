@@ -118,4 +118,16 @@ abstract class AbstractEmail extends \Magento\View\Element\Template
     {
         return array('_scope' => $this->getStore(), '_scope_to_url' => true);
     }
+
+    /**
+     * @return \Magento\Pricing\Render
+     */
+    protected function getPriceRender()
+    {
+        return $this->_layout->createBlock(
+            'Magento\Pricing\Render',
+            '',
+            ['data'=> ['price_render_handle' => 'catalog_product_prices']]
+        );
+    }
 }

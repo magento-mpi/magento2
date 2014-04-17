@@ -118,14 +118,4 @@ class Stock extends \Magento\ProductAlert\Block\Email\AbstractEmail
         }
         return $price;
     }
-
-    /**
-     * @return \Magento\Pricing\Render
-     */
-    protected function getPriceRender()
-    {
-        return $this->_layout->createBlock('Magento\Pricing\Render', '', [
-            'data'=> ['price_render_handle' => 'catalog_product_prices']
-        ]);
-    }
 }

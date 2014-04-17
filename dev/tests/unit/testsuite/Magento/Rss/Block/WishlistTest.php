@@ -68,7 +68,6 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $templateContextMock = $this->getMock('Magento\Catalog\Block\Product\Context', [], [], '', false);
-        $httpContextMock = $this->getMock('Magento\App\Http\Context', [], [], '', false);
         $this->coreHelperMock = $this->getMock('Magento\Core\Helper\Data', [], [], '', false);
         $this->catalogOutputMock = $this->getMock('Magento\Catalog\Helper\Output', [], [], '', false);
         $wishlistFactoryMock = $this->getMock('Magento\Wishlist\Model\WishlistFactory', [], [], '', false);

@@ -217,6 +217,7 @@ class AttributePrice extends AbstractPrice
      * Prepare formatted values for options choose
      *
      * @param array $optionPrices
+     * @return void
      */
     protected function formatOptionsValues(array $optionPrices = array())
     {
