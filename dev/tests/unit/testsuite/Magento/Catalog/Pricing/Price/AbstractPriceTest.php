@@ -31,7 +31,7 @@ class AbstractPriceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $salableItemMock;
+    protected $saleableItemMock;
 
     /**
      * @var \Magento\Pricing\Adjustment\Calculator
@@ -44,19 +44,19 @@ class AbstractPriceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $qty = 1;
-        $this->salableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $this->saleableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->priceInfoMock = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
         $this->amountMock = $this->getMock('Magento\Pricing\Amount', [], [], '', false);
         $this->calculatorMock = $this->getMock('Magento\Pricing\Adjustment\Calculator', [], [], '', false);
 
-        $this->salableItemMock->expects($this->once())
+        $this->saleableItemMock->expects($this->once())
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfoMock));
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->price = $objectManager->getObject(
             'Magento\Catalog\Pricing\Price\Stub',
             [
-                'salableItem' => $this->salableItemMock,
+                'saleableItem' => $this->saleableItemMock,
                 'quantity' => $qty,
                 'calculator' => $this->calculatorMock
             ]

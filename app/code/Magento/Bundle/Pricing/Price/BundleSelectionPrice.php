@@ -47,7 +47,7 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
         Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
-        \Magento\Catalog\Model\Product $bundleProduct,
+        Product $bundleProduct,
         \Magento\Event\ManagerInterface $eventManager
     ) {
         $this->bundleProduct = $bundleProduct;

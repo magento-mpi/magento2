@@ -34,7 +34,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $salableItemMock;
+    protected $saleableItemMock;
 
     /**
      * @var \Magento\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -53,7 +53,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
 
         $this->priceInfoMock = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
         $this->linkPriceMock = $this->getMock('Magento\Downloadable\Pricing\Price\LinkPrice', [], [], '', false);
-        $this->salableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $this->saleableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->amountMock = $this->getMock('Magento\Pricing\Amount\Base', [], [], '', false);
         $this->linkMock = $this->getMock('Magento\Downloadable\Model\Link', [], [], '', false);
         $this->layout = $this->getMock('Magento\View\Layout', [], [], '', false);
@@ -61,7 +61,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
             ->method('getLayout')
             ->will($this->returnValue($this->layout));
         $data = [
-            'product' => $this->salableItemMock
+            'product' => $this->saleableItemMock
         ];
 
         $this->linksBlock = $objectManager->getObject(
@@ -78,7 +78,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
         $priceCode = 'link_price';
         $arguments = [];
         $expectedHtml = 'some html';
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfoMock));
         $this->priceInfoMock->expects($this->any())
@@ -99,7 +99,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
 
         $priceBoxMock->expects($this->once())
             ->method('renderAmount')
-            ->with($this->amountMock, $this->linkPriceMock, $this->salableItemMock, $arguments)
+            ->with($this->amountMock, $this->linkPriceMock, $this->saleableItemMock, $arguments)
             ->will($this->returnValue($expectedHtml));
 
         $result = $this->linksBlock->getLinkPrice($this->linkMock);

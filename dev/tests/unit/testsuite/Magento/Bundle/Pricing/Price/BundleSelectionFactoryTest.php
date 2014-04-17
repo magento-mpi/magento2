@@ -54,7 +54,7 @@ class BundleSelectionFactoryTest extends \PHPUnit_Framework_TestCase
                     [
                         'test' => 'some value',
                         'bundleProduct' => $this->bundleMock,
-                        'salableItem' => $this->selectionMock,
+                        'saleableItem' => $this->selectionMock,
                         'quantity' => 2.
                     ]
                 )
@@ -80,7 +80,7 @@ class BundleSelectionFactoryTest extends \PHPUnit_Framework_TestCase
                     [
                         'test' => 'some value',
                         'bundleProduct' => $this->bundleMock,
-                        'salableItem' => $this->selectionMock,
+                        'saleableItem' => $this->selectionMock,
                         'quantity' => 2.
                     ]
                 )

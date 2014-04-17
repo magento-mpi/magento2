@@ -199,7 +199,7 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
         $this->bundleSelectionPrice = $this->objectManagerHelper->getObject(
             'Magento\Bundle\Pricing\Price\BundleSelectionPrice',
             [
-                'salableItem' => $this->saleableInterfaceMock,
+                'saleableItem' => $this->saleableInterfaceMock,
                 'quantity' => $this->quantity,
                 'calculator' => $this->calculatorInterfaceMock,
                 'bundleProduct' => $this->productMock,

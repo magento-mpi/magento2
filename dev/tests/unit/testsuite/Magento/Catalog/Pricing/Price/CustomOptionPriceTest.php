@@ -15,7 +15,7 @@ use Magento\Pricing\PriceInfoInterface;
 /**
  * Class OptionPriceTest
  */
-class OptionPriceTest extends \PHPUnit_Framework_TestCase
+class CustomOptionPriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Pricing\Price\CustomOptionPrice

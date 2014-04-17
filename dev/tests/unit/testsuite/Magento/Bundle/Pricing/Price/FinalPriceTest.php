@@ -72,7 +72,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
         $this->finalPrice = $this->objectManagerHelper->getObject(
             'Magento\Bundle\Pricing\Price\FinalPrice',
             [
-                'salableItem' => $this->saleableInterfaceMock,
+                'saleableItem' => $this->saleableInterfaceMock,
                 'quantity' => $this->quantity,
                 'calculator' => $this->bundleCalculatorMock
             ]

@@ -25,7 +25,7 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $salableItemMock;
+    protected $saleableItemMock;
 
     /**
      * @var \Magento\Pricing\Adjustment\Calculator
@@ -58,14 +58,14 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $qty = 1;
-        $this->salableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $this->saleableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->priceInfoMock = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
         $this->regularPriceMock = $this->getMock('Magento\Catalog\Pricing\Price\RegularPrice', [], [], '', false);
         $this->groupPriceMock = $this->getMock('Magento\Catalog\Pricing\Price\GroupPrice', [], [], '', false);
         $this->specialPriceMock= $this->getMock('Magento\Catalog\Pricing\Price\SpecialPrice', [], [], '', false);
         $this->calculatorMock = $this->getMock('Magento\Pricing\Adjustment\Calculator', [], [], '', false);
 
-        $this->salableItemMock->expects($this->once())
+        $this->saleableItemMock->expects($this->once())
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfoMock));
         $this->prices = [
@@ -73,7 +73,7 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
             'group_price' => $this->groupPriceMock,
             'special_price' => $this->specialPriceMock
         ];
-        $this->basePrice = new BasePrice($this->salableItemMock, $qty, $this->calculatorMock);
+        $this->basePrice = new BasePrice($this->saleableItemMock, $qty, $this->calculatorMock);
     }
 
     /**

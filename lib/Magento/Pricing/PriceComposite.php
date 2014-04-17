@@ -56,18 +56,18 @@ class PriceComposite
     }
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param SaleableInterface $saleableItem
      * @param string $priceCode
      * @param float $quantity
      * @return PriceInterface
      * @throws \InvalidArgumentException
      */
-    public function createPriceObject(SaleableInterface $salableItem, $priceCode, $quantity)
+    public function createPriceObject(SaleableInterface $saleableItem, $priceCode, $quantity)
     {
         if (!isset($this->metadata[$priceCode])) {
             throw new \InvalidArgumentException($priceCode . ' is not registered in prices list');
         }
         $className = $this->metadata[$priceCode]['class'];
-        return $this->priceFactory->create($salableItem, $className, $quantity);
+        return $this->priceFactory->create($saleableItem, $className, $quantity);
     }
 }

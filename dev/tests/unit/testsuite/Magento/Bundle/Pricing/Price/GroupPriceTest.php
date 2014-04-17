@@ -42,7 +42,7 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
 
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectHelper->getObject('Magento\Bundle\Pricing\Price\GroupPrice', [
-            'salableItem' => $this->saleable
+            'saleableItem' => $this->saleable
         ]);
     }
 

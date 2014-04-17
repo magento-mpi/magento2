@@ -54,7 +54,7 @@ class BundleSelectionFactory
         array $arguments = []
     ) {
         $arguments['bundleProduct'] = $bundleProduct;
-        $arguments['salableItem'] = $selection;
+        $arguments['saleableItem'] = $selection;
         $arguments['quantity'] = $quantity ? floatval($quantity) : 1.;
         $selectionPrice = $this->objectManager->create(self::SELECTION_CLASS_DEFAULT, $arguments);
         if (!$selectionPrice instanceof BundleSelectionPrice) {
