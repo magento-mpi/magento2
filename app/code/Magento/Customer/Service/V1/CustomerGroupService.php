@@ -8,7 +8,6 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\App\Config\ScopeConfigInterface;
-use Magento\Backend\Block\Widget\Grid\Column\Renderer\Input;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Model\GroupFactory;
@@ -19,7 +18,6 @@ use Magento\Service\V1\Data\Search\FilterGroup;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
-use Magento\Service\V1\Data\Filter;
 use Magento\Service\V1\Data\SearchCriteria;
 use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Model\ClassModelFactory as TaxClassModelFactory;
@@ -251,7 +249,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     public function saveGroup(Data\CustomerGroup $group)
     {
         if (!$group->getCode()) {
-            InputException::invalidFieldValue('code', $group->getCode());
+            throw InputException::invalidFieldValue('code', $group->getCode());
         }
 
         $customerGroup = null;
