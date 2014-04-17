@@ -314,7 +314,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
         $groupCollection = $this->_groupFactory->create()->getCollection();
         $groupCollection->setLoadDefault(true);
 
-        /** @var $storeCollection \Magento\Store\Model\Resource\Collection */
+        /** @var $storeCollection \Magento\Store\Model\Resource\Store\Collection */
         $storeCollection = $this->_storeFactory->create()->getCollection();
         $storeCollection->setLoadDefault(true);
 
