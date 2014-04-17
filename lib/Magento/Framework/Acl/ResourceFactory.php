@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Acl;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 class ResourceFactory
 {

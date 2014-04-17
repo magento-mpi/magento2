@@ -36,7 +36,7 @@ abstract class AbstractFactory implements FactoryInterface
     protected $shared = array();
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
@@ -46,9 +46,9 @@ abstract class AbstractFactory implements FactoryInterface
     protected $sharedInstances = array();
 
     /**
-     * @param \Magento\ObjectManager $objectManger
+     * @param \Magento\Framework\ObjectManager $objectManger
      */
-    public function __construct(\Magento\ObjectManager $objectManger)
+    public function __construct(\Magento\Framework\ObjectManager $objectManger)
     {
         $this->objectManager = $objectManger;
     }

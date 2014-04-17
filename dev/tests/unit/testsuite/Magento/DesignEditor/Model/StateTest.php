@@ -144,7 +144,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_objectManager = $this->getMock('Magento\ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManager');
 
         $mutableConfig = $this->getMockForAbstractClass('\Magento\Framework\App\Config\MutableScopeConfigInterface');
         $mutableConfig->expects(

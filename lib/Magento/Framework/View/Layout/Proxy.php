@@ -17,7 +17,7 @@ class Proxy extends \Magento\Framework\View\Layout
     /**
      * Object Manager instance
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
@@ -43,12 +43,12 @@ class Proxy extends \Magento\Framework\View\Layout
     protected $isShared;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param string $instanceName
      * @param bool $shared
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         $instanceName = 'Magento\Framework\View\Layout',
         $shared = true
     ) {

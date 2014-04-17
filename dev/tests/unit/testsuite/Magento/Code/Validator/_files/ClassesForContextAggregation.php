@@ -30,7 +30,7 @@ interface InterfaceSecond
 class ImplementationOfInterfaceSecond implements InterfaceSecond
 {
 }
-class ContextFirst implements \Magento\ObjectManager\ContextInterface
+class ContextFirst implements \Magento\Framework\ObjectManager\ContextInterface
 {
     /**
      * @var ClassFirst

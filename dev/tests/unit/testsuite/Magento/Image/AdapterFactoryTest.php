@@ -51,7 +51,7 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreate($alias, $class)
     {
         $objectManagerMock = $this->getMock(
-            'Magento\ObjectManager\ObjectManager',
+            'Magento\Framework\ObjectManager\ObjectManager',
             array('create'),
             array(),
             '',
@@ -98,7 +98,7 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
         $this->configMock->expects($this->once())->method('getAdapterAlias')->will($this->returnValue($adapterAlias));
 
         $objectManagerMock = $this->getMock(
-            'Magento\ObjectManager\ObjectManager',
+            'Magento\Framework\ObjectManager\ObjectManager',
             array('create'),
             array(),
             '',
@@ -131,7 +131,7 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->configMock->expects($this->once())->method('getAdapterAlias')->will($this->returnValue(''));
         $objectManagerMock = $this->getMock(
-            'Magento\ObjectManager\ObjectManager',
+            'Magento\Framework\ObjectManager\ObjectManager',
             array('create'),
             array(),
             '',
@@ -150,7 +150,7 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $alias = 'test';
         $objectManagerMock = $this->getMock(
-            'Magento\ObjectManager\ObjectManager',
+            'Magento\Framework\ObjectManager\ObjectManager',
             array('create'),
             array(),
             '',
@@ -171,7 +171,7 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
         $alias = 'wrongInstance';
         $class = 'stdClass';
         $objectManagerMock = $this->getMock(
-            'Magento\ObjectManager\ObjectManager',
+            'Magento\Framework\ObjectManager\ObjectManager',
             array('create'),
             array(),
             '',

@@ -33,7 +33,7 @@ class Factory
     /**
      * Object Manager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
@@ -41,9 +41,9 @@ class Factory
      * Construct
      *
      * @param array $types
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(array $types, \Magento\ObjectManager $objectManager)
+    public function __construct(array $types, \Magento\Framework\ObjectManager $objectManager)
     {
         $this->types = $types;
         $this->objectManager = $objectManager;

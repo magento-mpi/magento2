@@ -25,7 +25,7 @@ class Action extends AbstractAction
     const PARAM_NAME_URL_ENCODED = 'uenc';
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 

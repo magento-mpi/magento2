@@ -30,7 +30,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /** @var CustomerAddressServiceInterface needed to setup tests */
     private $_customerAddressService;
 
-    /** @var \Magento\ObjectManager */
+    /** @var \Magento\Framework\ObjectManager */
     private $_objectManager;
 
     /** @var \Magento\Customer\Service\V1\Data\Address[] */

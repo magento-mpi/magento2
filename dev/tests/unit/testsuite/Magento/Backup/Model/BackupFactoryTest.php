@@ -18,7 +18,7 @@ class BackupFactoryTest extends \PHPUnit_Framework_TestCase
     protected $_instance;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -57,7 +57,7 @@ class BackupFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->_backupModel = $this->getMock('Magento\Backup\Model\Backup', array(), array(), '', false);
 
-        $this->_objectManager = $this->getMock('Magento\ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManager');
         $this->_objectManager->expects(
             $this->at(0)
         )->method(

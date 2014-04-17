@@ -79,7 +79,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_arguments = array('test' => 'argument', 'scopeCode' => '', 'scopeType' => '');
-        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
         $this->_eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
         $this->_logMock = $this->getMock('Magento\Logger', array(), array(), '', false);
         $this->_sidResolverMock = $this->getMock('\Magento\Session\SidResolverInterface', array(), array(), '', false);

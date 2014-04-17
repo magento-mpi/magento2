@@ -11,7 +11,7 @@ namespace Magento\Framework\App\EntryPoint;
 
 use Magento\Framework\App\State;
 use Magento\Framework\App\EntryPointInterface;
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 class EntryPoint implements EntryPointInterface
 {

@@ -142,9 +142,9 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
     /**
      * Override method in while running integration tests to prevent getting Exception
      *
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    protected function configureDirectories(\Magento\ObjectManager $objectManager)
+    protected function configureDirectories(\Magento\Framework\ObjectManager $objectManager)
     {
     }
 }

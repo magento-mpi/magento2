@@ -14,7 +14,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
  */
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\ObjectManager */
+    /** @var \Magento\Framework\ObjectManager */
     protected $_objectManager;
 
     /** @var \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address */

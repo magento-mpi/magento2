@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\View\Render;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 use Magento\Framework\View\RenderInterface;
 
 /**

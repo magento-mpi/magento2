@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Test\Legacy\Magento\ObjectManager;
+namespace Magento\Test\Legacy\Magento\Framework\ObjectManager;
 
 class DiConfigTest extends \PHPUnit_Framework_TestCase
 {

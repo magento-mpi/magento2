@@ -23,7 +23,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\ObjectManager\ObjectManager
+     * @var \Magento\Framework\ObjectManager\ObjectManager
      */
     protected $_realObjectManager;
 
@@ -31,9 +31,9 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $config = new \Magento\ObjectManager\Config\Config(new \Magento\ObjectManager\Relations\Runtime());
-        $factory = new \Magento\ObjectManager\Factory\Factory($config);
-        $this->_realObjectManager = new \Magento\ObjectManager\ObjectManager($factory, $config);
+        $config = new \Magento\Framework\ObjectManager\Config\Config(new \Magento\Framework\ObjectManager\Relations\Runtime());
+        $factory = new \Magento\Framework\ObjectManager\Factory\Factory($config);
+        $this->_realObjectManager = new \Magento\Framework\ObjectManager\ObjectManager($factory, $config);
         $factory->setObjectManager($this->_realObjectManager);
     }
 

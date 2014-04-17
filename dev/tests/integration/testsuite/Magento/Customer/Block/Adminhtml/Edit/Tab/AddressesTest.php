@@ -35,7 +35,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Backend\Model\Session */
     private $_backendSession;
 
-    /** @var  \Magento\ObjectManager */
+    /** @var  \Magento\Framework\ObjectManager */
     private $_objectManager;
 
     /** @var  array */

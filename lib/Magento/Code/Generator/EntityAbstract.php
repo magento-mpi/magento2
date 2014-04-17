@@ -183,7 +183,7 @@ abstract class EntityAbstract
             'visibility' => 'protected',
             'docblock' => array(
                 'shortDescription' => 'Object Manager instance',
-                'tags' => array(array('name' => 'var', 'description' => '\Magento\ObjectManager'))
+                'tags' => array(array('name' => 'var', 'description' => '\Magento\Framework\ObjectManager'))
             )
         );
 

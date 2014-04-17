@@ -112,7 +112,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $_salesConfig;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -172,7 +172,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $_scopeConfig;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Sales\Model\Config $salesConfig
@@ -192,7 +192,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param array $data
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Registry $coreRegistry,
         \Magento\Sales\Model\Config $salesConfig,

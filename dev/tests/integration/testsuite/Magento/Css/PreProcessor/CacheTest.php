@@ -13,7 +13,7 @@ use Magento\Css\PreProcessor\Cache\Import\Map\Storage;
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 

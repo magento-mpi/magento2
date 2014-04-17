@@ -50,11 +50,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $adjustmentInterface
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\ObjectManager\ObjectManager
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\ObjectManager\ObjectManager
      */
     protected function prepareObjectManager($adjustmentInterface)
     {
-        $objectManager = $this->getMock('Magento\ObjectManager\ObjectManager', array('create'), array(), '', false);
+        $objectManager = $this->getMock('Magento\Framework\ObjectManager\ObjectManager', array('create'), array(), '', false);
         $objectManager->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->getMockForAbstractClass($adjustmentInterface)));

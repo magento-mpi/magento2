@@ -75,11 +75,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $priceInfoInterface
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\ObjectManager\ObjectManager
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\ObjectManager\ObjectManager
      */
     protected function prepareObjectManager($priceInfoInterface)
     {
-        $objectManager = $this->getMock('Magento\ObjectManager\ObjectManager', ['create'], [], '', false);
+        $objectManager = $this->getMock('Magento\Framework\ObjectManager\ObjectManager', ['create'], [], '', false);
         $objectManager->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->getMockForAbstractClass($priceInfoInterface)));

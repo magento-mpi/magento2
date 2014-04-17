@@ -20,7 +20,7 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
     protected $_factoryMock;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -40,7 +40,7 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_objectManager = $this->getMockForAbstractClass(
-            '\Magento\ObjectManager',
+            '\Magento\Framework\ObjectManager',
             array(),
             '',
             true,
@@ -91,7 +91,7 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
         $factoryName = 'Magento\Filter\Factory';
         $this->_factoryMock = new \stdClass();
         $this->_objectManager = $this->getMockForAbstractClass(
-            '\Magento\ObjectManager',
+            '\Magento\Framework\ObjectManager',
             array(),
             '',
             true,

@@ -42,7 +42,7 @@ class ReindexTest extends \PHPUnit_Framework_TestCase
             $this->logicalOr($this->equalTo(null), $this->equalTo($affectedProduct))
         );
 
-        $objectManager = $this->getMock('Magento\ObjectManager\ObjectManager', array('get'), array(), '', false);
+        $objectManager = $this->getMock('Magento\Framework\ObjectManager\ObjectManager', array('get'), array(), '', false);
         $objectManager->expects(
             $this->once()
         )->method(
@@ -57,7 +57,7 @@ class ReindexTest extends \PHPUnit_Framework_TestCase
             array('data_object' => new \Magento\Object(array('affected_product_ids' => $affectedProduct)))
         );
 
-        /** @var $objectManager \Magento\ObjectManager */
+        /** @var $objectManager \Magento\Framework\ObjectManager */
         $object = new \Magento\Catalog\Model\Observer\Reindex($objectManager);
         $this->assertInstanceOf('Magento\Catalog\Model\Observer\Reindex', $object->fulltextReindex($observer));
     }

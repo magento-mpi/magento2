@@ -71,7 +71,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
         $this->_mergeStrategy = $this->getMock('Magento\Framework\View\Asset\MergeStrategyInterface');
 
         $this->_objectManager = $this->getMockForAbstractClass(
-            'Magento\ObjectManager',
+            'Magento\Framework\ObjectManager',
             array(),
             '',
             true,

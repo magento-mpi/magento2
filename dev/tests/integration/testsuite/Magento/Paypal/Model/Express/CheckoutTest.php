@@ -15,7 +15,7 @@ use Magento\Sales\Model\Quote;
 
 class CheckoutTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\ObjectManager */
+    /** @var \Magento\Framework\ObjectManager */
     protected $_objectManager;
 
     protected function setUp()

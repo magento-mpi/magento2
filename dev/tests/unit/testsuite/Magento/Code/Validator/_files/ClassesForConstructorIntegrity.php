@@ -27,7 +27,7 @@ interface InterfaceB
 class ImplementationOfInterfaceB implements InterfaceB
 {
 }
-class Context implements \Magento\ObjectManager\ContextInterface
+class Context implements \Magento\Framework\ObjectManager\ContextInterface
 {
     /**
      * @var ClassA

@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\App\Action;
 
-class Context implements \Magento\ObjectManager\ContextInterface
+class Context implements \Magento\Framework\ObjectManager\ContextInterface
 {
     /**
      * @var \Magento\Framework\App\RequestInterface
@@ -20,7 +20,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_response;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -57,7 +57,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\App\ResponseInterface $response
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $url
      * @param \Magento\Framework\App\Response\RedirectInterface $redirect
@@ -68,7 +68,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\App\ResponseInterface $response,
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $url,
         \Magento\Framework\App\Response\RedirectInterface $redirect,
@@ -112,7 +112,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\ObjectManager
+     * @return \Magento\Framework\ObjectManager
      */
     public function getObjectManager()
     {

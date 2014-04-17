@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for \Magento\ObjectManager\Test
+ * Test class for \Magento\Framework\ObjectManager\Test
  */
 namespace Magento\Test;
 
@@ -44,7 +44,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $factory = $this->getMock('\Magento\ObjectManager\Factory', array(), array(), '', false);
+        $factory = $this->getMock('\Magento\Framework\ObjectManager\Factory', array(), array(), '', false);
         $factory->expects($this->exactly(2))->method('create')->will(
             $this->returnCallback(
                 function ($className) {
@@ -88,7 +88,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($instance1, $model->get('Magento\Object'));
         $this->assertSame($model, $model->clearCache());
-        $this->assertSame($model, $model->get('Magento\ObjectManager'));
+        $this->assertSame($model, $model->get('Magento\Framework\ObjectManager'));
         $this->assertSame($resource, $model->get('Magento\Framework\App\Resource'));
         $this->assertNotSame($instance1, $model->get('Magento\Object'));
     }

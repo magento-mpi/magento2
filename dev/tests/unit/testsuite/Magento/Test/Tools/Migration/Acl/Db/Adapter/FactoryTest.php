@@ -41,7 +41,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $adapterMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
 
-        $objectManager = $this->getMock('Magento\ObjectManager');
+        $objectManager = $this->getMock('Magento\Framework\ObjectManager');
         $objectManager->expects(
             $this->any()
         )->method(
@@ -66,7 +66,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $adapterType = 'Magento\Object';
         $adapterMock = $this->getMock($adapterType, array(), array(), '', false);
 
-        $objectManager = $this->getMock('Magento\ObjectManager');
+        $objectManager = $this->getMock('Magento\Framework\ObjectManager');
         $objectManager->expects(
             $this->once()
         )->method(

@@ -59,9 +59,9 @@ class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testDiConfigFileWithoutMerging($xml)
     {
-        /** @var \Magento\ObjectManager\Config\SchemaLocator $schemaLocator */
+        /** @var \Magento\Framework\ObjectManager\Config\SchemaLocator $schemaLocator */
         $schemaLocator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\ObjectManager\Config\SchemaLocator'
+            'Magento\Framework\ObjectManager\Config\SchemaLocator'
         );
 
         $dom = new \DOMDocument();
@@ -97,18 +97,18 @@ class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testMergedDiConfig(array $files)
     {
-        $mapperMock = $this->getMock('Magento\ObjectManager\Config\Mapper\Dom', array(), array(), '', false);
+        $mapperMock = $this->getMock('Magento\Framework\ObjectManager\Config\Mapper\Dom', array(), array(), '', false);
         $fileResolverMock = $this->getMock('Magento\Framework\Config\FileResolverInterface');
         $fileResolverMock->expects($this->any())->method('read')->will($this->returnValue($files));
         $validationStateMock = $this->getMock('Magento\Framework\Config\ValidationStateInterface');
         $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
 
-        /** @var \Magento\ObjectManager\Config\SchemaLocator $schemaLocator */
+        /** @var \Magento\Framework\ObjectManager\Config\SchemaLocator $schemaLocator */
         $schemaLocator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\ObjectManager\Config\SchemaLocator'
+            'Magento\Framework\ObjectManager\Config\SchemaLocator'
         );
 
-        new \Magento\ObjectManager\Config\Reader\Dom(
+        new \Magento\Framework\ObjectManager\Config\Reader\Dom(
             $fileResolverMock,
             $mapperMock,
             $schemaLocator,

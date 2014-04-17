@@ -20,7 +20,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     /** @var Account */
     protected $accountBlock;
 
-    /** @var \Magento\ObjectManager */
+    /** @var \Magento\Framework\ObjectManager */
     protected $objectManager;
 
     /** @var \Magento\Registry */

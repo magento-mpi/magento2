@@ -9,7 +9,7 @@
  */
 namespace Magento\Module\Updater;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 class SetupFactory
 {

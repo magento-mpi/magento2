@@ -40,7 +40,7 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $readerMap = include __DIR__ . '/../_files/reader_mock_map.php';
-        $readerMock = $this->getMock('\Magento\ObjectManager\Config\Reader\Dom', array(), array(), '', false);
+        $readerMock = $this->getMock('\Magento\Framework\ObjectManager\Config\Reader\Dom', array(), array(), '', false);
         $readerMock->expects($this->any())->method('read')->will($this->returnValueMap($readerMap));
 
         $this->_configScopeMock = $this->getMock('\Magento\Framework\Config\ScopeInterface');
@@ -53,16 +53,16 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
         $omConfigMock = $this->getMock('Magento\Interception\ObjectManager\Config');
         $omConfigMock->expects($this->any())->method('getOriginalInstanceType')->will($this->returnArgument(0));
 
-        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
         $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnArgument(0));
 
-        $definitions = new \Magento\ObjectManager\Definition\Runtime();
+        $definitions = new \Magento\Framework\ObjectManager\Definition\Runtime();
 
         $this->_model = new \Magento\Interception\PluginList\PluginList(
             $readerMock,
             $this->_configScopeMock,
             $this->_cacheMock,
-            new \Magento\ObjectManager\Relations\Runtime(),
+            new \Magento\Framework\ObjectManager\Relations\Runtime(),
             $omConfigMock,
             new \Magento\Interception\Definition\Runtime(),
             $this->_objectManagerMock,

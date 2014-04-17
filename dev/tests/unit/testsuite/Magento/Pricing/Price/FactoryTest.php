@@ -22,13 +22,13 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $objectManagerMock;
 
     public function setUp()
     {
-        $this->objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')
+        $this->objectManagerMock = $this->getMockBuilder('Magento\Framework\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
 

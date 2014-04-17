@@ -26,7 +26,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $productActionMock = $this->getMock('Magento\Catalog\Model\Product\Action', array(), array(), '', false);
         $objectManagerMock = $this->getMockForAbstractClass(
-            '\Magento\ObjectManager',
+            '\Magento\Framework\ObjectManager',
             array(),
             '',
             true,

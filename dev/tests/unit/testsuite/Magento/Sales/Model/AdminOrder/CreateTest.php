@@ -33,7 +33,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
         $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $registryMock = $this->getMock('Magento\Registry');
         $configMock = $this->getMock('Magento\Sales\Model\Config', array(), array(), '', false);

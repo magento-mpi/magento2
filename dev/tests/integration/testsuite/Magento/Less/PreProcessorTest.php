@@ -10,7 +10,7 @@ namespace Magento\Less;
 class PreProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 

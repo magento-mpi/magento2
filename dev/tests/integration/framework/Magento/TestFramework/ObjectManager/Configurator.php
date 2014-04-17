@@ -7,7 +7,7 @@
  */
 namespace Magento\TestFramework\ObjectManager;
 
-class Configurator implements \Magento\ObjectManager\DynamicConfigInterface
+class Configurator implements \Magento\Framework\ObjectManager\DynamicConfigInterface
 {
     /**
      * Map application initialization params to Object Manager configuration format

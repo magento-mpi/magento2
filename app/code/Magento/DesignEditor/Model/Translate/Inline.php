@@ -62,7 +62,7 @@ class Inline implements \Magento\Translate\InlineInterface
     protected $_isScriptInserted = false;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -84,7 +84,7 @@ class Inline implements \Magento\Translate\InlineInterface
      * @param \Magento\Translate\Inline\ParserFactory $parserFactory
      * @param \Magento\DesignEditor\Helper\Data $helper
      * @param \Magento\UrlInterface $url
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
     public function __construct(
         \Magento\Framework\View\DesignInterface $design,
@@ -92,7 +92,7 @@ class Inline implements \Magento\Translate\InlineInterface
         \Magento\Translate\Inline\ParserFactory $parserFactory,
         \Magento\DesignEditor\Helper\Data $helper,
         \Magento\UrlInterface $url,
-        \Magento\ObjectManager $objectManager
+        \Magento\Framework\ObjectManager $objectManager
     ) {
         $this->_design = $design;
         $this->_scopeResolver = $scopeResolver;

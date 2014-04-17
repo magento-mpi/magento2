@@ -29,14 +29,14 @@ class AbstractFactoryTest extends \PHPUnit_Framework_TestCase
     protected $_sharedList = array('Magento\Filter\Template' => true, 'Magento\Filter\ArrayFilter' => false);
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
     public function setUp()
     {
         $this->_objectManager = $this->getMockForAbstractClass(
-            '\Magento\ObjectManager',
+            '\Magento\Framework\ObjectManager',
             array(),
             '',
             true,

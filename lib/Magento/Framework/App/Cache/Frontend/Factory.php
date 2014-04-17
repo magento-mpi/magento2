@@ -23,7 +23,7 @@ class Factory
     const PARAM_CACHE_FORCED_OPTIONS = 'cache_options';
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     private $_objectManager;
 
@@ -76,14 +76,14 @@ class Factory
     protected $_resource;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\App\Resource $resource
      * @param array $enforcedOptions
      * @param array $decorators
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\App\Resource $resource,
         array $enforcedOptions = array(),

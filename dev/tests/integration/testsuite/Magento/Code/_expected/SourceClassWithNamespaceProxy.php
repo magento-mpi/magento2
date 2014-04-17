@@ -14,7 +14,7 @@ class Proxy extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
     /**
      * Object Manager instance
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -42,11 +42,11 @@ class Proxy extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
     /**
      * Proxy constructor
      *
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param string $instanceName
      * @param bool $shared
      */
-    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento\Code\GeneratorTest\SourceClassWithNamespace', $shared = true)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager, $instanceName = 'Magento\Code\GeneratorTest\SourceClassWithNamespace', $shared = true)
     {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;

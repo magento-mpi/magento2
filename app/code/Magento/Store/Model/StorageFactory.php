@@ -14,7 +14,7 @@ use Magento\Store\Model\Store;
 class StorageFactory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -73,7 +73,7 @@ class StorageFactory
     protected $_httpContext;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Logger $logger
      * @param \Magento\Session\SidResolverInterface $sidResolver
@@ -86,7 +86,7 @@ class StorageFactory
      * @param string $writerModel
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Logger $logger,
         \Magento\Session\SidResolverInterface $sidResolver,

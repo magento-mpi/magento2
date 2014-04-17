@@ -15,7 +15,7 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $objectManagerMock;
 
@@ -27,7 +27,7 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->objectManagerMock = $this->getMock(
-            'Magento\ObjectManager', array(), array(), '', false
+            'Magento\Framework\ObjectManager', array(), array(), '', false
         );
         $this->dataMock = $this->getMock(
             'Magento\Mview\Config\Data', array(), array(), '', false

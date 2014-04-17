@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\View\Publisher;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 /**
  * Publisher file factory

@@ -25,7 +25,7 @@ class ArchivalListTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock(
-            'Magento\ObjectManager\ObjectManager',
+            'Magento\Framework\ObjectManager\ObjectManager',
             array('get', 'create'),
             array(),
             '',

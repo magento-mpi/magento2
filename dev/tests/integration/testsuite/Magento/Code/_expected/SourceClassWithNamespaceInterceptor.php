@@ -12,7 +12,7 @@ class Interceptor extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
     /**
      * Object Manager instance
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $pluginLocator = null;
 
@@ -37,7 +37,7 @@ class Interceptor extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
      */
     protected $subjectType = null;
 
-    public function __construct(\Magento\ObjectManager $pluginLocator, \Magento\Interception\PluginList $pluginList, \Magento\Interception\Chain $chain, $param1 = '', $param2 = '\\', $param3 = '\'')
+    public function __construct(\Magento\Framework\ObjectManager $pluginLocator, \Magento\Interception\PluginList $pluginList, \Magento\Interception\Chain $chain, $param1 = '', $param2 = '\\', $param3 = '\'')
     {
         $this->pluginLocator = $pluginLocator;
         $this->pluginList = $pluginList;
