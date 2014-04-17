@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Autoload\IncludePathTest\Ns;
+namespace Magento\Framework\Autoload\IncludePathTest\Ns;
 
 class TestClass
 {

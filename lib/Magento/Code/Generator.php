@@ -18,7 +18,7 @@ class Generator
     const GENERATION_SKIP = 'skip';
 
     /**
-     * @var \Magento\Autoload\IncludePath
+     * @var \Magento\Framework\Autoload\IncludePath
      */
     protected $_autoloader;
 
@@ -33,16 +33,16 @@ class Generator
     protected $_generatedEntities;
 
     /**
-     * @param \Magento\Autoload\IncludePath $autoloader
+     * @param \Magento\Framework\Autoload\IncludePath $autoloader
      * @param Generator\Io $ioObject
      * @param array $generatedEntities
      */
     public function __construct(
-        \Magento\Autoload\IncludePath $autoloader = null,
+        \Magento\Framework\Autoload\IncludePath $autoloader = null,
         \Magento\Code\Generator\Io $ioObject = null,
         array $generatedEntities = array()
     ) {
-        $this->_autoloader = $autoloader ?: new \Magento\Autoload\IncludePath();
+        $this->_autoloader = $autoloader ?: new \Magento\Framework\Autoload\IncludePath();
         $this->_ioObject = $ioObject ?: new \Magento\Code\Generator\Io(
             new \Magento\Framework\Filesystem\Driver\File(),
             $this->_autoloader
@@ -80,7 +80,7 @@ class Generator
                 $entity = $entityType;
                 $entityName = rtrim(
                     substr($className, 0, -1 * strlen($entitySuffix)),
-                    \Magento\Autoload\IncludePath::NS_SEPARATOR
+                    \Magento\Framework\Autoload\IncludePath::NS_SEPARATOR
                 );
                 break;
             }

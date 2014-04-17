@@ -31,7 +31,7 @@ class ApplicationTest extends \Magento\TestFramework\Indexer\TestCase
     {
 
         self::$_generatorWorkingDir = realpath(__DIR__ . '/../../../../../tools/performance_toolkit');
-        \Magento\Autoload\IncludePath::addIncludePath(array(self::$_generatorWorkingDir . '/framework'));
+        \Magento\Framework\Autoload\IncludePath::addIncludePath(array(self::$_generatorWorkingDir . '/framework'));
         copy(
             self::$_generatorWorkingDir . '/fixtures/tax_rates.csv',
             self::$_generatorWorkingDir . '/fixtures/tax_rates.csv.bak'

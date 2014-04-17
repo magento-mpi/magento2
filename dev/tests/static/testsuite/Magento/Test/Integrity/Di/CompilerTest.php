@@ -66,7 +66,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $this->_generationDir = $this->_tmpDir . '/generation';
         $this->_compilationDir = $this->_tmpDir . '/di';
 
-        \Magento\Autoload\IncludePath::addIncludePath(
+        \Magento\Framework\Autoload\IncludePath::addIncludePath(
             array($basePath . '/app/code', $basePath . '/lib', $this->_generationDir)
         );
 
@@ -315,7 +315,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorIntegrity()
     {
-        $autoloader = new \Magento\Autoload\IncludePath();
+        $autoloader = new \Magento\Framework\Autoload\IncludePath();
         $generatorIo = new \Magento\Code\Generator\Io(
             new \Magento\Framework\Filesystem\Driver\File(),
             $autoloader,

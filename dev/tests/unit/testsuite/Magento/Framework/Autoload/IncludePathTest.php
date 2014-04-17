@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Autoload;
+namespace Magento\Framework\Autoload;
 
 class IncludePathTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,9 +31,9 @@ class IncludePathTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFile($class, $expectedValue)
     {
-        $this->assertFalse(\Magento\Autoload\IncludePath::getFile($class));
-        \Magento\Autoload\IncludePath::addIncludePath(__DIR__ . '/_files');
-        $this->assertEquals($expectedValue, \Magento\Autoload\IncludePath::getFile($class));
+        $this->assertFalse(\Magento\Framework\Autoload\IncludePath::getFile($class));
+        \Magento\Framework\Autoload\IncludePath::addIncludePath(__DIR__ . '/_files');
+        $this->assertEquals($expectedValue, \Magento\Framework\Autoload\IncludePath::getFile($class));
     }
 
     /**
@@ -59,7 +59,7 @@ class IncludePathTest extends \PHPUnit_Framework_TestCase
     {
         $expectedIncludePath = str_replace('%include_path%', get_include_path(), $expectedIncludePath);
         $this->assertNotEquals($expectedIncludePath, get_include_path());
-        \Magento\Autoload\IncludePath::addIncludePath($fixturePath, $prepend);
+        \Magento\Framework\Autoload\IncludePath::addIncludePath($fixturePath, $prepend);
         $this->assertEquals($expectedIncludePath, get_include_path());
     }
 
@@ -89,9 +89,9 @@ class IncludePathTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoad($class, $expectedValue)
     {
-        \Magento\Autoload\IncludePath::addIncludePath(__DIR__ . '/_files');
+        \Magento\Framework\Autoload\IncludePath::addIncludePath(__DIR__ . '/_files');
         $this->assertFalse(class_exists($class, false));
-        \Magento\Autoload\IncludePath::load($class);
+        \Magento\Framework\Autoload\IncludePath::load($class);
         if ($expectedValue) {
             $this->assertTrue(class_exists($class, false));
         } else {

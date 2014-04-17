@@ -94,7 +94,7 @@ class DefinitionFactory
             $definitionModel = $this->_definitionClasses[$this->_definitionFormat];
             $result = new $definitionModel($definitions);
         } else {
-            $autoloader = new \Magento\Autoload\IncludePath();
+            $autoloader = new \Magento\Framework\Autoload\IncludePath();
             $generatorIo = new \Magento\Code\Generator\Io(
                 $this->_filesystemDriver,
                 $autoloader,

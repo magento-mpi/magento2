@@ -32,7 +32,7 @@ class Io
     /**
      * Autoloader instance
      *
-     * @var \Magento\Autoload\IncludePath
+     * @var \Magento\Framework\Autoload\IncludePath
      */
     private $_autoloader;
 
@@ -43,15 +43,15 @@ class Io
 
     /**
      * @param \Magento\Framework\Filesystem\Driver\File   $filesystemDriver
-     * @param \Magento\Autoload\IncludePath     $autoLoader
+     * @param \Magento\Framework\Autoload\IncludePath     $autoLoader
      * @param null $generationDirectory
      */
     public function __construct(
         \Magento\Framework\Filesystem\Driver\File $filesystemDriver,
-        \Magento\Autoload\IncludePath $autoLoader = null,
+        \Magento\Framework\Autoload\IncludePath $autoLoader = null,
         $generationDirectory = null
     ) {
-        $this->_autoloader = $autoLoader ?: new \Magento\Autoload\IncludePath();
+        $this->_autoloader = $autoLoader ?: new \Magento\Framework\Autoload\IncludePath();
         $this->filesystemDriver = $filesystemDriver;
         $this->initGeneratorDirectory($generationDirectory);
     }

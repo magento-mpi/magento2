@@ -82,7 +82,7 @@ class Dashboard extends \Magento\Backend\App\Action
         $blockTab = $this->getRequest()->getParam('block');
         $blockClassSuffix = str_replace(
             ' ',
-            \Magento\Autoload\IncludePath::NS_SEPARATOR,
+            \Magento\Framework\Autoload\IncludePath::NS_SEPARATOR,
             ucwords(str_replace('_', ' ', $blockTab))
         );
         if (in_array($blockTab, array('tab_orders', 'tab_amounts', 'totals'))) {

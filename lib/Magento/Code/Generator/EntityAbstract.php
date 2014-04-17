@@ -9,7 +9,7 @@
  */
 namespace Magento\Code\Generator;
 
-use Magento\Autoload\IncludePath;
+use Magento\Framework\Autoload\IncludePath;
 
 abstract class EntityAbstract
 {

@@ -5,18 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Autoload;
+namespace Magento\Framework\Autoload;
 
 class ClassMapTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Autoload\ClassMap
+     * @var \Magento\Framework\Autoload\ClassMap
      */
     protected $_loader = null;
 
     protected function setUp()
     {
-        $this->_loader = new \Magento\Autoload\ClassMap(__DIR__ . '/ClassMapTest');
+        $this->_loader = new \Magento\Framework\Autoload\ClassMap(__DIR__ . '/ClassMapTest');
     }
 
     /**
@@ -24,7 +24,7 @@ class ClassMapTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructNonExistent()
     {
-        new \Magento\Autoload\ClassMap('non_existent');
+        new \Magento\Framework\Autoload\ClassMap('non_existent');
     }
 
     /**
@@ -32,7 +32,7 @@ class ClassMapTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructNotDir()
     {
-        new \Magento\Autoload\ClassMap(__FILE__);
+        new \Magento\Framework\Autoload\ClassMap(__FILE__);
     }
 
     public function testGetFileAddMap()
@@ -52,7 +52,7 @@ class ClassMapTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(class_exists('Unknown_Class', false));
         $this->_loader->load('TestMap');
         $this->_loader->load('Unknown_Class');
-        $this->assertTrue(class_exists('Magento\Autoload\ClassMapTest\TestMap', false));
+        $this->assertTrue(class_exists('Magento\Framework\Autoload\ClassMapTest\TestMap', false));
         $this->assertFalse(class_exists('Unknown_Class', false));
     }
 }

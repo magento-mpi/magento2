@@ -45,7 +45,7 @@ class IoTest extends \PHPUnit_Framework_TestCase
     protected $_filesystemDriverMock;
 
     /**
-     * @var \Magento\Autoload\IncludePath|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Autoload\IncludePath|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_autoLoaderMock;
 
@@ -60,7 +60,7 @@ class IoTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_autoLoaderMock = $this->getMock(
-            'Magento\Autoload\IncludePath',
+            'Magento\Framework\Autoload\IncludePath',
             array('getFilePath'),
             array(),
             '',

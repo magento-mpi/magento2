@@ -31,7 +31,7 @@ try {
     $opt->parse();
 
     $generationDir = $opt->getOption('generation') ? $opt->getOption('generation') : $rootDir . '/var/generation';
-    \Magento\Autoload\IncludePath::addIncludePath($generationDir);
+    \Magento\Framework\Autoload\IncludePath::addIncludePath($generationDir);
 
     $diDir = $opt->getOption('di') ? $opt->getOption('di') : $rootDir . '/var/di';
     $compiledFile = $diDir . '/definitions.php';

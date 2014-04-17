@@ -785,8 +785,8 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      */
     public static function extractModuleName($className)
     {
-        $namespace = substr($className, 0, strpos($className, \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Block'));
-        return str_replace(\Magento\Autoload\IncludePath::NS_SEPARATOR, '_', $namespace);
+        $namespace = substr($className, 0, strpos($className, \Magento\Framework\Autoload\IncludePath::NS_SEPARATOR . 'Block'));
+        return str_replace(\Magento\Framework\Autoload\IncludePath::NS_SEPARATOR, '_', $namespace);
     }
 
     /**

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Autoload;
+namespace Magento\Framework\Autoload;
 
 class Simple
 {

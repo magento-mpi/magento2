@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Autoload\ClassMapTest;
+namespace Magento\Framework\Autoload\ClassMapTest;
 
 class TestMap
 {

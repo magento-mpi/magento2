@@ -13,7 +13,7 @@ if (!defined('TESTS_TEMP_DIR')) {
 
 require BP . '/app/functions.php';
 require BP . '/app/autoload.php';
-\Magento\Autoload\IncludePath::addIncludePath(
+\Magento\Framework\Autoload\IncludePath::addIncludePath(
     array(
         __DIR__,
         realpath(__DIR__ . '/../testsuite'),

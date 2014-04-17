@@ -29,7 +29,7 @@ class __cli_Magento_Connect
                 $this->argv = $argv;
         $this->setIncludes();
         require_once("Mage/Autoload/Simple.php");
-        \Magento\Autoload\Simple::register();
+        \Magento\Framework\Autoload\Simple::register();
         chdir(BP . '/downloader/');
         return $this;
     }

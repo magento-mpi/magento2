@@ -50,8 +50,8 @@ class NamespaceResolver
 
         $explodeString = strpos(
             $name,
-            \Magento\Autoload\IncludePath::NS_SEPARATOR
-        ) === false ? '_' : \Magento\Autoload\IncludePath::NS_SEPARATOR;
+            \Magento\Framework\Autoload\IncludePath::NS_SEPARATOR
+        ) === false ? '_' : \Magento\Framework\Autoload\IncludePath::NS_SEPARATOR;
         $name = explode($explodeString, strtolower($name));
 
         $partsNum = count($name);

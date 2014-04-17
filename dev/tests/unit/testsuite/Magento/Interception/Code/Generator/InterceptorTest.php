@@ -30,7 +30,7 @@ class InterceptorTest extends \PHPUnit_Framework_TestCase
         $this->ioObjectMock = $this->getMock('\Magento\Code\Generator\Io', array(), array(), '', false);
         $this->classGeneratorMock = $this->getMock('\Magento\Code\Generator\CodeGenerator\CodeGeneratorInterface',
             array(), array(), '', false);
-        $this->autoloaderMock = $this->getMock('\Magento\Autoload\IncludePath', array(), array(), '', false);
+        $this->autoloaderMock = $this->getMock('\Magento\Framework\Autoload\IncludePath', array(), array(), '', false);
     }
 
     public function testGetDefaultResultClassName()

@@ -36,7 +36,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Autoload\IncludePath
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Autoload\IncludePath
      */
     protected $_autoloader;
 
@@ -52,7 +52,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_autoloader = $this->getMock('Magento\Autoload\IncludePath', array('getFile'), array(), '', false);
+        $this->_autoloader = $this->getMock('Magento\Framework\Autoload\IncludePath', array('getFile'), array(), '', false);
         $this->_ioObjectMock = $this->getMockBuilder(
             '\Magento\Code\Generator\Io'
         )->disableOriginalConstructor()->getMock();

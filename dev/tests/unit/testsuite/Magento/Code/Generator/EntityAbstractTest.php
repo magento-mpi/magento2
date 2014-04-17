@@ -67,7 +67,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             '_classGenerator',
             $this->_model
         );
-        $this->assertAttributeInstanceOf('Magento\Autoload\IncludePath', '_autoloader', $this->_model);
+        $this->assertAttributeInstanceOf('Magento\Framework\Autoload\IncludePath', '_autoloader', $this->_model);
 
         // with source class name
         $this->_model = $this->getMockForAbstractClass(
@@ -80,7 +80,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         // with all arguments
         $ioObject = $this->getMock('Magento\Code\Generator\Io', array(), array(), '', false);
         $codeGenerator = $this->getMock('Magento\Code\Generator\CodeGenerator\Zend', array(), array(), '', false);
-        $autoloader = $this->getMock('Magento\Autoload\IncludePath', array(), array(), '', false);
+        $autoloader = $this->getMock('Magento\Framework\Autoload\IncludePath', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Code\Generator\EntityAbstract',
@@ -251,7 +251,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $autoloader = $this->getMock('Magento\Autoload\IncludePath', array('getFile'), array(), '', false);
+        $autoloader = $this->getMock('Magento\Framework\Autoload\IncludePath', array('getFile'), array(), '', false);
 
         $ioObject->expects(
             $this->any()

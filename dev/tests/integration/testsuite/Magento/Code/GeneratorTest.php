@@ -57,11 +57,11 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         );
         $generationDirectory = $this->varDirectory->getAbsolutePath('generation');
 
-        \Magento\Autoload\IncludePath::addIncludePath($generationDirectory);
+        \Magento\Framework\Autoload\IncludePath::addIncludePath($generationDirectory);
 
         $this->_ioObject = new \Magento\Code\Generator\Io(
             new \Magento\Framework\Filesystem\Driver\File(),
-            new \Magento\Autoload\IncludePath(),
+            new \Magento\Framework\Autoload\IncludePath(),
             $generationDirectory
         );
         $this->_generator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
