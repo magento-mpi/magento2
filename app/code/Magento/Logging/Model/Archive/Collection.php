@@ -33,17 +33,17 @@ class Collection extends \Magento\Data\Collection\Filesystem
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logging\Model\Archive $archive
      * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logging\Model\Archive $archive,
         \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\App\Filesystem $filesystem
+        \Magento\Framework\App\Filesystem $filesystem
     ) {
         parent::__construct($entityFactory);
         $basePath = $archive->getBasePath();
-        $dir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $dir = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         $dir->create($dir->getRelativePath($basePath));
         $this->addTargetDir($basePath);
         $this->_localeResolver = $localeResolver;

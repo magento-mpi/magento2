@@ -14,7 +14,7 @@
  */
 namespace Magento\PersistentHistory\Model\Adminhtml\System\Config;
 
-class Customer extends \Magento\App\Config\Value
+class Customer extends \Magento\Framework\App\Config\Value
 {
     /**
      * Prefix of model events names

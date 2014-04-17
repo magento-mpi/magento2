@@ -193,8 +193,8 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
         $storeManager = Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface');
         $nonDefaultStore = $storeManager->getStore('secondstore');
         $nonDefaultStoreId = $nonDefaultStore->getId();
-        /** @var \Magento\App\MutableScopeConfig $scopeConfig */
-        $scopeConfig = $this->_objectManager->get('Magento\App\MutableScopeConfig');
+        /** @var \Magento\Framework\App\MutableScopeConfig $scopeConfig */
+        $scopeConfig = $this->_objectManager->get('Magento\Framework\App\MutableScopeConfig');
         $scopeConfig->setValue(Group::XML_PATH_DEFAULT_ID, 2, ScopeInterface::SCOPE_STORE, 'secondstore');
         $testGroup = ['id' => 2, 'code' => 'Wholesale', 'tax_class_id' => 3];
         $this->assertDefaultGroupMatches($testGroup, $nonDefaultStoreId);

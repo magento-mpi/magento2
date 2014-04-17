@@ -61,7 +61,7 @@ class Form
     protected $_attributeValues = array();
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_httpRequest;
 
@@ -88,7 +88,7 @@ class Form
     /**
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $eavMetadataService
      * @param ElementFactory $elementFactory
-     * @param \Magento\App\RequestInterface $httpRequest
+     * @param \Magento\Framework\App\RequestInterface $httpRequest
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Validator\ConfigFactory $validatorConfigFactory
      * @param string $entityType
@@ -103,7 +103,7 @@ class Form
     public function __construct(
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $eavMetadataService,
         ElementFactory $elementFactory,
-        \Magento\App\RequestInterface $httpRequest,
+        \Magento\Framework\App\RequestInterface $httpRequest,
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Validator\ConfigFactory $validatorConfigFactory,
         $entityType,
@@ -209,12 +209,12 @@ class Form
     /**
      * Extract data from request and return associative data array
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param string $scope the request scope
      * @param boolean $scopeOnly search value only in scope or search value in global too
      * @return array
      */
-    public function extractData(\Magento\App\RequestInterface $request, $scope = null, $scopeOnly = true)
+    public function extractData(\Magento\Framework\App\RequestInterface $request, $scope = null, $scopeOnly = true)
     {
         $data = array();
         foreach ($this->getAllowedAttributes() as $attribute) {
@@ -290,7 +290,7 @@ class Form
      * Prepare request with data and returns it
      *
      * @param array $data
-     * @return \Magento\App\RequestInterface
+     * @return \Magento\Framework\App\RequestInterface
      */
     public function prepareRequest(array $data)
     {

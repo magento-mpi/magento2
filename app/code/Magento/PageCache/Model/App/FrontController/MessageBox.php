@@ -31,12 +31,12 @@ class MessageBox
     /**
      * Request
      *
-     * @var \Magento\App\Request\Http
+     * @var \Magento\Framework\App\Request\Http
      */
     protected $request;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $config;
 
@@ -47,13 +47,13 @@ class MessageBox
 
     /**
      * @param \Magento\Stdlib\Cookie $cookie
-     * @param \Magento\App\Request\Http $request
+     * @param \Magento\Framework\App\Request\Http $request
      * @param \Magento\PageCache\Model\Config $config
      * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Stdlib\Cookie $cookie,
-        \Magento\App\Request\Http $request,
+        \Magento\Framework\App\Request\Http $request,
         \Magento\PageCache\Model\Config $config,
         \Magento\Message\ManagerInterface $messageManager
     ) {
@@ -66,13 +66,13 @@ class MessageBox
     /**
      * Set Cookie for msg box when it displays first
      *
-     * @param \Magento\App\FrontController $subject
-     * @param \Magento\App\ResponseInterface $response
+     * @param \Magento\Framework\App\FrontController $subject
+     * @param \Magento\Framework\App\ResponseInterface $response
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDispatch(\Magento\App\FrontController $subject, \Magento\App\ResponseInterface $response)
+    public function afterDispatch(\Magento\Framework\App\FrontController $subject, \Magento\Framework\App\ResponseInterface $response)
     {
         if ($this->request->isPost() && $this->messageManager->hasMessages()) {
             $this->cookie->set(self::COOKIE_NAME, 1, self::COOKIE_PERIOD, '/');

@@ -100,7 +100,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
+        $this->_filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->_driverMock = $this->getMockForAbstractClass(
             'Magento\Filesystem\DriverInterface',
             array(),
@@ -128,7 +128,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_filesystemMock = $this->getMock(
-            'Magento\App\Filesystem',
+            'Magento\Framework\App\Filesystem',
             array('getDirectoryWrite'),
             array(),
             '',
@@ -139,7 +139,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryWrite'
         )->with(
-            \Magento\App\Filesystem::MEDIA_DIR
+            \Magento\Framework\App\Filesystem::MEDIA_DIR
         )->will(
             $this->returnValue($this->_directoryMock)
         );

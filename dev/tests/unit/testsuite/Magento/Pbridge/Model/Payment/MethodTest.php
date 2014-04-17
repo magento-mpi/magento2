@@ -32,7 +32,7 @@ class MethodTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $config = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $config = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $config->expects(
             $this->any()
         )->method(

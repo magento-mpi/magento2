@@ -60,10 +60,10 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     {
         $coreHelper = $this->getMock('Magento\Core\Helper\Data', array('__construct'), array(), '', false);
         $string = new \Magento\Stdlib\String();
-        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $importFactory = $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false);
         $resourceHelper = $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false);
-        $resource = $this->getMock('Magento\App\Resource', array(), array(), '', false);
+        $resource = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false);
 
         $data = array(
             'coreData' => $coreHelper,

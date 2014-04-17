@@ -29,7 +29,7 @@ class HelloTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\App\State')->setAreaCode('frontend');
+        $objectManager->get('Magento\Framework\App\State')->setAreaCode('frontend');
 
         $this->customerSession = $objectManager->get('Magento\Customer\Model\Session');
         $this->block = $objectManager->get(

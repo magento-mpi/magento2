@@ -10,7 +10,7 @@ namespace Magento\Backend\App\Response\Http;
 class FileFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_model;
 
@@ -37,7 +37,13 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_responseMock = $this->getMock('Magento\App\Response\Http', array('setRedirect'), array(), '', false);
+        $this->_responseMock = $this->getMock(
+            'Magento\Framework\App\Response\Http',
+            array('setRedirect'),
+            array(),
+            '',
+            false
+        );
         $this->_responseMock->expects(
             $this->any()
         )->method(

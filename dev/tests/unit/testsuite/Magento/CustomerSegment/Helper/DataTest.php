@@ -32,7 +32,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_formKeyMock = $this->getMock('Magento\Data\Form\FormKey', array(), array(), '', false);
-        $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_segmentCollection = $this->getMock(
             'Magento\CustomerSegment\Model\Resource\Segment\Collection',
             array('toOptionArray'),
@@ -40,7 +40,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $helperContext = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
+        $helperContext = $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false);
         $this->_helper = new \Magento\CustomerSegment\Helper\Data(
             $helperContext,
             $this->_scopeConfig,

@@ -97,7 +97,7 @@ class Banner extends \Magento\View\Element\Template implements
     protected $_renderedParams = array();
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
@@ -105,7 +105,7 @@ class Banner extends \Magento\View\Element\Template implements
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Banner\Model\Resource\Banner $resource
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
      * @param array $data
      */
@@ -113,7 +113,7 @@ class Banner extends \Magento\View\Element\Template implements
         \Magento\View\Element\Template\Context $context,
         \Magento\Banner\Model\Resource\Banner $resource,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         array $data = array()
     ) {

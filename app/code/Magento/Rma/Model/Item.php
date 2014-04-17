@@ -84,7 +84,7 @@ class Item extends \Magento\Model\AbstractModel
     /**
      * Application request factory
      *
-     * @var \Magento\App\RequestFactory
+     * @var \Magento\Framework\App\RequestFactory
      */
     protected $_requestFactory;
 
@@ -95,7 +95,7 @@ class Item extends \Magento\Model\AbstractModel
      * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory
      * @param \Magento\Sales\Model\Order\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $formFactory
-     * @param \Magento\App\RequestFactory $requestFactory
+     * @param \Magento\Framework\App\RequestFactory $requestFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -107,7 +107,7 @@ class Item extends \Magento\Model\AbstractModel
         \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory,
         \Magento\Sales\Model\Order\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $formFactory,
-        \Magento\App\RequestFactory $requestFactory,
+        \Magento\Framework\App\RequestFactory $requestFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

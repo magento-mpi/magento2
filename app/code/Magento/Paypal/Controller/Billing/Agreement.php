@@ -7,12 +7,12 @@
  */
 namespace Magento\Paypal\Controller\Billing;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Billing agreements controller
  */
-class Agreement extends \Magento\App\Action\Action
+class Agreement extends \Magento\Framework\App\Action\Action
 {
     /**
      * Core registry
@@ -22,19 +22,19 @@ class Agreement extends \Magento\App\Action\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\App\Action\Title
+     * @var \Magento\Framework\App\Action\Title
      */
     protected $_title;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Action\Title $title
+     * @param \Magento\Framework\App\Action\Title $title
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
-        \Magento\App\Action\Title $title
+        \Magento\Framework\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -58,7 +58,7 @@ class Agreement extends \Magento\App\Action\Action
      * Check customer authentication
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {

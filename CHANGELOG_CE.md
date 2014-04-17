@@ -36,6 +36,8 @@
   * Fixed Messages absence on Frontend with FPC turned off (MAGETWO-23535)
 * Framework Improvements:
   * Simplify Search related Data Objects (MAGETWO-22613)
+  * Moved lib/Magento/* to lib/Magento/Framework/*: (MAGETWO-20866)
+    * Moved lib/Magento/App to lib/Magento/Framework/App (MAGETWO-23476)
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
   * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)

@@ -46,7 +46,13 @@ class BannerTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->httpContext = $this->getMock('\Magento\App\Http\Context', array('getValue'), array(), '', false);
+        $this->httpContext = $this->getMock(
+            '\Magento\Framework\App\Http\Context',
+            array('getValue'),
+            array(),
+            '',
+            false
+        );
         $this->httpContext->expects($this->any())->method('getValue')->will($this->returnValue(4));
 
         $pageFilterMock = $this->getMock('Magento\Cms\Model\Template\Filter', array(), array(), '', false);

@@ -79,7 +79,7 @@ class Observer
     /**
      * Action flag
      *
-     * @var \Magento\App\ActionFlag
+     * @var \Magento\Framework\App\ActionFlag
      */
     protected $_actionFlag;
 
@@ -99,7 +99,7 @@ class Observer
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\User\Model\UserFactory $userFactory
      * @param \Magento\Pci\Model\Encryption $encryptor
-     * @param \Magento\App\ActionFlag $actionFlag
+     * @param \Magento\Framework\App\ActionFlag $actionFlag
      * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
@@ -111,7 +111,7 @@ class Observer
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\User\Model\UserFactory $userFactory,
         \Magento\Pci\Model\Encryption $encryptor,
-        \Magento\App\ActionFlag $actionFlag,
+        \Magento\Framework\App\ActionFlag $actionFlag,
         \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_authorization = $authorization;
@@ -345,14 +345,14 @@ class Observer
             'adminhtml_auth_logout'
         );
         $controller = $observer->getEvent()->getControllerAction();
-        /** @var \Magento\App\RequestInterface $request */
+        /** @var \Magento\Framework\App\RequestInterface $request */
         $request = $observer->getEvent()->getRequest();
         if ($this->_authSession->getPciAdminUserIsPasswordExpired()) {
             if (!in_array($request->getFullActionName(), $actionList)) {
                 if ($this->_authorization->isAllowed('Magento_Adminhtml::myaccount')) {
                     $controller->getResponse()->setRedirect($this->_url->getUrl('adminhtml/system_account/'));
-                    $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
-                    $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_POST_DISPATCH, true);
+                    $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
+                    $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_POST_DISPATCH, true);
                 } else {
                     /*
                      * if admin password is expired and access to 'My Account' page is denied

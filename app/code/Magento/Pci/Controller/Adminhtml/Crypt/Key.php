@@ -25,9 +25,9 @@ class Key extends \Magento\Backend\App\Action
     {
         /** @var \Magento\Filesystem\Directory\Write $configDirectory */
         $configDirectory = $this->_objectManager->get(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\App\Filesystem::CONFIG_DIR
+            \Magento\Framework\App\Filesystem::CONFIG_DIR
         );
         if (!$configDirectory->isWritable('local.xml')) {
             $this->messageManager->addError(
@@ -100,7 +100,7 @@ class Key extends \Magento\Backend\App\Action
                     )
                 );
             }
-            $this->_objectManager->get('Magento\App\CacheInterface')->clean();
+            $this->_objectManager->get('Magento\Framework\App\CacheInterface')->clean();
         } catch (\Exception $e) {
             if ($message = $e->getMessage()) {
                 $this->messageManager->addError($e->getMessage());

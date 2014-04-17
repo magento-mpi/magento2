@@ -51,7 +51,7 @@ abstract class AbstractAction
     const PRODUCT_STEP_COUNT = 1000000;
 
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $resource;
 
@@ -116,7 +116,7 @@ abstract class AbstractAction
     protected $catalogConfig;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param WebsiteCollectionFactory $websiteCollectionFactory
      * @param GroupCollectionFactory $groupCollectionFactory
      * @param ConfigInterface $config
@@ -124,7 +124,7 @@ abstract class AbstractAction
      * @param \Magento\Catalog\Model\Config $catalogConfig
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         WebsiteCollectionFactory $websiteCollectionFactory,
         GroupCollectionFactory $groupCollectionFactory,
         ConfigInterface $config,

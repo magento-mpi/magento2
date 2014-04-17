@@ -286,7 +286,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param string                        $attributeCode
      * @param bool|string                   $requestScope
      * @param bool                          $requestScopeOnly
@@ -310,7 +310,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     public function getRequestValueDataProvider()
     {
         $expectedValue = 'EXPECTED_VALUE';
-        $requestMockOne = $this->getMockBuilder('\Magento\App\RequestInterface')->getMock();
+        $requestMockOne = $this->getMockBuilder('\Magento\Framework\App\RequestInterface')->getMock();
         $requestMockOne->expects(
             $this->any()
         )->method(
@@ -321,7 +321,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($expectedValue)
         );
 
-        $requestMockTwo = $this->getMockBuilder('\Magento\App\RequestInterface')->getMock();
+        $requestMockTwo = $this->getMockBuilder('\Magento\Framework\App\RequestInterface')->getMock();
         $requestMockTwo->expects(
             $this->at(0)
         )->method(
@@ -342,7 +342,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
         );
 
         $requestMockThree = $this->getMockBuilder(
-            '\Magento\App\Request\Http'
+            '\Magento\Framework\App\Request\Http'
         )->disableOriginalConstructor()->getMock();
         $requestMockThree->expects(
             $this->once()

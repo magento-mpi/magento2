@@ -16,7 +16,7 @@ namespace Magento\Rma\Helper;
 use Magento\Rma\Model\Rma;
 use Magento\Rma\Model\Shipping;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Variable to contain country model
@@ -42,7 +42,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Store config model
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -141,9 +141,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $carrierHelper;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -159,9 +159,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

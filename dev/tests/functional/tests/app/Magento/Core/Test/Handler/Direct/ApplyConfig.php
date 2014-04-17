@@ -32,13 +32,13 @@ class ApplyConfig extends Direct
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $factory = new \Magento\App\ObjectManagerFactory();
+        $factory = new \Magento\Framework\App\ObjectManagerFactory();
         $objectManager = $factory->create(BP, $_SERVER);
 
         $objectManager->get('Magento\Config\Scope')->setCurrentScope('adminhtml');
 
         $objectManager->configure(
-            $objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('adminhtml')
+            $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('adminhtml')
         );
 
         $objectManager->configure(

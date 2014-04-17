@@ -17,7 +17,7 @@ class LoggingTest extends \PHPUnit_Framework_TestCase
      */
     public function testPostDispatchCustomerSegmentMatch($qty, $customerSegmentId, $expectedText)
     {
-        $requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
+        $requestMock = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false);
         $requestMock->expects(
             $this->atLeastOnce()
         )->method(
