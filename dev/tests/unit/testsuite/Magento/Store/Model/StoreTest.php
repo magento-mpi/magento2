@@ -407,7 +407,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->will($this->returnValueMap(array(
                 array('catalog/price/scope', ScopeInterface::SCOPE_STORE, 'scope_code', $priceScope),
-                array('currency/options/base', \Magento\App\ScopeInterface::SCOPE_DEFAULT, 'default', 'USD'),
+                array('currency/options/base', \Magento\App\ScopeInterface::SCOPE_DEFAULT, null, 'USD'),
                 array('currency/options/base', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 'scope_code', 'UAH'),
             )));
 
@@ -436,7 +436,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     public function getBaseCurrencyDataProvider()
     {
         return array(
-            array(\Magento\Store\Model\Store::PRICE_SCOPE_GLOBAL, 'USD'),
+            array(0, 'USD'),
             array(1, 'UAH'),
         );
     }
