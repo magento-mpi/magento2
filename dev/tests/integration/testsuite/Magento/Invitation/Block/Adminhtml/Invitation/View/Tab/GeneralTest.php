@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Block\Adminhtml\Invitation\View\Tab;
+namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
 
 /**
  * Invitation create form
