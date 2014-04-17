@@ -56,9 +56,6 @@ dev/tests/integration/testsuite/Magento/Test/Integrity/Magento/WebsiteRestrictio
 LICENSE_EE.html
 LICENSE_EE.txt
 
-app/design/adminhtml/Magento/backend/css/*-ee.css
-app/design/adminhtml/Magento/backend/less/*-ee.less
-app/design/adminhtml/Magento/backend/less/styles/*-ee.less
 app/design/adminhtml/Magento/backend/Magento_Enterprise/
 app/design/frontend/Magento/iphone_html5
 app/design/frontend/Magento/plushe/Magento_Enterprise

@@ -90,8 +90,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'page_id',
             array(
                 'header' => __('Page ID'),
-                'header_css_class' => 'col-page-id',
-                'column_css_class' => 'col-page-id',
+                'header_css_class' => 'col-page-id col-id',
+                'column_css_class' => 'col-page-id col-id',
                 'sortable' => true,
                 'type' => 'range',
                 'index' => 'page_id'

@@ -7,6 +7,8 @@
     * Downloadable (MAGETWO-20404)
   * Resolved dependencies of price calculation from Tax module (MAGETWO-20457)
   * Resolved dependencies of price calculation from Weee tax module (MAGETWO-20458)
+* Themes update:
+  * Updated the look&feel of the Admin theme (MAGETWO-21912, MAGETWO-21913)
 * Fixed bugs:
   * An issue with the inability to save product with grouped price when Price Scope = Website was fixed (MAGETWO-21709)
   * An issue with fatal error on attempt to edit product from wishlist if more than one store view available was fixed (MAGETWO-20859)
@@ -34,6 +36,8 @@
   * Fixed: Scheduled Export for 'Remote FTP' does not work (MAGETWO-18584)
   * Fixed: [TD] Wrong default value for PHP memory_limit (MAGETWO-21340)
   * Fixed Messages absence on Frontend with FPC turned off (MAGETWO-23535)
+  * Fixed: Position of page actions buttons on "Categories" backend page (MAGETWO-22969)
+  * Fixed: Improve backend grids UI (MAGETWO-23338)
 * Framework Improvements:
   * Simplify Search related Data Objects (MAGETWO-22613)
   * Moved lib/Magento/* to lib/Magento/Framework/*: (MAGETWO-20866)

@@ -72,8 +72,8 @@
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Gift Wrap Design</argument>
                             <argument name="index" xsi:type="string">design</argument>
-                            <argument name="header_css_class" xsi:type="string">col-design</argument>
-                            <argument name="column_css_class" xsi:type="string">col-design</argument>
+                            <argument name="header_css_class" xsi:type="string">col-name</argument>
+                            <argument name="column_css_class" xsi:type="string">col-name</argument>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column\Multistore" as="websites">
