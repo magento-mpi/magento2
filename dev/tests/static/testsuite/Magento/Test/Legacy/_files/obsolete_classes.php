@@ -1284,6 +1284,19 @@ return array(
         'Magento\Payment\Block\Catalog\Product\View\Profile',
         'Magento\RecurringPayment\Block\Catalog\Product\View\Payment'
     ),
+    ['Magento\Payment\Block\Form\Banktransfer', 'Magento\OfflinePayments\Block\Form\Banktransfer'],
+    ['Magento\Payment\Block\Form\Cashondelivery', 'Magento\OfflinePayments\Block\Form\Cashondelivery'],
+    ['Magento\Payment\Block\Form\Ccsave', 'Magento\OfflinePayments\Block\Form\Ccsave'],
+    ['Magento\Payment\Block\Form\Checkmo', 'Magento\OfflinePayments\Block\Form\Checkmo'],
+    ['Magento\Payment\Block\Form\Purchaseorder', 'Magento\OfflinePayments\Block\Form\Purchaseorder'],
+    ['Magento\Payment\Block\Info\Ccsave', 'Magento\OfflinePayments\Block\Info\Ccsave'],
+    ['Magento\Payment\Block\Info\Checkmo', 'Magento\OfflinePayments\Block\Info\Checkmo'],
+    ['Magento\Payment\Block\Info\Purchaseorder', 'Magento\OfflinePayments\Block\Info\Purchaseorder'],
+    ['Magento\Payment\Model\Method\Banktransfer', 'Magento\OfflinePayments\Model\Banktransfer'],
+    ['Magento\Payment\Model\Method\Cashondelivery', 'Magento\OfflinePayments\Model\Cashondelivery'],
+    ['Magento\Payment\Model\Method\Ccsave', 'Magento\OfflinePayments\Model\Ccsave'],
+    ['Magento\Payment\Model\Method\Checkmo', 'Magento\OfflinePayments\Model\Checkmo'],
+    ['Magento\Payment\Model\Method\Purchaseorder', 'Magento\OfflinePayments\Model\Purchaseorder'],
     array(
         'Magento\Payment\Model\Recurring\Profile\MethodInterface',
         'Magento\RecurringPayment\Model\ManagerInterface'
