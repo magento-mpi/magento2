@@ -1059,6 +1059,11 @@ return array(
         '\Magento\HTTP\Authentication::setAuthenticationFailed'
     ),
     array('getRequestUri', '\Magento\Core\Helper\Http', '\Magento\HTTP\Header::getRequestUri'),
+    array(
+        'getRequiredAgreementIds',
+        '\Magento\Checkout\Helper\Data',
+        '\Magento\CheckoutAgreements\Model\AgreementsProvider::getRequiredAgreementIds'
+    ),
     array('validateIpAddr', '\Magento\Core\Helper\Http', '\Zend_Validate_Ip::isValid'),
     array('getRemoteAddr', '\Magento\Core\Helper\Http', 'Magento\HTTP\PhpEnvironment\RemoteAddress::getRemoteAddress'),
     array('getServerAddr', '\Magento\Core\Helper\Http', 'Magento\HTTP\PhpEnvironment\ServerAddress::getServerAddress'),
@@ -1070,6 +1075,8 @@ return array(
     array('copyFieldsetToTarget', 'Magento\Core\Helper\Data', 'Magento\Object\Copy::copyFieldsetToTarget'),
     array('formatDate', '\Magento\Core\Helper\Data', '\Magento\Core\Model\Locale::formatDate'),
     array('formatTime', '\Magento\Core\Helper\Data', '\Magento\Core\Model\Locale::formatTime'),
+    array('getCustomer', 'Magento\Backend\Model\Session\Quote', 'Magento\Backend\Model\Session\Quote::getCustomerId'),
+    array('setCustomer', 'Magento\Backend\Model\Session\Quote', 'Magento\Backend\Model\Session\Quote::setCustomerId'),
     array('_getConfigTimezone', '\Magento\Stdlib\DateTime\DateTime', '\Magento\Core\Model\Locale::getConfigTimezone'),
     array('_filterPostData', '\Magento\Checkout\Controller\Onepage'),
     array('_filterPostData', '\Magento\Customer\Controller\Account'),
@@ -1624,4 +1631,7 @@ return array(
     ['getCurrentStore', 'Magento\Store\Model\StoreManagerInterface'],
     ['getAnyStoreView', 'Magento\Store\Model\StoreManagerInterface'],
     ['throwStoreException', 'Magento\Store\Model\StoreManagerInterface'],
+    ['getCustomer', 'Magento\Tax\Model\Calculation', 'Magento\Tax\Model\Calculation::getCustomerData'],
+    ['setCustomer', 'Magento\Tax\Model\Calculation', 'Magento\Tax\Model\Calculation::setCustomerData'],
+    ['setCustomer', 'Magento\Checkout\Model\Session', 'Magento\Checkout\Model\Session::setCustomerData'],
 );

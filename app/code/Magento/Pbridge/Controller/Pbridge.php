@@ -148,17 +148,13 @@ class Pbridge extends \Magento\App\Action\Action
     {
         $result = array();
         $result['success'] = true;
-        $requiredAgreements = $this->_objectManager->get('Magento\Checkout\Helper\Data')->getRequiredAgreementIds();
-        if ($requiredAgreements) {
-            $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
-            $diff = array_diff($requiredAgreements, $postedAgreements);
-            if ($diff) {
-                $result['success'] = false;
-                $result['error'] = true;
-                $result['error_messages'] = __(
-                    'Please agree to all the terms and conditions before placing the order.'
-                );
-            }
+        $agreementsValidator = $this->_objectManager->get('Magento\Checkout\Model\Agreements\AgreementsValidator');
+        if (!$agreementsValidator->isValid(array_keys($this->getRequest()->getPost('agreement', [])))) {
+            $result['success'] = false;
+            $result['error'] = true;
+            $result['error_messages'] = __(
+                'Please agree to all the terms and conditions before placing the order.'
+            );
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }

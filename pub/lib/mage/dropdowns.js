@@ -79,10 +79,6 @@
 
                 return false;
             });
-
-            menu.on('click.preventMenuClosing', function(e) {
-                e.stopPropagation();
-            });
         });
     };
 

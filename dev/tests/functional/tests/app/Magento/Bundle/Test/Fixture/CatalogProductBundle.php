@@ -8,7 +8,11 @@
 
 namespace Magento\Bundle\Test\Fixture;
 
+use Mtf\System\Config;
+use Mtf\Handler\HandlerFactory;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
+use Mtf\Repository\RepositoryFactory;
 
 /**
  * Class CatalogProductBundle
@@ -26,6 +30,35 @@ class CatalogProductBundle extends InjectableFixture
      * @var string
      */
     protected $handlerInterface = 'Magento\Bundle\Test\Handler\CatalogProductBundle\CatalogProductBundleInterface';
+
+    /**
+     * Constructor
+     *
+     * @constructor
+     * @param Config $configuration
+     * @param RepositoryFactory $repositoryFactory
+     * @param FixtureFactory $fixtureFactory
+     * @param HandlerFactory $handlerFactory
+     * @param array $data
+     * @param string $dataSet
+     * @param bool $persist
+     */
+    public function __construct(
+        Config $configuration,
+        RepositoryFactory $repositoryFactory,
+        FixtureFactory $fixtureFactory,
+        HandlerFactory $handlerFactory,
+        array $data = [],
+        $dataSet = '',
+        $persist = false
+    ) {
+        if (!isset($data['url_key']) && isset($data['name'])) {
+            $data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $data['name'])), '-');
+        }
+        parent::__construct(
+            $configuration, $repositoryFactory, $fixtureFactory, $handlerFactory, $data, $dataSet, $persist
+        );
+    }
 
     protected $dataConfig = [
         'create_url_params' => [
@@ -140,6 +173,8 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'group' => 'advanced-pricing',
+        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions'
     ];
 
     protected $has_options = [
@@ -286,6 +321,7 @@ class CatalogProductBundle extends InjectableFixture
         'default_value' => '',
         'input' => 'price',
         'group' => 'product-details',
+        'fixture' => 'Magento\Bundle\Test\Fixture\Bundle\Price'
     ];
 
     protected $price_type = [
@@ -385,6 +421,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'price',
+        'group' => 'advanced-pricing'
     ];
 
     protected $special_to_date = [
@@ -494,6 +531,14 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '1',
         'group' => 'bundle',
         'fixture' => 'Magento\Bundle\Test\Fixture\Bundle\Selections',
+    ];
+
+    protected $custom_options = [
+        'attribute_code' => 'custom_options',
+        'backend_type' => 'virtual',
+        'is_required' => '0',
+        'group' => 'customer-options',
+        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
     ];
 
     public function getCategoryIds()
@@ -775,4 +820,10 @@ class CatalogProductBundle extends InjectableFixture
     {
         return $this->getData('bundle_selections');
     }
+
+    public function getCustomOptions()
+    {
+        return $this->getData('custom_options');
+    }
+
 }

@@ -53,7 +53,7 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
      */
     public function addDefaultPattern($area = \Magento\App\Area::AREA_FRONTEND)
     {
-        $this->addTargetPattern(implode('/', array($area, '*', 'theme.xml')));
+        $this->addTargetPattern(implode('/', array($area, '*/*', 'theme.xml')));
         return $this;
     }
 

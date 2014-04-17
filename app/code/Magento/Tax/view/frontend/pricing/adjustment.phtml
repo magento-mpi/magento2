@@ -1,0 +1,21 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php /** @var \Magento\Tax\Pricing\Render\Adjustment $this */ ?>
+
+<?php if ($this->displayBothPrices()): ?>
+    <span class="price-including-tax">
+        <span class="label"><?php echo __('Incl. Tax:') ?></span>
+        <span class="price" id="<?php echo $this->buildIdWithPrefix('price-including-tax-') ?>">
+            <?php echo $this->getDisplayAmount(false) ?>
+        </span>
+    </span>
+<?php endif; ?>

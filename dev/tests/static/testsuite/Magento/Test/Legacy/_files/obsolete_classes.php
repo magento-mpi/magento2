@@ -1551,11 +1551,17 @@ return array(
     array('Magento\Adminhtml\Block\System\Variable', 'Magento\Backend\Block\System\Variable'),
     array(
         'Magento\Adminhtml\Block\Checkout\Agreement\Edit\Form',
-        'Magento\Checkout\Block\Adminhtml\Agreement\Edit\Form'
+        'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Edit\Form'
     ),
-    array('Magento\Adminhtml\Block\Checkout\Agreement\Edit', 'Magento\Checkout\Block\Adminhtml\Agreement\Edit'),
-    array('Magento\Adminhtml\Block\Checkout\Agreement\Grid', 'Magento\Checkout\Block\Adminhtml\Agreement\Grid'),
-    array('Magento\Adminhtml\Block\Checkout\Agreement', 'Magento\Checkout\Block\Adminhtml\Agreement'),
+    array(
+        'Magento\Adminhtml\Block\Checkout\Agreement\Edit',
+        'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Edit'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Checkout\Agreement\Grid',
+        'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Grid'
+    ),
+    array('Magento\Adminhtml\Block\Checkout\Agreement', 'Magento\CheckoutAgreements\Block\Adminhtml\Agreement'),
     array('Magento\Adminhtml\Controller\Checkout\Agreement', 'Magento\Checkout\Controller\Adminhtml\Agreement'),
     array('Magento\Core\Model\View\PublicFilesManagerInterface', 'Magento\View\PublicFilesManagerInterface'),
     array('Magento\Core\Model\View\DeployedFilesManager', 'Magento\View\DeployedFilesManager'),
@@ -2147,12 +2153,11 @@ return array(
     ['Magento\Translation\Helper\Data'],
     ['Magento\Translate\Factory'],
     ['Magento\Backend\Model\Translate'],
-    ['Magento\Backend\Model\Resource\Translate'],
-    ['Magento\Backend\Model\Resource\Translate\String'],
     ['Magento\DesignEditor\Model\Translate\InlineVde', 'Magento\DesignEditor\Model\Translate\Inline'],
-    ['Magento\Backend\Model\Translate\Inline'],
     ['Magento\Backend\Model\Translate\Inline\ConfigFactory'],
     ['Magento\Translate\Inline\ConfigFactory'],
+    ['Magento\Bundle\Model\Price\Index'],
+    ['Magento\Bundle\Model\Resource\Price\Index'],
     array('Magento\Core\Model\Template', 'Magento\Email\Model\AbstractTemplate'),
     array('Magento\Core\Helper\Js'),
     array('Magento\Backend\Helper\Media\Js'),
@@ -2280,4 +2285,27 @@ return array(
     ['Magento\Core\Model\App\Area\CacheIdentifierPlugin', 'Magento\PageCache\App\CacheIdentifierPlugin'],
     ['Magento\Core\Model\App\Area', 'Magento\App\Area'],
     ['Magento\Core\Model\App\Area\DesignExceptions', 'Magento\View\DesignExceptions'],
+    ['Magento\Checkout\Block\Adminhtml\Agreement', 'Magento\CheckoutAgreements\Block\Adminhtml\Agreement'],
+    ['Magento\Checkout\Block\Adminhtml\Agreement\Edit', 'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Edit'],
+    [
+        'Magento\Checkout\Block\Adminhtml\Agreement\Edit\Form',
+        'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Edit\Form'
+    ],
+    ['Magento\Checkout\Block\Adminhtml\Agreement\Grid', 'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Grid'],
+    ['Magento\Checkout\Block\Agreements', 'Magento\CheckoutAgreements\Block\Agreements'],
+    ['Magento\Checkout\Controller\Adminhtml\Agreement', 'Magento\CheckoutAgreements\Controller\Adminhtml\Agreement'],
+    ['Magento\Checkout\Model\Resource\Agreement', 'Magento\CheckoutAgreements\Model\Resource\Agreement'],
+    [
+        'Magento\Checkout\Model\Resource\Agreement\Collection',
+        'Magento\CheckoutAgreements\Model\Resource\Agreement\Collection'
+    ],
+    ['Magento\Catalog\Model\PriceCurrency'],
+    [
+        'Magento\App\FrontController\Plugin\Clickjacking',
+        'X-Frame-Options HTTP header setting moved to server configuration'
+    ],
+    ['Magento\Backend\Model\Translate\Inline', 'Magento\Translate\Inline'],
+    ['Magento\Backend\Model\Resource\Translate', 'Magento\Translation\Model\Resource\Translate'],
+    ['Magento\Backend\Model\Resource\Translate\String', 'Magento\Translation\Model\Resource\String'],
+    ['Magento\Core\Model\Layout', 'Magento\View\Layout'],
 );

@@ -179,7 +179,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method exportItem()
      *
-     * @covers Finance::exportItem
+     * @covers \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::exportItem
      */
     public function testExportItem()
     {

@@ -12,6 +12,8 @@ use Magento\Service\Data\AbstractObject;
 use Magento\Webapi\Controller\Rest\Request as RestRequest;
 use Magento\Webapi\Controller\Rest\Response as RestResponse;
 use Magento\Webapi\Controller\Rest\Router;
+use Magento\Webapi\Model\PathProcessor;
+use Magento\Webapi\Model\Config\Converter;
 
 /**
  * Front controller for WebAPI REST area.
@@ -55,6 +57,9 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var ErrorProcessor */
     protected $_errorProcessor;
 
+    /** @var PathProcessor */
+    protected $_pathProcessor;
+
     /**
      * @var \Magento\App\AreaList
      */
@@ -74,6 +79,7 @@ class Rest implements \Magento\App\FrontControllerInterface
      * @param AuthorizationService $authorizationService
      * @param ServiceArgsSerializer $serializer
      * @param ErrorProcessor $errorProcessor
+     * @param PathProcessor $pathProcessor
      * @param \Magento\App\AreaList $areaList
      *
      * TODO: Consider removal of warning suppression
@@ -91,6 +97,7 @@ class Rest implements \Magento\App\FrontControllerInterface
         AuthorizationService $authorizationService,
         ServiceArgsSerializer $serializer,
         ErrorProcessor $errorProcessor,
+        PathProcessor $pathProcessor,
         \Magento\App\AreaList $areaList
     ) {
         $this->_router = $router;
@@ -104,6 +111,7 @@ class Rest implements \Magento\App\FrontControllerInterface
         $this->_authorizationService = $authorizationService;
         $this->_serializer = $serializer;
         $this->_errorProcessor = $errorProcessor;
+        $this->_pathProcessor = $pathProcessor;
         $this->areaList = $areaList;
     }
 
@@ -115,9 +123,8 @@ class Rest implements \Magento\App\FrontControllerInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
-        $pathParts = explode('/', trim($request->getPathInfo(), '/'));
-        array_shift($pathParts);
-        $request->setPathInfo('/' . implode('/', $pathParts));
+        $path = $this->_pathProcessor->process($request->getPathInfo());
+        $this->_request->setPathInfo($path);
         $this->areaList->getArea($this->_appState->getAreaCode())
             ->load(\Magento\App\Area::PART_TRANSLATE);
         try {
@@ -153,6 +160,7 @@ class Rest implements \Magento\App\FrontControllerInterface
             $inputData = $this->_request->getRequestData();
             $serviceMethodName = $route->getServiceMethod();
             $serviceClassName = $route->getServiceClass();
+            $inputData = $this->_overrideParams($inputData, $route->getParameters());
             $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
             $service = $this->_objectManager->get($serviceClassName);
             /** @var \Magento\Service\Data\AbstractObject $outputData */
@@ -198,5 +206,22 @@ class Rest implements \Magento\App\FrontControllerInterface
             $result = $data;
         }
         return $result;
+    }
+
+    /**
+     * Override parameter values based on webapi.xml
+     *
+     * @param array $inputData Incoming data from request
+     * @param array $parameters Contains parameters to replace or default
+     * @return array Data in same format as $inputData with appropriate parameters added or changed
+     */
+    protected function _overrideParams(array $inputData, array $parameters)
+    {
+        foreach ($parameters as $name => $paramData) {
+            if ($paramData[Converter::KEY_FORCE] || !isset($inputData[$name])) {
+                $inputData[$name] = $paramData[Converter::KEY_VALUE];
+            }
+        }
+        return $inputData;
     }
 }

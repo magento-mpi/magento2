@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Weee\Model\Total\Creditmemo;
 
 use Magento\Sales\Model\Order\Creditmemo;
@@ -50,7 +51,6 @@ class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
             if ($item->getOrderItem()->isDummy()) {
                 continue;
             }
-            $orderItemQty = $item->getOrderItem()->getQtyOrdered();
 
             $totalTax += $item->getWeeeTaxAppliedAmount() * $item->getQty();
             $baseTotalTax += $item->getBaseWeeeTaxAppliedAmount() * $item->getQty();
