@@ -12,22 +12,22 @@ namespace Magento\Phrase\Renderer;
 class Inline implements \Magento\Phrase\RendererInterface
 {
     /**
-     * @var \Magento\TranslateInterface
+     * @var \Magento\Framework\TranslateInterface
      */
     protected $translator;
 
     /**
-     * @var \Magento\Translate\Inline\ProviderInterface
+     * @var \Magento\Framework\Translate\Inline\ProviderInterface
      */
     protected $inlineProvider;
 
     /**
-     * @param \Magento\TranslateInterface $translator
-     * @param \Magento\Translate\Inline\ProviderInterface $inlineProvider
+     * @param \Magento\Framework\TranslateInterface $translator
+     * @param \Magento\Framework\Translate\Inline\ProviderInterface $inlineProvider
      */
     public function __construct(
-        \Magento\TranslateInterface $translator,
-        \Magento\Translate\Inline\ProviderInterface $inlineProvider
+        \Magento\Framework\TranslateInterface $translator,
+        \Magento\Framework\Translate\Inline\ProviderInterface $inlineProvider
     ) {
         $this->translator = $translator;
         $this->inlineProvider = $inlineProvider;

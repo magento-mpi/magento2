@@ -70,8 +70,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         $result = array();
 
-        /** @var \Magento\Translate\AbstractAdapter $translator */
-        $translator = $this->getMockBuilder('Magento\Translate\AbstractAdapter')->getMockForAbstractClass();
+        /** @var \Magento\Framework\Translate\AbstractAdapter $translator */
+        $translator = $this->getMockBuilder('Magento\Framework\Translate\AbstractAdapter')->getMockForAbstractClass();
         \Magento\Validator\AbstractValidator::setDefaultTranslator($translator);
 
         // Case 1. Check constructor with arguments

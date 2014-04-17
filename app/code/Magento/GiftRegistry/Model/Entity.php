@@ -188,7 +188,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Translate\Inline\StateInterface
+     * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
 
@@ -215,7 +215,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Escaper $escaper
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\GiftRegistry\Model\Resource\Entity $resource
      * @param \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection
      * @param array $data
@@ -243,7 +243,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         \Magento\Escaper $escaper,
         \Magento\Math\Random $mathRandom,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\GiftRegistry\Model\Resource\Entity $resource = null,
         \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection = null,
         array $data = array()

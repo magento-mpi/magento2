@@ -80,7 +80,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $this->_designMock          = $this->_makeMock('Magento\Framework\View\DesignInterface');
         $this->_sessionMock         = $this->_makeMock('Magento\Framework\Session\Generic');
         $this->_sidResolver         = $this->_makeMock('Magento\Framework\Session\SidResolver');
-        $this->_translatorMock      = $this->_makeMock('Magento\TranslateInterface');
+        $this->_translatorMock      = $this->_makeMock('Magento\Framework\TranslateInterface');
         $this->_layoutMock          = $this->_makeMock('Magento\Framework\View\Layout');
         $this->_requestMock         = $this->_makeMock('Magento\Framework\App\RequestInterface');
         $this->_messagesMock        = $this->_makeMock('Magento\Framework\View\Element\Messages');

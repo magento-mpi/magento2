@@ -12,7 +12,7 @@ namespace Magento\DesignEditor\Model\Translate;
 /**
  * Inline translation specific to Vde.
  */
-class Inline implements \Magento\Translate\InlineInterface
+class Inline implements \Magento\Framework\Translate\InlineInterface
 {
     /**
      * data-translate-mode attribute name
@@ -40,12 +40,12 @@ class Inline implements \Magento\Translate\InlineInterface
     protected $_helper;
 
     /**
-     * @var \Magento\Translate\Inline\ParserInterface
+     * @var \Magento\Framework\Translate\Inline\ParserInterface
      */
     protected $_parser;
 
     /**
-     * @var \Magento\Translate\Inline\ParserFactory
+     * @var \Magento\Framework\Translate\Inline\ParserFactory
      */
     protected $parserFactory;
 
@@ -81,7 +81,7 @@ class Inline implements \Magento\Translate\InlineInterface
      *
      * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
-     * @param \Magento\Translate\Inline\ParserFactory $parserFactory
+     * @param \Magento\Framework\Translate\Inline\ParserFactory $parserFactory
      * @param \Magento\DesignEditor\Helper\Data $helper
      * @param \Magento\UrlInterface $url
      * @param \Magento\Framework\ObjectManager $objectManager
@@ -89,7 +89,7 @@ class Inline implements \Magento\Translate\InlineInterface
     public function __construct(
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
-        \Magento\Translate\Inline\ParserFactory $parserFactory,
+        \Magento\Framework\Translate\Inline\ParserFactory $parserFactory,
         \Magento\DesignEditor\Helper\Data $helper,
         \Magento\UrlInterface $url,
         \Magento\Framework\ObjectManager $objectManager
@@ -117,7 +117,7 @@ class Inline implements \Magento\Translate\InlineInterface
     /**
      * Retrieve Inline Parser instance
      *
-     * @return \Magento\Translate\Inline\ParserInterface
+     * @return \Magento\Framework\Translate\Inline\ParserInterface
      */
     public function getParser()
     {

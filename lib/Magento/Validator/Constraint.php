@@ -83,7 +83,7 @@ class Constraint extends \Magento\Validator\AbstractValidator
     /**
      * Set translator to wrapped validator.
      *
-     * @param \Magento\Translate\AdapterInterface|null $translator
+     * @param \Magento\Framework\Translate\AdapterInterface|null $translator
      * @return \Magento\Validator\AbstractValidator
      */
     public function setTranslator($translator = null)
@@ -95,7 +95,7 @@ class Constraint extends \Magento\Validator\AbstractValidator
     /**
      * Get translator instance of wrapped validator
      *
-     * @return \Magento\Translate\AdapterInterface|null
+     * @return \Magento\Framework\Translate\AdapterInterface|null
      */
     public function getTranslator()
     {

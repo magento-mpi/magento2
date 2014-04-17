@@ -22,7 +22,7 @@ class ObjectManager
      */
     protected $_specialCases = array(
         'Magento\Framework\Model\Resource\AbstractResource' => '_getResourceModelMock',
-        'Magento\TranslateInterface' => '_getTranslatorMock',
+        'Magento\Framework\TranslateInterface' => '_getTranslatorMock',
     );
 
     /**
@@ -111,7 +111,7 @@ class ObjectManager
      * Retrieve mock of core translator model
      *
      * @param string $className
-     * @return \Magento\TranslateInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Framework\TranslateInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getTranslatorMock($className)
     {

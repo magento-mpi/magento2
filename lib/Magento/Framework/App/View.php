@@ -25,7 +25,7 @@ class View implements ViewInterface
     protected $_eventManager;
 
     /**
-     * @var \Magento\Translate\InlineInterface
+     * @var \Magento\Framework\Translate\InlineInterface
      */
     protected $_translateInline;
 
@@ -55,7 +55,7 @@ class View implements ViewInterface
      * @param ResponseInterface $response
      * @param \Magento\Framework\Config\ScopeInterface $configScope
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Translate\InlineInterface $translateInline
+     * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param ActionFlag $actionFlag
      */
     public function __construct(
@@ -64,7 +64,7 @@ class View implements ViewInterface
         ResponseInterface $response,
         \Magento\Framework\Config\ScopeInterface $configScope,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Translate\InlineInterface $translateInline,
+        \Magento\Framework\Translate\InlineInterface $translateInline,
         ActionFlag $actionFlag
     ) {
         $this->_layout = $layout;

@@ -93,7 +93,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $translateInline = $this->getMock('\Magento\Translate\InlineInterface', array(), array(), '', false);
+        $translateInline = $this->getMock('\Magento\Framework\Translate\InlineInterface', array(), array(), '', false);
         $translateInline->expects($this->any())->method('isAllowed')->will($this->returnValue(false));
 
         $context =

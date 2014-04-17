@@ -102,8 +102,8 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetTranslator()
     {
-        /** @var \Magento\Translate\AbstractAdapter $translator */
-        $translator = $this->getMockBuilder('Magento\Translate\AdapterInterface')->getMockForAbstractClass();
+        /** @var \Magento\Framework\Translate\AbstractAdapter $translator */
+        $translator = $this->getMockBuilder('Magento\Framework\Translate\AdapterInterface')->getMockForAbstractClass();
         $this->_constraint->setTranslator($translator);
         $this->assertEquals($translator, $this->_validatorMock->getTranslator());
         $this->assertEquals($translator, $this->_constraint->getTranslator());

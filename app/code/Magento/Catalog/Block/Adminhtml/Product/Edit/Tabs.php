@@ -61,7 +61,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     protected $_moduleManager;
 
     /**
-     * @var \Magento\Translate\InlineInterface
+     * @var \Magento\Framework\Translate\InlineInterface
      */
     protected $_translateInline;
 
@@ -74,7 +74,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      * @param \Magento\Catalog\Helper\Catalog $helperCatalog
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Registry $registry
-     * @param \Magento\Translate\InlineInterface $translateInline
+     * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param array $data
      */
     public function __construct(
@@ -86,7 +86,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         \Magento\Catalog\Helper\Catalog $helperCatalog,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Registry $registry,
-        \Magento\Translate\InlineInterface $translateInline,
+        \Magento\Framework\Translate\InlineInterface $translateInline,
         array $data = array()
     ) {
         $this->_moduleManager = $moduleManager;

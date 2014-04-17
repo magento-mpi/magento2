@@ -49,7 +49,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     /**
      * Translator
      *
-     * @var \Magento\TranslateInterface
+     * @var \Magento\Framework\TranslateInterface
      */
     protected $_translator;
 
@@ -136,7 +136,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     protected $_localeDate;
 
     /**
-     * @var \Magento\Translate\Inline\StateInterface
+     * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
 
@@ -145,7 +145,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $urlBuilder
-     * @param \Magento\TranslateInterface $translator
+     * @param \Magento\Framework\TranslateInterface $translator
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Framework\Session\SessionManagerInterface $session
@@ -158,7 +158,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -167,7 +167,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $urlBuilder,
-        \Magento\TranslateInterface $translator,
+        \Magento\Framework\TranslateInterface $translator,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\Session\SessionManagerInterface $session,
@@ -180,7 +180,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Translate\Inline\StateInterface $inlineTranslation
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
     ) {
         $this->_request = $request;
         $this->_layout = $layout;
@@ -285,7 +285,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     /**
      * Get translator
      *
-     * @return \Magento\TranslateInterface
+     * @return \Magento\Framework\TranslateInterface
      */
     public function getTranslator()
     {
@@ -295,7 +295,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     /**
      * Get inline translation status object
      *
-     * @return \Magento\Translate\Inline\StateInterface
+     * @return \Magento\Framework\Translate\Inline\StateInterface
      */
     public function getInlineTranslation()
     {

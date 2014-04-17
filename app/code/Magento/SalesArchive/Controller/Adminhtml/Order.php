@@ -20,14 +20,14 @@ class Order extends \Magento\Sales\Controller\Adminhtml\Order
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\Translate\InlineInterface $translateInline
+     * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param \Magento\SalesArchive\Model\Archive $archiveModel
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
         \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Translate\InlineInterface $translateInline,
+        \Magento\Framework\Translate\InlineInterface $translateInline,
         \Magento\SalesArchive\Model\Archive $archiveModel
     ) {
         $this->_archiveModel = $archiveModel;

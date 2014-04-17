@@ -12,16 +12,16 @@ namespace Magento\Phrase\Renderer;
 class Translate implements \Magento\Phrase\RendererInterface
 {
     /**
-     * @var \Magento\TranslateInterface
+     * @var \Magento\Framework\TranslateInterface
      */
     protected $translator;
 
     /**
      * Renderer construct
      *
-     * @param \Magento\TranslateInterface $translator
+     * @param \Magento\Framework\TranslateInterface $translator
      */
-    public function __construct(\Magento\TranslateInterface $translator)
+    public function __construct(\Magento\Framework\TranslateInterface $translator)
     {
         $this->translator = $translator;
     }

@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Model\App;
 
-use Magento\Translate\Inline\ConfigInterface;
+use Magento\Framework\Translate\Inline\ConfigInterface;
 
 class Emulation extends \Magento\Object
 {
@@ -27,7 +27,7 @@ class Emulation extends \Magento\Object
     protected $_storeManager;
 
     /**
-     * @var \Magento\TranslateInterface
+     * @var \Magento\Framework\TranslateInterface
      */
     protected $_translate;
 
@@ -54,7 +54,7 @@ class Emulation extends \Magento\Object
     protected $inlineConfig;
 
     /**
-     * @var \Magento\Translate\Inline\StateInterface
+     * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
 
@@ -62,10 +62,10 @@ class Emulation extends \Magento\Object
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Design $design
-     * @param \Magento\TranslateInterface $translate
+     * @param \Magento\Framework\TranslateInterface $translate
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param ConfigInterface $inlineConfig
-     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
@@ -73,10 +73,10 @@ class Emulation extends \Magento\Object
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\View\DesignInterface $viewDesign,
         \Magento\Core\Model\Design $design,
-        \Magento\TranslateInterface $translate,
+        \Magento\Framework\TranslateInterface $translate,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         ConfigInterface $inlineConfig,
-        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {

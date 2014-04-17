@@ -140,7 +140,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $mathRandom = $this->getMock('Magento\Math\Random', array(), array(), '', false, false);
         $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $inlineTranslate = $this->getMock(
-            '\Magento\Translate\Inline\StateInterface',
+            '\Magento\Framework\Translate\Inline\StateInterface',
             array(),
             array(),
             '',

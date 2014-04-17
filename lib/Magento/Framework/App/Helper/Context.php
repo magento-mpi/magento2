@@ -12,7 +12,7 @@ namespace Magento\Framework\App\Helper;
 class Context implements \Magento\Framework\ObjectManager\ContextInterface
 {
     /**
-     * @var \Magento\Translate\InlineInterface
+     * @var \Magento\Framework\Translate\InlineInterface
      */
     protected $translateInline;
 
@@ -58,7 +58,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\Translate\InlineInterface $translateInline
+     * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Framework\App\RequestInterface $httpRequest
      * @param \Magento\Cache\ConfigInterface $cacheConfig
@@ -71,7 +71,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\Translate\InlineInterface $translateInline,
+        \Magento\Framework\Translate\InlineInterface $translateInline,
         \Magento\Module\Manager $moduleManager,
         \Magento\Framework\App\RequestInterface $httpRequest,
         \Magento\Cache\ConfigInterface $cacheConfig,
@@ -92,7 +92,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Translate\InlineInterface
+     * @return \Magento\Framework\Translate\InlineInterface
      */
     public function getTranslateInline()
     {

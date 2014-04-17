@@ -68,7 +68,7 @@ class Validator extends \Magento\Validator\AbstractValidator
     /**
      * Set translator to chain.
      *
-     * @param \Magento\Translate\AdapterInterface|null $translator
+     * @param \Magento\Framework\Translate\AdapterInterface|null $translator
      * @return \Magento\Validator\AbstractValidator
      */
     public function setTranslator($translator = null)

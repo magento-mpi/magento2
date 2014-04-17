@@ -299,7 +299,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
      */
     public function dropAction()
     {
-        $this->_objectManager->get('Magento\Translate\Inline\StateInterface')->suspend();
+        $this->_objectManager->get('Magento\Framework\Translate\Inline\StateInterface')->suspend();
         $this->_objectManager->get(
             'Magento\Framework\App\State'
         )->emulateAreaCode(

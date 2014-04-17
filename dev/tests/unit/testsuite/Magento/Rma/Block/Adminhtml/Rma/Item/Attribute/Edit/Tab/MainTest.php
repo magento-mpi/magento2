@@ -31,7 +31,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\UrlInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $urlInterface;
 
-    /** @var \Magento\TranslateInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\TranslateInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $translateInterface;
 
     /** @var \Magento\Framework\App\CacheInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -70,7 +70,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $timezoneInterface;
 
-    /** @var \Magento\Translate\Inline\StateInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Translate\Inline\StateInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $translateState;
 
     /** @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
@@ -139,7 +139,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->layoutInterface = $this->getMock('Magento\Framework\View\LayoutInterface');
         $this->managerInterface = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $this->urlInterface = $this->getMock('Magento\UrlInterface');
-        $this->translateInterface = $this->getMock('Magento\TranslateInterface');
+        $this->translateInterface = $this->getMock('Magento\Framework\TranslateInterface');
         $this->cacheInterface = $this->getMock('Magento\Framework\App\CacheInterface');
         $this->designInterface = $this->getMock('Magento\Framework\View\DesignInterface');
         $this->session = $this->getMock('Magento\Framework\Session\Generic', [], [], '', false);
@@ -152,7 +152,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->escaper = $this->getMock('Magento\Escaper');
         $this->filterManager = $this->getMock('Magento\Filter\FilterManager', [], [], '', false);
         $this->timezoneInterface = $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface');
-        $this->translateState = $this->getMock('Magento\Translate\Inline\StateInterface');
+        $this->translateState = $this->getMock('Magento\Framework\Translate\Inline\StateInterface');
         $this->appFilesystem = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
         $this->viewFilesystem = $this->getMock('Magento\Framework\View\FileSystem', [], [], '', false);
         $this->templateEnginePool = $this->getMock('Magento\Framework\View\TemplateEnginePool', [], [], '', false);

@@ -22,7 +22,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     protected $_config;
 
     /**
-     * @var \Magento\TranslateInterface
+     * @var \Magento\Framework\TranslateInterface
      */
     protected $_translateAdapter;
 
@@ -32,7 +32,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     protected $_validatorConfig;
 
     /**
-     * @var \Magento\Translate\AdapterInterface|null
+     * @var \Magento\Framework\Translate\AdapterInterface|null
      */
     protected $_defaultTranslator = null;
 
@@ -54,9 +54,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            'Magento\Translate\Adapter'
+            'Magento\Framework\Translate\Adapter'
         )->will(
-            $this->returnValue(new \Magento\Translate\Adapter())
+            $this->returnValue(new \Magento\Framework\Translate\Adapter())
         );
 
         $this->_objectManager->expects(
@@ -88,7 +88,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
         // Translate adapter mock
         $this->_translateAdapter = $this->getMockBuilder(
-            'Magento\TranslateInterface'
+            'Magento\Framework\TranslateInterface'
         )->disableOriginalConstructor()->getMock();
     }
 
@@ -117,7 +117,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         // Check that validator translator was correctly instantiated
         $validatorTranslator = \Magento\Validator\AbstractValidator::getDefaultTranslator();
         $this->assertInstanceOf(
-            'Magento\Translate\Adapter',
+            'Magento\Framework\Translate\Adapter',
             $validatorTranslator,
             'Default validator translate adapter was not set correctly'
         );

@@ -17,7 +17,7 @@ namespace Magento\Validator;
 class ValidatorAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var null|\Magento\Translate\AdapterInterface
+     * @var null|\Magento\Framework\Translate\AdapterInterface
      */
     protected $_defaultTranslator = null;
 
@@ -34,11 +34,11 @@ class ValidatorAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Get translator object
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Translate\AbstractAdapter
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Translate\AbstractAdapter
      */
     protected function _getTranslator()
     {
-        return $this->getMockBuilder('Magento\Translate\AdapterInterface')->getMockForAbstractClass();
+        return $this->getMockBuilder('Magento\Framework\Translate\AdapterInterface')->getMockForAbstractClass();
     }
 
     /**

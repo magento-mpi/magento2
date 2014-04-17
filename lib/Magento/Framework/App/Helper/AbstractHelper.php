@@ -29,7 +29,7 @@ abstract class AbstractHelper
     protected $_request;
 
     /**
-     * @var \Magento\Translate\InlineInterface
+     * @var \Magento\Framework\Translate\InlineInterface
      */
     protected $translateInline;
 

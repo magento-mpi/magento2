@@ -45,13 +45,13 @@ class Factory
      */
     protected function _initializeDefaultTranslator()
     {
-        // Pass translations to \Magento\TranslateInterface from validators
+        // Pass translations to \Magento\Framework\TranslateInterface from validators
         $translatorCallback = function () {
             $argc = func_get_args();
             return (string)new \Magento\Phrase(array_shift($argc), $argc);
         };
-        /** @var \Magento\Translate\Adapter $translator */
-        $translator = $this->_objectManager->create('Magento\Translate\Adapter');
+        /** @var \Magento\Framework\Translate\Adapter $translator */
+        $translator = $this->_objectManager->create('Magento\Framework\Translate\Adapter');
         $translator->setOptions(array('translator' => $translatorCallback));
         \Magento\Validator\AbstractValidator::setDefaultTranslator($translator);
     }

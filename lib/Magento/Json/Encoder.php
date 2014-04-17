@@ -12,14 +12,14 @@ class Encoder implements EncoderInterface
     /**
      * Translator
      *
-     * @var \Magento\Translate\InlineInterface
+     * @var \Magento\Framework\Translate\InlineInterface
      */
     protected $translateInline;
 
     /**
-     * @param \Magento\Translate\InlineInterface $translateInline
+     * @param \Magento\Framework\Translate\InlineInterface $translateInline
      */
-    public function __construct(\Magento\Translate\InlineInterface $translateInline)
+    public function __construct(\Magento\Framework\Translate\InlineInterface $translateInline)
     {
         $this->translateInline = $translateInline;
     }

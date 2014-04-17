@@ -20,7 +20,7 @@ class View extends \Magento\Framework\App\View
      * @param \Magento\Framework\App\ResponseInterface $response
      * @param \Magento\Framework\Config\ScopeInterface $configScope
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Translate\InlineInterface $translateInline
+     * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param \Magento\Framework\App\ActionFlag $actionFlag
      * @param Layout\Filter\Acl $aclFilter
      */
@@ -30,7 +30,7 @@ class View extends \Magento\Framework\App\View
         \Magento\Framework\App\ResponseInterface $response,
         \Magento\Framework\Config\ScopeInterface $configScope,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Translate\InlineInterface $translateInline,
+        \Magento\Framework\Translate\InlineInterface $translateInline,
         \Magento\Framework\App\ActionFlag $actionFlag,
         Layout\Filter\Acl $aclFilter
     ) {

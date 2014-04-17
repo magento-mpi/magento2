@@ -16,20 +16,20 @@ namespace Magento\Backend\Model\Translate;
 class InlineTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Translate\InlineInterface
+     * @var \Magento\Framework\Translate\InlineInterface
      */
     protected $_translateInline;
 
     protected function setUp()
     {
         $this->_translateInline = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Translate\InlineInterface'
+            'Magento\Framework\Translate\InlineInterface'
         );
     }
 
     /**
      * @magentoAdminConfigFixture dev/translate_inline/active_admin 1
-     * @covers \Magento\Translate\Inline::getAjaxUrl
+     * @covers \Magento\Framework\Translate\Inline::getAjaxUrl
      */
     public function testAjaxUrl()
     {

@@ -49,7 +49,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Translator
      *
-     * @var \Magento\TranslateInterface
+     * @var \Magento\Framework\TranslateInterface
      */
     protected $_translator;
 
@@ -144,7 +144,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_localeDate;
 
     /**
-     * @var \Magento\Translate\Inline\StateInterface
+     * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
 

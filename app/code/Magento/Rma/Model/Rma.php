@@ -229,7 +229,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     protected $messageManager;
 
     /**
-     * @var \Magento\Translate\Inline\StateInterface
+     * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
 
@@ -261,7 +261,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Rma\Model\Resource\Rma $resource
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Message\ManagerInterface $messageManager
-     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      *
@@ -295,7 +295,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         \Magento\Rma\Model\Resource\Rma $resource,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Message\ManagerInterface $messageManager,
-        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

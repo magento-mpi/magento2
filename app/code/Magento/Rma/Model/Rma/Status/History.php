@@ -50,7 +50,7 @@ class History extends \Magento\Framework\Model\AbstractModel
     protected $_date;
 
     /**
-     * @var \Magento\Translate\Inline\StateInterface
+     * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
 
@@ -62,7 +62,7 @@ class History extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Rma\Model\Config $rmaConfig
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Stdlib\DateTime\DateTime $date
-     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -75,7 +75,7 @@ class History extends \Magento\Framework\Model\AbstractModel
         \Magento\Rma\Model\Config $rmaConfig,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Stdlib\DateTime\DateTime $date,
-        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

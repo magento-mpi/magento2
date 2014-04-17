@@ -195,7 +195,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getObjectManagerMap($countCustomization)
     {
-        $translate = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
+        $translate = $this->getMock('Magento\Framework\TranslateInterface', array(), array(), '', false);
         $translate->expects($this->any())->method('translate')->will($this->returnSelf());
 
         $storeManager = $this->getMock(
@@ -226,7 +226,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->getMock('Magento\Message\Collection', array(), array(), '', false))
         );
 
-        $inlineMock = $this->getMock('Magento\Translate\Inline', array(), array(), '', false);
+        $inlineMock = $this->getMock('Magento\Framework\Translate\Inline', array(), array(), '', false);
         $aclFilterMock = $this->getMock('Magento\Backend\Model\Layout\Filter\Acl', array(), array(), '', false);
 
         return array(
@@ -234,13 +234,13 @@ class EditorTest extends \PHPUnit_Framework_TestCase
                 'Magento\Core\Model\Resource\Theme\CollectionFactory',
                 $this->_getThemeCollectionFactory($countCustomization)
             ),
-            array('Magento\TranslateInterface', $translate),
+            array('Magento\Framework\TranslateInterface', $translate),
             array('Magento\Framework\App\Config\ScopeConfigInterface', $configMock),
             array('Magento\Framework\Event\ManagerInterface', $eventManager),
             array('Magento\Store\Model\StoreManager', $storeManager),
             array('Magento\Framework\AuthorizationInterface', $authMock),
             array('Magento\Backend\Model\Session', $backendSession),
-            array('Magento\Translate\Inline', $inlineMock),
+            array('Magento\Framework\Translate\Inline', $inlineMock),
             array('Magento\Backend\Model\Layout\Filter\Acl', $aclFilterMock)
         );
     }

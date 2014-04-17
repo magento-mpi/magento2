@@ -21,7 +21,7 @@ return array(
         'Magento\Framework\Model\Resource\Db\Collection\AbstractCollection',
         'Magento_Core_Model_Cache_Type_Collection::CACHE_TAG'
     ),
-    array('CACHE_TAG', 'Magento\Translate', 'Magento_Core_Model_Cache_Type_Translate::CACHE_TAG'),
+    array('CACHE_TAG', 'Magento\Framework\Translate', 'Magento_Core_Model_Cache_Type_Translate::CACHE_TAG'),
     array('CACHE_TAG', 'Magento\Rss\Block\Catalog\NotifyStock'),
     array('CACHE_TAG', 'Magento\Rss\Block\Catalog\Review'),
     array('CACHE_TAG', 'Magento\Rss\Block\Order\NewOrder'),
@@ -577,10 +577,10 @@ return array(
         '\Magento\Catalog\Helper\Category\Flat',
         '\Magento\Catalog\Model\Indexer\Category\Flat\Config::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY'
     ),
-    array('CSV_SEPARATOR', 'Magento\Translate'),
-    array('SCOPE_SEPARATOR', 'Magento\Translate'),
-    array('CONFIG_KEY_AREA', 'Magento\Translate'),
-    array('CONFIG_KEY_LOCALE', 'Magento\Translate'),
-    array('CONFIG_KEY_SCOPE', 'Magento\Translate'),
-    array('CONFIG_KEY_DESIGN_THEME', 'Magento\Translate'),
+    array('CSV_SEPARATOR', 'Magento\Framework\Translate'),
+    array('SCOPE_SEPARATOR', 'Magento\Framework\Translate'),
+    array('CONFIG_KEY_AREA', 'Magento\Framework\Translate'),
+    array('CONFIG_KEY_LOCALE', 'Magento\Framework\Translate'),
+    array('CONFIG_KEY_SCOPE', 'Magento\Framework\Translate'),
+    array('CONFIG_KEY_DESIGN_THEME', 'Magento\Framework\Translate'),
 );

@@ -42,7 +42,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Model\Locale\Manager */
     protected $_managerMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\TranslateInterface */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\TranslateInterface */
     protected $_translatorMock;
 
     protected function setUp()
@@ -102,7 +102,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         )->getMock();
 
         $this->_translatorMock = $this->getMockBuilder(
-            'Magento\TranslateInterface'
+            'Magento\Framework\TranslateInterface'
         )->disableOriginalConstructor()->getMock();
 
         $contextMock = $this->getMock('Magento\Backend\App\Action\Context', array(), array(), '', false);

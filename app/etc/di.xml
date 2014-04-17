@@ -62,7 +62,7 @@
     <preference for="Magento\Framework\View\Design\Theme\Image\PathInterface" type="Magento\Core\Model\Theme\Image\Path" />
     <preference for="Magento\Framework\Session\Config\ConfigInterface" type="Magento\Framework\Session\Config" />
     <preference for="Magento\Framework\Session\SidResolverInterface" type="Magento\Framework\Session\SidResolver\Proxy" />
-    <preference for="Magento\TranslateInterface" type="Magento\Translate" />
+    <preference for="Magento\Framework\TranslateInterface" type="Magento\Framework\Translate" />
     <preference for="Magento\Framework\Config\ScopeListInterface" type="interceptionConfigScope" />
     <preference for="Magento\Framework\View\Design\Theme\Label\ListInterface" type="Magento\Core\Model\Resource\Theme\Collection" />
     <preference for="Magento\Mview\ConfigInterface" type="Magento\Mview\Config" />
@@ -159,17 +159,17 @@
             <argument name="scopeType" xsi:type="init_parameter">Magento\Store\Model\StoreManager::PARAM_RUN_TYPE</argument>
         </arguments>
     </type>
-    <type name="Magento\Translate">
+    <type name="Magento\Framework\Translate">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Translate</argument>
             <argument name="locale" xsi:type="object">Magento\Locale\Resolver\Proxy</argument>
-            <argument name="translate" xsi:type="object">Magento\Translate\ResourceInterface\Proxy</argument>
+            <argument name="translate" xsi:type="object">Magento\Framework\Translate\ResourceInterface\Proxy</argument>
             <argument name="request" xsi:type="object">Magento\Framework\App\Request\Http\Proxy</argument>
         </arguments>
     </type>
      <type name="Magento\Framework\App\Helper\Context">
         <arguments>
-            <argument name="translateInline" xsi:type="object">Magento\Translate\InlineInterface\Proxy</argument>
+            <argument name="translateInline" xsi:type="object">Magento\Framework\Translate\InlineInterface\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Data\Structure" shared="false" />
@@ -366,9 +366,9 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Translate\Inline">
+    <type name="Magento\Framework\Translate\Inline">
         <arguments>
-            <argument name="parser" xsi:type="object">Magento\Translate\Inline\ParserInterface\Proxy</argument>
+            <argument name="parser" xsi:type="object">Magento\Framework\Translate\Inline\ParserInterface\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\View\Layout\ScheduledStructure" shared="false" />

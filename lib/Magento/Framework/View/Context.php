@@ -9,7 +9,7 @@ namespace Magento\Framework\View;
 
 use Magento\Framework\App\Request\Http as Request;
 use Magento\Framework\App\FrontControllerInterface;
-use Magento\TranslateInterface;
+use Magento\Framework\TranslateInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\View\Url as ViewUrl;
 use Magento\Framework\View\ConfigInterface as ViewConfig;
@@ -56,7 +56,7 @@ class Context
     /**
      * Translator
      *
-     * @var \Magento\TranslateInterface
+     * @var \Magento\Framework\TranslateInterface
      */
     protected $translator;
 
@@ -277,7 +277,7 @@ class Context
     /**
      * Retrieve translator
      *
-     * @return \Magento\TranslateInterface
+     * @return \Magento\Framework\TranslateInterface
      */
     public function getTranslator()
     {

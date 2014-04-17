@@ -12,12 +12,12 @@ namespace Magento\Validator;
 abstract class AbstractValidator implements \Magento\Validator\ValidatorInterface
 {
     /**
-     * @var \Magento\Translate\AdapterInterface|null
+     * @var \Magento\Framework\Translate\AdapterInterface|null
      */
     protected static $_defaultTranslator = null;
 
     /**
-     * @var \Magento\Translate\AdapterInterface|null
+     * @var \Magento\Framework\Translate\AdapterInterface|null
      */
     protected $_translator = null;
 
@@ -31,10 +31,10 @@ abstract class AbstractValidator implements \Magento\Validator\ValidatorInterfac
     /**
      * Set default translator instance
      *
-     * @param \Magento\Translate\AdapterInterface|null $translator
+     * @param \Magento\Framework\Translate\AdapterInterface|null $translator
      * @return void
      */
-    public static function setDefaultTranslator(\Magento\Translate\AdapterInterface $translator = null)
+    public static function setDefaultTranslator(\Magento\Framework\Translate\AdapterInterface $translator = null)
     {
         self::$_defaultTranslator = $translator;
     }
@@ -42,7 +42,7 @@ abstract class AbstractValidator implements \Magento\Validator\ValidatorInterfac
     /**
      * Get default translator
      *
-     * @return \Magento\Translate\AdapterInterface|null
+     * @return \Magento\Framework\Translate\AdapterInterface|null
      */
     public static function getDefaultTranslator()
     {
@@ -52,7 +52,7 @@ abstract class AbstractValidator implements \Magento\Validator\ValidatorInterfac
     /**
      * Set translator instance
      *
-     * @param \Magento\Translate\AdapterInterface|null $translator
+     * @param \Magento\Framework\Translate\AdapterInterface|null $translator
      * @return \Magento\Validator\AbstractValidator
      */
     public function setTranslator($translator = null)
@@ -64,7 +64,7 @@ abstract class AbstractValidator implements \Magento\Validator\ValidatorInterfac
     /**
      * Get translator
      *
-     * @return \Magento\Translate\AdapterInterface|null
+     * @return \Magento\Framework\Translate\AdapterInterface|null
      */
     public function getTranslator()
     {

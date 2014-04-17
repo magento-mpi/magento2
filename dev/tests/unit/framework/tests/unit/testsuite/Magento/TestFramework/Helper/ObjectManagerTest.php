@@ -21,7 +21,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         'request' => 'Magento\Framework\App\RequestInterface',
         'layout' => 'Magento\Framework\View\LayoutInterface',
         'eventManager' => 'Magento\Framework\Event\ManagerInterface',
-        'translator' => 'Magento\TranslateInterface',
+        'translator' => 'Magento\Framework\TranslateInterface',
         'cache' => 'Magento\Framework\App\CacheInterface',
         'design' => 'Magento\Framework\View\DesignInterface',
         'session' => 'Magento\Framework\Session\SessionManagerInterface',

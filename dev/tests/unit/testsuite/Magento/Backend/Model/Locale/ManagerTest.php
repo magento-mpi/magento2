@@ -18,7 +18,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\TranslateInterface
+     * @var \Magento\Framework\TranslateInterface
      */
     protected $_translator;
 
@@ -48,7 +48,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->_authSession->expects($this->any())->method('getUser')->will($this->returnValue($userMock));
 
-        $this->_translator = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
+        $this->_translator = $this->getMock('Magento\Framework\TranslateInterface', array(), array(), '', false);
 
         $this->_translator->expects($this->any())->method('setLocale')->will($this->returnValue($this->_translator));
 

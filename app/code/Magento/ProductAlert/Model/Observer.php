@@ -114,7 +114,7 @@ class Observer
     protected $_emailFactory;
 
     /**
-     * @var \Magento\Translate\Inline\StateInterface
+     * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
 
@@ -129,7 +129,7 @@ class Observer
      * @param \Magento\ProductAlert\Model\Resource\Stock\CollectionFactory $stockColFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\ProductAlert\Model\EmailFactory $emailFactory
-     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
@@ -142,7 +142,7 @@ class Observer
         \Magento\ProductAlert\Model\Resource\Stock\CollectionFactory $stockColFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\ProductAlert\Model\EmailFactory $emailFactory,
-        \Magento\Translate\Inline\StateInterface $inlineTranslation
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
     ) {
         $this->_taxData = $taxData;
         $this->_scopeConfig = $scopeConfig;
