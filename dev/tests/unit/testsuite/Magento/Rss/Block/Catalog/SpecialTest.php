@@ -8,6 +8,8 @@
 
 namespace Magento\Rss\Block\Catalog;
 
+use \Magento\Pricing\PriceCurrencyInterface;
+
 /**
  * Test for rendering price html in rss templates
  *
@@ -163,9 +165,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
             'link' => $productUrl,
             'description' => $productDescription
         ];
-        $expectedResult = new \Magento\Object([
-            'rss_feed' => '<xml>Feed of the rss</xml>'
-        ]);
+        $expectedResult = new \Magento\Object(['rss_feed' => '<xml>Feed of the rss</xml>']);
 
         $this->addMocks();
         $this->productFactoryMock->expects($this->once())
@@ -205,22 +205,8 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
             ->method('convertAndFormat')
             ->will($this->returnValueMap(
                 [
-                    [
-                        10,
-                        true,
-                        \Magento\Pricing\PriceCurrencyInterface::DEFAULT_PRECISION,
-                        null,
-                        null,
-                        $basePriceFormatted
-                    ],
-                    [
-                        20,
-                        true,
-                        \Magento\Pricing\PriceCurrencyInterface::DEFAULT_PRECISION,
-                        null,
-                        null,
-                        $finalPriceFormatted
-                    ],
+                    [10, true, PriceCurrencyInterface::DEFAULT_PRECISION, null, null, $basePriceFormatted],
+                    [20, true, PriceCurrencyInterface::DEFAULT_PRECISION, null, null, $finalPriceFormatted],
                 ]
             )
         );
@@ -231,7 +217,6 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $rssObjMock->expects($this->once())
             ->method('createRssXml')
             ->will($this->returnValue($expectedResult));
-
         $this->assertEquals($expectedResult, $this->block->toHtml());
     }
 
@@ -242,11 +227,14 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
      */
     protected function addMocks()
     {
-        $resIteratorcallback = function ($select, $callbacks, $args) {
-            $args['results'] = [
+
+        $resIteratorcallback = function () {
+            $arguments = func_get_args();
+            $arguments[2]['results'] = [
                 ['use_special' => false, 'price' => 10, 'final_price' => 20]
             ];
         };
+        $select = null;
 
         $this->storeMock->expects($this->once())
             ->method('getWebsiteId')
