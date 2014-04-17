@@ -40,10 +40,10 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\View\DesignInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $designInterface;
 
-    /** @var \Magento\Session\Generic|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Session\Generic|\PHPUnit_Framework_MockObject_MockObject */
     protected $session;
 
-    /** @var \Magento\Session\SidResolverInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Session\SidResolverInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $sidResolverInterface;
 
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -142,8 +142,8 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->translateInterface = $this->getMock('Magento\TranslateInterface');
         $this->cacheInterface = $this->getMock('Magento\Framework\App\CacheInterface');
         $this->designInterface = $this->getMock('Magento\Framework\View\DesignInterface');
-        $this->session = $this->getMock('Magento\Session\Generic', [], [], '', false);
-        $this->sidResolverInterface = $this->getMock('Magento\Session\SidResolverInterface');
+        $this->session = $this->getMock('Magento\Framework\Session\Generic', [], [], '', false);
+        $this->sidResolverInterface = $this->getMock('Magento\Framework\Session\SidResolverInterface');
         $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->url = $this->getMock('Magento\Framework\View\Url', [], [], '', false);
         $this->configInterface = $this->getMock('Magento\Framework\View\ConfigInterface');

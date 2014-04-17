@@ -48,7 +48,7 @@ class StorageFactory
     protected $_log;
 
     /**
-     * @var \Magento\Session\SidResolverInterface
+     * @var \Magento\Framework\Session\SidResolverInterface
      */
     protected $_sidResolver;
 
@@ -76,7 +76,7 @@ class StorageFactory
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Logger $logger
-     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Framework\App\Http\Context $httpContext
@@ -89,7 +89,7 @@ class StorageFactory
         \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Logger $logger,
-        \Magento\Session\SidResolverInterface $sidResolver,
+        \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\Framework\App\State $appState,
         \Magento\Stdlib\Cookie $cookie,
         \Magento\Framework\App\Http\Context $httpContext,
@@ -136,7 +136,7 @@ class StorageFactory
             if ($className === $this->_installedStoreClassName) {
                 $this->_reinitStores($storage, $arguments);
                 $useSid = $this->_scopeConfig->isSetFlag(
-                    \Magento\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
+                    \Magento\Framework\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $storage->getStore()
                 );

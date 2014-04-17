@@ -22,16 +22,18 @@ class FormKey
     protected $mathRandom;
 
     /**
-     * @var \Magento\Session\SessionManagerInterface
+     * @var \Magento\Framework\Session\SessionManagerInterface
      */
     protected $session;
 
     /**
      * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\Session\SessionManagerInterface $session
      */
-    public function __construct(\Magento\Math\Random $mathRandom, \Magento\Session\SessionManagerInterface $session)
-    {
+    public function __construct(
+        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Session\SessionManagerInterface $session
+    ) {
         $this->mathRandom = $mathRandom;
         $this->session = $session;
     }

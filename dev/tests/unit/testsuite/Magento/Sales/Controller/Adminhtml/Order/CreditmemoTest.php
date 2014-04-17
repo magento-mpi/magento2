@@ -51,7 +51,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManager->getConstructArguments(
             'Magento\Backend\Model\Session',
-            array('storage' => new \Magento\Session\Storage())
+            array('storage' => new \Magento\Framework\Session\Storage())
         );
         $this->_sessionMock = $this->getMock(
             'Magento\Backend\Model\Session',

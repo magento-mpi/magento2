@@ -64,7 +64,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->setRequest($request);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Session\SessionManagerInterface'
+            'Magento\Framework\Session\SessionManagerInterface'
         )->setData(
             '_form_key',
             'salt'
@@ -146,7 +146,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $request->initForward()->setControllerName(uniqid())->setActionName(uniqid());
         $this->_model->setRequest($request);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Session\SessionManagerInterface'
+            'Magento\Framework\Session\SessionManagerInterface'
         )->setData(
             '_form_key',
             'salt'

@@ -28,7 +28,7 @@ class ObjectManager extends \Magento\Framework\App\ObjectManager
         'Magento\Framework\ObjectManager\Config',
         'Magento\Interception\Definition',
         'Magento\Framework\ObjectManager\Definition',
-        'Magento\Session\Config',
+        'Magento\Framework\Session\Config',
         'Magento\Framework\ObjectManager\Config\Mapper\Dom'
     );
 

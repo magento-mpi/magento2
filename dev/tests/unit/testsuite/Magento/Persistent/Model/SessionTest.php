@@ -15,7 +15,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Session\Config\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Session\Config\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
@@ -27,7 +27,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_configMock = $this->getMock('Magento\Session\Config\ConfigInterface');
+        $this->_configMock = $this->getMock('Magento\Framework\Session\Config\ConfigInterface');
         $this->_cookieMock = $this->getMock('Magento\Stdlib\Cookie', array(), array(), '', false);
         $resourceMock = $this->getMockForAbstractClass('Magento\Framework\Model\Resource\Db\AbstractDb',
             array(), '', false, false, true,

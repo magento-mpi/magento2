@@ -16,7 +16,7 @@ use Magento\Framework\View\ConfigInterface as ViewConfig;
 use Magento\Logger;
 use Magento\Framework\App\State as AppState;
 use Magento\Framework\View\LayoutInterface;
-use Magento\Session\SessionManager;
+use Magento\Framework\Session\SessionManager;
 use Magento\Framework\App\CacheInterface as Cache;
 use Magento\Framework\App\Cache\StateInterface as CacheState;
 use Magento\UrlInterface;
@@ -77,7 +77,7 @@ class Context
     /**
      * Session
      *
-     * @var \Magento\Session\SessionManagerInterface
+     * @var \Magento\Framework\Session\SessionManagerInterface
      */
     protected $session;
 
@@ -257,7 +257,7 @@ class Context
     /**
      * Retrieve session
      *
-     * @return \Magento\Session\SessionManagerInterface
+     * @return \Magento\Framework\Session\SessionManagerInterface
      */
     public function getSession()
     {

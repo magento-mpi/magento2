@@ -35,12 +35,12 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected $queryParamsResolverMock;
 
     /**
-     * @var \Magento\Session\SidResolverInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Session\SidResolverInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $sidResolverMock;
 
     /**
-     * @var \Magento\Session\Generic|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Session\Generic|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $sessionMock;
 
@@ -56,8 +56,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->scopeResolverMock = $this->getMock('Magento\Url\ScopeResolverInterface');
         $this->scopeMock = $this->getMock('Magento\Url\ScopeInterface');
         $this->queryParamsResolverMock = $this->getMock('Magento\Url\QueryParamsResolverInterface', [], [], '', false);
-        $this->sidResolverMock = $this->getMock('Magento\Session\SidResolverInterface');
-        $this->sessionMock = $this->getMock('Magento\Session\Generic', [], [], '', false);
+        $this->sidResolverMock = $this->getMock('Magento\Framework\Session\SidResolverInterface');
+        $this->sessionMock = $this->getMock('Magento\Framework\Session\Generic', [], [], '', false);
         $this->scopeConfig = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
     }
 

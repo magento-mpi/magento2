@@ -85,7 +85,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
     protected $_checkoutFactory;
 
     /**
-     * @var \Magento\Session\Generic
+     * @var \Magento\Framework\Session\Generic
      */
     protected $_paypalSession;
 
@@ -96,7 +96,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
-     * @param \Magento\Session\Generic $paypalSession
+     * @param \Magento\Framework\Session\Generic $paypalSession
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -105,7 +105,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
-        \Magento\Session\Generic $paypalSession
+        \Magento\Framework\Session\Generic $paypalSession
     ) {
         $this->_customerSession = $customerSession;
         $this->_quoteFactory = $quoteFactory;
@@ -536,7 +536,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
     /**
      * PayPal session instance getter
      *
-     * @return \Magento\Session\Generic
+     * @return \Magento\Framework\Session\Generic
      */
     private function _getSession()
     {

@@ -22,7 +22,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $plugin;
 
     /**
-     * @var \Magento\Session\SessionManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Session\SessionManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $sessionMock;
 
@@ -76,7 +76,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->sessionMock = $this->getMock('Magento\Session\Generic',
+        $this->sessionMock = $this->getMock('Magento\Framework\Session\Generic',
             array('getCurrencyCode'), array(), '', false);
         $this->httpContextMock = $this->getMock('Magento\Framework\App\Http\Context',
             array(), array(), '', false);

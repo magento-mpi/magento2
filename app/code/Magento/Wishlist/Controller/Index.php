@@ -558,7 +558,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             $item->setQty($qty);
         }
 
-        /* @var $session \Magento\Session\Generic */
+        /* @var $session \Magento\Framework\Session\Generic */
         $session = $this->_objectManager->get('Magento\Wishlist\Model\Session');
         $cart = $this->_objectManager->get('Magento\Checkout\Model\Cart');
 

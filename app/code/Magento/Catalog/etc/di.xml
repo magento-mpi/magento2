@@ -117,7 +117,7 @@
             <argument name="catalogSession" xsi:type="object">Magento\Catalog\Model\Session\Proxy</argument>
         </arguments>
     </type>
-    <virtualType name="Magento\Catalog\Model\Session\Storage" type="Magento\Session\Storage">
+    <virtualType name="Magento\Catalog\Model\Session\Storage" type="Magento\Framework\Session\Storage">
         <arguments>
             <argument name="namespace" xsi:type="string">catalog</argument>
         </arguments>

@@ -68,7 +68,7 @@ lib/Magento/Framework/App/Helper/AbstractHelper.php
 lib/Magento/Framework/App/Helper/Context.php
 
 lib/Magento/Framework/View/DesignLoader.php
-lib/Magento/Session/SidResolverInterface.php
+lib/Magento/Framework/Session/SidResolverInterface.php
 
 lib/Magento/Framework/App/Filesystem/DirectoryList/Configuration.php
 lib/Magento/Framework/Filesystem/Driver/Http.php

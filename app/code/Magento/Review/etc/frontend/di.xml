@@ -8,12 +8,12 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
-    <virtualType name="Magento\Review\Model\Session\Storage" type="Magento\Session\Storage">
+    <virtualType name="Magento\Review\Model\Session\Storage" type="Magento\Framework\Session\Storage">
         <arguments>
             <argument name="namespace" xsi:type="string">review</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Magento\Review\Model\Session" type="Magento\Session\Generic">
+    <virtualType name="Magento\Review\Model\Session" type="Magento\Framework\Session\Generic">
         <arguments>
             <argument name="storage" xsi:type="object">Magento\Review\Model\Session\Storage</argument>
             <argument name="sessionName" xsi:type="string">frontend</argument>

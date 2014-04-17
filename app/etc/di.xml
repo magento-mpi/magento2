@@ -60,8 +60,8 @@
     <preference for="Magento\Framework\View\Design\Theme\CustomizationInterface" type="Magento\Framework\View\Design\Theme\Customization" />
     <preference for="Magento\Image\Adapter\ConfigInterface" type="Magento\Image\Adapter\Config" />
     <preference for="Magento\Framework\View\Design\Theme\Image\PathInterface" type="Magento\Core\Model\Theme\Image\Path" />
-    <preference for="Magento\Session\Config\ConfigInterface" type="Magento\Session\Config" />
-    <preference for="Magento\Session\SidResolverInterface" type="Magento\Session\SidResolver\Proxy" />
+    <preference for="Magento\Framework\Session\Config\ConfigInterface" type="Magento\Framework\Session\Config" />
+    <preference for="Magento\Framework\Session\SidResolverInterface" type="Magento\Framework\Session\SidResolver\Proxy" />
     <preference for="Magento\TranslateInterface" type="Magento\Translate" />
     <preference for="Magento\Framework\Config\ScopeListInterface" type="interceptionConfigScope" />
     <preference for="Magento\Framework\View\Design\Theme\Label\ListInterface" type="Magento\Core\Model\Resource\Theme\Collection" />
@@ -90,16 +90,16 @@
         </arguments>
     </type>
     <preference for="Magento\Error\HandlerInterface" type="Magento\Framework\App\Error\Handler" />
-    <preference for="Magento\Session\SaveHandlerInterface" type="Magento\Session\SaveHandler" />
-    <type name="Magento\Session\SaveHandler">
+    <preference for="Magento\Framework\Session\SaveHandlerInterface" type="Magento\Framework\Session\SaveHandler" />
+    <type name="Magento\Framework\Session\SaveHandler">
         <arguments>
-            <argument name="saveMethod" xsi:type="init_parameter">Magento\Session\Config::PARAM_SESSION_SAVE_METHOD</argument>
+            <argument name="saveMethod" xsi:type="init_parameter">Magento\Framework\Session\Config::PARAM_SESSION_SAVE_METHOD</argument>
         </arguments>
     </type>
-    <type name="Magento\Session\SaveHandlerFactory">
+    <type name="Magento\Framework\Session\SaveHandlerFactory">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="db" xsi:type="string">Magento\Session\SaveHandler\DbTable</item>
+                <item name="db" xsi:type="string">Magento\Framework\Session\SaveHandler\DbTable</item>
             </argument>
         </arguments>
     </type>
@@ -240,7 +240,7 @@
     </type>
     <type name="Magento\Url">
         <arguments>
-            <argument name="session" xsi:type="object">Magento\Session\Generic\Proxy</argument>
+            <argument name="session" xsi:type="object">Magento\Framework\Session\Generic\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\View\Url">

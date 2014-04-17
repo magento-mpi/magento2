@@ -37,7 +37,7 @@ class Lock extends \Magento\Framework\Model\AbstractModel
     /**
      * Session model instance
      *
-     * @var \Magento\Session\SessionManagerInterface
+     * @var \Magento\Framework\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -89,10 +89,10 @@ class Lock extends \Magento\Framework\Model\AbstractModel
     /**
      * Setter for session instance
      *
-     * @param \Magento\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @return $this
      */
-    public function setSession(\Magento\Session\SessionManagerInterface $session)
+    public function setSession(\Magento\Framework\Session\SessionManagerInterface $session)
     {
         $this->_session = $session;
         return $this;
@@ -101,7 +101,7 @@ class Lock extends \Magento\Framework\Model\AbstractModel
     /**
      * Getter for session instance
      *
-     * @return \Magento\Session\SessionManagerInterface
+     * @return \Magento\Framework\Session\SessionManagerInterface
      */
     protected function _getSession()
     {

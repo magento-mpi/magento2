@@ -263,7 +263,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Session
      *
-     * @var \Magento\Session\SessionManagerInterface
+     * @var \Magento\Framework\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -308,7 +308,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * @param \Magento\Authorizenet\Model\Authorizenet\RequestFactory $requestFactory
      * @param \Magento\Authorizenet\Model\Authorizenet\ResultFactory $resultFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Authorizenet\Helper\Data $authorizenetData
      * @param array $data
      *
@@ -327,7 +327,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
         \Magento\Authorizenet\Model\Authorizenet\RequestFactory $requestFactory,
         \Magento\Authorizenet\Model\Authorizenet\ResultFactory $resultFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Session\SessionManagerInterface $session,
+        \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Authorizenet\Helper\Data $authorizenetData,
         array $data = array()
     ) {
