@@ -125,7 +125,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     /**
      * Magento Object Manager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -137,7 +137,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      * @param \Magento\Install\Model\Installer\Data $installerData
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Locale\ListsInterface $localeLists
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
@@ -147,7 +147,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
         \Magento\Install\Model\Installer\Data $installerData,
         \Magento\Framework\App\State $appState,
         \Magento\Locale\ListsInterface $localeLists,
-        \Magento\ObjectManager $objectManager
+        \Magento\Framework\ObjectManager $objectManager
     ) {
         parent::__construct($installer);
         $this->_resourceConfig = $resourceConfig;

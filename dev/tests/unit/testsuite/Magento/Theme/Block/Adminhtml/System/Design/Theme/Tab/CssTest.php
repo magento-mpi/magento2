@@ -18,7 +18,7 @@ class CssTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -38,7 +38,7 @@ class CssTest extends \PHPUnit_Framework_TestCase
      */
     protected function _prepareModelArguments()
     {
-        $this->_objectManager = $this->getMock('Magento\ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManager');
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments(

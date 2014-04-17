@@ -7,7 +7,7 @@
  */
 namespace Magento\Image;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 class Factory
 {

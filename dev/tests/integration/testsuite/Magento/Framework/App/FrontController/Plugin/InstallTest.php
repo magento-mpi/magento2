@@ -10,7 +10,7 @@ namespace Magento\Framework\App\FrontController\Plugin;
 class InstallTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 

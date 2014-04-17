@@ -13,7 +13,7 @@ namespace Magento\PayPalRecurringPayment\Model;
 class IpnTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 

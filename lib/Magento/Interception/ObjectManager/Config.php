@@ -9,7 +9,7 @@
  */
 namespace Magento\Interception\ObjectManager;
 
-class Config extends \Magento\ObjectManager\Config\Config
+class Config extends \Magento\Framework\ObjectManager\Config\Config
 {
     /**
      * @var \Magento\Interception\Config

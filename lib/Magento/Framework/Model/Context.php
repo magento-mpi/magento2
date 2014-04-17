@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Model;
 
-class Context implements \Magento\ObjectManager\ContextInterface
+class Context implements \Magento\Framework\ObjectManager\ContextInterface
 {
     /**
      * @var \Magento\Framework\Event\ManagerInterface

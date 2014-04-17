@@ -16,9 +16,9 @@ use Magento\Framework\Config\Data\Scoped;
 use Magento\Interception\Definition;
 use Magento\Interception\PluginList as InterceptionPluginList;
 use Magento\Interception\ObjectManager\Config;
-use Magento\ObjectManager\Relations;
-use Magento\ObjectManager\Definition as ClassDefinitions;
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager\Relations;
+use Magento\Framework\ObjectManager\Definition as ClassDefinitions;
+use Magento\Framework\ObjectManager;
 use Zend\Soap\Exception\InvalidArgumentException;
 
 class PluginList extends Scoped implements InterceptionPluginList
@@ -66,7 +66,7 @@ class PluginList extends Scoped implements InterceptionPluginList
     protected $_classDefinitions;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 

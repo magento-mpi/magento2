@@ -10,7 +10,7 @@ namespace Magento\Framework\View\Layout\Argument\Interpreter\Decorator;
 class UpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -26,7 +26,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento\ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManager');
         $this->_interpreter = $this->getMockForAbstractClass('Magento\Framework\Data\Argument\InterpreterInterface');
         $this->_model = new Updater($this->_objectManager, $this->_interpreter);
     }
@@ -114,7 +114,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     {
         $input = array(
             'value' => 'some text',
-            'updater' => array('Magento\Framework\View\Layout\Argument\UpdaterInterface', 'Magento\ObjectManager')
+            'updater' => array('Magento\Framework\View\Layout\Argument\UpdaterInterface', 'Magento\Framework\ObjectManager')
         );
         $self = $this;
         $this->_objectManager->expects($this->exactly(2))->method('get')->will(

@@ -30,7 +30,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
     protected $_sessionMock;
 
     /**
-     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -58,7 +58,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
             array('setFormData'),
             $constructArguments
         );
-        $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManager', array(), array(), '', false);
         $registryMock = $this->getMock('Magento\Registry', array(), array(), '', false, false);
         $this->_objectManager->expects(
             $this->any()

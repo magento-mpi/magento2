@@ -104,7 +104,7 @@ class Processor
     /**
      * Object manager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -141,7 +141,7 @@ class Processor
      * @param \Magento\Logging\Model\Handler\Models $modelsHandler
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Message\ManagerInterface $messageManager
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Logger $logger
      * @param \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory
      * @param \Magento\Logging\Model\EventFactory $eventFactory
@@ -153,7 +153,7 @@ class Processor
         \Magento\Logging\Model\Handler\Models $modelsHandler,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Message\ManagerInterface $messageManager,
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\Logger $logger,
         \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory,
         \Magento\Logging\Model\EventFactory $eventFactory,

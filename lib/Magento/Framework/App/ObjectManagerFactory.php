@@ -24,7 +24,7 @@ class ObjectManagerFactory
      *
      * @var string
      */
-    protected $_locatorClassName = 'Magento\ObjectManager\ObjectManager';
+    protected $_locatorClassName = 'Magento\Framework\ObjectManager\ObjectManager';
 
     /**
      * Config class name
@@ -36,7 +36,7 @@ class ObjectManagerFactory
     /**
      * Factory
      *
-     * @var \Magento\ObjectManager\Factory
+     * @var \Magento\Framework\ObjectManager\Factory
      */
     protected $factory;
 
@@ -45,7 +45,7 @@ class ObjectManagerFactory
      *
      * @param string $rootDir
      * @param array $arguments
-     * @return \Magento\ObjectManager\ObjectManager
+     * @return \Magento\Framework\ObjectManager\ObjectManager
      * @throws \Magento\BootstrapException
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -62,7 +62,7 @@ class ObjectManagerFactory
 
         $appArguments = $this->createAppArguments($directoryList, $arguments);
 
-        $definitionFactory = new \Magento\ObjectManager\DefinitionFactory(
+        $definitionFactory = new \Magento\Framework\ObjectManager\DefinitionFactory(
             new \Magento\Framework\Filesystem\Driver\File(),
             $directoryList->getDir(Filesystem::DI_DIR),
             $directoryList->getDir(Filesystem::GENERATION_DIR),
@@ -72,21 +72,21 @@ class ObjectManagerFactory
         $definitions = $definitionFactory->createClassDefinition($appArguments->get('definitions'));
         $relations = $definitionFactory->createRelations();
         $configClass = $this->_configClassName;
-        /** @var \Magento\ObjectManager\Config\Config $diConfig */
+        /** @var \Magento\Framework\ObjectManager\Config\Config $diConfig */
         $diConfig = new $configClass($relations, $definitions);
         $appMode = $appArguments->get(State::PARAM_MODE, State::MODE_DEFAULT);
 
         $booleanUtils = new \Magento\Stdlib\BooleanUtils();
         $argInterpreter = $this->createArgumentInterpreter($booleanUtils);
 
-        $argumentMapper = new \Magento\ObjectManager\Config\Mapper\Dom($argInterpreter);
+        $argumentMapper = new \Magento\Framework\ObjectManager\Config\Mapper\Dom($argInterpreter);
         $configData = $this->_loadPrimaryConfig($directoryList, $argumentMapper, $appMode);
 
         if ($configData) {
             $diConfig->extend($configData);
         }
 
-        $this->factory = new \Magento\ObjectManager\Factory\Factory(
+        $this->factory = new \Magento\Framework\ObjectManager\Factory\Factory(
             $diConfig,
             null,
             $definitions,
@@ -99,16 +99,16 @@ class ObjectManagerFactory
             'Magento\Framework\App\Arguments' => $appArguments,
             'Magento\Framework\App\Filesystem\DirectoryList' => $directoryList,
             'Magento\Framework\Filesystem\DirectoryList' => $directoryList,
-            'Magento\ObjectManager\Relations' => $relations,
+            'Magento\Framework\ObjectManager\Relations' => $relations,
             'Magento\Interception\Definition' => $definitionFactory->createPluginDefinition(),
-            'Magento\ObjectManager\Config' => $diConfig,
-            'Magento\ObjectManager\Definition' => $definitions,
+            'Magento\Framework\ObjectManager\Config' => $diConfig,
+            'Magento\Framework\ObjectManager\Definition' => $definitions,
             'Magento\Stdlib\BooleanUtils' => $booleanUtils,
-            'Magento\ObjectManager\Config\Mapper\Dom' => $argumentMapper,
+            'Magento\Framework\ObjectManager\Config\Mapper\Dom' => $argumentMapper,
             $configClass => $diConfig
         ];
 
-        /** @var \Magento\ObjectManager $objectManager */
+        /** @var \Magento\Framework\ObjectManager $objectManager */
         $objectManager = new $className($this->factory, $diConfig, $sharedInstances);
 
         $this->factory->setObjectManager($objectManager);
@@ -173,7 +173,7 @@ class ObjectManagerFactory
                 'const' => $constInterpreter,
                 'init_parameter' => new \Magento\Framework\App\Arguments\ArgumentInterpreter($constInterpreter)
             ],
-            \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
+            \Magento\Framework\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
         );
         // Add interpreters that reference the composite
         $result->addInterpreter('array', new \Magento\Framework\Data\Argument\Interpreter\ArrayType($result));
@@ -181,10 +181,10 @@ class ObjectManagerFactory
     }
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @return void
      */
-    protected function configureDirectories(\Magento\ObjectManager $objectManager)
+    protected function configureDirectories(\Magento\Framework\ObjectManager $objectManager)
     {
         $directoryList = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
         $directoryListConfig = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList\Configuration');
@@ -212,10 +212,10 @@ class ObjectManagerFactory
                 ),
                 new \Magento\Framework\Config\FileIteratorFactory()
             );
-            $schemaLocator = new \Magento\ObjectManager\Config\SchemaLocator();
+            $schemaLocator = new \Magento\Framework\ObjectManager\Config\SchemaLocator();
             $validationState = new \Magento\Framework\App\Arguments\ValidationState($appMode);
 
-            $reader = new \Magento\ObjectManager\Config\Reader\Dom(
+            $reader = new \Magento\Framework\ObjectManager\Config\Reader\Dom(
                 $fileResolver,
                 $argumentMapper,
                 $schemaLocator,
@@ -231,19 +231,19 @@ class ObjectManagerFactory
     /**
      * Crete plugin list object
      *
-     * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\ObjectManager\Relations $relations
-     * @param \Magento\ObjectManager\DefinitionFactory $definitionFactory
-     * @param \Magento\ObjectManager\Config\Config $diConfig
-     * @param \Magento\ObjectManager\Definition $definitions
+     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager\Relations $relations
+     * @param \Magento\Framework\ObjectManager\DefinitionFactory $definitionFactory
+     * @param \Magento\Framework\ObjectManager\Config\Config $diConfig
+     * @param \Magento\Framework\ObjectManager\Definition $definitions
      * @return \Magento\Interception\PluginList\PluginList
      */
     protected function _createPluginList(
-        \Magento\ObjectManager $objectManager,
-        \Magento\ObjectManager\Relations $relations,
-        \Magento\ObjectManager\DefinitionFactory $definitionFactory,
-        \Magento\ObjectManager\Config\Config $diConfig,
-        \Magento\ObjectManager\Definition $definitions
+        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager\Relations $relations,
+        \Magento\Framework\ObjectManager\DefinitionFactory $definitionFactory,
+        \Magento\Framework\ObjectManager\Config\Config $diConfig,
+        \Magento\Framework\ObjectManager\Definition $definitions
     ) {
         return $objectManager->create(
             'Magento\Interception\PluginList\PluginList',
@@ -252,7 +252,7 @@ class ObjectManagerFactory
                 'definitions' => $definitionFactory->createPluginDefinition(),
                 'omConfig' => $diConfig,
                 'classDefinitions' => $definitions instanceof
-                \Magento\ObjectManager\Definition\Compiled ? $definitions : null
+                \Magento\Framework\ObjectManager\Definition\Compiled ? $definitions : null
             ]
         );
     }

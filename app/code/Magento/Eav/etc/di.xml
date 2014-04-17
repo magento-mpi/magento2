@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\Eav\Model\Entity\Setup\PropertyMapperInterface" type="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite" />
     <type name="Magento\Eav\Model\Resource\Helper">
         <arguments>

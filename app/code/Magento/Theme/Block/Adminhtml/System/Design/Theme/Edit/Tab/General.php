@@ -37,7 +37,7 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\View\Design\Theme\Image\PathInterface $themeImagePath
      * @param \Magento\File\Size $fileSize
      * @param array $data
@@ -46,7 +46,7 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\View\Design\Theme\Image\PathInterface $themeImagePath,
         \Magento\File\Size $fileSize,
         array $data = array()

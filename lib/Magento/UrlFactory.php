@@ -10,7 +10,7 @@ namespace Magento;
 class UrlFactory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -20,10 +20,10 @@ class UrlFactory
     protected $_instanceName = null;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param string $instanceName
      */
-    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento\UrlInterface')
+    public function __construct(\Magento\Framework\ObjectManager $objectManager, $instanceName = 'Magento\UrlInterface')
     {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;

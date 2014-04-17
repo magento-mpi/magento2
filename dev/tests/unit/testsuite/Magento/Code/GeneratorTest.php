@@ -23,8 +23,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_expectedEntities = array(
-        'factory' => \Magento\ObjectManager\Code\Generator\Factory::ENTITY_TYPE,
-        'proxy' => \Magento\ObjectManager\Code\Generator\Proxy::ENTITY_TYPE,
+        'factory' => \Magento\Framework\ObjectManager\Code\Generator\Factory::ENTITY_TYPE,
+        'proxy' => \Magento\Framework\ObjectManager\Code\Generator\Proxy::ENTITY_TYPE,
         'interceptor' => \Magento\Interception\Code\Generator\Interceptor::ENTITY_TYPE
     );
 
@@ -94,8 +94,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             $this->_autoloader,
             $this->_ioObjectMock,
             array(
-                'factory' => '\Magento\ObjectManager\Code\Generator\Factory',
-                'proxy' => '\Magento\ObjectManager\Code\Generator\Proxy',
+                'factory' => '\Magento\Framework\ObjectManager\Code\Generator\Factory',
+                'proxy' => '\Magento\Framework\ObjectManager\Code\Generator\Proxy',
                 'interceptor' => '\Magento\Interception\Code\Generator\Interceptor'
             )
         );
@@ -122,8 +122,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             $this->_autoloader,
             $this->_ioObjectMock,
             array(
-                'factory' => '\Magento\ObjectManager\Code\Generator\Factory',
-                'proxy' => '\Magento\ObjectManager\Code\Generator\Proxy',
+                'factory' => '\Magento\Framework\ObjectManager\Code\Generator\Factory',
+                'proxy' => '\Magento\Framework\ObjectManager\Code\Generator\Proxy',
                 'interceptor' => '\Magento\Interception\Code\Generator\Interceptor'
             )
         );
@@ -157,8 +157,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             $this->_autoloader,
             $this->_ioObjectMock,
             array(
-                'factory' => '\Magento\ObjectManager\Code\Generator\Factory',
-                'proxy' => '\Magento\ObjectManager\Code\Generator\Proxy',
+                'factory' => '\Magento\Framework\ObjectManager\Code\Generator\Factory',
+                'proxy' => '\Magento\Framework\ObjectManager\Code\Generator\Proxy',
                 'interceptor' => '\Magento\Interception\Code\Generator\Interceptor'
             )
         );

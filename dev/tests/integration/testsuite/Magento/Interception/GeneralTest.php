@@ -21,17 +21,17 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
     protected $_configReader;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
     public function setUp()
     {
         $classReader = new \Magento\Code\Reader\ClassReader();
-        $relations = new \Magento\ObjectManager\Relations\Runtime($classReader);
-        $definitions = new \Magento\ObjectManager\Definition\Runtime($classReader);
+        $relations = new \Magento\Framework\ObjectManager\Relations\Runtime($classReader);
+        $definitions = new \Magento\Framework\ObjectManager\Definition\Runtime($classReader);
         $config = new \Magento\Interception\ObjectManager\Config($relations, $definitions);
-        $factory = new \Magento\ObjectManager\Factory\Factory(
+        $factory = new \Magento\Framework\ObjectManager\Factory\Factory(
             $config,
             null,
             $definitions
@@ -70,7 +70,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
         $configScope = new \Magento\Framework\Config\Scope($areaList, 'global');
         $cache = $this->getMock('Magento\Framework\Config\CacheInterface');
         $cache->expects($this->any())->method('load')->will($this->returnValue(false));
-        $definitions = new \Magento\ObjectManager\Definition\Runtime();
+        $definitions = new \Magento\Framework\ObjectManager\Definition\Runtime();
         $interceptionConfig = new Config\Config(
             $this->_configReader,
             $configScope,
@@ -80,16 +80,16 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
             $definitions
         );
         $interceptionDefinitions = new Definition\Runtime();
-        $this->_objectManager = new \Magento\ObjectManager\ObjectManager(
+        $this->_objectManager = new \Magento\Framework\ObjectManager\ObjectManager(
             $factory,
             $config,
             array(
                 'Magento\Framework\Config\CacheInterface' => $cache,
                 'Magento\Framework\Config\ScopeInterface' => $configScope,
                 'Magento\Framework\Config\ReaderInterface' => $this->_configReader,
-                'Magento\ObjectManager\Relations' => $relations,
-                'Magento\ObjectManager\Config' => $config,
-                'Magento\ObjectManager\Definition' => $definitions,
+                'Magento\Framework\ObjectManager\Relations' => $relations,
+                'Magento\Framework\ObjectManager\Config' => $config,
+                'Magento\Framework\ObjectManager\Definition' => $definitions,
                 'Magento\Interception\Definition' => $interceptionDefinitions
             )
         );

@@ -44,11 +44,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->readerMock = $this->getMock('\Magento\ObjectManager\Config\Reader\Dom', array(), array(), '', false);
+        $this->readerMock = $this->getMock('\Magento\Framework\ObjectManager\Config\Reader\Dom', array(), array(), '', false);
         $this->configScopeMock = $this->getMock('Magento\Framework\Config\ScopeListInterface');
         $this->cacheMock = $this->getMock('Magento\Cache\FrontendInterface');
         $this->omConfigMock = $this->getMock('Magento\Interception\ObjectManager\Config');
-        $this->definitionMock = $this->getMock('Magento\ObjectManager\Definition');
+        $this->definitionMock = $this->getMock('Magento\Framework\ObjectManager\Definition');
     }
 
     /**
@@ -108,7 +108,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->readerMock,
             $this->configScopeMock,
             $this->cacheMock,
-            new \Magento\ObjectManager\Relations\Runtime(),
+            new \Magento\Framework\ObjectManager\Relations\Runtime(),
             $this->omConfigMock,
             $this->definitionMock,
             'interception'
@@ -143,7 +143,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->readerMock,
             $this->configScopeMock,
             $this->cacheMock,
-            new \Magento\ObjectManager\Relations\Runtime(),
+            new \Magento\Framework\ObjectManager\Relations\Runtime(),
             $this->omConfigMock,
             $this->definitionMock,
             $cacheId

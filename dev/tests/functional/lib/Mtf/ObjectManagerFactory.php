@@ -11,7 +11,7 @@ namespace Mtf;
 use Magento\Stdlib\BooleanUtils;
 use Mtf\System\Config as SystemConfig;
 use Mtf\ObjectManager\Factory;
-use Magento\ObjectManager as MagentoObjectManager;
+use Magento\Framework\ObjectManager as MagentoObjectManager;
 
 /**
  * Class ObjectManagerFactory
@@ -66,9 +66,9 @@ class ObjectManagerFactory
 
         $factory = new Factory($diConfig);
         $argInterpreter = $this->createArgumentInterpreter(new BooleanUtils());
-        $argumentMapper = new \Magento\ObjectManager\Config\Mapper\Dom($argInterpreter);
+        $argumentMapper = new \Magento\Framework\ObjectManager\Config\Mapper\Dom($argInterpreter);
 
-        $sharedInstances['Magento\ObjectManager\Config\Mapper\Dom'] = $argumentMapper;
+        $sharedInstances['Magento\Framework\ObjectManager\Config\Mapper\Dom'] = $argumentMapper;
         $objectManager = new $this->locatorClassName($factory, $diConfig, $sharedInstances);
 
         $factory->setObjectManager($objectManager);
@@ -119,7 +119,7 @@ class ObjectManagerFactory
                 'object' => new \Magento\Framework\Data\Argument\Interpreter\Object($booleanUtils),
                 'init_parameter' => new \Magento\Framework\App\Arguments\ArgumentInterpreter($constInterpreter),
             ),
-            \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
+            \Magento\Framework\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
         );
         // Add interpreters that reference the composite
         $result->addInterpreter('array', new \Magento\Framework\Data\Argument\Interpreter\ArrayType($result));

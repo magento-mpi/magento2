@@ -28,7 +28,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
 
         $request = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
         $request->expects($this->any())->method('setActionName')->will($this->returnSelf());

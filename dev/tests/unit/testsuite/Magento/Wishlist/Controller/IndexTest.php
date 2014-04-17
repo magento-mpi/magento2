@@ -36,7 +36,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $wishlistItem->expects($this->once())->method('getId')->will($this->returnValue(1));
         $wishlistItem->expects($this->once())->method('getProduct')->will($this->returnValue($wishlistItem));
 
-        $objectManager = $this->getMock('Magento\ObjectManager');
+        $objectManager = $this->getMock('Magento\Framework\ObjectManager');
 
         $locale = $this->getMock('Magento\Locale\Resolver', array(), array(), '', false);
 
@@ -107,7 +107,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      *
      * @param \Magento\Framework\App\Request\Http $request
      * @param \Magento\Framework\App\Response\Http|null $response
-     * @param \Magento\ObjectManager|null $objectManager
+     * @param \Magento\Framework\ObjectManager|null $objectManager
      * @return \Magento\Wishlist\Controller\Index
      */
     protected function _factory($request, $response = null, $objectManager = null)
@@ -118,7 +118,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             $response->headersSentThrowsException = false;
         }
         if (!$objectManager) {
-            $objectManager = new \Magento\ObjectManager\ObjectManager();
+            $objectManager = new \Magento\Framework\ObjectManager\ObjectManager();
         }
         $rewriteFactory = $this->getMock(
             'Magento\UrlRewrite\Model\UrlRewriteFactory', array('create'), array(), '', false

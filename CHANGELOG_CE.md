@@ -48,6 +48,7 @@
     * Moved lib/Magento/Acl to lib/Magento/Framework/Acl
     * Moved lib/Magento/Authorization to lib/Magento/Framework/Authorization
     * Moved lib/Magento/Session to lib/Magento/Framework/Session
+    * Moved lib/Magento/ObjectManager to lib/Magento/Framework/ObjectManager
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
   * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)

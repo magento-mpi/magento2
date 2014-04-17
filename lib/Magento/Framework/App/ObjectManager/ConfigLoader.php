@@ -14,7 +14,7 @@ class ConfigLoader
     /**
      * Config reader factory
      *
-     * @var \Magento\ObjectManager\Config\Reader\Dom
+     * @var \Magento\Framework\ObjectManager\Config\Reader\Dom
      */
     protected $_reader;
 
@@ -27,11 +27,11 @@ class ConfigLoader
 
     /**
      * @param \Magento\Framework\Config\CacheInterface $cache
-     * @param \Magento\ObjectManager\Config\Reader\Dom $reader
+     * @param \Magento\Framework\ObjectManager\Config\Reader\Dom $reader
      */
     public function __construct(
         \Magento\Framework\Config\CacheInterface $cache,
-        \Magento\ObjectManager\Config\Reader\Dom $reader
+        \Magento\Framework\ObjectManager\Config\Reader\Dom $reader
     ) {
         $this->_cache = $cache;
         $this->_reader = $reader;

@@ -7,7 +7,7 @@
  */
 namespace Magento\Message;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 /**
  * Message collection factory

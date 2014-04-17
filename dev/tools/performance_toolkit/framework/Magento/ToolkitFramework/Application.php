@@ -33,7 +33,7 @@ class Application
     protected $_shell;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -154,7 +154,7 @@ class Application
     /**
      * Get object manager
      *
-     * @return \Magento\ObjectManager
+     * @return \Magento\Framework\ObjectManager
      */
     public function getObjectManager()
     {
@@ -169,7 +169,7 @@ class Application
     /**
      * Reset object manager
      *
-     * @return \Magento\ObjectManager
+     * @return \Magento\Framework\ObjectManager
      */
     public function resetObjectManager()
     {

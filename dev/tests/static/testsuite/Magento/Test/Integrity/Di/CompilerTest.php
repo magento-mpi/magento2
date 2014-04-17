@@ -40,7 +40,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     protected $_tmpDir;
 
     /**
-     * @var \Magento\ObjectManager\Config\Mapper\Dom()
+     * @var \Magento\Framework\ObjectManager\Config\Mapper\Dom()
      */
     protected $_mapper;
 
@@ -84,7 +84,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
                 'const' => $constInterpreter,
                 'init_parameter' => new \Magento\Framework\App\Arguments\ArgumentInterpreter($constInterpreter)
             ],
-            \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
+            \Magento\Framework\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
         );
         // Add interpreters that reference the composite
         $argumentInterpreter->addInterpreter(
@@ -92,10 +92,10 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             new \Magento\Framework\Data\Argument\Interpreter\ArrayType($argumentInterpreter)
         );
 
-        $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom(
+        $this->_mapper = new \Magento\Framework\ObjectManager\Config\Mapper\Dom(
             $argumentInterpreter,
             $booleanUtils,
-            new \Magento\ObjectManager\Config\Mapper\ArgumentParser()
+            new \Magento\Framework\ObjectManager\Config\Mapper\ArgumentParser()
         );
         $this->_validator = new \Magento\Code\Validator();
         $this->_validator->add(new \Magento\Code\Validator\ConstructorIntegrity());
@@ -325,8 +325,8 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             $autoloader,
             $generatorIo,
             array(
-                \Magento\ObjectManager\Code\Generator\Factory::ENTITY_TYPE
-                => 'Magento\ObjectManager\Code\Generator\Factory'
+                \Magento\Framework\ObjectManager\Code\Generator\Factory::ENTITY_TYPE
+                => 'Magento\Framework\ObjectManager\Code\Generator\Factory'
             )
         );
         $autoloader = new \Magento\Code\Generator\Autoloader($generator);

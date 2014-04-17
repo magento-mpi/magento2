@@ -14,7 +14,7 @@ class DataFactory
     /**
      * Object manager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -26,11 +26,11 @@ class DataFactory
     protected $_instanceName = null;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param string $instanceName
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         $instanceName = 'Magento\Framework\App\Config\Data'
     ) {
         $this->_objectManager = $objectManager;

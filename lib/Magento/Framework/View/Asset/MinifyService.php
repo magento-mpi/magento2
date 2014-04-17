@@ -22,7 +22,7 @@ class MinifyService
     /**
      * ObjectManager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
@@ -58,13 +58,13 @@ class MinifyService
      * Constructor
      *
      * @param ConfigInterface $config
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
         ConfigInterface $config,
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\App\Filesystem $filesystem
     ) {

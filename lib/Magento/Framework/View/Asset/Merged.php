@@ -20,7 +20,7 @@ class Merged implements \Iterator
     /**
      * ObjectManager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
@@ -62,14 +62,14 @@ class Merged implements \Iterator
     /**
      * Constructor
      *
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Logger $logger
      * @param MergeStrategyInterface $mergeStrategy
      * @param array $assets
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\Logger $logger,
         MergeStrategyInterface $mergeStrategy,
         array $assets

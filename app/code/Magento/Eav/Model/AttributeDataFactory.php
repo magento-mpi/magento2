@@ -40,7 +40,7 @@ class AttributeDataFactory
     protected $_dataModels = array();
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -50,10 +50,10 @@ class AttributeDataFactory
     protected $string;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Stdlib\String $string
      */
-    public function __construct(\Magento\ObjectManager $objectManager, \Magento\Stdlib\String $string)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager, \Magento\Stdlib\String $string)
     {
         $this->_objectManager = $objectManager;
         $this->string = $string;

@@ -13,7 +13,7 @@ namespace Magento\Css\PreProcessor\Cache\Import;
 class ImportEntityFactory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
@@ -25,11 +25,11 @@ class ImportEntityFactory
     protected $instanceName;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param string $instanceName
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         $instanceName = 'Magento\Css\PreProcessor\Cache\Import\ImportEntity'
     ) {
         $this->objectManager = $objectManager;

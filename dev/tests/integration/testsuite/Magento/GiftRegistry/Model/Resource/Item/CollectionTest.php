@@ -15,7 +15,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected $_collection = null;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 

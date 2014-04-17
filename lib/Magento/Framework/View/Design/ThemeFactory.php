@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\View\Design;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 /**
  * Class ThemeFactory

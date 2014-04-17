@@ -16,7 +16,7 @@ namespace Magento\Framework\View\Element;
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Context implements \Magento\ObjectManager\ContextInterface
+class Context implements \Magento\Framework\ObjectManager\ContextInterface
 {
     /**
      * Request

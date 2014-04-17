@@ -32,7 +32,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
         $newThemeMock = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
 
-        $objectManager = $this->getMock('Magento\ObjectManager', array(), array('create'), '', false);
+        $objectManager = $this->getMock('Magento\Framework\ObjectManager', array(), array('create'), '', false);
         $objectManager->expects(
             $this->once()
         )->method(
@@ -57,7 +57,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $themeMock = $this->getMock('Magento\Core\Model\Theme', array('__wakeup', 'getType'), array(), '', false);
         $themeMock->expects($this->any())->method('getType')->will($this->returnValue($wrongThemeType));
 
-        $objectManager = $this->getMock('Magento\ObjectManager', array(), array('create'), '', false);
+        $objectManager = $this->getMock('Magento\Framework\ObjectManager', array(), array('create'), '', false);
 
         $themeDomainFactory = new \Magento\Framework\View\Design\Theme\Domain\Factory($objectManager);
 

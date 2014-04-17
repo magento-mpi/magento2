@@ -12,7 +12,7 @@
  */
 namespace Magento\Rule\Model\Condition;
 
-class Context implements \Magento\ObjectManager\ContextInterface
+class Context implements \Magento\Framework\ObjectManager\ContextInterface
 {
     /**
      * @var \Magento\Framework\View\Url

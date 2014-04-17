@@ -32,7 +32,7 @@ namespace Magento\Filter;
 class FilterManager
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
@@ -47,10 +47,10 @@ class FilterManager
     protected $factoryInstances;
 
     /**
-     * @param \Magento\ObjectManager $objectManger
+     * @param \Magento\Framework\ObjectManager $objectManger
      * @param FilterManager\Config $config
      */
-    public function __construct(\Magento\ObjectManager $objectManger, FilterManager\Config $config)
+    public function __construct(\Magento\Framework\ObjectManager $objectManger, FilterManager\Config $config)
     {
         $this->objectManager = $objectManger;
         $this->config = $config;

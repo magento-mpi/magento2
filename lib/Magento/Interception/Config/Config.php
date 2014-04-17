@@ -14,21 +14,21 @@ class Config implements \Magento\Interception\Config
     /**
      * Type configuration
      *
-     * @var \Magento\ObjectManager\Config
+     * @var \Magento\Framework\ObjectManager\Config
      */
     protected $_omConfig;
 
     /**
      * Class relations info
      *
-     * @var \Magento\ObjectManager\Relations
+     * @var \Magento\Framework\ObjectManager\Relations
      */
     protected $_relations;
 
     /**
      * List of interceptable classes
      *
-     * @var \Magento\ObjectManager\Definition
+     * @var \Magento\Framework\ObjectManager\Definition
      */
     protected $_classDefinitions;
 
@@ -71,18 +71,18 @@ class Config implements \Magento\Interception\Config
      * @param \Magento\Framework\Config\ReaderInterface $reader
      * @param \Magento\Framework\Config\ScopeListInterface $scopeList
      * @param \Magento\Cache\FrontendInterface $cache
-     * @param \Magento\ObjectManager\Relations $relations
+     * @param \Magento\Framework\ObjectManager\Relations $relations
      * @param \Magento\Interception\ObjectManager\Config $omConfig
-     * @param \Magento\ObjectManager\Definition $classDefinitions
+     * @param \Magento\Framework\ObjectManager\Definition $classDefinitions
      * @param string $cacheId
      */
     public function __construct(
         \Magento\Framework\Config\ReaderInterface $reader,
         \Magento\Framework\Config\ScopeListInterface $scopeList,
         \Magento\Cache\FrontendInterface $cache,
-        \Magento\ObjectManager\Relations $relations,
+        \Magento\Framework\ObjectManager\Relations $relations,
         \Magento\Interception\ObjectManager\Config $omConfig,
-        \Magento\ObjectManager\Definition $classDefinitions,
+        \Magento\Framework\ObjectManager\Definition $classDefinitions,
         $cacheId = 'interception'
     ) {
         $this->_omConfig = $omConfig;

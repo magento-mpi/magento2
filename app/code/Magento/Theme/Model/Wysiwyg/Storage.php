@@ -53,7 +53,7 @@ class Storage
     protected $_helper;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -72,13 +72,13 @@ class Storage
      *
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Theme\Helper\Storage $helper
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Image\AdapterFactory $imageFactory
      */
     public function __construct(
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Theme\Helper\Storage $helper,
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\Image\AdapterFactory $imageFactory
     ) {
         $this->mediaWriteDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);

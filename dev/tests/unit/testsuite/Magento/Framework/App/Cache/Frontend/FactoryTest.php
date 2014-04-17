@@ -138,7 +138,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             }
         };
         /** @var $objectManager \PHPUnit_Framework_MockObject_MockObject */
-        $objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
+        $objectManager = $this->getMock('Magento\Framework\ObjectManager', array(), array(), '', false);
         $objectManager->expects($this->any())->method('create')->will($this->returnCallback($processFrontendFunc));
 
         $map = array(

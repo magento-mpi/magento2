@@ -10,7 +10,7 @@
 namespace Magento\Framework\Authorization;
 
 use Magento\Framework\Authorization;
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 class Factory
 {

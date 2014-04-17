@@ -81,8 +81,8 @@ try {
         array(
             \Magento\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
                 'Magento\Interception\Code\Generator\Interceptor',
-            \Magento\ObjectManager\Code\Generator\Proxy::ENTITY_TYPE => 'Magento\ObjectManager\Code\Generator\Proxy',
-            \Magento\ObjectManager\Code\Generator\Factory::ENTITY_TYPE => 'Magento\ObjectManager\Code\Generator\Factory'
+            \Magento\Framework\ObjectManager\Code\Generator\Proxy::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Proxy',
+            \Magento\Framework\ObjectManager\Code\Generator\Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory'
         )
     );
     foreach (array('php', 'additional') as $type) {

@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\App\ObjectManager;
 
-class ConfigCache implements \Magento\ObjectManager\ConfigCache
+class ConfigCache implements \Magento\Framework\ObjectManager\ConfigCache
 {
     /**
      * @var \Magento\Cache\FrontendInterface

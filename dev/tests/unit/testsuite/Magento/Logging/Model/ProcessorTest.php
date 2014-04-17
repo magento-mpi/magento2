@@ -31,7 +31,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject  */
     protected $messageManager;
 
-    /** @var  \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
     /**
@@ -93,7 +93,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMockForAbstractClass();
 
         $this->_objectManagerMock = $this->getMockBuilder(
-            'Magento\ObjectManager'
+            'Magento\Framework\ObjectManager'
         )->setMethods(
             array('create', 'get', 'configure', 'setFactory')
         )->disableOriginalConstructor()->getMock();

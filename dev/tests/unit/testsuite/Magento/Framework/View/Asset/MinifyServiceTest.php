@@ -15,7 +15,7 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
     protected $_config;
 
     /**
-     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -32,7 +32,7 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_config = $this->getMock('Magento\Framework\View\Asset\ConfigInterface', array(), array(), '', false);
-        $this->_objectManager = $this->getMock('Magento\ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManager');
         $this->_appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $directory = $this->getMock('Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false);

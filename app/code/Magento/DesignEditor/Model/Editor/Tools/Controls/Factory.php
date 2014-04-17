@@ -34,7 +34,7 @@ class Factory
     );
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -54,13 +54,13 @@ class Factory
     protected $filesystem;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param \Magento\Framework\Config\FileIteratorFactory $fileIteratorFactory
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\View\FileSystem $viewFileSystem,
         \Magento\Framework\Config\FileIteratorFactory $fileIteratorFactory,
         \Magento\Framework\App\Filesystem $filesystem

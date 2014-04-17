@@ -17,7 +17,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     private $_object;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     private $_objectManager;
 
