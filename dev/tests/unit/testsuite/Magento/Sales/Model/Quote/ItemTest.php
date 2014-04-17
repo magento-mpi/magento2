@@ -209,7 +209,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
         $this->eventDispatcher->expects($this->once())
             ->method('dispatch')
-            ->with('sales_quote_item_qty_set_after', [ 'item' => $this->model ]);
+            ->with('sales_quote_item_qty_set_after', ['item' => $this->model]);
 
         $this->model->setQty($quantityToAdd);
         $this->assertEquals($preparedQuantityToAdd, $this->model->getQty());
@@ -239,7 +239,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
         $this->eventDispatcher->expects($this->once())
             ->method('dispatch')
-            ->with('sales_quote_item_qty_set_after', [ 'item' => $this->model ]);
+            ->with('sales_quote_item_qty_set_after', ['item' => $this->model]);
 
         $this->model->setQty($quantityToAdd);
         $this->assertEquals($preparedQuantityToAdd, $this->model->getQty());
@@ -261,7 +261,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
         $this->eventDispatcher->expects($this->once())
             ->method('dispatch')
-            ->with('sales_quote_item_qty_set_after', [ 'item' => $this->model ]);
+            ->with('sales_quote_item_qty_set_after', ['item' => $this->model]);
 
         $this->model->setQty($quantityToAdd);
         $this->assertEquals($existingQuantity, $this->model->getQty());
@@ -281,7 +281,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
         $this->eventDispatcher->expects($this->once())
             ->method('dispatch')
-            ->with('sales_quote_item_set_product', [ 'product' => $productMock, 'quote_item' => $this->model ]);
+            ->with('sales_quote_item_set_product', ['product' => $productMock, 'quote_item' => $this->model]);
 
         $this->model->setProduct($productMock);
 
@@ -310,7 +310,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
         $this->eventDispatcher->expects($this->once())
             ->method('dispatch')
-            ->with('sales_quote_item_set_product', [ 'product' => $productMock, 'quote_item' => $this->model ]);
+            ->with('sales_quote_item_set_product', ['product' => $productMock, 'quote_item' => $this->model]);
 
         $isQtyDecimal = true;
         $stockItemMock = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Item')
@@ -787,7 +787,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     public function testAddOptionArray()
     {
         $optionCode = 1234;
-        $optionData = [ 'product' => 'test', 'code' => $optionCode ];
+        $optionData = ['product' => 'test', 'code' => $optionCode];
         
         $optionMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Item\Option')
             ->setMethods(['setData', 'setItem', 'getCode', '__wakeup', 'isDeleted'])
@@ -1056,7 +1056,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($message . "\n" . $message2, $this->model->getMessage());
 
         $params = [];
-        $removedItems = [ [ 'message' => $message ] ];
+        $removedItems = [['message' => $message]];
 
         $this->errorInfos->expects($this->once())
             ->method('removeItemsByParams')
@@ -1087,7 +1087,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($message . "\n" . $message2, $this->model->getMessage());
 
         $params = [];
-        $removedItems = [ [ 'message' => $message ], [ 'message' => $message2 ] ];
+        $removedItems = [['message' => $message], ['message' => $message2]];
 
         $this->errorInfos->expects($this->once())
             ->method('removeItemsByParams')
