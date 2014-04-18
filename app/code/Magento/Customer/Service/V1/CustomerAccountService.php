@@ -604,6 +604,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customerModel->save();
         // FIXME: Are we using the proper template here?
         $customerModel->sendPasswordResetNotificationEmail();
+        
+        return true;
     }
 
     /**

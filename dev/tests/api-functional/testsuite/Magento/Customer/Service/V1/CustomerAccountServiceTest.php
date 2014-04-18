@@ -142,7 +142,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         unset($customerDetailsAsArray['customer']['firstname']);
         unset($customerDetailsAsArray['customer']['email']);
         $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => 'test@123'];
-        try{
+        try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail('Expected exception did not occur.');
         } catch (\Exception $e) {
@@ -297,10 +297,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $requestData = ['currentPassword' => 'test@123', 'newPassword' => '123@test'];
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $requestData['customerId'] = $customerData['id'];
-            $this->_webApiCall($serviceInfo, $requestData);
-        } else {
-            $this->_webApiCall($serviceInfo, $requestData);
         }
+        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
 
         $serviceInfo = [
             'rest' => [
@@ -430,8 +428,10 @@ class CustomerAccountServiceTest extends WebapiAbstract
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
-            $this->assertEquals('No such entity with %fieldName = %fieldValue, %field2Name = %field2Value',
-                $errorObj['message']);
+            $this->assertEquals(
+                'No such entity with %fieldName = %fieldValue, %field2Name = %field2Value',
+                $errorObj['message']
+            );
             $this->assertEquals([
                     'fieldName' => 'email',
                     'fieldValue' => 'dummy@example.com',
@@ -512,8 +512,10 @@ class CustomerAccountServiceTest extends WebapiAbstract
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
-            $this->assertEquals('No such entity with %fieldName = %fieldValue, %field2Name = %field2Value',
-                $errorObj['message']);
+            $this->assertEquals(
+                'No such entity with %fieldName = %fieldValue, %field2Name = %field2Value',
+                $errorObj['message']
+            );
             $this->assertEquals([
                     'fieldName' => 'email',
                     'fieldValue' => 'dummy@example.com',

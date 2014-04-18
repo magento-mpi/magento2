@@ -123,7 +123,7 @@ interface CustomerAccountServiceInterface
      * @param int $customerId
      * @param string $currentPassword
      * @param string $newPassword
-     * @return void
+     * @return bool True if password changed
      * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
      * @throws \Magento\Exception\InvalidEmailOrPasswordException If invalid currentPassword is supplied
      */

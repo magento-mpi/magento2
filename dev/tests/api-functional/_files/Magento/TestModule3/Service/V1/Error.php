@@ -37,7 +37,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function serviceException()
     {
-        throw new \Magento\Service\Exception('Generic service exception', 3456);
+        throw new \Magento\Webapi\ServiceException('Generic service exception', 3456);
     }
 
     /**
@@ -49,7 +49,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
         foreach ($parameters as $parameter) {
             $details[$parameter->getName()] = $parameter->getValue();
         }
-        throw new \Magento\Service\Exception('Parameterized service exception', 1234, null, $details);
+        throw new \Magento\Webapi\ServiceException('Parameterized service exception', 1234, null, $details);
     }
 
     /**
@@ -57,7 +57,10 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function authorizationException()
     {
-        throw new AuthorizationException('Consumer ID %consumer_id is not authorized to access %resources', ['consumer_id' => '30', 'resources' => 'resourceN']);
+        throw new AuthorizationException('Consumer ID %consumer_id is not authorized to access %resources', [
+            'consumer_id' => '30',
+            'resources'   => 'resourceN'
+        ]);
     }
 
     /**
