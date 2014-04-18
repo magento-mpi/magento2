@@ -81,7 +81,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $this->imageHelperMock = $this->getMock('Magento\Catalog\Helper\Image', [], [], '', false);
 
         $eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', [], [], '', false);
-        $requestMock = $this->getMock('Magento\App\RequestInterface', [], [], '', false);
+        $requestMock = $this->getMock('Magento\Framework\App\RequestInterface', [], [], '', false);
         $storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $urlBuilderMock = $this->getMock('Magento\UrlInterface', [], [], '', false);
         $this->storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
