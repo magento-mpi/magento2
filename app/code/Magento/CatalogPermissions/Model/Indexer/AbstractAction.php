@@ -142,7 +142,7 @@ abstract class AbstractAction
     /**
      * Retrieve connection for read data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function getReadAdapter()
     {
@@ -157,7 +157,7 @@ abstract class AbstractAction
     /**
      * Retrieve connection for write data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function getWriteAdapter()
     {
@@ -274,13 +274,13 @@ abstract class AbstractAction
     /**
      * Return selects cut by min and max
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @param string $field
      * @param int $stepCount
-     * @return \Magento\DB\Select[]
+     * @return \Magento\Framework\DB\Select[]
      */
     protected function prepareSelectsByRange(
-        \Magento\DB\Select $select,
+        \Magento\Framework\DB\Select $select,
         $field,
         $stepCount = self::CATEGORY_STEP_COUNT
     ) {
@@ -543,7 +543,7 @@ abstract class AbstractAction
     /**
      * Create select for populating product index
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function createProductSelect()
     {
@@ -692,7 +692,7 @@ abstract class AbstractAction
                         'grant_catalog_product_price',
                         'grant_checkout_items'
                     ),
-                    \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
+                    \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
                 )
             );
         }

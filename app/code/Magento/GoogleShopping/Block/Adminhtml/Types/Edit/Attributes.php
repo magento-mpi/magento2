@@ -65,7 +65,7 @@ class Attributes extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\El
     /**
      * Preparing global layout
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -156,7 +156,7 @@ class Attributes extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\El
     public function getAttributesSelectHtml($escapeJsQuotes = false)
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setId(
             $this->getFieldId() . '_{{index}}_attribute'
         )->setName(

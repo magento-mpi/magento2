@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Product\View;
 
-use Magento\Data\Collection;
+use Magento\Framework\Data\Collection;
 
 class Gallery extends \Magento\Catalog\Block\Product\View\AbstractView
 {

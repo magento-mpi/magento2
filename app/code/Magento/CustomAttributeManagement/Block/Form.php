@@ -16,7 +16,7 @@ namespace Magento\CustomAttributeManagement\Block;
  * @package     Magento_CustomAttributeManagement
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Form extends \Magento\View\Element\Template
+class Form extends \Magento\Framework\View\Element\Template
 {
     /**
      * Name of the block in layout update xml file
@@ -63,7 +63,7 @@ class Form extends \Magento\View\Element\Template
     /**
      * EAV Entity Model
      *
-     * @var \Magento\Model\AbstractModel
+     * @var \Magento\Framework\Model\AbstractModel
      */
     protected $_entity;
 
@@ -97,14 +97,14 @@ class Form extends \Magento\View\Element\Template
     protected $_eavConfig;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Eav\Model\Config $eavConfig,
@@ -121,15 +121,15 @@ class Form extends \Magento\View\Element\Template
      * Get Attribute renderers from it, and add to self
      *
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _prepareLayout()
     {
         if (empty($this->_xmlBlockName)) {
-            throw new \Magento\Model\Exception(__('The current module XML block name is undefined.'));
+            throw new \Magento\Framework\Model\Exception(__('The current module XML block name is undefined.'));
         }
         if (empty($this->_formModelPath)) {
-            throw new \Magento\Model\Exception(__('The current module form model pathname is undefined.'));
+            throw new \Magento\Framework\Model\Exception(__('The current module form model pathname is undefined.'));
         }
 
         return parent::_prepareLayout();
@@ -149,10 +149,10 @@ class Form extends \Magento\View\Element\Template
     /**
      * Set Entity object
      *
-     * @param \Magento\Model\AbstractModel $entity
+     * @param \Magento\Framework\Model\AbstractModel $entity
      * @return $this
      */
-    public function setEntity(\Magento\Model\AbstractModel $entity)
+    public function setEntity(\Magento\Framework\Model\AbstractModel $entity)
     {
         $this->_entity = $entity;
         return $this;
@@ -185,7 +185,7 @@ class Form extends \Magento\View\Element\Template
     /**
      * Return Entity object
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     public function getEntity()
     {

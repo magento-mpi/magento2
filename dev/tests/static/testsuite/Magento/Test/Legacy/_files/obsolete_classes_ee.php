@@ -12,7 +12,7 @@ return array(
     array('Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid'),
     array(
         'Magento\CustomAttributeManagement\Block\Form\Template',
-        'Magento\View\Element\Template with renderers as child blocks'
+        'Magento\Framework\View\Element\Template with renderers as child blocks'
     ),
     array('Magento\CustomerCustomAttributes\Block\Form\Renderer\AbstractRenderer'),
     array('Magento\CustomerCustomAttributes\Block\Form\Renderer\Boolean'),

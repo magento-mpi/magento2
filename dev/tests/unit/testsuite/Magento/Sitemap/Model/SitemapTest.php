@@ -51,12 +51,12 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
     protected $_filesystemMock;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $_directoryMock;
 
     /**
-     * @var \Magento\Filesystem\File\Write
+     * @var \Magento\Framework\Filesystem\File\Write
      */
     protected $_fileMock;
 
@@ -132,11 +132,11 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
         $this->_resourceMock->expects($this->any())->method('addCommitCallback')->will($this->returnSelf());
 
         $this->_fileMock = $this->getMockBuilder(
-            'Magento\Filesystem\File\Write'
+            'Magento\Framework\Filesystem\File\Write'
         )->disableOriginalConstructor()->getMock();
 
         $this->_directoryMock = $this->getMockBuilder(
-            'Magento\Filesystem\Directory\Write'
+            'Magento\Framework\Filesystem\Directory\Write'
         )->disableOriginalConstructor()->getMock();
         $this->_directoryMock->expects($this->any())->method('openFile')->will($this->returnValue($this->_fileMock));
 
@@ -157,7 +157,7 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
     /**
      * Check not allowed sitemap path validation
      *
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage Please define a correct path.
      */
     public function testNotAllowedPath()
@@ -170,7 +170,7 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
     /**
      * Check not exists sitemap path validation
      *
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage Please create the specified folder "" before saving the sitemap.
      */
     public function testPathNotExists()
@@ -184,7 +184,7 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
     /**
      * Check not writable sitemap path validation
      *
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage Please make sure that "/" is writable by the web-server.
      */
     public function testPathNotWritable()
@@ -200,7 +200,7 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
     /**
      * Check invalid chars in sitemap filename validation
      *
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage Please use only letters (a-z or A-Z), numbers (0-9) or underscores (_) in the filename. No spaces or other characters are allowed.
      */
     //@codingStandardsIgnoreEnd

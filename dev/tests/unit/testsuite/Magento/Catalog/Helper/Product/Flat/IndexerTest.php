@@ -30,7 +30,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     protected $_resourceMock;
 
     /**
-     * @var \Magento\DB\Adapter\Pdo\Mysql|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\DB\Adapter\Pdo\Mysql|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_connectionMock;
 
@@ -78,7 +78,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
 
         $this->_connectionMock = $this->getMock(
-            'Magento\DB\Adapter\Pdo\Mysql',
+            'Magento\Framework\DB\Adapter\Pdo\Mysql',
             array('getTables', 'dropTable'),
             array(),
             '',

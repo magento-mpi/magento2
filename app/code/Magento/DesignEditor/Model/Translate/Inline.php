@@ -67,7 +67,7 @@ class Inline implements \Magento\Translate\InlineInterface
     protected $_objectManager;
 
     /**
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_design;
 
@@ -79,7 +79,7 @@ class Inline implements \Magento\Translate\InlineInterface
     /**
      * Initialize inline translation model specific for vde
      *
-     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param \Magento\Translate\Inline\ParserFactory $parserFactory
      * @param \Magento\DesignEditor\Helper\Data $helper
@@ -87,7 +87,7 @@ class Inline implements \Magento\Translate\InlineInterface
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        \Magento\View\DesignInterface $design,
+        \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         \Magento\Translate\Inline\ParserFactory $parserFactory,
         \Magento\DesignEditor\Helper\Data $helper,
@@ -199,8 +199,8 @@ class Inline implements \Magento\Translate\InlineInterface
      */
     protected function getInlineScript()
     {
-        /** @var $block \Magento\View\Element\Template */
-        $block = $this->_objectManager->create('Magento\View\Element\Template');
+        /** @var $block \Magento\Framework\View\Element\Template */
+        $block = $this->_objectManager->create('Magento\Framework\View\Element\Template');
 
         $block->setArea($this->_design->getArea());
         $block->setAjaxUrl($this->_getAjaxUrl());

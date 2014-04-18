@@ -78,12 +78,12 @@ abstract class AbstractPdf extends \Magento\Object
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_mediaDirectory;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $_rootDirectory;
 
@@ -762,7 +762,7 @@ abstract class AbstractPdf extends \Magento\Object
      *
      * @param  string $type
      * @return \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getRenderer($type)
     {
@@ -771,7 +771,7 @@ abstract class AbstractPdf extends \Magento\Object
         }
 
         if (!isset($this->_renderers[$type])) {
-            throw new \Magento\Model\Exception(__('We found an invalid renderer model.'));
+            throw new \Magento\Framework\Model\Exception(__('We found an invalid renderer model.'));
         }
 
         if (is_null($this->_renderers[$type]['renderer'])) {
@@ -880,13 +880,13 @@ abstract class AbstractPdf extends \Magento\Object
     /**
      * Retrieve PDF object
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return \Zend_Pdf
      */
     protected function _getPdf()
     {
         if (!$this->_pdf instanceof \Zend_Pdf) {
-            throw new \Magento\Model\Exception(__('Please define the PDF object before using.'));
+            throw new \Magento\Framework\Model\Exception(__('Please define the PDF object before using.'));
         }
 
         return $this->_pdf;
@@ -930,14 +930,14 @@ abstract class AbstractPdf extends \Magento\Object
      * @param  \Zend_Pdf_Page $page
      * @param  array $draw
      * @param  array $pageSettings
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return \Zend_Pdf_Page
      */
     public function drawLineBlocks(\Zend_Pdf_Page $page, array $draw, array $pageSettings = array())
     {
         foreach ($draw as $itemsProp) {
             if (!isset($itemsProp['lines']) || !is_array($itemsProp['lines'])) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __('We don\'t recognize the draw line data. Please define the "lines" array.')
                 );
             }

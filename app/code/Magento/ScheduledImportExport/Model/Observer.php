@@ -9,7 +9,7 @@
  */
 namespace Magento\ScheduledImportExport\Model;
 
-use Magento\Filesystem\FilesystemException;
+use Magento\Framework\Filesystem\FilesystemException;
 
 /**
  * ImportExport module observer
@@ -73,7 +73,7 @@ class Observer
     protected $_storeManager;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_logDirectory;
 
@@ -125,11 +125,11 @@ class Observer
             try {
                 $this->_logDirectory->create($logPath);
             } catch (FilesystemException $e) {
-                throw new \Magento\Model\Exception(__("We couldn't create directory " . '"%1"', $logPath));
+                throw new \Magento\Framework\Model\Exception(__("We couldn't create directory " . '"%1"', $logPath));
             }
 
             if (!$this->_logDirectory->isWritable($logPath)) {
-                throw new \Magento\Model\Exception(__('The directory "%1" is not writable.', $logPath));
+                throw new \Magento\Framework\Model\Exception(__('The directory "%1" is not writable.', $logPath));
             }
             $saveTime = (int)$this->_scopeConfig->getValue(
                 self::SAVE_LOG_TIME_PATH,
@@ -146,7 +146,7 @@ class Observer
                     try {
                         $this->_logDirectory->delete($directory);
                     } catch (FilesystemException $e) {
-                        throw new \Magento\Model\Exception(
+                        throw new \Magento\Framework\Model\Exception(
                             __('We couldn\'t delete "%1" because the directory is not writable.', $directory)
                         );
                     }

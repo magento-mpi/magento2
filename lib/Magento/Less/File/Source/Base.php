@@ -7,11 +7,11 @@
  */
 namespace Magento\Less\File\Source;
 
-use Magento\View\Layout\File\SourceInterface;
-use Magento\View\Design\ThemeInterface;
+use Magento\Framework\View\Layout\File\SourceInterface;
+use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\App\Filesystem;
-use Magento\Filesystem\Directory\ReadInterface;
-use Magento\View\Layout\File\Factory;
+use Magento\Framework\Filesystem\Directory\ReadInterface;
+use Magento\Framework\View\Layout\File\Factory;
 
 /**
  * Source of base layout files introduced by modules
@@ -43,7 +43,7 @@ class Base implements SourceInterface
      *
      * @param ThemeInterface $theme
      * @param string $filePath
-     * @return array|\Magento\View\Layout\File[]
+     * @return array|\Magento\Framework\View\Layout\File[]
      */
     public function getFiles(ThemeInterface $theme, $filePath = '*')
     {

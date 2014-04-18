@@ -12,7 +12,7 @@ namespace Magento\Persistent\Model;
 /**
  * Persistent Session Model
  */
-class Session extends \Magento\Model\AbstractModel
+class Session extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Persistent cookie key length
@@ -91,7 +91,7 @@ class Session extends \Magento\Model\AbstractModel
     /**
      * Construct
      *
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Core\Helper\Data $coreData
@@ -100,12 +100,12 @@ class Session extends \Magento\Model\AbstractModel
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Core\Helper\Data $coreData,
@@ -114,8 +114,8 @@ class Session extends \Magento\Model\AbstractModel
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Math\Random $mathRandom,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;

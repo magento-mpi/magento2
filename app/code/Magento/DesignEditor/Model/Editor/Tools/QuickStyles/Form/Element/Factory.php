@@ -31,7 +31,7 @@ class Factory
      *
      * @param string $className
      * @param array $data
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function create($className, array $data = array())
     {

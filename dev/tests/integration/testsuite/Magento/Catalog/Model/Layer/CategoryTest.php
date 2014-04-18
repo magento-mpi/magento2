@@ -137,7 +137,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             );
             $model->setCurrentCategory(new \Magento\Object());
             $this->fail('Assign category of invalid class.');
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
         }
 
         try {
@@ -148,7 +148,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Category')
             );
             $this->fail('Assign category with invalid id.');
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
         }
     }
 

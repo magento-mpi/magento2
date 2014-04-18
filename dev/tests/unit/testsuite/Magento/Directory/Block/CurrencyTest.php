@@ -30,8 +30,14 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
         $this->urlBuilder = $this->getMock('\Magento\UrlInterface\Proxy', array('getUrl'), array(), '', false);
         $this->urlBuilder->expects($this->any())->method('getUrl')->will($this->returnArgument(0));
 
-        /** @var \Magento\View\Element\Template\Context $context */
-        $context = $this->getMock('\Magento\View\Element\Template\Context', array('getUrlBuilder'), array(), '', false);
+        /** @var \Magento\Framework\View\Element\Template\Context $context */
+        $context = $this->getMock(
+            '\Magento\Framework\View\Element\Template\Context',
+            array('getUrlBuilder'),
+            array(),
+            '',
+            false
+        );
         $context->expects($this->any())->method('getUrlBuilder')->will($this->returnValue($this->urlBuilder));
 
         /** @var \Magento\Directory\Model\CurrencyFactory $currencyFactory */

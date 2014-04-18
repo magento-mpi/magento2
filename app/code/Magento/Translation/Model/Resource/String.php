@@ -7,7 +7,7 @@
  */
 namespace Magento\Translation\Model\Resource;
 
-class String extends \Magento\Model\Resource\Db\AbstractDb
+class String extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Locale\ResolverInterface
@@ -55,12 +55,12 @@ class String extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Load
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @param String $value
      * @param String $field
      * @return array|$this
      */
-    public function load(\Magento\Model\AbstractModel $object, $value, $field = null)
+    public function load(\Magento\Framework\Model\AbstractModel $object, $value, $field = null)
     {
         if (is_string($value)) {
             $select = $this->_getReadAdapter()->select()->from(
@@ -82,8 +82,8 @@ class String extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param String $field
      * @param String $value
-     * @param \Magento\Model\AbstractModel $object
-     * @return \Magento\DB\Select
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -95,10 +95,10 @@ class String extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * After translation loading
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    public function _afterLoad(\Magento\Model\AbstractModel $object)
+    public function _afterLoad(\Magento\Framework\Model\AbstractModel $object)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
@@ -115,10 +115,10 @@ class String extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Before save
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $adapter = $this->_getWriteAdapter();
         $select = $adapter->select()
@@ -135,10 +135,10 @@ class String extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * After save
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $adapter = $this->_getWriteAdapter();
         $select = $adapter->select()->from(

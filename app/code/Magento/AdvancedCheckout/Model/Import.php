@@ -9,7 +9,7 @@
  */
 namespace Magento\AdvancedCheckout\Model;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Import data from file
@@ -51,7 +51,7 @@ class Import extends \Magento\Object
     protected $_uploaderFactory = null;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $varDirectory;
 
@@ -128,7 +128,7 @@ class Import extends \Magento\Object
             return $this->{$method}();
         }
 
-        throw new Exception($this->_getFileTypeMessageText());
+        throw new \Magento\Framework\Model\Exception($this->_getFileTypeMessageText());
     }
 
     /**

@@ -26,7 +26,7 @@ class DirTest extends \PHPUnit_Framework_TestCase
     /**
      * Var directory
      *
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Filesystem\Directory\Write
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Filesystem\Directory\Write
      */
     protected $varDirectory;
 
@@ -46,7 +46,7 @@ class DirTest extends \PHPUnit_Framework_TestCase
         $filesystem =
             $this->getMock('Magento\Framework\App\Filesystem', array('getDirectoryWrite'), array(), '', false);
         $this->varDirectory = $this->getMock(
-            'Magento\Filesystem\Directory\Write',
+            'Magento\Framework\Filesystem\Directory\Write',
             array('read', 'isDirectory', 'delete'),
             array(),
             '',

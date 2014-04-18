@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Model\Order\Pdf\Config;
 
-class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
+class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for merged configs

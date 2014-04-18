@@ -9,7 +9,6 @@
  */
 namespace Magento\Invitation\Controller\Adminhtml\Report;
 
-use Magento\Framework\App\ViewInterface;
 use Magento\Framework\App\ResponseInterface;
 
 /**

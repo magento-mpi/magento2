@@ -11,7 +11,7 @@ namespace Magento\AdvancedCheckout\Controller\Adminhtml;
 
 use Magento\AdvancedCheckout\Exception as AdvancedCheckoutException;
 use Magento\Backend\App\Action;
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Admin Checkout index controller

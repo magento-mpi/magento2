@@ -40,12 +40,12 @@
     </type>
     <type name="Magento\GiftCard\Model\Observer">
         <arguments>
-            <argument name="layout" xsi:type="object">Magento\View\LayoutInterface\Proxy</argument>
+            <argument name="layout" xsi:type="object">Magento\Framework\View\LayoutInterface\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\GiftCard\Helper\Data">
         <arguments>
-            <argument name="layout" xsi:type="object">Magento\View\LayoutInterface\Proxy</argument>
+            <argument name="layout" xsi:type="object">Magento\Framework\View\LayoutInterface\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Module\Setup\Migration">

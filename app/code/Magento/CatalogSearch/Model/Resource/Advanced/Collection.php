@@ -9,7 +9,7 @@
  */
 namespace Magento\CatalogSearch\Model\Resource\Advanced;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Collection Advanced
@@ -30,7 +30,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\App\Resource $resource
@@ -54,7 +54,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\App\Resource $resource,
@@ -102,7 +102,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      *
      * @param array $fields
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function addFieldsToFilter($fields)
     {
@@ -127,7 +127,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                         $select->where('t1.store_id = ?', 0);
                         $select->where('t1.attribute_id = ?', $attributeId);
 
-                        if (array_key_exists('price_index', $this->getSelect()->getPart(\Magento\DB\Select::FROM))) {
+                        if (array_key_exists('price_index', $this->getSelect()->getPart(\Magento\Framework\DB\Select::FROM))) {
                             $select->where('t1.entity_id = price_index.entity_id');
                         }
 

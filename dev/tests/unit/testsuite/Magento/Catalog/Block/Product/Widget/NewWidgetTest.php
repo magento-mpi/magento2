@@ -15,7 +15,7 @@ class NewWidgetTest extends \PHPUnit_Framework_TestCase
     protected $block;
 
     /**
-     * @var \Magento\View\LayoutInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\LayoutInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $layout;
 
@@ -23,7 +23,7 @@ class NewWidgetTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $contextMock = $this->getMock('Magento\Catalog\Block\Product\Context', [], [], '', false, false);
-        $this->layout = $this->getMock('Magento\View\Layout', [], [], '', false);
+        $this->layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
 
         $contextMock->expects($this->once())
             ->method('getLayout')

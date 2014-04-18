@@ -101,7 +101,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array('getStore'), array(), '', false);
         $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($store));
 
-        $select = $this->getMock('Magento\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
+        $select =
+            $this->getMock('Magento\Framework\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
         foreach ($this->_joinValues as $key => $arguments) {
             $select->expects(
                 $this->at($key)
@@ -117,7 +118,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         }
 
         $adapter = $this->getMock(
-            'Magento\DB\Adapter\Pdo\Mysql',
+            'Magento\Framework\DB\Adapter\Pdo\Mysql',
             array('select', 'quoteInto', 'getCheckSql', 'quote'),
             array(),
             '',
@@ -148,7 +149,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         );
 
         $resource = $this->getMockForAbstractClass(
-            'Magento\Model\Resource\Db\AbstractDb',
+            'Magento\Framework\Model\Resource\Db\AbstractDb',
             array(),
             '',
             false,
@@ -160,7 +161,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $resource->expects($this->once())->method('getMainTable')->will($this->returnValue(self::MAIN_TABLE));
         $resource->expects($this->exactly(3))->method('getTable')->will($this->returnValue(self::MAIN_TABLE));
 
-        $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
+        $fetchStrategy = $this->getMockForAbstractClass('Magento\Framework\Data\Collection\Db\FetchStrategyInterface');
         $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $dateTime = $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true);

@@ -79,7 +79,7 @@ class CategoryTest extends \Magento\TestFramework\TestCase\AbstractController
 
         /* Layout updates */
         $handles = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->getUpdate()->getHandles();
         foreach ($expectedHandles as $expectedHandleName) {
             $this->assertContains($expectedHandleName, $handles);

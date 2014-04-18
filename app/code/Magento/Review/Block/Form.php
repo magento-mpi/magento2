@@ -19,7 +19,7 @@ use Magento\Review\Model\Resource\Rating\Collection as RatingCollection;
  * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Form extends \Magento\View\Element\Template
+class Form extends \Magento\Framework\View\Element\Template
 {
     /**
      * Review data
@@ -76,7 +76,7 @@ class Form extends \Magento\View\Element\Template
     protected $httpContext;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Session\Generic $reviewSession
      * @param \Magento\Review\Helper\Data $reviewData
@@ -88,7 +88,7 @@ class Form extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Session\Generic $reviewSession,
         \Magento\Review\Helper\Data $reviewData,

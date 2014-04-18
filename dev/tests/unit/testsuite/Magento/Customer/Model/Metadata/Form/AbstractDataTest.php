@@ -70,7 +70,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage Attribute object is undefined
      */
     public function testGetAttributeException()
