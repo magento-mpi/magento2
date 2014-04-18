@@ -34,7 +34,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
     {
         $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $scopeConfig = $this->getMockBuilder(
-            '\Magento\App\Config\ScopeConfigInterface'
+            '\Magento\Framework\App\Config\ScopeConfigInterface'
         )->setMethods(
             array('isSetFlag', 'getValue')
         )->disableOriginalConstructor()->getMock();
@@ -127,7 +127,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(file_get_contents(__DIR__ . '/_files/countries.xml'))
         );
         $filesystem = $this->getMockBuilder(
-            '\Magento\App\Filesystem'
+            '\Magento\Framework\App\Filesystem'
         )->disableOriginalConstructor()->setMethods(
             array('getDirectoryRead')
         )->getMock();
@@ -184,7 +184,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
     public function testPrepareShippingLabelContent()
     {
         $xml = simplexml_load_file(
-            __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'response_shipping_label.xml'
+            __DIR__ . '/_files/response_shipping_label.xml'
         );
         $result = $this->_invokePrepareShippingLabelContent($xml);
         $this->assertEquals(1111, $result->getTrackingNumber());

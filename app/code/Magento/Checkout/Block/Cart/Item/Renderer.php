@@ -324,7 +324,7 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
         $encodedUrl = $this->_urlHelper->getEncodedUrl();
         return $this->getUrl(
             'checkout/cart/delete',
-            array('id' => $this->getItem()->getId(), \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $encodedUrl)
+            array('id' => $this->getItem()->getId(), \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $encodedUrl)
         );
     }
 

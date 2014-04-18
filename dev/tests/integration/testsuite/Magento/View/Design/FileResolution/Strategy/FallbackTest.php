@@ -46,13 +46,15 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     {
         // Prepare config with directories
         $filesystem = Bootstrap::getObjectManager()->create(
-            'Magento\App\Filesystem',
+            'Magento\Framework\App\Filesystem',
             array(
                 'directoryList' => Bootstrap::getObjectManager()->create(
-                    'Magento\App\Filesystem\DirectoryList',
+                    'Magento\Framework\App\Filesystem\DirectoryList',
                     array(
                         'root' => $this->_baseDir,
-                        'directories' => array(\Magento\App\Filesystem::THEMES_DIR => array('path' => $this->_viewDir))
+                        'directories' => array(
+                            \Magento\Framework\App\Filesystem::THEMES_DIR => array('path' => $this->_viewDir)
+                        )
                     )
                 )
             )
@@ -96,7 +98,8 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFile($file, $area, $themePath, $module, $expectedFilename)
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode($area);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
+            ->setAreaCode($area);
         $model = $this->_buildModel($area, $themePath, null);
         $themeModel = $this->_getThemeModel($area, $themePath);
 
@@ -174,7 +177,8 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetI18nCsvFile($area, $themePath, $locale, $expectedFilename)
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode($area);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
+            ->setAreaCode($area);
         $model = $this->_buildModel($area, $themePath, $locale);
         $themeModel = $this->_getThemeModel($area, $themePath);
 
@@ -221,7 +225,8 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetViewFile($file, $area, $themePath, $locale, $module, $expectedFilename)
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode($area);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
+            ->setAreaCode($area);
         $model = $this->_buildModel();
         $themeModel = $this->_getThemeModel($area, $themePath);
 

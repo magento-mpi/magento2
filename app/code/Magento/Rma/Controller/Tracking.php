@@ -9,9 +9,9 @@
  */
 namespace Magento\Rma\Controller;
 
-use Magento\App\Action\NotFoundException;
+use Magento\Framework\App\Action\NotFoundException;
 
-class Tracking extends \Magento\App\Action\Action
+class Tracking extends \Magento\Framework\App\Action\Action
 {
     /**
      * Core registry
@@ -23,19 +23,19 @@ class Tracking extends \Magento\App\Action\Action
     /**
      * Http response file factory
      *
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileResponseFactory;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileResponseFactory
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileResponseFactory
+        \Magento\Framework\App\Response\Http\FileFactory $fileResponseFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_fileResponseFactory = $fileResponseFactory;
@@ -150,8 +150,8 @@ class Tracking extends \Magento\App\Action\Action
     /**
      * Print label for one specific shipment
      *
-     * @return \Magento\App\ResponseInterface|void
-     * @throws \Magento\App\Action\NotFoundException
+     * @return \Magento\Framework\App\ResponseInterface|void
+     * @throws \Magento\Framework\App\Action\NotFoundException
      */
     public function printLabelAction()
     {
@@ -197,7 +197,7 @@ class Tracking extends \Magento\App\Action\Action
                 return $this->_fileResponseFactory->create(
                     'ShippingLabel(' . $rmaIncrementId . ').pdf',
                     $pdfContent,
-                    \Magento\App\Filesystem::VAR_DIR,
+                    \Magento\Framework\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             }
@@ -240,7 +240,7 @@ class Tracking extends \Magento\App\Action\Action
             $this->_fileResponseFactory->create(
                 'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                 $pdf->render(),
-                \Magento\App\Filesystem::VAR_DIR,
+                \Magento\Framework\App\Filesystem::VAR_DIR,
                 'application/pdf'
             );
         }

@@ -37,7 +37,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             false
         );
         $filesystem = $this->getMock(
-            'Magento\App\Filesystem',
+            'Magento\Framework\App\Filesystem',
             array('getDirectoryRead', '__wakeup'),
             array(),
             '',
@@ -48,7 +48,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-            \Magento\App\Filesystem::THEMES_DIR
+            \Magento\Framework\App\Filesystem::THEMES_DIR
         )->will(
             $this->returnValue($this->directory)
         );

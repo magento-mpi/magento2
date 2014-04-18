@@ -11,8 +11,8 @@
  */
 namespace Magento\CatalogEvent\Helper\Adminhtml;
 
-use Magento\App\Helper\AbstractHelper;
-use Magento\App\Helper\Context;
+use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Helper\Context;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Resource\Category\Tree;

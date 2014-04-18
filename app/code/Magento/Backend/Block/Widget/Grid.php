@@ -81,7 +81,7 @@ class Grid extends \Magento\Backend\Block\Widget
      *
      * @var string|null
      */
-    protected $_emptyTextCss = 'a-center';
+    protected $_emptyTextCss = 'empty-text';
 
     /**
      * Pager visibility
@@ -453,7 +453,7 @@ class Grid extends \Magento\Backend\Block\Widget
             $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Widget\Button'
             )->setData(
-                array('label' => __('Reset Filter'), 'onclick' => $this->getJsObjectName() . '.resetFilter()')
+                array('label' => __('Reset Filter'), 'onclick' => $this->getJsObjectName() . '.resetFilter()', 'class' => 'action-reset')
             )
         );
         $this->setChild(

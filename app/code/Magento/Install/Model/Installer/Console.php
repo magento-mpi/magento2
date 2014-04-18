@@ -76,7 +76,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     );
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
 
@@ -90,7 +90,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     /**
      * Resource config
      *
-     * @var \Magento\App\Resource\Config
+     * @var \Magento\Framework\App\Resource\Config
      */
     protected $_resourceConfig;
 
@@ -111,7 +111,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     /**
      * Application State
      *
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_appState;
 
@@ -131,21 +131,21 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
 
     /**
      * @param \Magento\Install\Model\Installer $installer
-     * @param \Magento\App\Resource\Config $resourceConfig
+     * @param \Magento\Framework\App\Resource\Config $resourceConfig
      * @param \Magento\Module\UpdaterInterface $dbUpdater
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Install\Model\Installer\Data $installerData
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Locale\ListsInterface $localeLists
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
-        \Magento\App\Resource\Config $resourceConfig,
+        \Magento\Framework\App\Resource\Config $resourceConfig,
         \Magento\Module\UpdaterInterface $dbUpdater,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Install\Model\Installer\Data $installerData,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\State $appState,
         \Magento\Locale\ListsInterface $localeLists,
         \Magento\ObjectManager $objectManager
     ) {
@@ -368,7 +368,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
             /**
              * Change directories mode to be writable by apache user
              */
-            $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR)->changePermissions('', 0777);
+            $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR)->changePermissions('', 0777);
 
             return $encryptionKey;
         } catch (\Exception $e) {
@@ -410,13 +410,13 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
         $this->_cleanUpDatabase();
 
         /* Remove temporary directories and local.xml */
-        $varDirectory = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $varDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         foreach ($varDirectory->read() as $path) {
             if ($varDirectory->isDirectory($path)) {
                 $varDirectory->delete($path);
             }
         }
-        $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::CONFIG_DIR)->delete('local.xml');
+        $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::CONFIG_DIR)->delete('local.xml');
         return true;
     }
 

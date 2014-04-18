@@ -24,12 +24,12 @@ class DepersonalizePlugin
     protected $customerSession;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
@@ -50,16 +50,16 @@ class DepersonalizePlugin
 
     /**
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Module\Manager $moduleManager
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\PageCache\Model\Config $cacheConfig
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Module\Manager $moduleManager,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\PageCache\Model\Config $cacheConfig
     ) {
         $this->customerSession = $customerSession;

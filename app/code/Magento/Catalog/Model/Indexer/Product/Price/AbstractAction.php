@@ -26,7 +26,7 @@ abstract class AbstractAction
     /**
      * Resource instance
      *
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resource;
 
@@ -38,7 +38,7 @@ abstract class AbstractAction
     /**
      * Core config model
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
@@ -89,8 +89,8 @@ abstract class AbstractAction
     protected $_useIdxTable = false;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -100,8 +100,8 @@ abstract class AbstractAction
      * @param string $defaultPriceIndexer
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,

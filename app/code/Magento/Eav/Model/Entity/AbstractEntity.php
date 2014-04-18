@@ -12,7 +12,7 @@ namespace Magento\Eav\Model\Entity;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Eav\Model\Entity\Type;
 use Magento\Model\Exception;
-use Magento\App\Config\Element;
+use Magento\Framework\App\Config\Element;
 use Magento\Model\AbstractModel;
 use Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend;
 use Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend;
@@ -169,7 +169,7 @@ abstract class AbstractEntity extends \Magento\Model\Resource\AbstractResource i
     protected static $_attributeBackendTables = array();
 
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resource;
 
@@ -199,7 +199,7 @@ abstract class AbstractEntity extends \Magento\Model\Resource\AbstractResource i
     protected $_universalFactory;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
      * @param \Magento\Locale\FormatInterface $localeFormat
@@ -208,7 +208,7 @@ abstract class AbstractEntity extends \Magento\Model\Resource\AbstractResource i
      * @param array $data
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
         \Magento\Locale\FormatInterface $localeFormat,

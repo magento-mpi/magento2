@@ -46,7 +46,7 @@ class Items extends \Magento\Checkout\Block\Cart
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
      * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
@@ -62,7 +62,7 @@ class Items extends \Magento\Checkout\Block\Cart
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
         \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,

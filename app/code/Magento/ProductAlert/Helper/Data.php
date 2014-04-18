@@ -38,7 +38,7 @@ class Data extends \Magento\Core\Helper\Url
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -53,19 +53,19 @@ class Data extends \Magento\Core\Helper\Url
     protected $_session;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $session
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Registry $coreRegistry,
         \Magento\View\LayoutInterface $layout,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $session
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -126,7 +126,7 @@ class Data extends \Magento\Core\Helper\Url
             'productalert/add/' . $type,
             array(
                 'product_id' => $this->getProduct()->getId(),
-                \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
+                \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
             )
         );
     }

@@ -17,7 +17,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
     protected $object;
 
     /**
-     * @var \Magento\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $request;
 
@@ -45,7 +45,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
+        $this->request = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
         $this->request->expects($this->any())->method('getParams')->will($this->returnValue(array()));
 
         $this->eventChanges = new \Magento\Object();

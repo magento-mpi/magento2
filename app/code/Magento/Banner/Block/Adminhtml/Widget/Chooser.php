@@ -89,6 +89,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
         $hiddenHtml = $hidden->getElementHtml();
 
         $element->setValue('')->setValueClass('value2');
+        $element->setData('css_class', 'grid-chooser');
         $element->setData('after_element_html', $hiddenHtml . $this->toHtml());
 
         return $element;

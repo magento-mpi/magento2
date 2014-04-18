@@ -48,7 +48,7 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\Config\MutableScopeConfigInterface'
+            'Magento\Framework\App\Config\MutableScopeConfigInterface'
         )->setValue(
             'dev/log/active',
             $this->_oldLogActive,
@@ -58,7 +58,7 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
         $this->_oldLogActive = null;
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\Config\MutableScopeConfigInterface'
+            'Magento\Framework\App\Config\MutableScopeConfigInterface'
         )->setValue(
             'dev/log/exception_file',
             $this->_oldExceptionFile,

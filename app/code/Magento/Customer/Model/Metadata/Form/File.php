@@ -31,7 +31,7 @@ class File extends AbstractData
     protected $_fileValidator;
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_fileSystem;
 
@@ -45,7 +45,7 @@ class File extends AbstractData
      * @param bool $isAjax
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator
-     * @param \Magento\App\Filesystem $fileSystem
+     * @param \Magento\Framework\App\Filesystem $fileSystem
      */
     public function __construct(
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -57,7 +57,7 @@ class File extends AbstractData
         $isAjax,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator,
-        \Magento\App\Filesystem $fileSystem
+        \Magento\Framework\App\Filesystem $fileSystem
     ) {
         parent::__construct($localeDate, $logger, $attribute, $localeResolver, $value, $entityTypeCode, $isAjax);
         $this->_coreData = $coreData;
@@ -68,7 +68,7 @@ class File extends AbstractData
     /**
      * {@inheritdoc}
      */
-    public function extractValue(\Magento\App\RequestInterface $request)
+    public function extractValue(\Magento\Framework\App\RequestInterface $request)
     {
         if ($this->getIsAjaxRequest()) {
             return false;
@@ -236,7 +236,7 @@ class File extends AbstractData
             }
         }
 
-        $path = $this->_fileSystem->getPath(\Magento\App\Filesystem::MEDIA_DIR) . '/' . $this->_entityTypeCode;
+        $path = $this->_fileSystem->getPath(\Magento\Framework\App\Filesystem::MEDIA_DIR) . '/' . $this->_entityTypeCode;
 
         $result = $original;
         // unlink entity file

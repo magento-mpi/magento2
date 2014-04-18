@@ -38,7 +38,7 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
     protected $_customerSession;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
@@ -47,7 +47,7 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
@@ -55,7 +55,7 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_orderCollectionFactory = $orderCollectionFactory;
