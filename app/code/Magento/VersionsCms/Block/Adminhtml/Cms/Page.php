@@ -35,7 +35,6 @@ class Page extends \Magento\Backend\Block\Template
                     array(
                         'index' => 'under_version_control',
                         'header' => __('Version Control'),
-                        'width' => 10,
                         'type' => 'options',
                         'options' => array(__('No'), __('Yes'))
                     ),

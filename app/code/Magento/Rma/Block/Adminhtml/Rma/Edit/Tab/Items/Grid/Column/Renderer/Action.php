@@ -55,7 +55,7 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
                 $row->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_REJECTED))
             ) {
                 $out .= $separator . $this->_toLinkHtml($action, $row);
-                $separator = '<span class="separator">|</span>';
+                $separator = '';
             }
         }
         return $out;
