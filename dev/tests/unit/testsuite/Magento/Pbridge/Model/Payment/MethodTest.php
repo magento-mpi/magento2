@@ -66,7 +66,7 @@ class MethodTest extends \PHPUnit_Framework_TestCase
             $config,
             $this->getMock('Magento\Framework\Logger\AdapterFactory', array(), array(), '', false),
             $this->getMock('Magento\Framework\Logger', array(), array(), '', false),
-            $this->getMock('Magento\Module\ModuleListInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Module\ModuleListInterface', array(), array(), '', false),
             $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false),
             $this->getMock('Magento\Centinel\Model\Service', array(), array(), '', false),
             $this->getMock('Magento\Pbridge\Helper\Data', array(), array(), '', false),

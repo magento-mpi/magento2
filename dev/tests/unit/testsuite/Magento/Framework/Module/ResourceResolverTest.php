@@ -10,7 +10,7 @@ namespace Magento\Framework\Module;
 class ResourceResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var  \Magento\Module\ResourceResolver
+     * @var  \Magento\Framework\Module\ResourceResolver
      */
     protected $_model;
 
@@ -21,8 +21,8 @@ class ResourceResolverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_moduleReaderMock = $this->getMock('Magento\Module\Dir\Reader', array(), array(), '', false);
-        $this->_model = new \Magento\Module\ResourceResolver($this->_moduleReaderMock);
+        $this->_moduleReaderMock = $this->getMock('Magento\Framework\Module\Dir\Reader', array(), array(), '', false);
+        $this->_model = new \Magento\Framework\Module\ResourceResolver($this->_moduleReaderMock);
     }
 
     public function testGetResourceList()

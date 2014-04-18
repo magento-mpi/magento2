@@ -10,13 +10,13 @@ namespace Magento\Framework\Module;
 class DependencyManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Module\DependencyManager
+     * @var \Magento\Framework\Module\DependencyManager
      */
     protected $model;
 
     protected function setUp()
     {
-        $this->model = new \Magento\Module\DependencyManager();
+        $this->model = new \Magento\Framework\Module\DependencyManager();
     }
 
     /**

@@ -5,18 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Declaration\Converter;
+namespace Magento\Framework\Module\Declaration\Converter;
 
 class DomTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Module\Declaration\Converter\Dom
+     * @var \Magento\Framework\Module\Declaration\Converter\Dom
      */
     protected $_converter;
 
     protected function setUp()
     {
-        $this->_converter = new \Magento\Module\Declaration\Converter\Dom();
+        $this->_converter = new \Magento\Framework\Module\Declaration\Converter\Dom();
     }
 
     public function testConvertWithValidDom()

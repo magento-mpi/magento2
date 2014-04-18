@@ -35,16 +35,16 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     protected $_resourceSetupMock;
 
     /**
-     * @var \Magento\Module\Updater
+     * @var \Magento\Framework\Module\Updater
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_factoryMock = $this->getMock('Magento\Module\Updater\SetupFactory', array(), array(), '', false);
+        $this->_factoryMock = $this->getMock('Magento\Framework\Module\Updater\SetupFactory', array(), array(), '', false);
         $this->_appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
-        $this->_moduleListMock = $this->getMock('Magento\Module\ModuleListInterface');
-        $this->_resourceResolver = $this->getMock('Magento\Module\ResourceResolverInterface');
+        $this->_moduleListMock = $this->getMock('Magento\Framework\Module\ModuleListInterface');
+        $this->_resourceResolver = $this->getMock('Magento\Framework\Module\ResourceResolverInterface');
         $this->_resourceSetupMock = $this->getMock(
             'Magento\Catalog\Model\Resource\Setup',
             array(),
@@ -78,7 +78,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_resourceSetupMock)
         );
 
-        $this->_model = new \Magento\Module\Updater(
+        $this->_model = new \Magento\Framework\Module\Updater(
             $this->_factoryMock,
             $this->_appStateMock,
             $this->_moduleListMock,
@@ -88,7 +88,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Module\Updater::updateScheme
+     * @covers \Magento\Framework\Module\Updater::updateScheme
      */
     public function testUpdateSchemeWithUpdateSkip()
     {
@@ -107,7 +107,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Module\Updater::updateScheme
+     * @covers \Magento\Framework\Module\Updater::updateScheme
      */
     public function testUpdateSchemeAppliesUpdatesIfApplicationIsNotInstalled()
     {
@@ -131,7 +131,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Module\Updater::updateData
+     * @covers \Magento\Framework\Module\Updater::updateData
      */
     public function testUpdateDataDoesNotApplyDataUpdatesIfSchemaIsNotUpdated()
     {

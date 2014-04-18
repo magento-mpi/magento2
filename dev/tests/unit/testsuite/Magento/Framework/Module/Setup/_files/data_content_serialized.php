@@ -14,8 +14,8 @@ return array(
         array(
             'table',
             'field',
-            \Magento\Module\Setup\Migration::ENTITY_TYPE_MODEL,
-            \Magento\Module\Setup\Migration::FIELD_CONTENT_TYPE_SERIALIZED
+            \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL,
+            \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_SERIALIZED
         )
     ),
     '$tableData' => array(
@@ -32,7 +32,7 @@ return array(
             )
         ),
         'aliases_map' => array(
-            \Magento\Module\Setup\Migration::ENTITY_TYPE_MODEL => array(
+            \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL => array(
                 'catalogrule/rule_condition_combine' => 'Magento\CatalogRule\Model\Rule\Condition\Combine'
             )
         )

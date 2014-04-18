@@ -14,8 +14,8 @@ return array(
         array(
             'table',
             'field',
-            \Magento\Module\Setup\Migration::ENTITY_TYPE_MODEL,
-            \Magento\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN
+            \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL,
+            \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN
         )
     ),
     '$tableData' => array(
@@ -46,14 +46,14 @@ return array(
             )
         ),
         'aliases_map' => array(
-            \Magento\Module\Setup\Migration::ENTITY_TYPE_MODEL => array(
+            \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL => array(
                 'customer/customer' => 'Magento\Customer\Model\Customer_FROM_MAP',
                 'customer/attribute_data_postcode' => 'Magento\Customer\Model\Attribute\Data\Postcode'
             )
         )
     ),
     '$aliasesMap' => array(
-        \Magento\Module\Setup\Migration::ENTITY_TYPE_MODEL => array(
+        \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL => array(
             'customer/customer' => 'Magento\Customer\Model\Customer_FROM_MAP'
         )
     )

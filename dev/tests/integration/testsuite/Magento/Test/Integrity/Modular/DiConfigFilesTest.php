@@ -40,8 +40,8 @@ class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
             $configDirectory->search('{*/di.xml,di.xml}')
         );
         //init module global configs
-        /** @var $modulesReader \Magento\Module\Dir\Reader */
-        $modulesReader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Module\Dir\Reader');
+        /** @var $modulesReader \Magento\Framework\Module\Dir\Reader */
+        $modulesReader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Module\Dir\Reader');
         self::$_moduleGlobalFiles = $modulesReader->getConfigurationFiles('di.xml');
 
         //init module area configs

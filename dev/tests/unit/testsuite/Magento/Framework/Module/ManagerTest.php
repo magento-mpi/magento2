@@ -15,7 +15,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     const XML_PATH_OUTPUT_ENABLED = 'custom/is_module_output_enabled';
 
     /**
-     * @var \Magento\Module\Manager
+     * @var \Magento\Framework\Module\Manager
      */
     private $_model;
 
@@ -31,14 +31,14 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_moduleList = $this->getMockForAbstractClass('Magento\Module\ModuleListInterface');
-        $this->_outputConfig = $this->getMockForAbstractClass('Magento\Module\Output\ConfigInterface');
-        $this->_model = new \Magento\Module\Manager(
+        $this->_moduleList = $this->getMockForAbstractClass('Magento\Framework\Module\ModuleListInterface');
+        $this->_outputConfig = $this->getMockForAbstractClass('Magento\Framework\Module\Output\ConfigInterface');
+        $this->_model = new \Magento\Framework\Module\Manager(
             $this->_outputConfig,
             $this->_moduleList,
             array(
                 'Module_DisabledOutputOne' => self::XML_PATH_OUTPUT_ENABLED,
-                'Module_DisabledOutputTwo' => 'Magento\Module\ManagerTest::XML_PATH_OUTPUT_ENABLED'
+                'Module_DisabledOutputTwo' => 'Magento\Framework\Module\ManagerTest::XML_PATH_OUTPUT_ENABLED'
             )
         );
     }

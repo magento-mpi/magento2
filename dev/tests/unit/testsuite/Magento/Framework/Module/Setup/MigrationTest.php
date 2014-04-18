@@ -12,7 +12,7 @@
 /**
  * Tests for resource setup model needed for migration process between Magento versions
  */
-namespace Magento\Module\Setup;
+namespace Magento\Framework\Module\Setup;
 
 class MigrationTest extends \PHPUnit_Framework_TestCase
 {
@@ -140,18 +140,18 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Module\Setup\Migration::appendClassAliasReplace
+     * @covers \Magento\Framework\Module\Setup\Migration::appendClassAliasReplace
      */
     public function testAppendClassAliasReplace()
     {
-        $moduleListMock = $this->getMock('Magento\Module\ModuleListInterface');
+        $moduleListMock = $this->getMock('Magento\Framework\Module\ModuleListInterface');
         $moduleListMock->expects($this->once())->method('getModule')->will($this->returnValue(array()));
 
         $filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $modulesDirMock = $this->getMock('Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false);
         $filesystemMock->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($modulesDirMock));
 
-        $contextMock = $this->getMock('Magento\Module\Setup\Context', array(), array(), '', false);
+        $contextMock = $this->getMock('Magento\Framework\Module\Setup\Context', array(), array(), '', false);
         $contextMock->expects($this->any())->method('getFilesystem')->will($this->returnValue($filesystemMock));
         $contextMock->expects($this->once())
             ->method('getEventManager')
@@ -164,12 +164,12 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->getMock('Magento\Framework\Logger', array(), array(), '', false)));
         $contextMock->expects($this->once())
             ->method('getModulesReader')
-            ->will($this->returnValue($this->getMock('Magento\Module\Dir\Reader', array(), array(), '', false)));
+            ->will($this->returnValue($this->getMock('Magento\Framework\Module\Dir\Reader', array(), array(), '', false)));
         $contextMock->expects($this->once())->method('getModuleList')->will($this->returnValue($moduleListMock));
 
-        $migrationData = $this->getMock('Magento\Module\Setup\MigrationData', array(), array(), '', false);
+        $migrationData = $this->getMock('Magento\Framework\Module\Setup\MigrationData', array(), array(), '', false);
 
-        $setupModel = new \Magento\Module\Setup\Migration(
+        $setupModel = new \Magento\Framework\Module\Setup\Migration(
             $contextMock,
             'core_setup',
             'Magento_Core',
@@ -202,25 +202,25 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider updateClassAliasesDataProvider
-     * @covers \Magento\Module\Setup\Migration::doUpdateClassAliases
-     * @covers \Magento\Module\Setup\Migration::_updateClassAliasesInTable
-     * @covers \Magento\Module\Setup\Migration::_getRowsCount
-     * @covers \Magento\Module\Setup\Migration::_applyFieldRule
-     * @covers \Magento\Module\Setup\Migration::_updateRowsData
-     * @covers \Magento\Module\Setup\Migration::_getTableData
-     * @covers \Magento\Module\Setup\Migration::_getReplacement
-     * @covers \Magento\Module\Setup\Migration::_getCorrespondingClassName
-     * @covers \Magento\Module\Setup\Migration::_getModelReplacement
-     * @covers \Magento\Module\Setup\Migration::_getPatternReplacement
-     * @covers \Magento\Module\Setup\Migration::_getClassName
-     * @covers \Magento\Module\Setup\Migration::_isFactoryName
-     * @covers \Magento\Module\Setup\Migration::_getModuleName
-     * @covers \Magento\Module\Setup\Migration::_getCompositeModuleName
-     * @covers \Magento\Module\Setup\Migration::_getAliasFromMap
-     * @covers \Magento\Module\Setup\Migration::_pushToMap
-     * @covers \Magento\Module\Setup\Migration::_getAliasesMap
-     * @covers \Magento\Module\Setup\Migration::_getAliasInSerializedStringReplacement
-     * @covers \Magento\Module\Setup\Migration::_parseSerializedString
+     * @covers \Magento\Framework\Module\Setup\Migration::doUpdateClassAliases
+     * @covers \Magento\Framework\Module\Setup\Migration::_updateClassAliasesInTable
+     * @covers \Magento\Framework\Module\Setup\Migration::_getRowsCount
+     * @covers \Magento\Framework\Module\Setup\Migration::_applyFieldRule
+     * @covers \Magento\Framework\Module\Setup\Migration::_updateRowsData
+     * @covers \Magento\Framework\Module\Setup\Migration::_getTableData
+     * @covers \Magento\Framework\Module\Setup\Migration::_getReplacement
+     * @covers \Magento\Framework\Module\Setup\Migration::_getCorrespondingClassName
+     * @covers \Magento\Framework\Module\Setup\Migration::_getModelReplacement
+     * @covers \Magento\Framework\Module\Setup\Migration::_getPatternReplacement
+     * @covers \Magento\Framework\Module\Setup\Migration::_getClassName
+     * @covers \Magento\Framework\Module\Setup\Migration::_isFactoryName
+     * @covers \Magento\Framework\Module\Setup\Migration::_getModuleName
+     * @covers \Magento\Framework\Module\Setup\Migration::_getCompositeModuleName
+     * @covers \Magento\Framework\Module\Setup\Migration::_getAliasFromMap
+     * @covers \Magento\Framework\Module\Setup\Migration::_pushToMap
+     * @covers \Magento\Framework\Module\Setup\Migration::_getAliasesMap
+     * @covers \Magento\Framework\Module\Setup\Migration::_getAliasInSerializedStringReplacement
+     * @covers \Magento\Framework\Module\Setup\Migration::_parseSerializedString
      */
     public function testDoUpdateClassAliases($replaceRules, $tableData, $expected, $aliasesMap = array())
     {
@@ -229,19 +229,19 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
         $this->_actualUpdateResult = array();
         $tableRowsCount = count($tableData);
 
-        $setupModel = new \Magento\Module\Setup\Migration(
+        $setupModel = new \Magento\Framework\Module\Setup\Migration(
             $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false, false),
             $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false),
             $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
             $this->getMock('Magento\Framework\Logger', array(), array(), '', false),
             $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface'),
-            $this->getMock('Magento\Module\ModuleListInterface'),
-            $this->getMock('Magento\Module\Dir\Reader', array(), array(), '', false, false),
+            $this->getMock('Magento\Framework\Module\ModuleListInterface'),
+            $this->getMock('Magento\Framework\Module\Dir\Reader', array(), array(), '', false, false),
             $this->getMock('Magento\Install\Model\Resource\Resource', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Resource\Theme\CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Theme\CollectionFactory', array(), array(), '', false),
-            $this->getMock('Magento\Module\Setup\MigrationFactory', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Module\Setup\MigrationFactory', array(), array(), '', false),
             'core_setup',
             'app/etc/aliases_to_classes_map.json',
             $this->_getModelDependencies($tableRowsCount, $tableData, $aliasesMap)

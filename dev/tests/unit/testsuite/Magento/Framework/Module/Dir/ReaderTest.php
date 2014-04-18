@@ -8,9 +8,9 @@
  */
 
 /**
- * Test class for \Magento\Module\Dir\File
+ * Test class for \Magento\Framework\Module\Dir\File
  */
-namespace Magento\Module\Dir;
+namespace Magento\Framework\Module\Dir;
 
 use \Magento\Framework\App\Filesystem,
     \Magento\Framework\Config\FileIteratorFactory;
@@ -18,7 +18,7 @@ use \Magento\Framework\App\Filesystem,
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Module\Dir\Reader
+     * @var \Magento\Framework\Module\Dir\Reader
      */
     protected $_model;
 
@@ -62,16 +62,16 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             false,
             false
         );
-        $this->_dirsMock = $this->getMock('Magento\Module\Dir', array(), array(), '', false, false);
+        $this->_dirsMock = $this->getMock('Magento\Framework\Module\Dir', array(), array(), '', false, false);
         $this->_baseConfigMock =
             $this->getMock('Magento\Framework\App\Config\Base', array(), array(), '', false, false);
-        $this->_moduleListMock = $this->getMock('Magento\Module\ModuleListInterface');
+        $this->_moduleListMock = $this->getMock('Magento\Framework\Module\ModuleListInterface');
         $this->_filesystemMock =
             $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false, false);
         $this->_fileIteratorFactory =
             $this->getMock('\Magento\Framework\Config\FileIteratorFactory', array(), array(), '', false, false);
 
-        $this->_model = new \Magento\Module\Dir\Reader(
+        $this->_model = new \Magento\Framework\Module\Dir\Reader(
             $this->_dirsMock,
             $this->_moduleListMock,
             $this->_filesystemMock,
@@ -121,7 +121,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($modulesDirectoryMock));
 
         $this->_moduleListMock->expects($this->once())->method('getModules')->will($this->returnValue($modules));
-        $model = new \Magento\Module\Dir\Reader(
+        $model = new \Magento\Framework\Module\Dir\Reader(
             $this->_dirsMock,
             $this->_moduleListMock,
             $this->_filesystemMock,

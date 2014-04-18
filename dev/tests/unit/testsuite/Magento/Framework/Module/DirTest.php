@@ -10,7 +10,7 @@ namespace Magento\Framework\Module;
 class DirTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Module\Dir
+     * @var \Magento\Framework\Module\Dir
      */
     protected $_model;
 
@@ -52,7 +52,7 @@ class DirTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->directoryMock)
         );
 
-        $this->_model = new \Magento\Module\Dir($this->filesystemMock, $this->_stringMock);
+        $this->_model = new \Magento\Framework\Module\Dir($this->filesystemMock, $this->_stringMock);
     }
 
     public function testGetDirModuleRoot()

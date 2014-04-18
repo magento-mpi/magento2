@@ -13,14 +13,14 @@ namespace Magento\Framework\Module;
 class SetupTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Module\Setup
+     * @var \Magento\Framework\Module\Setup
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Module\Setup',
+            'Magento\Framework\Module\Setup',
             array('resourceName' => 'default_setup', 'moduleName' => 'Magento_Core')
         );
     }
@@ -35,13 +35,13 @@ class SetupTest extends \PHPUnit_Framework_TestCase
     {
         /*reset versions*/
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            '\Magento\Module\ResourceInterface'
+            '\Magento\Framework\Module\ResourceInterface'
         )->setDbVersion(
             'adminnotification_setup',
             false
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            '\Magento\Module\ResourceInterface'
+            '\Magento\Framework\Module\ResourceInterface'
         )->setDataVersion(
             'adminnotification_setup',
             false
@@ -49,8 +49,8 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $this->_model->deleteTableRow('core_resource', 'code', 'adminnotification_setup');
         $this->_model->getConnection()->dropTable($this->_model->getTable('adminnotification_inbox'));
         $this->_model->getConnection()->dropTable($this->_model->getTable('admin_system_messages'));
-        /** @var $updater \Magento\Module\Updater */
-        $updater = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Module\Updater');
+        /** @var $updater \Magento\Framework\Module\Updater */
+        $updater = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Module\Updater');
         try {
             $updater->updateScheme();
             $updater->updateData();
@@ -94,7 +94,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Module\Setup::updateTableRow
+     * @covers \Magento\Framework\Module\Setup::updateTableRow
      * @expectedException \Zend_Db_Statement_Exception
      */
     public function testUpdateTableRowNameConversion()

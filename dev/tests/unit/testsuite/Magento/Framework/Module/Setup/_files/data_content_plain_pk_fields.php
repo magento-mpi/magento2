@@ -14,8 +14,8 @@ return array(
         array(
             'table',
             'collection',
-            \Magento\Module\Setup\Migration::ENTITY_TYPE_RESOURCE,
-            \Magento\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
+            \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_RESOURCE,
+            \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
             array('pk_field1', 'pk_field2')
         )
     ),
@@ -32,7 +32,7 @@ return array(
             )
         ),
         'aliases_map' => array(
-            \Magento\Module\Setup\Migration::ENTITY_TYPE_RESOURCE => array(
+            \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_RESOURCE => array(
                 'customer/attribute_collection' => 'Magento\Customer\Model\Resource\Attribute\Collection'
             )
         )

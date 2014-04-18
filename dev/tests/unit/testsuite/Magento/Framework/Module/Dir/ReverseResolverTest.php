@@ -5,30 +5,30 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Dir;
+namespace Magento\Framework\Module\Dir;
 
 class ReverseResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Module\Dir\ReverseResolver
+     * @var \Magento\Framework\Module\Dir\ReverseResolver
      */
     protected $_model;
 
     /**
-     * @var \Magento\Module\ModuleListInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Module\ModuleListInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleList;
 
     /**
-     * @var \Magento\Module\Dir|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Module\Dir|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleDirs;
 
     protected function setUp()
     {
-        $this->_moduleList = $this->getMock('Magento\Module\ModuleListInterface');
-        $this->_moduleDirs = $this->getMock('Magento\Module\Dir', array(), array(), '', false, false);
-        $this->_model = new \Magento\Module\Dir\ReverseResolver($this->_moduleList, $this->_moduleDirs);
+        $this->_moduleList = $this->getMock('Magento\Framework\Module\ModuleListInterface');
+        $this->_moduleDirs = $this->getMock('Magento\Framework\Module\Dir', array(), array(), '', false, false);
+        $this->_model = new \Magento\Framework\Module\Dir\ReverseResolver($this->_moduleList, $this->_moduleDirs);
     }
 
     /**

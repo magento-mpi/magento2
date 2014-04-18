@@ -5,26 +5,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Declaration\Reader;
+namespace Magento\Framework\Module\Declaration\Reader;
 
 class FilesystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Module\Declaration\Reader\Filesystem
+     * @var \Magento\Framework\Module\Declaration\Reader\Filesystem
      */
     protected $_model;
 
     protected function setUp()
     {
         $fileResolver = $this->getFileResolver(__DIR__ . '/../FileResolver/_files');
-        $converter = new \Magento\Module\Declaration\Converter\Dom();
-        $schemaLocatorMock = $this->getMock('Magento\Module\Declaration\SchemaLocator', array(), array(), '', false);
+        $converter = new \Magento\Framework\Module\Declaration\Converter\Dom();
+        $schemaLocatorMock = $this->getMock('Magento\Framework\Module\Declaration\SchemaLocator', array(), array(), '', false);
         $validationStateMock = $this->getMock('Magento\Framework\Config\ValidationStateInterface');
 
         $appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
 
-        $dependencyManager = $this->getMock('Magento\Module\DependencyManagerInterface');
+        $dependencyManager = $this->getMock('Magento\Framework\Module\DependencyManagerInterface');
         $dependencyManager->expects(
             $this->any()
         )->method(
@@ -33,7 +33,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(array())
         );
 
-        $this->_model = new \Magento\Module\Declaration\Reader\Filesystem(
+        $this->_model = new \Magento\Framework\Module\Declaration\Reader\Filesystem(
             $fileResolver,
             $converter,
             $schemaLocatorMock,
@@ -86,7 +86,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      * Get file resolver instance
      *
      * @param string $baseDir
-     * @return \Magento\Module\Declaration\FileResolver
+     * @return \Magento\Framework\Module\Declaration\FileResolver
      */
     protected function getFileResolver($baseDir)
     {
@@ -97,6 +97,6 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         );
         $iteratorFactory = new \Magento\Framework\Config\FileIteratorFactory();
 
-        return new \Magento\Module\Declaration\FileResolver($filesystem, $iteratorFactory);
+        return new \Magento\Framework\Module\Declaration\FileResolver($filesystem, $iteratorFactory);
     }
 }

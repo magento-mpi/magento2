@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Updater;
+namespace Magento\Framework\Module\Updater;
 
 class SetupFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +29,7 @@ class SetupFactoryTest extends \PHPUnit_Framework_TestCase
         $moduleName = 'module';
         $this->objectManagerMock->expects($this->once())->method('create')
             ->with(
-                'Magento\Module\Updater\SetupInterface',
+                'Magento\Framework\Module\Updater\SetupInterface',
                 array(
                     'resourceName' => $resourceName,
                     'moduleName' => $moduleName,
@@ -40,7 +40,7 @@ class SetupFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \LogicException
-     * @expectedExceptionMessage \Not\Valid\Setup\Model is not a \Magento\Module\Updater\SetupInterface
+     * @expectedExceptionMessage \Not\Valid\Setup\Model is not a \Magento\Framework\Module\Updater\SetupInterface
      */
     public function testCreateThrowsExceptionIfSetupModelIsNotValid()
     {

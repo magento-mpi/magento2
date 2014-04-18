@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Declaration;
+namespace Magento\Framework\Module\Declaration;
 
 class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
@@ -68,6 +68,6 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
         );
         $iteratorFactory = new \Magento\Framework\Config\FileIteratorFactory();
 
-        return new \Magento\Module\Declaration\FileResolver($filesystem, $iteratorFactory);
+        return new \Magento\Framework\Module\Declaration\FileResolver($filesystem, $iteratorFactory);
     }
 }

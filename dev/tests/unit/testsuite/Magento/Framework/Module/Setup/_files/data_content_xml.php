@@ -14,8 +14,8 @@ return array(
         array(
             'table',
             'field',
-            \Magento\Module\Setup\Migration::ENTITY_TYPE_BLOCK,
-            \Magento\Module\Setup\Migration::FIELD_CONTENT_TYPE_XML
+            \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_BLOCK,
+            \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_XML
         )
     ),
     '$tableData' => array(
@@ -39,7 +39,7 @@ return array(
             )
         ),
         'aliases_map' => array(
-            \Magento\Module\Setup\Migration::ENTITY_TYPE_BLOCK => array(
+            \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_BLOCK => array(
                 'catalog/product_newProduct' => 'Magento\Catalog\Block\Product\NewProduct',
                 'catalogSearch/result' => 'Magento\CatalogSearch\Block\Result'
             )
