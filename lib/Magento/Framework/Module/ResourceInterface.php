@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module;
+namespace Magento\Framework\Module;
 
 /**
  * Resource Model Interface

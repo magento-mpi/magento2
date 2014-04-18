@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module;
+namespace Magento\Framework\Module;
 
 class Setup implements \Magento\Module\Updater\SetupInterface
 {

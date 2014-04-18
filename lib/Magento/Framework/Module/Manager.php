@@ -9,7 +9,7 @@
 /**
  * Module statuses manager
  */
-namespace Magento\Module;
+namespace Magento\Framework\Module;
 
 class Manager
 {

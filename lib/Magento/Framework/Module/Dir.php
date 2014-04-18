@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module;
+namespace Magento\Framework\Module;
 
 use Magento\Framework\App\Filesystem;
 use Magento\Framework\Filesystem\Directory\ReadInterface;

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module;
+namespace Magento\Framework\Module;
 
 use Magento\Framework\App\State;
 use Magento\Module\Updater\SetupFactory;
