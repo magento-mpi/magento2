@@ -123,41 +123,61 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
     public function testPrepareJsonAttributes()
     {
         $price = 43;
-        $store = $this->getMock('\Magento\Store\Model\Store', ['convertPrice'], [], '', false);
+
         $attributeCode = 'color_config';
         $attributeId = 176;
 
         $options = ['images' => [],];
-        $priceOptions = [
-            'id' => $attributeId,
-            'code' => $attributeCode,
-            'label' => $attributeCode,
-            'options' => [
-                0 => [
-                    'id' => 20,
-                    'price' => 2.4,
-                    'oldPrice' => 2.6,
-                    'inclTaxPrice' => 2.6,
-                    'exlTaxPrice' => 2.4,
-                    'products' => [0 => 12]
-                ],
-                1 => [
-                    'id' => 21,
-                    'price' => 9.24,
-                    'oldPrice' => 10,
-                    'inclTaxPrice' => 10,
-                    'exlTaxPrice' => 9.24,
-                    'products' => [0 => 13]],
-                2 => [
-                    'id' => 22,
-                    'price' => 13.86,
-                    'oldPrice' => 15,
-                    'inclTaxPrice' => 15,
-                    'exlTaxPrice' => 13.86,
-                    'products' => [0 => 14]]
-            ]
-        ];
 
+        $store = $this->getMock('Magento\Store\Model\Store', ['convertPrice'], [], '', false);
+        $configAttributesMock = $this->getMock(
+            'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection',
+            [],
+            [],
+            '',
+            false
+        );
+        $productAttributeMock = $this->getMock('Magento\Catalog\Model\Resource\Eav\Attribute',
+            ['getId', 'getAttributeCode'],
+            [],
+            '',
+            false
+        );
+        $attributeMock = $this->getMock('Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute',
+            ['getProductAttribute', 'getLabel'],
+            [],
+            '',
+            false
+        );
+
+        $typeMock = $this->getMock(
+            'Magento\ConfigurableProduct\Model\Product\Type\Configurable',
+            ['getConfigurableAttributes'],
+            [],
+            '',
+            false,
+            false
+        );
+        $productAttributeMock->expects($this->atLeastOnce())
+            ->method('getId')
+            ->will($this->returnValue($attributeId));
+        $productAttributeMock->expects($this->atLeastOnce())
+            ->method('getAttributeCode')
+            ->will($this->returnValue($attributeCode));
+
+        $attributeMock->expects($this->atLeastOnce())
+            ->method('getConfigurableAttributes')
+            ->will($this->returnValue($productAttributeMock));
+        $attributeMock->expects($this->atLeastOnce())
+            ->method('getLabel')
+            ->will($this->returnValue($attributeCode));
+
+        $this->saleableItemMock->expects($this->once())
+            ->method('getTypeInstance')
+            ->will($this->returnValue($typeMock));
+        $typeMock->expects($this->once())
+            ->method('getConfigurableAttributes')
+            ->will($this->returnValue($configAttributesMock));
 
         $this->storeManagerMock->expects($this->once())
             ->method('getStore')
@@ -211,11 +231,15 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Prepare price
-     *
-     * @param int $amount
+     * @param $id
+     * @param $price
+     * @param $oldPrice
+     * @param $inclTaxPrice
+     * @param $exclTaxPrice
+     * @param $products
+     * @dataProvider getUrlDataProvider
      */
-    protected function preparePrice($amount)
+    public function preparePrice($id, $price, $oldPrice, $inclTaxPrice, $exclTaxPrice, $products)
     {
         $priceCode = 'final_price';
 
@@ -229,6 +253,36 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
         $this->regularPriceMock->expects($this->once())
             ->method('getValue')
             ->will($this->returnValue($amount));
+    }
+
+    public function preparePriceDataProvider()
+    {
+        return [
+            0 => [
+                'id' => 20,
+                'price' => 2.4,
+                'oldPrice' => 2.6,
+                'inclTaxPrice' => 2.6,
+                'exlTaxPrice' => 2.4,
+                'products' => [0 => 12]
+            ],
+            1 => [
+                'id' => 21,
+                'price' => 9.24,
+                'oldPrice' => 10,
+                'inclTaxPrice' => 10,
+                'exlTaxPrice' => 9.24,
+                'products' => [0 => 13]
+            ],
+            2 => [
+                'id' => 22,
+                'price' => 13.86,
+                'oldPrice' => 15,
+                'inclTaxPrice' => 15,
+                'exlTaxPrice' => 13.86,
+                'products' => [0 => 14]
+            ]
+        ];
     }
 
     /**

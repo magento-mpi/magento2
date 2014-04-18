@@ -127,7 +127,8 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
                     'id' => $value['value_index'],
                     'label' => $value['label'],
                     'price' => $price,
-                    'oldPrice' => $this->_registerJsPrice(
+                    'oldPrice' =>
+                        $this->_registerJsPrice(
                             $this->_convertPrice($optionValueOldAmount->getValue()),
                             true
                         ),
@@ -179,9 +180,9 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     protected function preparePrice(array $value = array())
     {
         return $this->product
-                ->getPriceInfo()
-                ->getPrice('final_price')
-                ->getValue() * $value['pricing_value'] / 100;
+            ->getPriceInfo()
+            ->getPrice('final_price')
+            ->getValue() * $value['pricing_value'] / 100;
     }
 
     /**
