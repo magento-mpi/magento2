@@ -14,6 +14,7 @@ use Magento\Catalog\Model\Product;
 use Magento\Bundle\Model\Product\Price;
 use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Event\ManagerInterface;
+use Magento\Pricing\Object\SaleableInterface;
 
 /**
  * Bundle option price
@@ -46,14 +47,14 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
-     * @param \Magento\Catalog\Model\Product $bundleProduct
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param SaleableInterface $bundleProduct
+     * @param ManagerInterface $eventManager
      */
     public function __construct(
         Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
-        Product $bundleProduct,
+        SaleableInterface $bundleProduct,
         ManagerInterface $eventManager
     ) {
         parent::__construct($saleableItem, $quantity, $calculator);

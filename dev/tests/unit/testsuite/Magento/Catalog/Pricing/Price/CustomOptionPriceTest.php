@@ -91,9 +91,71 @@ class CustomOptionPriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Return value
+     * Test getValue()
      */
     public function testGetValue()
+    {
+        $price = 100;
+        $minPrice = 10;
+        $optionId = 1;
+        $type = 'select';
+
+        $optionValueMax = $this->getOptionValueMock($price);
+        $optionValueMin = $this->getOptionValueMock($minPrice);
+
+        $optionItemMock = $this->getMockBuilder('Magento\Catalog\Model\Product\Option')
+            ->disableOriginalConstructor()
+            ->setMethods(['getValues', '__wakeup', 'getIsRequire', 'getId', 'getType'])
+            ->getMock();
+        $optionItemMock->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($optionId));
+        $optionItemMock->expects($this->once())
+            ->method('getType')
+            ->will($this->returnValue($type));
+        $optionItemMock->expects($this->once())
+            ->method('getIsRequire')
+            ->will($this->returnValue(true));
+        $optionItemMock->expects($this->any())
+            ->method('getValues')
+            ->will($this->returnValue([$optionValueMax, $optionValueMin]));
+        $options = [$optionItemMock];
+        $this->product->expects($this->once())
+            ->method('getOptions')
+            ->will($this->returnValue($options));
+
+        $result = $this->object->getValue();
+        $this->assertCount(1, $result);
+        $this->assertArrayHasKey('option_id', $result[0]);
+        $this->assertArrayHasKey('type', $result[0]);
+        $this->assertArrayHasKey('min', $result[0]);
+        $this->assertEquals($minPrice, $result[0]['min']);
+    }
+
+    /**
+     * @param int $price
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getOptionValueMock($price)
+    {
+        $optionValueMock = $this->getMockBuilder('Magento\Catalog\Model\Product\Option\Value')
+            ->disableOriginalConstructor()
+            ->setMethods(['getPriceType', 'getPrice', 'getId', '__wakeup'])
+            ->getMock();
+        $optionValueMock->expects($this->once())
+            ->method('getPriceType')
+            ->will($this->returnValue('percent'));
+        $optionValueMock->expects($this->once())
+            ->method('getPrice')
+            ->with($this->equalTo(true))
+            ->will($this->returnValue($price));
+        return $optionValueMock;
+    }
+
+    /**
+     * Test getSelectedOptions()
+     */
+    public function testGetSelectedOptions()
     {
         $optionId1 = 1;
         $optionId2 = 2;
@@ -149,11 +211,9 @@ class CustomOptionPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getOptionById')
             ->with($this->equalTo($optionId2))
             ->will($this->returnValue(null));
-        $result = $this->object->getValue();
-        $this->equalTo($optionValue, $result);
 
         // Return from cache
-        $result = $this->object->getValue();
+        $result = $this->object->getSelectedOptions();
         $this->equalTo($optionValue, $result);
     }
 
@@ -175,17 +235,7 @@ class CustomOptionPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getAmount')
             ->will($this->returnValue($this->amount));
 
-        $optionValueMock = $this->getMockBuilder('Magento\Catalog\Model\Product\Option\Value')
-            ->disableOriginalConstructor()
-            ->setMethods(['getPriceType', 'getPrice', 'getId', '__wakeup'])
-            ->getMock();
-        $optionValueMock->expects($this->once())
-            ->method('getPriceType')
-            ->will($this->returnValue('percent'));
-        $optionValueMock->expects($this->once())
-            ->method('getPrice')
-            ->with($this->equalTo(true))
-            ->will($this->returnValue($price));
+        $optionValueMock = $this->getOptionValueMock($price);
         $optionValueMock->expects($this->once())
             ->method('getId')
             ->will($this->returnValue($id));
