@@ -133,7 +133,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Logger $logger
      * @param \Magento\Catalog\Helper\Product $catalogProduct
@@ -157,7 +157,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Registry $coreRegistry,
         \Magento\Logger $logger,
         \Magento\Catalog\Helper\Product $catalogProduct,
@@ -1046,7 +1046,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function checkProductBuyState($product)
     {
@@ -1060,7 +1060,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         $bundleOption = $buyRequest->getBundleOption();
 
         if (empty($bundleOption)) {
-            throw new \Magento\Model\Exception($this->getSpecifyOptionMessage());
+            throw new \Magento\Framework\Model\Exception($this->getSpecifyOptionMessage());
         }
 
         $skipSaleableCheck = $this->_catalogProduct->getSkipSaleableCheck();
@@ -1068,7 +1068,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
             /* @var $selection \Magento\Bundle\Model\Selection */
             $selection = $productSelections->getItemById($selectionId);
             if (!$selection || !$selection->isSalable() && !$skipSaleableCheck) {
-                throw new \Magento\Model\Exception(__('The required options you selected are not available.'));
+                throw new \Magento\Framework\Model\Exception(__('The required options you selected are not available.'));
             }
         }
 
@@ -1076,7 +1076,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         $optionsCollection = $this->getOptionsCollection($product);
         foreach ($optionsCollection->getItems() as $option) {
             if ($option->getRequired() && empty($bundleOption[$option->getId()])) {
-                throw new \Magento\Model\Exception(__('Please select all required options.'));
+                throw new \Magento\Framework\Model\Exception(__('Please select all required options.'));
             }
         }
 

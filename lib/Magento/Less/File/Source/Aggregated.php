@@ -7,9 +7,9 @@
  */
 namespace Magento\Less\File\Source;
 
-use Magento\View\Layout\File\SourceInterface;
-use Magento\View\Layout\File\FileList\Factory;
-use Magento\View\Design\ThemeInterface;
+use Magento\Framework\View\Layout\File\SourceInterface;
+use Magento\Framework\View\Layout\File\FileList\Factory;
+use Magento\Framework\View\Design\ThemeInterface;
 
 /**
  * Source of layout files aggregated from a theme and its parents according to merging and overriding conventions
@@ -59,9 +59,9 @@ class Aggregated implements SourceInterface
      *
      * Aggregate LESS files from modules and a theme and its ancestors
      *
-     * @param \Magento\View\Design\ThemeInterface $theme
+     * @param \Magento\Framework\View\Design\ThemeInterface $theme
      * @param string $filePath
-     * @return \Magento\View\Layout\File[]
+     * @return \Magento\Framework\View\Layout\File[]
      * @throws \LogicException
      */
     public function getFiles(ThemeInterface $theme, $filePath = '*')

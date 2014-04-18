@@ -35,7 +35,7 @@ class End extends \Magento\Install\Block\AbstractBlock
     protected $_cryptKey;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
      * @param \Magento\Session\Generic $session
@@ -44,7 +44,7 @@ class End extends \Magento\Install\Block\AbstractBlock
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
         \Magento\Session\Generic $session,

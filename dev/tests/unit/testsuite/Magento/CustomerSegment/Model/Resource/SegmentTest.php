@@ -42,7 +42,7 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_writeAdapter = $this->getMockForAbstractClass(
-            'Magento\DB\Adapter\AdapterInterface',
+            'Magento\Framework\DB\Adapter\AdapterInterface',
             array(),
             '',
             false,
@@ -52,7 +52,7 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_resource = $this->getMock(
-            'Magento\App\Resource',
+            'Magento\Framework\App\Resource',
             array('getConnection', 'getTableName'),
             array(),
             '',
@@ -103,7 +103,8 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveCustomersFromSelect()
     {
-        $select = $this->getMock('Magento\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
+        $select =
+            $this->getMock('Magento\Framework\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
         $this->_segment->expects($this->any())->method('getId')->will($this->returnValue(3));
         $statement = $this->getMock(
             'Zend_Db_Statement',
@@ -168,7 +169,13 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testAggregateMatchedCustomersOneWebsite($scope, $websites, $websiteIds)
     {
-        $select = $this->getMock('Magento\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
+        $select = $this->getMock(
+            'Magento\Framework\DB\Select',
+            array('joinLeft', 'from', 'columns'),
+            array(),
+            '',
+            false
+        );
         $this->_conditions->expects(
             $this->once()
         )->method(

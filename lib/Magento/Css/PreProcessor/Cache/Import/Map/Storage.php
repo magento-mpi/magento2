@@ -7,7 +7,7 @@
  */
 namespace Magento\Css\PreProcessor\Cache\Import\Map;
 
-use Magento\App\Filesystem;
+use Magento\Framework\App\Filesystem;
 
 /**
  * Storage for import cache
@@ -20,7 +20,7 @@ class Storage
     const MAPS_DIR = "maps/less";
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $mapsDirectory;
 

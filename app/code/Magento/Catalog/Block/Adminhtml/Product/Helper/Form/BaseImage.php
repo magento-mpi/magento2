@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 
-class BaseImage extends \Magento\Data\Form\Element\AbstractElement
+class BaseImage extends \Magento\Framework\Data\Form\Element\AbstractElement
 {
     /**
      * Model Url instance
@@ -42,25 +42,25 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
     protected $_fileConfig;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
-     * @param \Magento\View\UrlFactory $coreViewUrlFactory
+     * @param \Magento\Framework\View\UrlFactory $coreViewUrlFactory
      * @param \Magento\Backend\Model\UrlFactory $backendUrlFactory
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\File\Size $fileConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Framework\Data\Form\Element\Factory $factoryElement,
+        \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
-        \Magento\View\UrlFactory $coreViewUrlFactory,
+        \Magento\Framework\View\UrlFactory $coreViewUrlFactory,
         \Magento\Backend\Model\UrlFactory $backendUrlFactory,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\File\Size $fileConfig,

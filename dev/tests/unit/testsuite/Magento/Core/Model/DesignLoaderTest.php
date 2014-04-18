@@ -10,7 +10,7 @@ namespace Magento\Core\Model;
 class DesignLoaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\DesignLoader
+     * @var \Magento\Framework\View\DesignLoader
      */
     protected $_model;
 
@@ -25,16 +25,16 @@ class DesignLoaderTest extends \PHPUnit_Framework_TestCase
     protected $_requestMock;
 
     /**
-     * @var \Magento\App\State|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $appState;
 
     protected function setUp()
     {
-        $this->_areaListMock = $this->getMock('\Magento\App\AreaList', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
-        $this->appState = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $this->_model = new \Magento\View\DesignLoader(
+        $this->_areaListMock = $this->getMock('\Magento\Framework\App\AreaList', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $this->appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
+        $this->_model = new \Magento\Framework\View\DesignLoader(
             $this->_requestMock,
             $this->_areaListMock,
             $this->appState

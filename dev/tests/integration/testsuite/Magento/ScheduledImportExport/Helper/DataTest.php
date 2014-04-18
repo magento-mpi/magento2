@@ -28,7 +28,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $this->_moduleManagerMock = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\App\Helper\Context',
+            'Magento\Framework\App\Helper\Context',
             array('moduleManager' => $this->_moduleManagerMock)
         );
         $this->_importExportHelper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

@@ -35,7 +35,7 @@ class Observer
     protected $_session;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -52,7 +52,7 @@ class Observer
     protected $_urlFactory;
 
     /**
-     * @var \Magento\App\ActionFlag
+     * @var \Magento\Framework\App\ActionFlag
      */
     protected $_actionFlag;
 
@@ -62,9 +62,9 @@ class Observer
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Session\Generic $session
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\UrlFactory $urlFactory
-     * @param \Magento\App\ActionFlag $actionFlag
+     * @param \Magento\Framework\App\ActionFlag $actionFlag
      */
     public function __construct(
         \Magento\WebsiteRestriction\Model\ConfigInterface $config,
@@ -72,9 +72,9 @@ class Observer
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Session\Generic $session,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\UrlFactory $urlFactory,
-        \Magento\App\ActionFlag $actionFlag
+        \Magento\Framework\App\ActionFlag $actionFlag
     ) {
         $this->_config = $config;
         $this->_storeManager = $storeManager;
@@ -94,7 +94,7 @@ class Observer
      */
     public function restrictWebsite($observer)
     {
-        /* @var $controller \Magento\App\Action\Action */
+        /* @var $controller \Magento\Framework\App\Action\Action */
         $controller = $observer->getEvent()->getControllerAction();
 
         $dispatchResult = new \Magento\Object(array('should_proceed' => true, 'customer_logged_in' => false));
@@ -108,9 +108,9 @@ class Observer
         if (!$this->_config->isRestrictionEnabled()) {
             return;
         }
-        /* @var $request \Magento\App\RequestInterface */
+        /* @var $request \Magento\Framework\App\RequestInterface */
         $request = $observer->getEvent()->getRequest();
-        /* @var $response \Magento\App\ResponseInterface */
+        /* @var $response \Magento\Framework\App\ResponseInterface */
         $response = $controller->getResponse();
         switch ($this->_config->getMode()) {
             // show only landing page with 503 or 200 code
@@ -169,7 +169,7 @@ class Observer
 
                     if ($redirectUrl) {
                         $response->setRedirect($redirectUrl);
-                        $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
+                        $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
                     }
                     if ($this->_scopeConfig->isSetFlag(
                         \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
@@ -183,7 +183,7 @@ class Observer
                     $this->_session->setWebsiteRestrictionAfterLoginUrl($afterLoginUrl);
                 } elseif ($this->_session->hasWebsiteRestrictionAfterLoginUrl()) {
                     $response->setRedirect($this->_session->getWebsiteRestrictionAfterLoginUrl(true));
-                    $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
+                    $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
                 }
                 break;
         }

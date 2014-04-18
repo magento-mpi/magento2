@@ -56,7 +56,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     /**
      * Test getHistoryFilePath() method in case when file info is not set
      *
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testGetHistoryFilePathException()
     {
@@ -74,9 +74,9 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $fileInfo = $this->_model->getFileInfo();
 
         // Create export directory if not exist
-        /** @var \Magento\Filesystem\Directory\Write $varDir */
+        /** @var \Magento\Framework\Filesystem\Directory\Write $varDir */
         $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
             'var'
         );

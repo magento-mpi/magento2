@@ -11,7 +11,7 @@ namespace Magento\Customer\Block\Widget;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Customer\Service\V1\Data\Customer;
-use Magento\View\Element\Template\Context;
+use Magento\Framework\View\Element\Template\Context;
 use Magento\Customer\Helper\Address as AddressHelper;
 use Magento\Customer\Helper\Data as CustomerHelper;
 

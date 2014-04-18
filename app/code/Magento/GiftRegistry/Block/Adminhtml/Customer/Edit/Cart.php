@@ -33,14 +33,14 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Data\CollectionFactory
+     * @var \Magento\Framework\Data\CollectionFactory
      */
     protected $_dataFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Data\CollectionFactory $dataFactory
+     * @param \Magento\Framework\Data\CollectionFactory $dataFactory
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Sales\Model\QuoteFactory $salesQuoteFactory
@@ -49,7 +49,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Data\CollectionFactory $dataFactory,
+        \Magento\Framework\Data\CollectionFactory $dataFactory,
         \Magento\Registry $coreRegistry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\QuoteFactory $salesQuoteFactory,

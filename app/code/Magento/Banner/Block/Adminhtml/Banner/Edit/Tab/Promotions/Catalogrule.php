@@ -94,29 +94,42 @@ class Catalogrule extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->addColumn(
             'in_banner_catalogrule',
             array(
-                'header_css_class' => 'a-center',
                 'type' => 'checkbox',
                 'name' => 'in_banner_catalogrule',
                 'values' => $this->_getSelectedRules(),
-                'align' => 'center',
-                'index' => 'rule_id'
+                'index' => 'rule_id',
+                'header_css_class' => 'col-select col-massaction',
+                'column_css_class' => 'col-select col-massaction'
             )
         );
         $this->addColumn(
             'catalogrule_rule_id',
-            array('header' => __('ID'), 'align' => 'right', 'width' => '50px', 'index' => 'rule_id')
+            array(
+                'header' => __('ID'),
+                'index' => 'rule_id',
+                'header_css_class' => 'col-id',
+                'column_css_class' => 'col-id'
+            )
         );
 
-        $this->addColumn('catalogrule_name', array('header' => __('Rule'), 'align' => 'left', 'index' => 'name'));
+        $this->addColumn(
+            'catalogrule_name',
+            array(
+                'header' => __('Rule'),
+                'index' => 'name',
+                'header_css_class' => 'col-name',
+                'column_css_class' => 'col-name'
+            )
+        );
 
         $this->addColumn(
             'catalogrule_from_date',
             array(
                 'header' => __('Start on'),
-                'align' => 'left',
-                'width' => '120px',
                 'type' => 'date',
-                'index' => 'from_date'
+                'index' => 'from_date',
+                'header_css_class' => 'col-date',
+                'column_css_class' => 'col-date'
             )
         );
 
@@ -124,11 +137,11 @@ class Catalogrule extends \Magento\Backend\Block\Widget\Grid\Extended
             'catalogrule_to_date',
             array(
                 'header' => __('End on'),
-                'align' => 'left',
-                'width' => '120px',
                 'type' => 'date',
                 'default' => '--',
-                'index' => 'to_date'
+                'index' => 'to_date',
+                'header_css_class' => 'col-date',
+                'column_css_class' => 'col-date'
             )
         );
 
@@ -136,11 +149,11 @@ class Catalogrule extends \Magento\Backend\Block\Widget\Grid\Extended
             'catalogrule_is_active',
             array(
                 'header' => __('Status'),
-                'align' => 'left',
-                'width' => '80px',
                 'index' => 'is_active',
                 'type' => 'options',
-                'options' => array(1 => 'Active', 0 => 'Inactive')
+                'options' => array(1 => 'Active', 0 => 'Inactive'),
+                'header_css_class' => 'col-status',
+                'column_css_class' => 'col-status'
             )
         );
 

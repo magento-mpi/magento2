@@ -64,10 +64,10 @@ class AttributeDataFactory
      * Set entity to data model (need for work)
      *
      * @param \Magento\Eav\Model\Attribute $attribute
-     * @param \Magento\Model\AbstractModel $entity
+     * @param \Magento\Framework\Model\AbstractModel $entity
      * @return \Magento\Eav\Model\Attribute\Data\AbstractData
      */
-    public function create(\Magento\Eav\Model\Attribute $attribute, \Magento\Model\AbstractModel $entity)
+    public function create(\Magento\Eav\Model\Attribute $attribute, \Magento\Framework\Model\AbstractModel $entity)
     {
         /* @var $dataModel \Magento\Eav\Model\Attribute\Data\AbstractData */
         $dataModelClass = $attribute->getDataModel();

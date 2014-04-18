@@ -15,14 +15,14 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProcessedTemplate($isSingleStore)
     {
-        $design = $this->getMock('Magento\View\DesignInterface');
-        $context = $this->getMock('Magento\Model\Context', array(), array(), '', false);
+        $design = $this->getMock('Magento\Framework\View\DesignInterface');
+        $context = $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false);
         $registry = $this->getMock('Magento\Registry', array(), array(), '', false);
 
         $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $storeManager->expects($this->once())->method('hasSingleStore')->will($this->returnValue($isSingleStore));
 
-        $request = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
+        $request = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false);
 
         if ($isSingleStore) {
             $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
@@ -55,7 +55,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('processed text')
         );
 
-        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $templateFactory = $this->getMock('Magento\Newsletter\Model\TemplateFactory');
         $data = array('template_text' => 'template text');
 

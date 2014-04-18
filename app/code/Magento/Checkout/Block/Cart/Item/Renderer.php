@@ -21,7 +21,7 @@ use Magento\Sales\Model\Quote\Item;
  * @method \Magento\Checkout\Block\Cart\Item\Renderer setProductName(string)
  * @method \Magento\Checkout\Block\Cart\Item\Renderer setDeleteUrl(string)
  */
-class Renderer extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
+class Renderer extends \Magento\Framework\View\Element\Template implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * @var \Magento\Checkout\Model\Session
@@ -75,7 +75,7 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
     protected $_imageHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Helper\Image $imageHelper
@@ -84,7 +84,7 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Product\Configuration $productConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Helper\Image $imageHelper,
@@ -324,7 +324,7 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
         $encodedUrl = $this->_urlHelper->getEncodedUrl();
         return $this->getUrl(
             'checkout/cart/delete',
-            array('id' => $this->getItem()->getId(), \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $encodedUrl)
+            array('id' => $this->getItem()->getId(), \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $encodedUrl)
         );
     }
 
@@ -431,7 +431,7 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
     /**
      * Return product additional information block
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     public function getProductAdditionalInformationBlock()
     {

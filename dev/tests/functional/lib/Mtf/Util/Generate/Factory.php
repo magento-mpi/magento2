@@ -60,6 +60,6 @@ class Factory extends AbstractGenerate
         $this->page->launch();
         $this->repository->launch();
 
-        return $this->objectManager->get('Magento\App\ResponseInterface');
+        return $this->objectManager->get('Magento\Framework\App\ResponseInterface');
     }
 }

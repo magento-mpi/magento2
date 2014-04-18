@@ -113,32 +113,32 @@
                     <ftp>
                         <read_only>0</read_only>
                         <permissions>511</permissions>
-                        <driver>Magento\Filesystem\Driver\File</driver>
+                        <driver>Magento\Framework\Filesystem\Driver\File</driver>
                     </ftp>
                     <ftps>
                         <read_only>0</read_only>
                         <permissions>511</permissions>
-                        <driver>Magento\Filesystem\Driver\File</driver>
+                        <driver>Magento\Framework\Filesystem\Driver\File</driver>
                     </ftps>
                     <ssh2>
                         <read_only>0</read_only>
                         <permissions>511</permissions>
-                        <driver>Magento\Filesystem\Driver\File</driver>
+                        <driver>Magento\Framework\Filesystem\Driver\File</driver>
                     </ssh2>
                 </directory>
                 <protocol>
                     <zlib>
-                        <driver>Magento\Filesystem\Driver\Zlib</driver>
+                        <driver>Magento\Framework\Filesystem\Driver\Zlib</driver>
                         <protocol>compress.zlib</protocol>
                     </zlib>
                     <http>
                         <read_only>1</read_only>
-                        <driver>Magento\Filesystem\Driver\Http</driver>
+                        <driver>Magento\Framework\Filesystem\Driver\Http</driver>
                         <protocol>http</protocol>
                     </http>
                     <https>
                         <read_only>1</read_only>
-                        <driver>Magento\Filesystem\Driver\Https</driver>
+                        <driver>Magento\Framework\Filesystem\Driver\Https</driver>
                         <protocol>https</protocol>
                     </https>
                 </protocol>
@@ -230,8 +230,8 @@
         </general>
         <theme>
             <customization>
-                <css>Magento\View\Design\Theme\Customization\File\Css</css>
-                <js>Magento\View\Design\Theme\Customization\File\Js</js>
+                <css>Magento\Framework\View\Design\Theme\Customization\File\Css</css>
+                <js>Magento\Framework\View\Design\Theme\Customization\File\Js</js>
             </customization>
         </theme>
     </default>

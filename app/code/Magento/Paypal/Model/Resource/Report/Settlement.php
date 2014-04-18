@@ -12,7 +12,7 @@ namespace Magento\Paypal\Model\Resource\Report;
 /**
  * Report settlement resource model
  */
-class Settlement extends \Magento\Model\Resource\Db\AbstractDb
+class Settlement extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Table name
@@ -27,10 +27,10 @@ class Settlement extends \Magento\Model\Resource\Db\AbstractDb
     protected $_coreDate;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      */
-    public function __construct(\Magento\App\Resource $resource, \Magento\Stdlib\DateTime\DateTime $coreDate)
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Stdlib\DateTime\DateTime $coreDate)
     {
         $this->_coreDate = $coreDate;
         parent::__construct($resource);
@@ -50,10 +50,10 @@ class Settlement extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Save report rows collected in settlement model
      *
-     * @param \Magento\Model\AbstractModel|\Magento\Paypal\Model\Report\Settlement $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\Paypal\Model\Report\Settlement $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $rows = $object->getRows();
         if (is_array($rows)) {

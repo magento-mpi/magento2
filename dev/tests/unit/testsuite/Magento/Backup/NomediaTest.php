@@ -18,7 +18,7 @@ require_once __DIR__ . '/_files/io.php';
 class NomediaTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystemMock;
 
@@ -53,7 +53,7 @@ class NomediaTest extends \PHPUnit_Framework_TestCase
 
         $this->_backupDbMock->expects($this->any())->method('create')->will($this->returnValue(true));
 
-        $this->_filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
+        $this->_filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->_backupFactoryMock = $this->getMock('Magento\Backup\Factory', array(), array(), '', false);
         $this->_backupFactoryMock->expects(
             $this->once()

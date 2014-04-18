@@ -9,7 +9,7 @@
  */
 namespace Magento\ConfigurableProduct\Model\Resource\Product\Type;
 
-class Configurable extends \Magento\Model\Resource\Db\AbstractDb
+class Configurable extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Catalog product relation
@@ -19,11 +19,11 @@ class Configurable extends \Magento\Model\Resource\Db\AbstractDb
     protected $_catalogProductRelation;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Catalog\Model\Resource\Product\Relation $catalogProductRelation
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Catalog\Model\Resource\Product\Relation $catalogProductRelation
     ) {
         $this->_catalogProductRelation = $catalogProductRelation;

@@ -28,7 +28,7 @@ class Download extends \Magento\Install\Block\AbstractBlock
     protected $_moduleReader;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
      * @param \Magento\Session\Generic $session
@@ -36,7 +36,7 @@ class Download extends \Magento\Install\Block\AbstractBlock
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
         \Magento\Session\Generic $session,
@@ -71,7 +71,7 @@ class Download extends \Magento\Install\Block\AbstractBlock
     public function hasLocalCopy()
     {
         $path = $this->_moduleReader->getModuleDir('etc', 'Magento_Adminhtml');
-        $directory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
+        $directory = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
 
         if ($path && $directory->isDirectory($directory->getRelativePath($path))) {
             return true;

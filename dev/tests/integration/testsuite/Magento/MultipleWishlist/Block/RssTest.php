@@ -49,8 +49,8 @@ class RssTest extends \PHPUnit_Framework_TestCase
         $wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')
             ->loadByCustomerId($fixtureCustomerId);
 
-        /** @var \Magento\App\Helper\Context $contextHelper */
-        $contextHelper = $this->_objectManager->create('Magento\App\Helper\Context');
+        /** @var \Magento\Framework\App\Helper\Context $contextHelper */
+        $contextHelper = $this->_objectManager->create('Magento\Framework\App\Helper\Context');
 
         $wishlistHelper = $this->_objectManager->create('Magento\MultipleWishlist\Helper\Rss',
             [
@@ -67,7 +67,7 @@ class RssTest extends \PHPUnit_Framework_TestCase
                 'wishlistHelper' => $wishlistHelper
             ]
         );
-        /** @var \Magento\App\Request\Http $request */
+        /** @var \Magento\Framework\App\Request\Http $request */
         $request = $contextBlock->getRequest();
         $request->setParam('wishlist_id', $wishlist->getId());
         $request->setParam('data', $this->_coreData->urlEncode($fixtureCustomerId));

@@ -21,7 +21,7 @@ class ObjectManager
      * @var array
      */
     protected $_specialCases = array(
-        'Magento\Model\Resource\AbstractResource' => '_getResourceModelMock',
+        'Magento\Framework\Model\Resource\AbstractResource' => '_getResourceModelMock',
         'Magento\TranslateInterface' => '_getTranslatorMock',
     );
 
@@ -220,8 +220,10 @@ class ObjectManager
      */
     public function getCollectionMock($className, array $data)
     {
-        if (!is_subclass_of($className, '\Magento\Data\Collection')) {
-            throw new \InvalidArgumentException($className . ' does not instance of \Magento\Data\Collection');
+        if (!is_subclass_of($className, '\Magento\Framework\Data\Collection')) {
+            throw new \InvalidArgumentException(
+                $className . ' does not instance of \Magento\Framework\Data\Collection'
+            );
         }
         $mock = $this->_testObject->getMock($className, array(), array(), '', false, false);
         $iterator = new \ArrayIterator($data);

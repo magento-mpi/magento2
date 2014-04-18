@@ -47,7 +47,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, self::CUSTOMER_ID_VALUE);
 
         $this->_block = $this->_objectManager->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\Cart',
             '',
@@ -73,13 +73,15 @@ class CartTest extends \PHPUnit_Framework_TestCase
     public function testGetGridParentHtml()
     {
         $this->_block = $this->_objectManager->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\Cart',
             '',
             array()
         );
-        $mockCollection = $this->getMockBuilder('\Magento\Data\Collection')->disableOriginalConstructor()->getMock();
+        $mockCollection = $this->getMockBuilder('\Magento\Framework\Data\Collection')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->_block->setCollection($mockCollection);
         $this->assertContains("<div class=\"grid-actions\">", $this->_block->getGridParentHtml());
     }

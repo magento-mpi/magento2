@@ -37,7 +37,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
     /** @var \stdClass */
     protected $_serviceMock;
 
-    /** @var \Magento\App\State */
+    /** @var \Magento\Framework\App\State */
     protected $_appStateMock;
 
     /** @var \Magento\Oauth\OauthInterface */
@@ -65,7 +65,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
 
     const SERVICE_ID = 'Magento\Webapi\Controller\TestService';
 
-    protected function setUp()
+    protected function mockArguments()
     {
         $this->_requestMock = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Request')
             ->setMethods(['isSecure', 'getRequestData'])->disableOriginalConstructor()->getMock();
@@ -80,19 +80,27 @@ class RestTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->_serviceMock = $this->getMockBuilder(self::SERVICE_ID)->setMethods([self::SERVICE_METHOD])
             ->disableOriginalConstructor()->getMock();
-        $this->_appStateMock = $this->getMockBuilder('Magento\App\State')->disableOriginalConstructor()->getMock();
+        $this->_appStateMock = $this->getMockBuilder('Magento\Framework\App\State')
+            ->disableOriginalConstructor()->getMock();
         $this->_oauthServiceMock = $this->getMockBuilder('\Magento\Oauth\OauthInterface')
             ->setMethods(['validateAccessTokenRequest'])->getMockForAbstractClass();
         $this->_authzServiceMock = $this->getMockBuilder('Magento\Authz\Service\AuthorizationV1Interface')
             ->disableOriginalConstructor()->getMock();
-        $layoutMock = $this->getMockBuilder('Magento\View\LayoutInterface')->disableOriginalConstructor()->getMock();
+    }
+
+    protected function setUp()
+    {
+        $this->mockArguments();
+
+        $layoutMock = $this->getMockBuilder('Magento\Framework\View\LayoutInterface')
+            ->disableOriginalConstructor()->getMock();
         $errorProcessorMock = $this->getMock('Magento\Webapi\Controller\ErrorProcessor', [], [], '', false);
         $errorProcessorMock->expects($this->any())->method('maskException')->will($this->returnArgument(0));
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->serializerMock = $this->getMockBuilder('\Magento\Webapi\Controller\ServiceArgsSerializer')
             ->disableOriginalConstructor()->setMethods(['getInputData'])->getMock();
-        $this->areaListMock = $this->getMock('\Magento\App\AreaList', [], [], '', false);
-        $this->areaMock = $this->getMock('Magento\App\AreaInterface');
+        $this->areaListMock = $this->getMock('\Magento\Framework\App\AreaList', [], [], '', false);
+        $this->areaMock = $this->getMock('Magento\Framework\App\AreaInterface');
         $this->areaListMock->expects($this->any())->method('getArea')->will($this->returnValue($this->areaMock));
         /** Init SUT. */
         $this->_restController =

@@ -9,8 +9,8 @@
  */
 namespace Magento\MultipleWishlist\Controller;
 
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Multiple wishlist frontend search controller
@@ -55,12 +55,12 @@ class Index extends \Magento\Wishlist\Controller\Index
     );
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
-     * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileResponseFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Customer\Helper\View $customerHelperView
@@ -70,12 +70,12 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
-        \Magento\App\Response\Http\FileFactory $fileResponseFactory,
+        \Magento\Framework\App\Response\Http\FileFactory $fileResponseFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Customer\Helper\View $customerHelperView,
@@ -105,8 +105,8 @@ class Index extends \Magento\Wishlist\Controller\Index
      * Check if multiple wishlist is enabled on current store before all other actions
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
-     * @throws \Magento\App\Action\NotFoundException
+     * @return \Magento\Framework\App\ResponseInterface
+     * @throws \Magento\Framework\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
     {
@@ -143,7 +143,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                     )
                 );
                 $this->getRequest()->setParam('wishlist_id', $wishlist->getId());
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Something went wrong creating the wish list.'));
@@ -188,7 +188,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param bool $visibility
      * @param int $wishlistId
      * @return \Magento\Wishlist\Model\Wishlist
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _editWishlist($customerId, $wishlistName, $visibility = false, $wishlistId = null)
     {
@@ -196,15 +196,15 @@ class Index extends \Magento\Wishlist\Controller\Index
         $wishlist = $this->_wishlistFactory->create();
 
         if (!$customerId) {
-            throw new \Magento\Model\Exception(__('Log in to edit wish lists.'));
+            throw new \Magento\Framework\Model\Exception(__('Log in to edit wish lists.'));
         }
         if (!strlen($wishlistName)) {
-            throw new \Magento\Model\Exception(__('Provide wish list name'));
+            throw new \Magento\Framework\Model\Exception(__('Provide wish list name'));
         }
         if ($wishlistId) {
             $wishlist->load($wishlistId);
             if ($wishlist->getCustomerId() !== $this->_customerSession->getCustomerId()) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __('The wish list is not assigned to your account and cannot be edited.')
                 );
             }
@@ -219,7 +219,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                 $wishlistCollection
             )
             ) {
-                throw new \Magento\Model\Exception(__('Only %1 wish lists can be created.', $limit));
+                throw new \Magento\Framework\Model\Exception(__('Only %1 wish lists can be created.', $limit));
             }
             $wishlist->setCustomerId($customerId);
         }
@@ -230,7 +230,7 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * Edit wishlist properties
      *
-     * @return \Magento\App\Action\Action|\Zend_Controller_Response_Abstract
+     * @return \Magento\Framework\App\Action\Action|\Zend_Controller_Response_Abstract
      */
     public function editwishlistAction()
     {
@@ -248,7 +248,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                     $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName())
                 )
             );
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Something went wrong creating the wish list.'));
@@ -282,7 +282,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * Delete wishlist by id
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @throws NotFoundException
      */
     public function deletewishlistAction()
@@ -293,7 +293,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                 throw new NotFoundException();
             }
             if ($this->_objectManager->get('Magento\MultipleWishlist\Helper\Data')->isWishlistDefault($wishlist)) {
-                throw new \Magento\Model\Exception(__('The default wish list cannot be deleted.'));
+                throw new \Magento\Framework\Model\Exception(__('The default wish list cannot be deleted.'));
             }
             $wishlist->delete();
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
@@ -303,7 +303,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                     $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName())
                 )
             );
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $message = __('Something went wrong deleting the wish list.');
@@ -398,7 +398,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                 $this->messageManager->addError(__('The item was not found.'));
             } catch (\DomainException $e) {
                 $this->messageManager->addError(__('"%1" is already present in %2.', $productName, $wishlistName));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -572,7 +572,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                 } else {
                     $this->messageManager->addError(__('We cannot move "%1".', $productName));
                 }
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('We could not move the wish list item.'));

@@ -16,7 +16,7 @@ namespace Magento\ProductAlert\Model;
  * @package    Magento_ProductAlert
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Email extends \Magento\Model\AbstractModel
+class Email extends \Magento\Framework\Model\AbstractModel
 {
     const XML_PATH_EMAIL_PRICE_TEMPLATE = 'catalog/productalert/email_price_template';
 
@@ -83,7 +83,7 @@ class Email extends \Magento\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -108,29 +108,29 @@ class Email extends \Magento\Model\AbstractModel
     protected $_transportBuilder;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\ProductAlert\Helper\Data $productAlertData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\ProductAlert\Helper\Data $productAlertData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_productAlertData = $productAlertData;

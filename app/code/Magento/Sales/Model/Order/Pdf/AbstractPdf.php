@@ -73,17 +73,17 @@ abstract class AbstractPdf extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_mediaDirectory;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $_rootDirectory;
 
@@ -110,8 +110,8 @@ abstract class AbstractPdf extends \Magento\Object
     /**
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
@@ -124,8 +124,8 @@ abstract class AbstractPdf extends \Magento\Object
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Stdlib\String $string,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Filesystem $filesystem,
         Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
@@ -137,8 +137,8 @@ abstract class AbstractPdf extends \Magento\Object
         $this->_localeDate = $localeDate;
         $this->string = $string;
         $this->_scopeConfig = $scopeConfig;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);
-        $this->_rootDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->_rootDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
         $this->_pdfConfig = $pdfConfig;
         $this->_pdfTotalFactory = $pdfTotalFactory;
         $this->_pdfItemsFactory = $pdfItemsFactory;
@@ -762,7 +762,7 @@ abstract class AbstractPdf extends \Magento\Object
      *
      * @param  string $type
      * @return \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getRenderer($type)
     {
@@ -771,7 +771,7 @@ abstract class AbstractPdf extends \Magento\Object
         }
 
         if (!isset($this->_renderers[$type])) {
-            throw new \Magento\Model\Exception(__('We found an invalid renderer model.'));
+            throw new \Magento\Framework\Model\Exception(__('We found an invalid renderer model.'));
         }
 
         if (is_null($this->_renderers[$type]['renderer'])) {
@@ -880,13 +880,13 @@ abstract class AbstractPdf extends \Magento\Object
     /**
      * Retrieve PDF object
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return \Zend_Pdf
      */
     protected function _getPdf()
     {
         if (!$this->_pdf instanceof \Zend_Pdf) {
-            throw new \Magento\Model\Exception(__('Please define the PDF object before using.'));
+            throw new \Magento\Framework\Model\Exception(__('Please define the PDF object before using.'));
         }
 
         return $this->_pdf;
@@ -930,14 +930,14 @@ abstract class AbstractPdf extends \Magento\Object
      * @param  \Zend_Pdf_Page $page
      * @param  array $draw
      * @param  array $pageSettings
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return \Zend_Pdf_Page
      */
     public function drawLineBlocks(\Zend_Pdf_Page $page, array $draw, array $pageSettings = array())
     {
         foreach ($draw as $itemsProp) {
             if (!isset($itemsProp['lines']) || !is_array($itemsProp['lines'])) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __('We don\'t recognize the draw line data. Please define the "lines" array.')
                 );
             }

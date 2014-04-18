@@ -42,7 +42,7 @@ abstract class AbstractGroupprice extends Price
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      */
     public function __construct(
@@ -50,7 +50,7 @@ abstract class AbstractGroupprice extends Price
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Catalog\Model\Product\Type $catalogProductType
     ) {
         $this->_catalogProductType = $catalogProductType;
@@ -126,7 +126,7 @@ abstract class AbstractGroupprice extends Price
      * Validate group price data
      *
      * @param \Magento\Catalog\Model\Product $object
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return bool
      */
     public function validate($object)
@@ -151,7 +151,7 @@ abstract class AbstractGroupprice extends Price
                 )
             );
             if (isset($duplicates[$compare])) {
-                throw new \Magento\Model\Exception($this->_getDuplicateErrorMessage());
+                throw new \Magento\Framework\Model\Exception($this->_getDuplicateErrorMessage());
             }
             $duplicates[$compare] = true;
         }
@@ -194,7 +194,7 @@ abstract class AbstractGroupprice extends Price
             $websiteCurrency = $rates[$priceRow['website_id']]['code'];
 
             if ($baseCurrency == $websiteCurrency && isset($duplicates[$globalCompare])) {
-                throw new \Magento\Model\Exception($this->_getDuplicateErrorMessage());
+                throw new \Magento\Framework\Model\Exception($this->_getDuplicateErrorMessage());
             }
         }
 

@@ -32,7 +32,7 @@ class Form extends \Magento\CustomAttributeManagement\Block\Form
     protected $_customerSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -41,7 +41,7 @@ class Form extends \Magento\CustomAttributeManagement\Block\Form
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Eav\Model\Config $eavConfig,

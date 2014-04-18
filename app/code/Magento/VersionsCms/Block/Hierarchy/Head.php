@@ -15,7 +15,7 @@ namespace Magento\VersionsCms\Block\Hierarchy;
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Head extends \Magento\View\Element\AbstractBlock
+class Head extends \Magento\Framework\View\Element\AbstractBlock
 {
     /**
      * Core registry
@@ -30,13 +30,13 @@ class Head extends \Magento\View\Element\AbstractBlock
     protected $_cmsHierarchy = null;
 
     /**
-     * @param \Magento\View\Element\Context $context
+     * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Context $context,
+        \Magento\Framework\View\Element\Context $context,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\Registry $registry,
         array $data = array()

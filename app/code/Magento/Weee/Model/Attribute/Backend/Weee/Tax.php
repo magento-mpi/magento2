@@ -9,7 +9,7 @@
  */
 namespace Magento\Weee\Model\Attribute\Backend\Weee;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
 {
@@ -33,7 +33,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param \Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax $attributeTax
      */
@@ -42,7 +42,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax $attributeTax
     ) {

@@ -14,7 +14,7 @@
  */
 namespace Magento\Centinel\Controller;
 
-class Index extends \Magento\App\Action\Action
+class Index extends \Magento\Framework\App\Action\Action
 {
     /**
      * Core registry
@@ -24,10 +24,10 @@ class Index extends \Magento\App\Action\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(\Magento\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);

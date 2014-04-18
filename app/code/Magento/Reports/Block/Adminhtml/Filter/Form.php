@@ -111,7 +111,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         $actionUrl = $this->getUrl('*/*/sales');
 
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
             array('data' => array('id' => 'filter_form', 'action' => $actionUrl, 'method' => 'get'))
         );
@@ -211,10 +211,10 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         $result = parent::_beforeToHtml();
 
-        /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
+        /** @var \Magento\Framework\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $this->getForm()->getElement('base_fieldset');
 
-        if (is_object($fieldset) && $fieldset instanceof \Magento\Data\Form\Element\Fieldset) {
+        if (is_object($fieldset) && $fieldset instanceof \Magento\Framework\Data\Form\Element\Fieldset) {
             // apply field visibility
             foreach ($fieldset->getElements() as $field) {
                 if (!$this->getFieldVisibility($field->getId())) {

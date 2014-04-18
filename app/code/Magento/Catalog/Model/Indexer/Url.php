@@ -36,7 +36,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Catalog\Model\Category::ENTITY => array(\Magento\Index\Model\Event::TYPE_SAVE),
         \Magento\Store\Model\Store::ENTITY => array(\Magento\Index\Model\Event::TYPE_SAVE),
         \Magento\Store\Model\Group::ENTITY => array(\Magento\Index\Model\Event::TYPE_SAVE),
-        \Magento\App\Config\ValueInterface::ENTITY => array(\Magento\Index\Model\Event::TYPE_SAVE)
+        \Magento\Framework\App\Config\ValueInterface::ENTITY => array(\Magento\Index\Model\Event::TYPE_SAVE)
     );
 
     /**
@@ -67,21 +67,21 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Constructor
      *
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\Resource\UrlFactory $catalogResourceUrlFactory
      * @param \Magento\Catalog\Model\Url $catalogUrl
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Catalog\Model\Resource\UrlFactory $catalogResourceUrlFactory,
         \Magento\Catalog\Model\Url $catalogUrl,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogResourceUrl = $catalogResourceUrlFactory->create();
@@ -146,7 +146,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
                     $result = false;
                 }
             } else {
-                if ($entity == \Magento\App\Config\ValueInterface::ENTITY) {
+                if ($entity == \Magento\Framework\App\Config\ValueInterface::ENTITY) {
                     $configData = $event->getDataObject();
                     if ($configData && in_array($configData->getPath(), $this->_relatedConfigSettings)) {
                         $result = $configData->isValueChanged();
@@ -185,7 +185,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
 
             case \Magento\Store\Model\Store::ENTITY:
             case \Magento\Store\Model\Store::ENTITY:
-            case \Magento\App\Config\ValueInterface::ENTITY:
+            case \Magento\Framework\App\Config\ValueInterface::ENTITY:
                 $process = $event->getProcess();
                 $process->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
                 break;

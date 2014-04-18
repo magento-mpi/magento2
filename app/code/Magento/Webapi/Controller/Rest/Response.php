@@ -18,7 +18,7 @@ class Response extends \Magento\Webapi\Controller\Response
     protected $_renderer;
 
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_appState;
 
@@ -27,12 +27,12 @@ class Response extends \Magento\Webapi\Controller\Response
      *
      * @param \Magento\Webapi\Controller\Rest\Response\Renderer\Factory $rendererFactory
      * @param \Magento\Webapi\Controller\ErrorProcessor $errorProcessor
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
      */
     public function __construct(
         \Magento\Webapi\Controller\Rest\Response\Renderer\Factory $rendererFactory,
         \Magento\Webapi\Controller\ErrorProcessor $errorProcessor,
-        \Magento\App\State $appState
+        \Magento\Framework\App\State $appState
     ) {
         $this->_renderer = $rendererFactory->get();
         $this->_errorProcessor = $errorProcessor;
@@ -95,7 +95,7 @@ class Response extends \Magento\Webapi\Controller\Response
             if ($maskedException->getDetails()) {
                 $messageData['parameters'] = $maskedException->getDetails();
             }
-            if ($this->_appState->getMode() == \Magento\App\State::MODE_DEVELOPER) {
+            if ($this->_appState->getMode() == \Magento\Framework\App\State::MODE_DEVELOPER) {
                 $messageData['trace'] = $exception->getTraceAsString();
             }
             $responseHttpCode = $maskedException->getHttpCode();

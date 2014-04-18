@@ -9,7 +9,7 @@
  */
 namespace Magento\Reward\Model;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Reward model
@@ -26,7 +26,7 @@ use Magento\Model\Exception;
  * @method \Magento\Reward\Model\Reward setAction() setAction(int $value)
  * @method \Magento\Reward\Model\Reward setComment() setComment(string $value)
  */
-class Reward extends \Magento\Model\AbstractModel
+class Reward extends \Magento\Framework\Model\AbstractModel
 {
     const XML_PATH_BALANCE_UPDATE_TEMPLATE = 'magento_reward/notification/balance_update_template';
 
@@ -147,12 +147,12 @@ class Reward extends \Magento\Model\AbstractModel
     protected $_reward;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Reward\Helper\Customer $rewardCustomer
      * @param \Magento\Reward\Helper\Data $rewardData
@@ -163,13 +163,13 @@ class Reward extends \Magento\Model\AbstractModel
      * @param \Magento\Reward\Model\Reward\HistoryFactory $historyFactory
      * @param \Magento\Reward\Model\Reward\RateFactory $rateFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Reward\Helper\Customer $rewardCustomer,
         \Magento\Reward\Helper\Data $rewardData,
@@ -180,9 +180,9 @@ class Reward extends \Magento\Model\AbstractModel
         \Magento\Reward\Model\Reward\HistoryFactory $historyFactory,
         \Magento\Reward\Model\Reward\RateFactory $rateFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rewardCustomer = $rewardCustomer;
@@ -229,12 +229,12 @@ class Reward extends \Magento\Model\AbstractModel
      * @param int $actionId
      * @param string $actionModelClass
      * @return void
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public static function setActionModelClass($actionId, $actionModelClass)
     {
         if (!is_int($actionId)) {
-            throw new Exception(__('The action ID you enter must be a numerical integer.'));
+            throw new \Magento\Framework\Model\Exception(__('The action ID you enter must be a numerical integer.'));
         }
         self::$_actionModelClasses[$actionId] = $actionModelClass;
     }

@@ -20,73 +20,73 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_reminder_rule')
 )->addColumn(
     'rule_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
     'Rule Id'
 )->addColumn(
     'name',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array('nullable' => true, 'default' => null),
     'Name'
 )->addColumn(
     'description',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
     array(),
     'Description'
 )->addColumn(
     'conditions_serialized',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '2M',
     array('nullable' => false),
     'Conditions Serialized'
 )->addColumn(
     'condition_sql',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '2M',
     array(),
     'Condition Sql'
 )->addColumn(
     'is_active',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Is Active'
 )->addColumn(
     'salesrule_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true),
     'Salesrule Id'
 )->addColumn(
     'schedule',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
     'Schedule'
 )->addColumn(
     'default_label',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
     'Default Label'
 )->addColumn(
     'default_description',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
     array(),
     'Default Description'
 )->addColumn(
     'active_from',
-    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
     array(),
     'Active From'
 )->addColumn(
     'active_to',
-    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
     array(),
     'Active To'
@@ -98,8 +98,8 @@ $table = $installer->getConnection()->newTable(
     'salesrule_id',
     $installer->getTable('salesrule'),
     'rule_id',
-    \Magento\DB\Ddl\Table::ACTION_SET_NULL,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_SET_NULL,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Reminder Rule'
 );
@@ -112,13 +112,13 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_reminder_rule_website')
 )->addColumn(
     'rule_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Rule Id'
 )->addColumn(
     'website_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Website Id'
@@ -130,8 +130,8 @@ $table = $installer->getConnection()->newTable(
     'rule_id',
     $installer->getTable('magento_reminder_rule'),
     'rule_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Reminder Rule Website'
 );
@@ -144,31 +144,31 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_reminder_template')
 )->addColumn(
     'rule_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Rule Id'
 )->addColumn(
     'store_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('nullable' => false, 'primary' => true),
     'Store Id'
 )->addColumn(
     'template_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true),
     'Template Id'
 )->addColumn(
     'label',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
     'Label'
 )->addColumn(
     'description',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
     array(),
     'Description'
@@ -183,15 +183,15 @@ $table = $installer->getConnection()->newTable(
     'template_id',
     $installer->getTable('email_template'),
     'template_id',
-    \Magento\DB\Ddl\Table::ACTION_SET_NULL,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_SET_NULL,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('magento_reminder_template', 'rule_id', 'magento_reminder_rule', 'rule_id'),
     'rule_id',
     $installer->getTable('magento_reminder_rule'),
     'rule_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Reminder Template'
 );
@@ -204,37 +204,37 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_reminder_rule_coupon')
 )->addColumn(
     'rule_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Rule Id'
 )->addColumn(
     'coupon_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true),
     'Coupon Id'
 )->addColumn(
     'customer_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Customer Id'
 )->addColumn(
     'associated_at',
-    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
     array('nullable' => false),
     'Associated At'
 )->addColumn(
     'emails_failed',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Emails Failed'
 )->addColumn(
     'is_active',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '1'),
     'Is Active'
@@ -246,8 +246,8 @@ $table = $installer->getConnection()->newTable(
     'rule_id',
     $installer->getTable('magento_reminder_rule'),
     'rule_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Reminder Rule Coupon'
 );
@@ -260,25 +260,25 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_reminder_rule_log')
 )->addColumn(
     'log_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
     'Log Id'
 )->addColumn(
     'rule_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false),
     'Rule Id'
 )->addColumn(
     'customer_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false),
     'Customer Id'
 )->addColumn(
     'sent_at',
-    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
     array('nullable' => false),
     'Sent At'
@@ -293,8 +293,8 @@ $table = $installer->getConnection()->newTable(
     'rule_id',
     $installer->getTable('magento_reminder_rule'),
     'rule_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Reminder Rule Log'
 );

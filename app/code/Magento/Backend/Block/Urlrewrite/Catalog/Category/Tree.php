@@ -66,9 +66,9 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Registry $registry,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Backend\Helper\Data $adminhtmlData,
         array $data = array()
     ) {
@@ -76,7 +76,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
         $this->_categoryFactory = $categoryFactory;
         $this->_productFactory = $productFactory;
         $this->_adminhtmlData = $adminhtmlData;
-        parent::__construct($context, $categoryTree, $registry, $data);
+        parent::__construct($context, $categoryTree, $registry, $categoryFactory, $data);
     }
 
     /**
@@ -141,7 +141,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     /**
      * Convert categories tree to array recursively
      *
-     * @param  \Magento\Data\Tree\Node $node
+     * @param  \Magento\Framework\Data\Tree\Node $node
      * @return array
      */
     protected function _getNodesArray($node)

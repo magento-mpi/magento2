@@ -31,7 +31,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $collectionFactory
      * @param array $data
@@ -39,7 +39,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $collectionFactory,
         array $data = array()
@@ -67,7 +67,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(array('data' => array('id' => 'edit_form', 'method' => 'post')));
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Assignment Information')));

@@ -9,8 +9,8 @@
  */
 namespace Magento\Core\Model\File;
 
-use Magento\App\Filesystem;
-use Magento\Model\AbstractModel;
+use Magento\Framework\App\Filesystem;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Class Storage
@@ -52,12 +52,12 @@ class Storage extends AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
 
@@ -83,36 +83,36 @@ class Storage extends AbstractModel
     /**
      * Filesystem instance
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Helper\File\Storage $coreFileStorage
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Core\Model\File\Storage\Flag $fileFlag
      * @param \Magento\Core\Model\File\Storage\FileFactory $fileFactory
      * @param \Magento\Core\Model\File\Storage\DatabaseFactory $databaseFactory
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Helper\File\Storage $coreFileStorage,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\App\Config\ScopeConfigInterface $coreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Core\Model\File\Storage\Flag $fileFlag,
         \Magento\Core\Model\File\Storage\FileFactory $fileFactory,
         \Magento\Core\Model\File\Storage\DatabaseFactory $databaseFactory,
-        \Magento\App\Filesystem $filesystem,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreFileStorage = $coreFileStorage;
@@ -128,8 +128,8 @@ class Storage extends AbstractModel
     /**
      * Show if there were errors while synchronize process
      *
-     * @param AbstractModel $sourceModel
-     * @param AbstractModel $destinationModel
+     * @param \Magento\Framework\Model\AbstractModel $sourceModel
+     * @param \Magento\Framework\Model\AbstractModel $destinationModel
      * @return bool
      */
     protected function _synchronizeHasErrors($sourceModel, $destinationModel)

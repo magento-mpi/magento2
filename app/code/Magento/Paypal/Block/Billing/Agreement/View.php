@@ -10,7 +10,7 @@ namespace Magento\Paypal\Block\Billing\Agreement;
 /**
  * Customer account billing agreement view block
  */
-class View extends \Magento\View\Element\Template
+class View extends \Magento\Framework\View\Element\Template
 {
     /**
      * Payment methods array
@@ -66,7 +66,7 @@ class View extends \Magento\View\Element\Template
     protected $_agreementResource;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
@@ -76,7 +76,7 @@ class View extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,

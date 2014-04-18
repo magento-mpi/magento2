@@ -48,7 +48,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->accountBlock = $this->objectManager->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\Account',
             '',

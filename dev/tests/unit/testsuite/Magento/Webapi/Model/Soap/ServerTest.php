@@ -61,8 +61,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_storeMock)
         );
 
-        $areaListMock = $this->getMock('Magento\App\AreaList', array(), array(), '', false);
-        $configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
+        $areaListMock = $this->getMock('Magento\Framework\App\AreaList', array(), array(), '', false);
+        $configScopeMock = $this->getMock('Magento\Framework\Config\ScopeInterface');
         $areaListMock->expects($this->any())->method('getFrontName')->will($this->returnValue('soap'));
 
         $this->_requestMock = $this->getMockBuilder(
@@ -85,7 +85,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
         /** Init SUT. */
         $this->_soapServer = new \Magento\Webapi\Model\Soap\Server(

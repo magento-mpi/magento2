@@ -89,7 +89,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Session\Generic $paypalSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -106,7 +106,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Session\Generic $paypalSession,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -174,7 +174,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      * Create main block for standard form
      *
      * @param string $name
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     public function createFormBlock($name)
     {

@@ -11,7 +11,7 @@
 $installer = $this;
 
 $tableName = $installer->getTable('admin_rule');
-/** @var \Magento\DB\Adapter\AdapterInterface $connection */
+/** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
 $connection = $installer->getConnection();
 
 $condition = $connection->prepareSqlCondition(

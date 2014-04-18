@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\AreaList')
     ->getArea('adminhtml')
     ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
 

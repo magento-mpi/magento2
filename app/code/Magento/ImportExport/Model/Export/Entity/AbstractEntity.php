@@ -37,7 +37,7 @@ abstract class AbstractEntity
     /**
      * DB connection.
      *
-     * @var \Magento\DB\Adapter\Pdo\Mysql
+     * @var \Magento\Framework\DB\Adapter\Pdo\Mysql
      */
     protected $_connection;
 
@@ -152,13 +152,13 @@ abstract class AbstractEntity
     /**
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Eav\Model\Config $config
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Eav\Model\Config $config,
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_localeDate = $localeDate;
@@ -194,7 +194,7 @@ abstract class AbstractEntity
     /**
      * Get entity collection
      *
-     * @return \Magento\Data\Collection\Db
+     * @return \Magento\Framework\Data\Collection\Db
      */
     abstract protected function _getEntityCollection();
 
@@ -496,12 +496,12 @@ abstract class AbstractEntity
      * Inner writer object getter.
      *
      * @return AbstractAdapter
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getWriter()
     {
         if (!$this->_writer) {
-            throw new \Magento\Model\Exception(__('Please specify writer.'));
+            throw new \Magento\Framework\Model\Exception(__('Please specify writer.'));
         }
         return $this->_writer;
     }

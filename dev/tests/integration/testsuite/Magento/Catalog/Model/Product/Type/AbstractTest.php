@@ -28,7 +28,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array('dispatch'), array(), '', false);
         $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $fileStorageDb = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
-        $filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $registry = $this->getMock('Magento\Registry', array(), array(), '', false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $this->_model = $this->getMockForAbstractClass(
@@ -231,7 +231,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testCheckProductBuyStateException()
     {

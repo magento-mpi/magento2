@@ -21,7 +21,7 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -29,9 +29,9 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      * Construct
      *
      * @param \Magento\Logger $logger
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(\Magento\Logger $logger, \Magento\App\Config\ScopeConfigInterface $scopeConfig)
+    public function __construct(\Magento\Logger $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig)
     {
         $this->_scopeConfig = $scopeConfig;
         parent::__construct($logger);
@@ -42,7 +42,7 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      *
      * @param \Magento\Object $object
      * @return bool
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validate($object)
     {
@@ -70,7 +70,7 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         if ($this->getAttribute()->getIsUnique()) {
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
-                throw new \Magento\Model\Exception(__('The value of attribute "%1" must be unique.', $label));
+                throw new \Magento\Framework\Model\Exception(__('The value of attribute "%1" must be unique.', $label));
             }
         }
 
@@ -89,13 +89,13 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
                 if (!in_array($data, $available)) {
-                    throw new \Magento\Model\Exception(
+                    throw new \Magento\Framework\Model\Exception(
                         __('Default Product Listing Sort by does not exist in Available Product Listing Sort By.')
                     );
                 }
             } else {
                 if (!in_array('available_sort_by', $postDataConfig)) {
-                    throw new \Magento\Model\Exception(
+                    throw new \Magento\Framework\Model\Exception(
                         __('Default Product Listing Sort by does not exist in Available Product Listing Sort By.')
                     );
                 }

@@ -21,14 +21,14 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\App\State')->setAreaCode('frontend');
+        $objectManager->get('Magento\Framework\App\State')->setAreaCode('frontend');
 
         $product = $objectManager->create('Magento\Catalog\Model\Product');
         $product->setIsRecurring('1');
         $product->setRecurringPayment(array('start_date_is_editable' => true));
         $objectManager->get('Magento\Registry')->register('current_product', $product);
         $block = $objectManager->create('Magento\RecurringPayment\Block\Catalog\Product\View\Payment');
-        $block->setLayout($objectManager->create('Magento\View\Layout'));
+        $block->setLayout($objectManager->create('Magento\Framework\View\Layout'));
 
         $html = $block->getDateHtml();
         $this->assertNotEmpty($html);

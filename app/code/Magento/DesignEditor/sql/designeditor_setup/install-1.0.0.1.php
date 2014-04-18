@@ -22,7 +22,7 @@ $connection->addColumn(
     $tableCoreLayoutLink,
     'is_vde',
     array(
-        'type' => \Magento\DB\Ddl\Table::TYPE_BOOLEAN,
+        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
         'nullable' => false,
         'default' => '0',
         'comment' => 'Defines whether layout update created via design editor'

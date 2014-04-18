@@ -17,7 +17,7 @@
  */
 namespace Magento\PromotionPermissions\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Path to node in ACL that specifies edit permissions for catalog rules
@@ -46,10 +46,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_authorization;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\AuthorizationInterface $authorization
      */
-    public function __construct(\Magento\App\Helper\Context $context, \Magento\AuthorizationInterface $authorization)
+    public function __construct(\Magento\Framework\App\Helper\Context $context, \Magento\AuthorizationInterface $authorization)
     {
         parent::__construct($context);
         $this->_authorization = $authorization;

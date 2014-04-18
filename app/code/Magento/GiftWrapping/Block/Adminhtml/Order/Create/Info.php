@@ -36,7 +36,7 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractCr
     public function getDesignSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array('id' => 'giftwrapping_design', 'class' => 'select')
         )->setName(

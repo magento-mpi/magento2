@@ -17,7 +17,7 @@ namespace Magento\Catalog\Block\Product\Compare;
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Sidebar extends \Magento\Catalog\Block\Product\Compare\AbstractCompare implements
-    \Magento\View\Block\IdentityInterface
+    \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * The property is used to define content-scope of block. Can be private or public.

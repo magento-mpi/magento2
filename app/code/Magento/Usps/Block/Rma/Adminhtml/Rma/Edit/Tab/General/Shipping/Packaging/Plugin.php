@@ -7,7 +7,7 @@
  */
 namespace Magento\Usps\Block\Rma\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Usps\Helper\Data as UspsHelper;
 use Magento\Usps\Model\Carrier;
 
@@ -26,7 +26,7 @@ class Plugin
     /**
      * Request
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
 
@@ -34,7 +34,7 @@ class Plugin
      * Construct
      *
      * @param \Magento\Usps\Helper\Data $uspsHelper
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      */
     public function __construct(UspsHelper $uspsHelper, RequestInterface $request)
     {

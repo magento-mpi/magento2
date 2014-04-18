@@ -18,7 +18,7 @@
  */
 namespace Magento\Pbridge\Controller;
 
-class Pbridge extends \Magento\App\Action\Action
+class Pbridge extends \Magento\Framework\App\Action\Action
 {
     /**
      * Load only action layout handles
@@ -50,7 +50,7 @@ class Pbridge extends \Magento\App\Action\Action
      * Iframe Ajax Action
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function iframeAction()
     {
@@ -72,7 +72,7 @@ class Pbridge extends \Magento\App\Action\Action
                 }
             }
         } else {
-            throw new \Magento\Model\Exception(__('Payment Method Code is not passed.'));
+            throw new \Magento\Framework\Model\Exception(__('Payment Method Code is not passed.'));
         }
     }
 
@@ -80,7 +80,7 @@ class Pbridge extends \Magento\App\Action\Action
      * Iframe Ajax Action for review page
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function reviewAction()
     {
@@ -101,7 +101,7 @@ class Pbridge extends \Magento\App\Action\Action
                 }
             }
         } else {
-            throw new \Magento\Model\Exception(__('Payment Method Code is not passed.'));
+            throw new \Magento\Framework\Model\Exception(__('Payment Method Code is not passed.'));
         }
     }
 
