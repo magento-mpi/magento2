@@ -9,6 +9,7 @@ namespace Magento\Store\Model;
 
 /**
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
 class StoreTest extends \PHPUnit_Framework_TestCase
 {

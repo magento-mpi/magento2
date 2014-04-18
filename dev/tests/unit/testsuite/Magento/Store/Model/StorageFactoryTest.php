@@ -12,6 +12,7 @@ namespace Magento\Store\Model;
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
 class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 {
