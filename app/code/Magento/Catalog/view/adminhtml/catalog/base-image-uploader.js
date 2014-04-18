@@ -16,7 +16,7 @@
         _create: function() {
             var $container = this.element,
                 $template = this.element.find('.image-template'),
-                $dropPlaceholder = this.element,
+                $dropPlaceholder = this.element.find('.image-placeholder'),
                 $galleryContainer = $('#media_gallery_content'),
                 mainClass = 'base-image',
                 maximumImageCount = 5;
@@ -94,7 +94,7 @@
 
             this.element.find('input[type="file"]').fileupload({
                 dataType: 'json',
-                dropZone: $dropPlaceholder,
+                dropZone: $dropPlaceholder.closest('[data-attribute-code]'),
                 acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
                 maxFileSize: this.element.data('maxFileSize'),
                 done: function(event, data) {
