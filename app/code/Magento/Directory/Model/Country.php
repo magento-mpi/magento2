@@ -30,7 +30,7 @@ class Country extends \Magento\Framework\Model\AbstractModel
     public static $_format = array();
 
     /**
-     * @var \Magento\Locale\ListsInterface
+     * @var \Magento\Framework\Locale\ListsInterface
      */
     protected $_localeLists;
 
@@ -47,7 +47,7 @@ class Country extends \Magento\Framework\Model\AbstractModel
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Locale\ListsInterface $localeLists
+     * @param \Magento\Framework\Locale\ListsInterface $localeLists
      * @param Country\FormatFactory $formatFactory
      * @param Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -57,7 +57,7 @@ class Country extends \Magento\Framework\Model\AbstractModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Locale\ListsInterface $localeLists,
+        \Magento\Framework\Locale\ListsInterface $localeLists,
         \Magento\Directory\Model\Country\FormatFactory $formatFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

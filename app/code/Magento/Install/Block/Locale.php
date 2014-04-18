@@ -34,17 +34,17 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     protected $_localeCode;
 
     /**
-     * @var \Magento\Locale\CurrencyInterface
+     * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
 
     /**
-     * @var \Magento\Locale\ListsInterface
+     * @var \Magento\Framework\Locale\ListsInterface
      */
     protected $_localeLists;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -53,9 +53,9 @@ class Locale extends \Magento\Install\Block\AbstractBlock
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
      * @param \Magento\Framework\Session\Generic $session
-     * @param \Magento\Locale\CurrencyInterface $localeCurrency
-     * @param \Magento\Locale\ListsInterface $localeLists
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Framework\Locale\ListsInterface $localeLists
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
@@ -63,9 +63,9 @@ class Locale extends \Magento\Install\Block\AbstractBlock
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
         \Magento\Framework\Session\Generic $session,
-        \Magento\Locale\CurrencyInterface $localeCurrency,
-        \Magento\Locale\ListsInterface $localeLists,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Framework\Locale\ListsInterface $localeLists,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_localeLists = $localeLists;
@@ -99,7 +99,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     /**
      * Retrieve locale object
      *
-     * @return \Magento\LocaleInterface
+     * @return \Magento\Framework\LocaleInterface
      */
     public function getLocale()
     {

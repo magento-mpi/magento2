@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Locale;
+namespace Magento\Framework\Locale;
 
-class Resolver implements \Magento\Locale\ResolverInterface
+class Resolver implements \Magento\Framework\Locale\ResolverInterface
 {
     /**
      * Default locale code
@@ -26,7 +26,7 @@ class Resolver implements \Magento\Locale\ResolverInterface
     /**
      * Locale object
      *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Framework\LocaleInterface
      */
     protected $_locale;
 
@@ -55,14 +55,14 @@ class Resolver implements \Magento\Locale\ResolverInterface
     protected $_emulatedLocales = array();
 
     /**
-     * @var \Magento\LocaleFactory
+     * @var \Magento\Framework\LocaleFactory
      */
     protected $_localeFactory;
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\CacheInterface $cache
-     * @param \Magento\LocaleFactory $localeFactory
+     * @param \Magento\Framework\LocaleFactory $localeFactory
      * @param string $defaultLocalePath
      * @param string $scopeType
      * @param mixed $locale
@@ -70,7 +70,7 @@ class Resolver implements \Magento\Locale\ResolverInterface
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\CacheInterface $cache,
-        \Magento\LocaleFactory $localeFactory,
+        \Magento\Framework\LocaleFactory $localeFactory,
         $defaultLocalePath,
         $scopeType,
         $locale = null
@@ -108,7 +108,7 @@ class Resolver implements \Magento\Locale\ResolverInterface
         if (!$this->_defaultLocale) {
             $locale = $this->_scopeConfig->getValue($this->getDefaultLocalePath(), $this->_scopeType);
             if (!$locale) {
-                $locale = \Magento\Locale\ResolverInterface::DEFAULT_LOCALE;
+                $locale = \Magento\Framework\Locale\ResolverInterface::DEFAULT_LOCALE;
             }
             $this->_defaultLocale = $locale;
         }

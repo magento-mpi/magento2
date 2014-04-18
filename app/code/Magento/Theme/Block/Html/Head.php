@@ -62,7 +62,7 @@ class Head extends \Magento\Framework\View\Element\Template
     protected $_fileStorageDatabase;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -78,7 +78,7 @@ class Head extends \Magento\Framework\View\Element\Template
      * @param \Magento\Framework\View\Asset\GroupedCollection $assets
      * @param \Magento\Framework\View\Asset\MergeService $assetMergeService
      * @param \Magento\Framework\View\Asset\MinifyService $assetMinifyService
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Translation\Block\Js $jsTranslation
      * @param array $data
      */
@@ -89,7 +89,7 @@ class Head extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Asset\GroupedCollection $assets,
         \Magento\Framework\View\Asset\MergeService $assetMergeService,
         \Magento\Framework\View\Asset\MinifyService $assetMinifyService,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Translation\Block\Js $jsTranslation,
         array $data = array()
     ) {

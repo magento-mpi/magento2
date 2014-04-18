@@ -36,7 +36,7 @@ class Head extends \Magento\Theme\Block\Html\Head
      * @param \Magento\Framework\View\Asset\GroupedCollection $assets
      * @param \Magento\Framework\View\Asset\MergeService $assetMergeService
      * @param \Magento\Framework\View\Asset\MinifyService $assetMinifyService
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Translation\Block\Js $jsTranslation
      * @param \Magento\Framework\App\Action\Title $titles
      * @param \Magento\Framework\Data\Form\FormKey $formKey
@@ -49,7 +49,7 @@ class Head extends \Magento\Theme\Block\Html\Head
         \Magento\Framework\View\Asset\GroupedCollection $assets,
         \Magento\Framework\View\Asset\MergeService $assetMergeService,
         \Magento\Framework\View\Asset\MinifyService $assetMinifyService,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Translation\Block\Js $jsTranslation,
         \Magento\Framework\App\Action\Title $titles,
         \Magento\Framework\Data\Form\FormKey $formKey,

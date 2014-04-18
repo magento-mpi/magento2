@@ -128,7 +128,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     protected $_searchData;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -153,7 +153,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param mixed $connection
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -179,7 +179,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Search\Helper\Data $searchData,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         $connection = null
     ) {
         $this->_searchData = $searchData;

@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
-class Locale extends \Zend_Locale implements \Magento\LocaleInterface
+class Locale extends \Zend_Locale implements \Magento\Framework\LocaleInterface
 {
     /**
      * {@inheritdoc}

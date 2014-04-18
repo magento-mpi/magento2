@@ -53,7 +53,7 @@ abstract class AbstractData
     protected $_localeDate;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -81,7 +81,7 @@ abstract class AbstractData
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param string|int|bool $value
      * @param string $entityTypeCode
      * @param bool $isAjax
@@ -90,7 +90,7 @@ abstract class AbstractData
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         $value,
         $entityTypeCode,
         $isAjax = false

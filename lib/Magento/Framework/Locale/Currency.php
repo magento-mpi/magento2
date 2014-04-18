@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Locale;
+namespace Magento\Framework\Locale;
 
-class Currency implements \Magento\Locale\CurrencyInterface
+class Currency implements \Magento\Framework\Locale\CurrencyInterface
 {
     /**
      * @var array
@@ -22,7 +22,7 @@ class Currency implements \Magento\Locale\CurrencyInterface
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -38,7 +38,7 @@ class Currency implements \Magento\Locale\CurrencyInterface
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\CurrencyFactory $currencyFactory
     ) {
         $this->_eventManager = $eventManager;
@@ -53,7 +53,7 @@ class Currency implements \Magento\Locale\CurrencyInterface
      */
     public function getDefaultCurrency()
     {
-        return \Magento\Locale\CurrencyInterface::DEFAULT_CURRENCY;
+        return \Magento\Framework\Locale\CurrencyInterface::DEFAULT_CURRENCY;
     }
 
     /**

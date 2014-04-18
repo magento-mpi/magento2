@@ -30,7 +30,7 @@ class Config extends \Magento\Payment\Model\Config
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
-     * @param \Magento\Locale\ListsInterface $localeLists
+     * @param \Magento\Framework\Locale\ListsInterface $localeLists
      * @param \Magento\Framework\Config\DataInterface $dataStorage
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Encryption\EncryptorInterface $encryptor
@@ -39,7 +39,7 @@ class Config extends \Magento\Payment\Model\Config
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
-        \Magento\Locale\ListsInterface $localeLists,
+        \Magento\Framework\Locale\ListsInterface $localeLists,
         \Magento\Framework\Config\DataInterface $dataStorage,
         \Magento\UrlInterface $urlBuilder,
         \Magento\Encryption\EncryptorInterface $encryptor

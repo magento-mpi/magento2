@@ -23,7 +23,7 @@ class Collection extends \Magento\Reward\Model\Resource\Reward\History\Collectio
      * @param \Magento\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Reward\Helper\Data $helper
@@ -35,7 +35,7 @@ class Collection extends \Magento\Reward\Model\Resource\Reward\History\Collectio
         \Magento\Logger $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Reward\Helper\Data $helper,

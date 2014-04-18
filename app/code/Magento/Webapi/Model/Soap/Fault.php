@@ -80,7 +80,7 @@ class Fault extends \RuntimeException
     protected $_soapServer;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -93,14 +93,14 @@ class Fault extends \RuntimeException
      * @param \Magento\Framework\App\RequestInterface $request
      * @param Server $soapServer
      * @param \Magento\Webapi\Exception $previousException
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param State $appState
      */
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
         Server $soapServer,
         \Magento\Webapi\Exception $previousException,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         State $appState
     ) {
         parent::__construct($previousException->getMessage(), $previousException->getCode(), $previousException);

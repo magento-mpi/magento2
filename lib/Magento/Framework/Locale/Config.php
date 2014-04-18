@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Locale;
+namespace Magento\Framework\Locale;
 
-class Config implements \Magento\Locale\ConfigInterface
+class Config implements \Magento\Framework\Locale\ConfigInterface
 {
     /**
      * List of allowed locales

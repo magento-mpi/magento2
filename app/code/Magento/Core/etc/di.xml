@@ -53,11 +53,11 @@
     <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
     <preference for="Magento\Css\PreProcessor\AdapterInterface" type="Magento\Css\PreProcessor\Adapter\Oyejorge" />
     <preference for="Magento\Framework\Translate\ResourceInterface" type="Magento\Translation\Model\Resource\Translate" />
-    <preference for="Magento\LocaleInterface" type="Magento\Locale" />
-    <preference for="Magento\Locale\CurrencyInterface" type="Magento\Locale\Currency" />
+    <preference for="Magento\Framework\LocaleInterface" type="Magento\Framework\Locale" />
+    <preference for="Magento\Framework\Locale\CurrencyInterface" type="Magento\Framework\Locale\Currency" />
     <preference for="Magento\CurrencyInterface" type="Magento\Currency" />
-    <preference for="Magento\Locale\FormatInterface" type="Magento\Locale\Format" />
-    <preference for="Magento\Locale\ResolverInterface" type="Magento\Locale\Resolver" />
+    <preference for="Magento\Framework\Locale\FormatInterface" type="Magento\Framework\Locale\Format" />
+    <preference for="Magento\Framework\Locale\ResolverInterface" type="Magento\Framework\Locale\Resolver" />
     <preference for="Magento\Framework\Stdlib\DateTime\TimezoneInterface" type="Magento\Framework\Stdlib\DateTime\Timezone" />
     <preference for="Magento\Framework\Stdlib\DateTime\DateInterface" type="Magento\Framework\Stdlib\DateTime\Date" />
     <preference for="Magento\Less\PreProcessor\ErrorHandlerInterface" type="Magento\Less\PreProcessor\ErrorHandler" />
@@ -261,9 +261,9 @@
             <argument name="cacheId" xsi:type="string">fieldset_config</argument>
         </arguments>
     </type>
-    <type name="Magento\Locale\Hierarchy\Config">
+    <type name="Magento\Framework\Locale\Hierarchy\Config">
         <arguments>
-            <argument name="reader" xsi:type="object">Magento\Locale\Hierarchy\Config\Reader</argument>
+            <argument name="reader" xsi:type="object">Magento\Framework\Locale\Hierarchy\Config\Reader</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\DB\Helper">
@@ -434,7 +434,7 @@
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
-    <type name="Magento\Locale\Resolver">
+    <type name="Magento\Framework\Locale\Resolver">
         <plugin name="initLocale" type="Magento\Framework\Translate\Locale\Resolver\Plugin" sortOrder="10"/>
         <arguments>
             <argument name="defaultLocalePath" xsi:type="string">general/locale/code</argument>

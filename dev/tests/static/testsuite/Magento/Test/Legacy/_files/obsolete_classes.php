@@ -2016,20 +2016,20 @@ return array(
     array('Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie'),
     array(
         'Magento\Core\Model\LocaleInterface',
-        'Magento\Locale\ResolverInterface, Magento\Locale\CurrencyInterface,' .
-        'Magento\Locale\FormatInterface, Magento\Framework\Stdlib\DateTime\TimezoneInterface'
+        'Magento\Framework\Locale\ResolverInterface, Magento\Framework\Locale\CurrencyInterface,' .
+        'Magento\Framework\Locale\FormatInterface, Magento\Framework\Stdlib\DateTime\TimezoneInterface'
     ),
     array(
         'Magento\Core\Model\Locale',
-        'Magento\Locale\Resolver, Magento\Locale\Currency, Magento\Locale\Format, ' .
-        'Magento\Framework\Stdlib\DateTime\Timezone, Magento\Locale\Lists'
+        'Magento\Framework\Locale\Resolver, Magento\Framework\Locale\Currency, Magento\Framework\Locale\Format, ' .
+        'Magento\Framework\Stdlib\DateTime\Timezone, Magento\Framework\Locale\Lists'
     ),
-    array('Magento\Core\Model\Locale\Hierarchy\Config\Converter', 'Magento\Locale\Hierarchy\Config\Converter'),
-    array('Magento\Core\Model\Locale\Hierarchy\Config\FileResolver', 'Magento\Locale\Hierarchy\Config\FileResolver'),
-    array('Magento\Core\Model\Locale\Hierarchy\Config\Reader', 'Magento\Locale\Hierarchy\Config\Reader'),
-    array('Magento\Core\Model\Locale\Hierarchy\Config\SchemaLocator', 'Magento\Locale\Hierarchy\Config\SchemaLocator'),
-    array('Magento\Core\Model\Locale\Config', 'Magento\Locale\Config'),
-    array('Magento\Core\Model\Locale\Validator', 'Magento\Locale\Validator'),
+    array('Magento\Core\Model\Locale\Hierarchy\Config\Converter', 'Magento\Framework\Locale\Hierarchy\Config\Converter'),
+    array('Magento\Core\Model\Locale\Hierarchy\Config\FileResolver', 'Magento\Framework\Locale\Hierarchy\Config\FileResolver'),
+    array('Magento\Core\Model\Locale\Hierarchy\Config\Reader', 'Magento\Framework\Locale\Hierarchy\Config\Reader'),
+    array('Magento\Core\Model\Locale\Hierarchy\Config\SchemaLocator', 'Magento\Framework\Locale\Hierarchy\Config\SchemaLocator'),
+    array('Magento\Core\Model\Locale\Config', 'Magento\Framework\Locale\Config'),
+    array('Magento\Core\Model\Locale\Validator', 'Magento\Framework\Locale\Validator'),
     array('Magento\Core\Model\Date', 'Magento\Framework\Stdlib\DateTime\DateTime'),
     array('Magento\Shipping\Model\Config\Source\Flatrate', 'Magento\OfflineShipping\Model\Config\Source\Flatrate'),
     array('Magento\Shipping\Model\Carrier\Flatrate', 'Magento\OfflineShipping\Model\Carrier\Flatrate'),
@@ -2236,7 +2236,7 @@ return array(
     ['Magento\Framework\App\ReinitableConfigInterface', 'Magento\Framework\App\Config\ReinitableConfigInterface'],
     ['Magento\BaseScopeInterface', 'Magento\Framework\App\ScopeInterface'],
     ['Magento\BaseScopeResolverInterface', 'Magento\Framework\App\ScopeResolverInterface'],
-    ['Magento\Locale\ScopeConfigInterface'],
+    ['Magento\Framework\Locale\ScopeConfigInterface'],
     ['Magento\Core\Model\Module\Output\Config','Magento\Module\Output\Config'],
     ['Magento\Core\Model\Resource\Setup\Context','Magento\Module\Setup\Context'],
     ['Magento\Core\Model\Resource\Setup\Migration','Magento\Module\Setup\Migration'],

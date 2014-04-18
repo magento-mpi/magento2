@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Locale\Hierarchy\Config;
+namespace Magento\Framework\Locale\Hierarchy\Config;
 
 class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
 {

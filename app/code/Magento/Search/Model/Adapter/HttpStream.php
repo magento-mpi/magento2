@@ -44,7 +44,7 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr impleme
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\CatalogInventory\Helper\Data $ctlgInventData
      * @param array $options
@@ -65,7 +65,7 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr impleme
         \Magento\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\CatalogInventory\Helper\Data $ctlgInventData,
         array $options = array()

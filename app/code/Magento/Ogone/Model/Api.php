@@ -453,7 +453,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_storeManager;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -463,7 +463,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Ogone\Model\Config $config
@@ -475,7 +475,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\UrlInterface $urlBuilder,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Ogone\Model\Config $config,

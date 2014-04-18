@@ -19,7 +19,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Stdlib\DateTime\TimezoneInterface */
     protected $_localeMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Locale\ResolverInterface */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Locale\ResolverInterface */
     protected $_localeResolverMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Logger */
@@ -43,7 +43,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Stdlib\DateTime\TimezoneInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_localeResolverMock = $this->getMockBuilder(
-            'Magento\Locale\ResolverInterface'
+            'Magento\Framework\Locale\ResolverInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_loggerMock = $this->getMockBuilder('Magento\Logger')->disableOriginalConstructor()->getMock();
         $this->_attributeMock = $this->getMockBuilder(

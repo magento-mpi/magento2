@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Locale;
+namespace Magento\Framework\Locale;
 
-class Lists implements \Magento\Locale\ListsInterface
+class Lists implements \Magento\Framework\Locale\ListsInterface
 {
     /**
      * @var \Magento\Framework\App\State
@@ -20,12 +20,12 @@ class Lists implements \Magento\Locale\ListsInterface
     protected $_scopeResolver;
 
     /**
-     * @var \Magento\Locale\ConfigInterface
+     * @var \Magento\Framework\Locale\ConfigInterface
      */
     protected $_config;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -37,16 +37,16 @@ class Lists implements \Magento\Locale\ListsInterface
     /**
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
-     * @param \Magento\Locale\ConfigInterface $config
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ConfigInterface $config
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param string $currencyInstalled
      * @param string $locale
      */
     public function __construct(
         \Magento\Framework\App\State $appState,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
-        \Magento\Locale\ConfigInterface $config,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ConfigInterface $config,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         $currencyInstalled,
         $locale = null
     ) {

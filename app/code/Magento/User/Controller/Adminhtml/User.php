@@ -96,7 +96,7 @@ class User extends \Magento\Backend\App\AbstractAction
                 return;
             }
         } else {
-            $model->setInterfaceLocale(\Magento\Locale\ResolverInterface::DEFAULT_LOCALE);
+            $model->setInterfaceLocale(\Magento\Framework\Locale\ResolverInterface::DEFAULT_LOCALE);
         }
 
         $this->_title->add($model->getId() ? $model->getName() : __('New User'));
@@ -144,7 +144,7 @@ class User extends \Magento\Backend\App\AbstractAction
 
         $currentUser = $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->getUser();
         if ($userId == $currentUser->getId() && $this->_objectManager->get(
-            'Magento\Locale\Validator'
+            'Magento\Framework\Locale\Validator'
         )->isValid(
             $data['interface_locale']
         )

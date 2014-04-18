@@ -1093,10 +1093,10 @@ class Config
      * Get "What Is PayPal" localized URL
      * Supposed to be used with "mark" as popup window
      *
-     * @param \Magento\Locale\ResolverInterface $locale
+     * @param \Magento\Framework\Locale\ResolverInterface $locale
      * @return string
      */
-    public function getPaymentMarkWhatIsPaypalUrl(\Magento\Locale\ResolverInterface $locale = null)
+    public function getPaymentMarkWhatIsPaypalUrl(\Magento\Framework\Locale\ResolverInterface $locale = null)
     {
         $countryCode = 'US';
         if (null !== $locale) {

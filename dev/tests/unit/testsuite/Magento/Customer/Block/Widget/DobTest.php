@@ -60,10 +60,10 @@ class DobTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $locale = $objectManager->getObject(
-            '\Magento\Locale',
-            array('locale' => \Magento\Locale\ResolverInterface::DEFAULT_LOCALE)
+            '\Magento\Framework\Locale',
+            array('locale' => \Magento\Framework\Locale\ResolverInterface::DEFAULT_LOCALE)
         );
-        $localeResolver = $this->getMock('\Magento\Locale\ResolverInterface');
+        $localeResolver = $this->getMock('\Magento\Framework\Locale\ResolverInterface');
         $localeResolver->expects($this->any())->method('getLocale')->will($this->returnValue($locale));
         $timezone = $objectManager->getObject(
             '\Magento\Framework\Stdlib\DateTime\Timezone',
@@ -250,7 +250,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * The \Magento\Locale\ResolverInterface::DEFAULT_LOCALE is used to derive the Locale that is used to determine the
+     * The \Magento\Framework\Locale\ResolverInterface::DEFAULT_LOCALE is used to derive the Locale that is used to determine the
      * value of Dob::getDateFormat() for that Locale.
      */
     public function testGetDateFormat()

@@ -163,7 +163,7 @@ class Installer extends \Magento\Object
     protected $_localeDate;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -191,7 +191,7 @@ class Installer extends \Magento\Object
      * @param \Magento\Module\DependencyManagerInterface $dependencyManager
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
@@ -218,7 +218,7 @@ class Installer extends \Magento\Object
         \Magento\Module\DependencyManagerInterface $dependencyManager,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_dbUpdater = $dbUpdater;

@@ -76,7 +76,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->_initTestTheme($allowDuplication);
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Locale\ResolverInterface'
+            'Magento\Framework\Locale\ResolverInterface'
         )->setLocale(
             $locale
         );

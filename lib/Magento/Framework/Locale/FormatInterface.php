@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Locale;
+namespace Magento\Framework\Locale;
 
 interface FormatInterface
 {

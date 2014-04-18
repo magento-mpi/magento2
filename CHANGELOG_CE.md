@@ -59,6 +59,7 @@
     * Moved lib/Magento/Translate to lib/Magento/Framework/Translate
     * Moved lib/Magento/Cache to lib/Magento/Framework/Cache
     * Moved lib/Magento/Phrase to lib/Magento/Framework/Phrase
+    * Moved lib/Magento/Locale to lib/Magento/Framework/Locale
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
   * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)

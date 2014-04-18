@@ -22,13 +22,13 @@
     <preference for="Magento\Framework\View\Design\ThemeInterface" type="Magento\Core\Model\Theme" />
     <preference for="Magento\Framework\View\Design\Theme\ResolverInterface" type="Magento\Core\Model\Theme\Resolver" />
     <preference for="Magento\Framework\View\ConfigInterface" type="Magento\Framework\View\Config" />
-    <preference for="Magento\Locale\ListsInterface" type="Magento\Locale\Lists" />
-    <type name="Magento\Locale\Lists">
+    <preference for="Magento\Framework\Locale\ListsInterface" type="Magento\Framework\Locale\Lists" />
+    <type name="Magento\Framework\Locale\Lists">
         <arguments>
             <argument name="currencyInstalled" xsi:type="string">system/currency/installed</argument>
         </arguments>
     </type>
-    <preference for="Magento\Locale\ConfigInterface" type="Magento\Locale\Config" />
+    <preference for="Magento\Framework\Locale\ConfigInterface" type="Magento\Framework\Locale\Config" />
     <preference for="Magento\UrlInterface" type="Magento\Url" />
     <preference for="Magento\Framework\Data\Collection\Db\FetchStrategyInterface" type="Magento\Framework\Data\Collection\Db\FetchStrategy\Query" />
     <preference for="Magento\Framework\Config\ScopeInterface" type="Magento\Framework\Config\Scope" />
@@ -162,7 +162,7 @@
     <type name="Magento\Framework\Translate">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Translate</argument>
-            <argument name="locale" xsi:type="object">Magento\Locale\Resolver\Proxy</argument>
+            <argument name="locale" xsi:type="object">Magento\Framework\Locale\Resolver\Proxy</argument>
             <argument name="translate" xsi:type="object">Magento\Framework\Translate\ResourceInterface\Proxy</argument>
             <argument name="request" xsi:type="object">Magento\Framework\App\Request\Http\Proxy</argument>
         </arguments>

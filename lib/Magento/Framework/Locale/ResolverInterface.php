@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Locale;
+namespace Magento\Framework\Locale;
 
 interface ResolverInterface
 {
@@ -25,7 +25,7 @@ interface ResolverInterface
      * Set default locale code
      *
      * @param   string $locale
-     * @return  \Magento\Locale\ResolverInterface
+     * @return  \Magento\Framework\Locale\ResolverInterface
      */
     public function setDefaultLocale($locale);
 
@@ -40,14 +40,14 @@ interface ResolverInterface
      * Set locale
      *
      * @param   string $locale
-     * @return  \Magento\Locale\ResolverInterface
+     * @return  \Magento\Framework\Locale\ResolverInterface
      */
     public function setLocale($locale = null);
 
     /**
      * Retrieve locale object
      *
-     * @return \Magento\LocaleInterface
+     * @return \Magento\Framework\LocaleInterface
      */
     public function getLocale();
 
@@ -62,7 +62,7 @@ interface ResolverInterface
      * Specify current locale code
      *
      * @param   string $code
-     * @return  \Magento\Locale\ResolverInterface
+     * @return  \Magento\Framework\Locale\ResolverInterface
      */
     public function setLocaleCode($code);
 

@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Locale\Hierarchy\Config;
+namespace Magento\Framework\Locale\Hierarchy\Config;
 
 class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Locale\Hierarchy\Config\FileResolver
+     * @var \Magento\Framework\Locale\Hierarchy\Config\FileResolver
      */
     protected $_model;
 
@@ -59,11 +59,11 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_model = new \Magento\Locale\Hierarchy\Config\FileResolver($filesystem, $this->iteratorFactory);
+        $this->_model = new \Magento\Framework\Locale\Hierarchy\Config\FileResolver($filesystem, $this->iteratorFactory);
     }
 
     /**
-     * @covers \Magento\Locale\Hierarchy\Config\FileResolver::get
+     * @covers \Magento\Framework\Locale\Hierarchy\Config\FileResolver::get
      */
     public function testGet()
     {

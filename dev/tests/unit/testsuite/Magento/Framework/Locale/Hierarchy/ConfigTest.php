@@ -5,17 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Locale\Hierarchy;
+namespace Magento\Framework\Locale\Hierarchy;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Locale\Hierarchy\Config
+     * @var \Magento\Framework\Locale\Hierarchy\Config
      */
     protected $_model;
 
     /**
-     * @var \Magento\Locale\Hierarchy\Config\Reader
+     * @var \Magento\Framework\Locale\Hierarchy\Config\Reader
      */
     protected $_configReaderMock;
 
@@ -58,7 +58,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(serialize($this->_testData))
         );
 
-        $this->_model = new \Magento\Locale\Hierarchy\Config(
+        $this->_model = new \Magento\Framework\Locale\Hierarchy\Config(
             $this->_configReaderMock,
             $this->_cacheMock,
             $this->_cacheId

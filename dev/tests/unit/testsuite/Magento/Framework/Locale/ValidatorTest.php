@@ -8,18 +8,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Locale;
+namespace Magento\Framework\Locale;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Locale\Validator
+     * @var \Magento\Framework\Locale\Validator
      */
     protected $_validatorModel;
 
     protected function setUp()
     {
-        $localeConfigMock = $this->getMock('Magento\Locale\ConfigInterface');
+        $localeConfigMock = $this->getMock('Magento\Framework\Locale\ConfigInterface');
         $localeConfigMock->expects(
             $this->any()
         )->method(
@@ -28,7 +28,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(array('en_US', 'de_DE', 'es_ES'))
         );
 
-        $this->_validatorModel = new \Magento\Locale\Validator($localeConfigMock);
+        $this->_validatorModel = new \Magento\Framework\Locale\Validator($localeConfigMock);
     }
 
     /**
@@ -46,7 +46,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      * @dataProvider testIsValidDataProvider
      * @param string $locale
      * @param boolean $valid
-     * @covers \Magento\Locale\Validator::isValid
+     * @covers \Magento\Framework\Locale\Validator::isValid
      */
     public function testIsValid($locale, $valid)
     {

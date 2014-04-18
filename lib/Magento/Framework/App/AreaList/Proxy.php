@@ -28,7 +28,7 @@ class Proxy extends \Magento\Framework\App\AreaList
     /**
      * Proxied instance
      *
-     * @var \Magento\Locale\Resolver
+     * @var \Magento\Framework\Locale\Resolver
      */
     protected $_subject = null;
 
@@ -87,7 +87,7 @@ class Proxy extends \Magento\Framework\App\AreaList
     /**
      * Get proxied instance
      *
-     * @return \Magento\Locale\Resolver
+     * @return \Magento\Framework\Locale\Resolver
      */
     protected function _getSubject()
     {

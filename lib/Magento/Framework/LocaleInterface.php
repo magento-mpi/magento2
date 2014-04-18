@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
 interface LocaleInterface
 {
@@ -44,10 +44,8 @@ interface LocaleInterface
      * which represents the percent of quality the browser
      * requested within HTTP
      *
-     * @param  string|\Magento\LocaleInterface $locale  Locale to set
-     * @param  float              $quality The quality to set from 0 to 1
-     * @throws \Zend_Locale_Exception When a autolocale was given
-     * @throws \Zend_Locale_Exception When a unknown locale was given
+     * @param  string|\Magento\Framework\LocaleInterface $locale Locale to set
+     * @param float|int $quality The quality to set from 0 to 1
      * @return void
      */
     public static function setDefault($locale, $quality = 1);
@@ -77,7 +75,7 @@ interface LocaleInterface
     /**
      * Sets a new locale
      *
-     * @param  string|\Magento\LocaleInterface $locale (Optional) New locale to set
+     * @param  string|\Magento\Framework\LocaleInterface $locale (Optional) New locale to set
      * @return void
      */
     public function setLocale($locale = null);
@@ -117,7 +115,8 @@ interface LocaleInterface
      * For detailed information about the types look into the documentation
      *
      * @param  string             $path   (Optional) Type of information to return
-     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale|Language for which this informations should be returned
+     * @param  string|\Magento\Framework\LocaleInterface $locale (Optional) Locale
+     *         |Language for which this informations should be returned
      * @param  string             $value  (Optional) Value for detail list
      * @return array Array with the wished information in the given language
      */
@@ -126,7 +125,7 @@ interface LocaleInterface
     /**
      * Returns an array with the name of all languages translated to the given language
      *
-     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale for language translation
+     * @param  string|\Magento\Framework\LocaleInterface $locale (Optional) Locale for language translation
      * @return array
      * @deprecated
      */
@@ -135,7 +134,7 @@ interface LocaleInterface
     /**
      * Returns an array with the name of all scripts translated to the given language
      *
-     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale for script translation
+     * @param  string|\Magento\Framework\LocaleInterface $locale (Optional) Locale for script translation
      * @return array
      * @deprecated
      */
@@ -144,7 +143,7 @@ interface LocaleInterface
     /**
      * Returns an array with the name of all countries translated to the given language
      *
-     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale for country translation
+     * @param  string|\Magento\Framework\LocaleInterface $locale (Optional) Locale for country translation
      * @return array
      * @deprecated
      */
@@ -154,7 +153,7 @@ interface LocaleInterface
      * Returns an array with the name of all territories translated to the given language
      * All territories contains other countries.
      *
-     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale for territory translation
+     * @param  string|\Magento\Framework\LocaleInterface $locale (Optional) Locale for territory translation
      * @return array
      * @deprecated
      */
@@ -166,7 +165,8 @@ interface LocaleInterface
      *
      * @param  string             $value  Name to get detailed information about
      * @param  string             $path   (Optional) Type of information to return
-     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale|Language for which this informations should be returned
+     * @param  string|\Magento\Framework\LocaleInterface $locale (Optional) Locale
+     *         |Language for which this informations should be returned
      * @return string|false The wished information in the given language
      */
     public static function getTranslation($value = null, $path = null, $locale = null);
@@ -195,7 +195,7 @@ interface LocaleInterface
      * Returns the localized country name
      *
      * @param  string             $value  Name to get detailed information about
-     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale for country translation
+     * @param  string|\Magento\Framework\LocaleInterface $locale (Optional) Locale for country translation
      * @return array
      * @deprecated
      */
@@ -206,7 +206,7 @@ interface LocaleInterface
      * All territories contains other countries.
      *
      * @param  string             $value  Name to get detailed information about
-     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale for territory translation
+     * @param  string|\Magento\Framework\LocaleInterface $locale (Optional) Locale for territory translation
      * @return array
      * @deprecated
      */
@@ -215,7 +215,8 @@ interface LocaleInterface
     /**
      * Returns an array with translated yes strings
      *
-     * @param  string|\Magento\LocaleInterface $locale (Optional) Locale for language translation (defaults to $this locale)
+     * @param  string|\Magento\Framework\LocaleInterface $locale (Optional)
+     *         Locale for language translation (defaults to $this locale)
      * @return array
      */
     public static function getQuestion($locale = null);
@@ -226,7 +227,7 @@ interface LocaleInterface
      * "en_XX" refers to "en", which returns true
      * "XX_yy" refers to "root", which returns false
      *
-     * @param  string|\Magento\LocaleInterface $locale     Locale to check for
+     * @param  string|\Magento\Framework\LocaleInterface $locale     Locale to check for
      * @param  boolean            $strict     (Optional) If true, no rerouting will be done when checking
      * @param  boolean            $compatible (DEPRECATED) Only for internal usage, brakes compatibility mode
      * @return boolean If the locale is known dependend on the settings
@@ -313,7 +314,8 @@ interface LocaleInterface
      *
      * Standard Searchorder is Browser, Environment, Default
      *
-     * @param  string  $searchorder (Optional) Searchorder
+     * @param null $order
+     * @internal param string $searchorder (Optional) Searchorder
      * @return array Returns an array of all detected locales
      */
     public static function getOrder($order = null);

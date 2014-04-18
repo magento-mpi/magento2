@@ -101,7 +101,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
     protected $currentCustomer;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -116,7 +116,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
@@ -131,7 +131,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
         \Magento\Math\Random $mathRandom,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Checkout\Model\Session $checkoutSession = null,
         array $data = array()
     ) {

@@ -106,7 +106,7 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
     protected $_dashboardData = null;
 
     /**
-     * @var \Magento\Locale\ListsInterface
+     * @var \Magento\Framework\Locale\ListsInterface
      */
     protected $_localeLists = null;
 
@@ -114,14 +114,14 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Reports\Model\Resource\Order\CollectionFactory $collectionFactory
      * @param \Magento\Backend\Helper\Dashboard\Data $dashboardData
-     * @param \Magento\Locale\ListsInterface $localeLists
+     * @param \Magento\Framework\Locale\ListsInterface $localeLists
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Reports\Model\Resource\Order\CollectionFactory $collectionFactory,
         \Magento\Backend\Helper\Dashboard\Data $dashboardData,
-        \Magento\Locale\ListsInterface $localeLists,
+        \Magento\Framework\Locale\ListsInterface $localeLists,
         array $data = array()
     ) {
         $this->_dashboardData = $dashboardData;

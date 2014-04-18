@@ -21,7 +21,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\View\DesignInterface */
     protected $_viewDesign;
 
-    /** @var \Magento\Locale\Hierarchy\Config */
+    /** @var \Magento\Framework\Locale\Hierarchy\Config */
     protected $_config;
 
     /** @var \Magento\Framework\Cache\FrontendInterface */
@@ -42,7 +42,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Translate\ResourceInterface */
     protected $_resource;
 
-    /** @var \Magento\Locale\ResolverInterface */
+    /** @var \Magento\Framework\Locale\ResolverInterface */
     protected $_locale;
 
     /** @var \Magento\Framework\App\State */
@@ -63,14 +63,14 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_viewDesign = $this->getMock('\Magento\Framework\View\DesignInterface', [], [], '', false);
-        $this->_config = $this->getMock('\Magento\Locale\Hierarchy\Config', [], [], '', false);
+        $this->_config = $this->getMock('\Magento\Framework\Locale\Hierarchy\Config', [], [], '', false);
         $this->_cache = $this->getMock('\Magento\Framework\Cache\FrontendInterface', [], [], '', false);
         $this->_viewFileSystem = $this->getMock('\Magento\Framework\View\FileSystem', [], [], '', false);
         $this->_moduleList = $this->getMock('\Magento\Module\ModuleList', [], [], '', false);
         $this->_modulesReader = $this->getMock('\Magento\Module\Dir\Reader', [], [], '', false);
         $this->_scopeResolver = $this->getMock('\Magento\Framework\App\ScopeResolverInterface', [], [], '', false);
         $this->_resource = $this->getMock('\Magento\Framework\Translate\ResourceInterface', [], [], '', false);
-        $this->_locale = $this->getMock('\Magento\Locale\ResolverInterface', [], [], '', false);
+        $this->_locale = $this->getMock('\Magento\Framework\Locale\ResolverInterface', [], [], '', false);
         $this->_appState = $this->getMock('\Magento\Framework\App\State', [], [], '', false);
         $this->_request = $this->getMock('\Magento\Framework\App\RequestInterface', [], [], '', false);
         $this->_csvParser = $this->getMock('\Magento\File\Csv', [], [], '', false);

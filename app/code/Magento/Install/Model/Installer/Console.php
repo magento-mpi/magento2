@@ -118,7 +118,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     /**
      * Locale Lists
      *
-     * @var \Magento\Locale\ListsInterface
+     * @var \Magento\Framework\Locale\ListsInterface
      */
     protected $_localeLists;
 
@@ -136,7 +136,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Install\Model\Installer\Data $installerData
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Locale\ListsInterface $localeLists
+     * @param \Magento\Framework\Locale\ListsInterface $localeLists
      * @param \Magento\Framework\ObjectManager $objectManager
      */
     public function __construct(
@@ -146,7 +146,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Install\Model\Installer\Data $installerData,
         \Magento\Framework\App\State $appState,
-        \Magento\Locale\ListsInterface $localeLists,
+        \Magento\Framework\Locale\ListsInterface $localeLists,
         \Magento\Framework\ObjectManager $objectManager
     ) {
         parent::__construct($installer);

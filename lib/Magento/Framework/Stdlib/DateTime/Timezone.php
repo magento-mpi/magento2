@@ -54,7 +54,7 @@ class Timezone implements TimezoneInterface
 
     /**
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Stdlib\DateTime\DateFactory $dateFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -63,7 +63,7 @@ class Timezone implements TimezoneInterface
      */
     public function __construct(
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         DateFactory $dateFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,

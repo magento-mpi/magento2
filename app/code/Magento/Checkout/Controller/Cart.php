@@ -133,7 +133,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
                     'Magento\Store\Model\StoreManagerInterface'
                 )->getStore()->getCurrentCurrencyCode();
                 $minimumAmount = $this->_objectManager->get(
-                    'Magento\Locale\CurrencyInterface'
+                    'Magento\Framework\Locale\CurrencyInterface'
                 )->getCurrency(
                     $currencyCode
                 )->toCurrency(
@@ -197,7 +197,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
         try {
             if (isset($params['qty'])) {
                 $filter = new \Zend_Filter_LocalizedToNormalized(
-                    array('locale' => $this->_objectManager->get('Magento\Locale\ResolverInterface')->getLocaleCode())
+                    array('locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocaleCode())
                 );
                 $params['qty'] = $filter->filter($params['qty']);
             }
@@ -359,7 +359,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
         try {
             if (isset($params['qty'])) {
                 $filter = new \Zend_Filter_LocalizedToNormalized(
-                    array('locale' => $this->_objectManager->get('Magento\Locale\ResolverInterface')->getLocaleCode())
+                    array('locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocaleCode())
                 );
                 $params['qty'] = $filter->filter($params['qty']);
             }
@@ -464,7 +464,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
             $cartData = $this->getRequest()->getParam('cart');
             if (is_array($cartData)) {
                 $filter = new \Zend_Filter_LocalizedToNormalized(
-                    array('locale' => $this->_objectManager->get('Magento\Locale\ResolverInterface')->getLocaleCode())
+                    array('locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocaleCode())
                 );
                 foreach ($cartData as $index => $data) {
                     if (isset($data['qty'])) {

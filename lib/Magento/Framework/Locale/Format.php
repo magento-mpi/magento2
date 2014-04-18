@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Locale;
+namespace Magento\Framework\Locale;
 
-class Format implements \Magento\Locale\FormatInterface
+class Format implements \Magento\Framework\Locale\FormatInterface
 {
     /**
      * @var \Magento\Framework\App\ScopeResolverInterface
@@ -15,7 +15,7 @@ class Format implements \Magento\Locale\FormatInterface
     protected $_scopeResolver;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -25,7 +25,7 @@ class Format implements \Magento\Locale\FormatInterface
      */
     public function __construct(
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
-        \Magento\Locale\ResolverInterface $localeResolver
+        \Magento\Framework\Locale\ResolverInterface $localeResolver
     ) {
         $this->_scopeResolver = $scopeResolver;
         $this->_localeResolver = $localeResolver;
