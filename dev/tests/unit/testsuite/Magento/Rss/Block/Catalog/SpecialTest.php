@@ -85,8 +85,8 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $urlBuilderMock = $this->getMock('Magento\UrlInterface', [], [], '', false);
         $this->storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
-        $scopeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface', [], [], '', false);
-        $cacheStateMock = $this->getMock('Magento\App\Cache\StateInterface', [], [], '', false);
+        $scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface', [], [], '', false);
+        $cacheStateMock = $this->getMock('Magento\Framework\App\Cache\StateInterface', [], [], '', false);
 
         $templateContextMock->expects($this->any())
             ->method('getRequest')
