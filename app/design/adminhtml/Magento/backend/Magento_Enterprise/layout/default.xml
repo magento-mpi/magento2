@@ -13,9 +13,4 @@
             <argument name="edition" xsi:type="string">Enterprise</argument>
         </arguments>
     </referenceBlock>
-    <referenceBlock name="css-styles-admin">
-        <arguments>
-            <argument name="file" xsi:type="string">css/admin-ee.css</argument>
-        </arguments>
-    </referenceBlock>
 </layout>
