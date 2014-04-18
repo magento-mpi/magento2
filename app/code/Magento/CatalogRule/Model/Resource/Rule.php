@@ -20,8 +20,8 @@ namespace Magento\CatalogRule\Model\Resource;
 
 use Magento\Catalog\Model\Product;
 use Magento\CatalogRule\Model\Rule as ModelRule;
-use Magento\Model\AbstractModel;
-use Magento\Model\Resource\Db\AbstractDb;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Resource\Db\AbstractDb;
 
 class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 {
@@ -93,7 +93,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $dateTime;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory
      * @param \Magento\Stdlib\DateTime\DateTime $coreDate
@@ -104,7 +104,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory,
         \Magento\Stdlib\DateTime\DateTime $coreDate,
@@ -138,8 +138,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Add customer group ids and website ids to rule data after load
      *
-     * @param AbstractModel $object
-     * @return AbstractDb
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _afterLoad(AbstractModel $object)
     {

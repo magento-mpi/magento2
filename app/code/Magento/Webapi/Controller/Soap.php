@@ -18,7 +18,7 @@ use Magento\Webapi\Model\PathProcessor;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Soap implements \Magento\App\FrontControllerInterface
+class Soap implements \Magento\Framework\App\FrontControllerInterface
 {
     /**#@+
      * Content types used for responses processed by SOAP web API.
@@ -44,10 +44,10 @@ class Soap implements \Magento\App\FrontControllerInterface
     /** @var ErrorProcessor */
     protected $_errorProcessor;
 
-    /** @var \Magento\App\State */
+    /** @var \Magento\Framework\App\State */
     protected $_appState;
 
-    /** @var \Magento\View\LayoutInterface */
+    /** @var \Magento\Framework\View\LayoutInterface */
     protected $_layout;
 
     /**
@@ -66,7 +66,7 @@ class Soap implements \Magento\App\FrontControllerInterface
     protected $_pathProcessor;
 
     /**
-     * @var \Magento\App\AreaList
+     * @var \Magento\Framework\App\AreaList
      */
     protected $areaList;
 
@@ -76,12 +76,12 @@ class Soap implements \Magento\App\FrontControllerInterface
      * @param \Magento\Webapi\Model\Soap\Wsdl\Generator $wsdlGenerator
      * @param \Magento\Webapi\Model\Soap\Server $soapServer
      * @param ErrorProcessor $errorProcessor
-     * @param \Magento\App\State $appState
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param PathProcessor $pathProcessor
-     * @param \Magento\App\AreaList $areaList
+     * @param \Magento\Framework\App\AreaList $areaList
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -91,12 +91,12 @@ class Soap implements \Magento\App\FrontControllerInterface
         \Magento\Webapi\Model\Soap\Wsdl\Generator $wsdlGenerator,
         \Magento\Webapi\Model\Soap\Server $soapServer,
         ErrorProcessor $errorProcessor,
-        \Magento\App\State $appState,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\App\State $appState,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Locale\ResolverInterface $localeResolver,
         PathProcessor $pathProcessor,
-        \Magento\App\AreaList $areaList
+        \Magento\Framework\App\AreaList $areaList
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -114,10 +114,10 @@ class Soap implements \Magento\App\FrontControllerInterface
     /**
      * Dispatch SOAP request.
      *
-     * @param \Magento\App\RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return \Magento\Framework\App\ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
         $path = $this->_pathProcessor->process($request->getPathInfo());
         $this->_request->setPathInfo($path);

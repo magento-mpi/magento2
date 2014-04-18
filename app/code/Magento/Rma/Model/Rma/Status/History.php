@@ -12,7 +12,7 @@ namespace Magento\Rma\Model\Rma\Status;
 /**
  * RMA model
  */
-class History extends \Magento\Model\AbstractModel
+class History extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Core store manager interface
@@ -55,7 +55,7 @@ class History extends \Magento\Model\AbstractModel
     protected $inlineTranslation;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
@@ -63,12 +63,12 @@ class History extends \Magento\Model\AbstractModel
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
@@ -76,8 +76,8 @@ class History extends \Magento\Model\AbstractModel
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;

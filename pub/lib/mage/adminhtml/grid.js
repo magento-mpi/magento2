@@ -69,7 +69,7 @@ varienGrid.prototype = {
                 this.initCallback(this);
             }
             catch (e) {
-                if (console) {
+                if (window.console) {
                     console.log(e);
                 }
             }
@@ -86,7 +86,7 @@ varienGrid.prototype = {
                 try {
                     this.initRowCallback(this, this.rows[row]);
                 } catch (e) {
-                    if (console) {
+                    if (window.console) {
                         console.log(e);
                     }
                 }

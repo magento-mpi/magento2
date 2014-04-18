@@ -58,7 +58,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_shell = new \Magento\Shell(new \Magento\OSInfo());
+        $this->_shell = new \Magento\Shell(new \Magento\Shell\CommandRenderer());
         $basePath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $basePath = str_replace('\\', '/', $basePath);
 
@@ -73,23 +73,23 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $this->_command = 'php ' . $basePath . '/dev/tools/Magento/Tools/Di/compiler.php --generation=%s --di=%s';
 
         $booleanUtils = new \Magento\Stdlib\BooleanUtils();
-        $constInterpreter = new \Magento\Data\Argument\Interpreter\Constant();
-        $argumentInterpreter = new \Magento\Data\Argument\Interpreter\Composite(
+        $constInterpreter = new \Magento\Framework\Data\Argument\Interpreter\Constant();
+        $argumentInterpreter = new \Magento\Framework\Data\Argument\Interpreter\Composite(
             [
-                'boolean' => new \Magento\Data\Argument\Interpreter\Boolean($booleanUtils),
-                'string' => new \Magento\Data\Argument\Interpreter\String($booleanUtils),
-                'number' => new \Magento\Data\Argument\Interpreter\Number(),
-                'null' => new \Magento\Data\Argument\Interpreter\NullType(),
-                'object' => new \Magento\Data\Argument\Interpreter\Object($booleanUtils),
+                'boolean' => new \Magento\Framework\Data\Argument\Interpreter\Boolean($booleanUtils),
+                'string' => new \Magento\Framework\Data\Argument\Interpreter\String($booleanUtils),
+                'number' => new \Magento\Framework\Data\Argument\Interpreter\Number(),
+                'null' => new \Magento\Framework\Data\Argument\Interpreter\NullType(),
+                'object' => new \Magento\Framework\Data\Argument\Interpreter\Object($booleanUtils),
                 'const' => $constInterpreter,
-                'init_parameter' => new \Magento\App\Arguments\ArgumentInterpreter($constInterpreter)
+                'init_parameter' => new \Magento\Framework\App\Arguments\ArgumentInterpreter($constInterpreter)
             ],
             \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
         );
         // Add interpreters that reference the composite
         $argumentInterpreter->addInterpreter(
             'array',
-            new \Magento\Data\Argument\Interpreter\ArrayType($argumentInterpreter)
+            new \Magento\Framework\Data\Argument\Interpreter\ArrayType($argumentInterpreter)
         );
 
         $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom(
@@ -107,7 +107,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $filesystem = new \Magento\Filesystem\Driver\File();
+        $filesystem = new \Magento\Framework\Filesystem\Driver\File();
         if ($filesystem->isExists($this->_tmpDir)) {
             $filesystem->deleteDirectory($this->_tmpDir);
         }
@@ -317,7 +317,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     {
         $autoloader = new \Magento\Autoload\IncludePath();
         $generatorIo = new \Magento\Code\Generator\Io(
-            new \Magento\Filesystem\Driver\File(),
+            new \Magento\Framework\Filesystem\Driver\File(),
             $autoloader,
             $this->_generationDir
         );

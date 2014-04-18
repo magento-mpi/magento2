@@ -7,6 +7,8 @@
  */
 namespace Magento\RecurringPayment\Block\Payment;
 
+use Magento\Customer\Controller\RegistryConstants;
+
 /**
  * Recurring payment view grid
  */
@@ -35,14 +37,14 @@ class Grid extends \Magento\RecurringPayment\Block\Payments
     protected $_fields;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\RecurringPayment\Model\Payment $recurringPayment
      * @param \Magento\Registry $registry
      * @param \Magento\RecurringPayment\Block\Fields $fields
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\RecurringPayment\Model\Payment $recurringPayment,
         \Magento\Registry $registry,
         \Magento\RecurringPayment\Block\Fields $fields,
@@ -65,7 +67,7 @@ class Grid extends \Magento\RecurringPayment\Block\Payments
     {
         $this->_payments = $this->_recurringPayment->getCollection()->addFieldToFilter(
             'customer_id',
-            $this->_registry->registry('current_customer')->getId()
+            $this->_registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
         )->addFieldToSelect(
             $fields
         )->setOrder(

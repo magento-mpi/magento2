@@ -15,19 +15,19 @@ namespace Magento\PricePermissions\Model;
  */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\View\LayoutInterface */
+    /** @var \Magento\Framework\View\LayoutInterface */
     protected $_layout = null;
 
     protected function setUp()
     {
         parent::setUp();
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Config\ScopeInterface'
+            'Magento\Framework\Config\ScopeInterface'
         )->setCurrentScope(
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         );
         $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         );
     }
 
@@ -71,9 +71,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * Prepare event and run \Magento\PricePermissions\Model\Observer::adminhtmlBlockHtmlBefore
      *
-     * @param \Magento\View\Element\AbstractBlock $block
+     * @param \Magento\Framework\View\Element\AbstractBlock $block
      */
-    protected function _runAdminhtmlBlockHtmlBefore(\Magento\View\Element\AbstractBlock $block)
+    protected function _runAdminhtmlBlockHtmlBefore(\Magento\Framework\View\Element\AbstractBlock $block)
     {
         $event = new \Magento\Event\Observer();
         $event->setBlock($block);

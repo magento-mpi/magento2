@@ -47,7 +47,7 @@ class Product extends AbstractResource
     /**
      * Construct
      *
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
      * @param \Magento\Locale\FormatInterface $localeFormat
@@ -62,7 +62,7 @@ class Product extends AbstractResource
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
         \Magento\Locale\FormatInterface $localeFormat,
@@ -451,7 +451,7 @@ class Product extends AbstractResource
                     $select,
                     $tableName,
                     array('entity_type_id', 'attribute_id', 'store_id', 'entity_id', 'value'),
-                    \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
+                    \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
                 )
             );
         }

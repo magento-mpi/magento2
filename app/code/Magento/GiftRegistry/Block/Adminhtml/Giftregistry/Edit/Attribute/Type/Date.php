@@ -24,7 +24,7 @@ class Date extends \Magento\Backend\Block\Widget\Form
     public function getDateFormatSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array('id' => '{{prefix}}_attribute_{{id}}_date_format', 'class' => 'select global-scope')
         )->setName(

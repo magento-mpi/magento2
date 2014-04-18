@@ -48,7 +48,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->accountBlock = $this->objectManager->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\Account',
             '',
@@ -63,6 +63,10 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->coreRegistry->unregister(RegistryConstants::CURRENT_CUSTOMER_ID);
+        /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
+        $customerRegistry = $this->objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        //Cleanup customer from registry
+        $customerRegistry->remove(1);
     }
 
     /**

@@ -18,7 +18,7 @@
  */
 namespace Magento\Reports\Model\Resource\Refresh;
 
-class Collection extends \Magento\Data\Collection
+class Collection extends \Magento\Framework\Data\Collection
 {
     /**
      * @var \Magento\Stdlib\DateTime\TimezoneInterface

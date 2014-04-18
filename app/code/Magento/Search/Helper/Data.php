@@ -12,7 +12,7 @@ namespace Magento\Search\Helper;
 /**
  * Enterprise search helper
  */
-class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search\Helper\ClientInterface
+class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Magento\Search\Helper\ClientInterface
 {
     /**
      * Define if search engine is used for layered navigation
@@ -73,7 +73,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -109,10 +109,10 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     protected $_languages;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -120,10 +120,10 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
      * @param array $supportedLanguages
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime $dateTime,

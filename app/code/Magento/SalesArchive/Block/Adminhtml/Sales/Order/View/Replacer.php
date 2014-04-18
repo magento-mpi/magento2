@@ -43,27 +43,9 @@ class Replacer extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
     protected function _prepareLayout()
     {
         if ($this->getOrder()->getIsArchived()) {
-            $this->getLayout()->getBlock(
-                'sales_order_tabs'
-            )->addTab(
-                'magento_order_shipments',
-                'Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Shipments'
-            );
-            $this->getLayout()->getBlock(
-                'sales_order_tabs'
-            )->addTab(
-                'magento_order_invoices',
-                'Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Invoices'
-            );
-            $this->getLayout()->getBlock(
-                'sales_order_tabs'
-            )->addTab(
-                'magento_order_creditmemos',
-                'Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Creditmemos'
-            );
 
             $restoreUrl = $this->getUrl(
-                'adminhtml/sales_archive/remove',
+                'sales/archive/remove',
                 array('order_id' => $this->getOrder()->getId())
             );
             if ($this->_authorization->isAllowed('Magento_SalesArchive::remove')) {
@@ -82,7 +64,7 @@ class Replacer extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
             $isActive = $this->_configModel->isArchiveActive();
             if ($isActive) {
                 $archiveUrl = $this->getUrl(
-                    'adminhtml/sales_archive/add',
+                    'sales/archive/add',
                     array('order_id' => $this->getOrder()->getId())
                 );
                 if ($this->_authorization->isAllowed('Magento_SalesArchive::add')) {

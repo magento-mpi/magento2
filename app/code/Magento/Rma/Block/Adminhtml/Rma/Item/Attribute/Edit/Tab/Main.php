@@ -25,7 +25,7 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Eav\Helper\Data $eavData
      * @param \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory
      * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory
@@ -37,7 +37,7 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Eav\Helper\Data $eavData,
         \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory,
         \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory,
@@ -63,14 +63,14 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
     /**
      * Preparing global layout
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {
         $result = parent::_prepareLayout();
         $renderer = $this->getLayout()->getBlock('fieldset_element_renderer');
-        if ($renderer instanceof \Magento\Data\Form\Element\Renderer\RendererInterface) {
-            \Magento\Data\Form::setFieldsetElementRenderer($renderer);
+        if ($renderer instanceof \Magento\Framework\Data\Form\Element\Renderer\RendererInterface) {
+            \Magento\Framework\Data\Form::setFieldsetElementRenderer($renderer);
         }
 
         return $result;
@@ -255,7 +255,8 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
                 'title' => __('Forms to Use In'),
                 'values' => $this->_attributeHelper->getAttributeFormOptions(),
                 'value' => $attribute->getUsedInForms(),
-                'can_be_empty' => true
+                'can_be_empty' => true,
+                'required' => true,
             )
         )->setSize(
             5
@@ -308,6 +309,16 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
         }
 
         $this->getForm()->setDataObject($this->getAttributeObject());
+
+        $htmlIdPrefix = $form->getHtmlIdPrefix();
+        /** @var \Magento\Backend\Block\Widget\Form\Element\Dependence $dependenceBlock */
+        $dependenceBlock = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Form\Element\Dependence');
+        $this->setChild(
+            'form_after',
+            $dependenceBlock->addFieldMap($htmlIdPrefix . 'used_in_forms', 'used_in_forms')
+                ->addFieldMap($htmlIdPrefix . 'is_visible', 'is_visible')
+                ->addFieldDependence('used_in_forms', 'is_visible', '1')
+        );
 
         return $this;
     }

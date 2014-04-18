@@ -23,7 +23,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $gridBlock \Magento\Backend\Block\Urlrewrite\Catalog\Product\Grid */
         $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Backend\Block\Urlrewrite\Catalog\Product\Grid'
         );

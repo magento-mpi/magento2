@@ -52,7 +52,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
-        $this->_scopeConfigMock = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfigMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
 
         $this->_readerMock = $this->getMock(
             'Magento\Customer\Model\Address\Config\Reader',
@@ -61,7 +61,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
+        $this->_cacheMock = $this->getMock('Magento\Framework\Config\CacheInterface');
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $this->_storeManagerMock->expects(
             $this->once()

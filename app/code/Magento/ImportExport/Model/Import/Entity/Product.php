@@ -415,7 +415,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_uploaderFactory;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_mediaDirectory;
 
@@ -449,7 +449,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\ImportExport\Model\Resource\Import\Data $importData
      * @param \Magento\Eav\Model\Config $config
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -467,7 +467,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory
      * @param \Magento\ImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory
      * @param \Magento\ImportExport\Model\Import\UploaderFactory $uploaderFactory
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -480,7 +480,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\ImportExport\Helper\Data $importExportData,
         \Magento\ImportExport\Model\Resource\Import\Data $importData,
         \Magento\Eav\Model\Config $config,
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\Stdlib\String $string,
         \Magento\Event\ManagerInterface $eventManager,
@@ -498,7 +498,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory,
         \Magento\ImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory,
         \Magento\ImportExport\Model\Import\UploaderFactory $uploaderFactory,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -520,7 +520,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_linkFactory = $linkFactory;
         $this->_proxyProdFactory = $proxyProdFactory;
         $this->_uploaderFactory = $uploaderFactory;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
         $this->_stockResItemFac = $stockResItemFac;
         $this->_stockItemFactory = $stockItemFactory;
         $this->_localeDate = $localeDate;
@@ -715,7 +715,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * Initialize product type models.
      *
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _initTypeModels()
     {
@@ -724,12 +724,12 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             $params = array($this, $productTypeName);
             if (!($model = $this->_productTypeFactory->create($productTypeConfig['model'], array('params' => $params)))
             ) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     sprintf("Entity type model '%s' is not found", $productTypeConfig['model'])
                 );
             }
             if (!$model instanceof \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __(
                         'Entity type model must be an instance of ' .
                         'Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType'
@@ -1533,7 +1533,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * Returns an object for upload a media files
      *
      * @return \Magento\ImportExport\Model\Import\Uploader
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getUploader()
     {
@@ -1544,14 +1544,14 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 
             $tmpPath = $this->_mediaDirectory->getAbsolutePath('import');
             if (!$this->_fileUploader->setTmpDir($tmpPath)) {
-                throw new \Magento\Model\Exception(sprintf("File directory '%s' is not readable.", $tmpPath));
+                throw new \Magento\Framework\Model\Exception(sprintf("File directory '%s' is not readable.", $tmpPath));
             }
             $destinationDir = "catalog/product";
             $destinationPath = $this->_mediaDirectory->getAbsolutePath($destinationDir);
 
             $this->_mediaDirectory->create($destinationDir);
             if (!$this->_fileUploader->setDestDir($destinationPath)) {
-                throw new \Magento\Model\Exception(sprintf("File directory '%s' is not writable.", $destinationPath));
+                throw new \Magento\Framework\Model\Exception(sprintf("File directory '%s' is not writable.", $destinationPath));
             }
         }
         return $this->_fileUploader;
@@ -1809,7 +1809,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * DB connection getter.
      *
-     * @return \Magento\DB\Adapter\Pdo\Mysql
+     * @return \Magento\Framework\DB\Adapter\Pdo\Mysql
      */
     public function getConnection()
     {

@@ -17,13 +17,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\PageCache\Model\Config */
     protected $_configMock;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\App\PageCache\Cache */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\PageCache\Cache */
     protected $_cacheMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Element\AbstractBlock */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\View\Element\AbstractBlock */
     protected $_blockMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Layout */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\View\Layout */
     protected $_layoutMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Event\Observer */
@@ -32,7 +32,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\PageCache\Helper\Data */
     protected $_helperMock;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Cache\TypeListInterface */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Cache\TypeListInterface */
     protected $_typeListMock;
 
     /** @var \Magento\Object */
@@ -41,7 +41,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\PageCache\Model\Observer */
     protected $_observerObject;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\PageCache\FormKey */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\PageCache\FormKey */
     protected $_formKey;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Session\Generic */
@@ -59,10 +59,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_cacheMock = $this->getMock('Magento\App\PageCache\Cache', array('clean'), array(), '', false);
+        $this->_cacheMock = $this->getMock('Magento\Framework\App\PageCache\Cache', array('clean'), array(), '', false);
         $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', array(), array(), '', false);
-        $this->_typeListMock = $this->getMock('Magento\App\Cache\TypeList', array(), array(), '', false);
-        $this->_formKey = $this->getMock('Magento\App\PageCache\FormKey', array(), array(), '', false);
+        $this->_typeListMock = $this->getMock('Magento\Framework\App\Cache\TypeList', array(), array(), '', false);
+        $this->_formKey = $this->getMock('Magento\Framework\App\PageCache\FormKey', array(), array(), '', false);
         $this->_session = $this->getMock('Magento\Session\Generic', array('setData'), array(), '', false);
 
         $this->_model = new \Magento\PageCache\Model\Observer(
@@ -75,14 +75,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->_observerMock = $this->getMock('Magento\Event\Observer', array('getEvent'), array(), '', false);
         $this->_layoutMock = $this->getMock(
-            'Magento\View\Layout',
+            'Magento\Framework\View\Layout',
             array('isCacheable', 'getBlock', 'getUpdate', 'getHandles'),
             array(),
             '',
             false
         );
         $this->_blockMock = $this->getMockForAbstractClass(
-            'Magento\View\Element\AbstractBlock',
+            'Magento\Framework\View\Element\AbstractBlock',
             array(),
             '',
             false,
@@ -297,14 +297,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $formKey = 'asdfaswqrwqe12';
 
         //Verification
-        $this->_configMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
         $this->_formKey->expects($this->once())->method('get')->will($this->returnValue($formKey));
         $this->_session->expects(
             $this->once()
         )->method(
             'setData'
         )->with(
-            \Magento\Data\Form\FormKey::FORM_KEY,
+            \Magento\Framework\Data\Form\FormKey::FORM_KEY,
             $formKey
         );
 

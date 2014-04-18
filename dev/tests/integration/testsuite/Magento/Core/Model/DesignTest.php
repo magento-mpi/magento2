@@ -35,8 +35,11 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      */
     public function testChangeDesign()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
-        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\View\DesignInterface');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
+            ->setAreaCode('frontend');
+        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Framework\View\DesignInterface'
+        );
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Store\Model\StoreManagerInterface'
         )->getAnyStoreView()->getId();
@@ -45,7 +48,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Model\Design'
         );
         $designChange->loadChange($storeId)->changeDesign($design);
-        $this->assertEquals('magento_plushe', $design->getDesignTheme()->getThemePath());
+        $this->assertEquals('Magento/plushe', $design->getDesignTheme()->getThemePath());
     }
 
     public function testCRUD()
@@ -53,7 +56,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $this->_model->setData(
             array(
                 'store_id' => 1,
-                'design' => 'magento_blank',
+                'design' => 'Magento/blank',
                 'date_from' => date('Y-m-d', strtotime('-1 day')),
                 'date_to' => date('Y-m-d', strtotime('+1 day'))
             )
@@ -71,7 +74,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
                 $model->setId(null);
                 $model->save();
                 $this->fail('A validation failure is expected.');
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
             }
 
             $this->_model->delete();
@@ -115,7 +118,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $design->loadChange($storeId, $date);
 
         $cachedDesign = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\CacheInterface'
+            'Magento\Framework\App\CacheInterface'
         )->load(
             $cacheId
         );
@@ -125,13 +128,13 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('design', $cachedDesign);
         $this->assertEquals($cachedDesign['design'], $design->getDesign());
 
-        $design->setDesign('magento_blank')->save();
+        $design->setDesign('Magento/blank')->save();
 
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Design');
         $design->loadChange($storeId, $date);
 
         $cachedDesign = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\CacheInterface'
+            'Magento\Framework\App\CacheInterface'
         )->load(
             $cacheId
         );

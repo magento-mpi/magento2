@@ -8,17 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Reports\Model\Resource\Report;
 
 /**
  * Abstract report aggregate resource model
- *
- * @category    Magento
- * @package     Magento_Reports
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Model\Resource\Report;
-
-abstract class AbstractReport extends \Magento\Model\Resource\Db\AbstractDb
+abstract class AbstractReport extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Flag object
@@ -43,7 +38,7 @@ abstract class AbstractReport extends \Magento\Model\Resource\Db\AbstractDb
     protected $_reportsFlagFactory;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Logger $logger
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
@@ -51,7 +46,7 @@ abstract class AbstractReport extends \Magento\Model\Resource\Db\AbstractDb
      * @param \Magento\Stdlib\DateTime\Timezone\Validator $timezoneValidator
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Logger $logger,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
@@ -183,7 +178,7 @@ abstract class AbstractReport extends \Magento\Model\Resource\Db\AbstractDb
      * @param null|string $to
      * @param array $additionalWhere
      * @param string $alias
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getTableDateRangeSelect(
         $table,
@@ -231,7 +226,7 @@ abstract class AbstractReport extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Make condition for using in where section from select statement with single date column
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @param string $periodColumn
      * @return array|bool|string
      */
@@ -284,7 +279,7 @@ abstract class AbstractReport extends \Magento\Model\Resource\Db\AbstractDb
      * @param array $additionalWhere
      * @param string $alias
      * @param string $relatedAlias
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getTableDateRangeRelatedSelect(
         $table,
@@ -405,7 +400,7 @@ abstract class AbstractReport extends \Magento\Model\Resource\Db\AbstractDb
             $then = $this->_getWriteAdapter()->getDateAddSql(
                 $column,
                 $offset,
-                \Magento\DB\Adapter\AdapterInterface::INTERVAL_SECOND
+                \Magento\Framework\DB\Adapter\AdapterInterface::INTERVAL_SECOND
             );
 
             $query .= ++$i == $periodsCount ? $then : "CASE WHEN " . join(" OR ", $subParts) . " THEN {$then} ELSE ";
@@ -445,7 +440,7 @@ abstract class AbstractReport extends \Magento\Model\Resource\Db\AbstractDb
                 $tr = $transitions[$i];
                 try {
                     $this->timezoneValidator->validate($tr['ts'], $to);
-                } catch (\Exception $e) {
+                } catch (\Magento\Stdlib\DateTime\Timezone\ValidationException $e) {
                     continue;
                 }
 

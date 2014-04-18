@@ -9,7 +9,7 @@
  */
 namespace Magento\GiftCardAccount\Model\Pool;
 
-abstract class AbstractPool extends \Magento\Model\AbstractModel
+abstract class AbstractPool extends \Magento\Framework\Model\AbstractModel
 {
     const STATUS_FREE = 0;
 
@@ -34,7 +34,7 @@ abstract class AbstractPool extends \Magento\Model\AbstractModel
      * Return first free code
      *
      * @return string
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function shift()
     {
@@ -46,7 +46,7 @@ abstract class AbstractPool extends \Magento\Model\AbstractModel
         $collection->getSelect()->forUpdate(true);
         $items = $collection->getItems();
         if (!$items) {
-            throw new \Magento\Model\Exception(__('No codes left in the pool.'));
+            throw new \Magento\Framework\Model\Exception(__('No codes left in the pool.'));
         }
 
         $item = array_shift($items);

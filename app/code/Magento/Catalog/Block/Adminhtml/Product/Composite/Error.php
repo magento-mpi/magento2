@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Composite;
 
-class Error extends \Magento\View\Element\Template
+class Error extends \Magento\Framework\View\Element\Template
 {
     /**
      * Core registry

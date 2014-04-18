@@ -60,17 +60,15 @@ class AssertProductInCategory extends AbstractConstraint
         $pricePresetData = $priceFixture->getPreset();
 
         //Regular price verification
-        $price = $catalogCategoryView->getListProductBlock()->getProductPriceBlock(
-            $product->getName()
-        )->getRegularPrice();
-        \PHPUnit_Framework_Assert::assertEquals(
-            $pricePresetData['category_price'],
-            $price,
-            'Product regular price on category page is not correct.'
-        );
-
-        //Special price verification
-        if (isset($presetData['category_special_price'])) {
+        if (isset($pricePresetData['category_special_price'])) {
+            $regularPrice = $catalogCategoryView->getListProductBlock()->getProductPriceBlock($product->getName())
+                ->getRegularPrice();
+            \PHPUnit_Framework_Assert::assertEquals(
+                $pricePresetData['category_price'],
+                $regularPrice,
+                'Product regular price on category page is not correct.'
+            );
+            //Special price verification
             $specialPrice = $catalogCategoryView->getListProductBlock()->getProductPriceBlock(
                 $product->getName()
             )->getSpecialPrice();
@@ -78,6 +76,15 @@ class AssertProductInCategory extends AbstractConstraint
                 $pricePresetData['category_special_price'],
                 $specialPrice,
                 'Product special price on category page is not correct.'
+            );
+        } else {
+            //Price verification
+            $price = $catalogCategoryView->getListProductBlock()->getProductPriceBlock($product->getName())
+                ->getPrice();
+            \PHPUnit_Framework_Assert::assertContains(
+                (string)$price,
+                $pricePresetData['category_price'],
+                'Product price on category page is not correct.'
             );
         }
     }

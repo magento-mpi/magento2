@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../code/Magento/Core/etc/layout_single.xsd">
+    <update handle="sales_order_print_renderers" />
+    <referenceContainer name="content">
+        <block class="Magento\Sales\Block\Order\PrintShipment" name="sales.order.print" template="order/print.phtml">
+            <block class="Magento\Framework\View\Element\RendererList" name="sales.order.print.renderers" as="renderer.list" />
+            <block class="Magento\Sales\Block\Order\Totals" name="order_totals" template="order/totals.phtml">
+                <action method="setLabelProperties">
+                    <argument name="value" xsi:type="string">colspan="4" class="a-right"</argument>
+                </action>
+                <action method="setValueProperties">
+                    <argument name="value" xsi:type="string">class="last a-right"</argument>
+                </action>
+                <block class="Magento\Tax\Block\Sales\Order\Tax" name="tax" template="order/tax.phtml">
+                    <action method="setIsPlaneMode">
+                        <argument name="value" xsi:type="string">1</argument>
+                    </action>
+                </block>
+            </block>
+        </block>
+    </referenceContainer>
+    <container name="additional.product.info" label="Additional Product Info"/>
+</layout>

@@ -7,12 +7,12 @@
  */
 namespace Magento\Theme\Block;
 
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 
 /**
  * Html page block
  */
-class Html extends \Magento\View\Element\Template
+class Html extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Locale\ResolverInterface

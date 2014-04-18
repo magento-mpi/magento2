@@ -25,6 +25,8 @@
             <module name="Magento_Customer"/>
             <module name="Magento_Eav"/>
             <module name="Magento_CustomerSegment"/>
+            <module name="Magento_Indexer"/>
+            <module name="Magento_PageCache"/>
         </depends>
     </module>
 </config>

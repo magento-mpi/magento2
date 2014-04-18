@@ -9,8 +9,8 @@
 namespace Magento\CatalogRule\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\CatalogRule\Test\Fixture;
-use Magento\CatalogRule\Test\Page;
+use Magento\CatalogRule\Test\Fixture\CatalogRule;
+use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
 
 /**
  * Class AssertCatalogRuleInGrid
@@ -29,15 +29,15 @@ class AssertCatalogRuleInGrid extends AbstractConstraint
     /**
      * Assert catalog Rule availability in Catalog Rule Grid
      *
-     * @param Fixture\CatalogRule $catalogRule
-     * @param Page\CatalogRule $catalogRuleInGrid
+     * @param CatalogRule $catalogRule
+     * @param CatalogRuleIndex $catalogRuleGrid
      * @return void
      */
-    public function processAssert(Fixture\CatalogRule $catalogRule, Page\CatalogRule $catalogRuleInGrid)
+    public function processAssert(CatalogRule $catalogRule, CatalogRuleIndex $catalogRuleGrid)
     {
-        $catalogRuleInGrid->open();
+        $catalogRuleGrid->open();
         \PHPUnit_Framework_Assert::assertTrue(
-            $catalogRuleInGrid->getCatalogPriceRuleGridBlock()->isRuleVisible($catalogRule->getName()),
+            $catalogRuleGrid->getCatalogRuleGrid()->isRuleVisible($catalogRule->getName()),
             'Product with sku \'' . $catalogRule->getName() . '\' is absent in Products grid.'
         );
     }

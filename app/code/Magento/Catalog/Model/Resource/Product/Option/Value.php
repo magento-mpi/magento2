@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model\Resource\Product\Option;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Value extends \Magento\Model\Resource\Db\AbstractDb
+class Value extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Store manager
@@ -35,23 +35,23 @@ class Value extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Core config model
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
     /**
      * Class constructor
      *
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Config\ScopeConfigInterface $config
+        \Magento\Framework\App\Config\ScopeConfigInterface $config
     ) {
         $this->_currencyFactory = $currencyFactory;
         $this->_storeManager = $storeManager;
@@ -73,10 +73,10 @@ class Value extends \Magento\Model\Resource\Db\AbstractDb
      * Proceed operations after object is saved
      * Save options store data
      *
-     * @param \Magento\Model\AbstractModel $object
-     * @return \Magento\Model\Resource\Db\AbstractDb
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return \Magento\Framework\Model\Resource\Db\AbstractDb
      */
-    protected function _afterSave(\Magento\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $this->_saveValuePrices($object);
         $this->_saveValueTitles($object);
@@ -87,10 +87,10 @@ class Value extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Save option value price data
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return void
      */
-    protected function _saveValuePrices(\Magento\Model\AbstractModel $object)
+    protected function _saveValuePrices(\Magento\Framework\Model\AbstractModel $object)
     {
         $priceTable = $this->getTable('catalog_product_option_type_price');
 
@@ -204,10 +204,10 @@ class Value extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Save option value title data
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return void
      */
-    protected function _saveValueTitles(\Magento\Model\AbstractModel $object)
+    protected function _saveValueTitles(\Magento\Framework\Model\AbstractModel $object)
     {
         $titleTable = $this->getTable('catalog_product_option_type_title');
 

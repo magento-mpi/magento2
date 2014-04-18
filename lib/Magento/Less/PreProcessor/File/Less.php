@@ -7,7 +7,7 @@
  */
 namespace Magento\Less\PreProcessor\File;
 
-use Magento\View;
+use Magento\Framework\View;
 
 /**
  * Less file
@@ -25,7 +25,7 @@ class Less
     protected $viewFileSystem;
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
 
@@ -51,14 +51,14 @@ class Less
 
     /**
      * @param View\FileSystem $viewFileSystem
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param string $filePath
      * @param array $viewParams
      * @param string|null $sourcePath
      */
     public function __construct(
         View\FileSystem $viewFileSystem,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         $filePath,
         array $viewParams,
         $sourcePath = null
@@ -90,14 +90,14 @@ class Less
      * Return source path of file if it's exist
      *
      * @return string
-     * @throws \Magento\Filesystem\FilesystemException
+     * @throws \Magento\Framework\Filesystem\FilesystemException
      */
     public function getSourcePath()
     {
         if ($this->sourcePath === null) {
             $this->sourcePath = $this->viewFileSystem->getViewFile($this->getFilePath(), $this->getViewParams());
             if (!$this->getDirectoryRead()->isExist($this->getDirectoryRead()->getRelativePath($this->sourcePath))) {
-                throw new \Magento\Filesystem\FilesystemException("File '{$this->sourcePath}' isn't exist");
+                throw new \Magento\Framework\Filesystem\FilesystemException("File '{$this->sourcePath}' isn't exist");
             }
         }
         return $this->sourcePath;
@@ -165,20 +165,20 @@ class Less
     /**
      * Get base directory with source of less files
      *
-     * @return \Magento\Filesystem\Directory\ReadInterface
+     * @return \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     public function getDirectoryRead()
     {
-        return $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
+        return $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
     }
 
     /**
      * Get directory for publication temporary less files
      *
-     * @return \Magento\Filesystem\Directory\WriteInterface
+     * @return \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     public function getDirectoryWrite()
     {
-        return $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::TMP_DIR);
+        return $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::TMP_DIR);
     }
 }

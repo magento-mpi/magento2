@@ -9,7 +9,7 @@
  */
 namespace Magento\Backup\Block\Adminhtml;
 
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock;
 
 /**
  * Adminhtml backup page content block

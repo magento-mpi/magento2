@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-class Price extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
+class Price extends \Magento\Framework\View\Element\Template implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * @var null
@@ -71,7 +71,7 @@ class Price extends \Magento\View\Element\Template implements \Magento\View\Bloc
     protected $_cartHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Tax\Helper\Data $taxData
@@ -82,7 +82,7 @@ class Price extends \Magento\View\Element\Template implements \Magento\View\Bloc
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Tax\Helper\Data $taxData,
@@ -147,6 +147,7 @@ class Price extends \Magento\View\Element\Template implements \Magento\View\Bloc
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return array
+     * @deprecated
      */
     public function getTierPrices($product = null)
     {

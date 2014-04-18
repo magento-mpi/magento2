@@ -109,7 +109,7 @@ class Data extends \Magento\Validator\AbstractValidator
     /**
      * Validate EAV model attributes with data models
      *
-     * @param \Magento\Model\AbstractModel $entity
+     * @param \Magento\Framework\Model\AbstractModel $entity
      * @return bool
      */
     public function isValid($entity)
@@ -148,20 +148,22 @@ class Data extends \Magento\Validator\AbstractValidator
      * This method return specified $_attributes if they defined by setAttributes method, otherwise if $entity
      * is EAV-model it returns it's all available attributes, otherwise it return empty array.
      *
-     * @param mixed $entity
+     * @param \Magento\Framework\Model\AbstractModel $entity
      * @return array
      */
     protected function _getAttributes($entity)
     {
-        /** @var \Magento\Customer\Model\Attribute[] $attributes */
+        /** @var \Magento\Eav\Model\Attribute[] $attributes */
         $attributes = array();
 
         if ($this->_attributes) {
             $attributes = $this->_attributes;
-        } elseif ($entity instanceof \Magento\Model\AbstractModel &&
+        } elseif ($entity instanceof \Magento\Framework\Model\AbstractModel &&
             $entity->getResource() instanceof \Magento\Eav\Model\Entity\AbstractEntity
         ) { // $entity is EAV-model
-            $attributes = $entity->getEntityType()->getAttributeCollection()->getItems();
+            /** @var \Magento\Eav\Model\Entity\Type $entityType */
+            $entityType = $entity->getEntityType();
+            $attributes = $entityType->getAttributeCollection()->getItems();
         }
 
         $attributesByCode = array();

@@ -24,7 +24,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_appConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_appConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $context = $objectHelper->getObject(
             'Magento\Backend\Block\Template\Context',
@@ -34,7 +34,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $data = array(
             'context' => $context,
             'localeCurrency' => $this->_locale,
-            'formFactory' => $this->getMock('Magento\Data\FormFactory', array(), array(), '', false),
+            'formFactory' => $this->getMock('Magento\Framework\Data\FormFactory', array(), array(), '', false),
             'productFactory' => $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false)
         );
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);

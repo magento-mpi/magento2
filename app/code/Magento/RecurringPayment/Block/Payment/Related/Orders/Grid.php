@@ -7,8 +7,13 @@
  */
 namespace Magento\RecurringPayment\Block\Payment\Related\Orders;
 
+use Magento\Customer\Controller\RegistryConstants;
+
 /**
  * Recurring payment related orders grid
+ *
+ * @method \Magento\Object[] getGridElements()
+ * @method Grid setGridElements($orders)
  */
 class Grid extends \Magento\RecurringPayment\Block\Payment\View
 {
@@ -33,7 +38,7 @@ class Grid extends \Magento\RecurringPayment\Block\Payment\View
     protected $_recurringCollectionFilter;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Sales\Model\Resource\Order\Collection $collection
      * @param \Magento\Sales\Model\Order\Config $config
@@ -42,7 +47,7 @@ class Grid extends \Magento\RecurringPayment\Block\Payment\View
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Sales\Model\Resource\Order\Collection $collection,
         \Magento\Sales\Model\Order\Config $config,
@@ -67,15 +72,10 @@ class Grid extends \Magento\RecurringPayment\Block\Payment\View
     protected function _prepareRelatedOrders($fieldsToSelect = '*')
     {
         if (null === $this->_relatedOrders) {
-            $this->_orderCollection->addFieldToSelect(
-                $fieldsToSelect
-            )->addFieldToFilter(
-                'customer_id',
-                $this->_registry->registry('current_customer')->getId()
-            )->setOrder(
-                'entity_id',
-                'desc'
-            );
+            $this->_orderCollection
+                ->addFieldToSelect($fieldsToSelect)
+                ->addFieldToFilter('customer_id', $this->_registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID))
+                ->setOrder('entity_id', 'desc');
             $this->_relatedOrders = $this->_recurringCollectionFilter->byIds(
                 $this->_orderCollection,
                 $this->_recurringPayment->getId()

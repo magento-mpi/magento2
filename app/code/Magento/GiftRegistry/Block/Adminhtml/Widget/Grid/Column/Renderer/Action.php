@@ -23,7 +23,7 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
     protected function _getValue(\Magento\Object $row)
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setId(
             $this->getColumn()->getId()
         )->setName(

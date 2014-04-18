@@ -11,7 +11,7 @@
  */
 namespace Magento\RecurringPayment\Block\Catalog\Product\View;
 
-class Payment extends \Magento\View\Element\Template
+class Payment extends \Magento\Framework\View\Element\Template
 {
     /**
      * Recurring payment instance
@@ -35,13 +35,13 @@ class Payment extends \Magento\View\Element\Template
     protected $_paymentFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\RecurringPayment\Model\RecurringPaymentFactory $paymentFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\RecurringPayment\Model\RecurringPaymentFactory $paymentFactory,
         array $data = array()
@@ -78,7 +78,7 @@ class Payment extends \Magento\View\Element\Template
         if ($this->_payment->getStartDateIsEditable()) {
             $this->setDateHtmlId('recurring_start_date');
             $calendar = $this->getLayout()->createBlock(
-                'Magento\View\Element\Html\Date'
+                'Magento\Framework\View\Element\Html\Date'
             )->setId(
                 'recurring_start_date'
             )->setName(

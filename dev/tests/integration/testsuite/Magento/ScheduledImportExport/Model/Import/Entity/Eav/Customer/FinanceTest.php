@@ -45,11 +45,11 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea adminhtml
      *
      * @codingStandardsIgnoreStart
-     * @covers Finance::_importData
-     * @covers Finance::_updateRewardPointsForCustomer
-     * @covers Finance::_updateCustomerBalanceForCustomer
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_importData
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_updateRewardPointsForCustomer
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_updateCustomerBalanceForCustomer
      * @codingStandardsIgnoreEnd
-     * @covers Finance::_getComment
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_getComment
      */
     public function testImportData()
     {
@@ -83,9 +83,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $session->setUser($user);
 
         $directory = $objectManager->create(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\App\Filesystem::ROOT_DIR
+            \Magento\Framework\App\Filesystem::ROOT_DIR
         );
 
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance.csv';
@@ -141,9 +141,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/ScheduledImportExport/_files/customers_for_finance_import_delete.php
      * @magentoAppArea adminhtml
      *
-     * @covers Finance::_importData
-     * @covers Finance::_deleteRewardPoints
-     * @covers Finance::_deleteCustomerBalance
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_importData
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_deleteRewardPoints
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_deleteCustomerBalance
      */
     public function testImportDataDelete()
     {
@@ -156,9 +156,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         }
 
         $directory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\App\Filesystem::ROOT_DIR
+            \Magento\Framework\App\Filesystem::ROOT_DIR
         );
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/../_files/customer_finance_delete.csv',

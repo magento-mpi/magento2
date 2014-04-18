@@ -12,7 +12,7 @@ namespace Magento\Sales\Block\Order;
 /**
  * Sales order view block
  */
-class View extends \Magento\View\Element\Template
+class View extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var string
@@ -37,16 +37,16 @@ class View extends \Magento\View\Element\Template
     protected $_paymentHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Payment\Helper\Data $paymentHelper,
         array $data = array()
     ) {

@@ -417,7 +417,6 @@ AdminRma.prototype = {
         Event.observe(deleteLink, 'click', this.deleteRow.bind(this));
         deleteLink.insert($$('label[for="rma_properties_delete_link"]').first().innerHTML);
         column.insert(deleteLink);
-        column.insert('<span class="separator">|</span>');
 
         var detailsLink = new Element('a', {href:'#'});
         Event.observe(detailsLink, 'click', this.addDetails.bind(this));

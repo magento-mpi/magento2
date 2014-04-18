@@ -7,11 +7,10 @@
  */
 namespace Magento\Customer\Controller;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Exception\AuthenticationException;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
@@ -24,7 +23,7 @@ use Magento\Exception\StateException;
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Account extends \Magento\App\Action\Action
+class Account extends \Magento\Framework\App\Action\Action
 {
     /**
      * List of actions that are allowed for not authorized users
@@ -73,7 +72,7 @@ class Account extends \Magento\App\Action\Action
     /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $_storeManager;
 
-    /** @var \Magento\App\Config\ScopeConfigInterface */
+    /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
     protected $_scopeConfig;
 
     /** @var \Magento\Core\Helper\Data */
@@ -82,7 +81,7 @@ class Account extends \Magento\App\Action\Action
     /** @var \Magento\Escaper */
     protected $escaper;
 
-    /** @var \Magento\App\State */
+    /** @var \Magento\Framework\App\State */
     protected $appState;
 
     /** @var CustomerGroupServiceInterface */
@@ -104,7 +103,7 @@ class Account extends \Magento\App\Action\Action
     protected $_customerDetailsBuilder;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Customer\Helper\Data $customerHelperData
@@ -114,10 +113,10 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Helper\Data $coreHelperData
      * @param \Magento\Escaper $escaper
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder
@@ -128,7 +127,7 @@ class Account extends \Magento\App\Action\Action
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Customer\Helper\Data $customerHelperData,
@@ -138,10 +137,10 @@ class Account extends \Magento\App\Action\Action
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Helper\Data $coreHelperData,
         \Magento\Escaper $escaper,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\State $appState,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder,
@@ -195,7 +194,7 @@ class Account extends \Magento\App\Action\Action
      * Dispatch request
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {

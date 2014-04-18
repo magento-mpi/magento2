@@ -21,7 +21,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
     protected $directoryDatabase;
 
     /**
-     * @var \Magento\Model\Context |\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Model\Context |\PHPUnit_Framework_MockObject_MockObject
      */
     protected $contextMock;
 
@@ -51,7 +51,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
     protected $directoryFactoryMock;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface |\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface |\PHPUnit_Framework_MockObject_MockObject
      */
     protected $configMock;
 
@@ -75,7 +75,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->contextMock = $this->getMock('Magento\Model\Context', array(), array(), '', false);
+        $this->contextMock = $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false);
         $this->registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
         $this->helperStorageDatabase = $this->getMock(
             'Magento\Core\Helper\File\Storage\Database',
@@ -116,7 +116,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->directoryMock)
         );
 
-        $this->configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->configMock->expects(
             $this->any()
         )->method(

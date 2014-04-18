@@ -25,7 +25,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get(
-            'Magento\View\DesignInterface'
+            'Magento\Framework\View\DesignInterface'
         )->setArea(
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         )->setDefaultDesignTheme();
@@ -33,7 +33,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\Registry')->register('current_promo_catalog_rule', $rule);
 
         $block = $objectManager->create('Magento\CatalogRule\Block\Adminhtml\Promo\Catalog\Edit\Tab\Main');
-        $block->setLayout($objectManager->create('Magento\View\Layout'));
+        $block->setLayout($objectManager->create('Magento\Framework\View\Layout'));
         $prepareFormMethod = new \ReflectionMethod(
             'Magento\CatalogRule\Block\Adminhtml\Promo\Catalog\Edit\Tab\Main',
             '_prepareForm'

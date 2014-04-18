@@ -76,19 +76,6 @@ interface CustomerAccountServiceInterface
     public function updateCustomer(\Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails);
 
     /**
-     * Create or update customer information
-     *
-     * @param \Magento\Customer\Service\V1\Data\Customer $customer
-     * @param string $password Plain text password
-     * @param string $hash Hashed password ready to be saved
-     * @throws \Magento\Customer\Exception If something goes wrong during save
-     * @throws \Magento\Exception\InputException If bad input is provided
-     * @return int customer ID
-     * @deprecated use createCustomer or updateCustomer instead
-     */
-    public function saveCustomer(\Magento\Customer\Service\V1\Data\Customer $customer, $password = null, $hash = null);
-
-    /**
      * Retrieve Customer
      *
      * @param int $customerId
@@ -113,11 +100,11 @@ interface CustomerAccountServiceInterface
     /**
      * Retrieve customers which match a specified criteria
      *
-     * @param \Magento\Customer\Service\V1\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Service\V1\Data\SearchCriteria $searchCriteria
      * @throws \Magento\Exception\InputException if there is a problem with the input
      * @return \Magento\Customer\Service\V1\Data\SearchResults containing Data\CustomerDetails
      */
-    public function searchCustomers(\Magento\Customer\Service\V1\Data\SearchCriteria $searchCriteria);
+    public function searchCustomers(\Magento\Service\V1\Data\SearchCriteria $searchCriteria);
 
     /**
      * Login a customer account using username and password
@@ -304,12 +291,14 @@ interface CustomerAccountServiceInterface
      *
      * @param string $customerEmail
      * @param \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
+     * @param int $websiteId If not set, will use the current websiteId
      * @throws \Magento\Exception\NoSuchEntityException If customer with customerDetails is not found.
      * @return bool True if this customer was updated
      */
     public function updateCustomerDetailsByEmail(
         $customerEmail,
-        \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
+        \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
+        $websiteId = null
     );
 
     /**

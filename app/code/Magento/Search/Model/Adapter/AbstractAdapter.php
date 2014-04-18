@@ -48,7 +48,7 @@ abstract class AbstractAdapter
     /**
      * Cache
      *
-     * @var \Magento\App\CacheInterface
+     * @var \Magento\Framework\App\CacheInterface
      */
     protected $_cache;
 
@@ -176,7 +176,7 @@ abstract class AbstractAdapter
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
      * @param \Magento\Logger $logger
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\CacheInterface $cache
+     * @param \Magento\Framework\App\CacheInterface $cache
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
@@ -185,7 +185,7 @@ abstract class AbstractAdapter
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
         \Magento\Logger $logger,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\CacheInterface $cache
+        \Magento\Framework\App\CacheInterface $cache
     ) {
         $this->_customerSession = $customerSession;
         $this->_resourceIndex = $resourceIndex;

@@ -7,16 +7,18 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1\Data\Filter;
-use Magento\Customer\Service\V1\Data\FilterBuilder;
-use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
+use Magento\Service\V1\Data\FilterBuilder;
+use Magento\Service\V1\Data\SearchCriteria;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
+use Magento\Customer\Model\CustomerRegistry;
 use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
+use Magento\Service\V1\Data\Search\FilterGroupBuilder;
+use Magento\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
@@ -67,16 +69,29 @@ class CustomerAccountServiceTest extends WebapiAbstract
     /** @var SearchCriteriaBuilder */
     private $searchCriteriaBuilder;
 
+    /** @var FilterGroupBuilder */
+    private $filterGroupBuilder;
+
     /** @var \Magento\Webapi\Helper\Data */
     private $helper;
+
+    /**
+     * @var CustomerRegistry
+     */
+    private $customerRegistry;
 
     /**
      * Execute per test initialization.
      */
     public function setUp()
     {
+        $this->customerRegistry = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Model\CustomerRegistry'
+        );
+
         $this->customerAccountService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface',
+            [ 'customerRegistry' => $this->customerRegistry ]
         );
         $this->addressBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Service\V1\Data\AddressBuilder'
@@ -88,7 +103,10 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'Magento\Customer\Service\V1\Data\CustomerDetailsBuilder'
         );
         $this->searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Data\SearchCriteriaBuilder'
+            'Magento\Service\V1\Data\SearchCriteriaBuilder'
+        );
+        $this->filterGroupBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Service\V1\Data\Search\FilterGroupBuilder'
         );
         $this->helper = Bootstrap::getObjectManager()->create('Magento\Webapi\Helper\Data');
     }
@@ -113,7 +131,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $customerData = $this->_createSampleCustomer();
 
         //Get expected details from the Service directly
-        $expectedCustomerDetails = $this->customerAccountService->getCustomerDetails($customerData['id'])->__toArray();
+        $expectedCustomerDetails = $this->_getCustomerDetails($customerData['id'])->__toArray();
 
         //Test GetDetails
         $serviceInfo = [
@@ -500,7 +518,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'Magento\Exception\NoSuchEntityException',
             sprintf("No such entity with customerId = %s", $customerData[Customer::ID])
         );
-        $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
+        $this->_getCustomerDetails($customerData[Customer::ID]);
     }
 
     public function testDeleteCustomerInvalidCustomerId()
@@ -585,7 +603,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
     public function testUpdateCustomer()
     {
         $customerData = $this->_createSampleCustomer();
-        $customerDetails = $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
+        $customerDetails = $this->_getCustomerDetails($customerData[Customer::ID]);
         $lastName = $customerDetails->getCustomer()->getLastname();
 
         $updatedCustomer = $this->customerBuilder->populate($customerDetails->getCustomer())->setLastname(
@@ -614,14 +632,14 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertTrue($response);
 
         //Verify if the customer is updated
-        $customerDetails = $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
+        $customerDetails = $this->_getCustomerDetails($customerData[Customer::ID]);
         $this->assertEquals($lastName . "Updated", $customerDetails->getCustomer()->getLastname());
     }
 
     public function testUpdateCustomerException()
     {
         $customerData = $this->_createSampleCustomer();
-        $customerDetails = $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
+        $customerDetails = $this->_getCustomerDetails($customerData[Customer::ID]);
         $lastName = $customerDetails->getCustomer()->getLastname();
 
         //Set non-existent id = -1
@@ -665,14 +683,17 @@ class CustomerAccountServiceTest extends WebapiAbstract
         }
     }
 
-
+    /**
+     * Test with a single filter
+     */
     public function testSearchCustomers()
     {
-        $this->markTestSkipped("The test should be enabled after fixing MAGETWO-22613.");
         $customerData = $this->_createSampleCustomer();
-        $this->searchCriteriaBuilder->addFilter(
-            (new FilterBuilder())->setField('email')->setValue($customerData[Customer::EMAIL])->create()
-        );
+        $filter = (new FilterBuilder())
+            ->setField(Customer::EMAIL)
+            ->setValue($customerData[Customer::EMAIL])
+            ->create();
+        $this->searchCriteriaBuilder->addFilter([$filter]);
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
@@ -691,17 +712,28 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals($customerData[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
     }
 
-    public function testSearchCustomersMultipleFilters()
+    /**
+     * Test using multiple filters
+     */
+    public function testSearchCustomersMultipleFiltersWithSort()
     {
-        $this->markTestSkipped("The test should be enabled after fixing MAGETWO-22613.");
         $customerData1 = $this->_createSampleCustomer();
         $customerData2 = $this->_createSampleCustomer();
-        $filter1 = (new FilterBuilder())->setField('email')->setValue($customerData1[Customer::EMAIL])->create();
-        $filter2 = (new FilterBuilder())->setField('email')->setValue($customerData2[Customer::EMAIL])->create();
-        $filter3 = (new FilterBuilder())->setField('lastname')
-            ->setValue($customerData1[Customer::LASTNAME])->create();
-        $this->searchCriteriaBuilder->addOrGroup([$filter1, $filter2]);
-        $this->searchCriteriaBuilder->addFilter($filter3);
+        $filter1 = (new FilterBuilder())
+            ->setField(Customer::EMAIL)
+            ->setValue($customerData1[Customer::EMAIL])
+            ->create();
+        $filter2 = (new FilterBuilder())
+            ->setField(Customer::EMAIL)
+            ->setValue($customerData2[Customer::EMAIL])
+            ->create();
+        $filter3 = (new FilterBuilder())
+            ->setField(Customer::LASTNAME)
+            ->setValue($customerData1[Customer::LASTNAME])
+            ->create();
+        $this->searchCriteriaBuilder->addFilter([$filter1, $filter2]);
+        $this->searchCriteriaBuilder->addFilter([$filter3]);
+        $this->searchCriteriaBuilder->setSortOrders([Customer::EMAIL => SearchCriteria::SORT_ASC]);
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $serviceInfo = [
             'rest' => [
@@ -720,19 +752,39 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals(2, $searchResults['total_count']);
         $this->assertEquals($customerData1[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
         $this->assertEquals($customerData2[Customer::ID], $searchResults['items'][1]['customer'][Customer::ID]);
+    }
 
-        //Verify negative test case using And-ed non-existent lastname
-        $filter1 = (new FilterBuilder())->setField('email')->setValue($customerData1[Customer::EMAIL])->create();
-        $filter2 = (new FilterBuilder())->setField('email')->setValue($customerData2[Customer::EMAIL])->create();
-        $filter3 = (new FilterBuilder())->setField('lastname')
-            ->setValue('INVALID')->create();
-        $this->searchCriteriaBuilder->addOrGroup([$filter1, $filter2]);
-        $this->searchCriteriaBuilder->addFilter($filter3);
+    /**
+     * Test and verify multiple filters using And-ed non-existent filter value
+     */
+    public function testSearchCustomersNonExistentMultipleFilters()
+    {
+        $customerData1 = $this->_createSampleCustomer();
+        $customerData2 = $this->_createSampleCustomer();
+        $filter1 = (new FilterBuilder())
+            ->setField(Customer::EMAIL)
+            ->setValue($customerData1[Customer::EMAIL])
+            ->create();
+        $filter2 = (new FilterBuilder())
+            ->setField(Customer::EMAIL)
+            ->setValue($customerData2[Customer::EMAIL])
+            ->create();
+        $filter3 = (new FilterBuilder())
+            ->setField(Customer::LASTNAME)
+            ->setValue('INVALID')
+            ->create();
+        $this->searchCriteriaBuilder->addFilter([$filter1, $filter2]);
+        $this->searchCriteriaBuilder->addFilter([$filter3]);
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'SearchCustomers'
             ]
         ];
         $searchData = $searchCriteria->__toArray();
@@ -933,6 +985,67 @@ class CustomerAccountServiceTest extends WebapiAbstract
     }
 
     /**
+     * Test using multiple filters
+     */
+    public function testSearchCustomersMultipleFilterGroups()
+    {
+        $customerData1 = $this->_createSampleCustomer();
+
+        $filter1 = (new FilterBuilder())
+            ->setField(Customer::EMAIL)
+            ->setValue($customerData1[Customer::EMAIL])
+            ->create();
+        $filter2 = (new FilterBuilder())
+            ->setField(Customer::MIDDLENAME)
+            ->setValue($customerData1[Customer::MIDDLENAME])
+            ->create();
+        $filter3 = (new FilterBuilder())
+            ->setField(Customer::MIDDLENAME)
+            ->setValue('invalid')
+            ->create();
+        $filter4 = (new FilterBuilder())
+            ->setField(Customer::LASTNAME)
+            ->setValue($customerData1[Customer::LASTNAME])
+            ->create();
+
+        $this->searchCriteriaBuilder->addFilter([$filter1]);
+        $this->searchCriteriaBuilder->addFilter([$filter2, $filter3]);
+        $this->searchCriteriaBuilder->addFilter([$filter4]);
+        $searchCriteria = $this->searchCriteriaBuilder->setCurrentPage(1)->setPageSize(10)->create();
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'SearchCustomers'
+            ]
+        ];
+        $searchData = $searchCriteria->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(1, $searchResults['total_count']);
+        $this->assertEquals($customerData1[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
+
+        // Add an invalid And-ed data with multiple groups to yield no result
+        $filter4 = (new FilterBuilder())
+            ->setField(Customer::LASTNAME)
+            ->setValue('invalid')
+            ->create();
+
+        $this->searchCriteriaBuilder->addFilter([$filter1]);
+        $this->searchCriteriaBuilder->addFilter([$filter2, $filter3]);
+        $this->searchCriteriaBuilder->addFilter([$filter4]);
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        $searchData = $searchCriteria->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(0, $searchResults['total_count']);
+    }
+
+    /**
      * @return CustomerDetails
      */
     private function _createSampleCustomerDetailsData()
@@ -1041,13 +1154,15 @@ class CustomerAccountServiceTest extends WebapiAbstract
     }
 
     /**
-     * Generate a random string
+     * Return the customer details.
      *
-     * @return string
+     * @param int $customerId
+     * @return \Magento\Customer\Service\V1\Data\CustomerDetails
      */
-    private function getRandomString()
+    protected function _getCustomerDetails($customerId)
     {
-        return substr("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", mt_rand(0, 50), 1) .
-        substr(md5(time()), 1);
+        $details =  $this->customerAccountService->getCustomerDetails($customerId);
+        $this->customerRegistry->remove($customerId);
+        return $details;
     }
 }

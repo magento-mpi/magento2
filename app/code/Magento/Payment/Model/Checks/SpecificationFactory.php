@@ -39,7 +39,7 @@ class SpecificationFactory
      *
      * @param array $data
      * @return SpecificationInterface
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function create($data)
     {

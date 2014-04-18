@@ -9,8 +9,8 @@
  */
 namespace Magento\ProductAlert\Controller;
 
-use Magento\App\Action\Context;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * ProductAlert controller
@@ -19,7 +19,7 @@ use Magento\App\RequestInterface;
  * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Add extends \Magento\App\Action\Action
+class Add extends \Magento\Framework\App\Action\Action
 {
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -31,7 +31,7 @@ class Add extends \Magento\App\Action\Action
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
@@ -42,7 +42,7 @@ class Add extends \Magento\App\Action\Action
      * Check customer authentication for some actions
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -74,7 +74,7 @@ class Add extends \Magento\App\Action\Action
      */
     public function priceAction()
     {
-        $backUrl = $this->getRequest()->getParam(\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED);
+        $backUrl = $this->getRequest()->getParam(\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED);
         $productId = (int)$this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
             $this->_redirect('/');
@@ -118,7 +118,7 @@ class Add extends \Magento\App\Action\Action
      */
     public function stockAction()
     {
-        $backUrl = $this->getRequest()->getParam(\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED);
+        $backUrl = $this->getRequest()->getParam(\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED);
         $productId = (int)$this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
             $this->_redirect('/');

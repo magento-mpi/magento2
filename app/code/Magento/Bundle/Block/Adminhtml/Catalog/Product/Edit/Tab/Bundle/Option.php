@@ -2,22 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle;
 
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
-/**
- * Bundle option renderer
- *
- * @category    Magento
- * @package     Magento_Bundle
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Option extends \Magento\Backend\Block\Widget
 {
     /**
@@ -26,22 +17,6 @@ class Option extends \Magento\Backend\Block\Widget
      * @var AbstractElement|null
      */
     protected $_element = null;
-
-    /**
-     * List of customer groups
-     *
-     * @var array|null
-     * @deprecated since 1.7.0.0
-     */
-    protected $_customerGroups = null;
-
-    /**
-     * List of websites
-     *
-     * @var array|null
-     * @deprecated since 1.7.0.0
-     */
-    protected $_websites = null;
 
     /**
      * List of bundle product options
@@ -301,7 +276,7 @@ class Option extends \Magento\Backend\Block\Widget
     public function getTypeSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array(
                 'id' => $this->getFieldId() . '_{{index}}_type',
@@ -323,7 +298,7 @@ class Option extends \Magento\Backend\Block\Widget
     public function getRequireSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array('id' => $this->getFieldId() . '_{{index}}_required', 'class' => 'select')
         )->setName(

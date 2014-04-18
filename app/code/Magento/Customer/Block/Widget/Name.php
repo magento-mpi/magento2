@@ -11,15 +11,15 @@ namespace Magento\Customer\Block\Widget;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Customer\Service\V1\Data\Customer;
-use Magento\View\Element\Template\Context;
+use Magento\Framework\View\Element\Template\Context;
 use Magento\Customer\Helper\Address as AddressHelper;
 use Magento\Customer\Helper\Data as CustomerHelper;
 
 /**
  * Widget for showing customer name.
  *
- * @method Customer|\Magento\Customer\Model\Customer|\Magento\Sales\Model\Quote\Address getObject()
- * @method Name setObject($object)
+ * @method Customer getObject()
+ * @method Name setObject(Customer $customer)
  */
 class Name extends AbstractWidget
 {
@@ -197,10 +197,7 @@ class Name extends AbstractWidget
      */
     protected function _getAttribute($attributeCode)
     {
-        if ($this->getForceUseCustomerAttributes()
-            || $this->getObject() instanceof \Magento\Customer\Model\Customer
-            || $this->getObject() instanceof Customer
-        ) {
+        if ($this->getForceUseCustomerAttributes() || $this->getObject() instanceof Customer) {
             return parent::_getAttribute($attributeCode);
         }
 

@@ -22,7 +22,7 @@ class Observer
     protected $_config;
 
     /**
-     * @var \Magento\App\PageCache\Cache
+     * @var \Magento\Framework\App\PageCache\Cache
      */
     protected $_cache;
 
@@ -32,7 +32,7 @@ class Observer
     protected $_helper;
 
     /**
-     * @var \Magento\App\Cache\TypeListInterface
+     * @var \Magento\Framework\App\Cache\TypeListInterface
      */
     protected $_typeList;
 
@@ -42,7 +42,7 @@ class Observer
     protected $_session;
 
     /**
-     * @var \Magento\App\PageCache\FormKey
+     * @var \Magento\Framework\App\PageCache\FormKey
      */
     protected $_formKey;
 
@@ -50,18 +50,18 @@ class Observer
      * Constructor
      *
      * @param Config $config
-     * @param \Magento\App\PageCache\Cache $cache
+     * @param \Magento\Framework\App\PageCache\Cache $cache
      * @param \Magento\PageCache\Helper\Data $helper
-     * @param \Magento\App\Cache\TypeListInterface $typeList
+     * @param \Magento\Framework\App\Cache\TypeListInterface $typeList
      * @param \Magento\Session\Generic $session
-     * @param \Magento\App\PageCache\FormKey $formKey
+     * @param \Magento\Framework\App\PageCache\FormKey $formKey
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,
-        \Magento\App\PageCache\Cache $cache,
+        \Magento\Framework\App\PageCache\Cache $cache,
         \Magento\PageCache\Helper\Data $helper,
-        \Magento\App\Cache\TypeListInterface $typeList,
-        \Magento\App\PageCache\FormKey $formKey,
+        \Magento\Framework\App\Cache\TypeListInterface $typeList,
+        \Magento\Framework\App\PageCache\FormKey $formKey,
         \Magento\Session\Generic $session
     ) {
         $this->_config = $config;
@@ -82,13 +82,13 @@ class Observer
     public function processLayoutRenderElement(\Magento\Event\Observer $observer)
     {
         $event = $observer->getEvent();
-        /** @var \Magento\View\Layout $layout */
+        /** @var \Magento\Framework\View\Layout $layout */
         $layout = $event->getLayout();
         if ($layout->isCacheable() && $this->_config->isEnabled()) {
             $name = $event->getElementName();
             $block = $layout->getBlock($name);
             $transport = $event->getTransport();
-            if ($block instanceof \Magento\View\Element\AbstractBlock) {
+            if ($block instanceof \Magento\Framework\View\Element\AbstractBlock) {
                 $blockTtl = $block->getTtl();
                 $varnishIsEnabledFlag = ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH);
                 $output = $transport->getData('output');
@@ -109,10 +109,10 @@ class Observer
     /**
      * Replace the output of the block, containing ttl attribute, with ESI tag
      *
-     * @param \Magento\View\Element\AbstractBlock $block
+     * @param \Magento\Framework\View\Element\AbstractBlock $block
      * @return string
      */
-    protected function _wrapEsi(\Magento\View\Element\AbstractBlock $block)
+    protected function _wrapEsi(\Magento\Framework\View\Element\AbstractBlock $block)
     {
         $url = $block->getUrl(
             'page_cache/block/esi',
@@ -179,13 +179,9 @@ class Observer
      */
     public function registerFormKeyFromCookie(\Magento\Event\Observer $observer)
     {
-        if (!$this->_config->isEnabled()) {
-            return;
-        }
-
         $formKeyFromCookie = $this->_formKey->get();
         if ($formKeyFromCookie) {
-            $this->_session->setData(\Magento\Data\Form\FormKey::FORM_KEY, $formKeyFromCookie);
+            $this->_session->setData(\Magento\Framework\Data\Form\FormKey::FORM_KEY, $formKeyFromCookie);
         }
     }
 }

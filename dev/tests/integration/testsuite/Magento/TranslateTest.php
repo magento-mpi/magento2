@@ -21,19 +21,19 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_designModel;
 
     /**
-     * @var \Magento\View\FileSystem
+     * @var \Magento\Framework\View\FileSystem
      */
     protected $_viewFileSystem;
 
     protected function setUp()
     {
         $this->_viewFileSystem = $this->getMock(
-            'Magento\View\FileSystem',
+            'Magento\Framework\View\FileSystem',
             array('getFilename', 'getDesignTheme'),
             array(),
             '',
@@ -47,13 +47,13 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
                 $this->returnValue(__DIR__ . '/Core/Model/_files/design/frontend/test_default/i18n/en_US.csv')
             );
 
-        $theme = $this->getMock('\Magento\View\Design\ThemeInterface', array());
+        $theme = $this->getMock('\Magento\Framework\View\Design\ThemeInterface', array());
         $theme->expects($this->any())->method('getId')->will($this->returnValue(10));
 
         $this->_viewFileSystem->expects($this->any())->method('getDesignTheme')->will($this->returnValue($theme));
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->addSharedInstance($this->_viewFileSystem, 'Magento\View\FileSystem');
+        $objectManager->addSharedInstance($this->_viewFileSystem, 'Magento\Framework\View\FileSystem');
 
         /** @var $moduleReader \Magento\Module\Dir\Reader */
         $moduleReader = $objectManager->get('Magento\Module\Dir\Reader');
@@ -66,11 +66,11 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
             array('getDesignTheme'),
             array(
                 $objectManager->get('Magento\Store\Model\StoreManagerInterface'),
-                $objectManager->get('Magento\View\Design\Theme\FlyweightFactory'),
-                $objectManager->get('Magento\App\Config\ScopeConfigInterface'),
+                $objectManager->get('Magento\Framework\View\Design\Theme\FlyweightFactory'),
+                $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface'),
                 $objectManager->get('Magento\Core\Model\ThemeFactory'),
                 $objectManager->get('Magento\Locale\ResolverInterface'),
-                $objectManager->get('Magento\App\State'),
+                $objectManager->get('Magento\Framework\App\State'),
                 array('frontend' => 'test_default')
             )
         );
@@ -90,8 +90,8 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Translation/_files/db_translate.php
      * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_enabled.php
-     * @covers \Magento\Backend\Model\Resource\Translate::_getStoreId
-     * @covers \Magento\Backend\Model\Resource\Translate\String::_getStoreId
+     * @covers \Magento\Translation\Model\Resource\Translate::getStoreId
+     * @covers \Magento\Translation\Model\Resource\String::getStoreId
      */
     public function testLoadDataCaching()
     {

@@ -18,7 +18,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     /** @var Translate */
     protected $_translate;
 
-    /** @var \Magento\View\DesignInterface */
+    /** @var \Magento\Framework\View\DesignInterface */
     protected $_viewDesign;
 
     /** @var \Magento\Locale\Hierarchy\Config */
@@ -27,7 +27,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Cache\FrontendInterface */
     protected $_cache;
 
-    /** @var \Magento\View\FileSystem */
+    /** @var \Magento\Framework\View\FileSystem */
     protected $_viewFileSystem;
 
     /** @var \Magento\Module\ModuleList */
@@ -36,7 +36,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Module\Dir\Reader */
     protected $_modulesReader;
 
-    /** @var \Magento\App\ScopeResolverInterface */
+    /** @var \Magento\Framework\App\ScopeResolverInterface */
     protected $_scopeResolver;
 
     /** @var \Magento\Translate\ResourceInterface */
@@ -45,38 +45,38 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Locale\ResolverInterface */
     protected $_locale;
 
-    /** @var \Magento\App\State */
+    /** @var \Magento\Framework\App\State */
     protected $_appState;
 
-    /** @var \Magento\App\Filesystem */
+    /** @var \Magento\Framework\App\Filesystem */
     protected $_filesystem;
 
-    /** @var \Magento\App\RequestInterface */
+    /** @var \Magento\Framework\App\RequestInterface */
     protected $_request;
 
     /** @var \Magento\File\Csv */
     protected $_csvParser;
 
-    /** @var \Magento\Filesystem\Directory\ReadInterface */
+    /** @var \Magento\Framework\Filesystem\Directory\ReadInterface */
     protected $_directory;
 
     public function setUp()
     {
-        $this->_viewDesign = $this->getMock('\Magento\View\DesignInterface', [], [], '', false);
+        $this->_viewDesign = $this->getMock('\Magento\Framework\View\DesignInterface', [], [], '', false);
         $this->_config = $this->getMock('\Magento\Locale\Hierarchy\Config', [], [], '', false);
         $this->_cache = $this->getMock('\Magento\Cache\FrontendInterface', [], [], '', false);
-        $this->_viewFileSystem = $this->getMock('\Magento\View\FileSystem', [], [], '', false);
+        $this->_viewFileSystem = $this->getMock('\Magento\Framework\View\FileSystem', [], [], '', false);
         $this->_moduleList = $this->getMock('\Magento\Module\ModuleList', [], [], '', false);
         $this->_modulesReader = $this->getMock('\Magento\Module\Dir\Reader', [], [], '', false);
-        $this->_scopeResolver = $this->getMock('\Magento\App\ScopeResolverInterface', [], [], '', false);
+        $this->_scopeResolver = $this->getMock('\Magento\Framework\App\ScopeResolverInterface', [], [], '', false);
         $this->_resource = $this->getMock('\Magento\Translate\ResourceInterface', [], [], '', false);
         $this->_locale = $this->getMock('\Magento\Locale\ResolverInterface', [], [], '', false);
-        $this->_appState = $this->getMock('\Magento\App\State', [], [], '', false);
-        $this->_request = $this->getMock('\Magento\App\RequestInterface', [], [], '', false);
+        $this->_appState = $this->getMock('\Magento\Framework\App\State', [], [], '', false);
+        $this->_request = $this->getMock('\Magento\Framework\App\RequestInterface', [], [], '', false);
         $this->_csvParser = $this->getMock('\Magento\File\Csv', [], [], '', false);
 
-        $this->_directory = $this->getMock('\Magento\Filesystem\Directory\ReadInterface', [], [], '', false);
-        $filesystem = $this->getMock('\Magento\App\Filesystem', [], [], '', false);
+        $this->_directory = $this->getMock('\Magento\Framework\Filesystem\Directory\ReadInterface', [], [], '', false);
+        $filesystem = $this->getMock('\Magento\Framework\App\Filesystem', [], [], '', false);
         $filesystem->expects($this->once())->method('getDirectoryRead')->will($this->returnValue($this->_directory));
 
         $this->_translate = new Translate(

@@ -28,7 +28,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $urlBuilder->expects($this->once())->method('getUrl')->with($path)->will($this->returnValue($url . $path));
 
         $context = $this->_objectManagerHelper->getObject(
-            'Magento\View\Element\Template\Context',
+            'Magento\Framework\View\Element\Template\Context',
             array('urlBuilder' => $urlBuilder)
         );
         $link = $this->_objectManagerHelper->getObject('Magento\Checkout\Block\Link', array('context' => $context));

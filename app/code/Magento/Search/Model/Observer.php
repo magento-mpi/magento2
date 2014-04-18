@@ -68,7 +68,7 @@ class Observer
     /**
      * Request
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -80,7 +80,7 @@ class Observer
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\Registry $coreRegistry
      * @param Source\Weight $sourceWeight
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      */
     public function __construct(
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollectionFactory,
@@ -90,7 +90,7 @@ class Observer
         \Magento\Search\Helper\Data $searchData,
         \Magento\Registry $coreRegistry,
         \Magento\Search\Model\Source\Weight $sourceWeight,
-        \Magento\App\RequestInterface $request
+        \Magento\Framework\App\RequestInterface $request
     ) {
         $this->_eavEntityAttributeOptionCollectionFactory = $eavEntityAttributeOptionCollectionFactory;
         $this->_searchRecommendationsFactory = $searchRecommendationsFactory;
@@ -206,7 +206,7 @@ class Observer
             $optionCollection = $this->_eavEntityAttributeOptionCollectionFactory->create()->setAttributeFilter(
                 $attribute->getAttributeId()
             )->setPositionOrder(
-                \Magento\DB\Select::SQL_ASC,
+                \Magento\Framework\DB\Select::SQL_ASC,
                 true
             )->load();
 

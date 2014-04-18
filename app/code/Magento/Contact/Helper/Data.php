@@ -5,19 +5,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Contact\Helper;
+
+use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Helper\View as CustomerViewHelper;
 
 /**
  * Contact base helper
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'contact/contact/enabled';
 
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -29,17 +33,25 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_customerSession;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerViewHelper;
+
+    /**
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param CustomerViewHelper $customerViewHelper
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Customer\Model\Session $customerSession
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Customer\Model\Session $customerSession,
+        CustomerViewHelper $customerViewHelper
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_customerSession = $customerSession;
+        $this->_customerViewHelper = $customerViewHelper;
         parent::__construct($context);
     }
 
@@ -63,8 +75,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if (!$this->_customerSession->isLoggedIn()) {
             return '';
         }
-        $customer = $this->_customerSession->getCustomer();
-        return trim($customer->getName());
+        /**
+         * @var Customer $customer
+         */
+        $customer = $this->_customerSession->getCustomerDataObject();
+        return trim($this->_customerViewHelper->getCustomerName($customer));
     }
 
     /**
@@ -77,7 +92,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if (!$this->_customerSession->isLoggedIn()) {
             return '';
         }
-        $customer = $this->_customerSession->getCustomer();
+        /**
+         * @var Customer $customer
+         */
+        $customer = $this->_customerSession->getCustomerDataObject();
         return $customer->getEmail();
     }
 }

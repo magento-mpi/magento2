@@ -18,7 +18,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
     protected $_catalogUrlBuilder;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
@@ -28,23 +28,23 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
     protected $_cartHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
      * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
         \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_cartHelper = $cartHelper;
@@ -192,13 +192,13 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
      *
      * @param string $name Block name in layout
      * @return string
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getMethodHtml($name)
     {
         $block = $this->getLayout()->getBlock($name);
         if (!$block) {
-            throw new \Magento\Model\Exception(__('Invalid method: %1', $name));
+            throw new \Magento\Framework\Model\Exception(__('Invalid method: %1', $name));
         }
         return $block->toHtml();
     }

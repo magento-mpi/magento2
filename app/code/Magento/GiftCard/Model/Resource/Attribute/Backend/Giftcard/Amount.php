@@ -16,7 +16,7 @@ namespace Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard;
  * @package     Magento_GiftCard
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Amount extends \Magento\Model\Resource\Db\AbstractDb
+class Amount extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Store manager
@@ -26,11 +26,11 @@ class Amount extends \Magento\Model\Resource\Db\AbstractDb
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;

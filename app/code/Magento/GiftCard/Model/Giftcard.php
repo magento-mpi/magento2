@@ -9,7 +9,7 @@
  */
 namespace Magento\GiftCard\Model;
 
-class Giftcard extends \Magento\Model\AbstractModel
+class Giftcard extends \Magento\Framework\Model\AbstractModel
 {
     const XML_PATH = 'giftcard/general/';
 
