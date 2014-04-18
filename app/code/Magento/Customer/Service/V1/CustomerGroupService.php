@@ -227,7 +227,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
             );
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             throw new NoSuchEntityException('storeId', $storeId);
         }
         try {
@@ -281,7 +281,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $customerGroup->setTaxClassId($taxClassId);
         try {
             $customerGroup->save();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             /* Would like a better way to determine this error condition but
                difficult to do without imposing more database calls
             */

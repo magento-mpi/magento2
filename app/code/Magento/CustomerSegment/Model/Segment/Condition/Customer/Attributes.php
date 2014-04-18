@@ -195,7 +195,7 @@ class Attributes extends AbstractCondition
     /**
      * Retrieve value element
      *
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function getValueElement()
     {
@@ -229,7 +229,7 @@ class Attributes extends AbstractCondition
     /**
      * Retrieve attribute element
      *
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function getAttributeElement()
     {
@@ -332,7 +332,7 @@ class Attributes extends AbstractCondition
      *
      * @param Customer|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

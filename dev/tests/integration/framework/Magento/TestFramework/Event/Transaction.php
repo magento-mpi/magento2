@@ -117,7 +117,7 @@ class Transaction
      * Retrieve database adapter instance
      *
      * @param string $connectionName 'read' or 'write'
-     * @return \Magento\DB\Adapter\AdapterInterface|\Magento\TestFramework\Db\Adapter\TransactionInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface|\Magento\TestFramework\Db\Adapter\TransactionInterface
      * @throws \Magento\Exception
      */
     protected function _getAdapter($connectionName = 'core_write')

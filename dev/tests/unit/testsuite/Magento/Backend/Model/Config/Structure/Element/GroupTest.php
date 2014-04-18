@@ -91,7 +91,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testGetCloneModelThrowsExceptionIfNoSourceModelIsSet()
     {
@@ -124,7 +124,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     public function testGetFieldsetSetsOnlyNonArrayValuesToFieldset()
     {
         $fieldsetMock = $this->getMock(
-            'Magento\Data\Form\Element\Fieldset',
+            'Magento\Framework\Data\Form\Element\Fieldset',
             array('setOriginalData'),
             array(),
             '',

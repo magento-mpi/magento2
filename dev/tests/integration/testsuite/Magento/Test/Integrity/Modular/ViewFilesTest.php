@@ -24,10 +24,10 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                 \Magento\TestFramework\Helper\Bootstrap::getInstance()
                     ->loadArea($application);
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\View\DesignInterface')
+                    ->get('Magento\Framework\View\DesignInterface')
                     ->setDefaultDesignTheme();
                 $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\View\FileSystem')
+                    ->get('Magento\Framework\View\FileSystem')
                     ->getViewFile($file);
 
                 $fileInfo = pathinfo($result);
@@ -35,7 +35,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                     if (!file_exists($result)) {
                         $file = str_replace('.css', '.less', $file);
                         $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                            ->get('Magento\View\FileSystem')
+                            ->get('Magento\Framework\View\FileSystem')
                             ->getViewFile($file);
                     };
                 }
@@ -144,10 +144,10 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                         $application
                     );
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\View\DesignInterface'
+                    'Magento\Framework\View\DesignInterface'
                 )->setDefaultDesignTheme();
                 $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\View\FileSystem'
+                    'Magento\Framework\View\FileSystem'
                 );
                 $this->assertFileExists($filesystem->getViewFile($file));
             },

@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleOptimizer\Block;
 
-abstract class AbstractCode extends \Magento\View\Element\Template
+abstract class AbstractCode extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var Entity name in registry
@@ -32,14 +32,14 @@ abstract class AbstractCode extends \Magento\View\Element\Template
     protected $_codeHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\GoogleOptimizer\Helper\Data $helper
      * @param \Magento\Registry $registry
      * @param \Magento\GoogleOptimizer\Helper\Code $codeHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GoogleOptimizer\Helper\Data $helper,
         \Magento\Registry $registry,
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,

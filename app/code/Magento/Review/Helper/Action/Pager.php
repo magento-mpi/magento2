@@ -9,7 +9,7 @@
  */
 namespace Magento\Review\Helper\Action;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Action pager helper for iterating over search results
@@ -136,7 +136,7 @@ class Pager extends \Magento\Framework\App\Helper\AbstractHelper
      * Get storage key
      *
      * @return string
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getStorageKey()
     {

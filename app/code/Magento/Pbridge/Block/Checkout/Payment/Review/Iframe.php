@@ -34,7 +34,7 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
     protected $_pbridgeSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
@@ -43,7 +43,7 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,

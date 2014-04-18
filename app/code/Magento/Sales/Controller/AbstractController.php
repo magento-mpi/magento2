@@ -158,7 +158,7 @@ abstract class AbstractController extends \Magento\Framework\App\Action\Action
         foreach ($items as $item) {
             try {
                 $cart->addOrderItem($item);
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 if ($this->_objectManager->get('Magento\Checkout\Model\Session')->getUseNotice(true)) {
                     $this->messageManager->addNotice($e->getMessage());
                 } else {

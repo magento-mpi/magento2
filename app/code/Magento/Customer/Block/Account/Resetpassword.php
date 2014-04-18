@@ -10,6 +10,6 @@ namespace Magento\Customer\Block\Account;
 /**
  * Customer reset password form
  */
-class Resetpassword extends \Magento\View\Element\Template
+class Resetpassword extends \Magento\Framework\View\Element\Template
 {
 }

@@ -14,7 +14,7 @@
  */
 namespace Magento\Reward\Model\System\Config\Backend;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Balance extends \Magento\Framework\App\Config\Value
 {
@@ -23,7 +23,7 @@ class Balance extends \Magento\Framework\App\Config\Value
      * (max allowed to RP to gain is more than minimum to redeem)
      *
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave()
     {

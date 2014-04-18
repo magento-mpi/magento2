@@ -25,7 +25,7 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     protected $loggerMock;
 
     /**
-     * @var \Magento\Data\Collection\Db\FetchStrategyInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Data\Collection\Db\FetchStrategyInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $fetchStrategyMock;
 
@@ -64,7 +64,7 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $this->coreEntityFactoryMock = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
         $this->loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
         $this->fetchStrategyMock = $this->getMock(
-            'Magento\Data\Collection\Db\FetchStrategyInterface',
+            'Magento\Framework\Data\Collection\Db\FetchStrategyInterface',
             array(),
             array(),
             '',
@@ -88,8 +88,8 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->entityFactoryMock = $this->getMock('Magento\Eav\Model\EntityFactory', array(), array(), '', false);
-        /** @var \Magento\DB\Adapter\Pdo\Mysql|\PHPUnit_Framework_MockObject_MockObject */
-        $connectionMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
+        /** @var \Magento\Framework\DB\Adapter\Pdo\Mysql|\PHPUnit_Framework_MockObject_MockObject */
+        $connectionMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         /** @var $selectMock \Zend_Db_Select|\PHPUnit_Framework_MockObject_MockObject */
         $selectMock = $this->getMock('Zend_Db_Select', array(), array(), '', false);
         $this->coreEntityFactoryMock->expects(

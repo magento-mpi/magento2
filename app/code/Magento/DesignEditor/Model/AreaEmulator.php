@@ -29,7 +29,7 @@ class AreaEmulator
     public function emulateLayoutArea($areaCode)
     {
         $configuration = array(
-            'Magento\View\Layout' => array(
+            'Magento\Framework\View\Layout' => array(
                 'arguments' => array(
                     'area' => $areaCode
                 )

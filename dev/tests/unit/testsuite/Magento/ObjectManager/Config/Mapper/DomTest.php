@@ -39,7 +39,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
             $this->returnValueMap(array(array('true', true), array('false', false)))
         );
 
-        $this->argumentInterpreter = $this->getMock('Magento\Data\Argument\InterpreterInterface');
+        $this->argumentInterpreter = $this->getMock('Magento\Framework\Data\Argument\InterpreterInterface');
         $this->argumentInterpreter->expects(
             $this->any()
         )->method(

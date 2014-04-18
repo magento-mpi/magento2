@@ -103,7 +103,7 @@ class AbstractAction
     /**
      * Retrieve connection for read data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function getReadAdapter()
     {
@@ -118,7 +118,7 @@ class AbstractAction
     /**
      * Retrieve connection for write data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function getWriteAdapter()
     {
@@ -129,7 +129,7 @@ class AbstractAction
      * Return structure for flat catalog table
      *
      * @param string $tableName
-     * @return \Magento\DB\Ddl\Table
+     * @return \Magento\Framework\DB\Ddl\Table
      */
     protected function getFlatTableStructure($tableName)
     {
@@ -142,8 +142,8 @@ class AbstractAction
         //Adding columns
         foreach ($this->getColumns() as $fieldName => $fieldProp) {
             $default = $fieldProp['default'];
-            if ($fieldProp['type'][0] == \Magento\DB\Ddl\Table::TYPE_TIMESTAMP && $default == 'CURRENT_TIMESTAMP') {
-                $default = \Magento\DB\Ddl\Table::TIMESTAMP_INIT;
+            if ($fieldProp['type'][0] == \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP && $default == 'CURRENT_TIMESTAMP') {
+                $default = \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT;
             }
             $table->addColumn(
                 $fieldName,
@@ -206,9 +206,9 @@ class AbstractAction
             $ddlType = $this->resourceHelper->getDdlTypeByColumnType($column['DATA_TYPE']);
             $column['DEFAULT'] = trim($column['DEFAULT'], "' ");
             switch ($ddlType) {
-                case \Magento\DB\Ddl\Table::TYPE_SMALLINT:
-                case \Magento\DB\Ddl\Table::TYPE_INTEGER:
-                case \Magento\DB\Ddl\Table::TYPE_BIGINT:
+                case \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT:
+                case \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER:
+                case \Magento\Framework\DB\Ddl\Table::TYPE_BIGINT:
                     $isUnsigned = (bool)$column['UNSIGNED'];
                     if ($column['DEFAULT'] === '') {
                         $column['DEFAULT'] = null;
@@ -216,27 +216,27 @@ class AbstractAction
 
                     $options = null;
                     if ($column['SCALE'] > 0) {
-                        $ddlType = \Magento\DB\Ddl\Table::TYPE_DECIMAL;
+                        $ddlType = \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL;
                     } else {
                         break;
                     }
                     // fall-through intentional
-                case \Magento\DB\Ddl\Table::TYPE_DECIMAL:
+                case \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL:
                     $options = $column['PRECISION'] . ',' . $column['SCALE'];
                     $isUnsigned = null;
                     if ($column['DEFAULT'] === '') {
                         $column['DEFAULT'] = null;
                     }
                     break;
-                case \Magento\DB\Ddl\Table::TYPE_TEXT:
+                case \Magento\Framework\DB\Ddl\Table::TYPE_TEXT:
                     $options = $column['LENGTH'];
                     $isUnsigned = null;
                     break;
-                case \Magento\DB\Ddl\Table::TYPE_TIMESTAMP:
+                case \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP:
                     $options = null;
                     $isUnsigned = null;
                     break;
-                case \Magento\DB\Ddl\Table::TYPE_DATETIME:
+                case \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME:
                     $isUnsigned = null;
                     break;
             }
@@ -249,7 +249,7 @@ class AbstractAction
             );
         }
         $columns['store_id'] = array(
-            'type' => array(\Magento\DB\Ddl\Table::TYPE_SMALLINT, 5),
+            'type' => array(\Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT, 5),
             'unsigned' => true,
             'nullable' => false,
             'default' => '0',
@@ -275,7 +275,7 @@ class AbstractAction
             switch ($attribute['backend_type']) {
                 case 'varchar':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => array(\Magento\DB\Ddl\Table::TYPE_TEXT, 255),
+                        'type' => array(\Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 255),
                         'unsigned' => null,
                         'nullable' => true,
                         'default' => null,
@@ -284,7 +284,7 @@ class AbstractAction
                     break;
                 case 'int':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => array(\Magento\DB\Ddl\Table::TYPE_INTEGER, null),
+                        'type' => array(\Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null),
                         'unsigned' => null,
                         'nullable' => true,
                         'default' => null,
@@ -293,7 +293,7 @@ class AbstractAction
                     break;
                 case 'text':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => array(\Magento\DB\Ddl\Table::TYPE_TEXT, '64k'),
+                        'type' => array(\Magento\Framework\DB\Ddl\Table::TYPE_TEXT, '64k'),
                         'unsigned' => null,
                         'nullable' => true,
                         'default' => null,
@@ -302,7 +302,7 @@ class AbstractAction
                     break;
                 case 'datetime':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => array(\Magento\DB\Ddl\Table::TYPE_DATETIME, null),
+                        'type' => array(\Magento\Framework\DB\Ddl\Table::TYPE_DATETIME, null),
                         'unsigned' => null,
                         'nullable' => true,
                         'default' => null,
@@ -311,7 +311,7 @@ class AbstractAction
                     break;
                 case 'decimal':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => array(\Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4'),
+                        'type' => array(\Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, '12,4'),
                         'unsigned' => null,
                         'nullable' => true,
                         'default' => null,

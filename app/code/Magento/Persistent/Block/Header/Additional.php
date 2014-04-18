@@ -18,7 +18,7 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
  * @package     Magento_Persistent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Additional extends \Magento\View\Element\Html\Link
+class Additional extends \Magento\Framework\View\Element\Html\Link
 {
     /**
      * @var \Magento\Customer\Helper\View
@@ -36,14 +36,14 @@ class Additional extends \Magento\View\Element\Html\Link
     protected $_customerAccountService;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param \Magento\Persistent\Helper\Session $persistentSessionHelper
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Helper\View $customerViewHelper,
         \Magento\Persistent\Helper\Session $persistentSessionHelper,
         CustomerAccountServiceInterface $customerAccountService,

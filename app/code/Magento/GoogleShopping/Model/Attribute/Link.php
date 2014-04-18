@@ -26,7 +26,7 @@ class Link extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_scopeConfig;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GoogleShopping\Helper\Data $gsData
@@ -34,11 +34,11 @@ class Link extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GoogleShopping\Helper\Data $gsData,
@@ -46,7 +46,7 @@ class Link extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice,
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_scopeConfig = $scopeConfig;

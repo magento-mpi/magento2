@@ -10,6 +10,6 @@
  */
 namespace Magento\Catalog\Model\Resource\Product\Option;
 
-class Stub extends \Magento\Model\AbstractModel
+class Stub extends \Magento\Framework\Model\AbstractModel
 {
 }

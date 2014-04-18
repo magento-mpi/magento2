@@ -8,7 +8,7 @@
 
 namespace Magento\TestFramework\View;
 
-class Layout extends \Magento\View\Layout
+class Layout extends \Magento\Framework\View\Layout
 {
     /**
      * @var bool

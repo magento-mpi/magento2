@@ -56,22 +56,22 @@ class Data extends \Magento\CustomAttributeManagement\Helper\Data
      * Return available customer attribute form as select options
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getAttributeFormOptions()
     {
-        throw new \Magento\Model\Exception(__('Use helper with defined EAV entity.'));
+        throw new \Magento\Framework\Model\Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**
      * Default attribute entity type code
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getEntityTypeCode()
     {
-        throw new \Magento\Model\Exception(__('Use helper with defined EAV entity.'));
+        throw new \Magento\Framework\Model\Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**

@@ -31,7 +31,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_modelParams = array(
-            'context' => $objectManager->get('Magento\Model\Context'),
+            'context' => $objectManager->get('Magento\Framework\Model\Context'),
             'registry' => $objectManager->get('Magento\Registry'),
             'resource' => $objectManager->get('Magento\Store\Model\Resource\Store'),
             'coreFileStorageDatabase' => $objectManager->get('Magento\Core\Helper\File\Storage\Database'),
@@ -311,7 +311,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      * @dataProvider saveValidationDataProvider
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testSaveValidation($badStoreData)
     {
@@ -355,7 +355,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
         $params = $this->_modelParams;
         $params['context'] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Model\Context',
+            'Magento\Framework\Model\Context',
             array('appState' => $appStateMock)
         );
 

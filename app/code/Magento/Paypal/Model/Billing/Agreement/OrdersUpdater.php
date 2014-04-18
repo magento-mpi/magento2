@@ -10,7 +10,7 @@ namespace Magento\Paypal\Model\Billing\Agreement;
 /**
  * Orders grid massaction items updater
  */
-class OrdersUpdater implements \Magento\View\Layout\Argument\UpdaterInterface
+class OrdersUpdater implements \Magento\Framework\View\Layout\Argument\UpdaterInterface
 {
     /**
      * @var \Magento\Registry

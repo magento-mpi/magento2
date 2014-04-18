@@ -36,7 +36,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_config;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GoogleShopping\Helper\Data $gsData
@@ -45,11 +45,11 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GoogleShopping\Helper\Data $gsData,
@@ -58,7 +58,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_config = $config;
@@ -100,7 +100,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
                 $regions = $this->_parseRegions($rate['state'], $rate['postcode']);
                 $ratesTotal += count($regions);
                 if ($ratesTotal > self::RATES_MAX) {
-                    throw new \Magento\Model\Exception(
+                    throw new \Magento\Framework\Model\Exception(
                         __("Google shopping only supports %1 tax rates per product", self::RATES_MAX)
                     );
                 }

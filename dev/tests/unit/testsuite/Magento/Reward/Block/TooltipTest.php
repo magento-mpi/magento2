@@ -47,7 +47,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
                 'storeManager' => $storeManager
             )
         );
-        $layout = $this->getMock('Magento\View\Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
 
         $rewardHelper->expects($this->any())->method('isEnabledOnFront')->will($this->returnValue(true));
 

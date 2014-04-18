@@ -27,7 +27,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Locale\ListsInterface $localeLists
      * @param array $data
@@ -35,7 +35,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Locale\ListsInterface $localeLists,
         array $data = array()
@@ -56,7 +56,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var $model \Magento\User\Model\User */
         $model = $this->_coreRegistry->registry('permissions_user');
 
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('user_');
 
@@ -172,14 +172,14 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Add password input fields
      *
-     * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @param \Magento\Framework\Data\Form\Element\Fieldset $fieldset
      * @param string $passwordLabel
      * @param string $confirmationLabel
      * @param bool $isRequired
      * @return void
      */
     protected function _addPasswordFields(
-        \Magento\Data\Form\Element\Fieldset $fieldset,
+        \Magento\Framework\Data\Form\Element\Fieldset $fieldset,
         $passwordLabel,
         $confirmationLabel,
         $isRequired = false

@@ -15,7 +15,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\View\DesignInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\DesignInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $designMock;
 
@@ -35,13 +35,13 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     protected $themeCollectionMock;
 
     /**
-     * @var \Magento\View\Design\ThemeInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Design\ThemeInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $themeMock;
 
     protected function setUp()
     {
-        $this->designMock = $this->getMockForAbstractClass('Magento\View\DesignInterface');
+        $this->designMock = $this->getMockForAbstractClass('Magento\Framework\View\DesignInterface');
         $this->themeCollectionFactoryMock = $this->getMock(
             'Magento\Core\Model\Resource\Theme\CollectionFactory',
             ['create'],
@@ -63,7 +63,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->themeMock = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+        $this->themeMock = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
 
         $this->model = new \Magento\Core\Model\Theme\Resolver(
             $this->appStateMock,
@@ -189,7 +189,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getThemeByFullPath'
         )->with(
-            'other_area' . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR . 'other_theme'
+            'other_area' . \Magento\Framework\View\Design\ThemeInterface::PATH_SEPARATOR . 'other_theme'
         )->will(
             $this->returnValue($this->themeMock)
         );

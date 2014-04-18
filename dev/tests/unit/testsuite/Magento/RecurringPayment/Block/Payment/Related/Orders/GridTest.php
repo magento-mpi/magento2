@@ -112,7 +112,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($pagerBlock)
         );
-        $layout = $this->getMock('Magento\View\LayoutInterface');
+        $layout = $this->getMock('Magento\Framework\View\LayoutInterface');
         $layout->expects($this->once())->method('createBlock')->will($this->returnValue($pagerBlock));
         $block->setLayout($layout);
 

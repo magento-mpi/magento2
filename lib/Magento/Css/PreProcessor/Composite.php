@@ -7,8 +7,8 @@
  */
 namespace Magento\Css\PreProcessor;
 
-use Magento\View\Asset\PreProcessor\PreProcessorInterface;
-use Magento\View\Asset\PreProcessorFactory;
+use Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface;
+use Magento\Framework\View\Asset\PreProcessorFactory;
 
 /**
  * Css pre-processor composite
@@ -41,11 +41,11 @@ class Composite implements PreProcessorInterface
     }
 
     /**
-     * @param \Magento\View\Publisher\FileInterface $publisherFile
-     * @param \Magento\Filesystem\Directory\WriteInterface $targetDirectory
-     * @return \Magento\View\Publisher\FileInterface
+     * @param \Magento\Framework\View\Publisher\FileInterface $publisherFile
+     * @param \Magento\Framework\Filesystem\Directory\WriteInterface $targetDirectory
+     * @return \Magento\Framework\View\Publisher\FileInterface
      */
-    public function process(\Magento\View\Publisher\FileInterface $publisherFile, $targetDirectory)
+    public function process(\Magento\Framework\View\Publisher\FileInterface $publisherFile, $targetDirectory)
     {
         foreach ($this->preProcessors as $preProcessor) {
             $publisherFile = $preProcessor->process($publisherFile, $targetDirectory);

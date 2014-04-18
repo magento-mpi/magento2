@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Model\Product\Option\Type;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Catalog product option text type
@@ -52,7 +52,7 @@ class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      *
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validateUserValue($values)
     {

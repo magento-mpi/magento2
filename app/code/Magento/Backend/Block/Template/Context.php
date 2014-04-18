@@ -11,7 +11,7 @@ namespace Magento\Backend\Block\Template;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Context extends \Magento\View\Element\Template\Context
+class Context extends \Magento\Framework\View\Element\Template\Context
 {
     /**
      * @var \Magento\AuthorizationInterface
@@ -29,7 +29,7 @@ class Context extends \Magento\View\Element\Template\Context
     protected $_backendSession;
 
     /**
-     * @var \Magento\Data\Form\FormKey
+     * @var \Magento\Framework\Data\Form\FormKey
      */
     protected $formKey;
 
@@ -40,17 +40,17 @@ class Context extends \Magento\View\Element\Template\Context
 
     /**
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\TranslateInterface $translator
      * @param \Magento\Framework\App\CacheInterface $cache
-     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Session\Generic $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\View\Url $viewUrl
-     * @param \Magento\View\ConfigInterface $viewConfig
+     * @param \Magento\Framework\View\Url $viewUrl
+     * @param \Magento\Framework\View\ConfigInterface $viewConfig
      * @param \Magento\Framework\App\Cache\StateInterface $cacheState
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
@@ -58,31 +58,31 @@ class Context extends \Magento\View\Element\Template\Context
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\View\FileSystem $viewFileSystem
-     * @param \Magento\View\TemplateEnginePool $enginePool
+     * @param \Magento\Framework\View\FileSystem $viewFileSystem
+     * @param \Magento\Framework\View\TemplateEnginePool $enginePool
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Data\Form\FormKey $formKey
+     * @param \Magento\Framework\Data\Form\FormKey $formKey
      * @param \Magento\Code\NameBuilder $nameBuilder
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $urlBuilder,
         \Magento\TranslateInterface $translator,
         \Magento\Framework\App\CacheInterface $cache,
-        \Magento\View\DesignInterface $design,
+        \Magento\Framework\View\DesignInterface $design,
         \Magento\Session\Generic $session,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\View\Url $viewUrl,
-        \Magento\View\ConfigInterface $viewConfig,
+        \Magento\Framework\View\Url $viewUrl,
+        \Magento\Framework\View\ConfigInterface $viewConfig,
         \Magento\Framework\App\Cache\StateInterface $cacheState,
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
@@ -90,14 +90,14 @@ class Context extends \Magento\View\Element\Template\Context
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\View\FileSystem $viewFileSystem,
-        \Magento\View\TemplateEnginePool $enginePool,
+        \Magento\Framework\View\FileSystem $viewFileSystem,
+        \Magento\Framework\View\TemplateEnginePool $enginePool,
         \Magento\Framework\App\State $appState,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Math\Random $mathRandom,
-        \Magento\Data\Form\FormKey $formKey,
+        \Magento\Framework\Data\Form\FormKey $formKey,
         \Magento\Code\NameBuilder $nameBuilder
     ) {
         $this->_authorization = $authorization;
@@ -169,7 +169,7 @@ class Context extends \Magento\View\Element\Template\Context
     }
 
     /**
-     * @return \Magento\Data\Form\FormKey
+     * @return \Magento\Framework\Data\Form\FormKey
      */
     public function getFormKey()
     {
@@ -177,7 +177,7 @@ class Context extends \Magento\View\Element\Template\Context
     }
 
     /**
-     * @return \Magento\Data\Form\FormKey
+     * @return \Magento\Framework\Data\Form\FormKey
      */
     public function getNameBuilder()
     {

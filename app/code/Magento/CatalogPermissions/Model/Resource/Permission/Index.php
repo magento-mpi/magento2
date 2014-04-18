@@ -19,7 +19,7 @@ use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Eav\Model\Entity\Attribute;
 
-class Index extends \Magento\Model\Resource\Db\AbstractDb
+class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Catalog permissions data

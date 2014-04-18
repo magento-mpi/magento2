@@ -16,7 +16,7 @@ namespace Magento\Backend\Block\Widget\Grid;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ColumnSet extends \Magento\View\Element\Template
+class ColumnSet extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
@@ -102,14 +102,14 @@ class ColumnSet extends \Magento\View\Element\Template
     protected $_totals = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory
      * @param \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals
      * @param \Magento\Backend\Model\Widget\Grid\Totals $totals
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory,
         \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals,
         \Magento\Backend\Model\Widget\Grid\Totals $totals,
@@ -512,7 +512,7 @@ class ColumnSet extends \Magento\View\Element\Template
     /**
      * Return collection of current grid
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getCollection()
     {
@@ -597,8 +597,8 @@ class ColumnSet extends \Magento\View\Element\Template
     public function updateItemByFirstMultiRow(\Magento\Object $item)
     {
         $multiRows = $this->getMultipleRows($item);
-        if (is_object($multiRows) && $multiRows instanceof \Magento\Data\Collection) {
-            /** @var $multiRows \Magento\Data\Collection */
+        if (is_object($multiRows) && $multiRows instanceof \Magento\Framework\Data\Collection) {
+            /** @var $multiRows \Magento\Framework\Data\Collection */
             $item->addData($multiRows->getFirstItem()->getData());
         } elseif (is_array($multiRows)) {
             $firstItem = $multiRows[0];

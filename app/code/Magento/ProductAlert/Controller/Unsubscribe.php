@@ -9,6 +9,9 @@
  */
 namespace Magento\ProductAlert\Controller;
 
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Action\Context;
+
 /**
  * ProductAlert unsubscribe controller
  *
@@ -16,9 +19,6 @@ namespace Magento\ProductAlert\Controller;
  * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-use Magento\Framework\App\RequestInterface;
-use Magento\Framework\App\Action\Context;
 
 class Unsubscribe extends \Magento\Framework\App\Action\Action
 {

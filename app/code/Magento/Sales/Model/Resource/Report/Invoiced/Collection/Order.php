@@ -35,7 +35,7 @@ class Order extends \Magento\Sales\Model\Resource\Report\Collection\AbstractColl
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Resource\Report $resource
      * @param \Zend_Db_Adapter_Abstract $connection
@@ -43,7 +43,7 @@ class Order extends \Magento\Sales\Model\Resource\Report\Collection\AbstractColl
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\Resource\Report $resource,
         $connection = null
@@ -65,7 +65,7 @@ class Order extends \Magento\Sales\Model\Resource\Report\Collection\AbstractColl
         } elseif ('year' == $this->_period) {
             $this->_periodFormat = $adapter->getDateExtractSql(
                 'period',
-                \Magento\DB\Adapter\AdapterInterface::INTERVAL_YEAR
+                \Magento\Framework\DB\Adapter\AdapterInterface::INTERVAL_YEAR
             );
         } else {
             $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m-%d');

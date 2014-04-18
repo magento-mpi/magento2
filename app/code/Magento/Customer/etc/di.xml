@@ -71,7 +71,7 @@
             <argument name="url" xsi:type="object">Magento\Url</argument>
         </arguments>
     </type>
-    <type name="Magento\Model\ActionValidator\RemoveAction">
+    <type name="Magento\Framework\Model\ActionValidator\RemoveAction">
         <arguments>
             <argument name="protectedModels" xsi:type="array">
                 <item name="customer" xsi:type="string">Magento\Customer\Model\Customer</item>

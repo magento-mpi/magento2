@@ -25,7 +25,7 @@ class Data extends \Magento\Core\Helper\Data
     protected $_xmlConverter;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $readDirectory;
 

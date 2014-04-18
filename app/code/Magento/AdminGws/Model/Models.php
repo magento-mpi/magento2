@@ -9,7 +9,7 @@
  */
 namespace Magento\AdminGws\Model;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Models limiter
