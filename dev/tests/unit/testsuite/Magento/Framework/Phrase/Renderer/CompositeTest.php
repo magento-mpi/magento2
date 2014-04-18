@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Phrase\Renderer;
+namespace Magento\Framework\Phrase\Renderer;
 
 class CompositeTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,9 +26,9 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->rendererOne = $this->getMock('Magento\Phrase\RendererInterface');
-        $this->rendererTwo = $this->getMock('Magento\Phrase\RendererInterface');
-        $this->object = new \Magento\Phrase\Renderer\Composite(array($this->rendererOne, $this->rendererTwo));
+        $this->rendererOne = $this->getMock('Magento\Framework\Phrase\RendererInterface');
+        $this->rendererTwo = $this->getMock('Magento\Framework\Phrase\RendererInterface');
+        $this->object = new \Magento\Framework\Phrase\Renderer\Composite(array($this->rendererOne, $this->rendererTwo));
     }
 
     /**
@@ -37,7 +37,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorException()
     {
-        new \Magento\Phrase\Renderer\Composite(array(new \stdClass()));
+        new \Magento\Framework\Phrase\Renderer\Composite(array(new \stdClass()));
     }
 
     public function testRender()

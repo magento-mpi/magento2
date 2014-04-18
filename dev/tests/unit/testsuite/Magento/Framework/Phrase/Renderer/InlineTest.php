@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Phrase\Renderer;
+namespace Magento\Framework\Phrase\Renderer;
 
 class InlineTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +15,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
     protected $translator;
 
     /**
-     * @var \Magento\Phrase\Renderer\Translate
+     * @var \Magento\Framework\Phrase\Renderer\Translate
      */
     protected $_renderer;
 
@@ -29,7 +29,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         $this->translator = $this->getMock('Magento\Framework\TranslateInterface', [], [], '', false);
         $this->provider = $this->getMock('Magento\Framework\Translate\Inline\ProviderInterface', [], [], '', false);
 
-        $this->renderer = new \Magento\Phrase\Renderer\Inline(
+        $this->renderer = new \Magento\Framework\Phrase\Renderer\Inline(
             $this->translator,
             $this->provider
         );

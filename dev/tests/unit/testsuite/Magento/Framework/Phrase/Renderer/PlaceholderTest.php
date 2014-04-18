@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Phrase\Renderer;
+namespace Magento\Framework\Phrase\Renderer;
 
 class PlaceholderTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +15,7 @@ class PlaceholderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_renderer = $objectManager->getObject('Magento\Phrase\Renderer\Placeholder');
+        $this->_renderer = $objectManager->getObject('Magento\Framework\Phrase\Renderer\Placeholder');
     }
 
     /**

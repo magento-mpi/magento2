@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
-use Magento\Phrase\RendererInterface;
+use Magento\Framework\Phrase\RendererInterface;
 
 class Phrase
 {

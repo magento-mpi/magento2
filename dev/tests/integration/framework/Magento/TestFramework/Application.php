@@ -236,7 +236,7 @@ class Application
         );
 
         $this->loadArea(\Magento\TestFramework\Application::DEFAULT_APP_AREA);
-        \Magento\Phrase::setRenderer($objectManager->get('Magento\Phrase\RendererInterface'));
+        \Magento\Framework\Phrase::setRenderer($objectManager->get('Magento\Framework\Phrase\RendererInterface'));
 
         /** @var \Magento\Framework\App\Filesystem\DirectoryList\Verification $verification */
         $verification = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList\Verification');

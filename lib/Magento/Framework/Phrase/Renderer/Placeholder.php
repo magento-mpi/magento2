@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Phrase\Renderer;
+namespace Magento\Framework\Phrase\Renderer;
 
-class Placeholder implements \Magento\Phrase\RendererInterface
+class Placeholder implements \Magento\Framework\Phrase\RendererInterface
 {
     /**
      * Render source text

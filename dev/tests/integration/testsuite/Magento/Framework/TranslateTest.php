@@ -78,9 +78,9 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\Translate');
         $objectManager->addSharedInstance($this->_model, 'Magento\Framework\Translate');
-        $objectManager->removeSharedInstance('Magento\Phrase\Renderer\Composite');
-        $objectManager->removeSharedInstance('Magento\Phrase\Renderer\Translate');
-        \Magento\Phrase::setRenderer($objectManager->get('Magento\Phrase\RendererInterface'));
+        $objectManager->removeSharedInstance('Magento\Framework\Phrase\Renderer\Composite');
+        $objectManager->removeSharedInstance('Magento\Framework\Phrase\Renderer\Translate');
+        \Magento\Framework\Phrase::setRenderer($objectManager->get('Magento\Framework\Phrase\RendererInterface'));
         $this->_model->loadData(\Magento\Core\Model\App\Area::AREA_FRONTEND);
     }
 

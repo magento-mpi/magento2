@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Phrase\Renderer;
+namespace Magento\Framework\Phrase\Renderer;
 
 class TranslateTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +15,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     protected $_translator;
 
     /**
-     * @var \Magento\Phrase\Renderer\Translate
+     * @var \Magento\Framework\Phrase\Renderer\Translate
      */
     protected $_renderer;
 
@@ -25,7 +25,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_renderer = $objectManagerHelper->getObject(
-            'Magento\Phrase\Renderer\Translate',
+            'Magento\Framework\Phrase\Renderer\Translate',
             array('translator' => $this->_translator)
         );
     }

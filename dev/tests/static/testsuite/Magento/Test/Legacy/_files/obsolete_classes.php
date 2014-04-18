@@ -1962,7 +1962,7 @@ return array(
     array('Magento\Core\Model\Layout\Filter\Acl', 'Magento\Backend\Model\Layout\Filter\Acl'),
     array('Magento\Framework\View\Layout\Argument\HandlerInterface', 'Magento\Framework\Data\Argument\InterpreterInterface'),
     array('Magento\Framework\View\Layout\Argument\HandlerFactory', 'Magento\Framework\Data\Argument\Interpreter\Composite'),
-    array('Magento\Phrase\Renderer\Factory'),
+    array('Magento\Framework\Phrase\Renderer\Factory'),
     array('Magento\Framework\View\Layout\Factory', 'Magento\DesignEditor\Model\AreaEmulator'),
     array('Magento\Catalog\Model\Category\Indexer\Product'),
     array('Magento\Catalog\Model\Resource\Category\Indexer\Product'),

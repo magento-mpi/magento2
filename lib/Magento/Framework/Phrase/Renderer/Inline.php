@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Phrase\Renderer;
+namespace Magento\Framework\Phrase\Renderer;
 
-class Inline implements \Magento\Phrase\RendererInterface
+class Inline implements \Magento\Framework\Phrase\RendererInterface
 {
     /**
      * @var \Magento\Framework\TranslateInterface

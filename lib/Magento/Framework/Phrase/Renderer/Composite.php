@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Phrase\Renderer;
+namespace Magento\Framework\Phrase\Renderer;
 
-use Magento\Phrase\RendererInterface;
+use Magento\Framework\Phrase\RendererInterface;
 
 class Composite implements RendererInterface
 {
