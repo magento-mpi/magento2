@@ -41,6 +41,11 @@ use Magento\Sales\Model\Quote\Item;
  * @method float getBaseDiscountTaxCompensation()
  * @method float getBaseRowTotal()
  * @method float getQtyOrdered()
+ * @method float getRowTotalInclTax()
+ * @method float getTaxAmount()
+ * @method float getDiscountTaxCompensation()
+ * @method float getRowTotal()
+ * @method float getPriceInclTax()
  */
 abstract class AbstractItem extends \Magento\Model\AbstractModel implements
     \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface

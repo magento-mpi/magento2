@@ -15,14 +15,6 @@ namespace Magento;
  * @category    Magento
  * @package     Magento_Object
  * @author      Magento Core Team <core@magentocommerce.com>
- *
- * @method float getRowTotalInclTax()
- * @method float getTaxAmount()
- * @method float getDiscountTaxCompensation()
- * @method float getRowTotal()
- * @method float getPriceInclTax()
- * @method int getQty()
- * @method int getQtyOrdered()
  */
 class Object implements \ArrayAccess
 {
