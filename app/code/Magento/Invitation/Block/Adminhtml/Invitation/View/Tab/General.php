@@ -52,6 +52,7 @@ class General extends \Magento\Backend\Block\Template implements \Magento\Backen
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Registry $registry
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param array $data
      */

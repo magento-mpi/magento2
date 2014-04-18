@@ -461,7 +461,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryColFactory
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
-     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupColFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Import\Entity\Product\Type\Factory $productTypeFactory
@@ -671,11 +670,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
     protected function _initCustomerGroups()
     {
-        $customerGroups = $this->_customerGroupService->getGroups();
-        if (isset($customerGroups)) {
-            foreach ($customerGroups as $group) {
-                $this->_customerGroups[$group->getId()] = true;
-            }
+        foreach ($this->_customerGroupService->getGroups() as $group) {
+            $this->_customerGroups[$group->getId()] = true;
         }
         return $this;
     }
