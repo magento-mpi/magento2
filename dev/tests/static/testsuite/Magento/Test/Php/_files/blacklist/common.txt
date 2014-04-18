@@ -40,10 +40,10 @@ lib/Magento/Framework/App/Config/Element.php
 lib/Magento/Framework/Archive
 lib/Magento/Framework/Autoload/Simple.php
 lib/Magento/Framework/Backup
-lib/Magento/Cache/Backend/Database.php
-lib/Magento/Cache/Backend/Eaccelerator.php
-lib/Magento/Cache/Backend/Memcached.php
-lib/Magento/Cache/Core.php
+lib/Magento/Framework/Cache/Backend/Database.php
+lib/Magento/Framework/Cache/Backend/Eaccelerator.php
+lib/Magento/Framework/Cache/Backend/Memcached.php
+lib/Magento/Framework/Cache/Core.php
 lib/Magento/Connect
 lib/Magento/Framework/Data/Collection.php
 lib/Magento/Framework/Data/Collection/Db.php

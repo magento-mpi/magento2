@@ -31,7 +31,7 @@ class Role extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Cache
      *
-     * @var \Magento\Cache\FrontendInterface
+     * @var \Magento\Framework\Cache\FrontendInterface
      */
     protected $_cache;
 

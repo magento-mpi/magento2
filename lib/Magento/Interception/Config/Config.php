@@ -35,7 +35,7 @@ class Config implements \Magento\Interception\Config
     /**
      * Cache
      *
-     * @var \Magento\Cache\FrontendInterface
+     * @var \Magento\Framework\Cache\FrontendInterface
      */
     protected $_cache;
 
@@ -70,7 +70,7 @@ class Config implements \Magento\Interception\Config
     /**
      * @param \Magento\Framework\Config\ReaderInterface $reader
      * @param \Magento\Framework\Config\ScopeListInterface $scopeList
-     * @param \Magento\Cache\FrontendInterface $cache
+     * @param \Magento\Framework\Cache\FrontendInterface $cache
      * @param \Magento\Framework\ObjectManager\Relations $relations
      * @param \Magento\Interception\ObjectManager\Config $omConfig
      * @param \Magento\Framework\ObjectManager\Definition $classDefinitions
@@ -79,7 +79,7 @@ class Config implements \Magento\Interception\Config
     public function __construct(
         \Magento\Framework\Config\ReaderInterface $reader,
         \Magento\Framework\Config\ScopeListInterface $scopeList,
-        \Magento\Cache\FrontendInterface $cache,
+        \Magento\Framework\Cache\FrontendInterface $cache,
         \Magento\Framework\ObjectManager\Relations $relations,
         \Magento\Interception\ObjectManager\Config $omConfig,
         \Magento\Framework\ObjectManager\Definition $classDefinitions,

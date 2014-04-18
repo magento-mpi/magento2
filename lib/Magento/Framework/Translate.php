@@ -63,7 +63,7 @@ class Translate implements \Magento\Framework\TranslateInterface
     protected $_viewDesign;
 
     /**
-     * @var \Magento\Cache\FrontendInterface $cache
+     * @var \Magento\Framework\Cache\FrontendInterface $cache
      */
     protected $_cache;
 
@@ -120,7 +120,7 @@ class Translate implements \Magento\Framework\TranslateInterface
     /**
      * @param \Magento\Framework\View\DesignInterface $viewDesign
      * @param \Magento\Locale\Hierarchy\Config $config
-     * @param \Magento\Cache\FrontendInterface $cache
+     * @param \Magento\Framework\Cache\FrontendInterface $cache
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param \Magento\Module\ModuleList $moduleList
      * @param \Magento\Module\Dir\Reader $modulesReader
@@ -137,7 +137,7 @@ class Translate implements \Magento\Framework\TranslateInterface
     public function __construct(
         \Magento\Framework\View\DesignInterface $viewDesign,
         \Magento\Locale\Hierarchy\Config $config,
-        \Magento\Cache\FrontendInterface $cache,
+        \Magento\Framework\Cache\FrontendInterface $cache,
         \Magento\Framework\View\FileSystem $viewFileSystem,
         \Magento\Module\ModuleList $moduleList,
         \Magento\Module\Dir\Reader $modulesReader,

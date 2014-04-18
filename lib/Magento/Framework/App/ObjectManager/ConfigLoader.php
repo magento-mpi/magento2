@@ -21,7 +21,7 @@ class ConfigLoader
     /**
      * Cache
      *
-     * @var \Magento\Cache\FrontendInterface
+     * @var \Magento\Framework\Cache\FrontendInterface
      */
     protected $_cache;
 

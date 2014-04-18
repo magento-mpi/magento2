@@ -24,7 +24,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Locale\Hierarchy\Config */
     protected $_config;
 
-    /** @var \Magento\Cache\FrontendInterface */
+    /** @var \Magento\Framework\Cache\FrontendInterface */
     protected $_cache;
 
     /** @var \Magento\Framework\View\FileSystem */
@@ -64,7 +64,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     {
         $this->_viewDesign = $this->getMock('\Magento\Framework\View\DesignInterface', [], [], '', false);
         $this->_config = $this->getMock('\Magento\Locale\Hierarchy\Config', [], [], '', false);
-        $this->_cache = $this->getMock('\Magento\Cache\FrontendInterface', [], [], '', false);
+        $this->_cache = $this->getMock('\Magento\Framework\Cache\FrontendInterface', [], [], '', false);
         $this->_viewFileSystem = $this->getMock('\Magento\Framework\View\FileSystem', [], [], '', false);
         $this->_moduleList = $this->getMock('\Magento\Module\ModuleList', [], [], '', false);
         $this->_modulesReader = $this->getMock('\Magento\Module\Dir\Reader', [], [], '', false);

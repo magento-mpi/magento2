@@ -139,7 +139,7 @@
             <argument name="enforcedOptions" xsi:type="init_parameter">Magento\Framework\App\Cache\Frontend\Factory::PARAM_CACHE_FORCED_OPTIONS</argument>
             <argument name="decorators" xsi:type="array">
                 <item name="tag" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Cache\Frontend\Decorator\TagScope</item>
+                    <item name="class" xsi:type="string">Magento\Framework\Cache\Frontend\Decorator\TagScope</item>
                     <item name="parameters" xsi:type="array">
                         <item name="tag" xsi:type="string">MAGE</item>
                     </item>
@@ -189,12 +189,12 @@
             <argument name="cacheFrontend" xsi:type="object">Magento\Framework\App\Cache\Type\Config</argument>
         </arguments>
     </type>
-    <type name="Magento\Cache\Config\Reader">
+    <type name="Magento\Framework\Cache\Config\Reader">
         <arguments>
             <argument name="fileName" xsi:type="string">cache.xml</argument>
         </arguments>
     </type>
-    <type name="Magento\Cache\Config\Data">
+    <type name="Magento\Framework\Cache\Config\Data">
         <arguments>
             <argument name="cacheId" xsi:type="string">config_cache</argument>
         </arguments>

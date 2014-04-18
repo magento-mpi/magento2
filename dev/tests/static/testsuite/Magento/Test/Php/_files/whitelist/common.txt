@@ -124,7 +124,7 @@ dev/tests/unit
 dev/tools
 lib/Magento/Framework/Backup/Db
 lib/Magento/Framework/Backup/Factory.php
-lib/Magento/Cache/Core.php
+lib/Magento/Framework/Cache/Core.php
 lib/Magento/Convert
 lib/Magento/Framework/Exception
 lib/Magento/Framework/Stdlib/DateTime.php

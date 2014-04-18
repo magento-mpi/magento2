@@ -46,7 +46,7 @@ class InstallTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->_model->deleteTableRow('core_resource', 'code', 'adminnotification_setup');
         $this->_model->getConnection()->dropTable($this->_model->getTable('adminnotification_inbox'));
         $this->_model->getConnection()->dropTable($this->_model->getTable('admin_system_messages'));
-        /** @var \Magento\Cache\FrontendInterface $cache */
+        /** @var \Magento\Framework\Cache\FrontendInterface $cache */
         $cache = $this->_objectManager->get('Magento\Framework\App\Cache\Type\Config');
         $cache->clean();
 

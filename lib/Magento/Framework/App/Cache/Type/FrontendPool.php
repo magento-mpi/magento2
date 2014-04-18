@@ -33,7 +33,7 @@ class FrontendPool
     private $_typeFrontendMap;
 
     /**
-     * @var \Magento\Cache\FrontendInterface[]
+     * @var \Magento\Framework\Cache\FrontendInterface[]
      */
     private $_instances = array();
 
@@ -59,7 +59,7 @@ class FrontendPool
      * Retrieve cache frontend instance by a cache type identifier, enforcing identifier-scoped access control
      *
      * @param string $cacheType Cache type identifier
-     * @return \Magento\Cache\FrontendInterface Cache frontend instance
+     * @return \Magento\Framework\Cache\FrontendInterface Cache frontend instance
      */
     public function get($cacheType)
     {

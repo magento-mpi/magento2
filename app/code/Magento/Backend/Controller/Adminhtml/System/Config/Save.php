@@ -29,7 +29,7 @@ class Save extends AbstractConfig
     protected $_configFactory;
 
     /**
-     * @var \Magento\Cache\FrontendInterface
+     * @var \Magento\Framework\Cache\FrontendInterface
      */
     protected $_cache;
 
@@ -42,14 +42,14 @@ class Save extends AbstractConfig
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\Backend\Model\Config\Factory $configFactory
-     * @param \Magento\Cache\FrontendInterface $cache
+     * @param \Magento\Framework\Cache\FrontendInterface $cache
      * @param \Magento\Framework\Stdlib\String $string
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Backend\Model\Config\Factory $configFactory,
-        \Magento\Cache\FrontendInterface $cache,
+        \Magento\Framework\Cache\FrontendInterface $cache,
         \Magento\Framework\Stdlib\String $string
     ) {
         parent::__construct($context, $configStructure);

@@ -9,7 +9,7 @@
  */
 namespace Magento\Module\FrontController\Plugin;
 
-use Magento\Cache\FrontendInterface;
+use Magento\Framework\Cache\FrontendInterface;
 use Magento\Module\UpdaterInterface;
 use Magento\Framework\App\State;
 

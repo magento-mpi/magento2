@@ -37,7 +37,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     protected $_httpRequest;
 
     /**
-     * @var \Magento\Cache\ConfigInterface
+     * @var \Magento\Framework\Cache\ConfigInterface
      */
     protected $_cacheConfig;
 
@@ -61,7 +61,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Framework\App\RequestInterface $httpRequest
-     * @param \Magento\Cache\ConfigInterface $cacheConfig
+     * @param \Magento\Framework\Cache\ConfigInterface $cacheConfig
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\HTTP\Header $httpHeader
@@ -74,7 +74,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
         \Magento\Framework\Translate\InlineInterface $translateInline,
         \Magento\Module\Manager $moduleManager,
         \Magento\Framework\App\RequestInterface $httpRequest,
-        \Magento\Cache\ConfigInterface $cacheConfig,
+        \Magento\Framework\Cache\ConfigInterface $cacheConfig,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $urlBuilder,
         \Magento\HTTP\Header $httpHeader,
@@ -124,7 +124,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Cache\ConfigInterface
+     * @return \Magento\Framework\Cache\ConfigInterface
      */
     public function getCacheConfig()
     {

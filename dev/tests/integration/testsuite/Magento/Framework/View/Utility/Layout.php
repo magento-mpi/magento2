@@ -49,7 +49,7 @@ class Layout
         )->will(
             \PHPUnit_Framework_TestCase::returnValue($files)
         );
-        $cache = $this->_testCase->getMockForAbstractClass('Magento\Cache\FrontendInterface');
+        $cache = $this->_testCase->getMockForAbstractClass('Magento\Framework\Cache\FrontendInterface');
         return $objectManager->create(
             'Magento\Framework\View\Layout\ProcessorInterface',
             array('fileSource' => $fileSource, 'cache' => $cache)

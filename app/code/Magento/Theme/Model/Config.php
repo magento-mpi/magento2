@@ -38,12 +38,12 @@ class Config
     protected $_eventManager;
 
     /**
-     * @var \Magento\Cache\FrontendInterface
+     * @var \Magento\Framework\Cache\FrontendInterface
      */
     protected $_configCache;
 
     /**
-     * @var \Magento\Cache\FrontendInterface
+     * @var \Magento\Framework\Cache\FrontendInterface
      */
     protected $_layoutCache;
 
@@ -52,16 +52,16 @@ class Config
      * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Cache\FrontendInterface $configCache
-     * @param \Magento\Cache\FrontendInterface $layoutCache
+     * @param \Magento\Framework\Cache\FrontendInterface $configCache
+     * @param \Magento\Framework\Cache\FrontendInterface $layoutCache
      */
     public function __construct(
         \Magento\Framework\App\Config\ValueInterface $configData,
         \Magento\Framework\App\Config\Storage\WriterInterface $configWriter,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Cache\FrontendInterface $configCache,
-        \Magento\Cache\FrontendInterface $layoutCache
+        \Magento\Framework\Cache\FrontendInterface $configCache,
+        \Magento\Framework\Cache\FrontendInterface $layoutCache
     ) {
         $this->_configData = $configData;
         $this->_configWriter = $configWriter;

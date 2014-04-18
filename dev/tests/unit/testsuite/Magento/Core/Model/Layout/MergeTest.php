@@ -84,7 +84,7 @@ class MergeTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_cache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
+        $this->_cache = $this->getMockForAbstractClass('Magento\Framework\Cache\FrontendInterface');
 
         $this->_theme = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false, false);
         $this->_theme->expects($this->any())->method('isPhysical')->will($this->returnValue(true));

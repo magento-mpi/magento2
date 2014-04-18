@@ -86,7 +86,7 @@ class Observer
      */
     public function cleanCache(\Magento\Cron\Model\Schedule $schedule)
     {
-        /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
+        /** @var $cacheFrontend \Magento\Framework\Cache\FrontendInterface */
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
             // Magento cache frontend does not support the 'old' cleaning mode, that's why backend is used directly
             $cacheFrontend->getBackend()->clean(\Zend_Cache::CLEANING_MODE_OLD);

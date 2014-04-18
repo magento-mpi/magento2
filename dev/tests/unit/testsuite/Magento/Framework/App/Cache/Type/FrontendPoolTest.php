@@ -61,7 +61,7 @@ class FrontendPoolTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($fixtureFrontendId)
         );
 
-        $cacheFrontend = $this->getMock('Magento\Cache\FrontendInterface');
+        $cacheFrontend = $this->getMock('Magento\Framework\Cache\FrontendInterface');
         $this->_cachePool->expects(
             $this->once()
         )->method(

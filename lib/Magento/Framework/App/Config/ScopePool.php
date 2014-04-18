@@ -22,7 +22,7 @@ class ScopePool
     protected $_dataFactory;
 
     /**
-     * @var \Magento\Cache\FrontendInterface
+     * @var \Magento\Framework\Cache\FrontendInterface
      */
     protected $_cache;
 
@@ -44,14 +44,14 @@ class ScopePool
     /**
      * @param \Magento\Framework\App\Config\Scope\ReaderPoolInterface $readerPool
      * @param DataFactory $dataFactory
-     * @param \Magento\Cache\FrontendInterface $cache
+     * @param \Magento\Framework\Cache\FrontendInterface $cache
      * @param \Magento\Framework\App\ScopeResolverPool $scopeResolverPool
      * @param string $cacheId
      */
     public function __construct(
         \Magento\Framework\App\Config\Scope\ReaderPoolInterface $readerPool,
         DataFactory $dataFactory,
-        \Magento\Cache\FrontendInterface $cache,
+        \Magento\Framework\Cache\FrontendInterface $cache,
         \Magento\Framework\App\ScopeResolverPool $scopeResolverPool,
         $cacheId = 'default_config_cache'
     ) {

@@ -53,7 +53,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $zendCacheCore = new \Zend_Cache_Core();
         $zendCacheCore->setBackend(new \Zend_Cache_Backend_BlackHole());
 
-        $frontendCache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface', array(), '', false);
+        $frontendCache = $this->getMockForAbstractClass('Magento\Framework\Cache\FrontendInterface', array(), '', false);
         $frontendCache->expects($this->any())->method('getLowLevelFrontend')->will($this->returnValue($zendCacheCore));
         $cache = $this->getMock('Magento\Framework\App\CacheInterface');
         $cache->expects($this->any())->method('getFrontend')->will($this->returnValue($frontendCache));

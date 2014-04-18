@@ -26,13 +26,13 @@ class InstanceFactory
      * Get cache instance model
      *
      * @param string $instanceName
-     * @return \Magento\Cache\FrontendInterface
+     * @return \Magento\Framework\Cache\FrontendInterface
      * @throws \UnexpectedValueException
      */
     public function get($instanceName)
     {
         $instance = $this->_objectManager->get($instanceName);
-        if (!$instance instanceof \Magento\Cache\FrontendInterface) {
+        if (!$instance instanceof \Magento\Framework\Cache\FrontendInterface) {
             throw new \UnexpectedValueException("Cache type class '{$instanceName}' has to be a cache frontend.");
         }
 

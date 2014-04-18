@@ -99,7 +99,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     private $_appState;
 
     /**
-     * @var \Magento\Cache\FrontendInterface
+     * @var \Magento\Framework\Cache\FrontendInterface
      */
     protected $_cache;
 
@@ -126,7 +126,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
      * @param \Magento\Framework\View\Layout\File\SourceInterface $fileSource
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Cache\FrontendInterface $cache
+     * @param \Magento\Framework\Cache\FrontendInterface $cache
      * @param \Magento\Core\Model\Layout\Update\Validator $validator
      * @param \Magento\Logger $logger
      * @param \Magento\Framework\App\Filesystem $filesystem
@@ -138,7 +138,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         \Magento\Framework\View\Layout\File\SourceInterface $fileSource,
         \Magento\Core\Model\Resource\Layout\Update $resource,
         \Magento\Framework\App\State $appState,
-        \Magento\Cache\FrontendInterface $cache,
+        \Magento\Framework\Cache\FrontendInterface $cache,
         \Magento\Core\Model\Layout\Update\Validator $validator,
         \Magento\Logger $logger,
         \Magento\Framework\App\Filesystem $filesystem,

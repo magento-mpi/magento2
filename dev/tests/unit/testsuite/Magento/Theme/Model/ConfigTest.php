@@ -71,8 +71,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_configCacheMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
-        $this->_layoutCacheMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
+        $this->_configCacheMock = $this->getMockForAbstractClass('Magento\Framework\Cache\FrontendInterface');
+        $this->_layoutCacheMock = $this->getMockForAbstractClass('Magento\Framework\Cache\FrontendInterface');
 
         $this->_scopeConfigWriter = $this->getMock(
             'Magento\Framework\App\Config\Storage\WriterInterface',

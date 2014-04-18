@@ -20,9 +20,9 @@ class CacheFilesTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var \Magento\Cache\Config\Reader $reader */
+        /** @var \Magento\Framework\Cache\Config\Reader $reader */
         $reader = $objectManager->create(
-            'Magento\Cache\Config\Reader',
+            'Magento\Framework\Cache\Config\Reader',
             array('validationState' => $validationStateMock)
         );
         try {

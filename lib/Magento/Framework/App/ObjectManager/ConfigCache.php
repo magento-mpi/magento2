@@ -12,7 +12,7 @@ namespace Magento\Framework\App\ObjectManager;
 class ConfigCache implements \Magento\Framework\ObjectManager\ConfigCache
 {
     /**
-     * @var \Magento\Cache\FrontendInterface
+     * @var \Magento\Framework\Cache\FrontendInterface
      */
     protected $_cacheFrontend;
 
@@ -24,9 +24,9 @@ class ConfigCache implements \Magento\Framework\ObjectManager\ConfigCache
     protected $_prefix = 'diConfig';
 
     /**
-     * @param \Magento\Cache\FrontendInterface $cacheFrontend
+     * @param \Magento\Framework\Cache\FrontendInterface $cacheFrontend
      */
-    public function __construct(\Magento\Cache\FrontendInterface $cacheFrontend)
+    public function __construct(\Magento\Framework\Cache\FrontendInterface $cacheFrontend)
     {
         $this->_cacheFrontend = $cacheFrontend;
     }
