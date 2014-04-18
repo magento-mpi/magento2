@@ -73,8 +73,8 @@ app/code/Magento/ImportExport/Model/Export/ConfigInterface.php
 app/code/Magento/ImportExport/Model/Import/Config
 app/code/Magento/ImportExport/Model/Import/Config.php
 app/code/Magento/ImportExport/Model/Import/ConfigInterface.php
-app/code/Magento/ImportExport/Model/Resource/Customer/Storage.php
-app/code/Magento/ImportExport/Model/Resource/Import/CustomerComposite/Data.php
+app/code/Magento/Customer/Model/Resource/ImportExport/Import/Customer/Storage.php
+app/code/Magento/Customer/Model/Resource/ImportExport/Import/CustomerComposite/Data.php
 app/code/Magento/ImportExport/Controller/Adminhtml/Import.php
 app/code/Magento/Index/Model/Indexer/Config
 app/code/Magento/Index/Model/Indexer/Config.php
