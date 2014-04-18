@@ -59,7 +59,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $templateFactory = $this->getMock('Magento\Newsletter\Model\TemplateFactory');
         $data = array('template_text' => 'template text');
 
-        $filterManager = $this->getMock('\Magento\Filter\FilterManager', array(), array(), '', false);
+        $filterManager = $this->getMock('\Magento\Framework\Filter\FilterManager', array(), array(), '', false);
 
         /** @var \Magento\Newsletter\Model\Template $model */
         $model = $this->getMock(

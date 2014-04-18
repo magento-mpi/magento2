@@ -189,6 +189,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPageTemplateProcessor()
     {
-        $this->assertInstanceOf('Magento\Filter\Template', $this->_helper->getPageTemplateProcessor());
+        $this->assertInstanceOf('Magento\Framework\Filter\Template', $this->_helper->getPageTemplateProcessor());
     }
 }

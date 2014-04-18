@@ -257,7 +257,7 @@ class Attribute extends \Magento\Backend\App\Action
                 /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
                 $attributeSet = $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Set');
                 $name = $this->_objectManager->get(
-                    'Magento\Filter\FilterManager'
+                    'Magento\Framework\Filter\FilterManager'
                 )->stripTags(
                     $data['new_attribute_set_name']
                 );

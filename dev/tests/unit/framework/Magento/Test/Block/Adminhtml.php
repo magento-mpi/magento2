@@ -99,7 +99,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $authorizationMock          = $this->_makeMock('Magento\Framework\AuthorizationInterface');
         $cacheStateMock             = $this->_makeMock('Magento\Framework\App\Cache\StateInterface');
         $escaperMock                = $this->_makeMock('Magento\Escaper');
-        $filterManagerMock          = $this->_makeMock('Magento\Filter\FilterManager');
+        $filterManagerMock          = $this->_makeMock('Magento\Framework\Filter\FilterManager');
         $backendSessionMock         = $this->_makeMock('Magento\Backend\Model\Session');
         $appState                   = $this->_makeMock('Magento\Framework\App\State');
         $this->_mathMock            = $this->_makeMock('Magento\Math\Random');

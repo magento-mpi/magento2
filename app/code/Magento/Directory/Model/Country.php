@@ -147,7 +147,7 @@ T: {{telephone}}";
             }
         }
 
-        $filter = new \Magento\Filter\Template\Simple();
+        $filter = new \Magento\Framework\Filter\Template\Simple();
         $addressText = $filter->setData($address->getData())->filter($template);
 
         if ($html) {

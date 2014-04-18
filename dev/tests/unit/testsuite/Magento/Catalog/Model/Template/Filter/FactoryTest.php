@@ -32,7 +32,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $className = 'Magento\Filter\Template';
+        $className = 'Magento\Framework\Filter\Template';
 
         $filterMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects(
@@ -51,7 +51,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateWithArguments()
     {
-        $className = 'Magento\Filter\Template';
+        $className = 'Magento\Framework\Filter\Template';
         $arguments = array('foo', 'bar');
 
         $filterMock = $this->getMock($className, array(), array(), '', false);
@@ -71,7 +71,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Model\Exception
-     * @expectedExceptionMessage WrongClass doesn't extends \Magento\Filter\Template
+     * @expectedExceptionMessage WrongClass doesn't extends \Magento\Framework\Filter\Template
      */
     public function testWrongTypeException()
     {

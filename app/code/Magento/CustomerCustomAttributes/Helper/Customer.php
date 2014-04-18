@@ -35,7 +35,7 @@ class Customer extends \Magento\CustomAttributeManagement\Helper\Data
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Framework\Filter\FilterManager $filterManager
      * @param Data $dataHelper
      * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator $inputValidator
      */
@@ -43,7 +43,7 @@ class Customer extends \Magento\CustomAttributeManagement\Helper\Data
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Filter\FilterManager $filterManager,
+        \Magento\Framework\Filter\FilterManager $filterManager,
         Data $dataHelper,
         \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator $inputValidator
     ) {

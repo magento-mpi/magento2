@@ -51,7 +51,7 @@ class FilterProvider
 
     /**
      * @param string $instanceName
-     * @return \Magento\Filter\Template
+     * @return \Magento\Framework\Filter\Template
      * @throws \Exception
      */
     protected function _getFilterInstance($instanceName)
@@ -59,7 +59,7 @@ class FilterProvider
         if (!isset($this->_instanceList[$instanceName])) {
             $instance = $this->_objectManager->get($instanceName);
 
-            if (!$instance instanceof \Magento\Filter\Template) {
+            if (!$instance instanceof \Magento\Framework\Filter\Template) {
                 throw new \Exception('Template filter ' . $instanceName . ' does not implement required interface');
             }
             $this->_instanceList[$instanceName] = $instance;
@@ -69,7 +69,7 @@ class FilterProvider
     }
 
     /**
-     * @return \Magento\Filter\Template
+     * @return \Magento\Framework\Filter\Template
      */
     public function getBlockFilter()
     {
@@ -77,7 +77,7 @@ class FilterProvider
     }
 
     /**
-     * @return \Magento\Filter\Template
+     * @return \Magento\Framework\Filter\Template
      */
     public function getPageFilter()
     {

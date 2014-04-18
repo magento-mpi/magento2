@@ -35,7 +35,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_localeDate;
 
     /**
-     * @var \Magento\Filter\FilterManager
+     * @var \Magento\Framework\Filter\FilterManager
      */
     protected $filterManager;
 
@@ -43,13 +43,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Framework\Filter\FilterManager $filterManager
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Filter\FilterManager $filterManager
+        \Magento\Framework\Filter\FilterManager $filterManager
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_localeDate = $localeDate;

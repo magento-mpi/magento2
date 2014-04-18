@@ -118,8 +118,8 @@ class Set extends \Magento\Backend\App\Action
             $entityTypeId
         );
 
-        /** @var $filterManager \Magento\Filter\FilterManager */
-        $filterManager = $this->_objectManager->get('Magento\Filter\FilterManager');
+        /** @var $filterManager \Magento\Framework\Filter\FilterManager */
+        $filterManager = $this->_objectManager->get('Magento\Framework\Filter\FilterManager');
 
         try {
             if ($isNewSet) {
