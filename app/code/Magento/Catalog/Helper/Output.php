@@ -11,7 +11,7 @@ namespace Magento\Catalog\Helper;
 
 use Magento\Catalog\Model\Category as ModelCategory;
 use Magento\Catalog\Model\Product as ModelProduct;
-use Magento\Filter\Template;
+use Magento\Framework\Filter\Template;
 
 class Output extends \Magento\Framework\App\Helper\AbstractHelper
 {

@@ -14,7 +14,7 @@ namespace Magento\Email\Model\Template;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Filter extends \Magento\Filter\Template
+class Filter extends \Magento\Framework\Filter\Template
 {
     /**
      * Use absolute links flag
@@ -329,7 +329,7 @@ class Filter extends \Magento\Filter\Template
      */
     protected function _getBlockParameters($value)
     {
-        $tokenizer = new \Magento\Filter\Template\Tokenizer\Parameter();
+        $tokenizer = new \Magento\Framework\Filter\Template\Tokenizer\Parameter();
         $tokenizer->setString($value);
 
         return $tokenizer->tokenize();

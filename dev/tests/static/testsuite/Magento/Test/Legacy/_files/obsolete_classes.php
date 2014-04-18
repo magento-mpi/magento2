@@ -2000,8 +2000,8 @@ return array(
     array('Magento\Core\Model\AbstractShell', 'Magento\Framework\App\AbstractShell'),
     array('Magento\Core\Model\Calculator', 'Magento\Math\Calculator'),
     array('Magento\Core\Model\Log\Adapter', 'Magento\Framework\Logger\Adapter'),
-    array('Magento\Core\Model\Input\Filter', 'Magento\Filter\Input'),
-    array('Magento\Core\Model\Input\Filter\MaliciousCode', 'Magento\Filter\Input\MaliciousCode'),
+    array('Magento\Core\Model\Input\Filter', 'Magento\Framework\Filter\Input'),
+    array('Magento\Core\Model\Input\Filter\MaliciousCode', 'Magento\Framework\Filter\Input\MaliciousCode'),
     array('Magento\Core\Model\Option\ArrayInterface', 'Magento\Option\ArrayInterface'),
     array('Magento\Core\Model\Option\ArrayPool', 'Magento\Option\ArrayPool'),
     array('Magento\Core\Helper\String', 'Magento\Framework\Code\NameBuilder'),
@@ -2114,7 +2114,7 @@ return array(
         'Magento\Usa\Model\Shipping\Carrier\AbstractCarrier\Source\Requesttype',
         'Magento\Shipping\Model\Config\Source\Online\Requesttype'
     ),
-    array('Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'),
+    array('Magento\Catalog\Helper\Product\Url', 'Magento\Framework\Filter\Translit'),
     array('Magento\Catalog\Model\Product\Indexer\Price'),
     array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
     ['Magento\PubSub'], // unused library code which was removed

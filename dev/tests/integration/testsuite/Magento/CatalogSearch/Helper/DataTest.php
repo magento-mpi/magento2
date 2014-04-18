@@ -61,7 +61,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface'),
                 $objectManager->get('Magento\CatalogSearch\Model\QueryFactory'),
                 $objectManager->get('Magento\Escaper'),
-                $objectManager->get('Magento\Filter\FilterManager')
+                $objectManager->get('Magento\Framework\Filter\FilterManager')
             )
         );
         $catalogSearchHelper->expects(

@@ -77,7 +77,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $this->_contextMock,
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMockForAbstractClass('Magento\Framework\Stdlib\DateTime\TimezoneInterface'),
-            $this->getMock('Magento\Filter\FilterManager', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Filter\FilterManager', array(), array(), '', false),
             $this->_dataHelperMock,
             $this->_inputValidatorMock
         );
@@ -102,7 +102,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $this->_contextMock,
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMockForAbstractClass('Magento\Framework\Stdlib\DateTime\TimezoneInterface'),
-            $this->getMock('Magento\Filter\FilterManager', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Filter\FilterManager', array(), array(), '', false),
             $this->_dataHelperMock,
             $this->_inputValidatorMock
         );

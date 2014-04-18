@@ -117,7 +117,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Filter manager
      *
-     * @var \Magento\Filter\FilterManager
+     * @var \Magento\Framework\Filter\FilterManager
      */
     protected $_filterManager;
 
@@ -153,7 +153,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
-     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Framework\Filter\FilterManager $filterManager
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
      * @param \Magento\Shipping\Helper\Carrier $carrierHelper
@@ -171,7 +171,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
-        \Magento\Filter\FilterManager $filterManager,
+        \Magento\Framework\Filter\FilterManager $filterManager,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Sales\Model\Order\Admin\Item $adminOrderItem,
         \Magento\Shipping\Helper\Carrier $carrierHelper

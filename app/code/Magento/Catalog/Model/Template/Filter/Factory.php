@@ -35,15 +35,15 @@ class Factory
      *
      * @param string $className
      * @param array $data
-     * @return \Magento\Filter\Template
+     * @return \Magento\Framework\Filter\Template
      * @throws \Magento\Framework\Model\Exception
      */
     public function create($className, array $data = array())
     {
         $filter = $this->_objectManager->create($className, $data);
 
-        if (!$filter instanceof \Magento\Filter\Template) {
-            throw new \Magento\Framework\Model\Exception($className . ' doesn\'t extends \Magento\Filter\Template');
+        if (!$filter instanceof \Magento\Framework\Filter\Template) {
+            throw new \Magento\Framework\Model\Exception($className . ' doesn\'t extends \Magento\Framework\Filter\Template');
         }
         return $filter;
     }

@@ -118,8 +118,8 @@ class Status extends \Magento\Backend\App\Action
             $statusCode = $this->getRequest()->getParam('status');
 
             //filter tags in labels/status
-            /** @var $filterManager \Magento\Filter\FilterManager */
-            $filterManager = $this->_objectManager->get('Magento\Filter\FilterManager');
+            /** @var $filterManager \Magento\Framework\Filter\FilterManager */
+            $filterManager = $this->_objectManager->get('Magento\Framework\Filter\FilterManager');
             if ($isNew) {
                 $statusCode = $data['status'] = $filterManager->stripTags($data['status']);
             }

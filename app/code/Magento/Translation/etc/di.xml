@@ -25,7 +25,7 @@
     </type>
     <type name="Magento\Translation\Model\Inline\Parser">
         <arguments>
-            <argument name="inputFilter" xsi:type="object">Magento\Filter\Input\MaliciousCode</argument>
+            <argument name="inputFilter" xsi:type="object">Magento\Framework\Filter\Input\MaliciousCode</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Translate\Inline\Provider">

@@ -134,7 +134,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Filter manager
      *
-     * @var \Magento\Filter\FilterManager
+     * @var \Magento\Framework\Filter\FilterManager
      */
     protected $filterManager;
 

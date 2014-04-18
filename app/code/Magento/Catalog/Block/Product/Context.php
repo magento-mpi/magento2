@@ -80,7 +80,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
      * @param \Magento\Framework\App\Cache\StateInterface $cacheState
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Framework\Filter\FilterManager $filterManager
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Framework\App\Filesystem $filesystem
@@ -118,7 +118,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
         \Magento\Framework\App\Cache\StateInterface $cacheState,
         \Magento\Framework\Logger $logger,
         \Magento\Escaper $escaper,
-        \Magento\Filter\FilterManager $filterManager,
+        \Magento\Framework\Filter\FilterManager $filterManager,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\App\Filesystem $filesystem,
