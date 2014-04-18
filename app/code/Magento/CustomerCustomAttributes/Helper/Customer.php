@@ -32,7 +32,7 @@ class Customer extends \Magento\CustomAttributeManagement\Helper\Data
     protected $_inputValidator;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Filter\FilterManager $filterManager
@@ -40,7 +40,7 @@ class Customer extends \Magento\CustomAttributeManagement\Helper\Data
      * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator $inputValidator
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Filter\FilterManager $filterManager,

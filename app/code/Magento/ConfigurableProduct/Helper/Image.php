@@ -47,7 +47,7 @@ class Image
 
         foreach ($allowedProducts as $product) {
             $productId = $product->getId();
-            $this->imageHelper->init($product, 'image');
+            $image = (string)$this->imageHelper->init($product, 'image');
 
             foreach ($this->getAllowAttributes($currentProduct) as $attribute) {
                 $productAttribute = $attribute->getProductAttribute();
@@ -65,7 +65,7 @@ class Image
                 if (!$product->getImage() || $product->getImage() === 'no_selection') {
                     $options['images'][$productAttributeId][$attributeValue][$productId] = $baseImageUrl;
                 } else {
-                    $options['images'][$productAttributeId][$attributeValue][$productId] = (string)$this->imageHelper;
+                    $options['images'][$productAttributeId][$attributeValue][$productId] = $image;
                 }
             }
         }

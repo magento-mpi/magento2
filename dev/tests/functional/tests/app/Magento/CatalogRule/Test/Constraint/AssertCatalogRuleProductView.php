@@ -8,8 +8,10 @@
 
 namespace Magento\CatalogRule\Test\Constraint;
 
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
+use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
@@ -27,16 +29,25 @@ class AssertCatalogRuleProductView extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogProductView $catalogProductView
+     * @param CmsIndex $cmsIndex
      * @param CatalogRule $catalogRule
      */
     public function processAssert(
+        CatalogCategoryView $catalogCategoryView,
         CatalogProductView $catalogProductView,
+        CmsIndex $cmsIndex,
         CatalogRule $catalogRule
     ) {
         /** @var CatalogProductSimple $product */
         $product = $catalogRule->getDataFieldConfig('condition_value')['fixture']->getProduct();
+        /** @var Category $category */
+        $category = $product->getDataFieldConfig('category_ids')['fixture']->getCategory();
+        $cmsIndex->open();
+        $cmsIndex->getTopmenu()->selectCategoryByName($category->getCategoryName());
         //Open product view page
+        $catalogCategoryView->getListProductBlock()->openProductViewPage($product->getName());
         $catalogProductView->init($product);
 
         //Process assertions

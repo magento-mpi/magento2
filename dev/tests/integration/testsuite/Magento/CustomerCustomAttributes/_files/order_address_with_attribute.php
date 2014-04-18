@@ -16,7 +16,7 @@
 
 /** @var $connection \Magento\TestFramework\Db\Adapter\TransactionInterface */
 $connection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\App\Resource'
+    'Magento\Framework\App\Resource'
 )->getConnection(
     'core_write'
 );

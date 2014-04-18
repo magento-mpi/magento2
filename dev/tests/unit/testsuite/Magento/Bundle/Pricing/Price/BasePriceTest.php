@@ -54,7 +54,7 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Bundle\Pricing\Price\BasePrice::applyDiscount
+     * @covers \Magento\Bundle\Pricing\Price\BasePrice::calculateBaseValue
      * @covers \Magento\Bundle\Pricing\Price\BasePrice::getValue
      */
     public function testGetValue()
@@ -67,7 +67,7 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
 
         $pricesIncludedInBase = [];
         foreach ($priceValues as $priceValue) {
-            $price = $this->getMock('Magento\Pricing\Price\PriceInterface');
+            $price = $this->getMock('Magento\Catalog\Pricing\Price\RegularPrice', [], [], '', false);
             $price->expects($this->atLeastOnce())
                 ->method('getValue')
                 ->will($this->returnValue($priceValue));
@@ -75,7 +75,7 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->priceInfo->expects($this->once())
-            ->method('getPricesIncludedInBase')
+            ->method('getPrices')
             ->will($this->returnValue($pricesIncludedInBase));
 
         $tearPrice = $this->getMock('Magento\Pricing\Price\PriceInterface');

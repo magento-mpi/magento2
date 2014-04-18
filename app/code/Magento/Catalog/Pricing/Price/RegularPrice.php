@@ -8,10 +8,11 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
+use Magento\Pricing\Price\BasePriceProviderInterface;
 /**
  * Class RegularPrice
  */
-class RegularPrice extends AbstractPrice
+class RegularPrice extends AbstractPrice implements BasePriceProviderInterface
 {
     /**
      * Price type

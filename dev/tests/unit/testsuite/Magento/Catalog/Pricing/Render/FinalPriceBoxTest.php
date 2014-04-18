@@ -60,15 +60,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->product = $this->getMockForAbstractClass(
-            'Magento\Pricing\Object\SaleableInterface',
-            [],
-            '',
-            true,
-            true,
-            true,
-            ['getPriceInfo', '__wakeup']
-        );
+        $this->product = $this->getMock('Magento\Catalog\Model\Product', ['getPriceInfo', '__wakeup'], [], '', false);
 
         $this->priceType = $this->getMockBuilder('Magento\Catalog\Pricing\Price\MsrpPrice')
             ->disableOriginalConstructor()
@@ -96,7 +88,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             ->method('getBlock')
             ->will($this->returnValue($this->priceBox));
 
-        $scopeConfigMock = $this->getMockForAbstractClass('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfigMock = $this->getMockForAbstractClass('Magento\Framework\App\Config\ScopeConfigInterface');
         $context = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
         $context->expects($this->any())
             ->method('getEventManager')

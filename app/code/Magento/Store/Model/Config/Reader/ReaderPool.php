@@ -7,7 +7,7 @@
  */
 namespace Magento\Store\Model\Config\Reader;
 
-class ReaderPool implements \Magento\App\Config\Scope\ReaderPoolInterface
+class ReaderPool implements \Magento\Framework\App\Config\Scope\ReaderPoolInterface
 {
     /**
      * List of readers
@@ -17,7 +17,7 @@ class ReaderPool implements \Magento\App\Config\Scope\ReaderPoolInterface
     protected $_readers = array();
 
     /**
-     * @param \Magento\App\Config\Scope\ReaderInterface[] $readers
+     * @param \Magento\Framework\App\Config\Scope\ReaderInterface[] $readers
      */
     public function __construct(
         array $readers

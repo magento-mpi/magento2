@@ -301,7 +301,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
     {
         $this->_objectManager->get('Magento\Translate\Inline\StateInterface')->suspend();
         $this->_objectManager->get(
-            'Magento\App\State'
+            'Magento\Framework\App\State'
         )->emulateAreaCode(
             'frontend',
             array($this, 'previewFrontendPage')

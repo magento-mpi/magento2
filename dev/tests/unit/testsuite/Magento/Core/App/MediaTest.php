@@ -60,7 +60,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     protected $_responseMock;
 
     /**
-     * @var \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $filesystemMock;
 
@@ -76,18 +76,18 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             return true;
         };
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_appState = $this->getMock('Magento\App\State', array(), array(), '', false);
+        $this->_appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $this->_configMock = $this->getMock('Magento\Core\Model\File\Storage\Config', array(), array(), '', false);
         $this->_sync = $this->getMock('Magento\Core\Model\File\Storage\Synchronization', array(), array(), '', false);
         $this->_dirVerificationMock = $this->getMock(
-            'Magento\App\Filesystem\DirectoryList\Verification',
+            'Magento\Framework\App\Filesystem\DirectoryList\Verification',
             array(),
             array(),
             '',
             false
         );
 
-        $this->filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
+        $this->filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->directoryReadMock = $this->getMock('Magento\Filesystem\Directory\Read', array(), array(), '', false);
 
         $this->filesystemMock->expects(
@@ -95,7 +95,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-            \Magento\App\Filesystem::MEDIA_DIR
+            \Magento\Framework\App\Filesystem::MEDIA_DIR
         )->will(
             $this->returnValue($this->directoryReadMock)
         );
@@ -103,8 +103,8 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->_responseMock = $this->getMock('Magento\Core\Model\File\Storage\Response', array(), array(), '', false);
 
         $map = array(
-            array('Magento\App\Filesystem\DirectoryList\Verification', $this->_dirVerificationMock),
-            array('Magento\App\State', $this->_appState),
+            array('Magento\Framework\App\Filesystem\DirectoryList\Verification', $this->_dirVerificationMock),
+            array('Magento\Framework\App\State', $this->_appState),
             array('Magento\Core\Model\File\Storage\Request', $this->_requestMock),
             array('Magento\Core\Model\File\Storage\Synchronization', $this->_sync)
         );

@@ -52,20 +52,20 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected $_outputHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context  $context
-     * @param \Magento\App\Http\Context               $httpContext
-     * @param \Magento\Catalog\Helper\Data            $catalogData
+     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
-     * @param \Magento\Catalog\Model\ProductFactory   $productFactory
-     * @param \Magento\Rss\Model\RssFactory           $rssFactory
-     * @param \Magento\Model\Resource\Iterator        $resourceIterator
-     * @param \Magento\Catalog\Helper\Image           $imageHelper
-     * @param \Magento\Catalog\Helper\Output          $outputHelper
-     * @param array                                   $data
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Rss\Model\RssFactory $rssFactory
+     * @param \Magento\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Catalog\Helper\Output $outputHelper
+     * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\ProductFactory $productFactory,

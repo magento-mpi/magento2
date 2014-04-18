@@ -29,7 +29,7 @@ class Index extends \Magento\Backend\App\Action
     protected $_backupFactory;
 
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
@@ -42,14 +42,14 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Backup\Factory $backupFactory
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Backup\Model\BackupFactory $backupModelFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
         \Magento\Backup\Factory $backupFactory,
-        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
         \Magento\Backup\Model\BackupFactory $backupModelFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -159,7 +159,7 @@ class Index extends \Magento\Backend\App\Action
 
             if ($type != \Magento\Backup\Factory::TYPE_DB) {
                 $backupManager->setRootDir(
-                    $this->_objectManager->get('Magento\App\Filesystem')->getPath()
+                    $this->_objectManager->get('Magento\Framework\App\Filesystem')->getPath()
                 )->addIgnorePaths(
                     $helper->getBackupIgnorePaths()
                 );
@@ -216,7 +216,7 @@ class Index extends \Magento\Backend\App\Action
         $response = $this->_fileFactory->create(
             $fileName,
             null,
-            \Magento\App\Filesystem::VAR_DIR,
+            \Magento\Framework\App\Filesystem::VAR_DIR,
             'application/octet-stream',
             $backup->getSize()
         );
@@ -316,7 +316,7 @@ class Index extends \Magento\Backend\App\Action
             if ($type != \Magento\Backup\Factory::TYPE_DB) {
 
                 $backupManager->setRootDir(
-                    $this->_objectManager->get('Magento\App\Filesystem')->getPath()
+                    $this->_objectManager->get('Magento\Framework\App\Filesystem')->getPath()
                 )->addIgnorePaths(
                     $helper->getRollbackIgnorePaths()
                 );

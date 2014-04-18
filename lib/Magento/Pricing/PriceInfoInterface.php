@@ -30,10 +30,9 @@ interface PriceInfoInterface
 
     /**
      * @param string $priceCode
-     * @param float|null $quantity
      * @return PriceInterface
      */
-    public function getPrice($priceCode, $quantity = null);
+    public function getPrice($priceCode);
 
     /**
      * @return AdjustmentInterface[]
@@ -46,8 +45,4 @@ interface PriceInfoInterface
      */
     public function getAdjustment($adjustmentCode);
 
-    /**
-     * @return PriceInterface[]
-     */
-    public function getPricesIncludedInBase();
 }

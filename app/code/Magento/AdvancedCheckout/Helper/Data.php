@@ -18,7 +18,7 @@ use Magento\Sales\Model\Quote\Item;
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Items for requiring attention grid (doesn't include sku-failed items)
@@ -125,7 +125,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -198,7 +198,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $messageManager;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products
      * @param \Magento\Catalog\Model\Config $catalogConfig
@@ -208,7 +208,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Checkout\Helper\Cart $checkoutCart
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\AdvancedCheckout\Model\ImportFactory $importFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -217,7 +217,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\AdvancedCheckout\Model\Cart $cart,
         \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products,
         \Magento\Catalog\Model\Config $catalogConfig,
@@ -227,7 +227,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Checkout\Helper\Cart $checkoutCart,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\AdvancedCheckout\Model\ImportFactory $importFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -535,10 +535,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check whether SKU file was uploaded
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return bool
      */
-    public function isSkuFileUploaded(\Magento\App\RequestInterface $request)
+    public function isSkuFileUploaded(\Magento\Framework\App\RequestInterface $request)
     {
         return (bool)$request->getPost(self::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG);
     }

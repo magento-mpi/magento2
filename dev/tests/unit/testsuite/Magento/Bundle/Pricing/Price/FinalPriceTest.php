@@ -56,11 +56,12 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->priceInfoMock = $this->getMock('\Magento\Pricing\PriceInfoInterface');
+        $this->priceInfoMock = $this->getMock('\Magento\Pricing\PriceInfo\Base', [], [], '', false);
+
         $this->priceInfoMock->expects($this->atLeastOnce())
             ->method('getPrice')
             ->will($this->returnValueMap([
-                [\Magento\Catalog\Pricing\Price\BasePrice::PRICE_CODE, null, $this->basePriceMock],
+                [\Magento\Catalog\Pricing\Price\BasePrice::PRICE_CODE, $this->basePriceMock],
                 [BundleOptionPrice::PRICE_CODE, $this->quantity, $this->bundleOptionMock]
             ]));
 
@@ -68,15 +69,24 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfoMock));
 
+//
+//        Product $saleableItem,
+//        $quantity,
+//        CalculatorInterface $calculator
         $this->objectManagerHelper = new ObjectManagerHelper($this);
-        $this->finalPrice = $this->objectManagerHelper->getObject(
-            'Magento\Bundle\Pricing\Price\FinalPrice',
-            [
-                'saleableItem' => $this->saleableInterfaceMock,
-                'quantity' => $this->quantity,
-                'calculator' => $this->bundleCalculatorMock
-            ]
+        $this->finalPrice = new \Magento\Bundle\Pricing\Price\FinalPrice(
+            $this->saleableInterfaceMock,
+            $this->quantity,
+            $this->bundleCalculatorMock
         );
+//        = $this->objectManagerHelper->getObject(
+//            'Magento\Bundle\Pricing\Price\FinalPrice',
+//            [
+//                'saleableItem' => $this->saleableInterfaceMock,
+//                'quantity' => $this->quantity,
+//                'calculator' => $this->bundleCalculatorMock
+//            ]
+//        );
     }
 
     /**
@@ -91,7 +101,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->will($this->returnValue($optionsValue));
 
-        $this->basePriceMock->expects($this->once())->method('applyDiscount')
+        $this->basePriceMock->expects($this->once())->method('calculateBaseValue')
             ->with($this->equalTo($optionsValue))
             ->will($this->returnValue($discountValue));
 

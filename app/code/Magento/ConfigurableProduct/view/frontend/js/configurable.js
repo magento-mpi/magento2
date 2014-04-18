@@ -222,7 +222,7 @@
                 });
             });
 
-            if (galleryElement.length && galleryElement.data('gallery')) {
+            if (galleryElement.length) {
                 if (result.length === 1) {
                     this.initialGalleryImages = this.initialGalleryImages || galleryElement.gallery('option', 'images');
                     galleryElement.gallery('option', 'images', result);

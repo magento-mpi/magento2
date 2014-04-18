@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Controller\Adminhtml\System;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 
 /**
  * System Configuration controller
@@ -17,7 +17,7 @@ use Magento\App\ResponseInterface;
 class Config extends AbstractConfig
 {
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
@@ -29,13 +29,13 @@ class Config extends AbstractConfig
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
-        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
@@ -56,7 +56,7 @@ class Config extends AbstractConfig
     /**
      * Edit configuration section
      *
-     * @return \Magento\App\ResponseInterface|void
+     * @return \Magento\Framework\App\ResponseInterface|void
      */
     public function editAction()
     {

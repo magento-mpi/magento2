@@ -81,7 +81,13 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'banner_id',
-            array('header' => __('ID'), 'width' => 1, 'type' => 'number', 'index' => 'banner_id')
+            array(
+                'header' => __('ID'),
+                'type' => 'number',
+                'index' => 'banner_id',
+                'header_css_class' => 'col-id',
+                'column_css_class' => 'col-id'
+            )
         );
 
         $this->addColumn(
@@ -96,7 +102,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'type' => 'options',
                 'options' => $this->_bannerConfig->toOptionArray(true, false),
                 'index' => 'types',
-                'width' => 250,
                 'filter' => false // TODO implement
             )
         );
@@ -112,8 +117,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                     'type' => 'store',
                     'index' => 'stores',
                     'sortable' => false,
-                    'store_view' => true,
-                    'width' => 200
+                    'store_view' => true
                 )
             );
         }

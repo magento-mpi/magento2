@@ -46,7 +46,7 @@ class Config
     /**
      * App state model
      *
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_appState;
 
@@ -68,24 +68,24 @@ class Config
      * @param \Magento\Config\DomFactory $domFactory
      * @param \Magento\Module\Dir\Reader $moduleReader
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Persistent\Model\Factory $persistentFactory
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Config\DomFactory $domFactory,
         \Magento\Module\Dir\Reader $moduleReader,
         \Magento\View\LayoutInterface $layout,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\State $appState,
         \Magento\Persistent\Model\Factory $persistentFactory,
-        \Magento\App\Filesystem $filesystem
+        \Magento\Framework\App\Filesystem $filesystem
     ) {
         $this->_domFactory = $domFactory;
         $this->_moduleReader = $moduleReader;
         $this->_layout = $layout;
         $this->_appState = $appState;
         $this->_persistentFactory = $persistentFactory;
-        $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
+        $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
     }
 
     /**
@@ -233,7 +233,7 @@ class Config
 
         if (method_exists($object, $method)) {
             $object->{$method}($instance);
-        } elseif ($this->_appState->getMode() == \Magento\App\State::MODE_DEVELOPER) {
+        } elseif ($this->_appState->getMode() == \Magento\Framework\App\State::MODE_DEVELOPER) {
             throw new \Magento\Model\Exception(
                 'Method "' . $method . '" is not defined in "' . get_class($object) . '"'
             );

@@ -35,4 +35,9 @@ interface SaleableInterface
      * @return int
      */
     public function getId();
+
+    /**
+     * @return float
+     */
+    public function getQty();
 }

@@ -14,17 +14,17 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function testRead()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\App\Filesystem $filesystem */
+        /** @var \Magento\Framework\App\Filesystem $filesystem */
         $filesystem = $objectManager->create(
-            'Magento\App\Filesystem',
+            'Magento\Framework\App\Filesystem',
             array(
                 'directoryList' => $objectManager->create(
-                    'Magento\App\Filesystem\DirectoryList',
+                    'Magento\Framework\App\Filesystem\DirectoryList',
                     array(
                         'root' => BP,
                         'directories' => array(
-                            \Magento\App\Filesystem::MODULES_DIR => array('path' => __DIR__ . '/_files'),
-                            \Magento\App\Filesystem::CONFIG_DIR => array('path' => __DIR__ . '/_files')
+                            \Magento\Framework\App\Filesystem::MODULES_DIR => array('path' => __DIR__ . '/_files'),
+                            \Magento\Framework\App\Filesystem::CONFIG_DIR => array('path' => __DIR__ . '/_files')
                         )
                     )
                 )
@@ -39,9 +39,9 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             array('moduleDirs' => $moduleDirs, 'filesystem' => $filesystem)
         );
 
-        /** @var \Magento\App\Config\FileResolver $fileResolver */
+        /** @var \Magento\Framework\App\Config\FileResolver $fileResolver */
         $fileResolver = $objectManager->create(
-            'Magento\App\Config\FileResolver',
+            'Magento\Framework\App\Config\FileResolver',
             array('moduleReader' => $moduleReader)
         );
 

@@ -14,13 +14,6 @@ namespace Magento\Config;
 class FileIterator implements \Iterator, \Countable
 {
     /**
-     * Cache
-     *
-     * @var array
-     */
-    protected $cached = array();
-
-    /**
      * Paths
      *
      * @var array
@@ -71,10 +64,7 @@ class FileIterator implements \Iterator, \Countable
      */
     public function current()
     {
-        if (!isset($this->cached[$this->key()])) {
-            $this->cached[$this->key()] = $this->directoryRead->readFile($this->key());
-        }
-        return $this->cached[$this->key()];
+        return $this->directoryRead->readFile($this->key());
     }
 
     /**
@@ -104,7 +94,7 @@ class FileIterator implements \Iterator, \Countable
      */
     public function valid()
     {
-        return (bool)$this->key();
+        return (bool) $this->key();
     }
 
     /**

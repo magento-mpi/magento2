@@ -8,8 +8,10 @@
 
 namespace Magento\CatalogRule\Test\Constraint;
 
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
+use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
@@ -29,18 +31,28 @@ class AssertCatalogRuleProductInCart extends AbstractConstraint
 
     /**
      * @param CatalogProductView $catalogProductView
+     * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogRule $catalogRule
+     * @param CmsIndex $cmsIndex
      * @param CheckoutCart $checkoutCart
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
+        CatalogCategoryView $catalogCategoryView,
         CatalogRule $catalogRule,
+        CmsIndex $cmsIndex,
         CheckoutCart $checkoutCart
     ) {
         /** @var CatalogProductSimple $product */
         $product = $catalogRule->getDataFieldConfig('condition_value')['fixture']->getProduct();
         //Add product to cart
+        $category = $product->getDataFieldConfig('category_ids')['fixture']->getCategory();
+        $cmsIndex->open();
+        $cmsIndex->getTopmenu()->selectCategoryByName($category->getCategoryName());
+        //Open product view page
+        $catalogCategoryView->getListProductBlock()->openProductViewPage($product->getName());
         $catalogProductView->init($product);
+
         $productOptions = $product->getCustomOptions();
         if ($productOptions) {
             $customOption = $catalogProductView->getOptionsBlock();

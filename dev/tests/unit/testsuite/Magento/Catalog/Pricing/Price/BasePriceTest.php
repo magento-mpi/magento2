@@ -83,15 +83,15 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
     {
         $specialPriceValue = 77;
         $this->priceInfoMock->expects($this->once())
-            ->method('getPricesIncludedInBase')
+            ->method('getPrices')
             ->will($this->returnValue($this->prices));
-        $this->regularPriceMock->expects($this->exactly(2))
+        $this->regularPriceMock->expects($this->exactly(3))
             ->method('getValue')
             ->will($this->returnValue(100));
-        $this->groupPriceMock->expects($this->once())
+        $this->groupPriceMock->expects($this->exactly(2))
             ->method('getValue')
             ->will($this->returnValue(99));
-        $this->specialPriceMock->expects($this->once())
+        $this->specialPriceMock->expects($this->exactly(2))
             ->method('getValue')
             ->will($this->returnValue($specialPriceValue));
         $this->assertSame($specialPriceValue, $this->basePrice->getValue());

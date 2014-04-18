@@ -216,7 +216,7 @@ class Field extends \Magento\Backend\Model\Config\Structure\AbstractElement
     /**
      * Retrieve backend model
      *
-     * @return \Magento\App\Config\ValueInterface
+     * @return \Magento\Framework\App\Config\ValueInterface
      */
     public function getBackendModel()
     {

@@ -83,7 +83,7 @@ class Email extends \Magento\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -108,20 +108,14 @@ class Email extends \Magento\Model\AbstractModel
     protected $_transportBuilder;
 
     /**
-     * @var \Magento\App\State
-     */
-    protected $appState;
-
-    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\ProductAlert\Helper\Data $productAlertData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\App\State $appState
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -130,12 +124,11 @@ class Email extends \Magento\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\ProductAlert\Helper\Data $productAlertData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\App\State $appState,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -146,7 +139,6 @@ class Email extends \Magento\Model\AbstractModel
         $this->_customerFactory = $customerFactory;
         $this->_appEmulation = $appEmulation;
         $this->_transportBuilder = $transportBuilder;
-        $this->appState = $appState;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -356,8 +348,9 @@ class Email extends \Magento\Model\AbstractModel
             );
         }
 
-        $alertGrid = $this->appState->emulateAreaCode(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND, array($block, 'toHtml')
+        $alertGrid = $this->_appState->emulateAreaCode(
+            \Magento\Core\Model\App\Area::AREA_FRONTEND,
+            array($block, 'toHtml')
         );
         $this->_appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
 

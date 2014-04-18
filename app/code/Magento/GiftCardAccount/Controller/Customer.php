@@ -9,17 +9,17 @@
  */
 namespace Magento\GiftCardAccount\Controller;
 
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\RequestInterface;
 
-class Customer extends \Magento\App\Action\Action
+class Customer extends \Magento\Framework\App\Action\Action
 {
     /**
      * Only logged in users can use this functionality,
      * this function checks if user is logged in before all other actions
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {

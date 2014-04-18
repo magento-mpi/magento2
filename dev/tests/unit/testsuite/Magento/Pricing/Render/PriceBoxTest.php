@@ -56,7 +56,7 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
 
         $layout = $this->getMock('Magento\View\LayoutInterface');
         $eventManager = $this->getMock('Magento\Event\ManagerInterface');
-        $scopeConfigMock = $this->getMockForAbstractClass('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfigMock = $this->getMockForAbstractClass('Magento\Framework\App\Config\ScopeConfigInterface');
         $storeConfig = $this->getMockBuilder('Magento\Store\Model\Store\Config')
             ->disableOriginalConstructor()
             ->getMock();

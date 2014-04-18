@@ -245,7 +245,7 @@ class ListProduct extends AbstractProduct implements IdentityInterface
     }
 
     /**
-     * @param array|string|integer|\Magento\App\Config\Element $code
+     * @param array|string|integer|\Magento\Framework\App\Config\Element $code
      * @return $this
      */
     public function addAttribute($code)
@@ -324,7 +324,7 @@ class ListProduct extends AbstractProduct implements IdentityInterface
         $url = $this->getAddToCartUrl($product);
         $data = [
             'product' => $product->getEntityId(),
-            \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->_postDataHelper->getEncodedUrl($url)
+            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->_postDataHelper->getEncodedUrl($url)
         ];
         return $this->_postDataHelper->getPostData($url, $data);
     }

@@ -33,8 +33,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\App\State')->setAreaCode('frontend');
-        $objectManager->get('Magento\App\Http\Context')
+        $objectManager->get('Magento\Framework\App\State')->setAreaCode('frontend');
+        $objectManager->get('Magento\Framework\App\Http\Context')
             ->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
         $objectManager->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme();
@@ -49,7 +49,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             )
         );
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\App\Action\Context',
+            'Magento\Framework\App\Action\Context',
             $arguments
         );
         $this->_controller = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

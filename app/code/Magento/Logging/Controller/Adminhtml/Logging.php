@@ -11,7 +11,7 @@
  */
 namespace Magento\Logging\Controller\Adminhtml;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Backend\App\Action;
 
 class Logging extends \Magento\Backend\App\Action
@@ -38,7 +38,7 @@ class Logging extends \Magento\Backend\App\Action
     protected $_archiveFactory;
 
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
@@ -49,14 +49,14 @@ class Logging extends \Magento\Backend\App\Action
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Logging\Model\EventFactory $eventFactory
      * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         Action\Context $context,
         \Magento\Registry $coreRegistry,
         \Magento\Logging\Model\EventFactory $eventFactory,
         \Magento\Logging\Model\ArchiveFactory $archiveFactory,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
@@ -127,7 +127,7 @@ class Logging extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getCsvFile($fileName),
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
 
@@ -145,7 +145,7 @@ class Logging extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
 
@@ -186,7 +186,7 @@ class Logging extends \Magento\Backend\App\Action
             return $this->_fileFactory->create(
                 $archive->getBaseName(),
                 $archive->getContents(),
-                \Magento\App\Filesystem::VAR_DIR,
+                \Magento\Framework\App\Filesystem::VAR_DIR,
                 $archive->getMimeType()
             );
         }

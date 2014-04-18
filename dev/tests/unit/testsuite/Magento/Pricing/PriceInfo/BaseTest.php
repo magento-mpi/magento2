@@ -49,7 +49,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->saleableItem = $this->getMock('Magento\Pricing\Object\SaleableInterface', [], [], '', false);
-        $this->prices = $this->getMock('Magento\Pricing\PriceComposite', [], [], '', false);
+        $this->prices = $this->getMock('Magento\Pricing\Price\Collection', [], [], '', false);
         $this->adjustmentCollection = $this->getMock('Magento\Pricing\Adjustment\Collection', [], [], '', false);
         $this->amountFactory = $this->getMock('Magento\Pricing\Amount\AmountFactory', [], [], '', false);
         $this->quantity = 3.;
@@ -63,38 +63,31 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Pricing\PriceInfo\Base::__construct
-     * @covers \Magento\Pricing\PriceInfo\Base::initPrices
-     * @covers \Magento\Pricing\PriceInfo\Base::getPrices
+     * test method getPrices()
      */
     public function testGetPrices()
     {
-        $this->prices->expects($this->once())
-            ->method('getPriceCodes')
-            ->will($this->returnValue(['test1', 'test2']));
-        $this->prices->expects($this->at(1))->method('createPriceObject')
-            ->with($this->saleableItem, 'test1', $this->quantity)->will($this->returnValue('1'));
-        $this->prices->expects($this->at(2))->method('createPriceObject')
-            ->with($this->saleableItem, 'test2', $this->quantity)->will($this->returnValue('2'));
-        $this->assertEquals(['test1' => '1', 'test2' => '2'], $this->model->getPrices());
+        $this->assertEquals($this->prices, $this->model->getPrices());
     }
 
     /**
-     * @covers \Magento\Pricing\PriceInfo\Base::__construct
-     * @covers \Magento\Pricing\PriceInfo\Base::getPrice
+     * @param $entryParams
+     * @param $createCount
      * @dataProvider providerGetPrice
      */
     public function testGetPrice($entryParams, $createCount)
     {
-        list($priceCode, $quantity) = array_values(reset($entryParams));
-        $this->prices->expects($this->exactly($createCount))->method('createPriceObject')
-            ->with($this->saleableItem, $priceCode, $quantity ? : $this->quantity)->will(
-                $this->returnValue('basePrice')
-            );
+        $priceCode= current(array_values(reset($entryParams)));
+
+        $this->prices
+            ->expects($this->exactly($createCount))
+            ->method('get')
+            ->with($this->equalTo($priceCode))
+            ->will($this->returnValue('basePrice'));
 
         foreach ($entryParams as $params) {
-            list($priceCode, $quantity) = array_values($params);
-            $this->assertEquals('basePrice', $this->model->getPrice($priceCode, $quantity));
+//            list($priceCode) = array_values($params);
+            $this->assertEquals('basePrice', $this->model->getPrice($priceCode));
         }
     }
 
@@ -108,20 +101,20 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         return [
             'case with empty quantity' => [
                 'entryParams' => [
-                    ['priceCode' => 'testCode', 'quantity' => null]
+                    ['priceCode' => 'testCode']
                 ],
                 'createCount' => 1
             ],
             'case with existing price' => [
                 'entryParams' => [
-                    ['priceCode' => 'testCode', 'quantity' => null],
-                    ['priceCode' => 'testCode', 'quantity' => null]
+                    ['priceCode' => 'testCode'],
+                    ['priceCode' => 'testCode']
                 ],
-                'createCount' => 1
+                'createCount' => 2
             ],
             'case with quantity' => [
                 'entryParams' => [
-                    ['priceCode' => 'testCode', 'quantity' => 2.]
+                    ['priceCode' => 'testCode']
                 ],
                 'createCount' => 1
             ],
@@ -146,29 +139,5 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             ->with('test1')
             ->will($this->returnValue('adjustment'));
         $this->assertEquals('adjustment', $this->model->getAdjustment('test1'));
-    }
-
-    /**
-     * @covers \Magento\Pricing\PriceInfo\Base::getPricesIncludedInBase
-     */
-    public function testGetPricesIncludedInBase()
-    {
-        $this->prices->expects($this->once())
-            ->method('getMetadata')
-            ->will(
-                $this->returnValue(
-                    [
-                        'test1' => ['class' => 'class1', 'include_in_base_price' => false],
-                        'test2' => ['class' => 'class2', 'include_in_base_price' => true]
-                    ]
-                )
-            );
-
-        $priceModelMock = $this->getMock('Magento\Catalog\Pricing\Price\SpecialPrice', [], [], '', false);
-        $priceModelMock->expects($this->once())->method('getValue')->will($this->returnValue(2.5));
-        $this->prices->expects($this->at(1))->method('createPriceObject')
-            ->with($this->saleableItem, 'test2', $this->quantity)->will($this->returnValue($priceModelMock));
-
-        $this->assertSame([$priceModelMock], $this->model->getPricesIncludedInBase());
     }
 }

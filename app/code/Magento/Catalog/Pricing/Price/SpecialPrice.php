@@ -13,11 +13,11 @@ namespace Magento\Catalog\Pricing\Price;
 use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Stdlib\DateTime\TimezoneInterface;
-
+use Magento\Pricing\Price\BasePriceProviderInterface;
 /**
  * Special price model
  */
-class SpecialPrice extends AbstractPrice implements SpecialPriceInterface
+class SpecialPrice extends AbstractPrice implements SpecialPriceInterface, BasePriceProviderInterface
 {
     /**
      * Price type special

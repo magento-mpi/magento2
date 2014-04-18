@@ -23,7 +23,7 @@ class Observer extends \Magento\Model\AbstractModel
     /**
      * Scope config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -89,7 +89,7 @@ class Observer extends \Magento\Model\AbstractModel
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\UrlInterface $urlModel
      * @param \Magento\GiftCard\Helper\Data $giftCardData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Model\Resource\Db\Collection\AbstractCollection $resourceCollection
      * @param array $data
@@ -107,7 +107,7 @@ class Observer extends \Magento\Model\AbstractModel
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\UrlInterface $urlModel,
         \Magento\GiftCard\Helper\Data $giftCardData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
         array $data = array()

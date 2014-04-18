@@ -85,7 +85,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     protected $_indexPool;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\TargetRule\Model\Resource\IndexPool $indexPool
      * @param \Magento\TargetRule\Model\Resource\Rule $rule
      * @param \Magento\CustomerSegment\Model\Resource\Segment $segmentCollectionFactory
@@ -99,7 +99,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\TargetRule\Model\Resource\IndexPool $indexPool,
         \Magento\TargetRule\Model\Resource\Rule $rule,
         \Magento\CustomerSegment\Model\Resource\Segment $segmentCollectionFactory,

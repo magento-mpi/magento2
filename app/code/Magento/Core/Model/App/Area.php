@@ -15,7 +15,7 @@
  */
 namespace Magento\Core\Model\App;
 
-class Area implements \Magento\App\AreaInterface
+class Area implements \Magento\Framework\App\AreaInterface
 {
     const AREA_GLOBAL = 'global';
 
@@ -59,7 +59,7 @@ class Area implements \Magento\App\AreaInterface
     /**
      * Application config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
@@ -71,14 +71,14 @@ class Area implements \Magento\App\AreaInterface
     protected $_objectManager;
 
     /**
-     * @var \Magento\App\ObjectManager\ConfigLoader
+     * @var \Magento\Framework\App\ObjectManager\ConfigLoader
      */
     protected $_diConfigLoader;
 
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -108,10 +108,10 @@ class Area implements \Magento\App\AreaInterface
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\TranslateInterface $translator
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\App\ObjectManager\ConfigLoader $diConfigLoader
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\ObjectManager\ConfigLoader $diConfigLoader
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\Design $design
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Area\DesignExceptions $designExceptions
@@ -121,10 +121,10 @@ class Area implements \Magento\App\AreaInterface
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\TranslateInterface $translator,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\ObjectManager $objectManager,
-        \Magento\App\ObjectManager\ConfigLoader $diConfigLoader,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\ObjectManager\ConfigLoader $diConfigLoader,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\Design $design,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         Area\DesignExceptions $designExceptions,
@@ -162,7 +162,7 @@ class Area implements \Magento\App\AreaInterface
     /**
      * Detect and apply design for the area
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return void
      */
     public function detectDesign($request = null)
@@ -182,7 +182,7 @@ class Area implements \Magento\App\AreaInterface
     /**
      * Analyze user-agent information to override custom design settings
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return bool
      */
     protected function _applyUserAgentDesignException($request)

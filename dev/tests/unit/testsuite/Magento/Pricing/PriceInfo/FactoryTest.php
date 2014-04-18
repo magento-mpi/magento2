@@ -10,110 +10,150 @@
  */
 namespace Magento\Pricing\PriceInfo;
 
+use Magento\Pricing\PriceInfo\Factory;
+
 /**
  * Test class for \Magento\Pricing\PriceInfo\Factory
  */
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\TestFramework\Helper\ObjectManager
+     * @var \Magento\ObjectManager\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $objectManager;
-
-    public function setUp()
-    {
-        $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-    }
+    protected $objectManagerMock;
 
     /**
-     * @dataProvider priceInfoClassesProvider
+     * @var array
      */
-    public function testCreate($types, $type, $expected)
-    {
-        $priceInfoFactory = $this->preparePriceInfoFactory(
-            $expected,
-            $types
-        );
+    protected $types;
 
-        $productMock = $this->getMock(
-            'Magento\Catalog\Model\Product',
-            ['getTypeId', 'getQty', '__wakeup'],
+    /**
+     * @var \Magento\Pricing\PriceInfo\Factory
+     */
+    protected $factory;
+
+    /**
+     * @var \Magento\Pricing\Price\Collection|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $pricesMock;
+
+    /**
+     * @var \Magento\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $saleableItemMock;
+
+    /**
+     * @var \Magento\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceInfoMock;
+
+    /**
+     * SetUp test
+     */
+    public function setUp()
+    {
+        $this->objectManagerMock = $this->getMock(
+            'Magento\ObjectManager\ObjectManager',
+            [],
             [],
             '',
             false
         );
-
-        $productMock->expects($this->any())
-            ->method('getTypeId')
-            ->will($this->returnValue($type));
-
-        $productMock->expects($this->any())
-            ->method('getQty')
-            ->will($this->returnValue(1));
-
-        $this->assertInstanceOf(
-            $expected,
-            $priceInfoFactory->create($productMock)
+        $this->pricesMock = $this->getMock(
+            'Magento\Pricing\Price\Collection',
+            [],
+            [],
+            '',
+            false
         );
-    }
-
-    /**
-     * @param string $priceInfoInterface
-     * @param array $types
-     * @return object
-     */
-    protected function preparePriceInfoFactory($priceInfoInterface, $types = [])
-    {
-        return $this->objectManager->getObject(
-            'Magento\Pricing\PriceInfo\Factory',
-            [
-                'types' => $types,
-                'objectManager' => $this->prepareObjectManager($priceInfoInterface)
-            ]
+        $this->saleableItemMock = $this->getMockForAbstractClass(
+            'Magento\Pricing\Object\SaleableInterface',
+            [],
+            '',
+            false,
+            true,
+            true,
+            ['getQty']
         );
+        $this->priceInfoMock = $this->getMockForAbstractClass(
+            'Magento\Pricing\PriceInfoInterface',
+            [],
+            '',
+            false,
+            true,
+            true,
+            []
+        );
+        $this->types = [
+            'default' => [
+                'infoClass' => 'Price\PriceInfo\Default',
+                'prices' => 'Price\Collection\Default'
+            ],
+            'configurable' => [
+                'infoClass' => 'Price\PriceInfo\Configurable',
+                'prices' => 'Price\Collection\Configurable'
+            ],
+        ];
+        $this->factory = new Factory($this->types, $this->objectManagerMock);
     }
 
-    /**
-     * @param string $priceInfoInterface
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\ObjectManager\ObjectManager
-     */
-    protected function prepareObjectManager($priceInfoInterface)
-    {
-        $objectManager = $this->getMock('Magento\ObjectManager\ObjectManager', ['create'], [], '', false);
-        $objectManager->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->getMockForAbstractClass($priceInfoInterface)));
-        return $objectManager;
-    }
-
-    /**
-     * @return array
-     */
-    public function priceInfoClassesProvider()
+    public function createPriceInfoDataProvider()
     {
         return [
             [
-                ['new_type' => 'Magento\Pricing\PriceInfo\Base'],
-                'new_type',
-                'Magento\Pricing\PriceInfoInterface'
+                'simple',
+                1,
+                'Price\PriceInfo\Default',
+                'Price\Collection\Default'
             ],
             [
-                [],
-                'unknown',
-                'Magento\Pricing\PriceInfoInterface'
+                'configurable',
+                2,
+                'Price\PriceInfo\Configurable',
+                'Price\Collection\Configurable'
             ]
         ];
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @param $typeId
+     * @param $quantity
+     * @param $infoClass
+     * @param $prices
+     * @dataProvider createPriceInfoDataProvider
      */
-    public function testCreateWithException()
+    public function testCreate($typeId, $quantity, $infoClass, $prices)
     {
-        $invalidPriceInfoInterface = 'Magento\Object';
-        $priceInfoFactory = $this->preparePriceInfoFactory($invalidPriceInfoInterface);
-        $priceInfoFactory->create(
-            $this->getMock('Magento\Catalog\Model\Product', ['__wakeup'], [], '', false)
-        );
+        $this->saleableItemMock->expects($this->once())
+            ->method('getTypeId')
+            ->will($this->returnValue($typeId));
+        $this->saleableItemMock->expects($this->once())
+            ->method('getQty')
+            ->will($this->returnValue($quantity));
+
+        $this->objectManagerMock->expects($this->exactly(2))
+            ->method('create')
+            ->will($this->returnValueMap(
+                [
+                    [
+                        $prices,
+                        [
+                            'saleableItem' => $this->saleableItemMock,
+                            'quantity' => $quantity
+                        ],
+                        $this->pricesMock
+                    ],
+                    [
+                        $infoClass,
+                        [
+                            'saleableItem' => $this->saleableItemMock,
+                            'quantity' => $quantity,
+                            'prices' => $this->pricesMock
+                        ],
+                        $this->priceInfoMock
+                    ]
+                ]
+            ));
+        $this->assertEquals($this->priceInfoMock, $this->factory->create($this->saleableItemMock, []));
     }
 }

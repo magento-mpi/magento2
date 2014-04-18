@@ -14,11 +14,12 @@ use Magento\Customer\Model\Group;
 use Magento\Customer\Model\Session;
 use Magento\Pricing\PriceInfoInterface;
 use Magento\Pricing\Amount\AmountInterface;
+use Magento\Pricing\Price\BasePriceProviderInterface;
 
 /**
  * Tire prices model
  */
-class TierPrice extends AbstractPrice implements TierPriceInterface
+class TierPrice extends AbstractPrice implements TierPriceInterface, BasePriceProviderInterface
 {
     /**
      * Price type tier

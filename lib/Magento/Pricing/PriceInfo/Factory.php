@@ -11,6 +11,7 @@
  */
 namespace Magento\Pricing\PriceInfo;
 
+use Magento\ObjectManager;
 use Magento\Pricing\Object\SaleableInterface;
 
 /**
@@ -18,11 +19,6 @@ use Magento\Pricing\Object\SaleableInterface;
  */
 class Factory
 {
-    /**
-     * Default Price Info class
-     */
-    const DEFAULT_PRICE_INFO_CLASS = 'Magento\Pricing\PriceInfoInterface';
-
     /**
      * List of Price Info classes by product types
      *
@@ -33,7 +29,7 @@ class Factory
     /**
      * Object Manager
      *
-     * @var \Magento\ObjectManager
+     * @var ObjectManager
      */
     protected $objectManager;
 
@@ -43,8 +39,10 @@ class Factory
      * @param array $types
      * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(array $types, \Magento\ObjectManager $objectManager)
-    {
+    public function __construct(
+        array $types,
+        ObjectManager $objectManager
+    ) {
         $this->types = $types;
         $this->objectManager = $objectManager;
     }
@@ -60,19 +58,32 @@ class Factory
     public function create(SaleableInterface $saleableItem, array $arguments = [])
     {
         $type = $saleableItem->getTypeId();
-        $className = isset($this->types[$type]) ? $this->types[$type] : self::DEFAULT_PRICE_INFO_CLASS;
+
+        if (isset($this->types[$type]['infoClass'])) {
+            $priceInfo = $this->types[$type]['infoClass'];
+        } else {
+            $priceInfo = $this->types['default']['infoClass'];
+        }
+
+        if (isset($this->types[$type]['prices'])) {
+            $priceCollection = $this->types[$type]['prices'];
+        } else {
+            $priceCollection = $this->types['default']['prices'];
+        }
 
         $arguments['saleableItem'] = $saleableItem;
-        if ($saleableItem->getQty()) {
-            $arguments['quantity'] = $saleableItem->getQty();
+        $quantity = $saleableItem->getQty();
+        if ($quantity) {
+            $arguments['quantity'] = $quantity;
         }
-        $priceInfo = $this->objectManager->create($className, $arguments);
 
-        if (!$priceInfo instanceof \Magento\Pricing\PriceInfoInterface) {
-            throw new \InvalidArgumentException(
-                $className . ' doesn\'t implement \Magento\Pricing\PriceInfoInterface'
-            );
-        }
-        return $priceInfo;
+        $arguments['prices'] = $this->objectManager->create($priceCollection,
+            [
+                'saleableItem' => $arguments['saleableItem'],
+                'quantity' => $quantity
+            ]
+        );
+
+        return $this->objectManager->create($priceInfo, $arguments);
     }
 }
