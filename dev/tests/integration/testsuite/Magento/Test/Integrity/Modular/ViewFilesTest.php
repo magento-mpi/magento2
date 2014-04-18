@@ -35,7 +35,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                     if (!file_exists($result)) {
                         $file = str_replace('.css', '.less', $file);
                         $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                            ->get('Magento\View\FileSystem')
+                            ->get('Magento\Framework\View\FileSystem')
                             ->getViewFile($file);
                     };
                 }

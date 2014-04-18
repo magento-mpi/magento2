@@ -178,7 +178,7 @@ class AbstractCategory extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getCategoryCollection()
     {
