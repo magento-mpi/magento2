@@ -18,7 +18,7 @@ use Magento\Catalog\Model\Category as ModelCategory;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\CatalogEvent\Model\Event;
 use Magento\Registry;
-use Magento\Data\FormFactory;
+use Magento\Framework\Data\FormFactory;
 
 class Form extends Generic
 {
@@ -77,7 +77,7 @@ class Form extends Generic
     {
         parent::_prepareLayout();
 
-        \Magento\Data\Form::setFieldsetElementRenderer(
+        \Magento\Framework\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
                 'Magento\CatalogEvent\Block\Adminhtml\Form\Renderer\Fieldset\Element',
                 $this->getNameInLayout() . '_fieldset_element_catalog_event'
@@ -92,7 +92,7 @@ class Form extends Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
             array(
                 'data' => array(

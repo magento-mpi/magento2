@@ -105,7 +105,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'Physical theme' => array(
-                $this->_getThemeMock(\Magento\View\Design\ThemeInterface::TYPE_PHYSICAL),
+                $this->_getThemeMock(\Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL),
                 array(
                     'button' => array(
                         'event' => 'assign',
@@ -116,7 +116,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                 array()
             ),
             'Virtual assigned theme' => array(
-                $this->_getThemeMock(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL, true),
+                $this->_getThemeMock(\Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL, true),
                 array(
                     'button' => array(
                         'event' => 'save',
@@ -127,7 +127,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                 array()
             ),
             'Virtual unassigned theme' => array(
-                $this->_getThemeMock(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL, false),
+                $this->_getThemeMock(\Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL, false),
                 array(
                     'button' => array(
                         'event' => 'save',
@@ -162,7 +162,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     public function testInitStaging()
     {
         // 1. Get theme mock
-        $stagingTheme = $this->_getThemeMock(\Magento\View\Design\ThemeInterface::TYPE_STAGING);
+        $stagingTheme = $this->_getThemeMock(\Magento\Framework\View\Design\ThemeInterface::TYPE_STAGING);
 
         $block = $this->_block;
 
@@ -179,7 +179,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     {
         $themeId = 123;
 
-        if ($type == \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL) {
+        if ($type == \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL) {
             $theme = $this->_getVirtualThemeMock($type, $isAssigned);
         } else {
             $theme = $this->getMock('Magento\Core\Model\Theme', array('__sleep', '__wakeup'), array(), '', false);

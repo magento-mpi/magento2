@@ -9,7 +9,7 @@
  */
 namespace Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable;
 
-class Attribute extends \Magento\Model\Resource\Db\AbstractDb
+class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Label table name cache

@@ -63,7 +63,7 @@ class ObjectManagerFactory
         $appArguments = $this->createAppArguments($directoryList, $arguments);
 
         $definitionFactory = new \Magento\ObjectManager\DefinitionFactory(
-            new \Magento\Filesystem\Driver\File(),
+            new \Magento\Framework\Filesystem\Driver\File(),
             $directoryList->getDir(Filesystem::DI_DIR),
             $directoryList->getDir(Filesystem::GENERATION_DIR),
             $appArguments->get('definition.format', 'serialized')
@@ -98,7 +98,7 @@ class ObjectManagerFactory
         $sharedInstances = [
             'Magento\Framework\App\Arguments' => $appArguments,
             'Magento\Framework\App\Filesystem\DirectoryList' => $directoryList,
-            'Magento\Filesystem\DirectoryList' => $directoryList,
+            'Magento\Framework\Filesystem\DirectoryList' => $directoryList,
             'Magento\ObjectManager\Relations' => $relations,
             'Magento\Interception\Definition' => $definitionFactory->createPluginDefinition(),
             'Magento\ObjectManager\Config' => $diConfig,
@@ -122,7 +122,7 @@ class ObjectManagerFactory
         $objectManager->configure(
             $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('global')
         );
-        $objectManager->get('Magento\Config\ScopeInterface')->setCurrentScope('global');
+        $objectManager->get('Magento\Framework\Config\ScopeInterface')->setCurrentScope('global');
         $objectManager->get('Magento\Framework\App\Resource')
             ->setCache($objectManager->get('Magento\Framework\App\CacheInterface'));
         $interceptionConfig = $objectManager->get('Magento\Interception\Config\Config');
@@ -157,26 +157,26 @@ class ObjectManagerFactory
      * Return newly created instance on an argument interpreter, suitable for processing DI arguments
      *
      * @param \Magento\Stdlib\BooleanUtils $booleanUtils
-     * @return \Magento\Data\Argument\InterpreterInterface
+     * @return \Magento\Framework\Data\Argument\InterpreterInterface
      */
     protected function createArgumentInterpreter(
         \Magento\Stdlib\BooleanUtils $booleanUtils
     ) {
-        $constInterpreter = new \Magento\Data\Argument\Interpreter\Constant();
-        $result = new \Magento\Data\Argument\Interpreter\Composite(
+        $constInterpreter = new \Magento\Framework\Data\Argument\Interpreter\Constant();
+        $result = new \Magento\Framework\Data\Argument\Interpreter\Composite(
             [
-                'boolean' => new \Magento\Data\Argument\Interpreter\Boolean($booleanUtils),
-                'string' => new \Magento\Data\Argument\Interpreter\String($booleanUtils),
-                'number' => new \Magento\Data\Argument\Interpreter\Number(),
-                'null' => new \Magento\Data\Argument\Interpreter\NullType(),
-                'object' => new \Magento\Data\Argument\Interpreter\Object($booleanUtils),
+                'boolean' => new \Magento\Framework\Data\Argument\Interpreter\Boolean($booleanUtils),
+                'string' => new \Magento\Framework\Data\Argument\Interpreter\String($booleanUtils),
+                'number' => new \Magento\Framework\Data\Argument\Interpreter\Number(),
+                'null' => new \Magento\Framework\Data\Argument\Interpreter\NullType(),
+                'object' => new \Magento\Framework\Data\Argument\Interpreter\Object($booleanUtils),
                 'const' => $constInterpreter,
                 'init_parameter' => new \Magento\Framework\App\Arguments\ArgumentInterpreter($constInterpreter)
             ],
             \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
         );
         // Add interpreters that reference the composite
-        $result->addInterpreter('array', new \Magento\Data\Argument\Interpreter\ArrayType($result));
+        $result->addInterpreter('array', new \Magento\Framework\Data\Argument\Interpreter\ArrayType($result));
         return $result;
     }
 
@@ -207,10 +207,10 @@ class ObjectManagerFactory
             $fileResolver = new \Magento\Framework\App\Arguments\FileResolver\Primary(
                 new \Magento\Framework\App\Filesystem(
                     $directoryList,
-                    new \Magento\Filesystem\Directory\ReadFactory(),
-                    new \Magento\Filesystem\Directory\WriteFactory()
+                    new \Magento\Framework\Filesystem\Directory\ReadFactory(),
+                    new \Magento\Framework\Filesystem\Directory\WriteFactory()
                 ),
-                new \Magento\Config\FileIteratorFactory()
+                new \Magento\Framework\Config\FileIteratorFactory()
             );
             $schemaLocator = new \Magento\ObjectManager\Config\SchemaLocator();
             $validationState = new \Magento\Framework\App\Arguments\ValidationState($appMode);

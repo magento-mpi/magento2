@@ -9,7 +9,6 @@
  */
 namespace Magento\Reward\Controller;
 
-use Magento\Framework\App\Action\NotFoundException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\ResponseInterface;
 

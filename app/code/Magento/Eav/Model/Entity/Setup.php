@@ -616,7 +616,7 @@ class Setup extends \Magento\Module\Setup
         )->where(
             'attribute_set_id = :attribute_set_id'
         )->order(
-            array('default_id ' . \Magento\DB\Select::SQL_DESC, 'sort_order')
+            array('default_id ' . \Magento\Framework\DB\Select::SQL_DESC, 'sort_order')
         )->limit(
             1
         );
@@ -769,7 +769,7 @@ class Setup extends \Magento\Module\Setup
      *
      * @param array $option
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function addAttributeOption($option)
     {
@@ -803,7 +803,7 @@ class Setup extends \Magento\Module\Setup
 
                 // Default value
                 if (!isset($values[0])) {
-                    throw new \Magento\Model\Exception(__('Default option value is not defined'));
+                    throw new \Magento\Framework\Model\Exception(__('Default option value is not defined'));
                 }
                 $condition = array('option_id =?' => $intOptionId);
                 $this->_connection->delete($optionValueTable, $condition);

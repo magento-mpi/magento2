@@ -26,12 +26,12 @@ class Comments extends \Magento\Backend\Block\Text\ListText
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Context $context
+     * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Context $context,
+        \Magento\Framework\View\Element\Context $context,
         \Magento\Registry $registry,
         array $data = array()
     ) {

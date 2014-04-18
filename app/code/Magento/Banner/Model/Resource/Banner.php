@@ -18,7 +18,7 @@
  */
 namespace Magento\Banner\Model\Resource;
 
-class Banner extends \Magento\Model\Resource\Db\AbstractDb
+class Banner extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Sales rule table name
@@ -487,10 +487,10 @@ class Banner extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Prepare banner types for saving
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $types = $object->getTypes();
         if (empty($types)) {

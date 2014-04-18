@@ -13,7 +13,7 @@ namespace Mtf\Util\Generate\Repository;
  *
  * @package Mtf\Util\Generate\Repository
  */
-class Resource extends \Magento\Model\Resource\Db\AbstractDb
+class Resource extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Set fixture entity_type
@@ -28,12 +28,12 @@ class Resource extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Load an object
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @param mixed $value
      * @param null $field
-     * @return \Magento\Model\Resource\Db\AbstractDb|void
+     * @return \Magento\Framework\Model\Resource\Db\AbstractDb|void
      */
-    public function load(\Magento\Model\AbstractModel $object, $value, $field = null)
+    public function load(\Magento\Framework\Model\AbstractModel $object, $value, $field = null)
     {
         // forbid using resource model
     }

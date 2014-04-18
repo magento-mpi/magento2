@@ -18,7 +18,7 @@ abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
     protected $_schemaFile;
 
     /**
-     * @var  \Magento\Config\Reader\Filesystem
+     * @var  \Magento\Framework\Config\Reader\Filesystem
      */
     protected $_reader;
 
@@ -44,7 +44,7 @@ abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
 
             /* Enable Validation regardles of MAGE_MODE */
             $validateStateMock = $this->getMockBuilder(
-                'Magento\Config\ValidationStateInterface'
+                'Magento\Framework\Config\ValidationStateInterface'
             )->disableOriginalConstructor()->getMock();
             $validateStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
 
@@ -76,7 +76,7 @@ abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
         if ($skip) {
             $this->markTestSkipped('There are no xml files in the system for this test.');
         }
-        $domConfig = new \Magento\Config\Dom($file);
+        $domConfig = new \Magento\Framework\Config\Dom($file);
         $result = $domConfig->validate($this->_schemaFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {
@@ -129,7 +129,7 @@ abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
     /**
      * Finds all config xml files based on a path glob.
      *
-     * @return \Magento\Config\FileIterator
+     * @return \Magento\Framework\Config\FileIterator
      */
     public function getXmlConfigFiles()
     {
@@ -140,7 +140,7 @@ abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
             \Magento\Framework\App\Filesystem::MODULES_DIR
         );
         return $objectManager->get(
-            '\Magento\Config\FileIteratorFactory'
+            '\Magento\Framework\Config\FileIteratorFactory'
         )->create(
             $directory,
             $directory->search($this->_getConfigFilePathGlob())

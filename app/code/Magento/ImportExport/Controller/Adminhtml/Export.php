@@ -79,7 +79,7 @@ class Export extends \Magento\Backend\App\Action
                     \Magento\Framework\App\Filesystem::VAR_DIR,
                     $model->getContentType()
                 );
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);

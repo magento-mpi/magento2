@@ -120,7 +120,7 @@ class OperationTest extends \Magento\Backend\Utility\Controller
         $operation = $collection->getFirstItem();
 
         // Create export directory if not exist
-        /** @var \Magento\Filesystem\Directory\Write $varDir */
+        /** @var \Magento\Framework\Filesystem\Directory\Write $varDir */
         $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(

@@ -192,7 +192,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
      *
      * @param null|bool|int|string|Website $websiteId
      * @return Website
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getWebsite($websiteId = null)
     {
@@ -236,7 +236,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
      *
      * @param null|\Magento\Store\Model\Group|string $groupId
      * @return \Magento\Store\Model\Group
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getGroup($groupId = null)
     {

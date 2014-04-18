@@ -21,30 +21,30 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var  \Magento\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var  \Magento\Framework\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $layout;
 
     /**
-     * @var \Magento\View\LayoutFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\LayoutFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $layoutFactory;
 
     /**
-     * @var \Magento\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $generalLayout;
 
     public function setUp()
     {
-        $this->layout = $this->getMock('Magento\View\LayoutInterface');
-        $this->generalLayout = $this->getMock('Magento\View\LayoutInterface');
+        $this->layout = $this->getMock('Magento\Framework\View\LayoutInterface');
+        $this->generalLayout = $this->getMock('Magento\Framework\View\LayoutInterface');
 
         $isCacheable = false;
         $this->generalLayout->expects($this->once())
             ->method('isCacheable')
             ->will($this->returnValue(false));
-        $layoutFactory = $this->getMockBuilder('Magento\View\LayoutFactory')
+        $layoutFactory = $this->getMockBuilder('Magento\Framework\View\LayoutFactory')
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock();
@@ -67,7 +67,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         $handle = 'test_handle';
 
-        $layoutProcessor = $this->getMock('Magento\View\Layout\ProcessorInterface');
+        $layoutProcessor = $this->getMock('Magento\Framework\View\Layout\ProcessorInterface');
         $layoutProcessor->expects($this->once())
             ->method('addHandle')
             ->with($handle);
@@ -80,7 +80,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadLayout()
     {
-        $layoutProcessor = $this->getMock('Magento\View\Layout\ProcessorInterface');
+        $layoutProcessor = $this->getMock('Magento\Framework\View\Layout\ProcessorInterface');
         $layoutProcessor->expects($this->once())
             ->method('load');
         $this->layout->expects($this->once())
@@ -100,7 +100,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         $blockName = 'block.name';
 
-        $block = $this->getMock('Magento\View\Element\BlockInterface');
+        $block = $this->getMock('Magento\Framework\View\Element\BlockInterface');
 
         $this->layout->expects($this->once())
             ->method('getBlock')

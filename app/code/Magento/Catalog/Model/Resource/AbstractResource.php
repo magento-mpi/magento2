@@ -136,7 +136,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
      *
      * @param \Magento\Object $object
      * @param string $table
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getLoadAttributesSelect($object, $table)
     {
@@ -180,7 +180,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
      * Prepare select object for loading entity attributes values
      *
      * @param array $selects
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _prepareLoadSelect(array $selects)
     {

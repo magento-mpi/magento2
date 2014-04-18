@@ -107,7 +107,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $translator = $this->getMock('stdClass');
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $attributeCollection = new \Magento\Data\Collection(
+        $attributeCollection = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         foreach ($this->_attributes as $attributeData) {
@@ -215,9 +215,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->_model->setWriter($writer);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments('Magento\Model\AbstractModel');
+        $arguments = $objectManagerHelper->getConstructArguments('Magento\Framework\Model\AbstractModel');
         $arguments['data'] = $this->_customerData;
-        $item = $this->getMockForAbstractClass('Magento\Model\AbstractModel', $arguments);
+        $item = $this->getMockForAbstractClass('Magento\Framework\Model\AbstractModel', $arguments);
 
         $this->_model->exportItem($item);
     }

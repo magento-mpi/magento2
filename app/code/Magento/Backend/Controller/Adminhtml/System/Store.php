@@ -275,7 +275,7 @@ class Store extends Action
                 }
                 $this->_redirect('adminhtml/*/');
                 return;
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setPostData($postData);
             } catch (\Exception $e) {
@@ -438,7 +438,7 @@ class Store extends Action
             $this->messageManager->addSuccess(__('The website has been deleted.'));
             $this->_redirect('adminhtml/*/');
             return;
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Unable to delete website. Please, try again later.'));
@@ -471,7 +471,7 @@ class Store extends Action
             $this->messageManager->addSuccess(__('The store has been deleted.'));
             $this->_redirect('adminhtml/*/');
             return;
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Unable to delete store. Please, try again later.'));
@@ -509,7 +509,7 @@ class Store extends Action
             $this->messageManager->addSuccess(__('The store view has been deleted.'));
             $this->_redirect('adminhtml/*/');
             return;
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Unable to delete store view. Please, try again later.'));
@@ -555,7 +555,7 @@ class Store extends Action
 
             $backupDb->createBackup($backup);
             $this->messageManager->addSuccess(__('The database was backed up.'));
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect($failPath, $arguments);
             return;

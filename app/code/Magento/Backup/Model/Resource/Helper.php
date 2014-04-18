@@ -9,7 +9,7 @@
  */
 namespace Magento\Backup\Model\Resource;
 
-class Helper extends \Magento\DB\Helper
+class Helper extends \Magento\Framework\DB\Helper
 {
     /**
      * Tables foreign key data array

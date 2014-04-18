@@ -39,7 +39,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         $select = new \Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false));
 
         $writeAdapter = $this->getMockForAbstractClass(
-            'Magento\DB\Adapter\AdapterInterface',
+            'Magento\Framework\DB\Adapter\AdapterInterface',
             array(),
             '',
             false,
@@ -51,7 +51,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         $writeAdapter->expects($this->never())->method('fetchOne');
 
         $this->_readAdapter = $this->getMockForAbstractClass(
-            'Magento\DB\Adapter\AdapterInterface',
+            'Magento\Framework\DB\Adapter\AdapterInterface',
             array(),
             '',
             false,

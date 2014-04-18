@@ -38,7 +38,7 @@ namespace Magento\User\Model;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class User extends \Magento\Model\AbstractModel implements \Magento\Backend\Model\Auth\Credential\StorageInterface
+class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Backend\Model\Auth\Credential\StorageInterface
 {
     /**
      * Configuration paths for email templates and identities
@@ -124,7 +124,7 @@ class User extends \Magento\Model\AbstractModel implements \Magento\Backend\Mode
     protected $_storeManager;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\User\Helper\Data $userData
      * @param \Magento\Backend\App\ConfigInterface $config
@@ -133,15 +133,15 @@ class User extends \Magento\Model\AbstractModel implements \Magento\Backend\Mode
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\User\Helper\Data $userData,
         \Magento\Backend\App\ConfigInterface $config,
@@ -151,8 +151,8 @@ class User extends \Magento\Model\AbstractModel implements \Magento\Backend\Mode
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;
@@ -503,7 +503,7 @@ class User extends \Magento\Model\AbstractModel implements \Magento\Backend\Mode
      * @param string $username
      * @param string $password
      * @return bool
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @throws \Magento\Backend\Model\Auth\Exception
      * @throws \Magento\Backend\Model\Auth\Plugin\Exception
      */
@@ -534,7 +534,7 @@ class User extends \Magento\Model\AbstractModel implements \Magento\Backend\Mode
                 'admin_user_authenticate_after',
                 array('username' => $username, 'password' => $password, 'user' => $this, 'result' => $result)
             );
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->unsetData();
             throw $e;
         }
@@ -617,12 +617,12 @@ class User extends \Magento\Model\AbstractModel implements \Magento\Backend\Mode
      *
      * @param string $newToken
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function changeResetPasswordLinkToken($newToken)
     {
         if (!is_string($newToken) || empty($newToken)) {
-            throw new \Magento\Model\Exception(__('Please correct the password reset token.'));
+            throw new \Magento\Framework\Model\Exception(__('Please correct the password reset token.'));
         }
         $this->setRpToken($newToken);
         $this->setRpTokenCreatedAt($this->dateTime->now());

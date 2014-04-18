@@ -12,7 +12,7 @@ namespace Magento\Backend\Model\Menu\Config\Menu;
 /**
  * Menu configuration files handler
  */
-class Dom extends \Magento\Config\Dom
+class Dom extends \Magento\Framework\Config\Dom
 {
     /**
      * Getter for node by path

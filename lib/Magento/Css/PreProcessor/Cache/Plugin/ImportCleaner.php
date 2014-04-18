@@ -29,12 +29,12 @@ class ImportCleaner
     }
 
     /**
-     * @param \Magento\View\Asset\MergeService $subject
+     * @param \Magento\Framework\View\Asset\MergeService $subject
      *
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeCleanMergedJsCss(\Magento\View\Asset\MergeService $subject)
+    public function beforeCleanMergedJsCss(\Magento\Framework\View\Asset\MergeService $subject)
     {
         $this->importStorage->clearMaps();
     }

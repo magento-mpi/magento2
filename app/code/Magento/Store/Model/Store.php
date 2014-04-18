@@ -8,7 +8,7 @@
 namespace Magento\Store\Model;
 
 use Magento\Directory\Model\Currency\Filter;
-use Magento\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Store model
@@ -300,7 +300,7 @@ class Store extends AbstractModel implements
     protected $_httpContext;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\Resource\Store $resource
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
@@ -314,12 +314,12 @@ class Store extends AbstractModel implements
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param bool $isCustomEntryPoint
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Store\Model\Resource\Store $resource,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
@@ -333,7 +333,7 @@ class Store extends AbstractModel implements
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Stdlib\Cookie $cookie,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()
     ) {

@@ -90,13 +90,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Add customer segment fields to a form and its data
      *
-     * @param \Magento\Data\Form $form
+     * @param \Magento\Framework\Data\Form $form
      * @param \Magento\Object $formData
      * @param \Magento\Backend\Block\Widget\Form\Element\Dependence $fieldDependencies
      * @return void
      */
     public function addSegmentFieldsToForm(
-        \Magento\Data\Form $form,
+        \Magento\Framework\Data\Form $form,
         \Magento\Object $formData,
         \Magento\Backend\Block\Widget\Form\Element\Dependence $fieldDependencies
     ) {
@@ -108,7 +108,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $htmlIdPrefix = $form->getHtmlIdPrefix();
 
-        /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
+        /** @var \Magento\Framework\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $form->getElement('base_fieldset');
 
         $fieldset->addField(

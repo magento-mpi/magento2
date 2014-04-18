@@ -15,9 +15,9 @@ class PluginList extends \Magento\Interception\PluginList\PluginList
     protected $_originScopeScheme = array();
 
     /**
-     * @param \Magento\Config\ReaderInterface $reader
-     * @param \Magento\Config\ScopeInterface $configScope
-     * @param \Magento\Config\CacheInterface $cache
+     * @param \Magento\Framework\Config\ReaderInterface $reader
+     * @param \Magento\Framework\Config\ScopeInterface $configScope
+     * @param \Magento\Framework\Config\CacheInterface $cache
      * @param \Magento\ObjectManager\Relations $relations
      * @param \Magento\ObjectManager\Config $omConfig
      * @param \Magento\Interception\Definition $definitions
@@ -29,9 +29,9 @@ class PluginList extends \Magento\Interception\PluginList\PluginList
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Config\ReaderInterface $reader,
-        \Magento\Config\ScopeInterface $configScope,
-        \Magento\Config\CacheInterface $cache,
+        \Magento\Framework\Config\ReaderInterface $reader,
+        \Magento\Framework\Config\ScopeInterface $configScope,
+        \Magento\Framework\Config\CacheInterface $cache,
         \Magento\ObjectManager\Relations $relations,
         \Magento\ObjectManager\Config $omConfig,
         \Magento\Interception\Definition $definitions,

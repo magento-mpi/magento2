@@ -15,7 +15,7 @@ interface TotalsInterface
      * Return object contains totals for all items in collection
      *
      * @abstract
-     * @param \Magento\Data\Collection $collection
+     * @param \Magento\Framework\Data\Collection $collection
      * @return \Magento\Object
      */
     public function countTotals($collection);

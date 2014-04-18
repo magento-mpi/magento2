@@ -9,7 +9,7 @@
 namespace Magento\Sales\Model\Grid\Child;
 
 
-class CollectionUpdater implements \Magento\View\Layout\Argument\UpdaterInterface
+class CollectionUpdater implements \Magento\Framework\View\Layout\Argument\UpdaterInterface
 {
     /**
      * @var \Magento\Registry

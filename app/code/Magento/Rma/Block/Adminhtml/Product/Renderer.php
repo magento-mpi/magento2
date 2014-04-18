@@ -17,7 +17,7 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Product;
 
-class Renderer extends \Magento\Data\Form\Element\Select
+class Renderer extends \Magento\Framework\Data\Form\Element\Select
 {
     /**
      * Retrieve Element HTML fragment

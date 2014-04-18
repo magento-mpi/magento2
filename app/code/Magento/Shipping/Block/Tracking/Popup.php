@@ -9,7 +9,7 @@
  */
 namespace Magento\Shipping\Block\Tracking;
 
-class Popup extends \Magento\View\Element\Template
+class Popup extends \Magento\Framework\View\Element\Template
 {
     /**
      * Core registry
@@ -19,12 +19,12 @@ class Popup extends \Magento\View\Element\Template
     protected $_registry;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         array $data = array()
     ) {

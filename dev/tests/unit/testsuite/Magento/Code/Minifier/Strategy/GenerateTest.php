@@ -8,8 +8,8 @@
 namespace Magento\Code\Minifier\Strategy;
 
 use Magento\Framework\App\Filesystem;
-use Magento\Filesystem\Directory\Write;
-use Magento\Filesystem\Directory\Read;
+use Magento\Framework\Filesystem\Directory\Write;
+use Magento\Framework\Filesystem\Directory\Read;
 
 class GenerateTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,8 +38,20 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->rootDirectory = $this->getMock('Magento\Filesystem\Directory\Read', array(), array(), '', false);
-        $this->pubViewCacheDir = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
+        $this->rootDirectory = $this->getMock(
+            'Magento\Framework\Filesystem\Directory\Read',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->pubViewCacheDir = $this->getMock(
+            'Magento\Framework\Filesystem\Directory\Write',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->filesystem = $this->getMock(
             'Magento\Framework\App\Filesystem',
             array('getDirectoryWrite', 'getDirectoryRead', '__wakeup'),

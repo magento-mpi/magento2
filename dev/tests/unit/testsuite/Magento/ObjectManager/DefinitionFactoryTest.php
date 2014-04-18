@@ -28,7 +28,13 @@ class DefinitionFactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->sampleContent = serialize(array(1, 2, 3));
-        $this->filesystemDriverMock = $this->getMock('Magento\Filesystem\Driver\File', array(), array(), '', false);
+        $this->filesystemDriverMock = $this->getMock(
+            'Magento\Framework\Filesystem\Driver\File',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->model = new \Magento\ObjectManager\DefinitionFactory(
             $this->filesystemDriverMock,
             'DefinitionDir',

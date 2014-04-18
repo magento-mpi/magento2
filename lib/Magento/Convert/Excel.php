@@ -9,7 +9,7 @@
  */
 namespace Magento\Convert;
 
-use Magento\Filesystem\File\WriteInterface;
+use Magento\Framework\Filesystem\File\WriteInterface;
 
 /**
  * Convert the data to XML Excel

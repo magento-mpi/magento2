@@ -85,12 +85,12 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $_backendUrlMock;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Write|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_directoryMock;
 
     /**
-     * @var \Magento\Filesystem\DriverInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\DriverInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_driverMock;
 
@@ -102,7 +102,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     {
         $this->_filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->_driverMock = $this->getMockForAbstractClass(
-            'Magento\Filesystem\DriverInterface',
+            'Magento\Framework\Filesystem\DriverInterface',
             array(),
             '',
             false,
@@ -113,7 +113,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->_driverMock->expects($this->any())->method('getRealPath')->will($this->returnArgument(0));
 
         $this->_directoryMock = $this->getMock(
-            'Magento\Filesystem\Directory\Write',
+            'Magento\Framework\Filesystem\Directory\Write',
             array('delete', 'getDriver'),
             array(),
             '',
@@ -145,7 +145,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_adapterFactoryMock = $this->getMock('Magento\Image\AdapterFactory', array(), array(), '', false);
-        $this->_viewUrlMock = $this->getMock('Magento\View\Url', array(), array(), '', false);
+        $this->_viewUrlMock = $this->getMock('Magento\Framework\View\Url', array(), array(), '', false);
         $this->_imageHelperMock = $this->getMock(
             'Magento\Cms\Helper\Wysiwyg\Images',
             array('getStorageRoot'),
@@ -224,7 +224,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     public function testDeleteDirectoryOverRoot()
     {
         $this->setExpectedException(
-            '\Magento\Model\Exception',
+            '\Magento\Framework\Model\Exception',
             sprintf('Directory %s is not under storage root path.', self::INVALID_DIRECTORY_OVER_ROOT)
         );
         $this->_model->deleteDirectory(self::INVALID_DIRECTORY_OVER_ROOT);
@@ -236,7 +236,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     public function testDeleteRootDirectory()
     {
         $this->setExpectedException(
-            '\Magento\Model\Exception',
+            '\Magento\Framework\Model\Exception',
             sprintf('We cannot delete root directory %s.', self::STORAGE_ROOT_DIR)
         );
         $this->_model->deleteDirectory(self::STORAGE_ROOT_DIR);

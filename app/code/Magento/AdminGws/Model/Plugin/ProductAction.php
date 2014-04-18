@@ -31,7 +31,7 @@ class ProductAction
      * @param string $type
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeUpdateWebsites(
@@ -43,10 +43,10 @@ class ProductAction
         if (!$this->_role->getIsAll()) {
             if (in_array($type, array('remove', 'add'))) {
                 if (!$this->_role->getIsWebsiteLevel()) {
-                    throw new \Magento\Model\Exception(__('You need more permissions to save this item.'));
+                    throw new \Magento\Framework\Model\Exception(__('You need more permissions to save this item.'));
                 }
                 if (!$this->_role->hasWebsiteAccess($websiteIds, true)) {
-                    throw new \Magento\Model\Exception(__('You need more permissions to save this item.'));
+                    throw new \Magento\Framework\Model\Exception(__('You need more permissions to save this item.'));
                 }
             }
         }

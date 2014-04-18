@@ -25,7 +25,7 @@ class Observer
     protected $_checkoutData;
 
     /**
-     * @var \Magento\Data\CollectionFactory
+     * @var \Magento\Framework\Data\CollectionFactory
      */
     protected $_collectionFactory;
 
@@ -52,7 +52,7 @@ class Observer
     /**
      * @param \Magento\Sales\Model\Quote $quote
      * @param Cart $cart
-     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
@@ -60,7 +60,7 @@ class Observer
     public function __construct(
         \Magento\Sales\Model\Quote $quote,
         Cart $cart,
-        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory

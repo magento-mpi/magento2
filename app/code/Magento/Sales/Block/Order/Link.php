@@ -10,19 +10,19 @@ namespace Magento\Sales\Block\Order;
 /**
  * Sales order link
  */
-class Link extends \Magento\View\Element\Html\Link\Current
+class Link extends \Magento\Framework\View\Element\Html\Link\Current
 {
     /** @var \Magento\Registry  */
     protected $_registry;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\App\DefaultPathInterface $defaultPath
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\DefaultPathInterface $defaultPath,
         \Magento\Registry $registry,
         array $data = array()

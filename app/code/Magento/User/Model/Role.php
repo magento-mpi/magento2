@@ -27,7 +27,7 @@ namespace Magento\User\Model;
  * @method string getRoleName()
  * @method \Magento\User\Model\Role setRoleName(string $value)
  */
-class Role extends \Magento\Model\AbstractModel
+class Role extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * @var string
@@ -40,7 +40,7 @@ class Role extends \Magento\Model\AbstractModel
     protected $_userRolesFactory;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param Resource\Role\User\CollectionFactory $userRolesFactory
      * @param Resource\Role $resource
@@ -48,7 +48,7 @@ class Role extends \Magento\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\User\Model\Resource\Role\User\CollectionFactory $userRolesFactory,
         \Magento\User\Model\Resource\Role $resource,

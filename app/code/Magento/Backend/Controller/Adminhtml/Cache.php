@@ -10,7 +10,7 @@
 namespace Magento\Backend\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Cache extends Action
 {
@@ -193,7 +193,7 @@ class Cache extends Action
      *
      * @param array $types
      * @return void
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _validateTypes(array $types)
     {
@@ -215,7 +215,7 @@ class Cache extends Action
     public function cleanMediaAction()
     {
         try {
-            $this->_objectManager->get('Magento\View\Asset\MergeService')->cleanMergedJsCss();
+            $this->_objectManager->get('Magento\Framework\View\Asset\MergeService')->cleanMergedJsCss();
             $this->_eventManager->dispatch('clean_media_cache_after');
             $this->messageManager->addSuccess(__('The JavaScript/CSS cache has been cleaned.'));
         } catch (Exception $e) {

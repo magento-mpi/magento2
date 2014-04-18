@@ -31,7 +31,7 @@ namespace Magento\Bundle\Model;
  * @method int getSelectionCanChangeQty()
  * @method \Magento\Bundle\Model\Selection setSelectionCanChangeQty(int $value)
  */
-class Selection extends \Magento\Model\AbstractModel
+class Selection extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Catalog data
@@ -41,19 +41,19 @@ class Selection extends \Magento\Model\AbstractModel
     protected $_catalogData;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Bundle\Model\Resource\Selection $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Bundle\Model\Resource\Selection $resource,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogData = $catalogData;

@@ -21,7 +21,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
     const EMAIL_ADDRESS = 'john.doe@ebay.com';
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\View\Element\Template\Context */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\View\Element\Template\Context */
     private $_context;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Session */
@@ -68,7 +68,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $urlBuilder = $this->getMockForAbstractClass('Magento\UrlInterface', array(), '', false);
         $urlBuilder->expects($this->any())->method('getUrl')->will($this->returnValue(self::CHANGE_PASSWORD_URL));
 
-        $layout = $this->getMockForAbstractClass('Magento\View\LayoutInterface', array(), '', false);
+        $layout = $this->getMockForAbstractClass('Magento\Framework\View\LayoutInterface', array(), '', false);
         $this->_formRegister = $this->getMock('Magento\Customer\Block\Form\Register', array(), array(), '', false);
         $layout->expects(
             $this->any()
@@ -80,7 +80,13 @@ class InfoTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_formRegister)
         );
 
-        $this->_context = $this->getMock('Magento\View\Element\Template\Context', array(), array(), '', false);
+        $this->_context = $this->getMock(
+            'Magento\Framework\View\Element\Template\Context',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_context->expects($this->once())->method('getUrlBuilder')->will($this->returnValue($urlBuilder));
         $this->_context->expects($this->once())->method('getLayout')->will($this->returnValue($layout));
 

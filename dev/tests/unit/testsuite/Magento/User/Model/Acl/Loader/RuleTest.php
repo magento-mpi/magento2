@@ -38,10 +38,10 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     {
         $this->_resourceMock->expects($this->any())->method('getTable')->will($this->returnArgument(1));
 
-        $selectMock = $this->getMock('Magento\DB\Select', array(), array(), '', false);
+        $selectMock = $this->getMock('Magento\Framework\DB\Select', array(), array(), '', false);
         $selectMock->expects($this->any())->method('from')->will($this->returnValue($selectMock));
 
-        $adapterMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
+        $adapterMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         $adapterMock->expects($this->once())->method('select')->will($this->returnValue($selectMock));
         $adapterMock->expects(
             $this->once()

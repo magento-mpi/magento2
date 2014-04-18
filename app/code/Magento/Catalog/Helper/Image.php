@@ -94,7 +94,7 @@ class Image extends AbstractHelper
     protected $_placeholder;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $_viewUrl;
 
@@ -115,13 +115,13 @@ class Image extends AbstractHelper
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Product\ImageFactory $productImageFactory
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Catalog\Model\Product\ImageFactory $productImageFactory,
-        \Magento\View\Url $viewUrl,
+        \Magento\Framework\View\Url $viewUrl,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_productImageFactory = $productImageFactory;

@@ -158,7 +158,7 @@ class Sitemap extends \Magento\Backend\App\Action
                 }
             }
 
-            /** @var \Magento\Filesystem\Directory\Write $directory */
+            /** @var \Magento\Framework\Filesystem\Directory\Write $directory */
             $directory = $this->_objectManager->get(
                 'Magento\Framework\App\Filesystem'
             )->getDirectoryWrite(
@@ -222,7 +222,7 @@ class Sitemap extends \Magento\Backend\App\Action
      */
     public function deleteAction()
     {
-        /** @var \Magento\Filesystem\Directory\Write $directory */
+        /** @var \Magento\Framework\Filesystem\Directory\Write $directory */
         $directory = $this->_objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
@@ -285,7 +285,7 @@ class Sitemap extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(
                     __('The sitemap "%1" has been generated.', $sitemap->getSitemapFilename())
                 );
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Something went wrong generating the sitemap.'));

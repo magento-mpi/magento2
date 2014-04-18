@@ -16,7 +16,7 @@ namespace Magento\Index\Model\Lock;
 use Magento\Index\Model\Process\File;
 use Magento\Index\Model\Process\FileFactory;
 use Magento\Framework\App\Filesystem;
-use Magento\Filesystem\Directory\WriteInterface;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 class Storage
 {

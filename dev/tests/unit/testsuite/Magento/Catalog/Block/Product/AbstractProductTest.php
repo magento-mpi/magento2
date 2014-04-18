@@ -23,7 +23,7 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
     protected $productContextMock;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $layoutMock;
 
@@ -41,7 +41,7 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
             false
         );
         $arrayUtilsMock = $this->getMock('Magento\Stdlib\ArrayUtils', [], [], '', false);
-        $this->layoutMock = $this->getMock('Magento\View\Layout', ['getBlock'], [], '', false);
+        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', ['getBlock'], [], '', false);
 
         $this->productContextMock->expects($this->once())
             ->method('getLayout')
