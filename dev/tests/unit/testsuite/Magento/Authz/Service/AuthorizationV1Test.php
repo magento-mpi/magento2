@@ -33,7 +33,7 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\User\Model\Resource\Role\CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento\User\Model\RulesFactory', array(), array(), '', false),
             $this->getMock('Magento\User\Model\Resource\Rules\CollectionFactory', array(), array(), '', false),
-            $this->getMock('Magento\Logger', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Logger', array(), array(), '', false),
             $this->getMock('Magento\Framework\Acl\RootResource', array(), array(), '', false)
         );
     }

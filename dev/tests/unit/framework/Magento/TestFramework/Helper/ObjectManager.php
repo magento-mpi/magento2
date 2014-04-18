@@ -85,7 +85,7 @@ class ObjectManager
     /**
      * Retrieve specific mock of core resource model
      *
-     * @return \Magento\Module\ResourceInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Framework\Module\ResourceInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getResourceModelMock()
     {

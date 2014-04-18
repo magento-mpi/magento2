@@ -39,7 +39,7 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
     protected $requestMock;
 
     /**
-     * @var \Magento\Message\Manager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Message\Manager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $messageManagerMock;
 
@@ -61,7 +61,7 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
         $this->cookieMock = $this->getMock('Magento\Framework\Stdlib\Cookie', array(), array(), '', false);
         $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array('isPost'), array(), '', false);
         $this->configMock = $this->getMock('Magento\PageCache\Model\Config', array('isEnabled'), array(), '', false);
-        $this->messageManagerMock = $this->getMockBuilder('Magento\Message\Manager')
+        $this->messageManagerMock = $this->getMockBuilder('Magento\Framework\Message\Manager')
             ->disableOriginalConstructor()
             ->getMock();
 

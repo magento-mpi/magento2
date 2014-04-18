@@ -23,7 +23,7 @@ use Magento\Eav\Model\Form\Type;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
 use Magento\Framework\Model\Resource\Db\AbstractDb;
-use Magento\Logger;
+use Magento\Framework\Logger;
 use Magento\Store\Model\StoreManagerInterface;
 
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection

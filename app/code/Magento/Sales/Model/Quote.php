@@ -234,7 +234,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_quoteItemFactory;
 
     /**
-     * @var \Magento\Message\Factory
+     * @var \Magento\Framework\Message\Factory
      */
     protected $messageFactory;
 
@@ -296,7 +296,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollectionFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
-     * @param \Magento\Message\Factory $messageFactory
+     * @param \Magento\Framework\Message\Factory $messageFactory
      * @param \Magento\Sales\Model\Status\ListFactory $statusListFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory
@@ -322,7 +322,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         CustomerGroupServiceInterface $customerGroupService,
         \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollectionFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
-        \Magento\Message\Factory $messageFactory,
+        \Magento\Framework\Message\Factory $messageFactory,
         \Magento\Sales\Model\Status\ListFactory $statusListFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory,
@@ -1780,7 +1780,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         }
 
         if (is_string($message)) {
-            $message = $this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_ERROR, $message);
+            $message = $this->messageFactory->create(\Magento\Framework\Message\MessageInterface::TYPE_ERROR, $message);
         }
 
         $messages[$index] = $message;
@@ -1812,8 +1812,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     {
         $errors = array();
         foreach ($this->getMessages() as $message) {
-            /* @var $error \Magento\Message\AbstractMessage */
-            if ($message->getType() == \Magento\Message\MessageInterface::TYPE_ERROR) {
+            /* @var $error \Magento\Framework\Message\AbstractMessage */
+            if ($message->getType() == \Magento\Framework\Message\MessageInterface::TYPE_ERROR) {
                 array_push($errors, $message);
             }
         }
@@ -1960,7 +1960,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         }
 
         $message = $messages[$type];
-        if ($message instanceof \Magento\Message\AbstractMessage) {
+        if ($message instanceof \Magento\Framework\Message\AbstractMessage) {
             $message = $message->getText();
         } elseif (!is_string($message)) {
             return $this;

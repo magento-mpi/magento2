@@ -24,7 +24,7 @@ class Combine extends AbstractCondition
     protected $_conditionFactory;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 

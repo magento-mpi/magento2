@@ -20,7 +20,7 @@ class Edit extends \Magento\Backend\App\AbstractAction
     protected $factory;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $logger;
 
@@ -28,13 +28,13 @@ class Edit extends \Magento\Backend\App\AbstractAction
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $factory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $factory,
-        \Magento\Logger $logger
+        \Magento\Framework\Logger $logger
     ) {
         $this->registry = $registry;
         $this->factory = $factory;

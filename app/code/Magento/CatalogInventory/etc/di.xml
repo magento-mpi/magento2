@@ -18,7 +18,7 @@
             <argument name="catalogInventoryData" xsi:type="object">Magento\CatalogInventory\Helper\Data\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="cataloginventory_setup" xsi:type="string">Magento\Eav\Model\Entity\Setup</item>
@@ -28,7 +28,7 @@
     <type name="Magento\Catalog\Model\Layer">
         <plugin name="addStockStatusOnPrepareFrontCollection" type="Magento\CatalogInventory\Model\Plugin\Layer"/>
     </type>
-    <type name="Magento\Module\Setup\Migration">
+    <type name="Magento\Framework\Module\Setup\Migration">
         <arguments>
             <argument name="compositeModules" xsi:type="array">
                 <item name="cataloginventory" xsi:type="string">Magento_CatalogInventory</item>

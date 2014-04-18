@@ -214,7 +214,7 @@ class Index extends \Magento\Backend\App\Action
         } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__('An error has occurred. See error log for details.'));
         }
         $this->_redirect('checkout/*/error');
@@ -443,7 +443,7 @@ class Index extends \Magento\Backend\App\Action
         } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__('An error has occurred. See error log for details.'));
         }
         $this->_redirect('checkout/*/error');
@@ -657,7 +657,7 @@ class Index extends \Magento\Backend\App\Action
         if ($e instanceof Exception) {
             $result = array('error' => $e->getMessage());
         } elseif ($e instanceof \Exception) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $result = array('error' => __('An error has occurred. See error log for details.'));
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
@@ -906,7 +906,7 @@ class Index extends \Magento\Backend\App\Action
                 $this->getCartModel()->updateQuoteItems($items);
                 if ($this->getCartModel()->getQuote()->getHasError()) {
                     foreach ($this->getCartModel()->getQuote()->getErrors() as $error) {
-                        /* @var $error \Magento\Message\Error */
+                        /* @var $error \Magento\Framework\Message\Error */
                         $this->messageManager->addError($error->getText());
                     }
                 }
@@ -991,7 +991,7 @@ class Index extends \Magento\Backend\App\Action
                         } catch (Exception $e) {
                             $this->messageManager->addError($e->getMessage());
                         } catch (\Exception $e) {
-                            $this->_objectManager->get('Magento\Logger')->logException($e);
+                            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                         }
                     }
                 }
@@ -1077,7 +1077,7 @@ class Index extends \Magento\Backend\App\Action
         try {
             $this->_initData();
         } catch (Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_redirect('customer/index');
             $this->_redirectFlag = true;
         }

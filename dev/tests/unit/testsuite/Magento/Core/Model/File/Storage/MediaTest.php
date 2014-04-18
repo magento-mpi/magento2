@@ -39,7 +39,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $this->_loggerMock = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $this->_storageHelperMock = $this->getMock(
             'Magento\Core\Helper\File\Storage\Database',
             array(),

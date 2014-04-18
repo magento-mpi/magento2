@@ -58,7 +58,7 @@ abstract class AbstractController extends \Magento\Framework\App\Action\Action
     {
         if (!$this->_localFilter) {
             $this->_localFilter = new \Zend_Filter_LocalizedToNormalized(
-                array('locale' => $this->_objectManager->get('Magento\Locale\ResolverInterface')->getLocaleCode())
+                array('locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocaleCode())
             );
         }
         $qty = $this->_localFilter->filter((double)$qty);
@@ -135,7 +135,7 @@ abstract class AbstractController extends \Magento\Framework\App\Action\Action
                     $cart->getQuote()->deleteItem($cartItem);
                 }
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $messages[] = __('We cannot add this item to your shopping cart.');
             }
         }

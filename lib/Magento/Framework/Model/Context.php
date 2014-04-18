@@ -22,7 +22,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     protected $_cacheManager;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -37,14 +37,14 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     protected $_actionValidator;
 
     /**
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Event\ManagerInterface $eventDispatcher
      * @param \Magento\Framework\App\CacheInterface $cacheManager
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Model\ActionValidator\RemoveAction $actionValidator
      */
     public function __construct(
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\Event\ManagerInterface $eventDispatcher,
         \Magento\Framework\App\CacheInterface $cacheManager,
         \Magento\Framework\App\State $appState,
@@ -74,7 +74,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Logger
+     * @return \Magento\Framework\Logger
      */
     public function getLogger()
     {

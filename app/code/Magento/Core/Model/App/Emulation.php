@@ -39,7 +39,7 @@ class Emulation extends \Magento\Object
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -66,7 +66,7 @@ class Emulation extends \Magento\Object
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param ConfigInterface $inlineConfig
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
@@ -77,7 +77,7 @@ class Emulation extends \Magento\Object
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         ConfigInterface $inlineConfig,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_localeResolver = $localeResolver;

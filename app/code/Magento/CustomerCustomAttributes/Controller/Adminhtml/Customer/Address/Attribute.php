@@ -234,8 +234,8 @@ class Attribute extends \Magento\Backend\App\Action
             $attributeObject = $this->_initAttribute();
             /* @var $helper \Magento\CustomerCustomAttributes\Helper\Data */
             $helper = $this->_objectManager->get('Magento\CustomerCustomAttributes\Helper\Data');
-            /* @var $filterManager \Magento\Filter\FilterManager */
-            $filterManager = $this->_objectManager->get('Magento\Filter\FilterManager');
+            /* @var $filterManager \Magento\Framework\Filter\FilterManager */
+            $filterManager = $this->_objectManager->get('Magento\Framework\Filter\FilterManager');
 
             //filtering
             try {

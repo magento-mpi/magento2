@@ -33,7 +33,7 @@ class Integration extends Action
      */
     protected $_registry;
 
-    /** @var \Magento\Logger */
+    /** @var \Magento\Framework\Logger */
     protected $_logger;
 
     /** @var \Magento\Integration\Service\IntegrationV1Interface */
@@ -56,7 +56,7 @@ class Integration extends Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param IntegrationOauthService $oauthService
      * @param \Magento\Core\Helper\Data $coreHelper
@@ -66,7 +66,7 @@ class Integration extends Action
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Registry $registry,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
         IntegrationOauthService $oauthService,
         \Magento\Core\Helper\Data $coreHelper,

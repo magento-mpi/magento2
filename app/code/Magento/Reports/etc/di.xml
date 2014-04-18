@@ -11,7 +11,7 @@
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="reportLog" type="Magento\Reports\Model\Plugin\Log" />
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="reports_setup" xsi:type="string">Magento\Reports\Model\Resource\Setup</item>

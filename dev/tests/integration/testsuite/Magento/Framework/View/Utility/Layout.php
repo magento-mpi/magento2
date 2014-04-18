@@ -88,7 +88,7 @@ class Layout
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         return array(
             'processorFactory' => $objectManager->get('Magento\Framework\View\Layout\ProcessorFactory'),
-            'logger' => $objectManager->get('Magento\Logger'),
+            'logger' => $objectManager->get('Magento\Framework\Logger'),
             'eventManager' => $objectManager->get('Magento\Framework\Event\ManagerInterface'),
             'blockFactory' => $objectManager->create('Magento\Framework\View\Element\BlockFactory', array()),
             'structure' => $objectManager->create('Magento\Framework\Data\Structure', array()),
@@ -97,7 +97,7 @@ class Layout
             'scheduledStructure' => $objectManager->create('Magento\Framework\View\Layout\ScheduledStructure', array()),
             'scopeConfig' => $objectManager->create('Magento\Framework\App\Config\ScopeConfigInterface'),
             'appState' => $objectManager->get('Magento\Framework\App\State'),
-            'messageManager' => $objectManager->get('Magento\Message\ManagerInterface'),
+            'messageManager' => $objectManager->get('Magento\Framework\Message\ManagerInterface'),
             'themeResolver' => $objectManager->get('Magento\Framework\View\Design\Theme\ResolverInterface'),
             'scopeResolver' => $objectManager->get('Magento\Framework\App\ScopeResolverInterface'),
             'scopeType' => \Magento\Store\Model\ScopeInterface::SCOPE_STORE,

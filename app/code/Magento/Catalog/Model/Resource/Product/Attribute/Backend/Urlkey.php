@@ -26,10 +26,10 @@ class Urlkey extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected $_catalogUrl;
 
     /**
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Catalog\Model\Url $catalogUrl
      */
-    public function __construct(\Magento\Logger $logger, \Magento\Catalog\Model\Url $catalogUrl)
+    public function __construct(\Magento\Framework\Logger $logger, \Magento\Catalog\Model\Url $catalogUrl)
     {
         $this->_catalogUrl = $catalogUrl;
         parent::__construct($logger);

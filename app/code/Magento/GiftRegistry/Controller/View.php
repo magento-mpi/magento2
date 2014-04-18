@@ -121,7 +121,7 @@ class View extends \Magento\Framework\App\Action\Action
             $this->messageManager->addError(__($e->getMessage()));
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We cannot add this item to your shopping cart.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         if (!$success) {
             $this->_redirect('*/*', array('_current' => true));

@@ -75,7 +75,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_escaper;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -88,7 +88,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -99,7 +99,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\UrlFactory $urlFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Escaper $escaper,
-        \Magento\Locale\ResolverInterface $localeResolver
+        \Magento\Framework\Locale\ResolverInterface $localeResolver
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;

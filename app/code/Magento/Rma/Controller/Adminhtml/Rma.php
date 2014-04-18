@@ -255,7 +255,7 @@ class Rma extends \Magento\Backend\App\Action
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We failed to save this RMA.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('adminhtml/*/');
     }
@@ -365,7 +365,7 @@ class Rma extends \Magento\Backend\App\Action
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We failed to save this RMA.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_redirect('adminhtml/*/');
             return;
         }
@@ -1097,7 +1097,7 @@ class Rma extends \Magento\Backend\App\Action
             $responseAjax->setError(true);
             $responseAjax->setMessage($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $responseAjax->setError(true);
             $responseAjax->setMessage(__('Something went wrong creating a shipping label.'));
         }
@@ -1124,7 +1124,7 @@ class Rma extends \Magento\Backend\App\Action
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $response->setError(true);
             $response->setMessage(__('Something went wrong creating a shipping label.'));
         }
@@ -1272,7 +1272,7 @@ class Rma extends \Magento\Backend\App\Action
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__('Something went wrong creating a shipping label.'));
         }
         $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('id')));

@@ -37,7 +37,7 @@ class Url extends \Magento\Object
     protected $_urlRewrite;
 
     /**
-     * @var \Magento\Filter\FilterManager
+     * @var \Magento\Framework\Filter\FilterManager
      */
     protected $filter;
 
@@ -67,7 +67,7 @@ class Url extends \Magento\Object
      * @param \Magento\UrlInterface $url
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Category $catalogCategory
-     * @param \Magento\Filter\FilterManager $filter
+     * @param \Magento\Framework\Filter\FilterManager $filter
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param array $data
      */
@@ -76,7 +76,7 @@ class Url extends \Magento\Object
         \Magento\UrlInterface $url,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Category $catalogCategory,
-        \Magento\Filter\FilterManager $filter,
+        \Magento\Framework\Filter\FilterManager $filter,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
         array $data = array()
     ) {

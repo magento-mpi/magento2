@@ -39,7 +39,7 @@ class PriceCurrencyTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['create'])
             ->getMock();
 
-        $this->logger = $this->getMockBuilder('Magento\Logger')
+        $this->logger = $this->getMockBuilder('Magento\Framework\Logger')
             ->disableOriginalConstructor()
             ->getMock();
 

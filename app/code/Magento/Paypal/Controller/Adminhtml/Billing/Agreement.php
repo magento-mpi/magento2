@@ -120,7 +120,7 @@ class Agreement extends \Magento\Backend\App\Action
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We could not cancel the billing agreement.'));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
             $this->_redirect('paypal/*/view', array('_current' => true));
         }
@@ -146,7 +146,7 @@ class Agreement extends \Magento\Backend\App\Action
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We could not delete the billing agreement.'));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
             $this->_redirect('paypal/*/view', array('_current' => true));
         }

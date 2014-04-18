@@ -10,7 +10,7 @@
 namespace Magento\Email\Model;
 
 use Magento\Email\Model\Template\Filter;
-use Magento\Filter\Template as FilterTemplate;
+use Magento\Framework\Filter\Template as FilterTemplate;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**

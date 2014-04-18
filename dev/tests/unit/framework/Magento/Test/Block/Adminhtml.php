@@ -87,7 +87,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $this->_urlMock             = $this->_makeMock('Magento\UrlInterface');
         $this->_eventManagerMock    = $this->_makeMock('Magento\Framework\Event\ManagerInterface');
         $this->_controllerMock      = $this->_makeMock('Magento\Framework\App\FrontController');
-        $this->_loggerMock          = $this->_makeMock('Magento\Logger');
+        $this->_loggerMock          = $this->_makeMock('Magento\Framework\Logger');
         $this->_filesystemMock      = $this->_makeMock('Magento\Framework\App\Filesystem');
         $this->_cacheMock           = $this->_makeMock('Magento\Framework\App\CacheInterface');
         $this->_scopeConfigMock     = $this->_makeMock('Magento\Framework\App\Config\ScopeConfigInterface');
@@ -99,7 +99,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $authorizationMock          = $this->_makeMock('Magento\Framework\AuthorizationInterface');
         $cacheStateMock             = $this->_makeMock('Magento\Framework\App\Cache\StateInterface');
         $escaperMock                = $this->_makeMock('Magento\Escaper');
-        $filterManagerMock          = $this->_makeMock('Magento\Filter\FilterManager');
+        $filterManagerMock          = $this->_makeMock('Magento\Framework\Filter\FilterManager');
         $backendSessionMock         = $this->_makeMock('Magento\Backend\Model\Session');
         $appState                   = $this->_makeMock('Magento\Framework\App\State');
         $this->_mathMock            = $this->_makeMock('Magento\Math\Random');

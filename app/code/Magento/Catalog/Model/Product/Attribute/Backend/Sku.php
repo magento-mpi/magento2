@@ -36,10 +36,10 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected $string;
 
     /**
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Stdlib\String $string
      */
-    public function __construct(\Magento\Logger $logger, \Magento\Framework\Stdlib\String $string)
+    public function __construct(\Magento\Framework\Logger $logger, \Magento\Framework\Stdlib\String $string)
     {
         $this->string = $string;
         parent::__construct($logger);

@@ -46,7 +46,7 @@ class Backup extends \Magento\Object implements \Magento\Framework\Backup\Db\Bac
     /**
      * Locale model
      *
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -69,7 +69,7 @@ class Backup extends \Magento\Object implements \Magento\Framework\Backup\Db\Bac
 
     /**
      * @param \Magento\Backup\Helper\Data $helper
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\App\Filesystem $filesystem
@@ -77,7 +77,7 @@ class Backup extends \Magento\Object implements \Magento\Framework\Backup\Db\Bac
      */
     public function __construct(
         \Magento\Backup\Helper\Data $helper,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\App\Filesystem $filesystem,

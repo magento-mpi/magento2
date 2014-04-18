@@ -8,7 +8,7 @@
 namespace Magento\Directory\Model;
 
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\Logger;
+use Magento\Framework\Logger;
 
 /**
  * Class PriceCurrency model for convert and format price value

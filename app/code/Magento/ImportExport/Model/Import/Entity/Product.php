@@ -440,7 +440,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $dateTime;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     private $_logger;
 
@@ -472,7 +472,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param array $data
      */
     public function __construct(
@@ -503,7 +503,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;

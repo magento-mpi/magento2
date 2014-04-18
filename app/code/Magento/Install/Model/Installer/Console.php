@@ -97,7 +97,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     /**
      * DB updater
      *
-     * @var \Magento\Module\UpdaterInterface
+     * @var \Magento\Framework\Module\UpdaterInterface
      */
     protected $_dbUpdater;
 
@@ -118,7 +118,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     /**
      * Locale Lists
      *
-     * @var \Magento\Locale\ListsInterface
+     * @var \Magento\Framework\Locale\ListsInterface
      */
     protected $_localeLists;
 
@@ -132,21 +132,21 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     /**
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Framework\App\Resource\Config $resourceConfig
-     * @param \Magento\Module\UpdaterInterface $dbUpdater
+     * @param \Magento\Framework\Module\UpdaterInterface $dbUpdater
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Install\Model\Installer\Data $installerData
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Locale\ListsInterface $localeLists
+     * @param \Magento\Framework\Locale\ListsInterface $localeLists
      * @param \Magento\Framework\ObjectManager $objectManager
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
         \Magento\Framework\App\Resource\Config $resourceConfig,
-        \Magento\Module\UpdaterInterface $dbUpdater,
+        \Magento\Framework\Module\UpdaterInterface $dbUpdater,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Install\Model\Installer\Data $installerData,
         \Magento\Framework\App\State $appState,
-        \Magento\Locale\ListsInterface $localeLists,
+        \Magento\Framework\Locale\ListsInterface $localeLists,
         \Magento\Framework\ObjectManager $objectManager
     ) {
         parent::__construct($installer);
@@ -373,7 +373,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
             return $encryptionKey;
         } catch (\Exception $e) {
             if ($e instanceof \Magento\Framework\Model\Exception) {
-                foreach ($e->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR) as $errorMessage) {
+                foreach ($e->getMessages(\Magento\Framework\Message\MessageInterface::TYPE_ERROR) as $errorMessage) {
                     $this->addError($errorMessage);
                 }
             } else {

@@ -13,7 +13,7 @@ use Magento\Framework\TranslateInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\View\Url as ViewUrl;
 use Magento\Framework\View\ConfigInterface as ViewConfig;
-use Magento\Logger;
+use Magento\Framework\Logger;
 use Magento\Framework\App\State as AppState;
 use Magento\Framework\View\LayoutInterface;
 use Magento\Framework\Session\SessionManager;
@@ -126,7 +126,7 @@ class Context
     /**
      * Logger
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $logger;
 
@@ -327,7 +327,7 @@ class Context
     /**
      * Retrieve logger
      *
-     * @return \Magento\Logger
+     * @return \Magento\Framework\Logger
      */
     public function getLogger()
     {

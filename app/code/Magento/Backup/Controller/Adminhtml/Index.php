@@ -175,10 +175,10 @@ class Index extends \Magento\Backend\App\Action
         } catch (\Magento\Framework\Backup\Exception\NotEnoughFreeSpace $e) {
             $errorMessage = __('You need more free space to create a backup.');
         } catch (\Magento\Framework\Backup\Exception\NotEnoughPermissions $e) {
-            $this->_objectManager->get('Magento\Logger')->log($e->getMessage());
+            $this->_objectManager->get('Magento\Framework\Logger')->log($e->getMessage());
             $errorMessage = __('You need more permissions to create a backup.');
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->log($e->getMessage());
+            $this->_objectManager->get('Magento\Framework\Logger')->log($e->getMessage());
             $errorMessage = __('Something went wrong creating the backup.');
         }
 
@@ -346,10 +346,10 @@ class Index extends \Magento\Backend\App\Action
         } catch (\Magento\Framework\Backup\Exception\FtpValidationFailed $e) {
             $errorMsg = __('Failed to validate FTP');
         } catch (\Magento\Framework\Backup\Exception\NotEnoughPermissions $e) {
-            $this->_objectManager->get('Magento\Logger')->log($e->getMessage());
+            $this->_objectManager->get('Magento\Framework\Logger')->log($e->getMessage());
             $errorMsg = __('Not enough permissions to perform rollback.');
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->log($e->getMessage());
+            $this->_objectManager->get('Magento\Framework\Logger')->log($e->getMessage());
             $errorMsg = __('Failed to rollback');
         }
 

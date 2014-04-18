@@ -31,7 +31,7 @@ class Locale extends \Magento\Framework\App\Config\Value
     protected $_storeFactory;
 
     /**
-     * @var \Magento\Locale\CurrencyInterface
+     * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
 
@@ -42,7 +42,7 @@ class Locale extends \Magento\Framework\App\Config\Value
      * @param \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory
      * @param \Magento\Store\Model\Website\Factory $websiteFactory
      * @param \Magento\Store\Model\StoreFactory $storeFactory
-     * @param \Magento\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -56,7 +56,7 @@ class Locale extends \Magento\Framework\App\Config\Value
         \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory,
         \Magento\Store\Model\Website\Factory $websiteFactory,
         \Magento\Store\Model\StoreFactory $storeFactory,
-        \Magento\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

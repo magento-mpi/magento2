@@ -136,7 +136,7 @@ class RecurringPayment extends \Magento\Framework\App\Action\Action
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We couldn\'t update the payment.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         if ($payment) {
             $this->_redirect('*/*/view', array('payment' => $payment->getId()));
@@ -166,7 +166,7 @@ class RecurringPayment extends \Magento\Framework\App\Action\Action
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We couldn\'t update the payment.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         if ($payment) {
             $this->_redirect('*/*/view', array('payment' => $payment->getId()));
@@ -193,7 +193,7 @@ class RecurringPayment extends \Magento\Framework\App\Action\Action
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }

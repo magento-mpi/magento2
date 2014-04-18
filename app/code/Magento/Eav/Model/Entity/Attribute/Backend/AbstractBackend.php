@@ -57,14 +57,14 @@ abstract class AbstractBackend implements \Magento\Eav\Model\Entity\Attribute\Ba
     protected $_defaultValue = null;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
     /**
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      */
-    public function __construct(\Magento\Logger $logger)
+    public function __construct(\Magento\Framework\Logger $logger)
     {
         $this->_logger = $logger;
     }

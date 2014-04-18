@@ -82,7 +82,7 @@ class Product extends \Magento\Core\Helper\Url
     protected $_coreConfig;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 

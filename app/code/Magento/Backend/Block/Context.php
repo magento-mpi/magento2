@@ -35,9 +35,9 @@ class Context extends \Magento\Framework\View\Element\Context
      * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Framework\View\ConfigInterface $viewConfig
      * @param \Magento\Framework\App\Cache\StateInterface $cacheState
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Framework\Filter\FilterManager $filterManager
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
@@ -58,9 +58,9 @@ class Context extends \Magento\Framework\View\Element\Context
         \Magento\Framework\View\Url $viewUrl,
         \Magento\Framework\View\ConfigInterface $viewConfig,
         \Magento\Framework\App\Cache\StateInterface $cacheState,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Escaper $escaper,
-        \Magento\Filter\FilterManager $filterManager,
+        \Magento\Framework\Filter\FilterManager $filterManager,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\AuthorizationInterface $authorization

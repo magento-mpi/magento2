@@ -43,7 +43,7 @@ class StorageFactory
     protected $_eventManager;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_log;
 
@@ -75,7 +75,7 @@ class StorageFactory
     /**
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Stdlib\Cookie $cookie
@@ -88,7 +88,7 @@ class StorageFactory
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\Stdlib\Cookie $cookie,
@@ -163,12 +163,12 @@ class StorageFactory
                     );
                     $this->_log->unsetLoggers();
                     $this->_log->addStreamLog(
-                        \Magento\Logger::LOGGER_SYSTEM,
+                        \Magento\Framework\Logger::LOGGER_SYSTEM,
                         $logFile,
                         $this->_writerModel
                     );
                     $this->_log->addStreamLog(
-                        \Magento\Logger::LOGGER_EXCEPTION,
+                        \Magento\Framework\Logger::LOGGER_EXCEPTION,
                         $logExceptionFile,
                         $this->_writerModel
                     );

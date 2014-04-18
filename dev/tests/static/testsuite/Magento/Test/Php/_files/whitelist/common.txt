@@ -136,5 +136,5 @@ lib/Magento/Service
 lib/Magento/Url/SecurityInfoInterface.php
 lib/Magento/Framework/View
 lib/Magento/Framework/App/AbstractShell.php
-lib/Magento/Locale/Validator.php
+lib/Magento/Framework/Locale/Validator.php
 lib/Magento/Framework/App/Config

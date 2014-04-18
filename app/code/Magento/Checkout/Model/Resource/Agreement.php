@@ -19,15 +19,15 @@ namespace Magento\Checkout\Model\Resource;
 class Agreement extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Filter\FilterManager
+     * @var \Magento\Framework\Filter\FilterManager
      */
     protected $filterManager;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Framework\Filter\FilterManager $filterManager
      */
-    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Filter\FilterManager $filterManager)
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Framework\Filter\FilterManager $filterManager)
     {
         $this->filterManager = $filterManager;
         parent::__construct($resource);

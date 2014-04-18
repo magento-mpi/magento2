@@ -44,8 +44,8 @@ lib/Magento/Framework/Exception/InputException.php
 lib/Magento/Framework/Exception/NoSuchEntityException.php
 lib/Magento/Framework/Exception/StateException.php
 
-lib/Magento/Filter/Object/Grid.php
-lib/Magento/Filter/Object.php
+lib/Magento/Framework/Filter/Object/Grid.php
+lib/Magento/Framework/Filter/Object.php
 
 lib/Magento/Framework/View/Context.php
 lib/Magento/Framework/View/Element/Js/Cookie.php
@@ -60,7 +60,7 @@ lib/Magento/Framework/View/Element/Redirect.php
 
 lib/Magento/Framework/App/Module/ResourceResolver.php
 lib/Magento/Framework/Event/Invoker/InvokerDefault.php
-lib/Magento/Phrase/Renderer/Translate.php
+lib/Magento/Framework/Phrase/Renderer/Translate.php
 lib/Magento/Framework/Backup/Snapshot.php
 lib/Magento/Oauth/Exception.php
 

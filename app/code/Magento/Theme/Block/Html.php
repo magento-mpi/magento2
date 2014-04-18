@@ -15,7 +15,7 @@ use Magento\Framework\View\Element\Template;
 class Html extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -33,12 +33,12 @@ class Html extends \Magento\Framework\View\Element\Template
 
     /**
      * @param Template\Context $context
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         parent::__construct($context, $data);

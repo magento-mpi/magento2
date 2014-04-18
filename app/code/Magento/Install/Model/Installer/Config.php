@@ -58,7 +58,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_storeManager;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -67,14 +67,14 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Message\ManagerInterface $messageManager
+        \Magento\Framework\Message\ManagerInterface $messageManager
     ) {
         parent::__construct($installer);
         $this->_request = $request;

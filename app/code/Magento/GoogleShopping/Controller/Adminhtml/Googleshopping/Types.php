@@ -135,7 +135,7 @@ class Types extends \Magento\Backend\App\Action
             );
             $this->_view->renderLayout();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__("We can't create Attribute Set Mapping."));
             $this->_redirect('adminhtml/*/index', array('store' => $this->_getStore()->getId()));
         }
@@ -176,7 +176,7 @@ class Types extends \Magento\Backend\App\Action
             );
             $this->_view->renderLayout();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__("We can't edit Attribute Set Mapping."));
             $this->_redirect('adminhtml/*/index');
         }
@@ -246,7 +246,7 @@ class Types extends \Magento\Backend\App\Action
                 );
             }
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__("We can't save Attribute Set Mapping."));
         }
         $this->_redirect('adminhtml/*/index', array('store' => $this->_getStore()->getId()));
@@ -268,7 +268,7 @@ class Types extends \Magento\Backend\App\Action
             }
             $this->messageManager->addSuccess(__('Attribute set mapping was deleted'));
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__("We can't delete Attribute Set Mapping."));
         }
         $this->_redirect('adminhtml/*/index', array('store' => $this->_getStore()->getId()));
@@ -294,7 +294,7 @@ class Types extends \Magento\Backend\App\Action
                 )->toHtml()
             );
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             // just need to output text with error
             $this->messageManager->addError(__("We can't load attributes."));
         }
@@ -316,7 +316,7 @@ class Types extends \Magento\Backend\App\Action
                 )->toHtml()
             );
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             // just need to output text with error
             $this->messageManager->addError(__("We can't load attribute sets."));
         }

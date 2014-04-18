@@ -88,7 +88,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $actualMessages = $this->_model->getMessages();
         $this->assertCount(count($expectedErrors), $actualMessages, 'Number of messages does not meet expectations.');
         foreach ($expectedErrors as $errorIndex => $expectedErrorMessage) {
-            /** @var $actualMessage \Magento\Message\AbstractMessage */
+            /** @var $actualMessage \Magento\Framework\Message\AbstractMessage */
             $actualMessage = $actualMessages[$errorIndex];
             $this->assertEquals($expectedErrorMessage, $actualMessage);
         }

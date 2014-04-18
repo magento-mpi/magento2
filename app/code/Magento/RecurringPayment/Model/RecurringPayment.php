@@ -83,7 +83,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
     protected $_localeDate;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -100,7 +100,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\RecurringPayment\Block\Fields $fields
      * @param ManagerInterfaceFactory $managerFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -115,7 +115,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
         \Magento\RecurringPayment\Block\Fields $fields,
         ManagerInterfaceFactory $managerFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

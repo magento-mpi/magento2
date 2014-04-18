@@ -20,14 +20,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var Session|\PHPUnit_Framework_MockObject_MockObject */
     protected $checkoutSession;
 
-    /** @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $messageManager;
 
     protected function setUp()
     {
         $this->objectManager = new ObjectManager($this);
         $this->checkoutSession = $this->getMock('Magento\Checkout\Model\Session', [], [], '', false);
-        $this->messageManager = $this->getMock('Magento\Message\ManagerInterface', [], [], '', false);
+        $this->messageManager = $this->getMock('Magento\Framework\Message\ManagerInterface', [], [], '', false);
         $this->object = $this->objectManager->getObject('Magento\Checkout\Model\Observer', [
             'checkoutSession' => $this->checkoutSession,
             'messageManager' => $this->messageManager,

@@ -72,7 +72,7 @@ class InlineParserTest extends \PHPUnit_Framework_TestCase
             $model->delete();
         } catch (\Exception $e) {
             $model->delete();
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Logger')->logException($e);
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Logger')->logException($e);
         }
     }
 

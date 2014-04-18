@@ -38,9 +38,9 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $registryMock = $this->getMock('Magento\Registry');
         $configMock = $this->getMock('Magento\Sales\Model\Config', array(), array(), '', false);
         $this->sessionQuoteMock = $this->getMock('Magento\Backend\Model\Session\Quote', array(), array(), '', false);
-        $loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $loggerMock = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $copyMock = $this->getMock('Magento\Object\Copy', array(), array(), '', false);
-        $messageManagerMock = $this->getMock('Magento\Message\ManagerInterface');
+        $messageManagerMock = $this->getMock('Magento\Framework\Message\ManagerInterface');
         $customerAccountServiceMock = $this->getMock('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $customerAddressServiceMock = $this->getMock('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
         $addressBuilderMock = $this->getMock(

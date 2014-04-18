@@ -137,7 +137,7 @@ class Dashboard extends \Magento\Backend\App\Action
                         );
                         return;
                     } catch (\Exception $e) {
-                        $this->_objectManager->get('Magento\Logger')->logException($e);
+                        $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                         $error = __('see error log for details');
                         $httpCode = 503;
                     }

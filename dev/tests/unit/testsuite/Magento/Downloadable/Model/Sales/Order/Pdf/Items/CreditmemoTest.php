@@ -87,7 +87,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $filterManager = $this->getMock('Magento\Filter\FilterManager', array('stripTags'), array(), '', false);
+        $filterManager = $this->getMock('Magento\Framework\Filter\FilterManager', array('stripTags'), array(), '', false);
         $filterManager->expects($this->any())->method('stripTags')->will($this->returnArgument(0));
 
         $modelConstructorArgs = $objectManager->getConstructArguments(

@@ -35,13 +35,13 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $resource->expects($this->any())->method('getTable')->will($this->returnArgument(0));
 
         $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
-        $localeListsMock = $this->getMock('Magento\Locale\ListsInterface');
+        $localeListsMock = $this->getMock('Magento\Framework\Locale\ListsInterface');
         $localeListsMock->expects($this->any())->method('getCountryTranslation')->will($this->returnArgument(0));
 
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Framework\Data\Collection\Db\FetchStrategyInterface');
         $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
         $scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $countryFactory = $this->getMock(
             'Magento\Directory\Model\Resource\CountryFactory',
             array(),

@@ -34,12 +34,12 @@ abstract class AbstractHelper
     protected $translateInline;
 
     /**
-     * @var \Magento\Module\Manager
+     * @var \Magento\Framework\Module\Manager
      */
     private $_moduleManager;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -110,7 +110,7 @@ abstract class AbstractHelper
      *
      * @param string $moduleName Full module name
      * @return boolean
-     * @deprecated use \Magento\Module\Manager::isOutputEnabled()
+     * @deprecated use \Magento\Framework\Module\Manager::isOutputEnabled()
      */
     public function isModuleOutputEnabled($moduleName = null)
     {
@@ -125,7 +125,7 @@ abstract class AbstractHelper
      *
      * @param string $moduleName the full module name, example Magento_Core
      * @return boolean
-     * @deprecated use \Magento\Module\Manager::isEnabled()
+     * @deprecated use \Magento\Framework\Module\Manager::isEnabled()
      */
     public function isModuleEnabled($moduleName = null)
     {

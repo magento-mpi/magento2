@@ -38,7 +38,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = $this->getMock('Magento\Framework\ObjectManager');
 
-        $locale = $this->getMock('Magento\Locale\Resolver', array(), array(), '', false);
+        $locale = $this->getMock('Magento\Framework\Locale\Resolver', array(), array(), '', false);
 
         $optionCollection = $this->getMock(
             'Magento\Wishlist\Model\Resource\Item\Option\Collection',
@@ -81,7 +81,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         );
 
         $mapGet = array(
-            array('Magento\Locale\ResolverInterface', $locale),
+            array('Magento\Framework\Locale\ResolverInterface', $locale),
             array('Magento\Checkout\Model\Cart', $cart),
             array('Magento\Catalog\Helper\Product', $product),
             array('Magento\Escaper', $escaper),
@@ -118,7 +118,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             $response->headersSentThrowsException = false;
         }
         if (!$objectManager) {
-            $objectManager = new \Magento\Framework\ObjectManager\ObjectManager();
+            $config = new \Magento\Framework\ObjectManager\Config\Config();
+            $factory = new \Magento\Framework\ObjectManager\Factory\Factory($config);
+            $objectManager = new \Magento\Framework\ObjectManager\ObjectManager($factory, $config);
         }
         $rewriteFactory = $this->getMock(
             'Magento\UrlRewrite\Model\UrlRewriteFactory', array('create'), array(), '', false
@@ -142,7 +144,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $coreRegistry = $this->getMock('\Magento\Registry', array('registry'), array(), '', false);
         $coreRegistry->expects($this->once())->method('registry')->will($this->returnValue($wishlistModel));
 
-        $messageManager = $this->getMock('\Magento\Message\Manager', array(), array(), '', false);
+        $messageManager = $this->getMock('\Magento\Framework\Message\Manager', array(), array(), '', false);
 
         return $helper->getObject(
             'Magento\Wishlist\Controller\Index',

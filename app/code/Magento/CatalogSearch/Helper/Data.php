@@ -18,7 +18,7 @@ use Magento\CatalogSearch\Model\Resource\Fulltext\Engine;
 use Magento\CatalogSearch\Model\Resource\Query\Collection;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Escaper;
-use Magento\Filter\FilterManager;
+use Magento\Framework\Filter\FilterManager;
 use Magento\Framework\Stdlib\String;
 
 /**

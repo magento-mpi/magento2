@@ -20,7 +20,7 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
     /**
      * Filter manager
      *
-     * @var \Magento\Filter\FilterManager
+     * @var \Magento\Framework\Filter\FilterManager
      */
     protected $filter;
 
@@ -41,13 +41,13 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
-     * @param \Magento\Filter\FilterManager $filter
+     * @param \Magento\Framework\Filter\FilterManager $filter
      * @param \Magento\Framework\Stdlib\String $string
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
-        \Magento\Filter\FilterManager $filter,
+        \Magento\Framework\Filter\FilterManager $filter,
         \Magento\Framework\Stdlib\String $string
     ) {
         $this->_productOptionFactory = $productOptionFactory;

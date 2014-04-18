@@ -51,7 +51,7 @@ class Extension extends \Magento\Object
     protected $writeDirectory;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $logger;
 
@@ -61,14 +61,14 @@ class Extension extends \Magento\Object
      * @param \Magento\Convert\ConvertArray $convertArray
      * @param \Magento\Framework\App\Filesystem           $filesystem
      * @param Session                       $session
-     * @param \Magento\Logger               $logger
+     * @param \Magento\Framework\Logger               $logger
      * @param array                         $data
      */
     public function __construct(
         \Magento\Convert\ConvertArray $convertArray,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Connect\Model\Session $session,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         array $data = array()
     ) {
         $this->_convertArray = $convertArray;
@@ -308,7 +308,7 @@ class Extension extends \Magento\Object
             }
             $this->writeDirectory->writeFile(sprintf('connect/%s.xml', $fileName), $xml->asNiceXml());
         } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
-            $this->logger->addStreamLog(\Magento\Logger::LOGGER_EXCEPTION);
+            $this->logger->addStreamLog(\Magento\Framework\Logger::LOGGER_EXCEPTION);
             $this->logger->log($e->getMessage());
             return false;
         }
@@ -325,7 +325,7 @@ class Extension extends \Magento\Object
         try {
             $this->writeDirectory->create('connect/');
         } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
-            $this->logger->addStreamLog(\Magento\Logger::LOGGER_EXCEPTION);
+            $this->logger->addStreamLog(\Magento\Framework\Logger::LOGGER_EXCEPTION);
             $this->logger->log($e->getMessage());
             return false;
         }
@@ -346,7 +346,7 @@ class Extension extends \Magento\Object
         try {
             $this->writeDirectory->create('pear/');
         } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
-            $this->logger->addStreamLog(\Magento\Logger::LOGGER_EXCEPTION);
+            $this->logger->addStreamLog(\Magento\Framework\Logger::LOGGER_EXCEPTION);
             $this->logger->log($e->getMessage());
             return false;
         }

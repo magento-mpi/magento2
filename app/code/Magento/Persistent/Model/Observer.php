@@ -122,7 +122,7 @@ class Observer
     protected $_escaper;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -153,7 +153,7 @@ class Observer
      * @param \Magento\Framework\App\RequestInterface $requestHttp
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Checkout\Helper\ExpressRedirect $expressRedirectHelper
      * @param CustomerConverter $customerConverter
      *
@@ -174,7 +174,7 @@ class Observer
         \Magento\Framework\App\RequestInterface $requestHttp,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Escaper $escaper,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Checkout\Helper\ExpressRedirect $expressRedirectHelper,
         CustomerConverter $customerConverter
     ) {

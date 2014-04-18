@@ -73,12 +73,12 @@ class Translate implements \Magento\Framework\TranslateInterface
     protected $_viewFileSystem;
 
     /**
-     * @var \Magento\Module\ModuleList
+     * @var \Magento\Framework\Module\ModuleList
      */
     protected $_moduleList;
 
     /**
-     * @var \Magento\Module\Dir\Reader
+     * @var \Magento\Framework\Module\Dir\Reader
      */
     protected $_modulesReader;
 
@@ -93,7 +93,7 @@ class Translate implements \Magento\Framework\TranslateInterface
     protected $_translateResource;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_locale;
 
@@ -119,14 +119,14 @@ class Translate implements \Magento\Framework\TranslateInterface
 
     /**
      * @param \Magento\Framework\View\DesignInterface $viewDesign
-     * @param \Magento\Locale\Hierarchy\Config $config
+     * @param \Magento\Framework\Locale\Hierarchy\Config $config
      * @param \Magento\Framework\Cache\FrontendInterface $cache
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
-     * @param \Magento\Module\ModuleList $moduleList
-     * @param \Magento\Module\Dir\Reader $modulesReader
+     * @param \Magento\Framework\Module\ModuleList $moduleList
+     * @param \Magento\Framework\Module\Dir\Reader $modulesReader
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param \Magento\Framework\Translate\ResourceInterface $translate
-     * @param \Magento\Locale\ResolverInterface $locale
+     * @param \Magento\Framework\Locale\ResolverInterface $locale
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\App\RequestInterface $request
@@ -136,14 +136,14 @@ class Translate implements \Magento\Framework\TranslateInterface
      */
     public function __construct(
         \Magento\Framework\View\DesignInterface $viewDesign,
-        \Magento\Locale\Hierarchy\Config $config,
+        \Magento\Framework\Locale\Hierarchy\Config $config,
         \Magento\Framework\Cache\FrontendInterface $cache,
         \Magento\Framework\View\FileSystem $viewFileSystem,
-        \Magento\Module\ModuleList $moduleList,
-        \Magento\Module\Dir\Reader $modulesReader,
+        \Magento\Framework\Module\ModuleList $moduleList,
+        \Magento\Framework\Module\Dir\Reader $modulesReader,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         \Magento\Framework\Translate\ResourceInterface $translate,
-        \Magento\Locale\ResolverInterface $locale,
+        \Magento\Framework\Locale\ResolverInterface $locale,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\App\RequestInterface $request,

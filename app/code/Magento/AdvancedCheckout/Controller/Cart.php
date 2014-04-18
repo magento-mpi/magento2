@@ -188,7 +188,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__('You cannot configure a product.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_redirect('*');
             return;
         }
@@ -231,7 +231,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
             $hasError = true;
         } catch (\Exception $e) {
             $this->messageManager->addError(__('You cannot add a product.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $hasError = true;
         }
 

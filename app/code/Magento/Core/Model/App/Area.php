@@ -83,7 +83,7 @@ class Area implements \Magento\Framework\App\AreaInterface
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -105,7 +105,7 @@ class Area implements \Magento\Framework\App\AreaInterface
     protected $_designExceptions;
 
     /**
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\TranslateInterface $translator
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
@@ -118,7 +118,7 @@ class Area implements \Magento\Framework\App\AreaInterface
      * @param string $areaCode
      */
     public function __construct(
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\TranslateInterface $translator,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
@@ -257,7 +257,7 @@ class Area implements \Magento\Framework\App\AreaInterface
     {
         $this->_translator->loadData(null, false);
 
-        \Magento\Phrase::setRenderer($this->_objectManager->get('Magento\Phrase\RendererInterface'));
+        \Magento\Framework\Phrase::setRenderer($this->_objectManager->get('Magento\Framework\Phrase\RendererInterface'));
 
         return $this;
     }

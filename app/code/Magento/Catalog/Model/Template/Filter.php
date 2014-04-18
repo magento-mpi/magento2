@@ -19,7 +19,7 @@
  */
 namespace Magento\Catalog\Model\Template;
 
-class Filter extends \Magento\Filter\Template
+class Filter extends \Magento\Framework\Filter\Template
 {
     /**
      * Use absolute links flag

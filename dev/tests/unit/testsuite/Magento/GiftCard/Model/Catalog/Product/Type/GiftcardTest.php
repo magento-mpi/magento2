@@ -88,10 +88,10 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $storage = $this->getMockBuilder(
             'Magento\Core\Helper\File\Storage\Database'
         )->disableOriginalConstructor()->getMock();
-        $locale = $this->getMock('Magento\Locale\Format', array('getNumber'), array(), '', false);
+        $locale = $this->getMock('Magento\Framework\Locale\Format', array('getNumber'), array(), '', false);
         $locale->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
         $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
         $productOption = $this->getMock('Magento\Catalog\Model\Product\Option', array(), array(), '', false);
         $eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);

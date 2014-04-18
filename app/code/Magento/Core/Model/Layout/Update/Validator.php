@@ -57,7 +57,7 @@ class Validator extends \Zend_Validate_Abstract
     protected $_xsdSchemas;
 
     /**
-     * @var \Magento\Module\Dir\Reader
+     * @var \Magento\Framework\Module\Dir\Reader
      */
     protected $_modulesReader;
 
@@ -67,11 +67,11 @@ class Validator extends \Zend_Validate_Abstract
     protected $_domConfigFactory;
 
     /**
-     * @param \Magento\Module\Dir\Reader $modulesReader
+     * @param \Magento\Framework\Module\Dir\Reader $modulesReader
      * @param \Magento\Framework\Config\DomFactory $domConfigFactory
      */
     public function __construct(
-        \Magento\Module\Dir\Reader $modulesReader,
+        \Magento\Framework\Module\Dir\Reader $modulesReader,
         \Magento\Framework\Config\DomFactory $domConfigFactory
     ) {
         $this->_modulesReader = $modulesReader;

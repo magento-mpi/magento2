@@ -204,7 +204,7 @@ class Tracking extends \Magento\Framework\App\Action\Action
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__('Something went wrong creating a shipping label.'));
         }
         throw new NotFoundException();

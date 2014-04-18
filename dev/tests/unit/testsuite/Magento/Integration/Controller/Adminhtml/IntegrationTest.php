@@ -133,7 +133,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             'Magento\Integration\Helper\Data'
         )->disableOriginalConstructor()->getMock();
         $this->_messageManager = $this->getMockBuilder(
-            'Magento\Message\ManagerInterface'
+            'Magento\Framework\Message\ManagerInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_escaper = $this->getMockBuilder(
             'Magento\Escaper'
@@ -821,7 +821,7 @@ HANDLE;
         $this->_viewMock->expects($this->any())->method('getLayout')->will($this->returnValue($this->_layoutMock));
         $blockMock = $this->getMockBuilder('Magento\Backend\Block\Menu')->disableOriginalConstructor()->getMock();
         $menuMock = $this->getMockBuilder('Magento\Backend\Model\Menu')->disableOriginalConstructor()->getMock();
-        $loggerMock = $this->getMockBuilder('Magento\Logger')->disableOriginalConstructor()->getMock();
+        $loggerMock = $this->getMockBuilder('Magento\Framework\Logger')->disableOriginalConstructor()->getMock();
         $loggerMock->expects($this->any())->method('logException')->will($this->returnSelf());
         $menuMock->expects($this->any())->method('getParentItems')->will($this->returnValue(array()));
         $blockMock->expects($this->any())->method('getMenuModel')->will($this->returnValue($menuMock));

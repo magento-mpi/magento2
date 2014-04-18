@@ -186,7 +186,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t start Express Checkout.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
 
         $this->_redirect('checkout/cart');
@@ -206,7 +206,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $response = $this->_checkout->getShippingOptionsCallbackResponse($this->getRequest()->getParams());
             $this->getResponse()->setBody($response);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
     }
 
@@ -238,7 +238,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('Unable to cancel Express Checkout'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
 
         $this->_redirect('checkout/cart');
@@ -260,7 +260,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t process Express Checkout approval.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('checkout/cart');
     }
@@ -291,7 +291,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->messageManager->addError(
                 __('We can\'t initialize Express Checkout review.')
             );
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('checkout/cart');
     }
@@ -333,7 +333,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t update shipping method.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         if ($isAjax) {
             $this->getResponse()->setBody(
@@ -370,7 +370,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t update Order data.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->getResponse()->setBody(
             '<script type="text/javascript">window.location.href = ' . $this->_url->getUrl('*/*/review') . ';</script>'
@@ -399,7 +399,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t update Order data.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         if ($isAjax) {
             $this->getResponse()->setBody(
@@ -469,7 +469,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t place the order.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('*/*/review');
     }

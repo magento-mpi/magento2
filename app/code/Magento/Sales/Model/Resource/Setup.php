@@ -40,7 +40,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         $moduleName = 'Magento_Sales',
-        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
+        $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_config = $config;
         $this->_encryptor = $context->getEncryptor();

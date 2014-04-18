@@ -224,7 +224,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     /**
      * Message manager
      *
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -260,7 +260,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Escaper $escaper
      * @param \Magento\Rma\Model\Resource\Rma $resource
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -294,7 +294,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         \Magento\Escaper $escaper,
         \Magento\Rma\Model\Resource\Rma $resource,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

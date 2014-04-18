@@ -53,14 +53,14 @@ class ManageTest extends \Magento\TestFramework\TestCase\AbstractController
         /**
          * Check that errors
          */
-        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
+        $this->assertSessionMessages($this->isEmpty(), \Magento\Framework\Message\MessageInterface::TYPE_ERROR);
 
         /**
          * Check that success message
          */
         $this->assertSessionMessages(
             $this->equalTo(['We saved the subscription.']),
-            \Magento\Message\MessageInterface::TYPE_SUCCESS
+            \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
     }
 
@@ -79,14 +79,14 @@ class ManageTest extends \Magento\TestFramework\TestCase\AbstractController
         /**
          * Check that errors
          */
-        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
+        $this->assertSessionMessages($this->isEmpty(), \Magento\Framework\Message\MessageInterface::TYPE_ERROR);
 
         /**
          * Check that success message
          */
         $this->assertSessionMessages(
             $this->equalTo(['We removed the subscription.']),
-            \Magento\Message\MessageInterface::TYPE_SUCCESS
+            \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
     }
 }

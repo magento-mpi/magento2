@@ -20,13 +20,13 @@ class CreateTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    /** @var \Magento\Message\ManagerInterface */
+    /** @var \Magento\Framework\Message\ManagerInterface */
     protected $_messageManager;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_messageManager = Bootstrap::getObjectManager()->get('Magento\Message\ManagerInterface');
+        $this->_messageManager = Bootstrap::getObjectManager()->get('Magento\Framework\Message\ManagerInterface');
         $this->_model = Bootstrap::getObjectManager()->create(
             'Magento\Sales\Model\AdminOrder\Create',
             array('messageManager' => $this->_messageManager)
@@ -265,7 +265,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             /** createOrder is expected to throw exception with empty message when validation error occurs */
         }
         $errorMessages = array();
-        /** @var $validationError \Magento\Message\Error */
+        /** @var $validationError \Magento\Framework\Message\Error */
         foreach ($this->_messageManager->getMessages()->getItems() as $validationError) {
             $errorMessages[] = $validationError->getText();
         }

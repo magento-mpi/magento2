@@ -77,7 +77,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )->getMock();
 
         $this->_messageManager = $this->getMockBuilder(
-            'Magento\Message\ManagerInterface'
+            'Magento\Framework\Message\ManagerInterface'
         )->disableOriginalConstructor()->setMethods(
             array()
         )->getMock();

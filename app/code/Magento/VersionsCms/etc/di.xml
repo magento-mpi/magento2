@@ -14,7 +14,7 @@
             <argument name="authorization" xsi:type="object">Magento\Framework\Authorization\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="versionscms_setup" xsi:type="string">Magento\VersionsCms\Model\Resource\Setup</item>

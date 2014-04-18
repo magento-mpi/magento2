@@ -28,19 +28,19 @@ class Store extends Action
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Filter\FilterManager
+     * @var \Magento\Framework\Filter\FilterManager
      */
     protected $filterManager;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Framework\Filter\FilterManager $filterManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
-        \Magento\Filter\FilterManager $filterManager
+        \Magento\Framework\Filter\FilterManager $filterManager
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->filterManager = $filterManager;

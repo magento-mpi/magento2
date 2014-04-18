@@ -1021,7 +1021,7 @@ class Store extends AbstractModel implements
     /**
      * Get store price filter
      *
-     * @return Filter|\Magento\Filter\Sprintf
+     * @return Filter|\Magento\Framework\Filter\Sprintf
      */
     public function getPriceFilter()
     {
@@ -1032,7 +1032,7 @@ class Store extends AbstractModel implements
             } elseif ($this->getDefaultCurrency()) {
                 $this->_priceFilter = $this->getDefaultCurrency()->getFilter();
             } else {
-                $this->_priceFilter = new \Magento\Filter\Sprintf('%s', 2);
+                $this->_priceFilter = new \Magento\Framework\Filter\Sprintf('%s', 2);
             }
         }
         return $this->_priceFilter;

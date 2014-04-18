@@ -28,7 +28,7 @@ class Instance extends \Magento\Backend\App\Action
     protected $_widgetFactory;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -46,7 +46,7 @@ class Instance extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
      */
@@ -54,7 +54,7 @@ class Instance extends \Magento\Backend\App\Action
         \Magento\Backend\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Math\Random $mathRandom,
         \Magento\Framework\Translate\InlineInterface $translateInline
     ) {

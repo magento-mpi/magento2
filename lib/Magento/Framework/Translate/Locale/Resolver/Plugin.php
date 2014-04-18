@@ -29,21 +29,21 @@ class Plugin
     }
 
     /**
-     * @param \Magento\Locale\ResolverInterface $subject
+     * @param \Magento\Framework\Locale\ResolverInterface $subject
      * @param string|null $localeCode
      * @return void
      */
-    public function afterEmulate(\Magento\Locale\ResolverInterface $subject, $localeCode)
+    public function afterEmulate(\Magento\Framework\Locale\ResolverInterface $subject, $localeCode)
     {
         $this->_init($localeCode);
     }
 
     /**
-     * @param \Magento\Locale\ResolverInterface $subject
+     * @param \Magento\Framework\Locale\ResolverInterface $subject
      * @param string|null $localeCode
      * @return void
      */
-    public function afterRevert(\Magento\Locale\ResolverInterface $subject, $localeCode)
+    public function afterRevert(\Magento\Framework\Locale\ResolverInterface $subject, $localeCode)
     {
         $this->_init($localeCode);
     }

@@ -17,7 +17,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\Module\Dir\Reader
+     * @var \Magento\Framework\Module\Dir\Reader
      */
     protected $_config;
 
@@ -72,7 +72,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
         // Config mock
         $this->_config = $this->getMockBuilder(
-            'Magento\Module\Dir\Reader'
+            'Magento\Framework\Module\Dir\Reader'
         )->setMethods(
             array('getConfigurationFiles')
         )->disableOriginalConstructor()->getMock();

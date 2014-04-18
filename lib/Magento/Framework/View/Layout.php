@@ -156,7 +156,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Logger $logger
+     * @var \Magento\Framework\Logger $logger
      */
     protected $_logger;
 
@@ -171,7 +171,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
     protected $_appState;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -202,7 +202,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
 
     /**
      * @param \Magento\Framework\View\Layout\ProcessorFactory $processorFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
      * @param \Magento\Framework\Data\Structure $structure
@@ -211,7 +211,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
      * @param \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\View\Design\Theme\ResolverInterface $themeResolver
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param string $scopeType
@@ -219,7 +219,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
      */
     public function __construct(
         \Magento\Framework\View\Layout\ProcessorFactory $processorFactory,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\View\Element\BlockFactory $blockFactory,
         \Magento\Framework\Data\Structure $structure,
@@ -228,7 +228,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
         \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\State $appState,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\View\Design\Theme\ResolverInterface $themeResolver,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         $scopeType,

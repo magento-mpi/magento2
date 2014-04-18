@@ -44,7 +44,7 @@ class Guest extends \Magento\Core\Helper\Data
     protected $_coreCookie;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -62,7 +62,7 @@ class Guest extends \Magento\Core\Helper\Data
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Stdlib\Cookie $coreCookie
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\App\ViewInterface $view
      * @param bool $dbCompatibleMode
@@ -76,7 +76,7 @@ class Guest extends \Magento\Core\Helper\Data
         \Magento\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Stdlib\Cookie $coreCookie,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\App\ViewInterface $view,
         $dbCompatibleMode = true

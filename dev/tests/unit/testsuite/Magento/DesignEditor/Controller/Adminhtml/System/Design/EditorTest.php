@@ -223,7 +223,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getMessages'
         )->will(
-            $this->returnValue($this->getMock('Magento\Message\Collection', array(), array(), '', false))
+            $this->returnValue($this->getMock('Magento\Framework\Message\Collection', array(), array(), '', false))
         );
 
         $inlineMock = $this->getMock('Magento\Framework\Translate\Inline', array(), array(), '', false);

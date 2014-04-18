@@ -77,10 +77,10 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
-        $this->_moduleManager = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
+        $this->_moduleManager = $this->getMock('Magento\Framework\Module\Manager', array(), array(), '', false);
         $this->_validatorMock = $this->getMock('Magento\Backend\Model\Menu\Item\Validator');
         $this->_validatorMock->expects($this->any())->method('validate');
-        $this->_moduleListMock = $this->getMock('Magento\Module\ModuleListInterface');
+        $this->_moduleListMock = $this->getMock('Magento\Framework\Module\ModuleListInterface');
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(

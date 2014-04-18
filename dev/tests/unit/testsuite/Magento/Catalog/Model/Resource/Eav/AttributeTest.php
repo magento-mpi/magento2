@@ -75,7 +75,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false),
             $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\Product\ReservedAttributeList', array(), array(), '', false),
-            $this->getMock('Magento\Locale\ResolverInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Locale\ResolverInterface', array(), array(), '', false),
             $this->getMock('Magento\Index\Model\Indexer', array(), array(), '', false),
             $this->_processor,
             $this->getMock('\Magento\Catalog\Helper\Product\Flat\Indexer', array(), array(), '', false),

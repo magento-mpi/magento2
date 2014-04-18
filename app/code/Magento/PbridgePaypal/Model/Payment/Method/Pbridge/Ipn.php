@@ -79,7 +79,7 @@ class Ipn
     /**
      * Logger
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -102,13 +102,13 @@ class Ipn
      *
      * @param \Magento\Paypal\Model\Info $paypalInfo
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      */
     public function __construct(
         \Magento\Paypal\Model\Info $paypalInfo,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Pbridge\Helper\Data $pbridgeData
     ) {
         $this->_paypalInfo = $paypalInfo;

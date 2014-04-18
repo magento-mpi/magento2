@@ -36,7 +36,7 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Integration\Service\OauthV1Interface */
     protected $_oauthService;
 
-    /** @var \Magento\Logger */
+    /** @var \Magento\Framework\Logger */
     protected $_loggerMock;
 
     protected function setUp()
@@ -93,7 +93,7 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
             'Magento\HTTP\ZendClient'
         )->disableOriginalConstructor()->getMock();
         $this->_loggerMock = $this->getMockBuilder(
-            'Magento\Logger'
+            'Magento\Framework\Logger'
         )->disableOriginalConstructor()->setMethods(
             array('logException')
         )->getMock();

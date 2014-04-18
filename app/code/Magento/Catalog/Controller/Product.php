@@ -87,7 +87,7 @@ class Product extends \Magento\Framework\App\Action\Action implements \Magento\C
             if ($e->getCode() == $viewHelper->ERR_NO_PRODUCT_LOADED) {
                 $this->noProductRedirect();
             } else {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->_forward('noroute');
             }
         }
