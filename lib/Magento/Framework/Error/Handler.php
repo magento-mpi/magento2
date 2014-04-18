@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Error;
+namespace Magento\Framework\Error;
 
 /**
  * Default Error Handler

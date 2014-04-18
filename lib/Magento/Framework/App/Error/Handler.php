@@ -11,7 +11,7 @@
  */
 namespace Magento\Framework\App\Error;
 
-class Handler extends \Magento\Error\Handler
+class Handler extends \Magento\Framework\Error\Handler
 {
     /**
      * @var \Magento\Framework\Logger

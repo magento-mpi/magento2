@@ -50,7 +50,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for processException method print
      *
-     * @covers \Magento\Error\Handler::processException
+     * @covers \Magento\Framework\Error\Handler::processException
      */
     public function testProcessExceptionPrint()
     {
@@ -73,7 +73,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for processException method report
      *
-     * @covers \Magento\Error\Handler::processException
+     * @covers \Magento\Framework\Error\Handler::processException
      * @runInSeparateProcess
      */
     public function testProcessExceptionReport()
@@ -102,7 +102,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for setting error handler and logging
      *
-     * @covers \Magento\Error\Handler::handler
+     * @covers \Magento\Framework\Error\Handler::handler
      * @throws \Exception
      */
     public function testErrorHandlerLogging()
@@ -135,7 +135,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for setting error handler and printing
      *
-     * @covers \Magento\Error\Handler::handler
+     * @covers \Magento\Framework\Error\Handler::handler
      * @expectedException \Exception
      * @throws \Exception
      */

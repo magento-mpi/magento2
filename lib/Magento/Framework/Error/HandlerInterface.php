@@ -9,7 +9,7 @@
 /**
  * Interface of Error Handler
  */
-namespace Magento\Error;
+namespace Magento\Framework\Error;
 
 interface HandlerInterface
 {
