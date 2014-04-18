@@ -45,7 +45,8 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             'sidResolver' => $objectManager->get('Magento\Session\SidResolverInterface'),
             'cookie' => $objectManager->get('Magento\Stdlib\Cookie'),
             'httpContext' => $objectManager->get('Magento\Framework\App\Http\Context'),
-            'session' => $objectManager->get('Magento\Session\SessionManagerInterface')
+            'session' => $objectManager->get('Magento\Session\SessionManagerInterface'),
+            'currencyFactory' => $objectManager->get('Magento\Directory\Model\CurrencyFactory')
         );
 
         return $this->getMock('Magento\Store\Model\Store', array('getUrl'), $this->_modelParams);
