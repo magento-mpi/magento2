@@ -1,3 +1,5 @@
+2.0.0.0-dev74
+=============
 * Pricing Improvements:
   * Added price calculation component to library (MAGETWO-18226)
   * Eliminated price calculation from blocks and templates and implemented new calculation models for the next product types
