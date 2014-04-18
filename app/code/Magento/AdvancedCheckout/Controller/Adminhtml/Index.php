@@ -906,7 +906,7 @@ class Index extends \Magento\Backend\App\Action
                 $this->getCartModel()->updateQuoteItems($items);
                 if ($this->getCartModel()->getQuote()->getHasError()) {
                     foreach ($this->getCartModel()->getQuote()->getErrors() as $error) {
-                        /* @var $error \Magento\Message\Error */
+                        /* @var $error \Magento\Framework\Message\Error */
                         $this->messageManager->addError($error->getText());
                     }
                 }

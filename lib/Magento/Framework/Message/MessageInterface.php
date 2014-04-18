@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Message;
+namespace Magento\Framework\Message;
 
 /**
  * Interface for message

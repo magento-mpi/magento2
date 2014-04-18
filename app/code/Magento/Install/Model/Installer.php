@@ -153,7 +153,7 @@ class Installer extends \Magento\Object
     protected $dependencyManager;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -189,7 +189,7 @@ class Installer extends \Magento\Object
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Module\ModuleListInterface $moduleList
      * @param \Magento\Module\DependencyManagerInterface $dependencyManager
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $data
@@ -216,7 +216,7 @@ class Installer extends \Magento\Object
         \Magento\Framework\App\Resource $resource,
         \Magento\Module\ModuleListInterface $moduleList,
         \Magento\Module\DependencyManagerInterface $dependencyManager,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         array $data = array()

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Message;
+namespace Magento\Framework\Message;
 
 use Magento\Framework\ObjectManager;
 
@@ -37,6 +37,6 @@ class CollectionFactory
      */
     public function create(array $data = array())
     {
-        return $this->objectManager->create('Magento\Message\Collection', $data);
+        return $this->objectManager->create('Magento\Framework\Message\Collection', $data);
     }
 }

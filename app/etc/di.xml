@@ -52,7 +52,7 @@
     <preference for="Magento\Framework\View\Design\Theme\Domain\StagingInterface" type="Magento\Core\Model\Theme\Domain\Staging" />
     <preference for="Magento\Json\EncoderInterface" type="Magento\Json\Encoder" />
     <preference for="Magento\Json\DecoderInterface" type="Magento\Json\Decoder" />
-    <preference for="Magento\Message\ManagerInterface" type="Magento\Message\Manager" />
+    <preference for="Magento\Framework\Message\ManagerInterface" type="Magento\Framework\Message\Manager" />
     <preference for="Magento\Framework\App\Config\ValueInterface" type="Magento\Framework\App\Config\Value" />
     <preference for="Magento\Module\DependencyManagerInterface" type="Magento\Module\DependencyManager" />
     <preference for="Magento\Interception\Chain" type="Magento\Interception\Chain\Chain" />
@@ -78,9 +78,9 @@
     </type>
     <type name="Magento\Service\V1\Data\FilterBuilder" shared="false" />
     <type name="Magento\Service\V1\Data\SearchCriteriaBuilder" shared="false" />
-    <type name="Magento\Message\Manager">
+    <type name="Magento\Framework\Message\Manager">
         <arguments>
-            <argument name="session" xsi:type="object">Magento\Message\Session\Proxy</argument>
+            <argument name="session" xsi:type="object">Magento\Framework\Message\Session\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\View\BlockPool" shared="false" />

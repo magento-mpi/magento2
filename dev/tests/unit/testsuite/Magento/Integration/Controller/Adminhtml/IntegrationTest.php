@@ -133,7 +133,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             'Magento\Integration\Helper\Data'
         )->disableOriginalConstructor()->getMock();
         $this->_messageManager = $this->getMockBuilder(
-            'Magento\Message\ManagerInterface'
+            'Magento\Framework\Message\ManagerInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_escaper = $this->getMockBuilder(
             'Magento\Escaper'

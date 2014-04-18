@@ -28,7 +28,7 @@ class ManageTest extends \PHPUnit_Framework_TestCase
     private $responseMock;
 
     /**
-     * @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $messageManagerMock;
 
@@ -60,7 +60,7 @@ class ManageTest extends \PHPUnit_Framework_TestCase
         $this->responseMock = $this->getMockBuilder('Magento\Framework\App\ResponseInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->messageManagerMock = $this->getMockBuilder('Magento\Message\ManagerInterface')
+        $this->messageManagerMock = $this->getMockBuilder('Magento\Framework\Message\ManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->redirectMock = $this->getMockBuilder('Magento\Framework\App\Response\RedirectInterface')

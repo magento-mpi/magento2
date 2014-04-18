@@ -44,7 +44,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $cacheConfigMock;
 
     /**
-     * @var \Magento\Message\Session|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Message\Session|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $messageSessionMock;
 
@@ -58,7 +58,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
         $this->moduleManagerMock = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
         $this->eventManagerMock = $this->getMock('Magento\Framework\Event\Manager', array(), array(), '', false);
         $this->cacheConfigMock = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
-        $this->messageSessionMock = $this->getMock('Magento\Message\Session',
+        $this->messageSessionMock = $this->getMock('Magento\Framework\Message\Session',
             array('clearStorage'),
             array(),
             '',

@@ -26,7 +26,7 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface as Group;
 use Magento\Customer\Model\Session as CustomerModelSession;
 use Magento\Framework\Event\Observer as EventObserver;
-use Magento\Message\ManagerInterface;
+use Magento\Framework\Message\ManagerInterface;
 use Magento\Rule\Model\Condition\Product\AbstractProduct;
 use Magento\Framework\Stdlib\DateTime;
 
@@ -98,7 +98,7 @@ class Observer
     protected $_resourceRule;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 

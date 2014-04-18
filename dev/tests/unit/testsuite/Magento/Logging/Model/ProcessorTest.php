@@ -28,7 +28,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Backend\Model\Auth\Session|\PHPUnit_Framework_MockObject_MockObject */
     protected $_authSessionMock;
 
-    /** @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \Magento\Framework\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject  */
     protected $messageManager;
 
     /** @var  \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
@@ -89,7 +89,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
 
         $this->messageManager = $this->getMockBuilder(
-            'Magento\Message\ManagerInterface'
+            'Magento\Framework\Message\ManagerInterface'
         )->disableOriginalConstructor()->getMockForAbstractClass();
 
         $this->_objectManagerMock = $this->getMockBuilder(

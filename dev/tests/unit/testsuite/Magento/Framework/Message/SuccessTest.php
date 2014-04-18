@@ -5,22 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Message;
+namespace Magento\Framework\Message;
 
 /**
- * \Magento\Message\Success test case
+ * \Magento\Framework\Message\Success test case
  */
 class SuccessTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Message\Success
+     * @var \Magento\Framework\Message\Success
      */
     protected $model;
 
     public function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->model = $objectManager->getObject('Magento\Message\Success');
+        $this->model = $objectManager->getObject('Magento\Framework\Message\Success');
     }
 
     public function testGetType()

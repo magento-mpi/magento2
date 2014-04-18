@@ -5,22 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Message;
+namespace Magento\Framework\Message;
 
 /**
- * \Magento\Message\Warning test case
+ * \Magento\Framework\Message\Warning test case
  */
 class WarningTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Message\Warning
+     * @var \Magento\Framework\Message\Warning
      */
     protected $model;
 
     public function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->model = $objectManager->getObject('Magento\Message\Warning');
+        $this->model = $objectManager->getObject('Magento\Framework\Message\Warning');
     }
 
     public function testGetType()

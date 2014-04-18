@@ -24,7 +24,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\ObjectManager\ObjectManager */
     protected $_objectManagerMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Message\ManagerInterface */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Message\ManagerInterface */
     protected $_messagesMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Helper\Data */
@@ -72,7 +72,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
             array('getUrl')
         )->getMock();
         $this->_messagesMock = $this->getMockBuilder(
-            'Magento\Message\Manager'
+            'Magento\Framework\Message\Manager'
         )->disableOriginalConstructor()->setMethods(
             array('addSuccess')
         )->getMockForAbstractClass();

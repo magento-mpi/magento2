@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Message;
+namespace Magento\Framework\Message;
 
 use Magento\Framework\ObjectManager;
 
@@ -57,10 +57,10 @@ class Factory
             throw new \InvalidArgumentException('Wrong message type');
         }
 
-        $className = 'Magento\Message\\' . ucfirst($type);
+        $className = 'Magento\\Framework\\Message\\' . ucfirst($type);
         $message = $this->objectManager->create($className, array('text' => $text));
         if (!$message instanceof MessageInterface) {
-            throw new \InvalidArgumentException($className . ' doesn\'t implement \Magento\Message\MessageInterface');
+            throw new \InvalidArgumentException($className . ' doesn\'t implement \Magento\Framework\Message\MessageInterface');
         }
 
         return $message;

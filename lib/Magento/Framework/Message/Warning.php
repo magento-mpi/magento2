@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Message;
+namespace Magento\Framework\Message;
 
 /**
- * Notice message model
+ * Warning message model
  */
-class Notice extends AbstractMessage
+class Warning extends AbstractMessage
 {
     /**
      * Getter message type
@@ -19,6 +19,6 @@ class Notice extends AbstractMessage
      */
     public function getType()
     {
-        return MessageInterface::TYPE_NOTICE;
+        return MessageInterface::TYPE_WARNING;
     }
 }

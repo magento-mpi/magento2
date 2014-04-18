@@ -63,7 +63,7 @@ class Action extends AbstractAction
     protected $_url;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 

@@ -5,30 +5,30 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Message;
+namespace Magento\Framework\Message;
 
 /**
- * \Magento\Message\AbstractMessage test case
+ * \Magento\Framework\Message\AbstractMessage test case
  */
 class AbstractMessageTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Message\AbstractMessage
+     * @var \Magento\Framework\Message\AbstractMessage
      */
     protected $model;
 
     public function setUp()
     {
         $this->model = $this->getMockBuilder(
-            'Magento\Message\AbstractMessage'
+            'Magento\Framework\Message\AbstractMessage'
         )->disableOriginalConstructor()->setMethods(
             array('getType')
         )->getMockForAbstractClass();
     }
 
     /**
-     * @covers \Magento\Message\AbstractMessage::getText
-     * @covers \Magento\Message\AbstractMessage::setText
+     * @covers \Magento\Framework\Message\AbstractMessage::getText
+     * @covers \Magento\Framework\Message\AbstractMessage::setText
      * @dataProvider setTextGetTextProvider
      */
     public function testSetTextGetText($text)
@@ -46,8 +46,8 @@ class AbstractMessageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Message\AbstractMessage::getIdentifier
-     * @covers \Magento\Message\AbstractMessage::setIdentifier
+     * @covers \Magento\Framework\Message\AbstractMessage::getIdentifier
+     * @covers \Magento\Framework\Message\AbstractMessage::setIdentifier
      * @dataProvider setIdentifierGetIdentifierProvider
      */
     public function testSetIdentifierGetIdentifier($identifier)
@@ -65,8 +65,8 @@ class AbstractMessageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Message\AbstractMessage::getIsSticky
-     * @covers \Magento\Message\AbstractMessage::setIsSticky
+     * @covers \Magento\Framework\Message\AbstractMessage::getIsSticky
+     * @covers \Magento\Framework\Message\AbstractMessage::setIsSticky
      */
     public function testSetIsStickyGetIsSticky()
     {
@@ -76,7 +76,7 @@ class AbstractMessageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Message\AbstractMessage::toString
+     * @covers \Magento\Framework\Message\AbstractMessage::toString
      */
     public function testToString()
     {

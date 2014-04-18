@@ -35,7 +35,7 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
     protected $_session;
 
     /**
-     * @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_messageManager;
 
@@ -84,7 +84,7 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
 
         $redirect = $this->getMock('Magento\Framework\App\Response\RedirectInterface');
 
-        $this->_messageManager = $this->getMock('Magento\Message\ManagerInterface');
+        $this->_messageManager = $this->getMock('Magento\Framework\Message\ManagerInterface');
 
         $context = $this->getMock('Magento\Framework\App\Action\Context', array(), array(), '', false);
         $context->expects($this->any())->method('getObjectManager')->will($this->returnValue($this->_objectManager));

@@ -16,7 +16,7 @@ use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Message\Error;
+use Magento\Framework\Message\Error;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadata;
 use Magento\Customer\Service\V1\Data\AddressConverter;
 
@@ -432,7 +432,7 @@ class Index extends \Magento\Backend\App\Action
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;
             } catch (\Magento\Framework\Model\Exception $exception) {
-                $messages = $exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR);
+                $messages = $exception->getMessages(\Magento\Framework\Message\MessageInterface::TYPE_ERROR);
                 if (!count($messages)) {
                     $messages = $exception->getMessage();
                 }
@@ -483,7 +483,7 @@ class Index extends \Magento\Backend\App\Action
         } catch (NoSuchEntityException $exception) {
             return $this->_redirect('customer/index');
         } catch (\Magento\Framework\Model\Exception $exception) {
-            $messages = $exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR);
+            $messages = $exception->getMessages(\Magento\Framework\Message\MessageInterface::TYPE_ERROR);
             if (!count($messages)) {
                 $messages = $exception->getMessage();
             }
@@ -844,7 +844,7 @@ class Index extends \Magento\Backend\App\Action
             $errors = $this->_customerAccountService->validateCustomerData($customer);
         } catch (\Magento\Framework\Model\Exception $exception) {
             /* @var $error Error */
-            foreach ($exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR) as $error) {
+            foreach ($exception->getMessages(\Magento\Framework\Message\MessageInterface::TYPE_ERROR) as $error) {
                 $errors[] = $error->getText();
             }
         }

@@ -5,22 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Message;
+namespace Magento\Framework\Message;
 
 /**
- * \Magento\Message\Error test case
+ * \Magento\Framework\Message\Error test case
  */
 class ErrorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Message\Error
+     * @var \Magento\Framework\Message\Error
      */
     protected $model;
 
     public function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->model = $objectManager->getObject('Magento\Message\Error');
+        $this->model = $objectManager->getObject('Magento\Framework\Message\Error');
     }
 
     public function testGetType()

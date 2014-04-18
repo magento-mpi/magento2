@@ -97,7 +97,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false, false);
 
         $this->messageManagerMock = $this->getMock(
-            'Magento\Message\Manager',
+            'Magento\Framework\Message\Manager',
             array('addSuccess', 'addException'),
             array(),
             '',

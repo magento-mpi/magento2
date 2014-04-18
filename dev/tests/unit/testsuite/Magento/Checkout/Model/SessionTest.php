@@ -39,7 +39,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $orderFactory->expects($this->once())->method('create')->will($this->returnValue($orderMock));
 
         $messageCollectionFactory = $this->getMockBuilder(
-            'Magento\Message\CollectionFactory'
+            'Magento\Framework\Message\CollectionFactory'
         )->disableOriginalConstructor()->getMock();
         $quoteFactory = $this->getMockBuilder(
             'Magento\Sales\Model\QuoteFactory'

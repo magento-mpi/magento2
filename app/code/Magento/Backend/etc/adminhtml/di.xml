@@ -102,7 +102,7 @@
     <type name="Magento\Framework\App\Action\Action">
         <plugin name="storeCheck" disabled="true" />
     </type>
-    <type name="Magento\Message\Manager">
+    <type name="Magento\Framework\Message\Manager">
         <arguments>
             <argument name="defaultGroup" xsi:type="string">backend</argument>
         </arguments>

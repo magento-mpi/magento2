@@ -25,9 +25,9 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             $helper->getConstructArguments('Magento\Backend\Model\Session')
         );
         $messageManager = $this->getMock(
-            'Magento\Message\Manager',
+            'Magento\Framework\Message\Manager',
             array('addSuccess'),
-            $helper->getConstructArguments('Magento\Message\Manager')
+            $helper->getConstructArguments('Magento\Framework\Message\Manager')
         );
         $context = $this->getMock(
             'Magento\Backend\App\Action\Context',

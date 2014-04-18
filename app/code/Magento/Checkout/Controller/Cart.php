@@ -160,7 +160,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
 
         // Compose array of messages to add
         $messages = array();
-        /** @var \Magento\Message\MessageInterface $message  */
+        /** @var \Magento\Framework\Message\MessageInterface $message  */
         foreach ($this->cart->getQuote()->getMessages() as $message) {
             if ($message) {
                 // Escape HTML entities in quote message to prevent XSS

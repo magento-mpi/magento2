@@ -35,7 +35,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_messageManager;
 
@@ -69,7 +69,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($registryMock)
         );
-        $this->_messageManager = $this->getMock('\Magento\Message\ManagerInterface', array(), array(), '', false);
+        $this->_messageManager = $this->getMock('\Magento\Framework\Message\ManagerInterface', array(), array(), '', false);
 
         $arguments = array(
             'response' => $this->_responseMock,

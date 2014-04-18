@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Message;
+namespace Magento\Framework\Message;
 
 /**
- * \Magento\Message\Manager test case
+ * \Magento\Framework\Message\Manager test case
  */
 class ManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -43,7 +43,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     protected $eventManager;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Framework\Message\Manager
      */
     protected $model;
 
@@ -55,17 +55,17 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->messagesFactory = $this->getMockBuilder(
-            'Magento\Message\CollectionFactory'
+            'Magento\Framework\Message\CollectionFactory'
         )->disableOriginalConstructor()->setMethods(
             array('create')
         )->getMock();
         $this->messageFactory = $this->getMockBuilder(
-            'Magento\Message\Factory'
+            'Magento\Framework\Message\Factory'
         )->disableOriginalConstructor()->setMethods(
             array('create')
         )->getMock();
         $this->session = $this->getMockBuilder(
-            'Magento\Message\Session'
+            'Magento\Framework\Message\Session'
         )->disableOriginalConstructor()->setMethods(
             array('getData', 'setData')
         )->getMock();
@@ -80,10 +80,10 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             array('dispatch')
         )->disableOriginalConstructor()->getMock();
 
-        $this->messageMock = $this->getMock('Magento\Message\MessageInterface');
+        $this->messageMock = $this->getMock('Magento\Framework\Message\MessageInterface');
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $this->objectManager->getObject(
-            'Magento\Message\Manager',
+            'Magento\Framework\Message\Manager',
             array(
                 'messagesFactory' => $this->messagesFactory,
                 'messageFactory' => $this->messageFactory,
@@ -100,7 +100,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         $customDefaultGroup = 'some_group';
         $customManager = $this->objectManager->getObject(
-            'Magento\Message\Manager',
+            'Magento\Framework\Message\Manager',
             array('defaultGroup' => $customDefaultGroup)
         );
         $this->assertEquals($customDefaultGroup, $customManager->getDefaultGroup());
@@ -109,7 +109,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testGetMessages()
     {
         $messageCollection = $this->getMockBuilder(
-            'Magento\Message\Collection'
+            'Magento\Framework\Message\Collection'
         )->disableOriginalConstructor()->setMethods(
             array('addMessage')
         )->getMock();
@@ -159,7 +159,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testGetMessagesWithClear()
     {
         $messageCollection = $this->getMockBuilder(
-            'Magento\Message\Collection'
+            'Magento\Framework\Message\Collection'
         )->disableOriginalConstructor()->setMethods(
             array('addMessage', 'clear')
         )->getMock();
@@ -188,7 +188,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $logText = "Exception message: {$exceptionMessage}\nTrace:";
 
         $messageError = $this->getMockBuilder(
-            'Magento\Message\Error'
+            'Magento\Framework\Message\Error'
         )->setConstructorArgs(
             array('text' => $alternativeText)
         )->getMock();
@@ -215,7 +215,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         );
 
         $messageCollection = $this->getMockBuilder(
-            'Magento\Message\Collection'
+            'Magento\Framework\Message\Collection'
         )->disableOriginalConstructor()->setMethods(
             array('addMessage')
         )->getMock();
@@ -244,7 +244,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->model->hasMessages());
         $message = 'Message';
-        $messageCollection = $this->getMock('Magento\Message\Collection', array('addMessage'), array(), '', false);
+        $messageCollection = $this->getMock('Magento\Framework\Message\Collection', array('addMessage'), array(), '', false);
         $this->session->expects($this->any())
             ->method('getData')
             ->will($this->returnValue($messageCollection));
@@ -276,7 +276,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testAddUniqueMessagesWhenMessagesImplementMessageInterface($messages, $text, $expectation)
     {
         $messageCollection =
-            $this->getMock('Magento\Message\Collection', array('getItems', 'addMessage'), array(), '', false);
+            $this->getMock('Magento\Framework\Message\Collection', array('getItems', 'addMessage'), array(), '', false);
         $this->session->expects($this->any())
             ->method('getData')
             ->will($this->returnValue($messageCollection));
@@ -293,9 +293,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function addUniqueMessagesWhenMessagesImplementMessageInterfaceDataProvider()
     {
         return array(
-            'message_text_is_unique' => array($this->getMock('Magento\Message\MessageInterface'), 'text1', 'once'),
+            'message_text_is_unique' => array($this->getMock('Magento\Framework\Message\MessageInterface'), 'text1', 'once'),
             'message_text_is_already_exist' => array(
-                $this->getMock('Magento\Message\MessageInterface'), 'text', 'never'
+                $this->getMock('Magento\Framework\Message\MessageInterface'), 'text', 'never'
             )
         );
     }
@@ -307,7 +307,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testAddUniqueMessages($messages)
     {
         $messageCollection =
-            $this->getMock('Magento\Message\Collection', array('getItems', 'addMessage'), array(), '', false);
+            $this->getMock('Magento\Framework\Message\Collection', array('getItems', 'addMessage'), array(), '', false);
         $this->session->expects($this->any())
             ->method('getData')
             ->will($this->returnValue($messageCollection));
@@ -330,7 +330,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testAddMessages()
     {
         $messageCollection
-            = $this->getMock('Magento\Message\Collection', array('getItems', 'addMessage'), array(), '', false);
+            = $this->getMock('Magento\Framework\Message\Collection', array('getItems', 'addMessage'), array(), '', false);
         $this->session->expects($this->any())
             ->method('getData')
             ->will($this->returnValue($messageCollection));

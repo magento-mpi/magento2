@@ -454,7 +454,7 @@ abstract class AbstractModel extends \Magento\Object
             $errors = $validator->getMessages();
             $exception = new \Magento\Framework\Model\Exception(implode(PHP_EOL, $errors));
             foreach ($errors as $errorMessage) {
-                $exception->addMessage(new \Magento\Message\Error($errorMessage));
+                $exception->addMessage(new \Magento\Framework\Message\Error($errorMessage));
             }
             throw $exception;
         }

@@ -70,7 +70,7 @@ class Observer
     protected $_actionFlag;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -89,7 +89,7 @@ class Observer
      * @param \Magento\UrlInterface $urlManager
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\App\ActionFlag $actionFlag
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\App\Response\RedirectInterface $redirect
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -104,7 +104,7 @@ class Observer
         \Magento\UrlInterface $urlManager,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\App\ActionFlag $actionFlag,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\App\Response\RedirectInterface $redirect
     ) {
         $this->_resLogFactory = $resLogFactory;
