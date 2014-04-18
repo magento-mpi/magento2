@@ -86,7 +86,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
             $productAttribute = $attribute->getProductAttribute();
             $attributeId = $productAttribute->getId();
             $info = [
-                'id' => $productAttribute->getId(),
+                'id' => $attributeId,
                 'code' => $productAttribute->getAttributeCode(),
                 'label' => $attribute->getLabel(),
                 'options' => $this->getPriceOptions($attributeId, $attribute, $options)
@@ -117,10 +117,6 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
         $optionPrices = [];
         if (is_array($prices)) {
             foreach ($prices as $value) {
-                if (!$this->_validateAttributeValue($attributeId, $value, $options)) {
-                    continue;
-                }
-
                 $optionValueAmount = $this->getOptionValueAmount($value);
                 $optionValueOldAmount = $this->getOptionValueOldAmount($value);
 
@@ -252,23 +248,6 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     protected function hasPreConfiguredValues()
     {
         return $this->product->hasPreconfiguredValues();
-    }
-
-    /**
-     * Validating of super product option value
-     *
-     * @param int $attributeId
-     * @param array $value
-     * @param array $options
-     * @return bool
-     */
-    protected function _validateAttributeValue($attributeId, &$value, &$options)
-    {
-        if (isset($options[$attributeId][$value['value_index']])) {
-            return true;
-        }
-
-        return false;
     }
 
     /**

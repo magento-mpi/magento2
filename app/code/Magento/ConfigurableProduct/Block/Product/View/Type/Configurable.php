@@ -14,7 +14,6 @@ namespace Magento\ConfigurableProduct\Block\Product\View\Type;
  */
 class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
 {
-
     /**
      * Catalog product
      *
@@ -35,15 +34,15 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $jsonEncoder;
 
     /**
-     * @var \Magento\ConfigurableProduct\Helper\Image $imageHelper
+     * @var \Magento\ConfigurableProduct\Helper\Data $imageHelper
      */
-    protected $imageHelper;
+    protected $helper;
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\ConfigurableProduct\Helper\Image $imageHelper
+     * @param \Magento\ConfigurableProduct\Helper\Data $helper
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param array $data
      */
@@ -51,11 +50,11 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\ConfigurableProduct\Helper\Image $imageHelper,
+        \Magento\ConfigurableProduct\Helper\Data $helper,
         \Magento\Catalog\Helper\Product $catalogProduct,
         array $data = array()
     ) {
-        $this->imageHelper = $imageHelper;
+        $this->helper = $helper;
         $this->jsonEncoder = $jsonEncoder;
         $this->catalogProduct = $catalogProduct;
         parent::__construct(
@@ -151,7 +150,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         $attributePrice = $currentProduct
             ->getPriceInfo()
             ->getPrice('attribute_price');
-        $options = $this->imageHelper->getOptionsImage($currentProduct, $this->getAllowProducts());
+        $options = $this->helper->getOptions($currentProduct, $this->getAllowProducts());
         $attributes = $attributePrice->prepareJsonAttributes($options);
 
         $config = array(
