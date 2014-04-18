@@ -37,17 +37,22 @@ class DefinitionFactoryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function createClassDefinitionProvider()
+
+    public function testCreateDefinitionsReadsCompiledDefinitions()
     {
-        return array(
-            'from array' => array(
-                null,
-                '\Magento\ObjectManager\Definition\Runtime'
-            ),
-            'from file' => array(
-                $this->sampleContent,
-                '\Magento\ObjectManager\Definition\Compiled\Serialized'
-            ),
+        $this->filesystemDriverMock->expects($this->once())->method('isReadable')->will($this->returnValue(false));
+        $this->assertInstanceOf(
+            '\Magento\ObjectManager\Definition\Runtime',
+            $this->model->createClassDefinition(null, true)
+        );
+    }
+
+    public function testCreateDefinitionsDoesNotReadCompiledDefinitionsIfUseCompiledIsFalse()
+    {
+        $this->filesystemDriverMock->expects($this->never())->method('isReadable');
+        $this->assertInstanceOf(
+            '\Magento\ObjectManager\Definition\Runtime',
+            $this->model->createClassDefinition(null, false)
         );
     }
 
