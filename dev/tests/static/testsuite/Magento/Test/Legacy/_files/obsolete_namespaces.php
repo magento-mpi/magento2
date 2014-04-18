@@ -38,4 +38,5 @@ return [
     ['Magento\Filter', 'Magento\Framework\Filter'],
     ['Magento\DomDocument', 'Magento\Framework\DomDocument'],
     ['Magento\Module', 'Magento\Framework\Module'],
+    ['Magento\Css', 'Magento\Framework\Css'],
 ];
