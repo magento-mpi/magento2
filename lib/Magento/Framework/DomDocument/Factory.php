@@ -4,7 +4,7 @@
  *
  * @copyright {copyright}
  */
-namespace Magento\DomDocument;
+namespace Magento\Framework\DomDocument;
 
 class Factory
 {
