@@ -34,6 +34,8 @@
   * Fixed: Scheduled Export for 'Remote FTP' does not work (MAGETWO-18584)
   * Fixed: [TD] Wrong default value for PHP memory_limit (MAGETWO-21340)
   * Fixed Messages absence on Frontend with FPC turned off (MAGETWO-23535)
+  * Fixed potential security risk with orders protect_code (MAGETWO-21266)
+  * Fixed error on place order with cache turned on (MAGETWO-23523)
 * Framework Improvements:
   * Simplify Search related Data Objects (MAGETWO-22613)
   * Moved lib/Magento/* to lib/Magento/Framework/*: (MAGETWO-20866)
