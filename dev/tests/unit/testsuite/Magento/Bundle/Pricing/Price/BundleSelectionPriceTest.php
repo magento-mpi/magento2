@@ -113,7 +113,7 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
             case CatalogPrice\BasePrice::PRICE_CODE:
                 $this->basePriceMock = $this->getMock('Magento\Bundle\Pricing\Price\BasePrice', [], [], '', false);
                 $this->basePriceMock->expects($this->once())
-                    ->method('applyDiscount')
+                    ->method('calculateBaseValue')
                     ->with($this->expectedResult)
                     ->will($this->returnArgument(0));
                 return $this->basePriceMock;

@@ -21,11 +21,6 @@ class BasePrice extends AbstractPrice
     const PRICE_CODE = 'base_price';
 
     /**
-     * @var bool|float|null
-     */
-    protected $maxValue;
-
-    /**
      * Get Base Price Value
      *
      * @return float|bool
