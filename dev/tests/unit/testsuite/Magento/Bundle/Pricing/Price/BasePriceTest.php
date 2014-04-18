@@ -67,7 +67,6 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
 
         $pricesIncludedInBase = [];
         foreach ($priceValues as $priceValue) {
-//            $price = $this->getMock('Magento\Pricing\Price\PriceInterface');
             $price = $this->getMock('Magento\Catalog\Pricing\Price\RegularPrice', [], [], '', false);
             $price->expects($this->atLeastOnce())
                 ->method('getValue')
