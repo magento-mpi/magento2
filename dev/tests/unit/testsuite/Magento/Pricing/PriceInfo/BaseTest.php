@@ -86,7 +86,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('basePrice'));
 
         foreach ($entryParams as $params) {
-//            list($priceCode) = array_values($params);
+            list($priceCode) = array_values($params);
             $this->assertEquals('basePrice', $this->model->getPrice($priceCode));
         }
     }

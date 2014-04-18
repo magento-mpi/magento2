@@ -37,7 +37,6 @@ class Base implements PriceInfoInterface
     /**
      * @var PriceInterface[]
      */
-//    protected $priceInstances;
 
     /**
      * @var Collection
@@ -77,6 +76,8 @@ class Base implements PriceInfoInterface
     }
 
     /**
+     * Returns array of prices
+     *
      * @return PriceInterface[]
      */
     public function getPrices()
@@ -85,6 +86,8 @@ class Base implements PriceInfoInterface
     }
 
     /**
+     * Returns price by code
+     *
      * @param string $priceCode
      * @return PriceInterface
      */
