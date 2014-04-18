@@ -9,6 +9,9 @@
  */
 namespace Magento\Store\Model;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ */
 class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -152,6 +155,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         ));
         $this->storage->expects($this->any())->method('getGroups')->will($this->returnValue(array(11 => $this->group)));
         $this->storage->expects($this->any())->method('getStore')->will($this->returnValue($this->store));
+        // @codingStandardsIgnoreStart
         $this->storage->expects($this->any())
             ->method('getStores')
             ->will($this->returnCallback(function ($withDefault, $codeKey) {
@@ -161,6 +165,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
                     return array(21 => $this->store);
                 }
             }));
+        // @codingStandardsIgnoreEnd
     }
 
     public function testGetInNotInstalledModeWithInternalCache()

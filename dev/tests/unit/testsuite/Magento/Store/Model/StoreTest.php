@@ -148,6 +148,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Framework\App\Config\ReinitableConfigInterface $configMock */
         $configMock = $this->getMockForAbstractClass('\Magento\Framework\App\Config\ReinitableConfigInterface');
+        // @codingStandardsIgnoreStart
         $configMock->expects($this->atLeastOnce())
             ->method('getValue')
             ->will($this->returnCallback(
@@ -156,7 +157,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
                     return $expectedPath == $path ? $url . $path . '/' : null;
                 }
             ));
-
+        // @codingStandardsIgnoreEnd
         /** @var \Magento\Store\Model\Store $model */
         $model = $this->objectManagerHelper->getObject(
             'Magento\Store\Model\Store',
@@ -254,6 +255,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $expectedBaseUrl = 'http://domain.com/web/unsecure/base_link_url/test_script.php/';
         /** @var \Magento\Framework\App\Config\ReinitableConfigInterface $configMock */
         $configMock = $this->getMockForAbstractClass('\Magento\Framework\App\Config\ReinitableConfigInterface');
+        // @codingStandardsIgnoreStart
         $configMock->expects($this->atLeastOnce())
             ->method('getValue')
             ->will($this->returnCallback(
@@ -261,7 +263,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
                     return $expectedPath == $path ? 'http://domain.com/' . $path . '/' : null;
                 }
             ));
-
+        // @codingStandardsIgnoreEnd
         /** @var \Magento\Store\Model\Store $model */
         $model = $this->objectManagerHelper->getObject(
             'Magento\Store\Model\Store',

@@ -334,8 +334,8 @@ class StorageFactory
      * Set current store
      *
      * @param StoreManagerInterface $storage
-     * @param $scopeCode
-     * @param $scopeType
+     * @param string $scopeCode
+     * @param string $scopeType
      * @return bool
      */
     protected function setCurrentStore(\Magento\Store\Model\StoreManagerInterface $storage, $scopeCode, $scopeType)
