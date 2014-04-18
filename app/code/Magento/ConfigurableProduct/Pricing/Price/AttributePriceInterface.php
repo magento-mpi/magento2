@@ -15,7 +15,7 @@ use Magento\Pricing\Amount\AmountInterface;
  *
  * @package Magento\ConfigurableProduct\Pricing\Price
  */
-interface CustomOptionPriceInterface
+interface AttributePriceInterface
 {
     /**
      * @param array $value

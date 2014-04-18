@@ -72,10 +72,6 @@
     <type name="Magento\Pricing\PriceComposite">
         <arguments>
             <argument name="metadata" xsi:type="array">
-                <item name="custom_option_price" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\ConfigurableProduct\Pricing\Price\CustomOptionPrice</item>
-                    <item name="include_in_base_price" xsi:type="boolean">false</item>
-                </item>
                 <item name="attribute_price" xsi:type="array">
                     <item name="class" xsi:type="string">Magento\ConfigurableProduct\Pricing\Price\AttributePrice</item>
                     <item name="include_in_base_price" xsi:type="boolean">false</item>
