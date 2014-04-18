@@ -173,6 +173,9 @@ class Fault extends \RuntimeException
     protected function _setFaultName($exceptionName)
     {
         if ($exceptionName) {
+            // makes exception name xml safe
+            $exceptionName = str_replace(['\\', '/'], '_', $exceptionName);
+            
             $contentType = $this->_request->getHeader('Content-Type');
             /** SOAP action is specified in content type header if content type is application/soap+xml */
             if (preg_match('|application/soap\+xml.+action="(.+)".*|', $contentType, $matches)) {
