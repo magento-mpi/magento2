@@ -132,9 +132,9 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
                     'label' => $value['label'],
                     'price' => $price,
                     'oldPrice' => $this->_registerJsPrice(
-                            $this->_convertPrice($optionValueOldAmount->getValue()),
-                            true
-                        ),
+                        $this->_convertPrice($optionValueOldAmount->getValue()),
+                        true
+                    ),
                     'inclTaxPrice' => $this->_registerJsPrice($optionValueAmount->getValue()),
                     'exclTaxPrice' => $this->_registerJsPrice($optionValueAmount->getBaseAmount()),
                     'products' => $this->getProductsIndex($attributeId, $options, $value)
