@@ -42,11 +42,10 @@ class Adjustment extends AbstractAdjustment
     }
 
     /**
-     * @return null
+     * @return string
      */
-    protected function apply()
+    protected function getHtml()
     {
-        $html = $this->toHtml();
         if ($this->displayBothPrices()) {
             if ($this->getZone() !== \Magento\Pricing\Render::ZONE_ITEM_OPTION) {
                 $this->amountRender->setPriceDisplayLabel(__('Excl. Tax:'));
@@ -59,15 +58,12 @@ class Adjustment extends AbstractAdjustment
                 $this->amountRender->getAmount()->getAdjustmentAmount($this->getAdjustmentCode())
             );
         } elseif ($this->displayPriceExcludingTax()) {
-
             $this->amountRender->setDisplayValue(
                 $this->amountRender->getDisplayValue() -
                 $this->amountRender->getAmount()->getAdjustmentAmount($this->getAdjustmentCode())
             );
         }
-        if (trim($html)) {
-            $this->amountRender->addAdjustmentHtml($this->getAdjustmentCode(), $html);
-        }
+        return $this->toHtml();
     }
 
     /**

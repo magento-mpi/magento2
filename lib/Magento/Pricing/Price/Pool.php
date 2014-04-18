@@ -37,7 +37,7 @@ class Pool implements \Iterator, \ArrayAccess
     /**
      * Reset the Collection to the first element
      *
-     * @return mixed|void
+     * @return mixed
      */
     public function rewind()
     {
@@ -47,7 +47,7 @@ class Pool implements \Iterator, \ArrayAccess
     /**
      * Return the current element
      *
-     * @return \Magento\Pricing\Price\PriceInterface
+     * @return mixed
      */
     public function current()
     {
@@ -67,7 +67,7 @@ class Pool implements \Iterator, \ArrayAccess
     /**
      * Move forward to next element
      *
-     * @return mixed|void
+     * @return mixed
      */
     public function next()
     {
@@ -88,8 +88,7 @@ class Pool implements \Iterator, \ArrayAccess
      * Returns price class by code
      *
      * @param string $code
-     * @return \Magento\Pricing\Price\PriceInterface
-     * @throws \Magento\Pricing\Exception
+     * @return string
      */
     public function get($code)
     {
@@ -99,8 +98,8 @@ class Pool implements \Iterator, \ArrayAccess
     /**
      * The value to set.
      *
-     * @param mixed $offset
-     * @param mixed $value
+     * @param string $offset
+     * @param string $value
      */
     public function offsetSet($offset, $value) {
         if (is_null($offset)) {
@@ -113,7 +112,7 @@ class Pool implements \Iterator, \ArrayAccess
     /**
      * The return value will be casted to boolean if non-boolean was returned.
      *
-     * @param mixed $offset
+     * @param string $offset
      * @return bool
      */
     public function offsetExists($offset)
@@ -124,7 +123,7 @@ class Pool implements \Iterator, \ArrayAccess
     /**
      * The offset to unset.
      *
-     * @param mixed $offset
+     * @param string $offset
      */
     public function offsetUnset($offset)
     {
@@ -134,8 +133,8 @@ class Pool implements \Iterator, \ArrayAccess
     /**
      * The offset to retrieve.
      *
-     * @param mixed $offset
-     * @return PriceInterface|mixed|null
+     * @param string $offset
+     * @return string
      */
     public function offsetGet($offset)
     {

@@ -46,6 +46,14 @@ class Collection implements \Iterator
      */
     protected $excludes;
 
+    /**
+     * Constructor
+     *
+     * @param SaleableInterface $saleableItem
+     * @param Factory $priceFactory
+     * @param Pool $pool
+     * @param $quantity
+     */
     public function __construct(
         SaleableInterface $saleableItem,
         Factory $priceFactory,

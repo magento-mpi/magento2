@@ -203,23 +203,42 @@ class AmountTest extends \PHPUnit_Framework_TestCase
     {
         $adjustmentHtml1 = 'adjustment_1_html';
         $adjustmentHtml2 = 'adjustment_2_html';
+        $data = ['key1' => 'data1', 'css_classes' => 'class1 class2'];
+        $expectedData = [
+            'key1' => 'data1',
+            'css_classes' => 'class1 class2',
+            'module_name' => null,
+            'adjustment_css_classes' => 'class1 class2 render1 render2'
+        ];
+
+        $this->model->setData($data);
 
         $this->assertFalse($this->model->hasAdjustmentsHtml());
 
-        $this->model->addAdjustmentHtml('adjustment_1', $adjustmentHtml1);
-        $this->model->addAdjustmentHtml('adjustment_2', $adjustmentHtml2);
+        $adjustmentRender1 = $this->getAdjustmentRenderMock($expectedData, $adjustmentHtml1, 'adjustment_code1');
+        $adjustmentRender2 = $this->getAdjustmentRenderMock($expectedData, $adjustmentHtml2, 'adjustment_code2');
+        $adjustmentRenders = ['render1' => $adjustmentRender1, 'render2' => $adjustmentRender2];
+        $this->rendererPool->expects($this->once())
+            ->method('getAdjustmentRenders')
+            ->will($this->returnValue($adjustmentRenders));
+
+        $this->model->toHtml();
 
         $this->assertTrue($this->model->hasAdjustmentsHtml());
 
         $this->assertEquals($adjustmentHtml1 . $adjustmentHtml2, $this->model->getAdjustmentsHtml());
     }
 
-    protected function getAdjustmentRenderMock($data)
+    protected function getAdjustmentRenderMock($data = [], $html = '', $code = 'adjustment_code')
     {
         $adjustmentRender = $this->getMockForAbstractClass('Magento\Pricing\Render\AdjustmentRenderInterface');
         $adjustmentRender->expects($this->once())
             ->method('render')
-            ->with($this->model, $data);
+            ->with($this->model, $data)
+            ->will($this->returnValue($html));
+        $adjustmentRender->expects($this->any())
+            ->method('getAdjustmentCode')
+            ->will($this->returnValue($code));
         return $adjustmentRender;
     }
 }

@@ -69,24 +69,12 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfoMock));
 
-//
-//        Product $saleableItem,
-//        $quantity,
-//        CalculatorInterface $calculator
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->finalPrice = new \Magento\Bundle\Pricing\Price\FinalPrice(
             $this->saleableInterfaceMock,
             $this->quantity,
             $this->bundleCalculatorMock
         );
-//        = $this->objectManagerHelper->getObject(
-//            'Magento\Bundle\Pricing\Price\FinalPrice',
-//            [
-//                'saleableItem' => $this->saleableInterfaceMock,
-//                'quantity' => $this->quantity,
-//                'calculator' => $this->bundleCalculatorMock
-//            ]
-//        );
     }
 
     /**
