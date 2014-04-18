@@ -29,6 +29,16 @@ class SitemapGrid extends Grid
         ],
         'sitemap_path' => [
             'selector' => '#sitemapGrid_filter_sitemap_path'
+        ],
+        'sitemap_id' => [
+            'selector' => '#sitemapGrid_filter_sitemap_id'
         ]
     ];
+
+    /**
+     * Filters array mapping
+     *
+     * @var string
+     */
+    protected $editLink = 'td[class*=col-sitemap_id]';
 }

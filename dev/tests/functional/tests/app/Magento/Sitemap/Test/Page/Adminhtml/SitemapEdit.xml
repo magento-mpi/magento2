@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/sitemap/edit" >
+    <block>
+        <name>sitemapPageActions</name>
+        <class>Magento\Sitemap\Test\Block\Adminhtml\SitemapPageActions</class>
+        <locator>.page-main-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

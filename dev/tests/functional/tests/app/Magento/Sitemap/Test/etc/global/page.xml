@@ -18,4 +18,9 @@
         <area>adminhtml</area>
         <class>Magento\Sitemap\Test\Page\Adminhtml\SitemapNew</class>
     </SitemapNew>
+    <SitemapEdit>
+        <mca>admin/sitemap/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\Sitemap\Test\Page\Adminhtml\SitemapEdit</class>
+    </SitemapEdit>
 </page>

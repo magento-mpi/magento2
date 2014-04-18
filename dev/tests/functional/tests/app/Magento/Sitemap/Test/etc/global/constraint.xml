@@ -20,4 +20,10 @@
     <assertSitemapFailFolderSaveMessage module="Magento_Sitemap">
         <severeness>low</severeness>
     </assertSitemapFailFolderSaveMessage>
+    <assertSitemapSuccessDeleteMessage module="Magento_Sitemap">
+        <severeness>low</severeness>
+    </assertSitemapSuccessDeleteMessage>
+    <assertSitemapNotInGrid module="Magento_Sitemap">
+        <severeness>low</severeness>
+    </assertSitemapNotInGrid>
 </constraint>
