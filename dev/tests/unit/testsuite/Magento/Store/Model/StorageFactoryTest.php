@@ -11,6 +11,7 @@ namespace Magento\Store\Model;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -158,7 +159,6 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->storage->expects($this->any())
             ->method('getStores')
-            // @SuppressWarnings(PHPMD.UnusedFormalParameter)
             ->will($this->returnCallback(function ($withDefault, $codeKey) {
                 if ($codeKey) {
                     return array('store1' => $this->store);

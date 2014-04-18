@@ -7,6 +7,9 @@
  */
 namespace Magento\Store\Model;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class StoreTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -151,7 +154,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $configMock->expects($this->atLeastOnce())
             ->method('getValue')
             ->will($this->returnCallback(
-                // @SuppressWarnings(PHPMD.UnusedFormalParameter)
                 function ($path, $scope, $scopeCode) use ($secure, $expectedPath) {
                     $url = $secure ? '{{base_url}}' : 'http://domain.com/';
                     return $expectedPath == $path ? $url . $path . '/' : null;
@@ -257,7 +259,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $configMock->expects($this->atLeastOnce())
             ->method('getValue')
             ->will($this->returnCallback(
-                // @SuppressWarnings(PHPMD.UnusedFormalParameter)
                 function ($path, $scope, $scopeCode) use ($expectedPath) {
                     return $expectedPath == $path ? 'http://domain.com/' . $path . '/' : null;
                 }
