@@ -446,24 +446,4 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             ]
         ];
     }
-
-    public function testSaveShipping()
-    {
-    }
-
-    public function testSaveShippingMethod()
-    {
-    }
-
-    public function testSavePayment()
-    {
-    }
-
-    public function testSaveOrder()
-    {
-    }
-
-    public function testGetLastOrderId()
-    {
-    }
 }
