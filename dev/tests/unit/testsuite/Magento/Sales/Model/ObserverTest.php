@@ -322,8 +322,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      * @param string $orderHistoryComment
      * @dataProvider addVatRequestParamsOrderCommentDataProvider
      */
-    public function testAddVatRequestParamsOrderComment($configAddressType, $vatRequestId, $vatRequestDate, $orderHistoryComment)
-    {
+    public function testAddVatRequestParamsOrderComment(
+        $configAddressType,
+        $vatRequestId,
+        $vatRequestDate,
+        $orderHistoryComment
+    ) {
         $this->customerAddressHelperMock->expects($this->once())
             ->method('getTaxCalculationAddressType')
             ->will($this->returnValue($configAddressType));
@@ -393,8 +397,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      * @param int $expectedGroupId
      * @dataProvider restoreQuoteCustomerGroupIdDataProvider
      */
-    public function testRestoreQuoteCustomerGroupId($configAddressType, $groupId, $expectedPrevGroupId, $expectedGroupId)
-    {
+    public function testRestoreQuoteCustomerGroupId(
+        $configAddressType,
+        $groupId,
+        $expectedPrevGroupId,
+        $expectedGroupId
+    ) {
         $quote = (new ObjectManager($this))->getObject('Magento\Sales\Model\Quote');
         $quoteAddress = (new ObjectManager($this))->getObject('Magento\Sales\Model\Quote\Address');
         $quoteAddress->setQuote($quote);
