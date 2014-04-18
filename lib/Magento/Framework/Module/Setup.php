@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Module;
 
-class Setup implements \Magento\Module\Updater\SetupInterface
+class Setup implements \Magento\Framework\Module\Updater\SetupInterface
 {
     /**
      * Setup resource name
@@ -62,7 +62,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     /**
      * Modules configuration reader
      *
-     * @var \Magento\Module\Dir\Reader
+     * @var \Magento\Framework\Module\Dir\Reader
      */
     protected $_modulesReader;
 
@@ -77,12 +77,12 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     protected $_logger;
 
     /**
-     * @var \Magento\Module\ResourceInterface
+     * @var \Magento\Framework\Module\ResourceInterface
      */
     protected $_resourceResource;
 
     /**
-     * @var \Magento\Module\Setup\MigrationFactory
+     * @var \Magento\Framework\Module\Setup\MigrationFactory
      */
     protected $_migrationFactory;
 
@@ -106,16 +106,16 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     protected $modulesDir;
 
     /**
-     * @param \Magento\Module\Setup\Context $context
+     * @param \Magento\Framework\Module\Setup\Context $context
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Module\Setup\Context $context,
+        \Magento\Framework\Module\Setup\Context $context,
         $resourceName,
         $moduleName,
-        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
+        $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_eventManager = $context->getEventManager();
         $this->_resourceModel = $context->getResourceModel();
@@ -776,7 +776,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      * Create migration setup
      *
      * @param array $data
-     * @return \Magento\Module\Setup\Migration
+     * @return \Magento\Framework\Module\Setup\Migration
      */
     public function createMigrationSetup(array $data = array())
     {

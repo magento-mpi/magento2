@@ -7,14 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Setup;
+namespace Magento\Framework\Module\Setup;
 
 /**
  * Resource setup model with methods needed for migration process between Magento versions
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Migration extends \Magento\Module\Setup
+class Migration extends \Magento\Framework\Module\Setup
 {
     /**#@+
      * Type of field content where class alias is used
@@ -121,13 +121,13 @@ class Migration extends \Magento\Module\Setup
     protected $_directory;
 
     /**
-     * @var \Magento\Module\Setup\MigrationData
+     * @var \Magento\Framework\Module\Setup\MigrationData
      */
     protected $_migrationData;
 
     /**
-     * @param \Magento\Module\Setup\Context $context
-     * @param \Magento\Module\Setup\MigrationData $migrationData
+     * @param \Magento\Framework\Module\Setup\Context $context
+     * @param \Magento\Framework\Module\Setup\MigrationData $migrationData
      * @param string $confPathToMapFile
      * @param string $resourceName
      * @param string $moduleName
@@ -135,12 +135,12 @@ class Migration extends \Magento\Module\Setup
      * @param array $compositeModules
      */
     public function __construct(
-        \Magento\Module\Setup\Context $context,
+        \Magento\Framework\Module\Setup\Context $context,
         $resourceName,
         $moduleName,
-        \Magento\Module\Setup\MigrationData $migrationData,
+        \Magento\Framework\Module\Setup\MigrationData $migrationData,
         $confPathToMapFile,
-        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION,
+        $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION,
         $compositeModules = array()
     ) {
         $this->_directory = $context->getFilesystem()->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);

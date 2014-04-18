@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Setup;
+namespace Magento\Framework\Module\Setup;
 
 class Context implements \Magento\Framework\ObjectManager\ContextInterface
 {
@@ -25,22 +25,22 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     protected $_resourceModel;
 
     /**
-     * @var \Magento\Module\Dir\Reader
+     * @var \Magento\Framework\Module\Dir\Reader
      */
     protected $_modulesReader;
 
     /**
-     * @var \Magento\Module\ModuleListInterface
+     * @var \Magento\Framework\Module\ModuleListInterface
      */
     protected $_moduleList;
 
     /**
-     * @var \Magento\Module\ResourceInterface
+     * @var \Magento\Framework\Module\ResourceInterface
      */
     protected $_resourceResource;
 
     /**
-     * @var \Magento\Module\Setup\MigrationFactory
+     * @var \Magento\Framework\Module\Setup\MigrationFactory
      */
     protected $_migrationFactory;
 
@@ -60,10 +60,10 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Module\Dir\Reader $modulesReader
-     * @param \Magento\Module\ModuleListInterface $moduleList
-     * @param \Magento\Module\ResourceInterface $resourceResource
-     * @param \Magento\Module\Setup\MigrationFactory $migrationFactory
+     * @param \Magento\Framework\Module\Dir\Reader $modulesReader
+     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
+     * @param \Magento\Framework\Module\ResourceInterface $resourceResource
+     * @param \Magento\Framework\Module\Setup\MigrationFactory $migrationFactory
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
@@ -71,10 +71,10 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
         \Magento\Framework\Logger $logger,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\App\Resource $resource,
-        \Magento\Module\Dir\Reader $modulesReader,
-        \Magento\Module\ModuleListInterface $moduleList,
-        \Magento\Module\ResourceInterface $resourceResource,
-        \Magento\Module\Setup\MigrationFactory $migrationFactory,
+        \Magento\Framework\Module\Dir\Reader $modulesReader,
+        \Magento\Framework\Module\ModuleListInterface $moduleList,
+        \Magento\Framework\Module\ResourceInterface $resourceResource,
+        \Magento\Framework\Module\Setup\MigrationFactory $migrationFactory,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\App\Filesystem $filesystem
     ) {
@@ -106,7 +106,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Module\ModuleListInterface
+     * @return \Magento\Framework\Module\ModuleListInterface
      */
     public function getModuleList()
     {
@@ -114,7 +114,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Module\Dir\Reader
+     * @return \Magento\Framework\Module\Dir\Reader
      */
     public function getModulesReader()
     {
@@ -130,7 +130,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Module\Setup\MigrationFactory
+     * @return \Magento\Framework\Module\Setup\MigrationFactory
      */
     public function getMigrationFactory()
     {
@@ -138,7 +138,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Module\ResourceInterface
+     * @return \Magento\Framework\Module\ResourceInterface
      */
     public function getResourceResource()
     {

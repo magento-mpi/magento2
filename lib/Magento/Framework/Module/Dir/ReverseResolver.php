@@ -7,10 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Dir;
+namespace Magento\Framework\Module\Dir;
 
-use Magento\Module\ModuleListInterface;
-use Magento\Module\Dir as ModuleDir;
+use Magento\Framework\Module\ModuleListInterface;
+use Magento\Framework\Module\Dir as ModuleDir;
 
 class ReverseResolver
 {

@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Output;
+namespace Magento\Framework\Module\Output;
 
-class Config implements \Magento\Module\Output\ConfigInterface
+class Config implements \Magento\Framework\Module\Output\ConfigInterface
 {
     /**
      * XPath in the configuration where module statuses are stored

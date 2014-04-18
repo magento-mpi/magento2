@@ -7,14 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Dir;
+namespace Magento\Framework\Module\Dir;
 
 use Magento\Framework\App\Filesystem;
 use Magento\Framework\Config\FileIterator;
 use Magento\Framework\Config\FileIteratorFactory;
 use Magento\Framework\Filesystem\Directory\Read;
-use Magento\Module\ModuleListInterface;
-use Magento\Module\Dir;
+use Magento\Framework\Module\ModuleListInterface;
+use Magento\Framework\Module\Dir;
 
 class Reader
 {

@@ -10,9 +10,9 @@
 namespace Magento\Framework\Module;
 
 use Magento\Framework\Config\CacheInterface;
-use Magento\Module\Declaration\Reader\Filesystem;
+use Magento\Framework\Module\Declaration\Reader\Filesystem;
 
-class ModuleList implements \Magento\Module\ModuleListInterface
+class ModuleList implements \Magento\Framework\Module\ModuleListInterface
 {
     /**
      * Configuration data

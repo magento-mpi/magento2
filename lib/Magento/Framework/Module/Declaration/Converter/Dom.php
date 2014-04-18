@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Module\Declaration\Converter;
+namespace Magento\Framework\Module\Declaration\Converter;
 
 class Dom implements \Magento\Framework\Config\ConverterInterface
 {

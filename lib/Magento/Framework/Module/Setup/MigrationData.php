@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Setup;
+namespace Magento\Framework\Module\Setup;
 
 /**
  * Replace patterns needed for migration process between Magento versions

@@ -7,13 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Updater;
+namespace Magento\Framework\Module\Updater;
 
 use Magento\Framework\ObjectManager;
 
 class SetupFactory
 {
-    const INSTANCE_TYPE = 'Magento\Module\Updater\SetupInterface';
+    const INSTANCE_TYPE = 'Magento\Framework\Module\Updater\SetupInterface';
 
     /**
      * @var ObjectManager
@@ -45,10 +45,10 @@ class SetupFactory
     {
         $className = isset(
             $this->_resourceTypes[$resourceName]
-        ) ? $this->_resourceTypes[$resourceName] : 'Magento\Module\Updater\SetupInterface';
+        ) ? $this->_resourceTypes[$resourceName] : 'Magento\Framework\Module\Updater\SetupInterface';
 
         if (false == is_subclass_of($className, self::INSTANCE_TYPE) && $className !== self::INSTANCE_TYPE) {
-            throw new \LogicException($className . ' is not a \Magento\Module\Updater\SetupInterface');
+            throw new \LogicException($className . ' is not a \Magento\Framework\Module\Updater\SetupInterface');
         }
 
         return $this->_objectManager->create(

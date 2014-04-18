@@ -7,10 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\FrontController\Plugin;
+namespace Magento\Framework\Module\FrontController\Plugin;
 
 use Magento\Framework\Cache\FrontendInterface;
-use Magento\Module\UpdaterInterface;
+use Magento\Framework\Module\UpdaterInterface;
 use Magento\Framework\App\State;
 
 class Install

@@ -10,9 +10,9 @@
 namespace Magento\Framework\Module;
 
 use Magento\Framework\App\State;
-use Magento\Module\Updater\SetupFactory;
+use Magento\Framework\Module\Updater\SetupFactory;
 
-class Updater implements \Magento\Module\UpdaterInterface
+class Updater implements \Magento\Framework\Module\UpdaterInterface
 {
     /**
      * Setup model factory
@@ -125,7 +125,7 @@ class Updater implements \Magento\Module\UpdaterInterface
             }
         }
 
-        /** @var $setup \Magento\Module\Updater\SetupInterface*/
+        /** @var $setup \Magento\Framework\Module\Updater\SetupInterface*/
         foreach ($afterApplyUpdates as $setup) {
             $setup->afterApplyAllUpdates();
         }

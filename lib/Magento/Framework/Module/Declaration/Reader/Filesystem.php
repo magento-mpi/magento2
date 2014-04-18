@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Declaration\Reader;
+namespace Magento\Framework\Module\Declaration\Reader;
 
-use Magento\Module\Declaration\FileResolver;
-use Magento\Module\Declaration\Converter\Dom;
-use Magento\Module\Declaration\SchemaLocator;
-use Magento\Module\DependencyManagerInterface;
+use Magento\Framework\Module\Declaration\FileResolver;
+use Magento\Framework\Module\Declaration\Converter\Dom;
+use Magento\Framework\Module\Declaration\SchemaLocator;
+use Magento\Framework\Module\DependencyManagerInterface;
 use Magento\Framework\Config\ValidationStateInterface;
 use Magento\Framework\App\State;
 
@@ -35,7 +35,7 @@ class Filesystem extends \Magento\Framework\Config\Reader\Filesystem
     protected $appState;
 
     /**
-     * @var \Magento\Module\DependencyManagerInterface
+     * @var \Magento\Framework\Module\DependencyManagerInterface
      */
     protected $dependencyManager;
 

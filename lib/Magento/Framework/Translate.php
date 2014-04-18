@@ -73,12 +73,12 @@ class Translate implements \Magento\Framework\TranslateInterface
     protected $_viewFileSystem;
 
     /**
-     * @var \Magento\Module\ModuleList
+     * @var \Magento\Framework\Module\ModuleList
      */
     protected $_moduleList;
 
     /**
-     * @var \Magento\Module\Dir\Reader
+     * @var \Magento\Framework\Module\Dir\Reader
      */
     protected $_modulesReader;
 
@@ -122,8 +122,8 @@ class Translate implements \Magento\Framework\TranslateInterface
      * @param \Magento\Framework\Locale\Hierarchy\Config $config
      * @param \Magento\Framework\Cache\FrontendInterface $cache
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
-     * @param \Magento\Module\ModuleList $moduleList
-     * @param \Magento\Module\Dir\Reader $modulesReader
+     * @param \Magento\Framework\Module\ModuleList $moduleList
+     * @param \Magento\Framework\Module\Dir\Reader $modulesReader
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param \Magento\Framework\Translate\ResourceInterface $translate
      * @param \Magento\Framework\Locale\ResolverInterface $locale
@@ -139,8 +139,8 @@ class Translate implements \Magento\Framework\TranslateInterface
         \Magento\Framework\Locale\Hierarchy\Config $config,
         \Magento\Framework\Cache\FrontendInterface $cache,
         \Magento\Framework\View\FileSystem $viewFileSystem,
-        \Magento\Module\ModuleList $moduleList,
-        \Magento\Module\Dir\Reader $modulesReader,
+        \Magento\Framework\Module\ModuleList $moduleList,
+        \Magento\Framework\Module\Dir\Reader $modulesReader,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         \Magento\Framework\Translate\ResourceInterface $translate,
         \Magento\Framework\Locale\ResolverInterface $locale,

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Output;
+namespace Magento\Framework\Module\Output;
 
 interface ConfigInterface
 {

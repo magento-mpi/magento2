@@ -9,9 +9,9 @@
  */
 namespace Magento\Framework\Module;
 
-use Magento\Module\Dir\Reader;
+use Magento\Framework\Module\Dir\Reader;
 
-class ResourceResolver implements \Magento\Module\ResourceResolverInterface
+class ResourceResolver implements \Magento\Framework\Module\ResourceResolverInterface
 {
     /**
      * @var Reader

@@ -7,10 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Setup;
+namespace Magento\Framework\Module\Setup;
 
 /**
- * Factory class for \Magento\Module\Setup\Migration
+ * Factory class for \Magento\Framework\Module\Setup\Migration
  */
 class MigrationFactory
 {
@@ -34,7 +34,7 @@ class MigrationFactory
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param string $instanceName
      */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager, $instanceName = 'Magento\Module\Setup\Migration')
+    public function __construct(\Magento\Framework\ObjectManager $objectManager, $instanceName = 'Magento\Framework\Module\Setup\Migration')
     {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
@@ -44,7 +44,7 @@ class MigrationFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento\Module\Setup\Migration
+     * @return \Magento\Framework\Module\Setup\Migration
      * @throws \InvalidArgumentException
      */
     public function create(array $data = array())
@@ -52,9 +52,9 @@ class MigrationFactory
 
         $migrationInstance = $this->_objectManager->create($this->_instanceName, $data);
 
-        if (!$migrationInstance instanceof \Magento\Module\Setup\Migration) {
+        if (!$migrationInstance instanceof \Magento\Framework\Module\Setup\Migration) {
             throw new \InvalidArgumentException(
-                $this->_instanceName . ' doesn\'n extend \Magento\Module\Setup\Migration'
+                $this->_instanceName . ' doesn\'n extend \Magento\Framework\Module\Setup\Migration'
             );
         }
         return $migrationInstance;
