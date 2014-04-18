@@ -92,7 +92,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function inputException($wrappedErrorParameters)
     {
-        $exception = new InputException();
+        $exception = new \Magento\Exception\InputException();
         if ($wrappedErrorParameters) {
             foreach ($wrappedErrorParameters as $error) {
                 $exception->addError($error->getCode(), $error->getFieldName(), $error->getValue());
