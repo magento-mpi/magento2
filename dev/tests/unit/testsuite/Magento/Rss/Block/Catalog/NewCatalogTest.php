@@ -34,7 +34,7 @@ class NewCatalogTest extends \PHPUnit_Framework_TestCase
         $this->imageHelperMock = $this->getMock('Magento\Catalog\Helper\Image', [], [], '', false);
 
         $eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', [], [], '', false);
-        $requestMock = $this->getMock('Magento\App\RequestInterface', [], [], '', false);
+        $requestMock = $this->getMock('Magento\Framework\App\RequestInterface', [], [], '', false);
 
         $templateContextMock->expects($this->once())
             ->method('getEventManager')

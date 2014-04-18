@@ -46,7 +46,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
     protected $wishlistHelperMock;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $storeConfigMock;
 
@@ -73,7 +73,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         $wishlistFactoryMock = $this->getMock('Magento\Wishlist\Model\WishlistFactory', [], [], '', false);
         $this->rssFactoryMock = $this->getMock('Magento\Rss\Model\RssFactory', ['create'], [], '', false);
         $eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', [], [], '', false);
-        $cacheStateMock = $this->getMock('Magento\App\Cache\StateInterface', [], [], '', false);
+        $cacheStateMock = $this->getMock('Magento\Framework\App\Cache\StateInterface', [], [], '', false);
         $this->productFactoryMock = $this->getMock(
             'Magento\Catalog\Model\ProductFactory',
             ['create', '__wakeup'],
@@ -98,7 +98,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
             ['getUrl']
         );
         $this->storeConfigMock = $this->getMockForAbstractClass(
-            'Magento\App\Config\ScopeConfigInterface',
+            'Magento\Framework\App\Config\ScopeConfigInterface',
             [],
             '',
             true,
