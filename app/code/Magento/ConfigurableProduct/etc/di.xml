@@ -69,12 +69,25 @@
     <type name="Magento\Catalog\Model\Product\Type">
         <plugin name="configurable_output" type="Magento\ConfigurableProduct\Model\Product\Type\Plugin" />
     </type>
-    <type name="Magento\Pricing\PriceComposite">
+    <virtualType name="Magento\ConfigurableProduct\Pricing\Price\Pool" type="Magento\Pricing\Price\Pool">
         <arguments>
-            <argument name="metadata" xsi:type="array">
-                <item name="attribute_price" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\ConfigurableProduct\Pricing\Price\AttributePrice</item>
-                    <item name="include_in_base_price" xsi:type="boolean">false</item>
+            <argument name="prices" xsi:type="array">
+                <item name="attribute_price" xsi:type="string">Magento\ConfigurableProduct\Pricing\Price\AttributePrice</item>
+            </argument>
+            <argument name="target" xsi:type="object">Magento\Catalog\Pricing\Price\Pool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\ConfigurableProduct\Pricing\Price\Collection" type="Magento\Pricing\Price\Collection">
+        <arguments>
+            <argument name="pool" xsi:type="object">Magento\ConfigurableProduct\Pricing\Price\Pool</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Pricing\PriceInfo\Factory">
+        <arguments>
+            <argument name="types" xsi:type="array">
+                <item name="configurable" xsi:type="array">
+                    <item name="infoClass" xsi:type="string">Magento\Pricing\PriceInfo\Base</item>
+                    <item name="prices" xsi:type="string">Magento\ConfigurableProduct\Pricing\Price\Collection</item>
                 </item>
             </argument>
         </arguments>

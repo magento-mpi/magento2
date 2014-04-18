@@ -49,7 +49,7 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
      */
     public function getValue()
     {
-        return max(0, $this->basePrice->getValue()); // + custom options price
+        return max(0, $this->basePrice->getValue());
     }
 
     /**

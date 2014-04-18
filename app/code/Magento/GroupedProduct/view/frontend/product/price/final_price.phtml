@@ -13,7 +13,7 @@
 <?php
 $minProduct = $this->getSaleableItem()
     ->getPriceInfo()
-    ->getPrice('grouped_final_price')
+    ->getPrice('final_price')
     ->getMinProduct();
 $amountRender = $this->getRendererPool()
     ->createAmountRender(

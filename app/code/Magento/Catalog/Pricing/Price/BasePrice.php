@@ -29,8 +29,10 @@ class BasePrice extends AbstractPrice
     {
         if ($this->value === null) {
             $this->value = false;
-            foreach ($this->priceInfo->getPricesIncludedInBase() as $price) {
-                $this->value = min($price->getValue(), $this->value ?: $price->getValue());
+            foreach ($this->priceInfo->getPrices() as $code =>  $price) {
+                if ($price instanceof \Magento\Pricing\Price\BasePriceProviderInterface && $price->getValue()) {
+                    $this->value = min($price->getValue(), $this->value ?: $price->getValue());
+                }
             }
         }
         return $this->value;

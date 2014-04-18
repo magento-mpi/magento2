@@ -107,9 +107,9 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
     public function getValueDataProvider()
     {
         return array(
-            ['basePrice' => 100, 'specialPrice' => 40, 'isScopeDateInInterval' => true, 'value' => 60],
-            ['basePrice' => 75, 'specialPrice' => 40, 'isScopeDateInInterval' => true, 'value' => 45],
-            ['basePrice' => 75, 'specialPrice' => 40, 'isScopeDateInInterval' => false, 'value' => false],
+            ['basePrice' => 100, 'specialPrice' => 40, 'isScopeDateInInterval' => true,  'value' => 60],
+            ['basePrice' => 75,  'specialPrice' => 40, 'isScopeDateInInterval' => true,  'value' => 45],
+            ['basePrice' => 75,  'specialPrice' => 40, 'isScopeDateInInterval' => false, 'value' => false],
         );
     }
 }
