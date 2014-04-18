@@ -1,5 +1,6 @@
 * Modularity improvements:
   * Introduced a new CheckoutAgreements module. Moved all "Terms and Conditions" related logic from Magento_Checkout to Magento_CheckoutAgreements
+  * Moved library related logic from “Magento\Core\Model\App”
 * Pricing Improvements:
   * Added price calculation component to library (MAGETWO-18226)
   * Eliminated price calculation from blocks and templates and implemented new calculation models for the next product types
@@ -10,6 +11,7 @@
   * Resolved dependencies of price calculation from Tax module (MAGETWO-20457)
   * Resolved dependencies of price calculation from Weee tax module (MAGETWO-20458)
 * Fixed bugs:
+  * Fixed Magento breaks down after delete Main Web Site (MAGETWO-23537)
   * An issue with the inability to save product with grouped price when Price Scope = Website was fixed (MAGETWO-21709)
   * An issue with fatal error on attempt to edit product from wishlist if more than one store view available was fixed (MAGETWO-20859)
   * An issue product with custom quantity is not able to add to Wish List was fixed (MAGETWO-15355)
@@ -40,6 +42,8 @@
   * Simplify Search related Data Objects (MAGETWO-22613)
   * Moved lib/Magento/* to lib/Magento/Framework/*: (MAGETWO-20866)
     * Moved lib/Magento/App to lib/Magento/Framework/App (MAGETWO-23476)
+  * Covered Magento Store components with unit tests:
+     * Magento\Store\Model\*
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
   * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)
