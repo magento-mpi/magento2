@@ -9,7 +9,7 @@
  */
 namespace Magento\GiftRegistry\Controller\Adminhtml\Giftregistry;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\GiftRegistry\Model\Entity;
 
 /**
@@ -29,7 +29,7 @@ class Customer extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\App\Action\Title
+     * @var \Magento\Framework\App\Action\Title
      */
     protected $_title;
 

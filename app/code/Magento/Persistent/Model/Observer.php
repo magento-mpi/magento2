@@ -49,14 +49,14 @@ class Observer
     /**
      * Layout model
      *
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
     /**
      * Request http
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_requestHttp;
 
@@ -150,8 +150,8 @@ class Observer
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory
-     * @param \Magento\App\RequestInterface $requestHttp
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\App\RequestInterface $requestHttp
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Escaper $escaper
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Checkout\Helper\ExpressRedirect $expressRedirectHelper
@@ -171,8 +171,8 @@ class Observer
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory,
-        \Magento\App\RequestInterface $requestHttp,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\App\RequestInterface $requestHttp,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Escaper $escaper,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Checkout\Helper\ExpressRedirect $expressRedirectHelper,
@@ -229,7 +229,7 @@ class Observer
             return $this;
         }
 
-        /** @var $block \Magento\View\Element\AbstractBlock */
+        /** @var $block \Magento\Framework\View\Element\AbstractBlock */
         $block = $observer->getEvent()->getBlock();
 
         if (!$block) {
@@ -255,7 +255,7 @@ class Observer
     /**
      * Emulate 'welcome' block with persistent data
      *
-     * @param \Magento\View\Element\AbstractBlock $block
+     * @param \Magento\Framework\View\Element\AbstractBlock $block
      * @return $this
      */
     public function emulateWelcomeBlock($block)
@@ -288,7 +288,7 @@ class Observer
     /**
      * Emulate 'top links' block with persistent data
      *
-     * @param \Magento\View\Element\AbstractBlock $block
+     * @param \Magento\Framework\View\Element\AbstractBlock $block
      * @return void
      */
     public function emulateTopLinks($block)

@@ -301,7 +301,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
     {
         $this->_objectManager->get('Magento\Translate\Inline\StateInterface')->suspend();
         $this->_objectManager->get(
-            'Magento\App\State'
+            'Magento\Framework\App\State'
         )->emulateAreaCode(
             'frontend',
             array($this, 'previewFrontendPage')
@@ -372,17 +372,17 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
             $this->_storeManager->setCurrentStore($this->_storeManager->getStore($selectedStoreId));
 
             $theme = $this->_objectManager->get(
-                'Magento\View\DesignInterface'
+                'Magento\Framework\View\DesignInterface'
             )->getConfigurationDesignTheme(
                 null,
                 array('store' => $selectedStoreId)
             );
-            $this->_objectManager->get('Magento\View\DesignInterface')->setDesignTheme($theme, 'frontend');
+            $this->_objectManager->get('Magento\Framework\View\DesignInterface')->setDesignTheme($theme, 'frontend');
 
             $designChange = $this->_design->loadChange($selectedStoreId);
 
             if ($designChange->getData()) {
-                $this->_objectManager->get('Magento\View\DesignInterface')->setDesignTheme($designChange->getDesign());
+                $this->_objectManager->get('Magento\Framework\View\DesignInterface')->setDesignTheme($designChange->getDesign());
             }
 
             // add handles used to render cms page on frontend
@@ -416,7 +416,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
                     array('page_id' => $revision->getPageId(), 'version_id' => $revision->getVersionId())
                 );
                 return;
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 $error = true;

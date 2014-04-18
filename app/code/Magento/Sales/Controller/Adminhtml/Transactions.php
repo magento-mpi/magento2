@@ -29,8 +29,10 @@ class Transactions extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
-    {
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Registry $coreRegistry
+    ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -120,7 +122,7 @@ class Transactions extends \Magento\Backend\App\Action
             $txn->getOrderPaymentObject()->setOrder($txn->getOrder())->importTransactionInfo($txn);
             $txn->save();
             $this->messageManager->addSuccess(__('The transaction details have been updated.'));
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t update the transaction details.'));

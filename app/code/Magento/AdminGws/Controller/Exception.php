@@ -13,7 +13,7 @@ namespace Magento\AdminGws\Controller;
  * Controller exception for admin area
  *
  */
-class Exception extends \Magento\App\Action\Exception
+class Exception extends \Magento\Framework\App\Action\Exception
 {
     /**
      * @var string

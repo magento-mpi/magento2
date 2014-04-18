@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Controller;
 
-class Index extends \Magento\App\Action\Action
+class Index extends \Magento\Framework\App\Action\Action
 {
     /**
      * @return void

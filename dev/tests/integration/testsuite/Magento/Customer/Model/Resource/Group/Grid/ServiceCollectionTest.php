@@ -23,7 +23,7 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testSetOrder()
     {
-        $this->collection->setOrder('code', \Magento\Data\Collection::SORT_ORDER_ASC);
+        $this->collection->setOrder('code', \Magento\Framework\Data\Collection::SORT_ORDER_ASC);
         $this->collection->loadData();
         $items = $this->collection->getItems();
         $this->assertEquals(4, count($items));

@@ -90,14 +90,14 @@ class AbstractItems extends \Magento\Backend\Block\Template
      * Retrieve item renderer block
      *
      * @param string $type
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      * @throws \RuntimeException
      */
     public function getItemRenderer($type)
     {
         /** @var $renderer \Magento\Sales\Block\Adminhtml\Items\AbstractItems */
         $renderer = $this->getChildBlock($type) ?: $this->getChildBlock(self::DEFAULT_TYPE);
-        if (!$renderer instanceof \Magento\View\Element\BlockInterface) {
+        if (!$renderer instanceof \Magento\Framework\View\Element\BlockInterface) {
             throw new \RuntimeException('Renderer for type "' . $type . '" does not exist.');
         }
         $renderer->setColumnRenders($this->getLayout()->getGroupChildNames($this->getNameInLayout(), 'column'));
@@ -110,7 +110,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
      *
      * @param string $column
      * @param string $compositePart
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     public function getColumnRenderer($column, $compositePart = '')
     {
@@ -199,7 +199,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
     /**
      * Retrieve available order
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return Order
      */
     public function getOrder()
@@ -223,7 +223,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
             return $this->getItem()->getOrder();
         }
 
-        throw new \Magento\Model\Exception(__('We cannot get the order instance.'));
+        throw new \Magento\Framework\Model\Exception(__('We cannot get the order instance.'));
     }
 
     /**

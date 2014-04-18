@@ -18,10 +18,9 @@
 namespace Magento\Catalog\Block\Product;
 
 use Magento\Catalog\Model\Product;
-use Magento\Data\Collection;
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\Data\Collection;
 
-class Gallery extends \Magento\View\Element\Template
+class Gallery extends \Magento\Framework\View\Element\Template
 {
     /**
      * Core registry
@@ -31,12 +30,12 @@ class Gallery extends \Magento\View\Element\Template
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         array $data = array()
     ) {
@@ -114,7 +113,7 @@ class Gallery extends \Magento\View\Element\Template
     {
         $file = $this->getCurrentImage()->getPath();
 
-        if ($this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR)->isFile($file)) {
+        if ($this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR)->isFile($file)) {
             $size = getimagesize($file);
             if (isset($size[0])) {
                 if ($size[0] > 600) {

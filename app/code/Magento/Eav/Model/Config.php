@@ -88,7 +88,7 @@ class Config
     protected $_collectionAttributes = array();
 
     /**
-     * @var \Magento\App\CacheInterface
+     * @var \Magento\Framework\App\CacheInterface
      */
     protected $_cache;
 
@@ -103,15 +103,15 @@ class Config
     protected $_universalFactory;
 
     /**
-     * @param \Magento\App\CacheInterface $cache
+     * @param \Magento\Framework\App\CacheInterface $cache
      * @param Entity\TypeFactory $entityTypeFactory
-     * @param \Magento\App\Cache\StateInterface $cacheState
+     * @param \Magento\Framework\App\Cache\StateInterface $cacheState
      * @param \Magento\Validator\UniversalFactory $universalFactory
      */
     public function __construct(
-        \Magento\App\CacheInterface $cache,
+        \Magento\Framework\App\CacheInterface $cache,
         \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory,
-        \Magento\App\Cache\StateInterface $cacheState,
+        \Magento\Framework\App\Cache\StateInterface $cacheState,
         \Magento\Validator\UniversalFactory $universalFactory
     ) {
         $this->_cache = $cache;
@@ -314,7 +314,7 @@ class Config
      *
      * @param int|string $code
      * @return Type
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getEntityType($code)
     {
@@ -349,7 +349,7 @@ class Config
             }
 
             if (!$entityType->getId()) {
-                throw new \Magento\Model\Exception(__('Invalid entity_type specified: %1', $code));
+                throw new \Magento\Framework\Model\Exception(__('Invalid entity_type specified: %1', $code));
             }
         }
         $this->_addEntityTypeReference($entityType->getId(), $entityType->getEntityTypeCode());

@@ -67,7 +67,7 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
             array('REQUEST_METHOD' => 'POST')
         )->setPost(
             array(
-                'form_key' => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'form_key' => $this->_objectManager->get('Magento\Framework\Data\Form\FormKey')->getFormKey(),
                 'firstname' => 'James',
                 'lastname' => 'Bond',
                 'company' => 'Ebay',
@@ -112,7 +112,7 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
             array('REQUEST_METHOD' => 'POST')
         )->setPost(
             array(
-                'form_key' => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'form_key' => $this->_objectManager->get('Magento\Framework\Data\Form\FormKey')->getFormKey(),
                 'firstname' => 'James',
                 'lastname' => 'Bond',
                 'company' => 'Ebay',

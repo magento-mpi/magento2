@@ -24,7 +24,7 @@ use Magento\TestFramework\TestCase\AbstractController;
 class EditTest extends AbstractController
 {
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     private $layout;
 
@@ -45,7 +45,7 @@ class EditTest extends AbstractController
     {
         parent::setUp();
         $this->layout = Bootstrap::getObjectManager()->create(
-            'Magento\View\Layout'
+            'Magento\Framework\View\Layout'
         );
         $this->customerGroupService = Bootstrap::getObjectManager()
             ->create('Magento\Customer\Service\V1\CustomerGroupService');

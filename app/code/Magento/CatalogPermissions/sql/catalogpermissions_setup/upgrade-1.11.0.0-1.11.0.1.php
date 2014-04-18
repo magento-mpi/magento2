@@ -7,7 +7,7 @@
  */
 
 /** @var \Magento\Catalog\Model\Resource\Setup $this */
-/** @var \Magento\DB\Adapter\AdapterInterface $connection */
+/** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
 $connection = $this->getConnection();
 
 $connection->dropForeignKey(
@@ -25,37 +25,37 @@ $table = $connection->newTable(
     $this->getTable('magento_catalogpermissions_index_tmp')
 )->addColumn(
     'category_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false),
     'Category Id'
 )->addColumn(
     'website_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false),
     'Website Id'
 )->addColumn(
     'customer_group_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false),
     'Customer Group Id'
 )->addColumn(
     'grant_catalog_category_view',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array(),
     'Grant Catalog Category View'
 )->addColumn(
     'grant_catalog_product_price',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array(),
     'Grant Catalog Product Price'
 )->addColumn(
     'grant_checkout_items',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array(),
     'Grant Checkout Items'

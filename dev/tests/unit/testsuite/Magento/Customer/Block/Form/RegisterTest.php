@@ -30,7 +30,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Helper\Data */
     private $_coreData;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\App\Config\ScopeConfigInterface */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\Config\ScopeConfigInterface */
     private $_scopeConfig;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Session */
@@ -47,7 +47,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_moduleManager = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
         $this->_coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $this->_customerHelper = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
@@ -59,14 +59,14 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $context = $this->getMock('Magento\View\Element\Template\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Framework\View\Element\Template\Context', array(), array(), '', false);
         $context->expects($this->any())->method('getScopeConfig')->will($this->returnValue($this->_scopeConfig));
 
         $this->_block = new Register(
             $context,
             $this->_coreData,
             $this->getMockForAbstractClass('Magento\Json\EncoderInterface', array(), '', false),
-            $this->getMock('Magento\App\Cache\Type\Config', array(), array(), '', false),
+            $this->getMock('Magento\Framework\App\Cache\Type\Config', array(), array(), '', false),
             $this->getMock('Magento\Directory\Model\Resource\Region\CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento\Directory\Model\Resource\Country\CollectionFactory', array(), array(), '', false),
             $this->_moduleManager,
@@ -321,7 +321,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($customerFormData)
         );
         $form = $this->getMock('Magento\Customer\Model\Metadata\Form', array(), array(), '', false);
-        $request = $this->getMockForAbstractClass('Magento\App\RequestInterface', array(), '', false);
+        $request = $this->getMockForAbstractClass('Magento\Framework\App\RequestInterface', array(), '', false);
         $formData = $this->_block->getFormData();
         $form->expects(
             $this->once()

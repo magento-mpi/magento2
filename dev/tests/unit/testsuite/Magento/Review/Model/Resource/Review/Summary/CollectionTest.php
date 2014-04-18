@@ -16,7 +16,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected $collection;
 
     /**
-     * @var \Magento\Data\Collection\Db\FetchStrategy\Query|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Data\Collection\Db\FetchStrategy\Query|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $fetchStrategyMock;
 
@@ -31,7 +31,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected $loggerMock;
 
     /**
-     * @var \Magento\App\Resource|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Resource|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $resourceMock;
 
@@ -41,27 +41,27 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected $adapterMock;
 
     /**
-     * @var \Magento\DB\Select|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\DB\Select|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $selectMock;
 
     protected function setUp()
     {
         $this->fetchStrategyMock = $this->getMock(
-            'Magento\Data\Collection\Db\FetchStrategy\Query', array('fetchAll'), array(), '', false
+            'Magento\Framework\Data\Collection\Db\FetchStrategy\Query', array('fetchAll'), array(), '', false
         );
         $this->entityFactoryMock = $this->getMock(
             'Magento\Core\Model\EntityFactory', array('create'), array(), '', false
         );
         $this->loggerMock = $this->getMock('Magento\Logger', array('log'), array(), '', false);
         $this->resourceMock = $this->getMock(
-            'Magento\App\Resource', array('getConnection', 'getTableName'), array(), '', false
+            'Magento\Framework\App\Resource', array('getConnection', 'getTableName'), array(), '', false
         );
         $this->adapterMock = $this->getMock(
             'Zend_Db_Adapter_Pdo_Mysql', array('select', 'query'), array(), '', false
         );
         $this->selectMock = $this->getMock(
-            'Magento\DB\Select', array('from'), array('adapter' => $this->adapterMock)
+            'Magento\Framework\DB\Select', array('from'), array('adapter' => $this->adapterMock)
         );
         $this->adapterMock->expects($this->once())
             ->method('select')

@@ -24,7 +24,7 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $directoryWrite;
 
@@ -36,8 +36,9 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
             'Magento\ImportExport\Model\Import\Entity\Eav\Customer'
         );
 
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\App\Filesystem');
-        $this->directoryWrite = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\App\Filesystem');
+        $this->directoryWrite = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
     }
 
     /**

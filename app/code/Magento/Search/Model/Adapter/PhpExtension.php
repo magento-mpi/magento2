@@ -36,12 +36,12 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr imple
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
      * @param \Magento\Logger $logger
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\CacheInterface $cache
+     * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      * @param \Magento\Search\Helper\ClientInterface $clientHelper
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -55,12 +55,12 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr imple
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
         \Magento\Logger $logger,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\CacheInterface $cache,
+        \Magento\Framework\App\CacheInterface $cache,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Search\Model\Factory\Factory $searchFactory,
         \Magento\Search\Helper\ClientInterface $clientHelper,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -69,7 +69,7 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr imple
     ) {
         $this->_ctlgInventData = $ctlgInventData;
         if (!extension_loaded('solr')) {
-            throw new \Magento\Model\Exception('Solr extension not enabled!');
+            throw new \Magento\Framework\Model\Exception('Solr extension not enabled!');
         }
         $this->_ctlgInventData = $ctlgInventData;
         parent::__construct(

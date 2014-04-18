@@ -47,7 +47,7 @@ class Operation extends \Magento\Backend\App\Action
             $this->_title->add(__('Scheduled Imports/Exports'));
             $this->_view->loadLayout();
             $this->_setActiveMenu('Magento_ScheduledImportExport::system_convert_magento_scheduled_operation');
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/scheduled_operation/index');
         }
@@ -165,7 +165,7 @@ class Operation extends \Magento\Backend\App\Action
                         $operation->getOperationType()
                     )
                 );
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -198,7 +198,7 @@ class Operation extends \Magento\Backend\App\Action
                         $request->getParam('type')
                     )
                 );
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -239,7 +239,7 @@ class Operation extends \Magento\Backend\App\Action
                     $operation->delete();
                 }
                 $this->messageManager->addSuccess(__('We deleted a total of %1 record(s).', count($operations)));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -274,7 +274,7 @@ class Operation extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(
                     __('A total of %1 record(s) have been updated.', count($operations))
                 );
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -339,7 +339,7 @@ class Operation extends \Magento\Backend\App\Action
                 Add: After elimination of skins and refactoring of themes we can't just switch area,
                 cause we can't be sure that theme set for previous area exists in new one
             */
-            $design = $this->_objectManager->get('Magento\View\DesignInterface');
+            $design = $this->_objectManager->get('Magento\Framework\View\DesignInterface');
             $area = $design->getArea();
             $theme = $design->getDesignTheme();
             $design->setDesignTheme($design->getConfigurationDesignTheme(\Magento\Core\Model\App\Area::AREA_FRONTEND));

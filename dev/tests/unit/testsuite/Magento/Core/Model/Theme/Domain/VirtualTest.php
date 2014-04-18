@@ -70,7 +70,7 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
             false
         );
         $theme->expects($this->once())->method('getStagingVersion')->will($this->returnValue(null));
-        $appState = $this->getMock('Magento\App\State', array('getAreaCode'), array(), '', false);
+        $appState = $this->getMock('Magento\Framework\App\State', array('getAreaCode'), array(), '', false);
         $appState->expects($this->any())->method('getAreaCode')->will($this->returnValue('fixture_area'));
         $appStateProperty = new \ReflectionProperty('Magento\Core\Model\Theme', '_appState');
         $appStateProperty->setAccessible(true);
@@ -82,7 +82,7 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
                 'theme_title' => 'fixture_theme_title',
                 'preview_image' => 'fixture_preview_image',
                 'is_featured' => 'fixture_is_featured',
-                'type' => \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
+                'type' => \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL
             )
         );
         $appStateProperty->setValue($theme, $appState);
@@ -107,7 +107,7 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
                 'theme_title' => 'fixture_theme_title - Staging',
                 'preview_image' => 'fixture_preview_image',
                 'is_featured' => 'fixture_is_featured',
-                'type' => \Magento\View\Design\ThemeInterface::TYPE_STAGING
+                'type' => \Magento\Framework\View\Design\ThemeInterface::TYPE_STAGING
             )
         );
         $appStateProperty->setValue($themeStaging, $appState);

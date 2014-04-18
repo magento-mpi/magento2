@@ -55,7 +55,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
 
         $frontendCache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface', array(), '', false);
         $frontendCache->expects($this->any())->method('getLowLevelFrontend')->will($this->returnValue($zendCacheCore));
-        $cache = $this->getMock('Magento\App\CacheInterface');
+        $cache = $this->getMock('Magento\Framework\App\CacheInterface');
         $cache->expects($this->any())->method('getFrontend')->will($this->returnValue($frontendCache));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -70,7 +70,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
             array('localeResolver' => $localeResolver)
         );
 
-        $context = $this->getMock('Magento\View\Element\Template\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Framework\View\Element\Template\Context', array(), array(), '', false);
         $context->expects($this->any())->method('getLocaleDate')->will($this->returnValue($timezone));
 
         $this->_attribute = $this->getMock(

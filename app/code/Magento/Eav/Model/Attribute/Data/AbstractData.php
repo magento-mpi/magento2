@@ -9,8 +9,8 @@
  */
 namespace Magento\Eav\Model\Attribute\Data;
 
-use Magento\App\RequestInterface;
-use Magento\Model\Exception as CoreException;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Model\Exception as CoreException;
 
 /**
  * EAV Attribute Abstract Data Model
@@ -31,7 +31,7 @@ abstract class AbstractData
     /**
      * Entity instance
      *
-     * @var \Magento\Model\AbstractModel
+     * @var \Magento\Framework\Model\AbstractModel
      */
     protected $_entity;
 
@@ -155,10 +155,10 @@ abstract class AbstractData
     /**
      * Set entity instance
      *
-     * @param \Magento\Model\AbstractModel $entity
+     * @param \Magento\Framework\Model\AbstractModel $entity
      * @return $this
      */
-    public function setEntity(\Magento\Model\AbstractModel $entity)
+    public function setEntity(\Magento\Framework\Model\AbstractModel $entity)
     {
         $this->_entity = $entity;
         return $this;
@@ -167,7 +167,7 @@ abstract class AbstractData
     /**
      * Returns entity instance
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     public function getEntity()
     {
@@ -229,13 +229,13 @@ abstract class AbstractData
     /**
      * Return Data Form Input/Output Filter
      *
-     * @return \Magento\Data\Form\Filter\FilterInterface|false
+     * @return \Magento\Framework\Data\Form\Filter\FilterInterface|false
      */
     protected function _getFormFilter()
     {
         $filterCode = $this->getAttribute()->getInputFilter();
         if ($filterCode) {
-            $filterClass = 'Magento\Data\Form\Filter\\' . ucfirst($filterCode);
+            $filterClass = 'Magento\Framework\Data\Form\Filter\\' . ucfirst($filterCode);
             if ($filterCode == 'date') {
                 $filter = new $filterClass($this->_dateFilterFormat(), $this->_localeResolver->getLocale());
             } else {

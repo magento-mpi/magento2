@@ -54,7 +54,7 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_block = new Taxvat(
-            $this->getMock('Magento\View\Element\Template\Context', [], [], '', false),
+            $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false),
             $this->getMock('Magento\Customer\Helper\Address', [], [], '', false),
             $this->_attributeMetadata
         );

@@ -19,14 +19,14 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     /**
      * Request mock instance
      *
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\RequestInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
     /**
      * Response mock instance
      *
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\ResponseInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\ResponseInterface
      */
     protected $_response;
 
@@ -40,7 +40,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     /**
      * ObjectManager mock instance
      *
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\ObjectManager
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\ObjectManager
      */
     protected $_objectManager;
 
@@ -76,10 +76,12 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_request = $this->getMockBuilder('Magento\App\Request\Http')->disableOriginalConstructor()->getMock();
+        $this->_request = $this->getMockBuilder('Magento\Framework\App\Request\Http')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->_response = $this->getMockBuilder(
-            'Magento\App\Response\Http'
+            'Magento\Framework\App\Response\Http'
         )->disableOriginalConstructor()->setMethods(
             array('setRedirect', 'getHeader')
         )->getMock();
@@ -95,15 +97,17 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_objectManager = $this->getMockBuilder(
-            'Magento\App\ObjectManager'
+            'Magento\Framework\App\ObjectManager'
         )->disableOriginalConstructor()->setMethods(
             array('get', 'create')
         )->getMock();
         $frontControllerMock = $this->getMockBuilder(
-            'Magento\App\FrontController'
+            'Magento\Framework\App\FrontController'
         )->disableOriginalConstructor()->getMock();
 
-        $actionFlagMock = $this->getMockBuilder('Magento\App\ActionFlag')->disableOriginalConstructor()->getMock();
+        $actionFlagMock = $this->getMockBuilder('Magento\Framework\App\ActionFlag')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->_session = $this->getMockBuilder(
             'Magento\Backend\Model\Session'
@@ -273,7 +277,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         );
 
         // Setup a core exception to return
-        $exception = new \Magento\Model\Exception();
+        $exception = new \Magento\Framework\Model\Exception();
         $error = new \Magento\Message\Error('Something Bad happened');
         $exception->addMessage($error);
 
@@ -310,7 +314,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         );
 
         // Setup a core exception to return
-        $exception = new \Magento\Model\Exception($warningText);
+        $exception = new \Magento\Framework\Model\Exception($warningText);
         $error = new \Magento\Message\Warning('Something Not So Bad happened');
         $exception->addMessage($error);
 

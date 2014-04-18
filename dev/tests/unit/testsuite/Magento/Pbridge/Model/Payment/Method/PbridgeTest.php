@@ -31,7 +31,7 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
             true,
             array('getConfigPaymentAction')
         );
-        $requestHttp = $this->getMock('Magento\App\Request\Http', null, array(), '', false);
+        $requestHttp = $this->getMock('Magento\Framework\App\Request\Http', null, array(), '', false);
         $originalMethodInstance->setData('info_instance', $infoInstance);
         $order = $this->getMock(
             'Magento\Sales\Model\Order',

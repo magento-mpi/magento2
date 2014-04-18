@@ -26,7 +26,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_localConfigFile = 'local.xml';
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -36,17 +36,17 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_configData = array();
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $_pubDirectory;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $_configDirectory;
 
@@ -64,15 +64,15 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
 
     /**
      * @param \Magento\Install\Model\Installer $installer
-     * @param \Magento\App\RequestInterface $request
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
-        \Magento\App\RequestInterface $request,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Message\ManagerInterface $messageManager
     ) {
@@ -80,8 +80,8 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
         $this->_request = $request;
         $this->_storeManager = $storeManager;
         $this->_filesystem = $filesystem;
-        $this->_pubDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::PUB_LIB_DIR);
-        $this->_configDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::CONFIG_DIR);
+        $this->_pubDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::PUB_LIB_DIR);
+        $this->_configDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::CONFIG_DIR);
         $this->messageManager = $messageManager;
     }
 
@@ -115,9 +115,9 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
         $data = $this->getConfigData();
 
         $defaults = array(
-            'root_dir' => $this->_filesystem->getPath(\Magento\App\Filesystem::ROOT_DIR),
-            'app_dir' => $this->_filesystem->getPath(\Magento\App\Filesystem::APP_DIR),
-            'var_dir' => $this->_filesystem->getPath(\Magento\App\Filesystem::VAR_DIR),
+            'root_dir' => $this->_filesystem->getPath(\Magento\Framework\App\Filesystem::ROOT_DIR),
+            'app_dir' => $this->_filesystem->getPath(\Magento\Framework\App\Filesystem::APP_DIR),
+            'var_dir' => $this->_filesystem->getPath(\Magento\Framework\App\Filesystem::VAR_DIR),
             'base_url' => $this->_request->getDistroBaseUrl()
         );
         foreach ($defaults as $index => $value) {
@@ -206,7 +206,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
      *
      * @param string $baseUrl
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @throws \Exception
      */
     protected function _checkUrl($baseUrl)
@@ -214,7 +214,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
         try {
             $staticFile = $this->_findFirstFileRelativePath('', '/.+\.(html?|js|css|gif|jpe?g|png)$/');
             $staticUrl = $baseUrl . $this->_filesystem->getUri(
-                \Magento\App\Filesystem::PUB_LIB_DIR
+                \Magento\Framework\App\Filesystem::PUB_LIB_DIR
             ) . '/' . $staticFile;
             $client = new \Magento\HTTP\ZendClient($staticUrl);
             $response = $client->request('GET');
@@ -224,7 +224,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
         }
         if ($response->getStatus() != 200) {
             $this->messageManager->addError(__('The URL "%1" is invalid.', $baseUrl));
-            throw new \Magento\Model\Exception(__('Response from the server is invalid.'));
+            throw new \Magento\Framework\Model\Exception(__('Response from the server is invalid.'));
         }
     }
 

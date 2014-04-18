@@ -9,15 +9,15 @@
  */
 namespace Magento\GiftRegistry\Controller;
 
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
-use Magento\App\ResponseInterface;
-use Magento\Model\Exception;
+use Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Model\Exception;
 
 /**
  * Gift registry frontend controller
  */
-class Index extends \Magento\App\Action\Action
+class Index extends \Magento\Framework\App\Action\Action
 {
     /**
      * Core registry
@@ -32,12 +32,12 @@ class Index extends \Magento\App\Action\Action
     protected $_formKeyValidator;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
@@ -52,7 +52,7 @@ class Index extends \Magento\App\Action\Action
      *
      * @param RequestInterface $request
      * @return ResponseInterface
-     * @throws \Magento\App\Action\NotFoundException
+     * @throws \Magento\Framework\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
     {
@@ -593,7 +593,7 @@ class Index extends \Magento\App\Action\Action
      *
      * @param string $requestParam
      * @return \Magento\GiftRegistry\Model\Entity
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _initEntity($requestParam = 'id')
     {

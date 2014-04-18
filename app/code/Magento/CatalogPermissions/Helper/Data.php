@@ -9,14 +9,14 @@
  */
 namespace Magento\CatalogPermissions\Helper;
 
-use Magento\App\Helper\Context;
+use Magento\Framework\App\Helper\Context;
 use Magento\CatalogPermissions\App\ConfigInterface;
 use Magento\Customer\Model\Session;
 
 /**
  * Base helper
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Core store config

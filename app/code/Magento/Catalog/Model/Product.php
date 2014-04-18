@@ -152,7 +152,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     protected $_catalogImage = null;
 
     /**
-     * @var \Magento\Data\CollectionFactory
+     * @var \Magento\Framework\Data\CollectionFactory
      */
     protected $_collectionFactory;
 
@@ -222,7 +222,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Filesystem facade
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
 
@@ -247,7 +247,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     protected $_priceInfo;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Product\Url $url
@@ -266,8 +266,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param Resource\Product $resource
      * @param Resource\Product\Collection $resourceCollection
-     * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Indexer\Model\IndexerInterface $categoryIndexer
      * @param Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param Indexer\Product\Price\Processor $productPriceIndexerProcessor
@@ -276,7 +276,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         Product\Url $url,
@@ -295,8 +295,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
         \Magento\Catalog\Helper\Product $catalogProduct,
         Resource\Product $resource,
         Resource\Product\Collection $resourceCollection,
-        \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\Data\CollectionFactory $collectionFactory,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Indexer\Model\IndexerInterface $categoryIndexer,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
@@ -557,7 +557,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Retrieve product categories
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getCategoryCollection()
     {
@@ -1198,11 +1198,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Retrieve media gallery images
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getMediaGalleryImages()
     {
-        $directory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
+        $directory = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
         if (!$this->hasData('media_gallery_images') && is_array($this->getMediaGallery('images'))) {
             $images = $this->_collectionFactory->create();
             foreach ($this->getMediaGallery('images') as $image) {

@@ -29,4 +29,20 @@ interface StorageInterface
      * @abstract
      */
     public function processLogout();
+
+    /**
+     * Check if user is logged in
+     *
+     * @return bool
+     * @abstract
+     */
+    public function isLoggedIn();
+
+    /**
+     * Prolong storage lifetime
+     *
+     * @return void
+     * @abstract
+     */
+    public function prolong();
 }

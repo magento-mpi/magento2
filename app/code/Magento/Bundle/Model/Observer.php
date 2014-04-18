@@ -132,7 +132,7 @@ class Observer
             true
         );
 
-        if ($collection instanceof \Magento\Data\Collection) {
+        if ($collection instanceof \Magento\Framework\Data\Collection) {
             foreach ($bundleCollection as $item) {
                 $collection->addItem($item);
             }

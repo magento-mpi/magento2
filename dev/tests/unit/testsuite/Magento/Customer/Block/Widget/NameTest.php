@@ -65,7 +65,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_escaper = $this->getMock('Magento\Escaper', [], [], '', false);
-        $context = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
+        $context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $context->expects($this->any())->method('getEscaper')->will($this->returnValue($this->_escaper));
 
         $addressHelper = $this->getMock('Magento\Customer\Helper\Address', [], [], '', false);

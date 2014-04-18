@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Model\Product\Option\Type;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Catalog product option default type
@@ -44,7 +44,7 @@ class DefaultType extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -59,12 +59,12 @@ class DefaultType extends \Magento\Object
      * Construct
      *
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;
@@ -87,7 +87,7 @@ class DefaultType extends \Magento\Object
     /**
      * Option Instance getter
      *
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return \Magento\Catalog\Model\Product\Option
      */
     public function getOption()
@@ -113,7 +113,7 @@ class DefaultType extends \Magento\Object
     /**
      * Product Instance getter
      *
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
@@ -174,7 +174,7 @@ class DefaultType extends \Magento\Object
      * Getter for Buy Request
      *
      * @return \Magento\Object
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getRequest()
     {
@@ -200,7 +200,7 @@ class DefaultType extends \Magento\Object
      *
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validateUserValue($values)
     {
@@ -233,7 +233,7 @@ class DefaultType extends \Magento\Object
      * Prepare option value for cart
      *
      * @return string|null Prepared option value
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function prepareForCart()
     {

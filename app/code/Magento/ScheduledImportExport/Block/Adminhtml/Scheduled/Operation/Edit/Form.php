@@ -60,7 +60,7 @@ abstract class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Option\ArrayPool $optionArrayPool
      * @param \Magento\Backend\Model\Config\Source\Email\Method $emailMethod
      * @param \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity
@@ -72,7 +72,7 @@ abstract class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Option\ArrayPool $optionArrayPool,
         \Magento\Backend\Model\Config\Source\Email\Method $emailMethod,
         \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity,
@@ -99,7 +99,7 @@ abstract class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
         $operation = $this->_coreRegistry->registry('current_operation');
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
             array('data' => array('id' => 'edit_form', 'name' => 'scheduled_operation'))
         );
@@ -128,7 +128,7 @@ abstract class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Add general information fieldset to form
      *
-     * @param \Magento\Data\Form $form
+     * @param \Magento\Framework\Data\Form $form
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
      * @return $this
      */
@@ -207,7 +207,7 @@ abstract class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Add file information fieldset to form
      *
-     * @param \Magento\Data\Form $form
+     * @param \Magento\Framework\Data\Form $form
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
      * @return $this
      */
@@ -304,7 +304,7 @@ abstract class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Add file information fieldset to form
      *
-     * @param \Magento\Data\Form $form
+     * @param \Magento\Framework\Data\Form $form
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
      * @return $this
      */

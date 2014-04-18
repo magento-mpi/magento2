@@ -36,7 +36,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
     /**
      * Request model
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -75,14 +75,14 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
 
     /**
      * @param \Magento\Store\Model\StorageFactory $factory
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Core\Helper\Data $helper
      * @param string $scopeCode
      * @param string $scopeType
      */
     public function __construct(
         \Magento\Store\Model\StorageFactory $factory,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Core\Helper\Data $helper,
         $scopeCode = '',
         $scopeType = ScopeInterface::SCOPE_STORE
@@ -192,7 +192,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
      *
      * @param null|bool|int|string|Website $websiteId
      * @return Website
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getWebsite($websiteId = null)
     {
@@ -236,7 +236,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
      *
      * @param null|\Magento\Store\Model\Group|string $groupId
      * @return \Magento\Store\Model\Group
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getGroup($groupId = null)
     {

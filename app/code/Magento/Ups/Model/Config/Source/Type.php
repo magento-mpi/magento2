@@ -7,7 +7,7 @@
  */
 namespace Magento\Ups\Model\Config\Source;
 
-use Magento\Data\OptionSourceInterface;
+use Magento\Framework\Data\OptionSourceInterface;
 
 /**
  * Class Type

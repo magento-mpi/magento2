@@ -42,7 +42,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     protected $_ioObject;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $varDirectory;
 
@@ -51,16 +51,16 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->_includePath = get_include_path();
 
         $this->varDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
         $generationDirectory = $this->varDirectory->getAbsolutePath('generation');
 
         \Magento\Autoload\IncludePath::addIncludePath($generationDirectory);
 
         $this->_ioObject = new \Magento\Code\Generator\Io(
-            new \Magento\Filesystem\Driver\File(),
+            new \Magento\Framework\Filesystem\Driver\File(),
             new \Magento\Autoload\IncludePath(),
             $generationDirectory
         );

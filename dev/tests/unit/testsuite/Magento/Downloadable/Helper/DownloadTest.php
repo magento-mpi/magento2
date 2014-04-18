@@ -8,9 +8,9 @@
 namespace Magento\Downloadable\Helper;
 
 use Magento\Downloadable\Helper\Download as DownloadHelper;
-use Magento\App\Filesystem;
-use Magento\Filesystem\File\ReadInterface as FileReadInterface;
-use Magento\Filesystem\Directory\ReadInterface as DirReadInterface;
+use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem\File\ReadInterface as FileReadInterface;
+use Magento\Framework\Filesystem\Directory\ReadInterface as DirReadInterface;
 use Magento\Downloadable\Helper\File as DownloadableFile;
 
 /**
@@ -54,10 +54,16 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
         self::$functionExists = true;
         self::$mimeContentType = self::MIME_TYPE;
 
-        $this->_filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
-        $this->_handleMock = $this->getMock('Magento\Filesystem\File\ReadInterface', array(), array(), '', false);
+        $this->_filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $this->_handleMock = $this->getMock(
+            'Magento\Framework\Filesystem\File\ReadInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_workingDirectoryMock = $this->getMock(
-            'Magento\Filesystem\Directory\ReadInterface',
+            'Magento\Framework\Filesystem\Directory\ReadInterface',
             array(),
             array(),
             '',
@@ -66,11 +72,11 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
         $this->_downloadableFileMock = $this->getMock('Magento\Downloadable\Helper\File', array(), array(), '', false);
 
         $this->_helper = new DownloadHelper(
-            $this->getMock('Magento\App\Helper\Context', array(), array(), '', false),
+            $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false),
             $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
             $this->_downloadableFileMock,
             $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false),
-            $this->getMock('Magento\App\Config\ScopeConfigInterface'),
+            $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface'),
             $this->_filesystemMock
         );
     }
@@ -84,7 +90,7 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @exectedExceptionMessage Please set resource file and link type.
      */
     public function testGetFileSizeNoResource()
@@ -93,7 +99,7 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage Invalid download link type.
      */
     public function testGetFileSizeInvalidLinkType()
@@ -115,7 +121,7 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage Invalid download link type.
      */
     public function testGetFileSizeNoFile()

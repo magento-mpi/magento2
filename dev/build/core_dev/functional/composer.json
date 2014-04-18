@@ -2,11 +2,11 @@
     "repositories": [
         {
             "type": "git",
-            "url": "git://github.scm.corp.ebay.com/mtf/mtf.git"
+            "url": "git://github.scm.corp.ebay.com/magento-south/mtf.git"
         }
     ],
     "require": {
-        "magento/mtf": "dev-develop",
+        "magento/mtf": "dev-MAGETWO-23583",
         "php": ">=5.4.0",
         "phpunit/phpunit": "3.7.*",
         "phpunit/phpunit-selenium": ">=1.2",

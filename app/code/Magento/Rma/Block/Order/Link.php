@@ -27,16 +27,16 @@ class Link extends \Magento\Sales\Block\Order\Link
     protected $_collectionFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\App\DefaultPathInterface $defaultPath
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\App\DefaultPathInterface $defaultPath
      * @param \Magento\Registry $registry
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Rma\Helper\Data $rmaHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\App\DefaultPathInterface $defaultPath,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\App\DefaultPathInterface $defaultPath,
         \Magento\Registry $registry,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Rma\Helper\Data $rmaHelper,

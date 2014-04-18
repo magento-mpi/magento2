@@ -43,14 +43,14 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
     protected $_catalogData = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Data $catalogData,
         array $data = array()
     ) {
@@ -63,14 +63,14 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
      * Return Price Block renderer for specified product type
      *
      * @param string $type Catalog Product type
-     * @return \Magento\View\Element\Template
+     * @return \Magento\Framework\View\Element\Template
      * @throws \RuntimeException
      * @deprecated
      */
     protected function _getPriceBlock($type)
     {
         if (!isset($this->_priceBlock[$type])) {
-            /** @var \Magento\View\Element\RendererList $rendererList */
+            /** @var \Magento\Framework\View\Element\RendererList $rendererList */
             $rendererList = $this->getRendererListName() ? $this->getLayout()->getBlock(
                 $this->getRendererListName()
             ) : $this->getChildBlock(

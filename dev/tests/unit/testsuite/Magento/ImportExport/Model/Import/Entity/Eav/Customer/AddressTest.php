@@ -163,14 +163,14 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         $customerEntity = $this->_createCustomerEntityMock();
 
-        $addressCollection = new \Magento\Data\Collection(
+        $addressCollection = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         foreach ($this->_addresses as $address) {
             $addressCollection->addItem(new \Magento\Object($address));
         }
 
-        $regionCollection = new \Magento\Data\Collection(
+        $regionCollection = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         foreach ($this->_regions as $region) {
@@ -198,13 +198,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Create mock of attribute collection, so it can be used for tests
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Data\Collection
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Data\Collection
      */
     protected function _createAttrCollectionMock()
     {
         $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
         $attributeCollection = $this->getMock(
-            'Magento\Data\Collection',
+            'Magento\Framework\Data\Collection',
             array('getEntityTypeCode'),
             array($entityFactory)
         );
@@ -212,7 +212,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             $arguments = $this->_objectManagerMock->getConstructArguments(
                 'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 array(
-                    $this->getMock('Magento\Model\Context', array(), array(), '', false, false),
+                    $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false, false),
                     $this->getMock('Magento\Registry'),
                     $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false),
                     $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false, false),
@@ -325,11 +325,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param \Magento\Data\Collection $collection
+     * @param \Magento\Framework\Data\Collection $collection
      * @param int $pageSize
      * @param array $callbacks
      */
-    public function iterate(\Magento\Data\Collection $collection, $pageSize, array $callbacks)
+    public function iterate(\Magento\Framework\Data\Collection $collection, $pageSize, array $callbacks)
     {
         foreach ($collection as $customer) {
             foreach ($callbacks as $callback) {
@@ -440,7 +440,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getModelMock()
     {
-        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $storeManager = $this->getMock('\Magento\Store\Model\StoreManager', array('getWebsites'), array(), '', false);
         $storeManager->expects(
             $this->once()
@@ -456,7 +456,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             $scopeConfig,
             $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),
-            $this->getMock('Magento\App\Resource', array(), array(), '', false),
+            $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false),
             $storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),

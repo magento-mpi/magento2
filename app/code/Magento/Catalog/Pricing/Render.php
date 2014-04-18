@@ -11,7 +11,7 @@
 namespace Magento\Catalog\Pricing;
 
 use Magento\Pricing\Object\SaleableInterface;
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 use Magento\Registry;
 use Magento\Pricing\Render as PricingRender;
 

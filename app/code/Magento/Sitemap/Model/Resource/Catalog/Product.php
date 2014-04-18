@@ -14,7 +14,7 @@ namespace Magento\Sitemap\Model\Resource\Catalog;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Product extends \Magento\Model\Resource\Db\AbstractDb
+class Product extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     const NOT_SELECTED_IMAGE = 'no_selection';
 
@@ -84,7 +84,7 @@ class Product extends \Magento\Model\Resource\Db\AbstractDb
     protected $_mediaConfig;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Sitemap\Helper\Data $sitemapData
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -95,7 +95,7 @@ class Product extends \Magento\Model\Resource\Db\AbstractDb
      * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Sitemap\Helper\Data $sitemapData,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

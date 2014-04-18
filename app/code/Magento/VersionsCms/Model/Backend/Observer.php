@@ -90,7 +90,7 @@ class Observer
     protected $_versionCollectionFactory;
 
     /**
-     * @var \Magento\Model\Resource\Iterator
+     * @var \Magento\Framework\Model\Resource\Iterator
      */
     protected $_resourceIterator;
 
@@ -110,7 +110,7 @@ class Observer
     protected $_cmsIncrement;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_httpRequest;
 
@@ -128,11 +128,11 @@ class Observer
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode
      * @param \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory
      * @param \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory
-     * @param \Magento\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Framework\Model\Resource\Iterator $resourceIterator
      * @param \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollectionFactory
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource
      * @param \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement
-     * @param \Magento\App\RequestInterface $httpRequest
+     * @param \Magento\Framework\App\RequestInterface $httpRequest
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -150,11 +150,11 @@ class Observer
         \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode,
         \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory,
         \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory,
-        \Magento\Model\Resource\Iterator $resourceIterator,
+        \Magento\Framework\Model\Resource\Iterator $resourceIterator,
         \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollectionFactory,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource,
         \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement,
-        \Magento\App\RequestInterface $httpRequest
+        \Magento\Framework\App\RequestInterface $httpRequest
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreData = $coreData;
@@ -185,9 +185,9 @@ class Observer
     public function onMainTabPrepareForm($observer)
     {
         $form = $observer->getEvent()->getForm();
-        /* @var $baseFieldset \Magento\Data\Form\Element\Fieldset */
+        /* @var $baseFieldset \Magento\Framework\Data\Form\Element\Fieldset */
         $baseFieldset = $form->getElement('base_fieldset');
-        /* @var $baseFieldset \Magento\Data\Form\Element\Fieldset */
+        /* @var $baseFieldset \Magento\Framework\Data\Form\Element\Fieldset */
 
         $isActiveElement = $form->getElement('is_active');
         if ($isActiveElement) {
@@ -506,7 +506,7 @@ class Observer
 
         try {
             $version->delete();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             // If we have situation when revision from
             // orphaned private version published we should
             // change its access level to protected so publisher

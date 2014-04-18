@@ -9,7 +9,7 @@ namespace Magento\Sales\Model\Resource\Sale;
 
 use Magento\Core\Model\EntityFactory;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\Data\Collection\Db\FetchStrategyInterface;
+use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
 use Magento\Event\ManagerInterface;
 use Magento\Logger;
 use Magento\Sales\Model\Resource\Order;
@@ -17,7 +17,7 @@ use Magento\Sales\Model\Resource\Order;
 /**
  * Sales Collection
  */
-class Collection extends \Magento\Data\Collection\Db
+class Collection extends \Magento\Framework\Data\Collection\Db
 {
     /**
      * Totals data

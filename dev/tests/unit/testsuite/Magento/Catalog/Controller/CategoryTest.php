@@ -10,7 +10,7 @@
  */
 namespace Magento\Catalog\Controller;
 
-use Magento\App\Action\Action;
+use Magento\Framework\App\Action\Action;
 use Magento\TestFramework\Helper\ObjectManager;
 
 /**
@@ -20,17 +20,17 @@ use Magento\TestFramework\Helper\ObjectManager;
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $request;
 
     /**
-     * @var \Magento\App\ResponseInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\ResponseInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $response;
 
     /**
-     * @var \Magento\App\ResponseInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\ResponseInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $categoryHelper;
 
@@ -45,17 +45,17 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     protected $eventManager;
 
     /**
-     * @var \Magento\View\Layout|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Layout|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $layout;
 
     /**
-     * @var \Magento\View\Layout\ProcessorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Layout\ProcessorInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $update;
 
     /**
-     * @var \Magento\App\ViewInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\ViewInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $view;
 
@@ -101,17 +101,17 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->request = $this->getMock('Magento\App\RequestInterface');
-        $this->response = $this->getMock('Magento\App\ResponseInterface');
+        $this->request = $this->getMock('Magento\Framework\App\RequestInterface');
+        $this->response = $this->getMock('Magento\Framework\App\ResponseInterface');
 
         $this->categoryHelper = $this->getMock('Magento\Catalog\Helper\Category', [], [], '', false);
         $this->objectManager = $this->getMock('Magento\ObjectManager', [], [], '', false);
         $this->eventManager = $this->getMock('Magento\Event\ManagerInterface');
 
-        $this->update = $this->getMock('Magento\View\Layout\ProcessorInterface');
-        $this->layout = $this->getMock('Magento\View\Layout', [], [], '', false);
+        $this->update = $this->getMock('Magento\Framework\View\Layout\ProcessorInterface');
+        $this->layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
         $this->layout->expects($this->any())->method('getUpdate')->will($this->returnValue($this->update));
-        $this->view = $this->getMock('Magento\App\ViewInterface');
+        $this->view = $this->getMock('Magento\Framework\App\ViewInterface');
         $this->view->expects($this->any())->method('getLayout')->will($this->returnValue($this->layout));
 
         $this->context = $this->getMock('Magento\Backend\App\Action\Context', [], [], '', false);

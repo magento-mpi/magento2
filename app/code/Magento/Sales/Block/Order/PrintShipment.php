@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Block\Order;
 
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock;
 
 /**
  * Order information for print
@@ -32,13 +32,13 @@ class PrintShipment extends \Magento\Sales\Block\Items\AbstractItems
     protected $_paymentHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Payment\Helper\Data $paymentHelper,
         array $data = array()

@@ -12,7 +12,7 @@ namespace Magento\Catalog\Block\Product;
 /**
  * Product View block
  */
-class View extends AbstractProduct implements \Magento\View\Block\IdentityInterface
+class View extends AbstractProduct implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Default MAP renderer type
@@ -203,7 +203,7 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
             $additional['wishlist_next'] = 1;
         }
 
-        $addUrlKey = \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED;
+        $addUrlKey = \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED;
         $addUrlValue = $this->_urlBuilder->getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
         $additional[$addUrlKey] = $this->_coreData->urlEncode($addUrlValue);
 

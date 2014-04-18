@@ -40,9 +40,11 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         $mediaConfig = $this->getMock('Magento\Catalog\Model\Product\Media\Config', array(), array(), '', false);
         $directory = $this->getMockBuilder(
-            'Magento\Filesystem\Directory\Write'
+            'Magento\Framework\Filesystem\Directory\Write'
         )->disableOriginalConstructor()->getMock();
-        $filesystem = $this->getMockBuilder('Magento\App\Filesystem')->disableOriginalConstructor()->getMock();
+        $filesystem = $this->getMockBuilder('Magento\Framework\App\Filesystem')
+            ->disableOriginalConstructor()
+            ->getMock();
         $filesystem->expects($this->once())->method('getDirectoryWrite')->will($this->returnValue($directory));
         $this->_model = $this->_objectHelper->getObject(
             'Magento\Catalog\Model\Product\Attribute\Backend\Media',

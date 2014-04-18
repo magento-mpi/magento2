@@ -27,7 +27,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $customerSessionMock;
 
     /**
-     * @var \Magento\App\Http\Context $httpContext|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Http\Context $httpContext|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $httpContextMock;
 
@@ -72,7 +72,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->httpContextMock = $this->getMock('Magento\App\Http\Context', array(), array(), '', false);
+        $this->httpContextMock = $this->getMock('Magento\Framework\App\Http\Context', array(), array(), '', false);
         $this->customerSegmentMock = $this->getMock('Magento\CustomerSegment\Model\Customer',
             array('getCustomerId', '__wakeup', 'getCustomerSegmentIdsForWebsite'),
             array(),
@@ -87,8 +87,8 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
         $this->closureMock = function () {
             return 'ExpectedValue';
         };
-        $this->subjectMock = $this->getMock('Magento\App\Action\Action', array(), array(), '', false);
-        $this->requestMock = $this->getMock('Magento\App\RequestInterface');
+        $this->subjectMock = $this->getMock('Magento\Framework\App\Action\Action', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\RequestInterface');
         $this->websiteMock = $this->getMock('Magento\Store\Model\Website',
             array('__wakeup', 'getId'),
             array(),

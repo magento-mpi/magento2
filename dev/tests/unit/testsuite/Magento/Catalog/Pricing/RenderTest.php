@@ -24,7 +24,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
     protected $registry;
 
     /**
-     * @var \Magento\View\LayoutInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\LayoutInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $layout;
 
@@ -39,12 +39,12 @@ class RenderTest extends \PHPUnit_Framework_TestCase
 
         $this->pricingRenderBlock = $this->getMock('Magento\Pricing\Render', [], [], '', false);
 
-        $this->layout = $this->getMock('Magento\View\Layout', [], [], '', false);
+        $this->layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
 
         $eventManager = $this->getMock('Magento\Event\ManagerStub', [], [], '', false);
         $config = $this->getMock('Magento\Store\Model\Store\Config', [], [], '', false);
-        $scopeConfigMock = $this->getMockForAbstractClass('Magento\App\Config\ScopeConfigInterface');
-        $context = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
+        $scopeConfigMock = $this->getMockForAbstractClass('Magento\Framework\App\Config\ScopeConfigInterface');
+        $context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $context->expects($this->any())
             ->method('getEventManager')
             ->will($this->returnValue($eventManager));

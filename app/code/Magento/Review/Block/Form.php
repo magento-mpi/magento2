@@ -19,7 +19,7 @@ use Magento\Review\Model\Resource\Rating\Collection as RatingCollection;
  * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Form extends \Magento\View\Element\Template
+class Form extends \Magento\Framework\View\Element\Template
 {
     /**
      * Review data
@@ -71,12 +71,12 @@ class Form extends \Magento\View\Element\Template
     protected $messageManager;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Session\Generic $reviewSession
      * @param \Magento\Review\Helper\Data $reviewData
@@ -84,11 +84,11 @@ class Form extends \Magento\View\Element\Template
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
      * @param \Magento\Message\ManagerInterface $messageManager
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Session\Generic $reviewSession,
         \Magento\Review\Helper\Data $reviewData,
@@ -96,7 +96,7 @@ class Form extends \Magento\View\Element\Template
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Message\ManagerInterface $messageManager,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_coreData = $coreData;

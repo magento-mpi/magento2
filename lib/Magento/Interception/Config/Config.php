@@ -49,7 +49,7 @@ class Config implements \Magento\Interception\Config
     /**
      * Configuration reader
      *
-     * @var \Magento\Config\ReaderInterface
+     * @var \Magento\Framework\Config\ReaderInterface
      */
     protected $_reader;
 
@@ -68,8 +68,8 @@ class Config implements \Magento\Interception\Config
     protected $_serviceClassTypes = array('Proxy', 'Interceptor');
 
     /**
-     * @param \Magento\Config\ReaderInterface $reader
-     * @param \Magento\Config\ScopeListInterface $scopeList
+     * @param \Magento\Framework\Config\ReaderInterface $reader
+     * @param \Magento\Framework\Config\ScopeListInterface $scopeList
      * @param \Magento\Cache\FrontendInterface $cache
      * @param \Magento\ObjectManager\Relations $relations
      * @param \Magento\Interception\ObjectManager\Config $omConfig
@@ -77,8 +77,8 @@ class Config implements \Magento\Interception\Config
      * @param string $cacheId
      */
     public function __construct(
-        \Magento\Config\ReaderInterface $reader,
-        \Magento\Config\ScopeListInterface $scopeList,
+        \Magento\Framework\Config\ReaderInterface $reader,
+        \Magento\Framework\Config\ScopeListInterface $scopeList,
         \Magento\Cache\FrontendInterface $cache,
         \Magento\ObjectManager\Relations $relations,
         \Magento\Interception\ObjectManager\Config $omConfig,

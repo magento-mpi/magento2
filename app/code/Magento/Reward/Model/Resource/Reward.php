@@ -16,7 +16,7 @@ use Magento\Reward\Model\Reward as ModelReward;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Reward extends \Magento\Model\Resource\Db\AbstractDb
+class Reward extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor

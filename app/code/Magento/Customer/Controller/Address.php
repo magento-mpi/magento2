@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Controller;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Exception\InputException;
 
 /**
@@ -15,7 +15,7 @@ use Magento\Exception\InputException;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Address extends \Magento\App\Action\Action
+class Address extends \Magento\Framework\App\Action\Action
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -48,7 +48,7 @@ class Address extends \Magento\App\Action\Action
     protected $_addressBuilder;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
@@ -60,7 +60,7 @@ class Address extends \Magento\App\Action\Action
      * @internal param \Magento\Customer\Model\Address\FormFactory $addressFormFactory
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
@@ -91,7 +91,7 @@ class Address extends \Magento\App\Action\Action
      * Check customer authentication
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {

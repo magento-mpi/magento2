@@ -9,8 +9,8 @@
  */
 namespace Magento\Install\Controller;
 
-use Magento\App\RequestInterface;
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\ResponseInterface;
 
 /**
  * Installation wizard controller
@@ -20,7 +20,7 @@ class Wizard extends \Magento\Install\Controller\Action
     /**
      * Application state
      *
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_appState;
 
@@ -53,24 +53,24 @@ class Wizard extends \Magento\Install\Controller\Action
     protected $_dbUpdater;
 
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Config\Scope $configScope
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\Config\Scope $configScope
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $wizard
      * @param \Magento\Session\Generic $session
      * @param \Magento\Module\UpdaterInterface $dbUpdater
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Config\Scope $configScope,
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\Config\Scope $configScope,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $wizard,
         \Magento\Session\Generic $session,
         \Magento\Module\UpdaterInterface $dbUpdater,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\State $appState
+        \Magento\Framework\App\State $appState
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($context, $configScope);
@@ -88,7 +88,7 @@ class Wizard extends \Magento\Install\Controller\Action
      * Throw a bootstrap exception if page cannot be displayed due to mis-configured base directories
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -498,7 +498,7 @@ class Wizard extends \Magento\Install\Controller\Action
             $this->getResponse()->setRedirect($step->getNextUrl());
         } catch (\Exception $e) {
             $this->_session->setAdminData($adminData);
-            if ($e instanceof \Magento\Model\Exception) {
+            if ($e instanceof \Magento\Framework\Model\Exception) {
                 $this->messageManager->addMessages($e->getMessages());
             } else {
                 $this->messageManager->addError($e->getMessage());

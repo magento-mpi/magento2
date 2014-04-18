@@ -15,9 +15,9 @@ namespace Magento\Banner\Block\Widget;
  * @category   Magento
  * @package    Magento_Banner
  */
-class Banner extends \Magento\View\Element\Template implements
+class Banner extends \Magento\Framework\View\Element\Template implements
     \Magento\Widget\Block\BlockInterface,
-    \Magento\View\Block\IdentityInterface
+    \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Display mode "fixed" flag
@@ -97,23 +97,23 @@ class Banner extends \Magento\View\Element\Template implements
     protected $_renderedParams = array();
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Banner\Model\Resource\Banner $resource
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Banner\Model\Resource\Banner $resource,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         array $data = array()
     ) {

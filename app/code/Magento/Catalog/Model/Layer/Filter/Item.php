@@ -54,13 +54,13 @@ class Item extends \Magento\Object
      * Get filter instance
      *
      * @return \Magento\Catalog\Model\Layer\Filter\AbstractFilter
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getFilter()
     {
         $filter = $this->getData('filter');
         if (!is_object($filter)) {
-            throw new \Magento\Model\Exception(__('The filter must be an object. Please set correct filter.'));
+            throw new \Magento\Framework\Model\Exception(__('The filter must be an object. Please set correct filter.'));
         }
         return $filter;
     }

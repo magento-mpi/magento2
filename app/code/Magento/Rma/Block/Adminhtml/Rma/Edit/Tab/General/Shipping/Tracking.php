@@ -104,7 +104,7 @@ class Tracking extends \Magento\Backend\Block\Template
     /**
      * Prepares layout of block
      *
-     * @return \Magento\View\Element\AbstractBlock|void
+     * @return \Magento\Framework\View\Element\AbstractBlock|void
      */
     protected function _prepareLayout()
     {

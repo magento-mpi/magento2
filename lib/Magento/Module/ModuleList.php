@@ -9,7 +9,7 @@
  */
 namespace Magento\Module;
 
-use Magento\Config\CacheInterface;
+use Magento\Framework\Config\CacheInterface;
 use Magento\Module\Declaration\Reader\Filesystem;
 
 class ModuleList implements \Magento\Module\ModuleListInterface

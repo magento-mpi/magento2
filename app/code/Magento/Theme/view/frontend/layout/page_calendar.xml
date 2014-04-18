@@ -21,6 +21,6 @@
         </block>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\View\Element\Html\Calendar" name="html_calendar" as="html_calendar" template="Magento_Theme::js/calendar.phtml"/>
+        <block class="Magento\Framework\View\Element\Html\Calendar" name="html_calendar" as="html_calendar" template="Magento_Theme::js/calendar.phtml"/>
     </referenceContainer>
 </layout>

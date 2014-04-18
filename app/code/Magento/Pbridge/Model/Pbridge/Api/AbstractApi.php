@@ -42,7 +42,7 @@ class AbstractApi extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -66,7 +66,7 @@ class AbstractApi extends \Magento\Object
      * @param Logger $logger
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
      */
@@ -74,7 +74,7 @@ class AbstractApi extends \Magento\Object
         Logger $logger,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
@@ -92,7 +92,7 @@ class AbstractApi extends \Magento\Object
      * @param array $request
      * @return bool
      * @throws \Exception
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _call(array $request)
     {
@@ -137,7 +137,7 @@ class AbstractApi extends \Magento\Object
                     )
                 );
 
-                throw new \Magento\Model\Exception(__('Unable to communicate with Payment Bridge service.'));
+                throw new \Magento\Framework\Model\Exception(__('Unable to communicate with Payment Bridge service.'));
             }
             if (isset($response['status']) && $response['status'] == 'Success') {
                 $this->_response = $response;
@@ -157,14 +157,14 @@ class AbstractApi extends \Magento\Object
      *
      * @param array $response
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _handleError($response)
     {
         if (isset($response['status']) && $response['status'] == 'Fail' && isset($response['error'])) {
-            throw new \Magento\Model\Exception($response['error']);
+            throw new \Magento\Framework\Model\Exception($response['error']);
         }
-        throw new \Magento\Model\Exception(__('There was a payment gateway internal error.'));
+        throw new \Magento\Framework\Model\Exception(__('There was a payment gateway internal error.'));
     }
 
     /**

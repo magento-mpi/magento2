@@ -7,8 +7,8 @@
  */
 namespace Magento\RecurringPayment\Controller\Adminhtml;
 
-use Magento\App\Action\NotFoundException;
-use Magento\Model\Exception as CoreException;
+use Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\Model\Exception as CoreException;
 use Magento\Customer\Controller\RegistryConstants;
 
 /**
@@ -228,7 +228,7 @@ class RecurringPayment extends \Magento\Backend\App\Action
      * Load/set payment
      *
      * @return \Magento\RecurringPayment\Model\Payment
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _initPayment()
     {

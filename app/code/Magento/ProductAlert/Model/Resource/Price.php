@@ -20,10 +20,10 @@ class Price extends \Magento\ProductAlert\Model\Resource\AbstractResource
     protected $_dateFactory;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
      */
-    public function __construct(\Magento\App\Resource $resource, \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory)
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory)
     {
         $this->_dateFactory = $dateFactory;
         parent::__construct($resource);
@@ -42,10 +42,10 @@ class Price extends \Magento\ProductAlert\Model\Resource\AbstractResource
     /**
      * Before save process, check exists the same alert
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         if (is_null($object->getId()) && $object->getCustomerId() && $object->getProductId() && $object->getWebsiteId()
         ) {
