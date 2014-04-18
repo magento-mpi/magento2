@@ -27,7 +27,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_canSaveCc = false;
 
     /**
-     * @var \Magento\Module\ModuleListInterface
+     * @var \Magento\Framework\Module\ModuleListInterface
      */
     protected $_moduleList;
 
@@ -56,7 +56,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Module\ModuleListInterface $moduleList
+     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param array $data
@@ -67,7 +67,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Framework\Logger $logger,
-        \Magento\Module\ModuleListInterface $moduleList,
+        \Magento\Framework\Module\ModuleListInterface $moduleList,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Centinel\Model\Service $centinelService,
         array $data = array()

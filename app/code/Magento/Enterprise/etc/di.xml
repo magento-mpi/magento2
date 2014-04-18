@@ -22,7 +22,7 @@
             <argument name="eulaFile" xsi:type="string">LICENSE_EE.html</argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="enterprise_setup" xsi:type="string">Magento\Enterprise\Model\Resource\Setup</item>

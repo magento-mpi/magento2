@@ -21,7 +21,7 @@ class DepersonalizePlugin
     protected $request;
 
     /**
-     * @var \Magento\Module\Manager
+     * @var \Magento\Framework\Module\Manager
      */
     protected $moduleManager;
 
@@ -42,14 +42,14 @@ class DepersonalizePlugin
 
     /**
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Module\Manager $moduleManager
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Framework\Event\Manager $eventManager
      * @param \Magento\PageCache\Model\Config $cacheConfig
      * @param \Magento\Framework\Message\Session $messageSession
      */
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Module\Manager $moduleManager,
+        \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Framework\Event\Manager $eventManager,
         \Magento\PageCache\Model\Config $cacheConfig,
         \Magento\Framework\Message\Session $messageSession

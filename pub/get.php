@@ -11,7 +11,7 @@
  */
 
 use Magento\Framework\App\Cache\Frontend\Factory;
-use Magento\Module\Declaration\Reader\Filesystem;
+use Magento\Framework\Module\Declaration\Reader\Filesystem;
 
 require dirname(__DIR__) . '/app/bootstrap.php';
 

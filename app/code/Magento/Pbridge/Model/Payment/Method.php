@@ -61,7 +61,7 @@ class Method extends \Magento\Payment\Model\Method\Cc
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Module\ModuleListInterface $moduleList
+     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
@@ -77,7 +77,7 @@ class Method extends \Magento\Payment\Model\Method\Cc
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Framework\Logger $logger,
-        \Magento\Module\ModuleListInterface $moduleList,
+        \Magento\Framework\Module\ModuleListInterface $moduleList,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Pbridge\Helper\Data $pbridgeData,

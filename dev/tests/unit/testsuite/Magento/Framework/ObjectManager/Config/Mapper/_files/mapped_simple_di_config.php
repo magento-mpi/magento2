@@ -7,7 +7,7 @@
  */
 return array(
     'preferences' => array(
-        'Magento\Module\UpdaterInterface' => 'Magento\Module\Updaterter',
+        'Magento\Framework\Module\UpdaterInterface' => 'Magento\Framework\Module\Updaterter',
         'Magento\Framework\App\RequestInterface' => 'Magento\Framework\App\Request\Http\Proxy',
     ),
     'Magento\Framework\App\State' => array('arguments' => array('test name' => 'test value')),

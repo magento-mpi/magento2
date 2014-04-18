@@ -52,8 +52,8 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->addSharedInstance($this->_viewFileSystem, 'Magento\Framework\View\FileSystem');
 
-        /** @var $moduleReader \Magento\Module\Dir\Reader */
-        $moduleReader = $objectManager->get('Magento\Module\Dir\Reader');
+        /** @var $moduleReader \Magento\Framework\Module\Dir\Reader */
+        $moduleReader = $objectManager->get('Magento\Framework\Module\Dir\Reader');
         $moduleReader->setModuleDir('Magento_Core', 'i18n', dirname(__DIR__) . '/Core/Model/_files/Magento/Core/i18n');
         $moduleReader->setModuleDir('Magento_Catalog', 'i18n', dirname(__DIR__) . '/Core/Model/_files/Magento/Catalog/i18n');
 

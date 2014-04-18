@@ -27,11 +27,11 @@ class Factory
      * Initialize dependencies
      *
      * @param \Magento\Framework\ObjectManager $objectManager
-     * @param \Magento\Module\Dir\Reader $moduleReader
+     * @param \Magento\Framework\Module\Dir\Reader $moduleReader
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
-        \Magento\Module\Dir\Reader $moduleReader
+        \Magento\Framework\Module\Dir\Reader $moduleReader
     ) {
         $this->_objectManager = $objectManager;
         $this->_configFiles = $moduleReader->getConfigurationFiles('validation.xml');

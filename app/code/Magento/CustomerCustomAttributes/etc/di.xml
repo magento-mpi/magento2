@@ -19,7 +19,7 @@
             <argument name="customerData" xsi:type="object">Magento\CustomerCustomAttributes\Helper\Data\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="customercustomattributes_setup" xsi:type="string">Magento\Customer\Model\Resource\Setup</item>

@@ -14,14 +14,14 @@
             <argument name="backendData" xsi:type="object">Magento\Backend\Helper\Data\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="salesarchive_setup" xsi:type="string">Magento\SalesArchive\Model\Resource\Setup</item>
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Setup\Migration">
+    <type name="Magento\Framework\Module\Setup\Migration">
         <arguments>
             <argument name="compositeModules" xsi:type="array">
                 <item name="magento_salesarchive" xsi:type="string">Magento_SalesArchive</item>

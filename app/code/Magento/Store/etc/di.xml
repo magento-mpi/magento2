@@ -8,7 +8,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
-    <type name="Magento\Module\Updater\SetupFactory">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="store_setup" xsi:type="string">Magento\Core\Model\Resource\Setup</item>
@@ -122,7 +122,7 @@
             <argument name="urlPlaceholder" xsi:type="string">{{base_url}}</argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Output\Config">
+    <type name="Magento\Framework\Module\Output\Config">
         <arguments>
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>

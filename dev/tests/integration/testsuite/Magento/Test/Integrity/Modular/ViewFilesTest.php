@@ -43,9 +43,9 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     public function viewFilesFromModulesViewDataProvider()
     {
         $files = array();
-        /** @var $configModelReader \Magento\Module\Dir\Reader */
+        /** @var $configModelReader \Magento\Framework\Module\Dir\Reader */
         $configModelReader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Module\Dir\Reader'
+            'Magento\Framework\Module\Dir\Reader'
         );
         foreach ($this->_getEnabledModules() as $moduleName) {
             $moduleViewDir = $configModelReader->getModuleDir('view', $moduleName);

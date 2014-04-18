@@ -64,6 +64,7 @@
     * Moved lib/Magento/Logger to lib/Magento/Framework/Logger
     * Moved lib/Magento/Error to lib/Magento/Framework/Error
     * Moved lib/Magento/Filter to lib/Magento/Framework/Filter
+    * Moved lib/Magento/Module to lib/Magento/Framework/Module
     * Moved lib/Magento/DomDocument to lib/Magento/Framework/DomDocument
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)

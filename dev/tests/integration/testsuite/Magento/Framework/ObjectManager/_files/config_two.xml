@@ -8,8 +8,8 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Module\UpdaterInterfaceTwo" type="Magento\Module\UpdaterTwo" />
-    <preference for="Magento\Module\UpdaterInterface" type="Magento\Module\UpdaterOne" />
+    <preference for="Magento\Framework\Module\UpdaterInterfaceTwo" type="Magento\Framework\Module\UpdaterTwo" />
+    <preference for="Magento\Framework\Module\UpdaterInterface" type="Magento\Framework\Module\UpdaterOne" />
     <type name="Magento\Framework\App\Arguments\Loader" shared="false">
         <arguments>
             <argument name="customFile" xsi:type="init_parameter">Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE</argument>

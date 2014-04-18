@@ -10,8 +10,8 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\Framework\Acl\CacheInterface" type="Magento\Framework\Acl\Cache" />
     <preference for="Magento\Framework\App\AreaInterface" type="Magento\Core\Model\App\Area" />
-    <preference for="Magento\Module\Updater\SetupInterface" type="Magento\Module\Setup" />
-    <preference for="Magento\Module\ResourceResolverInterface" type="Magento\Module\ResourceResolver" />
+    <preference for="Magento\Framework\Module\Updater\SetupInterface" type="Magento\Framework\Module\Setup" />
+    <preference for="Magento\Framework\Module\ResourceResolverInterface" type="Magento\Framework\Module\ResourceResolver" />
     <preference for="Magento\Framework\AuthorizationInterface" type="Magento\Framework\Authorization" />
     <preference for="Magento\Framework\Authorization\Policy" type="Magento\Framework\Authorization\Policy\DefaultPolicy" />
     <preference for="Magento\Framework\Authorization\RoleLocator" type="Magento\Framework\Authorization\RoleLocator\DefaultRoleLocator" />
@@ -61,7 +61,7 @@
     <preference for="Magento\Framework\Stdlib\DateTime\TimezoneInterface" type="Magento\Framework\Stdlib\DateTime\Timezone" />
     <preference for="Magento\Framework\Stdlib\DateTime\DateInterface" type="Magento\Framework\Stdlib\DateTime\Date" />
     <preference for="Magento\Less\PreProcessor\ErrorHandlerInterface" type="Magento\Less\PreProcessor\ErrorHandler" />
-    <preference for="Magento\Module\ResourceInterface" type="Magento\Install\Model\Resource\Resource" />
+    <preference for="Magento\Framework\Module\ResourceInterface" type="Magento\Install\Model\Resource\Resource" />
     <preference for="Magento\Framework\App\Config\Resource\ConfigInterface" type="Magento\Core\Model\Resource\Config" />
     <preference for="Magento\Pricing\Amount\AmountInterface" type="Magento\Pricing\Amount\Base" />
     <type name="Magento\Framework\App\DefaultPath\DefaultPath">
@@ -271,12 +271,12 @@
             <argument name="modulePrefix" xsi:type="string">core</argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Setup\Migration">
+    <type name="Magento\Framework\Module\Setup\Migration">
         <arguments>
             <argument name="confPathToMapFile" xsi:type="string">app/etc/aliases_to_classes_map.json</argument>
             <argument name="resourceName" xsi:type="string">core_setup</argument>
             <argument name="moduleName" xsi:type="string">Magento_Core</argument>
-            <argument name="connectionName" xsi:type="string">\Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION</argument>
+            <argument name="connectionName" xsi:type="string">\Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION</argument>
         </arguments>
     </type>
     <type name="Magento\Encryption\Encryptor">
@@ -346,7 +346,7 @@
         </arguments>
     </type>
     <type name="Magento\Framework\App\FrontController">
-        <plugin name="install" type="Magento\Module\FrontController\Plugin\Install" sortOrder="40"/>
+        <plugin name="install" type="Magento\Framework\Module\FrontController\Plugin\Install" sortOrder="40"/>
     </type>
     <type name="Magento\Framework\App\Action\Action">
         <plugin name="storeCheck" type="Magento\Store\App\Action\Plugin\StoreCheck" sortOrder="10"/>
@@ -464,7 +464,7 @@
         <plugin name="core-app-area-design-exception-plugin"
                 type="Magento\Core\Model\App\Area\CacheIdentifierPlugin" sortOrder="10"/>
     </type>
-    <type name="Magento\Module\Setup\MigrationData">
+    <type name="Magento\Framework\Module\Setup\MigrationData">
         <arguments>
             <argument name="data" xsi:type="array">
                 <item name="plain" xsi:type="string"><![CDATA[/^(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)::.*?$/sui]]></item>
@@ -474,17 +474,17 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="core_setup" xsi:type="string">Magento\Core\Model\Resource\Setup</item>
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Setup">
+    <type name="Magento\Framework\Module\Setup">
         <arguments>
             <argument name="resourceName" xsi:type="string">core_setup</argument>
-            <argument name="connectionName" xsi:type="string">Magento\Module\Updater::DEFAULT_SETUP_CONNECTION</argument>
+            <argument name="connectionName" xsi:type="string">Magento\Framework\Module\Updater::DEFAULT_SETUP_CONNECTION</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\App\Config\Value">

@@ -960,8 +960,8 @@ final class Controller
                 // reinit config and apply all updates
                 \Mage::app()->getConfig()->reinit();
 
-                /** @var $updater \Magento\Module\UpdaterInterface*/
-                $updater = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Module\UpdaterInterface');
+                /** @var $updater \Magento\Framework\Module\UpdaterInterface*/
+                $updater = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\Module\UpdaterInterface');
                 $updater->updateScheme();
                 $updater->updateData();
                 $message .= 'Cache cleaned successfully';

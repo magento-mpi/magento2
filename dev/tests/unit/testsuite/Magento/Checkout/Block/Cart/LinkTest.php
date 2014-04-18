@@ -43,7 +43,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     public function testToHtml()
     {
         $moduleManager = $this->getMockBuilder(
-            'Magento\Module\Manager'
+            'Magento\Framework\Module\Manager'
         )->disableOriginalConstructor()->setMethods(
             array('isOutputEnabled')
         )->getMock();

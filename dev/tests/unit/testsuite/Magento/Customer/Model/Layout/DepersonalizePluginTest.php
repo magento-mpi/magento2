@@ -54,7 +54,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $customerMock;
 
     /**
-     * @var \Magento\Module\Manager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Module\Manager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $moduleManagerMock;
 
@@ -102,7 +102,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->moduleManagerMock = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
+        $this->moduleManagerMock = $this->getMock('Magento\Framework\Module\Manager', array(), array(), '', false);
         $this->visitorMock = $this->getMock('Magento\Log\Model\Visitor', array(), array(), '', false);
         $this->customerFactoryMock->expects($this->once())
             ->method('create')

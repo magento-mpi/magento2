@@ -38,7 +38,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="configurableproduct_setup" xsi:type="string">Magento\Catalog\Model\Resource\Setup</item>

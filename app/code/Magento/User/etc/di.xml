@@ -20,7 +20,7 @@
             <argument name="aclCache" xsi:type="object">Magento\Framework\Acl\Cache\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="user_setup" xsi:type="string">Magento\User\Model\Resource\Setup</item>

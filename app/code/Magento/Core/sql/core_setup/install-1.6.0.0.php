@@ -9,7 +9,7 @@
  */
 
 
-/* @var $installer \Magento\Module\Setup */
+/* @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 
 $installer->startSetup();

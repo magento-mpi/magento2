@@ -333,8 +333,8 @@ class Application
             ->getArea('install')->load(\Magento\Core\Model\App\Area::PART_CONFIG);
 
         /* Run all install and data-install scripts */
-        /** @var $updater \Magento\Module\Updater */
-        $updater = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Module\Updater');
+        /** @var $updater \Magento\Framework\Module\Updater */
+        $updater = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Module\Updater');
         $updater->updateScheme();
         $updater->updateData();
 

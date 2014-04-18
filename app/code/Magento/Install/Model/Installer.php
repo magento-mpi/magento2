@@ -24,7 +24,7 @@ class Installer extends \Magento\Object
     /**
      * DB updated model
      *
-     * @var \Magento\Module\UpdaterInterface
+     * @var \Magento\Framework\Module\UpdaterInterface
      */
     protected $_dbUpdater;
 
@@ -143,12 +143,12 @@ class Installer extends \Magento\Object
     protected $_arguments;
 
     /**
-     * @var \Magento\Module\ModuleListInterface
+     * @var \Magento\Framework\Module\ModuleListInterface
      */
     protected $moduleList;
 
     /**
-     * @var \Magento\Module\DependencyManagerInterface
+     * @var \Magento\Framework\Module\DependencyManagerInterface
      */
     protected $dependencyManager;
 
@@ -169,7 +169,7 @@ class Installer extends \Magento\Object
 
     /**
      * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
-     * @param \Magento\Module\UpdaterInterface $dbUpdater
+     * @param \Magento\Framework\Module\UpdaterInterface $dbUpdater
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Framework\App\Cache\StateInterface $cacheState
@@ -187,8 +187,8 @@ class Installer extends \Magento\Object
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Module\ModuleListInterface $moduleList
-     * @param \Magento\Module\DependencyManagerInterface $dependencyManager
+     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
+     * @param \Magento\Framework\Module\DependencyManagerInterface $dependencyManager
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
@@ -196,7 +196,7 @@ class Installer extends \Magento\Object
      */
     public function __construct(
         \Magento\Framework\App\Config\ReinitableConfigInterface $config,
-        \Magento\Module\UpdaterInterface $dbUpdater,
+        \Magento\Framework\Module\UpdaterInterface $dbUpdater,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\Framework\App\Cache\StateInterface $cacheState,
@@ -214,8 +214,8 @@ class Installer extends \Magento\Object
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Math\Random $mathRandom,
         \Magento\Framework\App\Resource $resource,
-        \Magento\Module\ModuleListInterface $moduleList,
-        \Magento\Module\DependencyManagerInterface $dependencyManager,
+        \Magento\Framework\Module\ModuleListInterface $moduleList,
+        \Magento\Framework\Module\DependencyManagerInterface $dependencyManager,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
@@ -447,11 +447,11 @@ class Installer extends \Magento\Object
     /**
      * Set order number prefix
      *
-     * @param \Magento\Module\Setup $setupModel
+     * @param \Magento\Framework\Module\Setup $setupModel
      * @param string $orderIncrementPrefix
      * @return void
      */
-    protected function _setOrderIncrementPrefix(\Magento\Module\Setup $setupModel, $orderIncrementPrefix)
+    protected function _setOrderIncrementPrefix(\Magento\Framework\Module\Setup $setupModel, $orderIncrementPrefix)
     {
         $select = $setupModel->getConnection()->select()->from(
             $setupModel->getTable('eav_entity_type'),

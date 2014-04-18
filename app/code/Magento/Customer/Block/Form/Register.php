@@ -18,7 +18,7 @@ class Register extends \Magento\Directory\Block\Data
     protected $_customerSession;
 
     /**
-     * @var \Magento\Module\Manager
+     * @var \Magento\Framework\Module\Manager
      */
     protected $_moduleManager;
 
@@ -34,7 +34,7 @@ class Register extends \Magento\Directory\Block\Data
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
-     * @param \Magento\Module\Manager $moduleManager
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param array $data
@@ -48,7 +48,7 @@ class Register extends \Magento\Directory\Block\Data
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
-        \Magento\Module\Manager $moduleManager,
+        \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Helper\Data $customerHelper,
         array $data = array()
