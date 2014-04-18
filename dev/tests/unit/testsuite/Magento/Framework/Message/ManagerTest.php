@@ -33,7 +33,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     protected $session;
 
     /**
-     * @var \Magento\Logger|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Logger|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $logger;
 
@@ -70,7 +70,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             array('getData', 'setData')
         )->getMock();
         $this->logger = $this->getMockBuilder(
-            'Magento\Logger'
+            'Magento\Framework\Logger'
         )->setMethods(
             array('logFile')
         )->disableOriginalConstructor()->getMock();
@@ -211,7 +211,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->stringStartsWith($logText),
             \Zend_Log::DEBUG,
-            \Magento\Logger::LOGGER_EXCEPTION
+            \Magento\Framework\Logger::LOGGER_EXCEPTION
         );
 
         $messageCollection = $this->getMockBuilder(

@@ -61,7 +61,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
     protected $resourceDirectoryDatabaseMock;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $loggerMock;
 
@@ -106,7 +106,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $this->loggerMock = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
 
         $this->directoryFactoryMock->expects(
             $this->any()

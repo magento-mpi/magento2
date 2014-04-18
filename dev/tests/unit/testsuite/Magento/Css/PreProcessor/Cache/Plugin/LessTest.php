@@ -27,7 +27,7 @@ class LessTest extends \PHPUnit_Framework_TestCase
     protected $cacheManagerMock;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $loggerMock;
 
@@ -41,7 +41,7 @@ class LessTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $this->loggerMock = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $this->plugin = $this->objectManagerHelper->getObject(
             'Magento\Css\PreProcessor\Cache\Plugin\Less',
             array('cacheManager' => $this->cacheManagerMock, 'logger' => $this->loggerMock)

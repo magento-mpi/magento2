@@ -31,7 +31,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     const SECONDS_IN_DAY = 86400;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -100,7 +100,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
@@ -111,7 +111,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\CatalogRule\Helper\Data $catalogRuleData,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\Stdlib\DateTime $dateTime
     ) {
         $this->_storeManager = $storeManager;

@@ -690,7 +690,7 @@ class Index extends \Magento\Backend\App\Action
             try {
                 $this->_objectManager->create('Magento\Wishlist\Model\Item')->load($itemId)->delete();
             } catch (\Exception $exception) {
-                $this->_objectManager->get('Magento\Logger')->logException($exception);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($exception);
             }
         }
 

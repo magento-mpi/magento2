@@ -274,7 +274,7 @@ class Index extends Action
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__("We're unable to save the segment."));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
         $this->_redirect('customersegment/*/');
@@ -297,7 +297,7 @@ class Index extends Action
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__("We're unable to delete the segement."));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('customersegment/*/');
     }

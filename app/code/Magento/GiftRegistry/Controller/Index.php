@@ -573,7 +573,7 @@ class Index extends \Magento\Framework\App\Action\Action
                 $isError = true;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__("We couldn't save this gift registry."));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $isError = true;
             }
 

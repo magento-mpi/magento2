@@ -10,7 +10,7 @@ namespace Magento\Module\Setup;
 class Context implements \Magento\Framework\ObjectManager\ContextInterface
 {
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -57,7 +57,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     /**
      * Constructor
      *
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Module\Dir\Reader $modulesReader
@@ -68,7 +68,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\App\Resource $resource,
         \Magento\Module\Dir\Reader $modulesReader,
@@ -98,7 +98,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Logger $logger
+     * @return \Magento\Framework\Logger $logger
      */
     public function getLogger()
     {

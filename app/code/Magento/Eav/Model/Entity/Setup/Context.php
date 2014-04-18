@@ -17,7 +17,7 @@ class Context extends \Magento\Module\Setup\Context
     protected $attributeMapper;
 
     /**
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Module\Dir\Reader $modulesReader
@@ -29,7 +29,7 @@ class Context extends \Magento\Module\Setup\Context
      * @param PropertyMapperInterface $attributeMapper
      */
     public function __construct(
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\App\Resource $resource,
         \Magento\Module\Dir\Reader $modulesReader,

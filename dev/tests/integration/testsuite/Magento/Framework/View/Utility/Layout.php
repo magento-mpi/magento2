@@ -88,7 +88,7 @@ class Layout
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         return array(
             'processorFactory' => $objectManager->get('Magento\Framework\View\Layout\ProcessorFactory'),
-            'logger' => $objectManager->get('Magento\Logger'),
+            'logger' => $objectManager->get('Magento\Framework\Logger'),
             'eventManager' => $objectManager->get('Magento\Framework\Event\ManagerInterface'),
             'blockFactory' => $objectManager->create('Magento\Framework\View\Element\BlockFactory', array()),
             'structure' => $objectManager->create('Magento\Framework\Data\Structure', array()),

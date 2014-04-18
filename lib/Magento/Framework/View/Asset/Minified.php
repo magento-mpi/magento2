@@ -50,7 +50,7 @@ class Minified implements MergeableInterface
     /**
      * Logger
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $logger;
 
@@ -60,13 +60,13 @@ class Minified implements MergeableInterface
      * @param LocalInterface $asset
      * @param \Magento\Framework\Code\Minifier $minifier
      * @param \Magento\Framework\View\Url $viewUrl
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      */
     public function __construct(
         LocalInterface $asset,
         \Magento\Framework\Code\Minifier $minifier,
         \Magento\Framework\View\Url $viewUrl,
-        \Magento\Logger $logger
+        \Magento\Framework\Logger $logger
     ) {
         $this->originalAsset = $asset;
         $this->minifier = $minifier;

@@ -101,7 +101,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_logger = $this->getMock(
-            'Magento\Logger',
+            'Magento\Framework\Logger',
             array('addStoreLog', 'log', 'logException'),
             array(),
             '',

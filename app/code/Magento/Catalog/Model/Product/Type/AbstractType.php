@@ -130,7 +130,7 @@ abstract class AbstractType
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -174,7 +174,7 @@ abstract class AbstractType
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param array $data
      */
     public function __construct(
@@ -187,7 +187,7 @@ abstract class AbstractType
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Registry $coreRegistry,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;

@@ -88,7 +88,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 
         $eventDispatcher = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false, false);
         $cacheManager = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false, false);
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $actionValidatorMock = $this->getMock(
             '\Magento\Framework\Model\ActionValidator\RemoveAction',
             array(),

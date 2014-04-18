@@ -36,7 +36,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $eventDispatcherMock = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false, false);
         $cacheManagerMock = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false, false);
-        $loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $loggerMock = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $actionValidatorMock = $this->getMock(
             '\Magento\Framework\Model\ActionValidator\RemoveAction', array(), array(), '', false
         );

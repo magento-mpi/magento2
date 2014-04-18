@@ -30,7 +30,7 @@ class Less implements PreProcessorInterface
     protected $adapter;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $logger;
 
@@ -42,13 +42,13 @@ class Less implements PreProcessorInterface
     /**
      * @param \Magento\Less\PreProcessor $lessPreProcessor
      * @param AdapterInterface $adapter
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\View\Publisher\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Less\PreProcessor $lessPreProcessor,
         AdapterInterface $adapter,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\View\Publisher\FileFactory $fileFactory
     ) {
         $this->lessPreProcessor = $lessPreProcessor;

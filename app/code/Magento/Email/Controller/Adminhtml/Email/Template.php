@@ -188,7 +188,7 @@ class Template extends \Magento\Backend\App\Action
                 $this->messageManager->addError(
                     __('An error occurred while deleting email template data. Please review log and try again.')
                 );
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 // save data in session
                 $this->_objectManager->get(
                     'Magento\Backend\Model\Session'
@@ -238,7 +238,7 @@ class Template extends \Magento\Backend\App\Action
                 $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($template->getData())
             );
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
     }
 

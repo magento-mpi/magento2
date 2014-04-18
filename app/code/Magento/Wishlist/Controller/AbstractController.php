@@ -135,7 +135,7 @@ abstract class AbstractController extends \Magento\Framework\App\Action\Action
                     $cart->getQuote()->deleteItem($cartItem);
                 }
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $messages[] = __('We cannot add this item to your shopping cart.');
             }
         }

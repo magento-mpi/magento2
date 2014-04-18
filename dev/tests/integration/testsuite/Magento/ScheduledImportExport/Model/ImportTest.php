@@ -26,9 +26,9 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             'Magento\ScheduledImportExport\Model\Import',
             array('reindexAll'),
             array(
-                $objectManager->get('Magento\Logger'),
+                $objectManager->get('Magento\Framework\Logger'),
                 $objectManager->get('Magento\Framework\App\Filesystem'),
-                $objectManager->get('Magento\Logger\AdapterFactory'),
+                $objectManager->get('Magento\Framework\Logger\AdapterFactory'),
                 $objectManager->get('Magento\ImportExport\Helper\Data'),
                 $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface'),
                 $objectManager->get('Magento\ImportExport\Model\Import\ConfigInterface'),

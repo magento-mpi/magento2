@@ -77,7 +77,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->_imageMock = $this->getMock('Magento\Image', array(), array(), '', false, false);
         $imageFactory->expects($this->any())->method('create')->will($this->returnValue($this->_imageMock));
 
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false, false);
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false, false);
         $this->_themeMock = $this->getMock('Magento\Core\Model\Theme', array('__wakeup'), array(), '', false, false);
         $this->_uploaderMock = $this->getMock(
             'Magento\Framework\View\Design\Theme\Image\Uploader',

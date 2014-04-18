@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
 /**
  * Logger model
@@ -49,7 +49,7 @@ class Logger
      * @param string $loggerKey
      * @param string $fileOrWrapper
      * @param string $writerClass
-     * @return \Magento\Logger
+     * @return \Magento\Framework\Logger
      * @link http://php.net/wrappers
      */
     public function addStreamLog($loggerKey, $fileOrWrapper = '', $writerClass = '')

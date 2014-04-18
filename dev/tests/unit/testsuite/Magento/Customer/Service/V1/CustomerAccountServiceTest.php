@@ -94,7 +94,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_customerRegistry;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject  | \Magento\Logger
+     * @var \PHPUnit_Framework_MockObject_MockObject  | \Magento\Framework\Logger
      */
     private $_loggerMock;
 
@@ -262,7 +262,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_loggerMock = $this->getMockBuilder('Magento\Logger')
+        $this->_loggerMock = $this->getMockBuilder('Magento\Framework\Logger')
             ->disableOriginalConstructor()
             ->getMock();
 

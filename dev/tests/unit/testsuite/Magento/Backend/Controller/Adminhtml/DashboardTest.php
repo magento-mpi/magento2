@@ -183,14 +183,14 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->throwException($exceptionMock)
         );
-        $loggerMock = $this->getMock('Magento\Logger', array('logException'), array(), '', false);
+        $loggerMock = $this->getMock('Magento\Framework\Logger', array('logException'), array(), '', false);
         $loggerMock->expects($this->once())->method('logException')->with($exceptionMock);
         $this->_objectManager->expects(
             $this->at(2)
         )->method(
             'get'
         )->with(
-            'Magento\Logger'
+            'Magento\Framework\Logger'
         )->will(
             $this->returnValue($loggerMock)
         );

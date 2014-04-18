@@ -58,7 +58,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Cache\StateInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $cacheState;
 
-    /** @var \Magento\Logger|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Logger|\PHPUnit_Framework_MockObject_MockObject */
     protected $logger;
 
     /** @var \Magento\Escaper|\PHPUnit_Framework_MockObject_MockObject */
@@ -148,7 +148,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->url = $this->getMock('Magento\Framework\View\Url', [], [], '', false);
         $this->configInterface = $this->getMock('Magento\Framework\View\ConfigInterface');
         $this->cacheState = $this->getMock('Magento\Framework\App\Cache\StateInterface');
-        $this->logger = $this->getMock('Magento\Logger', [], [], '', false);
+        $this->logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
         $this->escaper = $this->getMock('Magento\Escaper');
         $this->filterManager = $this->getMock('Magento\Filter\FilterManager', [], [], '', false);
         $this->timezoneInterface = $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface');

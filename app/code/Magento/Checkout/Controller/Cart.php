@@ -263,7 +263,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
             }
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We cannot add this item to your shopping cart'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_goBack();
         }
     }
@@ -292,7 +292,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
                     }
                 } catch (\Exception $e) {
                     $this->messageManager->addException($e, __('We cannot add this item to your shopping cart'));
-                    $this->_objectManager->get('Magento\Logger')->logException($e);
+                    $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                     $this->_goBack();
                 }
             }
@@ -337,7 +337,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
             );
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We cannot configure the product.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_goBack();
             return;
         }
@@ -419,7 +419,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
             }
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We cannot update the item.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_goBack();
         }
         $this->_redirect('*/*');
@@ -485,7 +485,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
             );
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We cannot update the shopping cart.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
     }
 
@@ -519,7 +519,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
                 $this->cart->removeItem($id)->save();
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We cannot remove the item.'));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
         $defaultUrl = $this->_objectManager->create('Magento\UrlInterface')->getUrl('*/*');
@@ -625,7 +625,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We cannot apply the coupon code.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
 
         $this->_goBack();

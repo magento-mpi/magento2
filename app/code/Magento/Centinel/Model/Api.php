@@ -221,15 +221,15 @@ class Api extends \Magento\Object
     /**
      * Log adapter factory
      *
-     * @var \Magento\Logger\AdapterFactory
+     * @var \Magento\Framework\Logger\AdapterFactory
      */
     protected $_logFactory;
 
     /**
-     * @param \Magento\Logger\AdapterFactory $logFactory
+     * @param \Magento\Framework\Logger\AdapterFactory $logFactory
      * @param array $data
      */
-    public function __construct(\Magento\Logger\AdapterFactory $logFactory, array $data = array())
+    public function __construct(\Magento\Framework\Logger\AdapterFactory $logFactory, array $data = array())
     {
         $this->_logFactory = $logFactory;
         parent::__construct($data);

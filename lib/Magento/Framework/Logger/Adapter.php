@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Logger;
+namespace Magento\Framework\Logger;
 
 /**
  * Log Adapter
@@ -34,17 +34,17 @@ class Adapter
     protected $_debugReplacePrivateDataKeys = array();
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
     /**
      * Set log file name
      *
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param string $fileName
      */
-    public function __construct(\Magento\Logger $logger, $fileName)
+    public function __construct(\Magento\Framework\Logger $logger, $fileName)
     {
         $this->_logFileName = $fileName;
         $this->_logger = $logger;

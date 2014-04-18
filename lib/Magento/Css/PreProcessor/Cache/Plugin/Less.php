@@ -17,7 +17,7 @@ use Magento\Css\PreProcessor\Cache\Import\Cache;
 class Less
 {
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $logger;
 
@@ -28,9 +28,9 @@ class Less
 
     /**
      * @param CacheManager $cacheManager
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      */
-    public function __construct(CacheManager $cacheManager, \Magento\Logger $logger)
+    public function __construct(CacheManager $cacheManager, \Magento\Framework\Logger $logger)
     {
         $this->cacheManager = $cacheManager;
         $this->logger = $logger;

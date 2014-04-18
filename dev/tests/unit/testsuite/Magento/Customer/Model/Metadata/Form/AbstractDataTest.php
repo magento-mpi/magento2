@@ -22,7 +22,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Locale\ResolverInterface */
     protected $_localeResolverMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Logger */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Logger */
     protected $_loggerMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
@@ -45,7 +45,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
         $this->_localeResolverMock = $this->getMockBuilder(
             'Magento\Framework\Locale\ResolverInterface'
         )->disableOriginalConstructor()->getMock();
-        $this->_loggerMock = $this->getMockBuilder('Magento\Logger')->disableOriginalConstructor()->getMock();
+        $this->_loggerMock = $this->getMockBuilder('Magento\Framework\Logger')->disableOriginalConstructor()->getMock();
         $this->_attributeMock = $this->getMockBuilder(
             'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata'
         )->disableOriginalConstructor()->getMock();

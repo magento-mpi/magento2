@@ -51,7 +51,7 @@ class UrlResolver implements PreProcessorInterface
     /**
      * Logger
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $logger;
 
@@ -67,7 +67,7 @@ class UrlResolver implements PreProcessorInterface
      * @param \Magento\Framework\View\RelatedFile $relatedFile
      * @param \Magento\Framework\View\Url\CssResolver $cssUrlResolver
      * @param \Magento\Framework\View\Publisher $publisher
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\View\Publisher\FileFactory $fileFactory
      */
     public function __construct(
@@ -75,7 +75,7 @@ class UrlResolver implements PreProcessorInterface
         \Magento\Framework\View\RelatedFile $relatedFile,
         \Magento\Framework\View\Url\CssResolver $cssUrlResolver,
         \Magento\Framework\View\Publisher $publisher,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\View\Publisher\FileFactory $fileFactory
     ) {
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);

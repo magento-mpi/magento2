@@ -153,7 +153,7 @@ class Rate extends \Magento\Backend\App\Action
                 $rate->save();
                 $this->messageManager->addSuccess(__('You saved the rate.'));
             } catch (\Exception $exception) {
-                $this->_objectManager->get('Magento\Logger')->logException($exception);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($exception);
                 $this->messageManager->addError(__('We cannot save Rate.'));
                 return $this->_redirect('adminhtml/*/edit', array('rate_id' => $rate->getId(), '_current' => true));
             }

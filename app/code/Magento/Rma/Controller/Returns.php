@@ -139,7 +139,7 @@ class Returns extends \Magento\Framework\App\Action\Action
                     $this->messageManager->addError(
                         __('We cannot create a new return transaction. Please try again later.')
                     );
-                    $this->_objectManager->get('Magento\Logger')->logException($e);
+                    $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 }
             }
             $this->_view->loadLayout();

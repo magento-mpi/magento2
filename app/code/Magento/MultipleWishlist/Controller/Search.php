@@ -306,7 +306,7 @@ class Search extends \Magento\Framework\App\Action\Action
                         $messages[] = __('%1 for "%2"', trim($e->getMessage(), '.'), $item->getProduct()->getName());
                     }
                 } catch (\Exception $e) {
-                    $this->_objectManager->get('Magento\Logger')->logException($e);
+                    $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                     $messages[] = __('We could not add the item to shopping cart.');
                 }
             }

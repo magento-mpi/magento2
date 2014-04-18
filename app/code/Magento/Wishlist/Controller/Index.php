@@ -284,7 +284,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             );
         } catch (\Exception $e) {
             $this->messageManager->addError(__('An error occurred while adding item to wish list.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
 
         $this->_redirect('*', array('wishlist_id' => $wishlist->getId()));
@@ -338,7 +338,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t configure the product.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_redirect('*');
             return;
         }
@@ -394,7 +394,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('An error occurred while updating wish list.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('*/*', array('wishlist_id' => $wishlist->getId()));
     }
@@ -448,7 +448,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
                     try {
                         $item->delete();
                     } catch (\Exception $e) {
-                        $this->_objectManager->get('Magento\Logger')->logException($e);
+                        $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                         $this->messageManager->addError(__('Can\'t delete item from wishlist'));
                     }
                 }

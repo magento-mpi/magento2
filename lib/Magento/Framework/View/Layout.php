@@ -156,7 +156,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Logger $logger
+     * @var \Magento\Framework\Logger $logger
      */
     protected $_logger;
 
@@ -202,7 +202,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
 
     /**
      * @param \Magento\Framework\View\Layout\ProcessorFactory $processorFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
      * @param \Magento\Framework\Data\Structure $structure
@@ -219,7 +219,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
      */
     public function __construct(
         \Magento\Framework\View\Layout\ProcessorFactory $processorFactory,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\View\Element\BlockFactory $blockFactory,
         \Magento\Framework\Data\Structure $structure,

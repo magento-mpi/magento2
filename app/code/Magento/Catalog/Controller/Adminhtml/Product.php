@@ -571,7 +571,7 @@ class Product extends \Magento\Backend\App\Action
                 $this->_session->setProductData($data);
                 $redirectBack = true;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->messageManager->addError($e->getMessage());
                 $redirectBack = true;
             }
@@ -607,7 +607,7 @@ class Product extends \Magento\Backend\App\Action
             $this->messageManager->addSuccess(__('You duplicated the product.'));
             $this->_redirect('catalog/*/edit', array('_current' => true, 'id' => $newProduct->getId()));
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('catalog/*/edit', array('_current' => true));
         }

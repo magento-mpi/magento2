@@ -421,7 +421,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
                 $this->messageManager->addError($e->getMessage());
                 $error = true;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->messageManager->addError(__('Something went wrong while deleting the revision.'));
                 $error = true;
             }

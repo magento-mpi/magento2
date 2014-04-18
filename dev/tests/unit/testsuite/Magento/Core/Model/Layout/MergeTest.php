@@ -74,7 +74,7 @@ class MergeTest extends \PHPUnit_Framework_TestCase
 
         $this->_appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
 
-        $this->_logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $this->_logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
 
         $this->_layoutValidator = $this->getMock(
             'Magento\Core\Model\Layout\Update\Validator',
@@ -280,7 +280,7 @@ class MergeTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->stringStartsWith($errorString),
             \Zend_Log::ERR,
-            \Magento\Logger::LOGGER_SYSTEM
+            \Magento\Framework\Logger::LOGGER_SYSTEM
         );
 
         $actualXml = $this->_model->getFileLayoutUpdatesXml();

@@ -14,7 +14,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Logger mock
      *
-     * @var \Magento\Logger|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Logger|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $logger;
 
@@ -41,7 +41,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $this->logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $this->filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $this->handler = new \Magento\Framework\App\Error\Handler($this->logger, $this->filesystem, $this->appState);

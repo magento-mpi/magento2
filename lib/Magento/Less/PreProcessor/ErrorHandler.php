@@ -13,14 +13,14 @@ namespace Magento\Less\PreProcessor;
 class ErrorHandler implements ErrorHandlerInterface
 {
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $logger;
 
     /**
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      */
-    public function __construct(\Magento\Logger $logger)
+    public function __construct(\Magento\Framework\Logger $logger)
     {
         $this->logger = $logger;
     }

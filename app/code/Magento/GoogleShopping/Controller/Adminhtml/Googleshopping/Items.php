@@ -179,7 +179,7 @@ class Items extends \Magento\Backend\App\Action
                 __('An error has occurred while adding products to google shopping account.'),
                 $e->getMessage()
             );
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             return;
         }
 
@@ -229,7 +229,7 @@ class Items extends \Magento\Backend\App\Action
                     'One or more products were not deleted from google shopping account. Refer to the log file for details.'
                 )
             );
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             return;
         }
 
@@ -279,7 +279,7 @@ class Items extends \Magento\Backend\App\Action
                     'One or more products were not deleted from google shopping account. Refer to the log file for details.'
                 )
             );
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             return;
         }
 
@@ -321,7 +321,7 @@ class Items extends \Magento\Backend\App\Action
                 )
             );
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__('Something went wrong during Captcha confirmation.'));
         }
 

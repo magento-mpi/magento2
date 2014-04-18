@@ -72,7 +72,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     protected $_eventManager;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 

@@ -38,7 +38,7 @@ class Observer
     protected $_coreData;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -71,7 +71,7 @@ class Observer
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Paypal\Helper\Hss $paypalHss
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param Report\SettlementFactory $settlementFactory
      * @param \Magento\Framework\App\ViewInterface $view
      * @param \Magento\Framework\AuthorizationInterface $authorization
@@ -82,7 +82,7 @@ class Observer
         \Magento\Core\Helper\Data $coreData,
         \Magento\Paypal\Helper\Hss $paypalHss,
         \Magento\Registry $coreRegistry,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory,
         \Magento\Framework\App\ViewInterface $view,
         \Magento\Framework\AuthorizationInterface $authorization,

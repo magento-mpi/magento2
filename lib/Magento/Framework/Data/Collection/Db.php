@@ -12,7 +12,7 @@ namespace Magento\Framework\Data\Collection;
 use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
-use Magento\Logger;
+use Magento\Framework\Logger;
 
 /**
  * Base items collection class

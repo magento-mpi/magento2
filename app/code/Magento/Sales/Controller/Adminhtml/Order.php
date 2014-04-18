@@ -145,7 +145,7 @@ class Order extends \Magento\Backend\App\Action
                 $this->_redirect('sales/order/index');
                 return;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->messageManager->addError(__('Exception occurred during order load'));
                 $this->_redirect('sales/order/index');
                 return;
@@ -181,7 +181,7 @@ class Order extends \Magento\Backend\App\Action
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We couldn\'t send the email order.'));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
         $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
@@ -203,7 +203,7 @@ class Order extends \Magento\Backend\App\Action
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('You have not canceled the item.'));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
             $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
         }
@@ -291,7 +291,7 @@ class Order extends \Magento\Backend\App\Action
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We couldn\'t update the payment.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
     }
@@ -790,7 +790,7 @@ class Order extends \Magento\Backend\App\Action
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We couldn\'t void the payment.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('sales/*/view', array('order_id' => $order->getId()));
     }

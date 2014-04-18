@@ -105,7 +105,7 @@ class Category extends \Magento\Framework\App\Action\Action
                 array('category' => $category, 'controller_action' => $this)
             );
         } catch (\Magento\Framework\Model\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             return false;
         }
 
