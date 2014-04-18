@@ -51,7 +51,7 @@
     <preference for="Magento\Mview\ProcessorInterface" type="Magento\Mview\Processor" />
     <preference for="Magento\Mview\View\CollectionInterface" type="Magento\Mview\View\Collection" />
     <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
-    <preference for="Magento\Css\PreProcessor\AdapterInterface" type="Magento\Css\PreProcessor\Adapter\Oyejorge" />
+    <preference for="Magento\Framework\Css\PreProcessor\AdapterInterface" type="Magento\Framework\Css\PreProcessor\Adapter\Oyejorge" />
     <preference for="Magento\Framework\Translate\ResourceInterface" type="Magento\Translation\Model\Resource\Translate" />
     <preference for="Magento\Framework\LocaleInterface" type="Magento\Framework\Locale" />
     <preference for="Magento\Framework\Locale\CurrencyInterface" type="Magento\Framework\Locale\Currency" />
@@ -229,17 +229,17 @@
         <arguments>
             <argument name="preProcessorsConfig" xsi:type="array">
                 <item name="css_preprocessor" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Css\PreProcessor\Composite</item>
+                    <item name="class" xsi:type="string">Magento\Framework\Css\PreProcessor\Composite</item>
                     <item name="asset_type" xsi:type="string">css</item>
                 </item>
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Css\PreProcessor\Composite">
+    <type name="Magento\Framework\Css\PreProcessor\Composite">
         <arguments>
             <argument name="preProcessors" xsi:type="array">
-                <item name="css_source_processor" xsi:type="string">Magento\Css\PreProcessor\Less</item>
-                <item name="css_url_processor" xsi:type="string">Magento\Css\PreProcessor\UrlResolver</item>
+                <item name="css_source_processor" xsi:type="string">Magento\Framework\Css\PreProcessor\Less</item>
+                <item name="css_url_processor" xsi:type="string">Magento\Framework\Css\PreProcessor\UrlResolver</item>
             </argument>
         </arguments>
     </type>
@@ -374,7 +374,7 @@
     </type>
     <type name="Magento\Framework\View\Asset\MergeService">
         <plugin name="cleanMergedJsCss" type="Magento\Core\Model\Asset\Plugin\CleanMergedJsCss"/>
-        <plugin name="clearLessImportCache" type="Magento\Css\PreProcessor\Cache\Plugin\ImportCleaner" sortOrder="10"/>
+        <plugin name="clearLessImportCache" type="Magento\Framework\Css\PreProcessor\Cache\Plugin\ImportCleaner" sortOrder="10"/>
     </type>
     <type name="Magento\Core\Model\Url\ScopeResolver">
         <arguments>
@@ -398,11 +398,11 @@
             <argument name="themeFiles" xsi:type="object">Magento\Less\File\Source\Theme</argument>
         </arguments>
     </type>
-    <type name="Magento\Css\PreProcessor\Less">
-        <plugin name="process_less" type="Magento\Css\PreProcessor\Cache\Plugin\Less" sortOrder="10"/>
+    <type name="Magento\Framework\Css\PreProcessor\Less">
+        <plugin name="process_less" type="Magento\Framework\Css\PreProcessor\Cache\Plugin\Less" sortOrder="10"/>
     </type>
     <type name="Magento\Less\PreProcessor">
-        <plugin name="process_less" type="Magento\Css\PreProcessor\Cache\Plugin\InstructionPreProcessor" sortOrder="10"/>
+        <plugin name="process_less" type="Magento\Framework\Css\PreProcessor\Cache\Plugin\InstructionPreProcessor" sortOrder="10"/>
         <arguments>
             <argument name="preProcessors" xsi:type="array">
                 <item name="magento_import" xsi:type="array">

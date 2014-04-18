@@ -35,8 +35,8 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcess()
     {
-        /** @var $lessPreProcessor \Magento\Css\PreProcessor\Less */
-        $lessPreProcessor = $this->objectManager->create('Magento\Css\PreProcessor\Less');
+        /** @var $lessPreProcessor \Magento\Framework\Css\PreProcessor\Less */
+        $lessPreProcessor = $this->objectManager->create('Magento\Framework\Css\PreProcessor\Less');
         /** @var $filesystem \Magento\Framework\Filesystem */
         $filesystem = $this->objectManager->get('Magento\Framework\Filesystem');
         $targetDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::TMP_DIR);

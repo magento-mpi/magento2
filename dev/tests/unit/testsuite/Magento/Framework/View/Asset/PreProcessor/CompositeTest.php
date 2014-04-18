@@ -117,33 +117,33 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
                 'extension' => 'css',
                 'preProcessorsConfig' => array(
                     'css_preprocessor' => array(
-                        'class' => 'Magento\Css\PreProcessor\Composite',
+                        'class' => 'Magento\Framework\Css\PreProcessor\Composite',
                         'asset_type' => 'css'
                     ),
                     'css_preprocessor2' => array(
-                        'class' => 'Magento\Css\PreProcessor\Composite2',
+                        'class' => 'Magento\Framework\Css\PreProcessor\Composite2',
                         'asset_type' => 'css'
                     )
                 ),
                 'createMap' => array(
-                    'Magento\Css\PreProcessor\Composite' => 'expected',
-                    'Magento\Css\PreProcessor\Composite2' => 'expected'
+                    'Magento\Framework\Css\PreProcessor\Composite' => 'expected',
+                    'Magento\Framework\Css\PreProcessor\Composite2' => 'expected'
                 )
             ),
             'one processor for css' => array(
                 'extension' => 'css',
                 'preProcessorsConfig' => array(
-                    'css_preprocessor' => array('class' => 'Magento\Css\PreProcessor\Composite', 'asset_type' => 'css')
+                    'css_preprocessor' => array('class' => 'Magento\Framework\Css\PreProcessor\Composite', 'asset_type' => 'css')
                 ),
-                'createMap' => array('Magento\Css\PreProcessor\Composite' => 'expected')
+                'createMap' => array('Magento\Framework\Css\PreProcessor\Composite' => 'expected')
             ),
             'no processors' => array('extension' => 'css', 'preProcessorsConfig' => array(), 'createMap' => array()),
             'one processor for xyz' => array(
                 'extension' => 'css',
                 'preProcessorsConfig' => array(
-                    'css_preprocessor' => array('class' => 'Magento\Css\PreProcessor\Composite', 'asset_type' => 'xyz')
+                    'css_preprocessor' => array('class' => 'Magento\Framework\Css\PreProcessor\Composite', 'asset_type' => 'xyz')
                 ),
-                'createMap' => array('Magento\Css\PreProcessor\Composite' => 'not expected')
+                'createMap' => array('Magento\Framework\Css\PreProcessor\Composite' => 'not expected')
             )
         );
     }
