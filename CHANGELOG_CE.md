@@ -57,6 +57,12 @@
   * Refactor PayPal module to use Customer Service (MAGETWO-20477)
 * JavaScript improvements:
   * Fixed possibility creating integration from config file (MAGETWO-22311)
+  * Implemented dialog widget
+  * Implemented validation widget
+  * Implemented tooltip widget
+  * Implemented popup/modal window widget
+  * Implemented calendar widget
+  * Implemented suggest widget
 * Customer Service usage:
   * Implement Service Context Provider (MAGETWO-11084)
   * Restructure webapi.xml (MAGETWO-22665)
