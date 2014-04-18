@@ -234,7 +234,6 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
                 ['use_special' => false, 'price' => 10, 'final_price' => 20]
             ];
         };
-        $select = null;
 
         $this->storeMock->expects($this->once())
             ->method('getWebsiteId')
