@@ -24,6 +24,7 @@ use Magento\Store\Model\Resource\Website\Collection as WebsiteCollection;
 use Magento\Store\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
 use Magento\Customer\Model\Resource\Group\Collection as GroupCollection;
 use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
+use Magento\Catalog\Model\CategoryFactory;
 use Magento\Framework\View\Element\AbstractBlock;
 
 class Row extends AbstractCategory
@@ -52,6 +53,7 @@ class Row extends AbstractCategory
      * @param Context $context
      * @param Tree $categoryTree
      * @param Registry $registry
+     * @param CategoryFactory $categoryFactory
      * @param WebsiteCollectionFactory $websiteCollectionFactory
      * @param GroupCollectionFactory $groupCollectionFactory
      * @param array $data
@@ -60,13 +62,14 @@ class Row extends AbstractCategory
         Context $context,
         Tree $categoryTree,
         Registry $registry,
+        CategoryFactory $categoryFactory,
         WebsiteCollectionFactory $websiteCollectionFactory,
         GroupCollectionFactory $groupCollectionFactory,
         array $data = array()
     ) {
         $this->_websiteCollectionFactory = $websiteCollectionFactory;
         $this->_groupCollectionFactory = $groupCollectionFactory;
-        parent::__construct($context, $categoryTree, $registry, $data);
+        parent::__construct($context, $categoryTree, $registry, $categoryFactory, $data);
     }
 
     /**

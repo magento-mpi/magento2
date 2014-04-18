@@ -24,19 +24,9 @@ use Magento\Framework\Data\Tree\Node;
 class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 {
     /**
-     * @var bool
-     */
-    protected $_withProductCount;
-
-    /**
      * @var string
      */
     protected $_template = 'catalog/category/tree.phtml';
-
-    /**
-     * @var \Magento\Catalog\Model\CategoryFactory
-     */
-    protected $_categoryFactory;
 
     /**
      * @var \Magento\Backend\Model\Auth\Session
@@ -57,27 +47,26 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Registry $registry
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Backend\Model\Auth\Session $backendSession
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Registry $registry,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Backend\Model\Auth\Session $backendSession,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_resourceHelper = $resourceHelper;
         $this->_backendSession = $backendSession;
-        $this->_categoryFactory = $categoryFactory;
-        parent::__construct($context, $categoryTree, $registry, $data);
+        parent::__construct($context, $categoryTree, $registry, $categoryFactory, $data);
     }
 
     /**
@@ -86,8 +75,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     protected function _construct()
     {
         parent::_construct();
-        $this->setUseAjax(true);
-        $this->_withProductCount = true;
+        $this->setUseAjax(0);
     }
 
     /**
@@ -123,42 +111,6 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
         }
 
         return parent::_prepareLayout();
-    }
-
-    /**
-     * @return int
-     */
-    protected function _getDefaultStoreId()
-    {
-        return \Magento\Store\Model\Store::DEFAULT_STORE_ID;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getCategoryCollection()
-    {
-        $storeId = $this->getRequest()->getParam('store', $this->_getDefaultStoreId());
-        $collection = $this->getData('category_collection');
-        if (is_null($collection)) {
-            $collection = $this->_categoryFactory->create()->getCollection();
-
-            /* @var $collection Collection */
-            $collection->addAttributeToSelect(
-                'name'
-            )->addAttributeToSelect(
-                'is_active'
-            )->setProductStoreId(
-                $storeId
-            )->setLoadProductCount(
-                $this->_withProductCount
-            )->setStoreId(
-                $storeId
-            );
-
-            $this->setData('category_collection', $collection);
-        }
-        return $collection;
     }
 
     /**
