@@ -24,19 +24,19 @@ class InvalidateCache
     protected $eventManager;
 
     /**
-     * @var \Magento\Module\Manager
+     * @var \Magento\Framework\Module\Manager
      */
     protected $moduleManager;
 
     /**
      * @param \Magento\Indexer\Model\CacheContext $context
      * @param \Magento\Framework\Event\Manager $eventManager
-     * @param \Magento\Module\Manager $moduleManager
+     * @param \Magento\Framework\Module\Manager $moduleManager
      */
     public function __construct(
         \Magento\Indexer\Model\CacheContext $context,
         \Magento\Framework\Event\Manager $eventManager,
-        \Magento\Module\Manager $moduleManager
+        \Magento\Framework\Module\Manager $moduleManager
     ) {
         $this->context = $context;
         $this->eventManager = $eventManager;

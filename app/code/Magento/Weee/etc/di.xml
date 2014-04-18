@@ -20,7 +20,7 @@
             <argument name="weeeData" xsi:type="object">Magento\Weee\Helper\Data\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="weee_setup" xsi:type="string">Magento\Sales\Model\Resource\Setup</item>

@@ -11,7 +11,7 @@
     <type name="Magento\Sales\Model\Convert\Quote">
         <plugin name="gift_registry_item_from_quote_item" type="Magento\GiftRegistry\Model\Plugin\QuoteItem"/>
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="giftregistry_setup" xsi:type="string">Magento\GiftRegistry\Model\Resource\Setup</item>
@@ -23,7 +23,7 @@
             <argument name="modulePrefix" xsi:type="string">giftregistry</argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Setup\Migration">
+    <type name="Magento\Framework\Module\Setup\Migration">
         <arguments>
             <argument name="compositeModules" xsi:type="array">
                 <item name="magento_giftregistry" xsi:type="string">Magento_GiftRegistry</item>

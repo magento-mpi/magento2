@@ -31,7 +31,7 @@ class DisableOutput extends \Magento\Backend\Block\System\Config\Form\Fieldset
     protected $_values;
 
     /**
-     * @var \Magento\Module\ModuleListInterface
+     * @var \Magento\Framework\Module\ModuleListInterface
      */
     protected $_moduleList;
 
@@ -39,14 +39,14 @@ class DisableOutput extends \Magento\Backend\Block\System\Config\Form\Fieldset
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Framework\View\Helper\Js $jsHelper
-     * @param \Magento\Module\ModuleListInterface $moduleList
+     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Framework\View\Helper\Js $jsHelper,
-        \Magento\Module\ModuleListInterface $moduleList,
+        \Magento\Framework\Module\ModuleListInterface $moduleList,
         array $data = array()
     ) {
         parent::__construct($context, $authSession, $jsHelper, $data);

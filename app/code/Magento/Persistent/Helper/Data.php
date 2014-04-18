@@ -47,7 +47,7 @@ class Data extends \Magento\Core\Helper\Data
     protected $_escaper;
 
     /**
-     * @var \Magento\Module\Dir\Reader
+     * @var \Magento\Framework\Module\Dir\Reader
      */
     protected $_modulesReader;
 
@@ -58,7 +58,7 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
      * @param Session $persistentSession
-     * @param \Magento\Module\Dir\Reader $modulesReader
+     * @param \Magento\Framework\Module\Dir\Reader $modulesReader
      * @param \Magento\Escaper $escaper
      * @param bool $dbCompatibleMode
      */
@@ -69,7 +69,7 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Framework\App\State $appState,
         \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
         Session $persistentSession,
-        \Magento\Module\Dir\Reader $modulesReader,
+        \Magento\Framework\Module\Dir\Reader $modulesReader,
         \Magento\Escaper $escaper,
         $dbCompatibleMode = true
     ) {

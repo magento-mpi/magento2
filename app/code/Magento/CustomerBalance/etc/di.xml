@@ -10,7 +10,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\Payment\Model\Cart\SalesModel\Order" type="Magento\CustomerBalance\Model\Cart\SalesModel\Order" />
     <preference for="Magento\Payment\Model\Cart\SalesModel\Quote" type="Magento\CustomerBalance\Model\Cart\SalesModel\Quote" />
-    <type name="Magento\Module\Manager">
+    <type name="Magento\Framework\Module\Manager">
         <arguments>
             <argument name="outputConfigPaths" xsi:type="array">
                 <item name="Magento_CustomerBalance" xsi:type="string">Magento\CustomerBalance\Helper\Data::XML_PATH_ENABLED</item>
@@ -22,14 +22,14 @@
             <argument name="onePageCheckout" xsi:type="object">Magento\Checkout\Model\Type\Onepage\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="customerbalance_setup" xsi:type="string">Magento\Sales\Model\Resource\Setup</item>
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Setup\Migration">
+    <type name="Magento\Framework\Module\Setup\Migration">
         <arguments>
             <argument name="compositeModules" xsi:type="array">
                 <item name="magento_customerbalance" xsi:type="string">Magento_CustomerBalance</item>

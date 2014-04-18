@@ -19,7 +19,7 @@
             <argument name="translate" xsi:type="object">Magento\Framework\Translate</argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="rma_setup" xsi:type="string">Magento\Rma\Model\Resource\Setup</item>

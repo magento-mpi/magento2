@@ -48,7 +48,7 @@ class Wizard extends \Magento\Install\Controller\Action
     /**
      * DB Updater
      *
-     * @var \Magento\Module\UpdaterInterface
+     * @var \Magento\Framework\Module\UpdaterInterface
      */
     protected $_dbUpdater;
 
@@ -58,7 +58,7 @@ class Wizard extends \Magento\Install\Controller\Action
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $wizard
      * @param \Magento\Framework\Session\Generic $session
-     * @param \Magento\Module\UpdaterInterface $dbUpdater
+     * @param \Magento\Framework\Module\UpdaterInterface $dbUpdater
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\State $appState
      */
@@ -68,7 +68,7 @@ class Wizard extends \Magento\Install\Controller\Action
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $wizard,
         \Magento\Framework\Session\Generic $session,
-        \Magento\Module\UpdaterInterface $dbUpdater,
+        \Magento\Framework\Module\UpdaterInterface $dbUpdater,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\State $appState
     ) {
