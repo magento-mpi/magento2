@@ -25,8 +25,9 @@ use Magento\CatalogPermissions\Helper\Data;
 use Magento\CatalogPermissions\Model\Permission;
 use Magento\CatalogPermissions\Model\Resource\Permission\Collection as PermissionCollection;
 use Magento\Registry;
-use Magento\Store\Model\Website;
+use Magento\Catalog\Model\CategoryFactory ;
 use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
+use Magento\Store\Model\Website;
 use Magento\Json\EncoderInterface;
 
 class Permissions extends AbstractCategory implements TabInterface
@@ -68,6 +69,8 @@ class Permissions extends AbstractCategory implements TabInterface
      * @param EncoderInterface $jsonEncoder
      * @param Tree $categoryTree
      * @param Registry $registry
+     * @param CategoryFactory $categoryFactory
+     * @param EncoderInterface $jsonEncoder
      * @param \Magento\CatalogPermissions\Model\Permission\IndexFactory $permIndexFactory
      * @param \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollectionFactory
      * @param GroupCollectionFactory $groupCollectionFactory
@@ -78,6 +81,7 @@ class Permissions extends AbstractCategory implements TabInterface
         Context $context,
         Tree $categoryTree,
         Registry $registry,
+        CategoryFactory $categoryFactory,
         EncoderInterface $jsonEncoder,
         \Magento\CatalogPermissions\Model\Permission\IndexFactory $permIndexFactory,
         \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollectionFactory,
@@ -90,7 +94,7 @@ class Permissions extends AbstractCategory implements TabInterface
         $this->_permissionCollectionFactory = $permissionCollectionFactory;
         $this->_groupCollectionFactory = $groupCollectionFactory;
         $this->_catalogPermData = $catalogPermData;
-        parent::__construct($context, $categoryTree, $registry, $data);
+        parent::__construct($context, $categoryTree, $registry, $categoryFactory, $data);
     }
 
     /**

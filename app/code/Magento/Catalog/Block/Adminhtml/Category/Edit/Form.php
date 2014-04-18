@@ -43,17 +43,19 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Registry $registry
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory,
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Registry $registry,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Json\EncoderInterface $jsonEncoder,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
-        parent::__construct($context, $categoryTree, $registry, $data);
+        parent::__construct($context, $categoryTree, $registry, $categoryFactory, $data);
     }
 
     /**
@@ -79,11 +81,11 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
         );
 
         // Save button
-        if (!$category->isReadonly()) {
-            $this->addChild(
-                'save_button',
-                'Magento\Backend\Block\Widget\Button',
+        if (!$category->isReadonly() && $this->hasStoreRootCategory()) {
+            $this->addButton(
+                'save',
                 array(
+                    'id' => 'save',
                     'label' => __('Save Category'),
                     'onclick' => "categorySubmit('" . $this->getSaveUrl() . "', true)",
                     'class' => 'save primary save-category'
@@ -92,11 +94,11 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
         }
 
         // Delete button
-        if (!in_array($categoryId, $this->getRootIds()) && $category->isDeleteable()) {
-            $this->addChild(
-                'delete_button',
-                'Magento\Backend\Block\Widget\Button',
+        if ($categoryId && !in_array($categoryId, $this->getRootIds()) && $category->isDeleteable()) {
+            $this->addButton(
+                'delete',
                 array(
+                    'id' => 'delete',
                     'label' => __('Delete Category'),
                     'onclick' => "categoryDelete('" . $this->getUrl(
                         'catalog/*/delete',
@@ -108,12 +110,12 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
         }
 
         // Reset button
-        if (!$category->isReadonly()) {
+        if (!$category->isReadonly() && $this->hasStoreRootCategory()) {
             $resetPath = $categoryId ? 'catalog/*/edit' : 'catalog/*/add';
-            $this->addChild(
-                'reset_button',
-                'Magento\Backend\Block\Widget\Button',
+            $this->addButton(
+                'reset',
                 array(
+                    'id' => 'reset',
                     'label' => __('Reset'),
                     'onclick' => "categoryReset('" . $this->getUrl($resetPath, array('_current' => true)) . "',true)",
                     'class' => 'reset'
@@ -142,6 +144,7 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 
     /**
      * @return string
+     * @deprecated
      */
     public function getDeleteButtonHtml()
     {
@@ -150,6 +153,7 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 
     /**
      * @return string
+     * @deprecated
      */
     public function getSaveButtonHtml()
     {
@@ -161,6 +165,7 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 
     /**
      * @return string
+     * @deprecated
      */
     public function getResetButtonHtml()
     {
@@ -196,11 +201,16 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
         if (isset($config['name'])) {
             $config['element_name'] = $config['name'];
         }
-        $this->setChild(
-            $alias . '_button',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->addData($config)
-        );
-        $this->_additionalButtons[$alias] = $alias . '_button';
+        if ($this->hasToolbarBlock()) {
+            $this->addButton($alias, $config);
+        } else {
+            $this->setChild(
+                $alias . '_button',
+                $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->addData($config)
+            );
+            $this->_additionalButtons[$alias] = $alias . '_button';
+        }
+
         return $this;
     }
 
@@ -290,5 +300,48 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     public function isAjax()
     {
         return $this->_request->isXmlHttpRequest() || $this->_request->getParam('isAjax');
+    }
+
+    /**
+     * Add button block as a child block or to global Page Toolbar block if available
+     *
+     * @param string $buttonId
+     * @param array $data
+     * @return $this
+     */
+    protected function addButton($buttonId, array $data)
+    {
+        $childBlockId = $buttonId . '_button';
+        $button = $this->getButtonChildBlock($childBlockId);
+        $button->setData($data);
+        $block = $this->getLayout()->getBlock('page.actions.toolbar');
+        if ($block) {
+            $block->setChild($childBlockId, $button);
+        } else {
+            $this->setChild($childBlockId, $button);
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function hasToolbarBlock()
+    {
+        return $this->getLayout()->isBlock('page.actions.toolbar');
+    }
+
+    /**
+     * Adding child block with specified child's id.
+     *
+     * @param string $childId
+     * @param null|string $blockClassName
+     * @return \Magento\Backend\Block\Widget
+     */
+    protected function getButtonChildBlock($childId, $blockClassName = null)
+    {
+        if (null === $blockClassName) {
+            $blockClassName = 'Magento\Backend\Block\Widget\Button';
+        }
+        return $this->getLayout()->createBlock($blockClassName, $this->getNameInLayout() . '-' . $childId);
     }
 }
