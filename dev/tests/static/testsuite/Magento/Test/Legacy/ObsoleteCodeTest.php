@@ -600,6 +600,13 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
      */
     public function HeadJsDataProvider()
     {
+        $blackList = include __DIR__ . '/_files/blacklist/obsolete_headjs.php';
+        $ignored = array();
+        $appPath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
+        foreach ($blackList as $file) {
+            $ignored[] = realpath($appPath . '/' . $file);
+        }
+
         $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $recursiveIterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($root, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS)
@@ -622,7 +629,9 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
             if (!file_exists($filename) || !is_readable($filename)) {
                 continue;
             }
-            $result[] = array($filename);
+            if (!in_array($filename, $ignored)) {
+                $result[] = array($filename);
+            }
         }
         return $result;
     }
