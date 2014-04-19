@@ -16,16 +16,15 @@ namespace Magento\ProductAlert\Controller;
  * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
-class Unsubscribe extends \Magento\App\Action\Action
+class Unsubscribe extends \Magento\Framework\App\Action\Action
 {
     /**
      * Check customer authentication for some actions
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -69,7 +68,7 @@ class Unsubscribe extends \Magento\App\Action\Action
             )->setProductId(
                 $product->getId()
             )->setWebsiteId(
-                $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsiteId()
+                $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
             )->loadByParam();
             if ($model->getId()) {
                 $model->delete();
@@ -95,7 +94,7 @@ class Unsubscribe extends \Magento\App\Action\Action
                 'Magento\ProductAlert\Model\Price'
             )->deleteCustomer(
                 $session->getCustomerId(),
-                $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsiteId()
+                $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
             );
             $this->messageManager->addSuccess(__('You will no longer receive price alerts for this product.'));
         } catch (\Exception $e) {
@@ -132,7 +131,7 @@ class Unsubscribe extends \Magento\App\Action\Action
             )->setProductId(
                 $product->getId()
             )->setWebsiteId(
-                $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsiteId()
+                $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
             )->loadByParam();
             if ($model->getId()) {
                 $model->delete();
@@ -157,7 +156,7 @@ class Unsubscribe extends \Magento\App\Action\Action
                 'Magento\ProductAlert\Model\Stock'
             )->deleteCustomer(
                 $session->getCustomerId(),
-                $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsiteId()
+                $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
             );
             $this->messageManager->addSuccess(__('You will no longer receive stock alerts.'));
         } catch (\Exception $e) {

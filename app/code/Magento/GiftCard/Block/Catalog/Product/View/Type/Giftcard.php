@@ -35,12 +35,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         array $priceBlockTypes = array()
     ) {
         $this->_customerSession = $customerSession;
-        parent::__construct(
-            $context,
-            $arrayUtils,
-            $data,
-            $priceBlockTypes
-        );
+        parent::__construct($context, $arrayUtils, $data, $priceBlockTypes);
         $this->_isScopePrivate = true;
     }
 
@@ -77,6 +72,8 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * @param Product $product
      * @return bool
+     *
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::isOpenAmountAvailable
      */
     public function isOpenAmountAvailable($product)
     {
@@ -89,6 +86,8 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * @param Product $product
      * @return bool
+     *
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::isAmountAvailable
      */
     public function isAmountAvailable($product)
     {
@@ -101,6 +100,8 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * @param Product $product
      * @return array
+     *
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::getAmounts
      */
     public function getAmounts($product)
     {
@@ -114,6 +115,8 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
 
     /**
      * @return string
+     *
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::getCurrentCurrency
      */
     public function getCurrentCurrency()
     {
@@ -127,7 +130,10 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     public function isMessageAvailable($product)
     {
         if ($product->getUseConfigAllowMessage()) {
-            return $this->_storeConfig->getConfigFlag(\Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE);
+            return $this->_scopeConfig->isSetFlag(
+                \Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         } else {
             return (int)$product->getAllowMessage();
         }
@@ -173,7 +179,10 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getMessageMaxLength()
     {
-        return (int)$this->_storeConfig->getConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH_MESSAGE_MAX_LENGTH);
+        return (int)$this->_scopeConfig->getValue(
+            \Magento\GiftCard\Model\Giftcard::XML_PATH_MESSAGE_MAX_LENGTH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**

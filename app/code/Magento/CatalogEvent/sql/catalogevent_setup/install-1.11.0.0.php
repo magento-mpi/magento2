@@ -20,37 +20,37 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_catalogevent_event')
 )->addColumn(
     'event_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
     'Event Id'
 )->addColumn(
     'category_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true),
     'Category Id'
 )->addColumn(
     'date_start',
-    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
     array(),
     'Date Start'
 )->addColumn(
     'date_end',
-    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
     array(),
     'Date End'
 )->addColumn(
     'display_state',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'default' => '0'),
     'Display State'
 )->addColumn(
     'sort_order',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true),
     'Sort Order'
@@ -66,8 +66,8 @@ $table = $installer->getConnection()->newTable(
     'category_id',
     $installer->getTable('catalog_category_entity'),
     'entity_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Catalogevent Event'
 );
@@ -80,19 +80,19 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_catalogevent_event_image')
 )->addColumn(
     'event_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Event Id'
 )->addColumn(
     'store_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Store Id'
 )->addColumn(
     'image',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array('nullable' => false),
     'Image'
@@ -104,21 +104,21 @@ $table = $installer->getConnection()->newTable(
     'event_id',
     $installer->getTable('magento_catalogevent_event'),
     'event_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('magento_catalogevent_event_image', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('magento_catalogevent_event_image', 'store_id', 'store', 'store_id'),
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Catalogevent Event Image'
 );
 $installer->getConnection()->createTable($table);
 
-$installer->addAttribute('quote_item', 'event_id', array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER));
-$installer->addAttribute('order_item', 'event_id', array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER));
+$installer->addAttribute('quote_item', 'event_id', array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER));
+$installer->addAttribute('order_item', 'event_id', array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER));
 
 $installer->endSetup();

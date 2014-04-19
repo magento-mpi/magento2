@@ -40,7 +40,7 @@ class Bestsellers extends AbstractReport
     );
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Logger $logger
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
@@ -51,7 +51,7 @@ class Bestsellers extends AbstractReport
      * @param array $ignoredProductTypes
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Logger $logger,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
@@ -233,7 +233,7 @@ class Bestsellers extends AbstractReport
 
             $columns = array(
                 'period' => 'period',
-                'store_id' => new \Zend_Db_Expr(\Magento\Core\Model\Store::DEFAULT_STORE_ID),
+                'store_id' => new \Zend_Db_Expr(\Magento\Store\Model\Store::DEFAULT_STORE_ID),
                 'product_id' => 'product_id',
                 'product_name' => new \Zend_Db_Expr('MIN(product_name)'),
                 'product_price' => new \Zend_Db_Expr('MIN(product_price)'),
@@ -246,7 +246,7 @@ class Bestsellers extends AbstractReport
                 $columns
             )->where(
                 'store_id <> ?',
-                \Magento\Core\Model\Store::DEFAULT_STORE_ID
+                \Magento\Store\Model\Store::DEFAULT_STORE_ID
             );
 
             if ($subSelect !== null) {

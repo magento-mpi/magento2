@@ -9,7 +9,6 @@
  */
 namespace Magento\Backend\Controller\Adminhtml;
 
-use Magento\App\Action\NotFoundException;
 use Magento\Backend\App\AbstractAction;
 
 /**
@@ -88,6 +87,16 @@ class Index extends AbstractAction
         }
 
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($items));
+    }
+
+    /**
+     * Change locale action
+     *
+     * @return void
+     */
+    public function changeLocaleAction()
+    {
+        $this->getResponse()->setRedirect($this->_redirect->getRefererUrl());
     }
 
     /**

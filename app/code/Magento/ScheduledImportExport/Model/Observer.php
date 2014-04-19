@@ -9,7 +9,7 @@
  */
 namespace Magento\ScheduledImportExport\Model;
 
-use Magento\Filesystem\FilesystemException;
+use Magento\Framework\Filesystem\FilesystemException;
 
 /**
  * ImportExport module observer
@@ -53,9 +53,9 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Mail\Template\TransportBuilder
@@ -68,34 +68,34 @@ class Observer
     protected $_operationFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_logDirectory;
 
     /**
      * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Filesystem $filesystem
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Filesystem $filesystem
     ) {
         $this->_operationFactory = $operationFactory;
         $this->_transportBuilder = $transportBuilder;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
-        $this->_logDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::LOG_DIR);
+        $this->_logDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::LOG_DIR);
     }
 
     /**
@@ -108,10 +108,12 @@ class Observer
     public function scheduledLogClean($schedule, $forceRun = false)
     {
         $result = false;
-        if (!$this->_coreStoreConfig->getConfig(
-            self::CRON_STRING_PATH
-        ) && (!$forceRun || !$this->_coreStoreConfig->getConfig(
-            self::LOG_CLEANING_ENABLE_PATH
+        if (!$this->_scopeConfig->getValue(
+            self::CRON_STRING_PATH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) && (!$forceRun || !$this->_scopeConfig->getValue(
+            self::LOG_CLEANING_ENABLE_PATH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ))
         ) {
             return;
@@ -123,13 +125,16 @@ class Observer
             try {
                 $this->_logDirectory->create($logPath);
             } catch (FilesystemException $e) {
-                throw new \Magento\Model\Exception(__("We couldn't create directory " . '"%1"', $logPath));
+                throw new \Magento\Framework\Model\Exception(__("We couldn't create directory " . '"%1"', $logPath));
             }
 
             if (!$this->_logDirectory->isWritable($logPath)) {
-                throw new \Magento\Model\Exception(__('The directory "%1" is not writable.', $logPath));
+                throw new \Magento\Framework\Model\Exception(__('The directory "%1" is not writable.', $logPath));
             }
-            $saveTime = (int)$this->_coreStoreConfig->getConfig(self::SAVE_LOG_TIME_PATH) + 1;
+            $saveTime = (int)$this->_scopeConfig->getValue(
+                self::SAVE_LOG_TIME_PATH,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            ) + 1;
             $dateCompass = new \DateTime('-' . $saveTime . ' days');
 
             foreach ($this->_getDirectoryList($logPath) as $directory) {
@@ -141,7 +146,7 @@ class Observer
                     try {
                         $this->_logDirectory->delete($directory);
                     } catch (FilesystemException $e) {
-                        throw new \Magento\Model\Exception(
+                        throw new \Magento\Framework\Model\Exception(
                             __('We couldn\'t delete "%1" because the directory is not writable.', $directory)
                         );
                     }
@@ -209,7 +214,11 @@ class Observer
     protected function _sendEmailNotification($vars)
     {
         $storeId = $this->_storeManager->getStore()->getId();
-        $receiverEmail = $this->_coreStoreConfig->getConfig(self::XML_RECEIVER_EMAIL_PATH, $storeId);
+        $receiverEmail = $this->_scopeConfig->getValue(
+            self::XML_RECEIVER_EMAIL_PATH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
         if (!$receiverEmail) {
             return $this;
         }
@@ -217,13 +226,21 @@ class Observer
         // Set all required params and send emails
         /** @var \Magento\Mail\TransportInterface $transport */
         $transport = $this->_transportBuilder->setTemplateIdentifier(
-            $this->_coreStoreConfig->getConfig(self::XML_TEMPLATE_EMAIL_PATH, $storeId)
+            $this->_scopeConfig->getValue(
+                self::XML_TEMPLATE_EMAIL_PATH,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            )
         )->setTemplateOptions(
             array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
         )->setTemplateVars(
             $vars
         )->setFrom(
-            $this->_coreStoreConfig->getConfig(self::XML_SENDER_EMAIL_PATH, $storeId)
+            $this->_scopeConfig->getValue(
+                self::XML_SENDER_EMAIL_PATH,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            )
         )->addTo(
             $receiverEmail
         )->getTransport();

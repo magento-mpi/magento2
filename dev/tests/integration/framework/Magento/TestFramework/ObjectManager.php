@@ -9,26 +9,26 @@
  */
 namespace Magento\TestFramework;
 
-class ObjectManager extends \Magento\App\ObjectManager
+class ObjectManager extends \Magento\Framework\App\ObjectManager
 {
     /**
      * Classes with xml properties to explicitly call __destruct() due to https://bugs.php.net/bug.php?id=62468
      *
      * @var array
      */
-    protected $_classesToDestruct = array('Magento\Core\Model\Layout', 'Magento\Registry');
+    protected $_classesToDestruct = array('Magento\Framework\View\Layout', 'Magento\Registry');
 
     /**
      * @var array
      */
     protected $persistedInstances = array(
-        'Magento\App\Resource',
-        'Magento\Config\Scope',
+        'Magento\Framework\App\Resource',
+        'Magento\Framework\Config\Scope',
         'Magento\ObjectManager\Relations',
         'Magento\ObjectManager\Config',
         'Magento\Interception\Definition',
         'Magento\ObjectManager\Definition',
-        'Magento\Core\Model\Session\Config',
+        'Magento\Session\Config',
         'Magento\ObjectManager\Config\Mapper\Dom'
     );
 
@@ -45,8 +45,8 @@ class ObjectManager extends \Magento\App\ObjectManager
             }
         }
 
-        \Magento\Core\Model\Config\Base::destroy();
-        $sharedInstances = array('Magento\ObjectManager' => $this, 'Magento\App\ObjectManager' => $this);
+        \Magento\Framework\App\Config\Base::destroy();
+        $sharedInstances = array('Magento\ObjectManager' => $this, 'Magento\Framework\App\ObjectManager' => $this);
         foreach ($this->persistedInstances as $persistedClass) {
             if (isset($this->_sharedInstances[$persistedClass])) {
                 $sharedInstances[$persistedClass] = $this->_sharedInstances[$persistedClass];

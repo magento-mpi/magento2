@@ -30,18 +30,18 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
     /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         array $data = array()
     ) {
         $this->_localeDate = $localeDate;
-        parent::__construct($checkoutSession, $coreStoreConfig, $data);
+        parent::__construct($checkoutSession, $scopeConfig, $data);
     }
 
     /**
@@ -49,7 +49,7 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      *
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validateUserValue($values)
     {
@@ -104,11 +104,11 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         } elseif (!$isValid && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
             if (!$dateValid) {
-                throw new \Magento\Model\Exception(__('Please specify date required option(s).'));
+                throw new \Magento\Framework\Model\Exception(__('Please specify date required option(s).'));
             } elseif (!$timeValid) {
-                throw new \Magento\Model\Exception(__('Please specify time required option(s).'));
+                throw new \Magento\Framework\Model\Exception(__('Please specify time required option(s).'));
             } else {
-                throw new \Magento\Model\Exception(__('Please specify the product\'s required option(s).'));
+                throw new \Magento\Framework\Model\Exception(__('Please specify the product\'s required option(s).'));
             }
         } else {
             $this->setUserValue(null);
@@ -122,7 +122,7 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * Prepare option value for cart
      *
      * @return string|null Prepared option value
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function prepareForCart()
     {

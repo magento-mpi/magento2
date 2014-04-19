@@ -33,7 +33,7 @@ class EavTest extends \PHPUnit_Framework_TestCase
             array(
                 'collectionFactory' => $collectionFactory,
                 'attributeConfig' => $attributeConfig,
-                'context' => $this->getMock('Magento\App\Helper\Context', array(), array(), '', false)
+                'context' => $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false)
             )
         );
     }

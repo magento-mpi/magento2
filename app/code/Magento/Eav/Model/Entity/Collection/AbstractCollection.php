@@ -9,12 +9,12 @@
  */
 namespace Magento\Eav\Model\Entity\Collection;
 
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * Entity/Attribute/Model - collection abstract
  */
-abstract class AbstractCollection extends \Magento\Data\Collection\Db
+abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
 {
     /**
      * Array of items with item id key
@@ -99,7 +99,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     protected $_eavConfig;
 
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resource;
 
@@ -121,10 +121,10 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
@@ -133,10 +133,10 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
@@ -229,7 +229,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     {
         if ($entity instanceof \Magento\Eav\Model\Entity\AbstractEntity) {
             $this->_entity = $entity;
-        } elseif (is_string($entity) || $entity instanceof \Magento\Core\Model\Config\Element) {
+        } elseif (is_string($entity) || $entity instanceof \Magento\Framework\App\Config\Element) {
             $this->_entity = $this->_eavEntityFactory->create()->setType($entity);
         } else {
             throw new \Magento\Eav\Exception(__('Invalid entity supplied: %1', print_r($entity, 1)));
@@ -254,7 +254,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     /**
      * Get resource instance
      *
-     * @return \Magento\Model\Resource\Db\AbstractDb
+     * @return \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function getResource()
     {
@@ -320,7 +320,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * @param null|string|array $condition
      * @param string $joinType
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      *
      * @see self::_getConditionSql for $condition
      */
@@ -351,9 +351,9 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
         }
 
         if (!empty($conditionSql)) {
-            $this->getSelect()->where($conditionSql, null, \Magento\DB\Select::TYPE_CONDITION);
+            $this->getSelect()->where($conditionSql, null, \Magento\Framework\DB\Select::TYPE_CONDITION);
         } else {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('Invalid attribute identifier for filter (%1)', get_class($attribute))
             );
         }
@@ -362,11 +362,11 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     }
 
     /**
-     * Wrapper for compatibility with \Magento\Data\Collection\Db
+     * Wrapper for compatibility with \Magento\Framework\Data\Collection\Db
      *
      * @param mixed $attribute
      * @param mixed $condition
-     * @return $this|\Magento\Data\Collection\Db
+     * @return $this|\Magento\Framework\Data\Collection\Db
      */
     public function addFieldToFilter($attribute, $condition = null)
     {
@@ -444,7 +444,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      *
      * If $attribute == '*' select all attributes
      *
-     * @param array|string|integer|\Magento\Core\Model\Config\Element $attribute
+     * @param array|string|integer|\Magento\Framework\App\Config\Element $attribute
      * @param bool|string $joinType flag for joining attribute
      * @return $this
      * @throws \Magento\Eav\Exception
@@ -1186,7 +1186,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     /**
      * Add select values
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @param string $table
      * @param string $type
      * @return Select

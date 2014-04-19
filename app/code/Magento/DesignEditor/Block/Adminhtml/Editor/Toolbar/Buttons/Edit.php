@@ -223,13 +223,13 @@ class Edit extends \Magento\Backend\Block\Widget\Button\SplitButton
     /**
      * Checks themes for changes by time
      *
-     * @param \Magento\View\Design\ThemeInterface $sourceTheme
-     * @param \Magento\View\Design\ThemeInterface $targetTheme
+     * @param \Magento\Framework\View\Design\ThemeInterface $sourceTheme
+     * @param \Magento\Framework\View\Design\ThemeInterface $targetTheme
      * @return bool
      */
     protected function _hasThemeChanged(
-        \Magento\View\Design\ThemeInterface $sourceTheme,
-        \Magento\View\Design\ThemeInterface $targetTheme
+        \Magento\Framework\View\Design\ThemeInterface $sourceTheme,
+        \Magento\Framework\View\Design\ThemeInterface $targetTheme
     ) {
         $sourceChange = $this->_changeFactory->create();
         $sourceChange->loadByThemeId($sourceTheme->getId());

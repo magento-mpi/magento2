@@ -16,14 +16,14 @@ namespace Magento\Review\Model\Resource;
  * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Rating extends \Magento\Model\Resource\Db\AbstractDb
+class Rating extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     const RATING_STATUS_APPROVED = 'Approved';
 
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -40,17 +40,17 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
     protected $_logger;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Logger $logger
      * @param \Magento\Review\Helper\Data $ratingData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Review\Model\Resource\Review\Summary $reviewSummary
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Logger $logger,
         \Magento\Review\Helper\Data $ratingData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Review\Model\Resource\Review\Summary $reviewSummary
     ) {
         $this->_ratingData = $ratingData;
@@ -77,12 +77,7 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(
-            array(
-                'field' => 'rating_code',
-                'title' => '' /* __('Rating with the same title')*/
-            )
-        );
+        $this->_uniqueFields = array(array('field' => 'rating_code', 'title' => ''));
         return $this;
     }
 
@@ -92,14 +87,14 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
      * @param string $field
      * @param mixed $value
      * @param \Magento\Review\Model\Rating $object
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
         $adapter = $this->_getReadAdapter();
 
         $table = $this->getMainTable();
-        $storeId = (int)$this->_storeManager->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getId();
+        $storeId = (int)$this->_storeManager->getStore(\Magento\Store\Model\Store::ADMIN_CODE)->getId();
         $select = parent::_getLoadSelect($field, $value, $object);
         $codeExpr = $adapter->getIfNullSql('title.value', "{$table}.rating_code");
 
@@ -115,10 +110,10 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Actions after load
      *
-     * @param \Magento\Model\AbstractModel|\Magento\Review\Model\Rating $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\Review\Model\Rating $object
      * @return $this
      */
-    protected function _afterLoad(\Magento\Model\AbstractModel $object)
+    protected function _afterLoad(\Magento\Framework\Model\AbstractModel $object)
     {
         parent::_afterLoad($object);
 
@@ -168,10 +163,10 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Actions after save
      *
-     * @param \Magento\Model\AbstractModel|\Magento\Review\Model\Rating $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\Review\Model\Rating $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         parent::_afterSave($object);
 
@@ -257,10 +252,10 @@ class Rating extends \Magento\Model\Resource\Db\AbstractDb
      * Perform actions after object delete
      * Prepare rating data for reaggregate all data for reviews
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterDelete(\Magento\Model\AbstractModel $object)
+    protected function _afterDelete(\Magento\Framework\Model\AbstractModel $object)
     {
         parent::_afterDelete($object);
         if (!$this->_ratingData->isModuleEnabled('Magento_Review')) {

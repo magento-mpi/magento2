@@ -9,8 +9,7 @@
  */
 namespace Magento\Wishlist\Model;
 
-use Magento\Model\Exception;
-use Magento\Customer\Model\Customer;
+use Magento\Framework\Model\Exception;
 use Magento\Wishlist\Model\Resource\Item\CollectionFactory;
 use Magento\Wishlist\Model\Resource\Wishlist as ResourceWishlist;
 use Magento\Wishlist\Model\Resource\Wishlist\Collection;
@@ -27,7 +26,7 @@ use Magento\Wishlist\Model\Resource\Wishlist\Collection;
  * @method string getUpdatedAt()
  * @method \Magento\Wishlist\Model\Wishlist setUpdatedAt(string $value)
  */
-class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Cache tag
@@ -51,7 +50,7 @@ class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\I
     /**
      * Store filter for wishlist
      *
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
@@ -77,7 +76,7 @@ class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\I
     protected $_catalogProduct;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -117,13 +116,13 @@ class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\I
     protected $_useCurrentWebsite;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param ResourceWishlist $resource
      * @param Collection $resourceCollection
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param ItemFactory $wishlistItemFactory
      * @param CollectionFactory $wishlistCollectionFactory
@@ -134,13 +133,13 @@ class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\I
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Wishlist\Helper\Data $wishlistData,
         ResourceWishlist $resource,
         Collection $resourceCollection,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime\DateTime $date,
         ItemFactory $wishlistItemFactory,
         CollectionFactory $wishlistCollectionFactory,
@@ -515,7 +514,7 @@ class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\I
     /**
      * Retrieve wishlist store object
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {
@@ -528,7 +527,7 @@ class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\I
     /**
      * Set wishlist store
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return $this
      */
     public function setStore($store)
@@ -636,7 +635,7 @@ class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\I
              * Error message
              */
             if (is_string($resultItem)) {
-                throw new Exception(__($resultItem));
+                throw new \Magento\Framework\Model\Exception(__($resultItem));
             }
 
             if ($resultItem->getId() != $itemId) {
@@ -650,7 +649,7 @@ class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\I
                 $resultItem->setOrigData('qty', 0);
             }
         } else {
-            throw new Exception(__('The product does not exist.'));
+            throw new \Magento\Framework\Model\Exception(__('The product does not exist.'));
         }
         return $this;
     }

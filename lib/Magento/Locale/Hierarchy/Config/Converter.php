@@ -9,7 +9,7 @@
  */
 namespace Magento\Locale\Hierarchy\Config;
 
-class Converter implements \Magento\Config\ConverterInterface
+class Converter implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * Compose locale inheritance hierarchy based on given config
@@ -32,7 +32,7 @@ class Converter implements \Magento\Config\ConverterInterface
                 array_unshift($localeParents, $localeConfig[$localeParent]);
                 $localeParent = $localeConfig[$localeParent];
             }
-            // store hierarchy for current locale
+            // scope hierarchy for current locale
             $localeHierarchy[$locale] = $localeParents;
         }
         return $localeHierarchy;

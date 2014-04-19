@@ -9,12 +9,12 @@
  */
 namespace Magento\Paypal\Model;
 
-use Magento\Filesystem\Directory\WriteInterface;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 /**
  * PayPal specific model for certificate based authentication
  */
-class Cert extends \Magento\Model\AbstractModel
+class Cert extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Certificate base path
@@ -32,24 +32,24 @@ class Cert extends \Magento\Model\AbstractModel
     protected $encryptor;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Encryption\EncryptorInterface $encryptor,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->varDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $this->varDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         $this->encryptor = $encryptor;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -82,12 +82,12 @@ class Cert extends \Magento\Model\AbstractModel
      * Get path to PayPal certificate file, if file does not exist try to create it
      *
      * @return string
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getCertPath()
     {
         if (!$this->getContent()) {
-            throw new \Magento\Model\Exception(__('The PayPal certificate does not exist.'));
+            throw new \Magento\Framework\Model\Exception(__('The PayPal certificate does not exist.'));
         }
 
         $certFileName = sprintf('cert_%s_%s.pem', $this->getWebsiteId(), strtotime($this->getUpdatedAt()));

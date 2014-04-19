@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -33,7 +31,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $this->_model = $objectManager->create(
             'Magento\Session\SessionManager',
             array(
-                $objectManager->get('Magento\App\RequestInterface'),
+                $objectManager->get('Magento\Framework\App\Request\Http'),
                 $this->_sidResolver,
                 $objectManager->get('Magento\Session\Config\ConfigInterface'),
                 $objectManager->get('Magento\Session\SaveHandlerInterface'),

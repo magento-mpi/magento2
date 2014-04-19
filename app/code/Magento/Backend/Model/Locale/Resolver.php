@@ -25,7 +25,7 @@ class Resolver extends \Magento\Locale\Resolver
     protected $_localeManager;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -35,26 +35,26 @@ class Resolver extends \Magento\Locale\Resolver
     protected $_localeValidator;
 
     /**
-     * @param \Magento\Locale\ScopeConfigInterface $scopeConfig
-     * @param \Magento\App\CacheInterface $cache
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\LocaleFactory $localeFactory
      * @param string $defaultLocalePath
-     * @param \Magento\ObjectManager $objectManager
+     * @param string $scopeType
      * @param \Magento\Backend\Model\Session $session
      * @param Manager $localeManager
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Locale\Validator $localeValidator
      * @param null $locale
      */
     public function __construct(
-        \Magento\Locale\ScopeConfigInterface $scopeConfig,
-        \Magento\App\CacheInterface $cache,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\CacheInterface $cache,
         \Magento\LocaleFactory $localeFactory,
         $defaultLocalePath,
-        \Magento\ObjectManager $objectManager,
+        $scopeType,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Model\Locale\Manager $localeManager,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Locale\Validator $localeValidator,
         $locale = null
     ) {
@@ -62,7 +62,7 @@ class Resolver extends \Magento\Locale\Resolver
         $this->_localeManager = $localeManager;
         $this->_request = $request;
         $this->_localeValidator = $localeValidator;
-        parent::__construct($scopeConfig, $cache, $localeFactory, $defaultLocalePath, $locale);
+        parent::__construct($scopeConfig, $cache, $localeFactory, $defaultLocalePath, $scopeType, $locale);
     }
 
     /**

@@ -19,26 +19,20 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * @param string $module
-             * @param string $template
-             * @param string $class
-             * @param string $area
-             */
             function ($module, $template, $class, $area) {
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\View\DesignInterface'
+                    'Magento\Framework\View\DesignInterface'
                 )->setDefaultDesignTheme();
                 // intentionally to make sure the module files will be requested
                 $params = array(
                     'area' => $area,
                     'themeModel' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-                        'Magento\View\Design\ThemeInterface'
+                        'Magento\Framework\View\Design\ThemeInterface'
                     ),
                     'module' => $module
                 );
                 $file = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()->get(
-                    'Magento\View\FileSystem'
+                    'Magento\Framework\View\FileSystem'
                 )->getFilename(
                     $template,
                     $params
@@ -56,9 +50,9 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
     {
         $blockClass = '';
         try {
-            /** @var $website \Magento\Core\Model\Website */
+            /** @var $website \Magento\Store\Model\Website */
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Core\Model\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->getStore()->setWebsiteId(
                 0
             );
@@ -70,7 +64,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                     continue;
                 }
                 $class = new \ReflectionClass($blockClass);
-                if ($class->isAbstract() || !$class->isSubclassOf('Magento\View\Element\Template')) {
+                if ($class->isAbstract() || !$class->isSubclassOf('Magento\Framework\View\Element\Template')) {
                     continue;
                 }
 
@@ -90,16 +84,26 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                     $area = 'adminhtml';
                 }
 
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
-                    ->getArea($area)
-                    ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Config\ScopeInterface')
-                    ->setCurrentScope($area);
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
-                    ->setAreaCode($area);
-                $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\App\Http\Context');
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\Framework\App\AreaList'
+                )->getArea(
+                    $area
+                )->load(
+                    \Magento\Core\Model\App\Area::PART_CONFIG
+                );
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\Framework\Config\ScopeInterface'
+                )->setCurrentScope(
+                    $area
+                );
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\Framework\App\State'
+                )->setAreaCode(
+                    $area
+                );
+                $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\Framework\App\Http\Context'
+                );
                 $context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
                 $context->setValue(
                     \Magento\Customer\Helper\Data::CONTEXT_GROUP,

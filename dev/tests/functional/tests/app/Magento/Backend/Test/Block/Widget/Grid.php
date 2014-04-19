@@ -183,7 +183,6 @@ abstract class Grid extends Block
         }
     }
 
-
     /**
      * Method that waits for the configured selector using class attributes.
      */
@@ -197,7 +196,6 @@ abstract class Grid extends Block
             }
         }
     }
-
 
     /**
      * Search for item and select it

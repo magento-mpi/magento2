@@ -21,7 +21,7 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -35,18 +35,18 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
     /**
      * @param \Magento\Logger $logger
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount $amountResource
      */
     public function __construct(
         \Magento\Logger $logger,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\App\ConfigInterface $config,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount $amountResource
     ) {
@@ -61,7 +61,7 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
      *
      * @param   \Magento\Catalog\Model\Product $object
      * @return  $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validate($object)
     {
@@ -79,7 +79,7 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
             $key1 = implode('-', array($row['website_id'], $row['price']));
 
             if (!empty($dup[$key1])) {
-                throw new \Magento\Model\Exception(__('Duplicate amount found.'));
+                throw new \Magento\Framework\Model\Exception(__('Duplicate amount found.'));
             }
             $dup[$key1] = 1;
         }

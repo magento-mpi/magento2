@@ -9,7 +9,7 @@
  */
 namespace Magento\Newsletter\Block\Adminhtml\Queue;
 
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Newsletter\Model\Queue as ModelQueue;
 
 /**
@@ -114,13 +114,31 @@ class Edit extends \Magento\Backend\Block\Template
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
 
-        $this->addChild(
+        $this->getToolbar()->addChild(
+            'back_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Back'),
+                'onclick' => "window.location.href = '" . $this->getUrl(
+                    $this->getTemplateId() ? '*/template' : '*/*'
+                ) . "'",
+                'class' => 'action-back'
+            )
+        );
+
+        $this->getToolbar()->addChild(
+            'reset_button',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Reset'), 'class' => 'reset', 'onclick' => 'window.location = window.location')
+        );
+
+        $this->getToolbar()->addChild(
             'preview_button',
             'Magento\Backend\Block\Widget\Button',
             array('label' => __('Preview Template'), 'onclick' => 'queueControl.preview();', 'class' => 'preview')
         );
 
-        $this->addChild(
+        $this->getToolbar()->addChild(
             'save_button',
             'Magento\Backend\Block\Widget\Button',
             array(
@@ -132,7 +150,7 @@ class Edit extends \Magento\Backend\Block\Template
             )
         );
 
-        $this->addChild(
+        $this->getToolbar()->addChild(
             'save_and_resume',
             'Magento\Backend\Block\Widget\Button',
             array(
@@ -147,24 +165,6 @@ class Edit extends \Magento\Backend\Block\Template
                         )
                     )
                 )
-            )
-        );
-
-        $this->addChild(
-            'reset_button',
-            'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Reset'), 'onclick' => 'window.location = window.location')
-        );
-
-        $this->addChild(
-            'back_button',
-            'Magento\Backend\Block\Widget\Button',
-            array(
-                'label' => __('Back'),
-                'onclick' => "window.location.href = '" . $this->getUrl(
-                    $this->getTemplateId() ? '*/template' : '*/*'
-                ) . "'",
-                'class' => 'action-back'
             )
         );
 

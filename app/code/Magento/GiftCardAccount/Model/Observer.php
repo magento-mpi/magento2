@@ -54,7 +54,7 @@ class Observer
     /**
      * Store Manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager = null;
 
@@ -65,7 +65,7 @@ class Observer
      * @param \Magento\GiftCardAccount\Model\History $giftCAHistory
      * @param \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
      * @param \Magento\Message\ManagerInterface $messageManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -74,7 +74,7 @@ class Observer
         \Magento\GiftCardAccount\Model\History $giftCAHistory,
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory,
         \Magento\Message\ManagerInterface $messageManager,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;
         $this->_giftCAHelper = $giftCAHelper;
@@ -214,7 +214,7 @@ class Observer
             $code = $request['giftcard_add'];
             try {
                 $this->_giftCAFactory->create()->loadByCode($code)->addToCart(true, $quote);
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('We cannot apply this gift card.'));
@@ -226,7 +226,7 @@ class Observer
 
             try {
                 $this->_giftCAFactory->create()->loadByCode($code)->removeFromCart(false, $quote);
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('We cannot remove this gift card.'));
@@ -536,7 +536,7 @@ class Observer
     {
         /** @var $expressionTransferObject \Magento\Object */
         $expressionTransferObject = $observer->getEvent()->getExpressionObject();
-        /** @var $adapter \Magento\DB\Adapter\AdapterInterface */
+        /** @var $adapter \Magento\Framework\DB\Adapter\AdapterInterface */
         $adapter = $observer->getEvent()->getCollection()->getConnection();
         $expressionTransferObject->setExpression($expressionTransferObject->getExpression() . ' - (%s)');
         $arguments = $expressionTransferObject->getArguments();

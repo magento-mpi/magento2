@@ -7,6 +7,6 @@
  */
 namespace Magento\GiftRegistry\Model\Resource;
 
-class Helper extends \Magento\DB\Helper
+class Helper extends \Magento\Framework\DB\Helper
 {
 }

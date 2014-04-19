@@ -12,7 +12,7 @@ namespace Magento\Search\Helper;
 /**
  * Enterprise search helper
  */
-class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search\Helper\ClientInterface
+class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Magento\Search\Helper\ClientInterface
 {
     /**
      * Define if search engine is used for layered navigation
@@ -73,9 +73,9 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Stdlib\DateTime\TimezoneInterface
@@ -85,7 +85,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -109,30 +109,30 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     protected $_languages;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $supportedLanguages
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Locale\ResolverInterface $localeResolver,
         array $supportedLanguages = array()
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_taxData = $taxData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_localeDate = $localeDate;
         $this->_storeManager = $storeManager;
         $this->dateTime = $dateTime;
@@ -163,51 +163,25 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     public function getSolrSupportedLanguages()
     {
         $default = array(
-            /**
-             * SnowBall filter based
-             */
-            //Danish
             'da' => 'da_DK',
-            //Dutch
             'nl' => 'nl_NL',
-            //English
             'en' => array('en_AU', 'en_CA', 'en_NZ', 'en_GB', 'en_US'),
-            //Finnish
             'fi' => 'fi_FI',
-            //French
             'fr' => array('fr_CA', 'fr_FR'),
-            //German
             'de' => array('de_DE', 'de_CH', 'de_AT'),
-            //Italian
             'it' => array('it_IT', 'it_CH'),
-            //Norwegian
             'nb' => array('nb_NO', 'nn_NO'),
-            //Portuguese
             'pt' => array('pt_BR', 'pt_PT'),
-            //Romanian
             'ro' => 'ro_RO',
-            //Russian
             'ru' => 'ru_RU',
-            //Spanish
             'es' => array('es_AR', 'es_CL', 'es_CO', 'es_CR', 'es_ES', 'es_MX', 'es_PA', 'es_PE', 'es_VE'),
-            //Swedish
             'sv' => 'sv_SE',
-            //Turkish
             'tr' => 'tr_TR',
-            /**
-             * Lucene class based
-             */
-            //Czech
             'cs' => 'cs_CZ',
-            //Greek
             'el' => 'el_GR',
-            //Thai
             'th' => 'th_TH',
-            //Chinese
             'zh' => array('zh_CN', 'zh_HK', 'zh_TW'),
-            //Japanese
             'ja' => 'ja_JP',
-            //Korean
             'ko' => 'ko_KR'
         );
 
@@ -254,7 +228,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     public function getSearchConfigData($field, $storeId = null)
     {
         $path = 'catalog/search/' . $field;
-        return $this->_coreStoreConfig->getConfig($path, $storeId);
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
     }
 
     /**
@@ -341,7 +315,10 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
             return false;
         }
 
-        $locale = $this->_storeManager->getStore()->getConfig($this->_localeResolver->getDefaultLocalePath());
+        $locale = $this->_scopeConfig->getValue(
+            $this->_localeResolver->getDefaultLocalePath(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         $languageSuffix = $this->getLanguageSuffix($locale);
 
         $field = $attribute->getAttributeCode();

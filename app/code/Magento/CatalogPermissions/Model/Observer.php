@@ -16,17 +16,16 @@
  */
 namespace Magento\CatalogPermissions\Model;
 
-use Magento\App\Action\Action;
-use Magento\App\ActionFlag;
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\ActionFlag;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\CatalogPermissions\App\ConfigInterface;
 use Magento\CatalogPermissions\Helper\Data;
 use Magento\CatalogPermissions\Model\Permission\Index;
-use Magento\Model\Exception;
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Model\Session;
-use Magento\Data\Tree\Node;
+use Magento\Framework\Data\Tree\Node;
 use Magento\Event\Observer as EventObserver;
 use Magento\Sales\Model\Quote;
 use Magento\Sales\Model\Quote\Item;
@@ -202,7 +201,7 @@ class Observer
      *
      * @param EventObserver $observer
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function applyCategoryPermission(EventObserver $observer)
     {
@@ -228,7 +227,7 @@ class Observer
                 $this->_catalogPermData->getLandingPageUrl()
             );
 
-            throw new Exception(__('You may need more permissions to access this category.'));
+            throw new \Magento\Framework\Model\Exception(__('You may need more permissions to access this category.'));
         }
         return $this;
     }
@@ -326,7 +325,7 @@ class Observer
      *
      * @param EventObserver $observer
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function checkQuoteItemSetProduct(EventObserver $observer)
     {
@@ -351,9 +350,9 @@ class Observer
         if ($product->getDisableAddToCart() && !$quoteItem->isDeleted()) {
             $quoteItem->getQuote()->removeItem($quoteItem->getId());
             if ($parentItem) {
-                throw new Exception(__('You cannot add "%1" to the cart.', $parentItem->getName()));
+                throw new \Magento\Framework\Model\Exception(__('You cannot add "%1" to the cart.', $parentItem->getName()));
             } else {
-                throw new Exception(__('You cannot add "%1" to the cart.', $quoteItem->getName()));
+                throw new \Magento\Framework\Model\Exception(__('You cannot add "%1" to the cart.', $quoteItem->getName()));
             }
         }
 
@@ -422,7 +421,7 @@ class Observer
      *
      * @param EventObserver $observer
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function applyProductPermission(EventObserver $observer)
     {
@@ -438,7 +437,7 @@ class Observer
                 $this->_catalogPermData->getLandingPageUrl()
             );
 
-            throw new Exception(__('You may need more permissions to access this product.'));
+            throw new \Magento\Framework\Model\Exception(__('You may need more permissions to access this product.'));
         }
 
         return $this;

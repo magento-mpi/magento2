@@ -14,12 +14,12 @@ use Magento\Checkout\Model\Cart as CustomerCart;
 /**
  * Shopping cart controller
  */
-class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Controller\Product\View\ViewInterface
+class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Checkout\Model\Session
@@ -27,7 +27,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -42,23 +42,23 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
     protected $cart;
 
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param CustomerCart $cart
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Store\ConfigInterface $storeConfig,
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         CustomerCart $cart
     ) {
         $this->_formKeyValidator = $formKeyValidator;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_checkoutSession = $checkoutSession;
         $this->_storeManager = $storeManager;
         $this->cart = $cart;
@@ -76,8 +76,9 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
         if ($returnUrl && $this->_isInternalUrl($returnUrl)) {
             $this->messageManager->getMessages()->clear();
             $this->getResponse()->setRedirect($returnUrl);
-        } elseif (!$this->_storeConfig->getConfig(
-            'checkout/cart/redirect_to_cart'
+        } elseif (!$this->_scopeConfig->getValue(
+            'checkout/cart/redirect_to_cart',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ) && !$this->getRequest()->getParam(
             'in_cart'
         ) && ($backUrl = $this->_redirect->getRefererUrl())
@@ -101,7 +102,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
     {
         $productId = (int)$this->getRequest()->getParam('product');
         if ($productId) {
-            $storeId = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
+            $storeId = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId();
             $product = $this->_objectManager->create(
                 'Magento\Catalog\Model\Product'
             )->setStoreId(
@@ -129,20 +130,25 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
 
             if (!$this->cart->getQuote()->validateMinimumAmount()) {
                 $currencyCode = $this->_objectManager->get(
-                    'Magento\Core\Model\StoreManagerInterface'
+                    'Magento\Store\Model\StoreManagerInterface'
                 )->getStore()->getCurrentCurrencyCode();
                 $minimumAmount = $this->_objectManager->get(
                     'Magento\Locale\CurrencyInterface'
                 )->getCurrency(
                     $currencyCode
                 )->toCurrency(
-                    $this->_storeConfig->getConfig('sales/minimum_order/amount')
+                    $this->_scopeConfig->getValue(
+                        'sales/minimum_order/amount',
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                    )
                 );
 
-                $warning = $this->_storeConfig->getConfig(
-                    'sales/minimum_order/description'
-                ) ? $this->_storeConfig->getConfig(
-                    'sales/minimum_order/description'
+                $warning = $this->_scopeConfig->getValue(
+                    'sales/minimum_order/description',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                ) ? $this->_scopeConfig->getValue(
+                    'sales/minimum_order/description',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 ) : __(
                     'Minimum order amount is %1',
                     $minimumAmount
@@ -234,7 +240,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
                 }
                 $this->_goBack();
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             if ($this->_checkoutSession->getUseNotice(true)) {
                 $this->messageManager->addNotice(
                     $this->_objectManager->get('Magento\Escaper')->escapeHtml($e->getMessage())
@@ -278,7 +284,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
             foreach ($itemsCollection as $item) {
                 try {
                     $this->cart->addOrderItem($item, 1);
-                } catch (\Magento\Model\Exception $e) {
+                } catch (\Magento\Framework\Model\Exception $e) {
                     if ($this->_checkoutSession->getUseNotice(true)) {
                         $this->messageManager->addNotice($e->getMessage());
                     } else {
@@ -360,15 +366,15 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
 
             $quoteItem = $this->cart->getQuote()->getItemById($id);
             if (!$quoteItem) {
-                throw new \Magento\Model\Exception(__("We can't find the quote item."));
+                throw new \Magento\Framework\Model\Exception(__("We can't find the quote item."));
             }
 
             $item = $this->cart->updateItem($id, new \Magento\Object($params));
             if (is_string($item)) {
-                throw new \Magento\Model\Exception($item);
+                throw new \Magento\Framework\Model\Exception($item);
             }
             if ($item->getHasError()) {
-                throw new \Magento\Model\Exception($item->getMessage());
+                throw new \Magento\Framework\Model\Exception($item->getMessage());
             }
 
             $related = $this->getRequest()->getParam('related_product');
@@ -394,7 +400,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
                 }
                 $this->_goBack();
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             if ($this->_checkoutSession->getUseNotice(true)) {
                 $this->messageManager->addNotice($e->getMessage());
             } else {
@@ -473,7 +479,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
                 $this->cart->updateItems($cartData)->save();
             }
             $this->_checkoutSession->setCartWasUpdated(true);
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError(
                 $this->_objectManager->get('Magento\Escaper')->escapeHtml($e->getMessage())
             );
@@ -493,7 +499,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
         try {
             $this->cart->truncate()->save();
             $this->_checkoutSession->setCartWasUpdated(true);
-        } catch (\Magento\Model\Exception $exception) {
+        } catch (\Magento\Framework\Model\Exception $exception) {
             $this->messageManager->addError($exception->getMessage());
         } catch (\Exception $exception) {
             $this->messageManager->addException($exception, __('We cannot update the shopping cart.'));
@@ -557,7 +563,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
     {
         $code = (string)$this->getRequest()->getParam('estimate_method');
         if (!empty($code)) {
-            $this->cart->getQuote()->getShippingAddress()->setShippingMethod($code)/*->collectTotals()*/->save();
+            $this->cart->getQuote()->getShippingAddress()->setShippingMethod($code)->save();
         }
         $this->_goBack();
     }
@@ -615,7 +621,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
             } else {
                 $this->messageManager->addSuccess(__('The coupon code was canceled.'));
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We cannot apply the coupon code.'));
@@ -640,7 +646,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
         /**
          * Url must start from base secure or base unsecure url
          */
-        /** @var $store \Magento\Core\Model\Store */
+        /** @var $store \Magento\Store\Model\Store */
         $store = $this->_storeManager->getStore();
         $unsecure = strpos($url, $store->getBaseUrl()) === 0;
         $secure = strpos($url, $store->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, true)) === 0;

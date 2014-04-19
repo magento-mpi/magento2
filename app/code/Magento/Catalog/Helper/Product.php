@@ -8,12 +8,10 @@
 namespace Magento\Catalog\Helper;
 
 use Magento\Catalog\Model\Product as ModelProduct;
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 
 /**
  * Catalog category helper
- *
- * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Product extends \Magento\Core\Helper\Url
 {
@@ -50,7 +48,7 @@ class Product extends \Magento\Core\Helper\Url
     protected $_priceBlock;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $_viewUrl;
 
@@ -74,12 +72,12 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
 
@@ -117,30 +115,30 @@ class Product extends \Magento\Core\Helper\Url
     protected $_reindexPriceIndexerData;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\App\ConfigInterface $coreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param string $typeSwitcherLabel
      * @param \Magento\Catalog\Model\CategoryFactory $reindexPriceIndexerData
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\View\Url $viewUrl,
+        \Magento\Framework\View\Url $viewUrl,
         \Magento\Registry $coreRegistry,
         \Magento\Catalog\Model\Attribute\Config $attributeConfig,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\App\ConfigInterface $coreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         $typeSwitcherLabel,
         $reindexPriceIndexerData
     ) {
@@ -150,11 +148,9 @@ class Product extends \Magento\Core\Helper\Url
         $this->_typeSwitcherLabel = $typeSwitcherLabel;
         $this->_attributeConfig = $attributeConfig;
         $this->_coreRegistry = $coreRegistry;
-        $this->_coreRegistry = $coreRegistry;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_viewUrl = $viewUrl;
         $this->_coreConfig = $coreConfig;
-        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_logger = $context->getLogger();
         $this->_reindexPriceIndexerData = $reindexPriceIndexerData;
         parent::__construct($context, $storeManager);
@@ -168,7 +164,7 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function isDataForPriceIndexerWasChanged($data)
     {
-        if ($data instanceof \Magento\Catalog\Model\Product) {
+        if ($data instanceof ModelProduct) {
             foreach ($this->_reindexPriceIndexerData['byDataResult'] as $param) {
                 if ($data->getData($param)) {
                     return true;
@@ -335,8 +331,9 @@ class Product extends \Magento\Core\Helper\Url
         }
 
         if (!isset($this->_productUrlSuffix[$storeId])) {
-            $this->_productUrlSuffix[$storeId] = $this->_coreStoreConfig->getConfig(
+            $this->_productUrlSuffix[$storeId] = $this->_scopeConfig->getValue(
                 self::XML_PATH_PRODUCT_URL_SUFFIX,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
             );
         }
@@ -351,7 +348,11 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function canUseCanonicalTag($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_PRODUCT_CANONICAL_TAG, $store);
+        return $this->_scopeConfig->getValue(
+            self::XML_PATH_USE_PRODUCT_CANONICAL_TAG,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -374,8 +375,10 @@ class Product extends \Magento\Core\Helper\Url
 
         if (is_null($inputType)) {
             return $inputTypes;
-        } else if (isset($inputTypes[$inputType])) {
-            return $inputTypes[$inputType];
+        } else {
+            if (isset($inputTypes[$inputType])) {
+                return $inputTypes[$inputType];
+            }
         }
         return array();
     }
@@ -417,7 +420,7 @@ class Product extends \Magento\Core\Helper\Url
      *     If empty (except FALSE) - will be guessed (e.g. from last visited) to load as current.
      *
      * @param int $productId
-     * @param \Magento\App\Action\Action $controller
+     * @param \Magento\Framework\App\Action\Action $controller
      * @param \Magento\Object $params
      *
      * @return false|ModelProduct
@@ -478,7 +481,7 @@ class Product extends \Magento\Core\Helper\Url
                 'catalog_controller_product_init_after',
                 array('product' => $product, 'controller_action' => $controller)
             );
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->_logger->logException($e);
             return false;
         }
@@ -531,7 +534,7 @@ class Product extends \Magento\Core\Helper\Url
         if ($currentConfig) {
             if (is_array($currentConfig)) {
                 $params->setCurrentConfig(new \Magento\Object($currentConfig));
-            } elseif (!($currentConfig instanceof \Magento\Object)) {
+            } elseif (!$currentConfig instanceof \Magento\Object) {
                 $params->unsCurrentConfig();
             }
         }
@@ -574,9 +577,11 @@ class Product extends \Magento\Core\Helper\Url
             $idBySku = $product->getIdBySku($productId);
             if ($idBySku) {
                 $productId = $idBySku;
-            } else if ($identifierType == 'sku') {
-                // Return empty product because it was not found by originally specified SKU identifier
-                return $product;
+            } else {
+                if ($identifierType == 'sku') {
+                    // Return empty product because it was not found by originally specified SKU identifier
+                    return $product;
+                }
             }
         }
 

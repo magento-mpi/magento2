@@ -7,8 +7,13 @@
  */
 
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea('adminhtml');
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')->getStore()
-    ->setConfig('carriers/flatrate/active', 1);
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+    'Magento\Framework\App\Config\MutableScopeConfigInterface'
+)->setValue(
+    'carriers/flatrate/active',
+    1,
+    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+);
 /** @var $product \Magento\Catalog\Model\Product */
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
 $product->setTypeId(
@@ -80,7 +85,7 @@ $quote->setCustomerIsGuest(
     true
 )->setStoreId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Core\Model\StoreManagerInterface'
+        'Magento\Store\Model\StoreManagerInterface'
     )->getStore()->getId()
 )->setReservedOrderId(
     'test02'

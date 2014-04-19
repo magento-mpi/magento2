@@ -151,7 +151,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_proTypeFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -168,10 +168,10 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param array $data
@@ -179,15 +179,15 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\UrlInterface $urlBuilder,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         array $data = array()
     ) {
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
+        parent::__construct($eventManager, $paymentData, $scopeConfig, $logAdapterFactory, $data);
         $this->_proTypeFactory = $proTypeFactory;
         $this->_storeManager = $storeManager;
         $this->_urlBuilder = $urlBuilder;
@@ -206,7 +206,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * Store setter
      * Also updates store ID in config object
      *
-     * @param \Magento\Core\Model\Store|int $store
+     * @param \Magento\Store\Model\Store|int $store
      * @return $this
      */
     public function setStore($store)
@@ -226,10 +226,12 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function canUseCheckout()
     {
-        if ($this->_coreStoreConfig->getConfigFlag(
-            'payment/hosted_pro/active'
-        ) && !$this->_coreStoreConfig->getConfigFlag(
-            'payment/hosted_pro/display_ec'
+        if ($this->_scopeConfig->isSetFlag(
+            'payment/hosted_pro/active',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) && !$this->_scopeConfig->isSetFlag(
+            'payment/hosted_pro/display_ec',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )
         ) {
             return false;
@@ -387,7 +389,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param \Magento\Object|Payment $payment
      * @param float $amount
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
     public function capture(\Magento\Object $payment, $amount)
@@ -422,7 +424,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
 
             if ($authorizationTransaction->getIsClosed() || $voided) {
                 if ($payment->getAdditionalInformation($this->_authorizationCountKey) > $maxAuthorizationNumber - 1) {
-                    throw new \Magento\Model\Exception(__('The maximum number of child authorizations is reached.'));
+                    throw new \Magento\Framework\Model\Exception(__('The maximum number of child authorizations is reached.'));
                 }
                 $api = $this->_callDoAuthorize($amount, $payment, $authorizationTransaction->getParentTxnId());
 

@@ -59,8 +59,8 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Export\AbstractEn
     protected $_localeDate;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -68,8 +68,8 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Export\AbstractEn
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -77,7 +77,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Export\AbstractEn
         array $data = array()
     ) {
         $this->_localeDate = $localeDate;
-        parent::__construct($coreStoreConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
+        parent::__construct($scopeConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
 
         if (isset($data['entity_type_id'])) {
             $this->_entityTypeId = $data['entity_type_id'];
@@ -251,7 +251,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Export\AbstractEn
             $index = in_array($attribute->getAttributeCode(), $this->_indexValueAttributes) ? 'value' : 'label';
 
             // only default (admin) store values used
-            $attribute->setStoreId(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
+            $attribute->setStoreId(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
             try {
                 foreach ($attribute->getSource()->getAllOptions(false) as $option) {
@@ -283,11 +283,11 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Export\AbstractEn
     /**
      * Fill row with attributes values
      *
-     * @param \Magento\Model\AbstractModel $item export entity
+     * @param \Magento\Framework\Model\AbstractModel $item export entity
      * @param array $row data row
      * @return array
      */
-    protected function _addAttributeValuesToRow(\Magento\Model\AbstractModel $item, array $row = array())
+    protected function _addAttributeValuesToRow(\Magento\Framework\Model\AbstractModel $item, array $row = array())
     {
         $validAttributeCodes = $this->_getExportAttributeCodes();
         // go through all valid attribute codes

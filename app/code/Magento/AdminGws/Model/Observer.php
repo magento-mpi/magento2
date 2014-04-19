@@ -9,7 +9,7 @@
  */
 namespace Magento\AdminGws\Model;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
@@ -18,7 +18,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     const ACL_STORE_LEVEL = 'store';
 
     /**
-     * @var \Magento\Core\Model\Resource\Store\Group\Collection
+     * @var \Magento\Store\Model\Resource\Group\Collection
      */
     protected $_storeGroupCollection;
 
@@ -38,12 +38,12 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -53,7 +53,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_backendAuthSession;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
@@ -80,29 +80,29 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\User\Model\Resource\Role\Collection $userRoles
-     * @param \Magento\Core\Model\Resource\Store\Group\Collection $storeGroups
+     * @param \Magento\Store\Model\Resource\Group\Collection $storeGroups
      * @param \Magento\AdminGws\Model\ConfigInterface $config
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Stdlib\String $string
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\ObjectManager $objectManager,
         \Magento\User\Model\Resource\Role\Collection $userRoles,
-        \Magento\Core\Model\Resource\Store\Group\Collection $storeGroups,
+        \Magento\Store\Model\Resource\Group\Collection $storeGroups,
         \Magento\AdminGws\Model\ConfigInterface $config,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\RequestInterface $request,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Stdlib\String $string
     ) {
         $this->_backendAuthSession = $backendAuthSession;
@@ -210,7 +210,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Get all store groups
      *
-     * @return \Magento\Core\Model\Resource\Store\Group\Collection
+     * @return \Magento\Store\Model\Resource\Group\Collection
      */
     protected function _getAllStoreGroups()
     {
@@ -387,7 +387,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $storeCode = $this->_request->getParam('store');
         $storeId = $storeCode ? $this->_storeManager->getStore(
             $storeCode
-        )->getId() : \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+        )->getId() : \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         if ($this->_role->hasStoreAccess($storeId)) {
             return $this;
         }
@@ -498,7 +498,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return;
         }
 
-        /** @var \Magento\App\RequestInterface $request */
+        /** @var \Magento\Framework\App\RequestInterface $request */
         $request = $observer->getEvent()->getRequest();
         // initialize controllers map
         if (null === $this->_controllersMap) {

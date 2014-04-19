@@ -50,7 +50,7 @@ class Filter extends \Magento\Filter\Template
     protected $_plainTemplateMode = false;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $_viewUrl;
 
@@ -73,26 +73,26 @@ class Filter extends \Magento\Filter\Template
     protected $_variableFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
     /**
-     * @var \Magento\View\LayoutFactory
+     * @var \Magento\Framework\View\LayoutFactory
      */
     protected $_layoutFactory;
 
     /**
      * Setup callbacks for filters
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Layout directive params
@@ -104,7 +104,7 @@ class Filter extends \Magento\Filter\Template
     /**
      * App state
      *
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_appState;
 
@@ -112,13 +112,13 @@ class Filter extends \Magento\Filter\Template
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
-     * @param \Magento\View\Url $viewUrl
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\View\Url $viewUrl
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\View\LayoutFactory $layoutFactory
-     * @param \Magento\App\State $appState
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutFactory $layoutFactory
+     * @param \Magento\Framework\App\State $appState
      * @param array $variables
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -127,19 +127,19 @@ class Filter extends \Magento\Filter\Template
         \Magento\Stdlib\String $string,
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
-        \Magento\View\Url $viewUrl,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\View\Url $viewUrl,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\View\LayoutInterface $layout,
-        \Magento\View\LayoutFactory $layoutFactory,
-        \Magento\App\State $appState,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutFactory $layoutFactory,
+        \Magento\Framework\App\State $appState,
         $variables = array()
     ) {
         $this->_escaper = $escaper;
         $this->_viewUrl = $viewUrl;
         $this->_logger = $logger;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
         $this->_variableFactory = $coreVariableFactory;
         $this->_storeManager = $storeManager;
@@ -287,7 +287,7 @@ class Filter extends \Magento\Filter\Template
     {
         $skipParams = array('handle', 'area');
 
-        /** @var $layout \Magento\View\LayoutInterface */
+        /** @var $layout \Magento\Framework\View\LayoutInterface */
         $layout = $this->_layoutFactory->create();
         $layout->getUpdate()->addHandle($this->_directiveParams['handle'])->load();
 
@@ -296,7 +296,7 @@ class Filter extends \Magento\Filter\Template
 
         $rootBlock = false;
         foreach ($layout->getAllBlocks() as $block) {
-            /* @var $block \Magento\View\Element\AbstractBlock */
+            /* @var $block \Magento\Framework\View\Element\AbstractBlock */
             if (!$block->getParentBlock() && !$rootBlock) {
                 $rootBlock = $block;
             }
@@ -502,6 +502,7 @@ class Filter extends \Magento\Filter\Template
      * also allow additional parameter "store"
      *
      * @param string[] $construction
+     * @throws \Magento\Mail\Exception
      * @return string
      */
     public function protocolDirective($construction)
@@ -509,7 +510,11 @@ class Filter extends \Magento\Filter\Template
         $params = $this->_getIncludeParameters($construction[2]);
         $store = null;
         if (isset($params['store'])) {
-            $store = $this->_storeManager->getSafeStore($params['store']);
+            try {
+                $store = $this->_storeManager->getStore($params['store']);
+            } catch (\Exception $e) {
+                throw new \Magento\Mail\Exception(__('Requested invalid store "%1"', $params['store']));
+            }
         }
         $isSecure = $this->_storeManager->getStore($store)->isCurrentlySecure();
         $protocol = $isSecure ? 'https' : 'http';
@@ -537,7 +542,11 @@ class Filter extends \Magento\Filter\Template
         $params = $this->_getIncludeParameters($construction[2]);
         $storeId = $this->getStoreId();
         if (isset($params['path'])) {
-            $configValue = $this->_coreStoreConfig->getConfig($params['path'], $storeId);
+            $configValue = $this->_scopeConfig->getValue(
+                $params['path'],
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
         }
         return $configValue;
     }
@@ -558,9 +567,9 @@ class Filter extends \Magento\Filter\Template
             )->loadByCode(
                 $params['code']
             );
-            $mode = $this->_plainTemplateMode ?
-                \Magento\Core\Model\Variable::TYPE_TEXT :
-                \Magento\Core\Model\Variable::TYPE_HTML;
+            $mode = $this->_plainTemplateMode
+                ? \Magento\Core\Model\Variable::TYPE_TEXT
+                : \Magento\Core\Model\Variable::TYPE_HTML;
             $value = $variable->getValue($mode);
             if ($value) {
                 $customVarValue = $value;

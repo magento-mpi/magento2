@@ -26,14 +26,14 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilt
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\DB\Helper $resourceHelper
+     * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\DB\Helper $resourceHelper,
+        \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Math\Random $mathRandom,
         \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
@@ -212,7 +212,12 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilt
             $dateObj = $this->_localeDate->date(null, null, $locale, false);
 
             //set default timezone for store (admin)
-            $dateObj->setTimezone($this->_storeConfig->getConfig($this->_localeDate->getDefaultTimezonePath()));
+            $dateObj->setTimezone(
+                $this->_scopeConfig->getValue(
+                    $this->_localeDate->getDefaultTimezonePath(),
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            );
 
             //set beginning of day
             $dateObj->setHour(00);

@@ -124,7 +124,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      *
      * @param Customer|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -170,7 +170,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      *
      * @param Customer|\Zend_Db_Select|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -247,7 +247,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      */
     protected function _limitByStoreWebsite(\Zend_Db_Select $select, $website, $storeIdField)
     {
-        $storeTable = $this->getResource()->getTable('core_store');
+        $storeTable = $this->getResource()->getTable('store');
         $select->join(
             array('store' => $storeTable),
             $storeIdField . '=store.store_id',

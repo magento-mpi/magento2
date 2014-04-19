@@ -8,9 +8,9 @@
 namespace Magento\Indexer\Model\Mview\View;
 
 /**
- * @method \Magento\Indexer\Model\Indexer\State setViewId(string $value)
+ * @method \Magento\Indexer\Model\Mview\View\State setViewId(string $value)
  */
-class State extends \Magento\Model\AbstractModel implements \Magento\Mview\View\StateInterface
+class State extends \Magento\Framework\Model\AbstractModel implements \Magento\Mview\View\StateInterface
 {
     /**
      * Prefix of model events names
@@ -27,14 +27,14 @@ class State extends \Magento\Model\AbstractModel implements \Magento\Mview\View\
     protected $_eventObject = 'mview_state';
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Indexer\Model\Resource\Mview\View\State $resource
      * @param \Magento\Indexer\Model\Resource\Mview\View\State\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Indexer\Model\Resource\Mview\View\State $resource,
         \Magento\Indexer\Model\Resource\Mview\View\State\Collection $resourceCollection,

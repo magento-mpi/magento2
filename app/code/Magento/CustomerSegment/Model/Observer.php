@@ -44,12 +44,12 @@ class Observer
     /**
      * Store list manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\CustomerSegment\Model\Customer $customer
      * @param \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno
@@ -57,7 +57,7 @@ class Observer
      * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\CustomerSegment\Model\Customer $customer,
         \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno,
@@ -192,11 +192,11 @@ class Observer
         if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
-        /* @var $form \Magento\Data\Form */
+        /* @var $form \Magento\Framework\Data\Form */
         $form = $observer->getEvent()->getForm();
         /** @var \Magento\Object $model */
         $model = $observer->getEvent()->getModel();
-        /** @var \Magento\View\Element\AbstractBlock $block */
+        /** @var \Magento\Framework\View\Element\AbstractBlock $block */
         $block = $observer->getEvent()->getBlock();
 
         /** @var \Magento\Backend\Block\Widget\Form\Element\Dependence $fieldDependencies */

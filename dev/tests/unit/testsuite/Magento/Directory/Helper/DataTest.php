@@ -25,9 +25,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected $_coreHelper;
 
     /**
-     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_store;
+
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_config;
 
     /**
      * @var \Magento\Directory\Helper\Data
@@ -37,9 +42,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $context = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false);
 
-        $configCacheType = $this->getMock('Magento\App\Cache\Type\Config', array(), array(), '', false);
+        $configCacheType = $this->getMock('Magento\Framework\App\Cache\Type\Config', array(), array(), '', false);
 
         $this->_countryCollection = $this->getMock(
             'Magento\Directory\Model\Resource\Country\Collection',
@@ -73,11 +78,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->_coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
 
-        $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false);
+        $this->_store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
 
         $currencyFactory = $this->getMock('Magento\Directory\Model\CurrencyFactory', array(), array(), '', false);
+
+        $this->_config = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
         $arguments = array(
             'context' => $context,
@@ -87,7 +94,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'coreHelper' => $this->_coreHelper,
             'storeManager' => $storeManager,
             'currencyFactory' => $currencyFactory,
-            'config' => $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false)
+            'config' => $this->_config
         );
         $this->_object = $objectManager->getObject('Magento\Directory\Helper\Data', $arguments);
     }
@@ -168,10 +175,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCountriesWithStatesRequired($configValue, $expected)
     {
-        $this->_store->expects(
+        $this->_config->expects(
             $this->once()
         )->method(
-            'getConfig'
+            'getValue'
         )->with(
             'general/region/state_required'
         )->will(
@@ -189,10 +196,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCountriesWithOptionalZip($configValue, $expected)
     {
-        $this->_store->expects(
+        $this->_config->expects(
             $this->once()
         )->method(
-            'getConfig'
+            'getValue'
         )->with(
             'general/country/optional_zip_countries'
         )->will(

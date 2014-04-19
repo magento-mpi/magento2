@@ -10,7 +10,7 @@ namespace Magento\Install\Model\Resource;
 /**
  * Resource Resource Model
  */
-class Resource extends \Magento\Model\Resource\Db\AbstractDb implements \Magento\Module\ResourceInterface
+class Resource extends \Magento\Framework\Model\Resource\Db\AbstractDb implements \Magento\Module\ResourceInterface
 {
     /**
      * Database versions
@@ -33,7 +33,7 @@ class Resource extends \Magento\Model\Resource\Db\AbstractDb implements \Magento
      */
     protected function _construct()
     {
-        $this->_init('core_resource', 'store_id');
+        $this->_init('core_resource', 'code');
     }
 
     /**

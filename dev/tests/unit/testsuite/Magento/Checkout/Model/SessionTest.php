@@ -11,7 +11,6 @@
  */
 namespace Magento\Checkout\Model;
 
-include __DIR__ . '/../_files/session.php';
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -46,16 +45,16 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             'Magento\Sales\Model\QuoteFactory'
         )->disableOriginalConstructor()->getMock();
 
-        $appState = $this->getMock('\Magento\App\State', array(), array(), '', false);
+        $appState = $this->getMock('\Magento\Framework\App\State', array(), array(), '', false);
         $appState->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
 
-        $request = $this->getMock('\Magento\App\Request\Http', array(), array(), '', false);
+        $request = $this->getMock('\Magento\Framework\App\Request\Http', array(), array(), '', false);
         $request->expects($this->any())->method('getHttpHost')->will($this->returnValue(array()));
 
         $constructArguments = $this->_helper->getConstructArguments(
             'Magento\Checkout\Model\Session',
             array(
-                'request' => $this->getMock('Magento\App\RequestInterface', array(), array(), '', false),
+                'request' => $request,
                 'orderFactory' => $orderFactory,
                 'messageCollectionFactory' => $messageCollectionFactory,
                 'quoteFactory' => $quoteFactory,
@@ -158,8 +157,8 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $orderFactory->expects($this->once())->method('create')->will($this->returnValue($order));
         $quoteFactory = $this->getMock('Magento\Sales\Model\QuoteFactory', array('create'), array(), '', false);
         $storage = $this->getMock('Magento\Session\Storage', null);
-        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
-        $storeManager = $this->getMockForAbstractClass('Magento\Core\Model\StoreManagerInterface');
+        $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $storeManager = $this->getMockForAbstractClass('Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
         $eventManager = $this->getMockForAbstractClass('Magento\Event\ManagerInterface');
 

@@ -30,14 +30,14 @@ class EditorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
 
-        $request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
+        $request = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
         $request->expects($this->any())->method('setActionName')->will($this->returnSelf());
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        /** @var $layoutMock \Magento\Core\Model\Layout|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $layoutMock \Magento\Framework\View\Layout|PHPUnit_Framework_MockObject_MockObject */
         $layoutMock = $this->getMock(
-            'Magento\Core\Model\Layout',
+            'Magento\Framework\View\Layout',
             array(
                 'getBlock',
                 'getUpdate',
@@ -52,7 +52,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        /** @var $layoutMock \Magento\View\LayoutInterface */
+        /** @var $layoutMock \Magento\Framework\View\LayoutInterface */
         $layoutMock->expects($this->any())->method('generateXml')->will($this->returnSelf());
         $layoutMock->expects(
             $this->any()
@@ -62,7 +62,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(new \Magento\Simplexml\Element('<root />'))
         );
         $blockMessage = $this->getMock(
-            'Magento\View\Element\Messages',
+            'Magento\Framework\View\Element\Messages',
             array('addMessages', 'setEscapeMessageFlag', 'addStorageType'),
             array(),
             '',
@@ -71,7 +71,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
         $layoutMock->expects($this->any())->method('getMessagesBlock')->will($this->returnValue($blockMessage));
 
         $blockMock = $this->getMock(
-            'Magento\View\Element\Template',
+            'Magento\Framework\View\Element\Template',
             array('setActive', 'getMenuModel', 'getParentItems'),
             array(),
             '',
@@ -121,7 +121,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
         )->method(
             'addTypeFilter'
         )->with(
-            \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
+            \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL
         )->will(
             $this->returnValue($themeCollectionMock)
         );
@@ -199,7 +199,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
         $translate->expects($this->any())->method('translate')->will($this->returnSelf());
 
         $storeManager = $this->getMock(
-            'Magento\Core\Model\StoreManager',
+            'Magento\Store\Model\StoreManager',
             array('getStore', 'getBaseUrl'),
             array(),
             '',
@@ -208,7 +208,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
         $storeManager->expects($this->any())->method('getStore')->will($this->returnSelf());
 
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
-        $configMock = $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false);
+        $configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $authMock = $this->getMock('Magento\AuthorizationInterface');
         $authMock->expects($this->any())->method('filterAclNodes')->will($this->returnSelf());
         $backendSession = $this->getMock(
@@ -235,9 +235,9 @@ class EditorTest extends \PHPUnit_Framework_TestCase
                 $this->_getThemeCollectionFactory($countCustomization)
             ),
             array('Magento\TranslateInterface', $translate),
-            array('Magento\App\ConfigInterface', $configMock),
+            array('Magento\Framework\App\Config\ScopeConfigInterface', $configMock),
             array('Magento\Event\ManagerInterface', $eventManager),
-            array('Magento\Core\Model\StoreManager', $storeManager),
+            array('Magento\Store\Model\StoreManager', $storeManager),
             array('Magento\AuthorizationInterface', $authMock),
             array('Magento\Backend\Model\Session', $backendSession),
             array('Magento\Translate\Inline', $inlineMock),

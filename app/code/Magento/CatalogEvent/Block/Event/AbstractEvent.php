@@ -7,12 +7,12 @@
  */
 namespace Magento\CatalogEvent\Block\Event;
 
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 
 /**
  * Catalog Event Abstract event block
  */
-abstract class AbstractEvent extends \Magento\View\Element\Template
+abstract class AbstractEvent extends \Magento\Framework\View\Element\Template
 {
     /**
      * Event statuses titles
@@ -135,7 +135,7 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
         $dateString = $event->getData('date_' . $type);
         $date->set($dateString, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
 
-        $timezone = $this->_storeConfig->getConfig($this->_localeDate->getDefaultTimezonePath());
+        $timezone = $this->_scopeConfig->getValue($this->_localeDate->getDefaultTimezonePath(), \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($timezone) {
             // changing timezone to default store timezone
             $date->setTimezone($timezone);

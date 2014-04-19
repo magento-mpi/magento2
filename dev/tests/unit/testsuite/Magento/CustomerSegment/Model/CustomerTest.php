@@ -39,7 +39,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->_registry = $this->getMock('Magento\Registry', array('registry'), array(), '', false);
 
         $website = new \Magento\Object(array('id' => 5));
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getWebsite')->will($this->returnValue($website));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -57,7 +57,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             'Magento\CustomerSegment\Model\Resource\Customer',
             array('getCustomerWebsiteSegments', 'getIdFieldName'),
             array(
-                $this->getMock('Magento\App\Resource', array(), array(), '', false),
+                $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false),
                 $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true)
             )
         );

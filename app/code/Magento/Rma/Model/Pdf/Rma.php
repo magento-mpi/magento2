@@ -40,7 +40,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     /**
      * Core store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -52,8 +52,8 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     /**
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
@@ -61,7 +61,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      *
@@ -70,8 +70,8 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Stdlib\String $string,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
@@ -79,7 +79,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Rma\Helper\Eav $rmaEav,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
@@ -91,7 +91,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         parent::__construct(
             $paymentData,
             $string,
-            $coreStoreConfig,
+            $scopeConfig,
             $filesystem,
             $pdfConfig,
             $pdfTotalFactory,
@@ -106,7 +106,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * Retrieve PDF
      *
      * @param array $rmaArray
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return \Zend_Pdf
      */
     public function getPdf($rmaArray = array())
@@ -119,7 +119,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $this->_setFontBold($style, 10);
 
         if (!(is_array($rmaArray) && count($rmaArray) == 1)) {
-            throw new \Magento\Model\Exception(__('Only one RMA is available for printing'));
+            throw new \Magento\Framework\Model\Exception(__('Only one RMA is available for printing'));
         }
         $rma = $rmaArray[0];
 

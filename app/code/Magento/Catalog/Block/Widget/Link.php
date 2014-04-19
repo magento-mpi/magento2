@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Widget;
 
-class Link extends \Magento\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
+class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Entity model name which must be used to retrieve entity specific data.
@@ -47,12 +47,12 @@ class Link extends \Magento\View\Element\Html\Link implements \Magento\Widget\Bl
     protected $_urlRewrite;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\UrlRewrite\Model\Resource\UrlRewrite $urlRewrite
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\UrlRewrite\Model\Resource\UrlRewrite $urlRewrite,
         array $data = array()
     ) {
@@ -76,7 +76,7 @@ class Link extends \Magento\View\Element\Html\Link implements \Magento\Widget\Bl
                 $store = $this->_storeManager->getStore();
             }
 
-            /* @var $store \Magento\Core\Model\Store */
+            /* @var $store \Magento\Store\Model\Store */
             $href = "";
             if ($this->getData('id_path')) {
                 $href = $this->_urlRewrite->getRequestPathByIdPath($this->getData('id_path'), $store);

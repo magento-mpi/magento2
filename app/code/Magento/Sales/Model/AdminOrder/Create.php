@@ -167,6 +167,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $_customerGroupService;
 
     /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $_scopeConfig;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Registry $coreRegistry
@@ -183,6 +188,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param CustomerGroupServiceInterface $customerGroupService
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      */
     public function __construct(
@@ -202,6 +208,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         CustomerBuilder $customerBuilder,
         \Magento\Customer\Helper\Data $customerHelper,
         CustomerGroupServiceInterface $customerGroupService,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         array $data = array()
     ) {
         $this->_objectManager = $objectManager;
@@ -220,6 +227,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $this->_customerBuilder = $customerBuilder;
         $this->_customerHelper = $customerHelper;
         $this->_customerGroupService = $customerGroupService;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($data);
     }
 
@@ -367,7 +375,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      *
      * @param \Magento\Sales\Model\Order $order
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function initFromOrder(\Magento\Sales\Model\Order $order)
     {
@@ -391,7 +399,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 if ($qty > 0) {
                     $item = $this->initFromOrderItem($orderItem, $qty);
                     if (is_string($item)) {
-                        throw new \Magento\Model\Exception($item);
+                        throw new \Magento\Framework\Model\Exception($item);
                     }
                 }
             }
@@ -646,7 +654,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param string $moveTo
      * @param int $qty
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function moveQuoteItem($item, $moveTo, $qty)
     {
@@ -671,7 +679,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                     $newItem = $this->getQuote()->addProduct($product, $info);
 
                     if (is_string($newItem)) {
-                        throw new \Magento\Model\Exception($newItem);
+                        throw new \Magento\Framework\Model\Exception($newItem);
                     }
                     $product->unsSkipCheckRequiredOption();
                     $newItem->checkData();
@@ -706,7 +714,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
 
                         $cartItem = $cart->addProduct($product, $info);
                         if (is_string($cartItem)) {
-                            throw new \Magento\Model\Exception($cartItem);
+                            throw new \Magento\Framework\Model\Exception($cartItem);
                         }
                         $cartItem->setPrice($item->getProduct()->getPrice());
                         $this->_needCollectCart = true;
@@ -730,7 +738,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                         }
                     }
                     if (!$wishlist) {
-                        throw new \Magento\Model\Exception(__('We couldn\'t find this wish list.'));
+                        throw new \Magento\Framework\Model\Exception(__('We couldn\'t find this wish list.'));
                     }
                     $wishlist->setStore(
                         $this->getSession()->getStore()
@@ -770,7 +778,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      *
      * @param array $data
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function applySidebarData($data)
     {
@@ -780,7 +788,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 $orderItem = $this->_objectManager->create('Magento\Sales\Model\Order\Item')->load($orderItemId);
                 $item = $this->initFromOrderItem($orderItem);
                 if (is_string($item)) {
-                    throw new \Magento\Model\Exception($item);
+                    throw new \Magento\Framework\Model\Exception($item);
                 }
             }
         }
@@ -877,7 +885,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param int|\Magento\Catalog\Model\Product $product
      * @param array|float|int|\Magento\Object $config
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function addProduct($product, $config = 1)
     {
@@ -898,7 +906,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 $product
             );
             if (!$product->getId()) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __('We could not add a product to cart by the ID "%1".', $productId)
                 );
             }
@@ -907,7 +915,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $item = $this->quoteInitializer->init($this->getQuote(), $product, $config);
 
         if (is_string($item)) {
-            throw new \Magento\Model\Exception($item);
+            throw new \Magento\Framework\Model\Exception($item);
         }
         $item->checkData();
 
@@ -927,7 +935,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $config['qty'] = isset($config['qty']) ? (double)$config['qty'] : 1;
             try {
                 $this->addProduct($productId, $config);
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 return $e;
@@ -941,7 +949,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      *
      * @param array $data
      * @return $this
-     * @throws \Exception|\Magento\Model\Exception
+     * @throws \Exception|\Magento\Framework\Model\Exception
      */
     public function updateQuoteItems($data)
     {
@@ -986,7 +994,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                         }
                     }
                 }
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->recollectCart();
                 throw $e;
             } catch (\Exception $e) {
@@ -1003,7 +1011,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param \Magento\Sales\Model\Quote\Item $item
      * @param string $additionalOptions
      * @return array
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _parseOptions(\Magento\Sales\Model\Quote\Item $item, $additionalOptions)
     {
@@ -1020,11 +1028,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             if (strlen(trim($_additionalOption))) {
                 try {
                     if (strpos($_additionalOption, ':') === false) {
-                        throw new \Magento\Model\Exception(__('There is an error in one of the option rows.'));
+                        throw new \Magento\Framework\Model\Exception(__('There is an error in one of the option rows.'));
                     }
                     list($label, $value) = explode(':', $_additionalOption, 2);
                 } catch (\Exception $e) {
-                    throw new \Magento\Model\Exception(__('There is an error in one of the option rows.'));
+                    throw new \Magento\Framework\Model\Exception(__('There is an error in one of the option rows.'));
                 }
                 $label = trim($label);
                 $value = trim($value);
@@ -1532,7 +1540,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     /**
      * Check whether we need to create new customer (for another website) during order creation
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return bool
      */
     protected function _customerIsInStore($store)
@@ -1586,7 +1594,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         if ($this->getQuote()->getCustomerIsGuest()) {
             return $this;
         }
-        /** @var $store \Magento\Core\Model\Store */
+        /** @var $store \Magento\Store\Model\Store */
         $store = $this->getSession()->getStore();
         $customerDataObject = $this->getQuote()->getCustomerData();
         if ($customerDataObject->getId() && !$this->_customerIsInStore($store)) {
@@ -1786,17 +1794,17 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Validate quote data before order creation
      *
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _validate()
     {
         $customerId = $this->getSession()->getCustomerId();
         if (is_null($customerId)) {
-            throw new \Magento\Model\Exception(__('Please select a customer.'));
+            throw new \Magento\Framework\Model\Exception(__('Please select a customer.'));
         }
 
         if (!$this->getSession()->getStore()->getId()) {
-            throw new \Magento\Model\Exception(__('Please select a store.'));
+            throw new \Magento\Framework\Model\Exception(__('Please select a store.'));
         }
         $items = $this->getQuote()->getAllItems();
 
@@ -1829,7 +1837,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 } else {
                     try {
                         $method->validate();
-                    } catch (\Magento\Model\Exception $e) {
+                    } catch (\Magento\Framework\Model\Exception $e) {
                         $this->_errors[] = $e->getMessage();
                     }
                 }
@@ -1839,7 +1847,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             foreach ($this->_errors as $error) {
                 $this->messageManager->addError($error);
             }
-            throw new \Magento\Model\Exception('');
+            throw new \Magento\Framework\Model\Exception('');
         }
         return $this;
     }
@@ -1853,7 +1861,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     {
         $email = $this->getData('account/email');
         if (empty($email)) {
-            $host = $this->getSession()->getStore()->getConfig(self::XML_PATH_DEFAULT_EMAIL_DOMAIN);
+
+            $host = $this->_scopeConfig->getValue(
+                self::XML_PATH_DEFAULT_EMAIL_DOMAIN,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
             $account = time();
             $email = $account . '@' . $host;
             $account = $this->getData('account');

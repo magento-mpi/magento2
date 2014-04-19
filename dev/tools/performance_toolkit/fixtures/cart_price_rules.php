@@ -10,36 +10,36 @@ $cartPriceRulesCount = \Magento\ToolkitFramework\Config::getInstance()->getValue
 $cartPriceRulesProductsFloor = \Magento\ToolkitFramework\Config::getInstance()->getValue('cart_price_rules_floor', 3);
 $this->resetObjectManager();
 
-/** @var \Magento\Core\Model\StoreManager $storeManager */
-$storeManager = $this->getObjectManager()->create('\Magento\Core\Model\StoreManager');
+/** @var \Magento\Store\Model\StoreManager $storeManager */
+$storeManager = $this->getObjectManager()->create('\Magento\Store\Model\StoreManager');
 /** @var $category \Magento\Catalog\Model\Category */
 $category = $this->getObjectManager()->get('Magento\Catalog\Model\Category');
 /** @var $model  \Magento\SalesRule\Model\Rule*/
 $model = $this->getObjectManager()->get('Magento\SalesRule\Model\Rule');
 
 //Get all websites
-$categories_array = array();
+$categoriesArray = array();
 $websites = $storeManager->getWebsites();
 foreach ($websites as $website) {
     //Get all groups
-    $website_groups = $website->getGroups();
-    foreach ($website_groups as $website_group) {
-        $website_group_root_category = $website_group->getRootCategoryId();
-        $category->load($website_group_root_category);
+    $websiteGroups = $website->getGroups();
+    foreach ($websiteGroups as $websiteGroup) {
+        $websiteGroupRootCategory = $websiteGroup->getRootCategoryId();
+        $category->load($websiteGroupRootCategory);
         $categoryResource = $category->getResource();
         //Get all categories
-        $results_categories = $categoryResource->getAllChildren($category);
-        foreach ($results_categories as $results_category) {
-            $category->load($results_category);
+        $resultsCategories = $categoryResource->getAllChildren($category);
+        foreach ($resultsCategories as $resultsCategory) {
+            $category->load($resultsCategory);
             $structure = explode('/', $category->getPath());
             if (count($structure) > 2) {
-                $categories_array[] = array($category->getId(), $website->getId());
+                $categoriesArray[] = array($category->getId(), $website->getId());
             }
         }
     }
 }
-asort($categories_array);
-$categories_array = array_values($categories_array);
+asort($categoriesArray);
+$categoriesArray = array_values($categoriesArray);
 $idField = $model->getIdFieldName();
 
 
@@ -51,7 +51,7 @@ for ($i = 0; $i < $cartPriceRulesCount; $i++) {
         'name'                  => $ruleName,
         'description'           => '',
         'is_active'             => '1',
-        'website_ids'           => $categories_array[$i % count($categories_array)][1],
+        'website_ids'           => $categoriesArray[$i % count($categoriesArray)][1],
         'customer_group_ids'    => array (
             0 => '0',
             1 => '1',
@@ -94,7 +94,7 @@ for ($i = 0; $i < $cartPriceRulesCount; $i++) {
                     'type' => 'Magento\\SalesRule\\Model\\Rule\\Condition\\Product',
                     'attribute' => 'category_ids',
                     'operator' => '==',
-                    'value' => $categories_array[$i % count($categories_array)][0],
+                    'value' => $categoriesArray[$i % count($categoriesArray)][0],
                 ),
             ),
             'actions' =>

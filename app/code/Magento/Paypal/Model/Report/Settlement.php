@@ -26,7 +26,7 @@ namespace Magento\Paypal\Model\Report;
  * @method string getLastModified()
  * @method \Magento\Paypal\Model\Report\Settlement setLastModified(string $value)
  */
-class Settlement extends \Magento\Model\AbstractModel
+class Settlement extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Default PayPal SFTP host
@@ -143,35 +143,43 @@ class Settlement extends \Magento\Model\AbstractModel
     );
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_tmpDirectory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $data
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
+    protected $_scopeConfig;
+
+    /**
+    * @param \Magento\Framework\Model\Context $context
+    * @param \Magento\Registry $registry
+    * @param \Magento\Framework\App\Filesystem $filesystem
+    * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+    * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+    * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+    * @param \Magento\Framework\Data\Collection\Db $resourceCollection
+    * @param array $data
+    */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Filesystem $filesystem,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_tmpDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR);
+        $this->_tmpDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::SYS_TMP_DIR);
         $this->_storeManager = $storeManager;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -188,7 +196,7 @@ class Settlement extends \Magento\Model\AbstractModel
     /**
      * Stop saving process if file with same report date, account ID and last modified date was already ferched
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _beforeSave()
     {
@@ -208,7 +216,7 @@ class Settlement extends \Magento\Model\AbstractModel
      *
      * @param \Magento\Io\Sftp $connection
      * @return int Number of report rows that were fetched and saved successfully
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function fetchAndSave(\Magento\Io\Sftp $connection)
     {
@@ -219,7 +227,7 @@ class Settlement extends \Magento\Model\AbstractModel
             $localCsv = 'PayPal_STL_' . uniqid(mt_rand()) . time() . '.csv';
             if ($connection->read($filename, $this->_tmpDirectory->getAbsolutePath($localCsv))) {
                 if (!$this->_tmpDirectory->isWritable($localCsv)) {
-                    throw new \Magento\Model\Exception(__('We cannot create a target file for reading reports.'));
+                    throw new \Magento\Framework\Model\Exception(__('We cannot create a target file for reading reports.'));
                 }
 
                 $encoded = $this->_tmpDirectory->readFile($localCsv);
@@ -444,17 +452,41 @@ class Settlement extends \Magento\Model\AbstractModel
         $configs = array();
         $uniques = array();
         foreach ($this->_storeManager->getStores() as $store) {
-            /*@var $store \Magento\Core\Model\Store */
-            $active = (bool)$store->getConfig('paypal/fetch_reports/active');
+            /*@var $store \Magento\Store\Model\Store */
+            $active = $this->_scopeConfig->isSetFlag(
+                'paypal/fetch_reports/active',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $store
+            );
             if (!$active && $automaticMode) {
                 continue;
             }
             $cfg = array(
-                'hostname' => $store->getConfig('paypal/fetch_reports/ftp_ip'),
-                'path' => $store->getConfig('paypal/fetch_reports/ftp_path'),
-                'username' => $store->getConfig('paypal/fetch_reports/ftp_login'),
-                'password' => $store->getConfig('paypal/fetch_reports/ftp_password'),
-                'sandbox' => $store->getConfig('paypal/fetch_reports/ftp_sandbox')
+                'hostname' => $this->_scopeConfig->getValue(
+                    'paypal/fetch_reports/ftp_ip',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'path' => $this->_scopeConfig->getValue(
+                    'paypal/fetch_reports/ftp_path',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'username' => $this->_scopeConfig->getValue(
+                    'paypal/fetch_reports/ftp_login',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'password' => $this->_scopeConfig->getValue(
+                    'paypal/fetch_reports/ftp_password',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                ),
+                'sandbox' => $this->_scopeConfig->getValue(
+                    'paypal/fetch_reports/ftp_sandbox',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                )
             );
             if (empty($cfg['username']) || empty($cfg['password'])) {
                 continue;

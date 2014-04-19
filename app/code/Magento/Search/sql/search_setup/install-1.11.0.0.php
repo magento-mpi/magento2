@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\Module\Setup */
 
 $installer->startSetup();
 
@@ -17,7 +17,7 @@ $installer->getConnection()->addColumn(
     $installer->getTable('catalog_eav_attribute'),
     'search_weight',
     array(
-        'type' => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
         'unsigned' => true,
         'nullable' => false,
         'default' => '1',
@@ -44,19 +44,19 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('catalogsearch_recommendations')
 )->addColumn(
     'id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
     'Id'
 )->addColumn(
     'query_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Query Id'
 )->addColumn(
     'relation_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Relation Id'
@@ -65,15 +65,15 @@ $table = $installer->getConnection()->newTable(
     'query_id',
     $installer->getTable('catalogsearch_query'),
     'query_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('catalogsearch_recommendations', 'relation_id', 'catalogsearch_query', 'query_id'),
     'relation_id',
     $installer->getTable('catalogsearch_query'),
     'query_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Search Recommendations'
 );

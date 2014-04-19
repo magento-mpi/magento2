@@ -42,7 +42,7 @@ class Categories
     {
 
         $rootCategoryId = $this->getObjectManager()->create(
-            'Magento\Core\Model\StoreManager'
+            'Magento\Store\Model\StoreManager'
         )->getDefaultStoreView()->getRootCategoryId();
 
         /** @var $category \Magento\Catalog\Model\Category */
@@ -88,7 +88,7 @@ class Categories
     protected function getObjectManager()
     {
         if (!$this->_objectManager) {
-            $locatorFactory = new \Magento\App\ObjectManagerFactory();
+            $locatorFactory = new \Magento\Framework\App\ObjectManagerFactory();
             $this->_objectManager = $locatorFactory->create(BP, $_SERVER);
         }
         return $this->_objectManager;

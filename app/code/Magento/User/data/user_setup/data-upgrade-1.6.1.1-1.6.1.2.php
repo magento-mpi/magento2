@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\Module\Setup */
 $installer = $this;
 $installer->startSetup();
 
@@ -76,7 +76,7 @@ $map = array(
     'admin/cms/page' => 'Magento_Cms::page',
     'admin/cms/page/delete' => 'Magento_Cms::page_delete',
     'admin/cms/page/save' => 'Magento_Cms::save',
-    'admin/system/config/contacts' => 'Magento_Contacts::contacts',
+    'admin/system/config/contact' => 'Magento_Contact::contact',
     'admin/system/currency/rates' => 'Magento_CurrencySymbol::currency_rates',
     'admin/system/currency/symbols' => 'Magento_CurrencySymbol::symbols',
     'admin/system/currency' => 'Magento_CurrencySymbol::system_currency',
@@ -206,7 +206,7 @@ $map = array(
 );
 
 $tableName = $installer->getTable('admin_rule');
-/** @var \Magento\DB\Adapter\AdapterInterface $connection */
+/** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
 $connection = $installer->getConnection();
 
 $select = $connection->select();

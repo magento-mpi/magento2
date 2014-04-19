@@ -70,7 +70,7 @@ class Proxy extends \Magento\Mview\Config\Data
      */
     public function __wakeup()
     {
-        $this->objectManager = \Magento\App\ObjectManager::getInstance();
+        $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
     }
 
     /**

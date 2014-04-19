@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model\Resource;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Url extends \Magento\Model\Resource\Db\AbstractDb
+class Url extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Stores configuration array
@@ -82,7 +82,7 @@ class Url extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -92,16 +92,16 @@ class Url extends \Magento\Model\Resource\Db\AbstractDb
     protected $productResource;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param Product $productResource
      * @param \Magento\Catalog\Model\Category $catalogCategory
      * @param \Magento\Logger $logger
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         Product $productResource,
         \Magento\Catalog\Model\Category $catalogCategory,
@@ -129,7 +129,7 @@ class Url extends \Magento\Model\Resource\Db\AbstractDb
      * Retrieve stores array or store model
      *
      * @param int $storeId
-     * @return \Magento\Core\Model\Store|\Magento\Core\Model\Store[]
+     * @return \Magento\Store\Model\Store|\Magento\Store\Model\Store[]
      */
     public function getStores($storeId = null)
     {
@@ -342,7 +342,7 @@ class Url extends \Magento\Model\Resource\Db\AbstractDb
      * @param array $rewriteData
      * @param int|\Magento\Object $rewrite
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function saveRewrite($rewriteData, $rewrite)
     {
@@ -351,7 +351,7 @@ class Url extends \Magento\Model\Resource\Db\AbstractDb
             $adapter->insertOnDuplicate($this->getMainTable(), $rewriteData);
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            throw new \Magento\Model\Exception(__('Something went wrong saving the URL rewite.'));
+            throw new \Magento\Framework\Model\Exception(__('Something went wrong saving the URL rewite.'));
         }
 
         if ($rewrite && $rewrite->getId()) {
@@ -761,21 +761,21 @@ class Url extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Prepare stores root categories
      *
-     * @param \Magento\Core\Model\Store[] $stores
-     * @return \Magento\Core\Model\Store[]
+     * @param \Magento\Store\Model\Store[] $stores
+     * @return \Magento\Store\Model\Store[]
      */
     protected function _prepareStoreRootCategories($stores)
     {
         $rootCategoryIds = array();
         foreach ($stores as $store) {
-            /* @var $store \Magento\Core\Model\Store */
+            /* @var $store \Magento\Store\Model\Store */
             $rootCategoryIds[$store->getRootCategoryId()] = $store->getRootCategoryId();
         }
         if ($rootCategoryIds) {
             $categories = $this->_getCategories($rootCategoryIds);
         }
         foreach ($stores as $store) {
-            /* @var $store \Magento\Core\Model\Store */
+            /* @var $store \Magento\Store\Model\Store */
             $rootCategoryId = $store->getRootCategoryId();
             if (isset($categories[$rootCategoryId])) {
                 $store->setRootCategoryPath($categories[$rootCategoryId]->getPath());

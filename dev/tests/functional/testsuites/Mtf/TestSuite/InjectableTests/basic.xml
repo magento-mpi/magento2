@@ -14,6 +14,7 @@
             <namespace>Magento</namespace>
             <class>Magento\Bundle\Test\TestCase\CreateBundleEntityTest</class>
             <!--<class>Magento\Catalog\Test\TestCase\Product\CreateSimpleEntityTest</class>-->
+            <!--<class>Magento\CatalogRule\Test\TestCase\CatalogPriceRule\CreateCatalogRuleTest</class>-->
             <!--<class>Magento\User\Test\TestCase\LoginUserTest</class>-->
             <!--<module>Magento_Cms</module>-->
             <type>injectable</type>

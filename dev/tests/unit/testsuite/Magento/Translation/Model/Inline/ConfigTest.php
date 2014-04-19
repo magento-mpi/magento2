@@ -15,9 +15,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Core\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $storeConfigMock;
+    protected $scopeConfigMock;
 
     /**
      * @var \Magento\Core\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
@@ -26,16 +26,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->storeConfigMock = $this->getMock(
-            'Magento\Core\Model\Store\Config',
-            array('getConfigFlag'),
-            array(),
-            '',
-            false
-        );
+        $this->scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->helperMock = $this->getMock('Magento\Core\Helper\Data', array('isDevAllowed'), array(), '', false);
         $this->model = new Config(
-            $this->storeConfigMock,
+            $this->scopeConfigMock,
             $this->helperMock
         );
     }
@@ -44,19 +38,24 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $store = 'some store';
         $result = 'result';
-
-        $this->storeConfigMock->expects(
+        $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
+        $scopeConfig->expects(
             $this->once()
         )->method(
-            'getConfigFlag'
+            'isSetFlag'
         )->with(
             $this->equalTo('dev/translate_inline/active'),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->equalTo($store)
         )->will(
             $this->returnValue($result)
         );
-
-        $this->assertEquals($result, $this->model->isActive($store));
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $config = $objectManager->getObject(
+            '\Magento\Translation\Model\Inline\Config',
+            array('scopeConfig' => $scopeConfig)
+        );
+        $this->assertEquals($result, $config->isActive($store));
     }
 
     public function testIsDevAllowed()

@@ -11,7 +11,7 @@
  */
 namespace Magento\Core\Model\Theme\Image;
 
-class Path implements \Magento\View\Design\Theme\Image\PathInterface
+class Path implements \Magento\Framework\View\Design\Theme\Image\PathInterface
 {
     /**
      * Default theme preview image
@@ -21,31 +21,31 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
     /**
      * Filesystem instance
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $viewUrl;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Initialize dependencies
      * 
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\Url $viewUrl
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\View\Url $viewUrl
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\Filesystem $filesystem,
-        \Magento\View\Url $viewUrl,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\View\Url $viewUrl,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->filesystem = $filesystem;
         $this->viewUrl = $viewUrl;
@@ -81,7 +81,8 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
      */
     public function getImagePreviewDirectory()
     {
-        return $this->filesystem->getPath(\Magento\App\Filesystem::MEDIA_DIR) . '/' . self::PREVIEW_DIRECTORY_PATH;
+        return $this->filesystem->getPath(\Magento\Framework\App\Filesystem::MEDIA_DIR)
+            . '/' . self::PREVIEW_DIRECTORY_PATH;
     }
 
     /**
@@ -91,6 +92,6 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
      */
     public function getTemporaryDirectory()
     {
-        return $this->filesystem->getPath(\Magento\App\Filesystem::MEDIA_DIR) . '/theme/origin';
+        return $this->filesystem->getPath(\Magento\Framework\App\Filesystem::MEDIA_DIR) . '/theme/origin';
     }
 }

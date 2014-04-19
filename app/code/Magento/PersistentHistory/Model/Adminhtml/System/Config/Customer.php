@@ -14,7 +14,7 @@
  */
 namespace Magento\PersistentHistory\Model\Adminhtml\System\Config;
 
-class Customer extends \Magento\Core\Model\Config\Value
+class Customer extends \Magento\Framework\App\Config\Value
 {
     /**
      * Prefix of model events names
@@ -26,7 +26,7 @@ class Customer extends \Magento\Core\Model\Config\Value
     /**
      * Processing object before save data
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _beforeSave()
     {

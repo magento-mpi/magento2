@@ -25,7 +25,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Data\CollectionFactory
+     * @var \Magento\Framework\Data\CollectionFactory
      */
     protected $_dataCollectionFactory;
 
@@ -40,7 +40,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
-     * @param \Magento\Data\CollectionFactory $dataCollectionFactory
+     * @param \Magento\Framework\Data\CollectionFactory $dataCollectionFactory
      * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
@@ -48,7 +48,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
-        \Magento\Data\CollectionFactory $dataCollectionFactory,
+        \Magento\Framework\Data\CollectionFactory $dataCollectionFactory,
         \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
@@ -121,7 +121,10 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
                 'header' => __('Price'),
                 'index' => 'price',
                 'type' => 'currency',
-                'currency_code' => (string)$this->_storeConfig->getConfig(Currency::XML_PATH_CURRENCY_BASE)
+                'currency_code' => (string)$this->_scopeConfig->getValue(
+                    Currency::XML_PATH_CURRENCY_BASE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
             )
         );
 
@@ -131,7 +134,10 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
                 'header' => __('Total'),
                 'index' => 'row_total',
                 'type' => 'currency',
-                'currency_code' => (string)$this->_storeConfig->getConfig(Currency::XML_PATH_CURRENCY_BASE)
+                'currency_code' => (string)$this->_scopeConfig->getValue(
+                    Currency::XML_PATH_CURRENCY_BASE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
             )
         );
 

@@ -9,7 +9,7 @@
  */
 namespace Magento\Review\Model\Resource;
 
-use Magento\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Review resource model
@@ -18,7 +18,7 @@ use Magento\Model\AbstractModel;
  * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Review extends \Magento\Model\Resource\Db\AbstractDb
+class Review extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Review table
@@ -79,7 +79,7 @@ class Review extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -98,16 +98,16 @@ class Review extends \Magento\Model\Resource\Db\AbstractDb
     protected $_ratingOptions;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Stdlib\DateTime\DateTime $date
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
      * @param \Magento\Review\Model\Resource\Rating\Option $ratingOptions
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Stdlib\DateTime\DateTime $date,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Review\Model\RatingFactory $ratingFactory,
         Rating\Option $ratingOptions
     ) {
@@ -177,7 +177,7 @@ class Review extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Perform actions after object save
      *
-     * @param AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
     protected function _afterSave(AbstractModel $object)
@@ -233,7 +233,7 @@ class Review extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Perform actions after object load
      *
-     * @param AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
     protected function _afterLoad(AbstractModel $object)
@@ -257,7 +257,7 @@ class Review extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Action before delete
      *
-     * @param AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
     protected function _beforeDelete(AbstractModel $object)
@@ -273,7 +273,7 @@ class Review extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Perform actions after object delete
      *
-     * @param AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
     public function afterDeleteCommit(AbstractModel $object)
@@ -323,7 +323,7 @@ class Review extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Aggregate
      *
-     * @param AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return void
      */
     public function aggregate($object)

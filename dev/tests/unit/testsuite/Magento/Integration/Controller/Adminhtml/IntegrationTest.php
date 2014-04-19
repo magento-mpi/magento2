@@ -11,7 +11,7 @@ namespace Magento\Integration\Controller\Adminhtml;
 
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 use Magento\Integration\Model\Integration as IntegrationModel;
-use Magento\View\Layout\Element as LayoutElement;
+use Magento\Framework\View\Layout\Element as LayoutElement;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
@@ -31,7 +31,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Backend\Model\Layout\Filter\Acl|\PHPUnit_Framework_MockObject_MockObject */
     protected $_layoutFilterMock;
 
-    /** @var \Magento\App\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_configMock;
 
     /** @var \Magento\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -55,28 +55,28 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject */
     protected $_registryMock;
 
-    /** @var \Magento\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject */
     protected $_requestMock;
 
-    /** @var \Magento\App\Response\Http|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\App\Response\Http|\PHPUnit_Framework_MockObject_MockObject */
     protected $_responseMock;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_messageManager;
 
-    /** @var \Magento\Config\ScopeInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Config\ScopeInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_configScopeMock;
 
     /** @var \Magento\Integration\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $_integrationHelperMock;
 
-    /** @var \Magento\App\ViewInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\App\ViewInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_viewMock;
 
     /** @var \Magento\Core\Model\Layout\Merge|\PHPUnit_Framework_MockObject_MockObject */
     protected $_layoutMergeMock;
 
-    /** @var \Magento\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_layoutMock;
 
     /**
@@ -99,7 +99,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
         // Initialize mocks which are used in several test cases
         $this->_configMock = $this->getMockBuilder(
-            'Magento\App\ConfigInterface'
+            'Magento\Framework\App\Config\ScopeConfigInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_eventManagerMock = $this->getMockBuilder(
             'Magento\Event\ManagerInterface'
@@ -120,14 +120,14 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             'Magento\Integration\Service\OauthV1'
         )->disableOriginalConstructor()->getMock();
         $this->_requestMock = $this->getMockBuilder(
-            'Magento\App\Request\Http'
+            'Magento\Framework\App\Request\Http'
         )->disableOriginalConstructor()->getMock();
         $this->_responseMock = $this->getMockBuilder(
-            'Magento\App\Response\Http'
+            'Magento\Framework\App\Response\Http'
         )->disableOriginalConstructor()->getMock();
         $this->_registryMock = $this->getMockBuilder('Magento\Registry')->disableOriginalConstructor()->getMock();
         $this->_configScopeMock = $this->getMockBuilder(
-            'Magento\Config\ScopeInterface'
+            'Magento\Framework\Config\ScopeInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_integrationHelperMock = $this->getMockBuilder(
             'Magento\Integration\Helper\Data'
@@ -311,7 +311,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         )->with(
             self::INTEGRATION_ID
         )->will(
-            $this->throwException(new \Magento\Model\Exception($exceptionMessage))
+            $this->throwException(new \Magento\Framework\Model\Exception($exceptionMessage))
         );
         // Verify error
         $this->_messageManager->expects($this->once())->method('addError')->with($this->equalTo($exceptionMessage));
@@ -803,8 +803,8 @@ HANDLE;
     protected function _createIntegrationController()
     {
         // Mock Layout passed into constructor
-        $this->_viewMock = $this->getMock('Magento\App\ViewInterface');
-        $this->_layoutMock = $this->getMock('Magento\View\LayoutInterface');
+        $this->_viewMock = $this->getMock('Magento\Framework\App\ViewInterface');
+        $this->_layoutMock = $this->getMock('Magento\Framework\View\LayoutInterface');
         $this->_layoutMergeMock = $this->getMockBuilder(
             'Magento\Core\Model\Layout\Merge'
         )->disableOriginalConstructor()->getMock();
@@ -867,11 +867,11 @@ HANDLE;
     protected function _verifyLoadAndRenderLayout()
     {
         $map = array(
-            array('Magento\App\ConfigInterface', $this->_configMock),
-            array('Magento\Backend\Model\Layout\Filter\Acl', $this->_layoutFilterMock),
+            array('Magento\Framework\App\Config\ScopeConfigInterface', $this->_configMock),
+            array('Magento\Core\Model\Layout\Filter\Acl', $this->_layoutFilterMock),
             array('Magento\Backend\Model\Session', $this->_backendSessionMock),
             array('Magento\TranslateInterface', $this->_translateModelMock),
-            array('Magento\Config\ScopeInterface', $this->_configScopeMock)
+            array('Magento\Framework\Config\ScopeInterface', $this->_configScopeMock)
         );
         $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnValueMap($map));
     }
@@ -887,7 +887,7 @@ HANDLE;
             array(
                 Info::DATA_NAME => 'nameTest',
                 Info::DATA_ID => self::INTEGRATION_ID,
-                'id' => self::INTEGRATION_ID, // This will allow usage of both getIntegrationId() and getId()
+                'id' => self::INTEGRATION_ID,
                 Info::DATA_EMAIL => 'test@magento.com',
                 Info::DATA_ENDPOINT => 'http://magento.ll/endpoint',
                 Info::DATA_SETUP_TYPE => IntegrationModel::TYPE_MANUAL

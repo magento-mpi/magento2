@@ -82,7 +82,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $taxClassFactory = new \Magento\Tax\Model\TaxClass\Factory($objectManager);
 
         $this->setExpectedException(
-            'Magento\Model\Exception',
+            'Magento\Framework\Model\Exception',
             sprintf('Invalid type of tax class "%s"', $wrongClassType)
         );
         $taxClassFactory->create($classMock);

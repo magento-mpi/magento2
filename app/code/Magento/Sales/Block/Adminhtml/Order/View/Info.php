@@ -68,7 +68,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            throw new \Magento\Model\Exception(__('Please correct the parent block for this block.'));
+            throw new \Magento\Framework\Model\Exception(__('Please correct the parent block for this block.'));
         }
         $this->setOrder($this->getParentBlock()->getOrder());
 
@@ -213,7 +213,11 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function shouldDisplayCustomerIp()
     {
-        return !$this->_storeConfig->getConfigFlag('sales/general/hide_customer_ip', $this->getOrder()->getStoreId());
+        return !$this->_scopeConfig->isSetFlag(
+            'sales/general/hide_customer_ip',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->getOrder()->getStoreId()
+        );
     }
 
     /**

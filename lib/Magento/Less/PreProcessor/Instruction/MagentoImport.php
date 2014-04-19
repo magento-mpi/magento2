@@ -9,7 +9,7 @@ namespace Magento\Less\PreProcessor\Instruction;
 
 use Magento\Less\PreProcessor;
 use Magento\Less\PreProcessorInterface;
-use Magento\View;
+use Magento\Framework\View;
 
 /**
  * Less @magento_import instruction preprocessor
@@ -24,7 +24,7 @@ class MagentoImport implements PreProcessorInterface
     /**
      * Layout file source
      *
-     * @var \Magento\View\Layout\File\SourceInterface
+     * @var \Magento\Framework\View\Layout\File\SourceInterface
      */
     protected $fileSource;
 
@@ -38,14 +38,14 @@ class MagentoImport implements PreProcessorInterface
     /**
      * Related file
      *
-     * @var \Magento\View\RelatedFile
+     * @var \Magento\Framework\View\RelatedFile
      */
     protected $relatedFile;
 
     /**
      * View service
      *
-     * @var \Magento\View\Service
+     * @var \Magento\Framework\View\Service
      */
     protected $viewService;
 
@@ -95,7 +95,7 @@ class MagentoImport implements PreProcessorInterface
         try {
             $resolvedPath = $this->relatedFile->buildPath($matchContent['path'], $parentPath, $viewParams);
             $importFiles = $this->fileSource->getFiles($viewParams['themeModel'], $resolvedPath);
-            /** @var $importFile \Magento\View\Layout\File */
+            /** @var $importFile \Magento\Framework\View\Layout\File */
             foreach ($importFiles as $importFile) {
                 $importsContent .= $importFile->getModule() ? "@import '{$importFile
                     ->getModule()}::{$resolvedPath}';\n" : "@import '{$matchContent['path']}';\n";

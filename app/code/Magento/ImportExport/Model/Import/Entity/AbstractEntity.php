@@ -30,7 +30,7 @@ abstract class AbstractEntity
     /**
      * DB connection.
      *
-     * @var \Magento\DB\Adapter\AdapterInterface
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 
@@ -209,7 +209,7 @@ abstract class AbstractEntity
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\ImportExport\Model\Resource\Import\Data $importData
      * @param \Magento\Eav\Model\Config $config
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\Stdlib\String $string
      */
@@ -218,7 +218,7 @@ abstract class AbstractEntity
         \Magento\ImportExport\Helper\Data $importExportData,
         \Magento\ImportExport\Model\Resource\Import\Data $importData,
         \Magento\Eav\Model\Config $config,
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\Stdlib\String $string
     ) {
@@ -238,12 +238,12 @@ abstract class AbstractEntity
      * Inner source object getter.
      *
      * @return AbstractSource
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getSource()
     {
         if (!$this->_source) {
-            throw new \Magento\Model\Exception(__('Please specify a source.'));
+            throw new \Magento\Framework\Model\Exception(__('Please specify a source.'));
         }
         return $this->_source;
     }
@@ -399,7 +399,7 @@ abstract class AbstractEntity
             $index = in_array($attribute->getAttributeCode(), $indexValAttrs) ? 'value' : 'label';
 
             // only default (admin) store values used
-            $attribute->setStoreId(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
+            $attribute->setStoreId(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
             try {
                 foreach ($attribute->getSource()->getAllOptions(false) as $option) {
@@ -539,12 +539,12 @@ abstract class AbstractEntity
      * Source object getter.
      *
      * @return AbstractSource
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getSource()
     {
         if (!$this->_source) {
-            throw new \Magento\Model\Exception(__('Source is not set'));
+            throw new \Magento\Framework\Model\Exception(__('Source is not set'));
         }
         return $this->_source;
     }
@@ -695,14 +695,14 @@ abstract class AbstractEntity
      * Validate data.
      *
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validateData()
     {
         if (!$this->_dataValidated) {
             // do all permanent columns exist?
             if ($absentColumns = array_diff($this->_permanentAttributes, $this->getSource()->getColNames())) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __('Cannot find required columns: %1', implode(', ', $absentColumns))
                 );
             }
@@ -723,12 +723,12 @@ abstract class AbstractEntity
             }
 
             if ($emptyHeaderColumns) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __('Columns number: "%1" have empty headers', implode('", "', $emptyHeaderColumns))
                 );
             }
             if ($invalidColumns) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __('Column names: "%1" are invalid', implode('", "', $invalidColumns))
                 );
             }

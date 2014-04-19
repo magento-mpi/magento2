@@ -108,7 +108,7 @@ class Banner extends \Magento\Backend\App\Action
 
             //Filter disallowed data
             $currentStores = array_keys(
-                $this->_objectManager->get('Magento\Core\Model\StoreManager')->getStores(true)
+                $this->_objectManager->get('Magento\Store\Model\StoreManager')->getStores(true)
             );
             if (isset($data['store_contents_not_use'])) {
                 $data['store_contents_not_use'] = array_intersect($data['store_contents_not_use'], $currentStores);
@@ -150,7 +150,7 @@ class Banner extends \Magento\Backend\App\Action
                 $model->save();
                 $this->_getSession()->setFormData(false);
                 $this->messageManager->addSuccess(__('You saved the banner.'));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $redirectBack = true;
             } catch (\Exception $e) {
@@ -186,13 +186,11 @@ class Banner extends \Magento\Backend\App\Action
                 // go to grid
                 $this->_redirect('adminhtml/*/');
                 return;
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(
-                // @codingStandardsIgnoreStart
                     __('Something went wrong deleting banner data. Please review the action log and try again.')
-                // @codingStandardsIgnoreEnd
                 );
                 $this->_objectManager->get('Magento\Logger')->logException($e);
                 // save data in session
@@ -226,13 +224,11 @@ class Banner extends \Magento\Backend\App\Action
                 }
 
                 $this->messageManager->addSuccess(__('You deleted %1 record(s).', count($ids)));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(
-                // @codingStandardsIgnoreStart
                     __('Something went wrong mass-deleting banners. Please review the action log and try again.')
-                // @codingStandardsIgnoreEnd
                 );
                 $this->_objectManager->get('Magento\Logger')->logException($e);
                 return;

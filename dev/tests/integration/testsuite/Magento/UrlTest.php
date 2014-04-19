@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -399,7 +397,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     public function testSessionUrlVar()
     {
         $sessionId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\Session'
+            'Magento\Session\Generic'
         )->getSessionId();
         $sessionUrl = $this->_model->sessionUrlVar('<a href="http://example.com/?___SID=U">www.example.com</a>');
         $this->assertEquals('<a href="http://example.com/?SID=' . $sessionId . '">www.example.com</a>', $sessionUrl);
@@ -420,7 +418,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
-        $request = $objectManager->get('Magento\App\RequestInterface');
+        $request = $objectManager->get('Magento\Framework\App\RequestInterface');
         $request->setServer(array('HTTP_REFERER' => 'http://localhost/'));
         $this->assertTrue($this->_model->isOwnOriginUrl());
 

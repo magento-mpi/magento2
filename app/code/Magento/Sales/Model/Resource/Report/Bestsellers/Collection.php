@@ -35,7 +35,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Resource\Report $resource
      * @param \Zend_Db_Adapter_Abstract $connection
@@ -43,7 +43,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\Resource\Report $resource,
         $connection = null
@@ -150,7 +150,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
             )->group(
                 'product_id'
             )->order(
-                'qty_ordered ' . \Magento\DB\Select::SQL_DESC
+                'qty_ordered ' . \Magento\Framework\DB\Select::SQL_DESC
             )->limit(
                 $this->_ratingLimit
             );
@@ -179,7 +179,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     /**
      * Get SQL for get record count
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {
@@ -203,8 +203,8 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
         $currentStoreIds = $this->_storesIds;
         if (isset(
             $currentStoreIds
-        ) && $currentStoreIds != \Magento\Core\Model\Store::DEFAULT_STORE_ID && $currentStoreIds != array(
-            \Magento\Core\Model\Store::DEFAULT_STORE_ID
+        ) && $currentStoreIds != \Magento\Store\Model\Store::DEFAULT_STORE_ID && $currentStoreIds != array(
+            \Magento\Store\Model\Store::DEFAULT_STORE_ID
         )
         ) {
             if (!is_array($currentStoreIds)) {

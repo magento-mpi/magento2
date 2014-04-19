@@ -20,8 +20,8 @@ namespace Magento\CatalogRule\Model\Resource;
 
 use Magento\Catalog\Model\Product;
 use Magento\CatalogRule\Model\Rule as ModelRule;
-use Magento\Model\AbstractModel;
-use Magento\Model\Resource\Db\AbstractDb;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Resource\Db\AbstractDb;
 
 class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 {
@@ -83,7 +83,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_conditionFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -93,8 +93,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $dateTime;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory
      * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -104,8 +104,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory,
         \Magento\Stdlib\DateTime\DateTime $coreDate,
         \Magento\Eav\Model\Config $eavConfig,
@@ -138,8 +138,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Add customer group ids and website ids to rule data after load
      *
-     * @param AbstractModel $object
-     * @return AbstractDb
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _afterLoad(AbstractModel $object)
     {
@@ -404,17 +404,17 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
         $select->join(
             array('pp_default' => $priceTable),
-            sprintf($joinCondition, 'pp_default', \Magento\Core\Model\Store::DEFAULT_STORE_ID),
+            sprintf($joinCondition, 'pp_default', \Magento\Store\Model\Store::DEFAULT_STORE_ID),
             array('default_price' => 'pp_default.value')
         );
 
         if ($websiteId !== null) {
             $website = $this->_storeManager->getWebsite($websiteId);
             $defaultGroup = $website->getDefaultGroup();
-            if ($defaultGroup instanceof \Magento\Core\Model\Store\Group) {
+            if ($defaultGroup instanceof \Magento\Store\Model\Group) {
                 $storeId = $defaultGroup->getDefaultStoreId();
             } else {
-                $storeId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+                $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
             }
 
             $select->joinInner(
@@ -437,10 +437,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $websiteId = $website->getId();
                 $defaultGroup = $website->getDefaultGroup();
-                if ($defaultGroup instanceof \Magento\Core\Model\Store\Group) {
+                if ($defaultGroup instanceof \Magento\Store\Model\Group) {
                     $storeId = $defaultGroup->getDefaultStoreId();
                 } else {
-                    $storeId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+                    $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
                 }
 
                 $tableAlias = 'pp' . $websiteId;

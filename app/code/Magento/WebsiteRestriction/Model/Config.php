@@ -8,7 +8,7 @@
  */
 namespace Magento\WebsiteRestriction\Model;
 
-class Config extends \Magento\Config\Data\Scoped implements \Magento\WebsiteRestriction\Model\ConfigInterface
+class Config extends \Magento\Framework\Config\Data\Scoped implements \Magento\WebsiteRestriction\Model\ConfigInterface
 {
     const XML_PATH_RESTRICTION_ENABLED = 'general/restriction/is_active';
 
@@ -21,9 +21,9 @@ class Config extends \Magento\Config\Data\Scoped implements \Magento\WebsiteRest
     const XML_PATH_RESTRICTION_HTTP_REDIRECT = 'general/restriction/http_redirect';
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Scope priority loading scheme
@@ -34,19 +34,19 @@ class Config extends \Magento\Config\Data\Scoped implements \Magento\WebsiteRest
 
     /**
      * @param \Magento\WebsiteRestriction\Model\Config\Reader $reader
-     * @param \Magento\Config\ScopeInterface $configScope
-     * @param \Magento\Config\CacheInterface $cache
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Framework\Config\ScopeInterface $configScope
+     * @param \Magento\Framework\Config\CacheInterface $cache
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param string $cacheId
      */
     public function __construct(
         \Magento\WebsiteRestriction\Model\Config\Reader $reader,
-        \Magento\Config\ScopeInterface $configScope,
-        \Magento\Config\CacheInterface $cache,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Framework\Config\ScopeInterface $configScope,
+        \Magento\Framework\Config\CacheInterface $cache,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         $cacheId = 'website_restrictions'
     ) {
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($reader, $configScope, $cache, $cacheId);
     }
 
@@ -73,12 +73,16 @@ class Config extends \Magento\Config\Data\Scoped implements \Magento\WebsiteRest
     /**
      * Define if restriction is active
      *
-     * @param \Magento\Core\Model\Store|string|int $store
+     * @param \Magento\Store\Model\Store|string|int $store
      * @return bool
      */
     public function isRestrictionEnabled($store = null)
     {
-        return (bool)(int)$this->_storeConfig->getConfig(self::XML_PATH_RESTRICTION_ENABLED, $store);
+        return (bool)(int)$this->_scopeConfig->getValue(
+            self::XML_PATH_RESTRICTION_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -88,7 +92,10 @@ class Config extends \Magento\Config\Data\Scoped implements \Magento\WebsiteRest
      */
     public function getMode()
     {
-        return (int)$this->_storeConfig->getConfig(self::XML_PATH_RESTRICTION_MODE);
+        return (int)$this->_scopeConfig->getValue(
+            self::XML_PATH_RESTRICTION_MODE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -98,7 +105,10 @@ class Config extends \Magento\Config\Data\Scoped implements \Magento\WebsiteRest
      */
     public function getHTTPStatusCode()
     {
-        return (int)$this->_storeConfig->getConfig(self::XML_PATH_RESTRICTION_HTTP_STATUS);
+        return (int)$this->_scopeConfig->getValue(
+            self::XML_PATH_RESTRICTION_HTTP_STATUS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -108,7 +118,10 @@ class Config extends \Magento\Config\Data\Scoped implements \Magento\WebsiteRest
      */
     public function getHTTPRedirectCode()
     {
-        return (int)$this->_storeConfig->getConfig(self::XML_PATH_RESTRICTION_HTTP_REDIRECT);
+        return (int)$this->_scopeConfig->getValue(
+            self::XML_PATH_RESTRICTION_HTTP_REDIRECT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -118,6 +131,9 @@ class Config extends \Magento\Config\Data\Scoped implements \Magento\WebsiteRest
      */
     public function getLandingPageCode()
     {
-        return $this->_storeConfig->getConfig(self::XML_PATH_RESTRICTION_LANDING_PAGE);
+        return $this->_scopeConfig->getValue(
+            self::XML_PATH_RESTRICTION_LANDING_PAGE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 }

@@ -25,7 +25,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $roleAdmin = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\Role');
         $roleAdmin->load(\Magento\TestFramework\Bootstrap::ADMIN_ROLE_NAME, 'role_name');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\RequestInterface'
+            'Magento\Framework\App\RequestInterface'
         )->setParam(
             'rid',
             $roleAdmin->getId()

@@ -186,34 +186,34 @@ class Payment extends \Magento\Payment\Model\Info
     protected $_transactionCollectionFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory
      * @param \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory
      * @param \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollectionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory,
         \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory,
         \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollectionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_serviceOrderFactory = $serviceOrderFactory;
@@ -377,10 +377,8 @@ class Payment extends \Magento\Payment\Model\Info
             if ($message) {
                 $order->addStatusToHistory($order->getStatus(), $message, $isCustomerNotified);
             }
-            // add message to history if order state already declared
         } elseif ($order->getState() && ($orderStatus !== $order->getStatus() || $message)) {
             $order->setState($orderState, $orderStatus, $message, $isCustomerNotified);
-            // set order state
         } elseif ($order->getState() != $orderState || $order->getStatus() != $orderStatus || $message) {
             $order->setState($orderState, $orderStatus, $message, $isCustomerNotified);
         }
@@ -399,7 +397,7 @@ class Payment extends \Magento\Payment\Model\Info
      * TODO: eliminate logic duplication with registerCaptureNotification()
      *
      * @param null|Invoice $invoice
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
     public function capture($invoice)
@@ -407,7 +405,7 @@ class Payment extends \Magento\Payment\Model\Info
         if (is_null($invoice)) {
             $invoice = $this->_invoice();
             $this->setCreatedInvoice($invoice);
-            return $this; // @see Invoice::capture()
+            return $this;
         }
         $amountToCapture = $this->_formatAmount($invoice->getBaseGrandTotal());
         $order = $this->getOrder();
@@ -479,7 +477,7 @@ class Payment extends \Magento\Payment\Model\Info
             $this->getMethodInstance()->processInvoice($invoice, $this);
             return $this;
         }
-        throw new \Magento\Model\Exception(
+        throw new \Magento\Framework\Model\Exception(
             __('The transaction "%1" cannot be captured yet.', $invoice->getTransactionId())
         );
     }
@@ -692,7 +690,7 @@ class Payment extends \Magento\Payment\Model\Info
      * @param Creditmemo $creditmemo
      * @return $this
      * @throws \Exception
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function refund($creditmemo)
     {
@@ -729,7 +727,7 @@ class Payment extends \Magento\Payment\Model\Info
                         $creditmemo,
                         $this
                     );
-                } catch (\Magento\Model\Exception $e) {
+                } catch (\Magento\Framework\Model\Exception $e) {
                     if (!$captureTxn) {
                         $e->setMessage(
                             ' ' . __('If the invoice was created offline, try creating an offline credit memo.'),
@@ -1025,7 +1023,6 @@ class Payment extends \Magento\Payment\Model\Info
                         $transactionId
                     );
                 } else {
-                    // notification mechanism is responsible to update the payment object first
                 }
                 if ($this->getIsTransactionApproved()) {
                     $result = true;
@@ -1299,7 +1296,6 @@ class Payment extends \Magento\Payment\Model\Info
             $this->getOrder()->addRelatedObject($transaction);
             if ($salesDocument && $salesDocument instanceof \Magento\Sales\Model\AbstractModel) {
                 $salesDocument->setTransactionId($transactionId);
-                // TODO: linking transaction with the sales document
             }
 
             // link with parent transaction
@@ -1480,10 +1476,10 @@ class Payment extends \Magento\Payment\Model\Info
                     $txnType
                 )->setOrder(
                     'created_at',
-                    \Magento\Data\Collection::SORT_ORDER_DESC
+                    \Magento\Framework\Data\Collection::SORT_ORDER_DESC
                 )->setOrder(
                     'transaction_id',
-                    \Magento\Data\Collection::SORT_ORDER_DESC
+                    \Magento\Framework\Data\Collection::SORT_ORDER_DESC
                 );
                 foreach ($collection as $txn) {
                     $txn->setOrderPaymentObject($this);

@@ -15,7 +15,7 @@ namespace Magento\CustomAttributeManagement\Helper;
  * @category   Magento
  * @package    Magento_CustomAttributeManagement
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Array of User Defined attribute codes per entity type code
@@ -40,13 +40,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $filterManager;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Filter\FilterManager $filterManager
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Filter\FilterManager $filterManager
@@ -61,11 +61,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Default attribute entity type code
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getEntityTypeCode()
     {
-        throw new \Magento\Model\Exception(__('Use helper with defined EAV entity.'));
+        throw new \Magento\Framework\Model\Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**
@@ -438,7 +438,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @param array $data
      * @return array
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function filterPostData($data)
     {
@@ -454,7 +454,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             if (isset($data['attribute_code'])) {
                 $validatorAttrCode = new \Zend_Validate_Regex(array('pattern' => '/^[a-z_0-9]{1,255}$/'));
                 if (!$validatorAttrCode->isValid($data['attribute_code'])) {
-                    throw new \Magento\Model\Exception(
+                    throw new \Magento\Framework\Model\Exception(
                         __(
                             'The attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_) in this field. The first character should be a letter.'
                         )

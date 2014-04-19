@@ -10,7 +10,7 @@ namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 class ConfigDataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\CacheInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\CacheInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $coreCacheMock;
 
@@ -30,7 +30,7 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
     protected $configLoaderMock;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
 
@@ -51,7 +51,7 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->coreCacheMock = $this->getMock('Magento\App\Cache', array('clean'), array(), '', false);
+        $this->coreCacheMock = $this->getMock('Magento\Framework\App\Cache', array('clean'), array(), '', false);
         $this->appConfigMock = $this->getMock(
             'Magento\CatalogPermissions\App\Backend\Config',
             array('isEnabled'),
@@ -74,7 +74,7 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->storeManagerMock = $this->getMock(
-            'Magento\Core\Model\StoreManager',
+            'Magento\Store\Model\StoreManager',
             array('getStore', 'getWebsite'),
             array(),
             '',
@@ -180,20 +180,20 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Store\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function getStore()
     {
-        $store = $this->getMock('Magento\Core\Model\Store', array('getId', '__wakeup'), array(), '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', array('getId', '__wakeup'), array(), '', false);
         return $store;
     }
 
     /**
-     * @return \Magento\Core\Model\Website|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Store\Model\Website|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function getWebsite()
     {
-        $website = $this->getMock('Magento\Core\Model\Website', array('getId', '__wakeup'), array(), '', false);
+        $website = $this->getMock('Magento\Store\Model\Website', array('getId', '__wakeup'), array(), '', false);
         return $website;
     }
 

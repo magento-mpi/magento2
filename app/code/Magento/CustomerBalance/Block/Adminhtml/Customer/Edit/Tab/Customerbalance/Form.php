@@ -19,7 +19,7 @@ namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbala
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
@@ -31,17 +31,17 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_customerFactory = $customerFactory;
@@ -56,7 +56,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $prefix = '_customerbalance';
         $form->setHtmlIdPrefix($prefix);
@@ -64,7 +64,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $customer = $this->_customerFactory->create()->load($this->getRequest()->getParam('id'));
 
-        /** @var $fieldset \Magento\Data\Form\Element\Fieldset */
+        /** @var $fieldset \Magento\Framework\Data\Form\Element\Fieldset */
         $fieldset = $form->addFieldset('storecreidt_fieldset', array('legend' => __('Update Balance')));
 
         if (!$this->_storeManager->isSingleStoreMode()) {

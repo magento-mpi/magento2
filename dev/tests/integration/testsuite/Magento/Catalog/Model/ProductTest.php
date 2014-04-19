@@ -38,11 +38,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Catalog\Model\Product\Media\Config $config */
         $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
 
-        /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
+        /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $mediaDirectory */
         $mediaDirectory = $objectManager->get(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\App\Filesystem::MEDIA_DIR
+            \Magento\Framework\App\Filesystem::MEDIA_DIR
         );
 
         if ($mediaDirectory->isExist($config->getBaseMediaPath())) {
@@ -94,13 +94,21 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testCleanCache()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\CacheInterface')
-            ->save('test', 'catalog_product_999', array('catalog_product_999'));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\App\CacheInterface'
+        )->save(
+            'test',
+            'catalog_product_999',
+            array('catalog_product_999')
+        );
         // potential bug: it cleans by cache tags, generated from its ID, which doesn't make much sense
         $this->_model->setId(999)->cleanCache();
         $this->assertFalse(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\CacheInterface')
-                ->load('catalog_product_999')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Framework\App\CacheInterface'
+            )->load(
+                'catalog_product_999'
+            )
         );
     }
 
@@ -131,11 +139,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Catalog\Model\Product\Media\Config $config */
         $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
 
-        /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
+        /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $mediaDirectory */
         $mediaDirectory = $objectManager->get(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\App\Filesystem::MEDIA_DIR
+            \Magento\Framework\App\Filesystem::MEDIA_DIR
         );
 
         $mediaDirectory->create($config->getBaseTmpMediaPath());
@@ -166,7 +174,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED,
                 $duplicate->getStatus()
             );
-            $this->assertEquals(\Magento\Core\Model\Store::DEFAULT_STORE_ID, $duplicate->getStoreId());
+            $this->assertEquals(\Magento\Store\Model\Store::DEFAULT_STORE_ID, $duplicate->getStoreId());
             $this->_undo($duplicate);
         } catch (\Exception $e) {
             $this->_undo($duplicate);
@@ -192,14 +200,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     /**
      * Delete model
      *
-     * @param \Magento\Model\AbstractModel $duplicate
+     * @param \Magento\Framework\Model\AbstractModel $duplicate
      */
     protected function _undo($duplicate)
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->getStore()->setId(
-            \Magento\Core\Model\Store::DEFAULT_STORE_ID
+            \Magento\Store\Model\Store::DEFAULT_STORE_ID
         );
         $duplicate->delete();
     }
@@ -354,7 +362,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     /**
      * Check is model empty or not
      *
-     * @param \Magento\Model\AbstractModel $model
+     * @param \Magento\Framework\Model\AbstractModel $model
      */
     protected function _assertEmpty($model)
     {
@@ -364,7 +372,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         // impossible to test $_optionInstance
         $this->assertEquals(array(), $model->getOptions());
         $this->assertFalse($model->canAffectOptions());
-        // impossible to test $_errors
     }
 
     /**

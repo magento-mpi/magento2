@@ -12,8 +12,8 @@
  */
 namespace Magento\Module\Dir;
 
-use \Magento\App\Filesystem,
-    \Magento\Config\FileIteratorFactory;
+use \Magento\Framework\App\Filesystem,
+    \Magento\Framework\Config\FileIteratorFactory;
 
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -55,7 +55,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_protFactoryMock = $this->getMock(
-            'Magento\Core\Model\Config\BaseFactory',
+            'Magento\Framework\App\Config\BaseFactory',
             array(),
             array(),
             '',
@@ -63,11 +63,13 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_dirsMock = $this->getMock('Magento\Module\Dir', array(), array(), '', false, false);
-        $this->_baseConfigMock = $this->getMock('Magento\Core\Model\Config\Base', array(), array(), '', false, false);
+        $this->_baseConfigMock =
+            $this->getMock('Magento\Framework\App\Config\Base', array(), array(), '', false, false);
         $this->_moduleListMock = $this->getMock('Magento\Module\ModuleListInterface');
-        $this->_filesystemMock = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false, false);
-        $this->_fileIteratorFactory = $this->getMock('\Magento\Config\FileIteratorFactory', array(), array(),
-            '', false, false);
+        $this->_filesystemMock =
+            $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false, false);
+        $this->_fileIteratorFactory =
+            $this->getMock('\Magento\Framework\Config\FileIteratorFactory', array(), array(), '', false, false);
 
         $this->_model = new \Magento\Module\Dir\Reader(
             $this->_dirsMock,
@@ -110,7 +112,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ),
         );
         $configPath = 'app/code/Test/Module/etc/config.xml';
-        $modulesDirectoryMock = $this->getMock('Magento\Filesystem\Directory\ReadInterface');
+        $modulesDirectoryMock = $this->getMock('Magento\Framework\Filesystem\Directory\ReadInterface');
         $modulesDirectoryMock->expects($this->any())->method('getRelativePath')->will($this->returnArgument(0));
         $modulesDirectoryMock->expects($this->any())->method('isExist')
             ->with($configPath)

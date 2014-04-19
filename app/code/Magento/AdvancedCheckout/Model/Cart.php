@@ -91,7 +91,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Instance of current store
      *
-     * @var null|\Magento\Core\Model\Store
+     * @var null|\Magento\Store\Model\Store
      */
     protected $_currentStore = null;
 
@@ -153,7 +153,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_optionFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -198,7 +198,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
@@ -218,7 +218,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
@@ -286,7 +286,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Return quote store
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {
@@ -407,7 +407,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     {
         $quote = $this->getQuote();
         $customer = $this->getCustomer();
-        $defaultStoreId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+        $defaultStoreId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         if ($quote->getId() && $quote->getStoreId()) {
             $storeId = $quote->getStoreId();
         } elseif ($customer !== null && $customer->getStoreId() && $customer->getStoreId() != $defaultStoreId) {
@@ -439,7 +439,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param   Product|int $product
      * @param   array|float|int|\Magento\Object $config
      * @return  $this
-     * @throws  \Magento\Model\Exception
+     * @throws  \Magento\Framework\Model\Exception
      */
     public function addProduct($product, $config = 1)
     {
@@ -464,7 +464,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
                 $product
             );
             if (!$product->getId()) {
-                throw new \Magento\Model\Exception(__('Failed to add a product to cart by id "%1".', $productId));
+                throw new \Magento\Framework\Model\Exception(__('Failed to add a product to cart by id "%1".', $productId));
             }
         }
 
@@ -486,7 +486,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         } else {
             $item = $this->getQuote()->addProduct($product, $config);
             if (is_string($item)) {
-                throw new \Magento\Model\Exception($item);
+                throw new \Magento\Framework\Model\Exception($item);
             }
             $item->checkData();
         }
@@ -501,12 +501,12 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Sales\Model\Order\Item $orderItem
      * @param int|float $qty
      * @return \Magento\Sales\Model\Quote\Item
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function reorderItem(\Magento\Sales\Model\Order\Item $orderItem, $qty = 1)
     {
         if (!$orderItem->getId()) {
-            throw new \Magento\Model\Exception(__('Something went wrong reordering this product.'));
+            throw new \Magento\Framework\Model\Exception(__('Something went wrong reordering this product.'));
         }
 
         $product = $this->_productFactory->create()->setStoreId(
@@ -521,7 +521,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             $product->setSkipCheckRequiredOption(true);
             $item = $this->createQuote()->addProduct($product, $info);
             if (is_string($item)) {
-                throw new \Magento\Model\Exception($item);
+                throw new \Magento\Framework\Model\Exception($item);
             }
 
             $item->setQty($qty);
@@ -545,7 +545,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
             return $item;
         } else {
-            throw new \Magento\Model\Exception(__('Something went wrong reordering this product.'));
+            throw new \Magento\Framework\Model\Exception(__('Something went wrong reordering this product.'));
         }
     }
 
@@ -562,7 +562,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             $config['qty'] = isset($config['qty']) ? (double)$config['qty'] : 1;
             try {
                 $this->addProduct($productId, $config);
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 return $e;
@@ -1360,7 +1360,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
                 $config = $item['item']['qty'];
             }
             $cart->addProduct($item['item']['id'], $config);
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             if (!$suppressSuperMode) {
                 $success = false;
                 $item['code'] = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
@@ -1660,7 +1660,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Retrieve instance of current store
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getCurrentStore()
     {

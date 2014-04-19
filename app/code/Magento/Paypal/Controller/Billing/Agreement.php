@@ -7,12 +7,12 @@
  */
 namespace Magento\Paypal\Controller\Billing;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Billing agreements controller
  */
-class Agreement extends \Magento\App\Action\Action
+class Agreement extends \Magento\Framework\App\Action\Action
 {
     /**
      * Core registry
@@ -22,19 +22,19 @@ class Agreement extends \Magento\App\Action\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\App\Action\Title
+     * @var \Magento\Framework\App\Action\Title
      */
     protected $_title;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Action\Title $title
+     * @param \Magento\Framework\App\Action\Title $title
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
-        \Magento\App\Action\Title $title
+        \Magento\Framework\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -58,7 +58,7 @@ class Agreement extends \Magento\App\Action\Action
      * Check customer authentication
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -103,20 +103,21 @@ class Agreement extends \Magento\App\Action\Action
         $paymentCode = $this->getRequest()->getParam('payment_method');
         if ($paymentCode) {
             try {
-                $agreement
-                    ->setStoreId($this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getId())
-                    ->setMethodCode($paymentCode)
-                    ->setReturnUrl(
-                        $this->_objectManager->create('Magento\UrlInterface')
-                            ->getUrl('*/*/returnWizard', array('payment_method' => $paymentCode))
-                    )
-                    ->setCancelUrl(
-                        $this->_objectManager->create('Magento\UrlInterface')
-                            ->getUrl('*/*/cancelWizard', array('payment_method' => $paymentCode))
-                    );
+                $agreement->setStoreId(
+                    $this->_objectManager->get('Magento\Store\Model\StoreManager')->getStore()->getId()
+                )->setMethodCode(
+                    $paymentCode
+                )->setReturnUrl(
+                    $this->_objectManager->create(
+                        'Magento\UrlInterface'
+                    )->getUrl('*/*/returnWizard', array('payment_method' => $paymentCode))
+                )->setCancelUrl(
+                    $this->_objectManager->create('Magento\UrlInterface')
+                        ->getUrl('*/*/cancelWizard', array('payment_method' => $paymentCode))
+                );
 
                 return $this->getResponse()->setRedirect($agreement->initToken());
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -139,18 +140,22 @@ class Agreement extends \Magento\App\Action\Action
         $token = $this->getRequest()->getParam('token');
         if ($token && $paymentCode) {
             try {
-                $agreement
-                    ->setStoreId($this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getId())
-                    ->setToken($token)
-                    ->setMethodCode($paymentCode)
-                    ->setCustomerId($this->_getSession()->getCustomerId())
-                    ->place();
+                $agreement->setStoreId(
+                    $this->_objectManager->get('Magento\Store\Model\StoreManager')->getStore()->getId()
+                )->setToken(
+                    $token
+                )->setMethodCode(
+                    $paymentCode
+                )->setCustomerId(
+                    $this->_getSession()->getCustomerId()
+                )->place();
+
                 $this->messageManager->addSuccess(
                     __('The billing agreement "%1" has been created.', $agreement->getReferenceId())
                 );
                 $this->_redirect('*/*/view', array('agreement' => $agreement->getId()));
                 return;
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -188,7 +193,7 @@ class Agreement extends \Magento\App\Action\Action
                 $this->messageManager->addNotice(
                     __('The billing agreement "%1" has been canceled.', $agreement->getReferenceId())
                 );
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);

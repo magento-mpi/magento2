@@ -26,7 +26,7 @@ class RewardTest extends \PHPUnit_Framework_TestCase
             $customer
         );
 
-        $utility = new \Magento\Core\Utility\Layout($this);
+        $utility = new \Magento\Framework\View\Utility\Layout($this);
         $layout = $utility->getLayoutFromFixture(
             __DIR__ . '/../../_files/magento_reward_customer_info.xml',
             $utility->getLayoutDependencies()

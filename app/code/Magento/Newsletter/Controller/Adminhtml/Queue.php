@@ -86,7 +86,7 @@ class Queue extends \Magento\Backend\App\Action
 
         // set default value for selected store
         $data['preview_store_id'] = $this->_objectManager->get(
-            'Magento\Core\Model\StoreManager'
+            'Magento\Store\Model\StoreManager'
         )->getDefaultStoreView()->getId();
 
         $this->_view->getLayout()->getBlock('preview_form')->setFormData($data);
@@ -266,7 +266,7 @@ class Queue extends \Magento\Backend\App\Action
     /**
      * Save Newsletter queue
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return void
      */
     public function saveAction()
@@ -281,7 +281,7 @@ class Queue extends \Magento\Backend\App\Action
                 $template = $this->_objectManager->create('Magento\Newsletter\Model\Template')->load($templateId);
 
                 if (!$template->getId() || $template->getIsSystem()) {
-                    throw new \Magento\Model\Exception(__('Please correct the newsletter template and try again.'));
+                    throw new \Magento\Framework\Model\Exception(__('Please correct the newsletter template and try again.'));
                 }
 
                 $queue->setTemplateId(
@@ -320,8 +320,8 @@ class Queue extends \Magento\Backend\App\Action
                 $this->getRequest()->getParam('styles')
             );
 
-            if ($queue->getQueueStatus() == \Magento\Newsletter\Model\Queue::STATUS_PAUSE &&
-                $this->getRequest()->getParam(
+            if ($queue->getQueueStatus() == \Magento\Newsletter\Model\Queue::STATUS_PAUSE
+                && $this->getRequest()->getParam(
                     '_resume',
                     false
                 )
@@ -335,7 +335,7 @@ class Queue extends \Magento\Backend\App\Action
             $this->_getSession()->setFormData(false);
 
             $this->_redirect('*/*');
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $id = $this->getRequest()->getParam('id');
             if ($id) {

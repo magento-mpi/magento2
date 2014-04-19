@@ -14,7 +14,7 @@
  */
 namespace Magento\Tax\Model\Resource;
 
-class Calculation extends \Magento\Model\Resource\Db\AbstractDb
+class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Rates cache
@@ -38,19 +38,19 @@ class Calculation extends \Magento\Model\Resource\Db\AbstractDb
     protected $_taxData;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_taxData = $taxData;
         $this->_storeManager = $storeManager;
@@ -351,17 +351,17 @@ class Calculation extends \Magento\Model\Resource\Db\AbstractDb
             }
 
             $select->order(
-                'priority ' . \Magento\DB\Select::SQL_ASC
+                'priority ' . \Magento\Framework\DB\Select::SQL_ASC
             )->order(
-                'tax_calculation_rule_id ' . \Magento\DB\Select::SQL_ASC
+                'tax_calculation_rule_id ' . \Magento\Framework\DB\Select::SQL_ASC
             )->order(
-                'tax_country_id ' . \Magento\DB\Select::SQL_DESC
+                'tax_country_id ' . \Magento\Framework\DB\Select::SQL_DESC
             )->order(
-                'tax_region_id ' . \Magento\DB\Select::SQL_DESC
+                'tax_region_id ' . \Magento\Framework\DB\Select::SQL_DESC
             )->order(
-                'tax_postcode ' . \Magento\DB\Select::SQL_DESC
+                'tax_postcode ' . \Magento\Framework\DB\Select::SQL_DESC
             )->order(
-                'value ' . \Magento\DB\Select::SQL_DESC
+                'value ' . \Magento\Framework\DB\Select::SQL_DESC
             );
 
             $fetchResult = $this->_getReadAdapter()->fetchAll($select);

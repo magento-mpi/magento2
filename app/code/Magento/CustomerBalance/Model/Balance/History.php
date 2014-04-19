@@ -9,7 +9,7 @@
  */
 namespace Magento\CustomerBalance\Model\Balance;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Customerbalance history model
@@ -35,7 +35,7 @@ use Magento\Model\Exception;
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class History extends \Magento\Model\AbstractModel
+class History extends \Magento\Framework\Model\AbstractModel
 {
     const ACTION_UPDATED = 1;
 
@@ -50,19 +50,19 @@ class History extends \Magento\Model\AbstractModel
     /**
      * Design package instance
      *
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_design = null;
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -72,30 +72,30 @@ class History extends \Magento\Model\AbstractModel
     protected $_transportBuilder;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\View\DesignInterface $design
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\View\DesignInterface $design
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\View\DesignInterface $design,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\View\DesignInterface $design,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_transportBuilder = $transportBuilder;
         $this->_design = $design;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -202,7 +202,11 @@ class History extends \Magento\Model\AbstractModel
             $customer = $this->getBalanceModel()->getCustomer();
 
             $transport = $this->_transportBuilder->setTemplateIdentifier(
-                $this->_coreStoreConfig->getConfig('customer/magento_customerbalance/email_template', $storeId)
+                $this->_scopeConfig->getValue(
+                    'customer/magento_customerbalance/email_template',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $storeId
+                )
             )->setTemplateOptions(
                 array('area' => $this->_design->getArea(), 'store' => $storeId)
             )->setTemplateVars(
@@ -218,7 +222,11 @@ class History extends \Magento\Model\AbstractModel
                     'store' => $this->_storeManager->getStore($storeId)
                 )
             )->setFrom(
-                $this->_coreStoreConfig->getConfig('customer/magento_customerbalance/email_identity', $storeId)
+                $this->_scopeConfig->getValue(
+                    'customer/magento_customerbalance/email_identity',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $storeId
+                )
             )->addTo(
                 $customer->getEmail(),
                 $customer->getName()

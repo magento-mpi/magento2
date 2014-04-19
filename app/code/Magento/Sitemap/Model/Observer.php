@@ -44,9 +44,9 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Sitemap\Model\Resource\Sitemap\CollectionFactory
@@ -59,7 +59,7 @@ class Observer
     protected $_transportBuilder;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -69,20 +69,20 @@ class Observer
     protected $inlineTranslation;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Resource\Sitemap\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sitemap\Model\Resource\Sitemap\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Translate\Inline\StateInterface $inlineTranslation
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_collectionFactory = $collectionFactory;
         $this->_storeManager = $storeManager;
         $this->_transportBuilder = $transportBuilder;
@@ -100,7 +100,11 @@ class Observer
         $errors = array();
 
         // check if scheduled generation enabled
-        if (!$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_GENERATION_ENABLED)) {
+        if (!$this->_scopeConfig->isSetFlag(
+            self::XML_PATH_GENERATION_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )
+        ) {
             return;
         }
 
@@ -116,11 +120,19 @@ class Observer
             }
         }
 
-        if ($errors && $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT)) {
-            $this->inlineTranslation->suspend();
+        if ($errors && $this->_scopeConfig->getValue(
+            self::XML_PATH_ERROR_RECIPIENT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )
+        ) {
+            $translate = $this->_translateModel->getTranslateInline();
+            $this->_translateModel->setTranslateInline(false);
 
             $this->_transportBuilder->setTemplateIdentifier(
-                $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE)
+                $this->_scopeConfig->getValue(
+                    self::XML_PATH_ERROR_TEMPLATE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
             )->setTemplateOptions(
                 array(
                     'area' => \Magento\Core\Model\App\Area::AREA_ADMIN,
@@ -129,9 +141,15 @@ class Observer
             )->setTemplateVars(
                 array('warnings' => join("\n", $errors))
             )->setFrom(
-                $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_IDENTITY)
+                $this->_scopeConfig->getValue(
+                    self::XML_PATH_ERROR_IDENTITY,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
             )->addTo(
-                $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT)
+                $this->_scopeConfig->getValue(
+                    self::XML_PATH_ERROR_RECIPIENT,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
             );
             $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();

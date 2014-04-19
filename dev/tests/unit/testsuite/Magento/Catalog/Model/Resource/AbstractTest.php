@@ -87,13 +87,13 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Model\Resource\AbstractResource',
             array('getAttributesByCode'),
             array(
-                $this->getMock('Magento\App\Resource', array(), array(), '', false, false),
+                $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false, false),
                 $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false, false),
                 $this->getMock('Magento\Eav\Model\Entity\Attribute\Set', array(), array(), '', false, false),
                 $this->getMock('Magento\Locale\FormatInterface'),
                 $this->getMock('Magento\Eav\Model\Resource\Helper', array(), array(), '', false, false),
                 $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false, false),
-                $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false),
+                $this->getMock('Magento\Store\Model\StoreManagerInterface', array(), array(), '', false),
                 $this->getMock('Magento\Catalog\Model\Factory', array(), array(), '', false),
                 array()
             )

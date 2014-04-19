@@ -9,7 +9,7 @@
  */
 namespace Magento\Checkout\Block;
 
-class Agreements extends \Magento\View\Element\Template
+class Agreements extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Checkout\Model\Resource\Agreement\CollectionFactory
@@ -17,12 +17,12 @@ class Agreements extends \Magento\View\Element\Template
     protected $_agreementCollectionFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory,
         array $data = array()
     ) {
@@ -36,7 +36,7 @@ class Agreements extends \Magento\View\Element\Template
     public function getAgreements()
     {
         if (!$this->hasAgreements()) {
-            if (!$this->_storeConfig->getConfigFlag('checkout/options/enable_agreements')) {
+            if (!$this->_scopeConfig->isSetFlag('checkout/options/enable_agreements', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
                 $agreements = array();
             } else {
                 /** @var \Magento\Checkout\Model\Resource\Agreement\Collection $agreements */

@@ -10,7 +10,7 @@ namespace Magento\Checkout\Block\Cart;
 /**
  * Wishlist sidebar block
  */
-class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Magento\View\Block\IdentityInterface
+class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Magento\Framework\View\Block\IdentityInterface
 {
     const XML_PATH_CHECKOUT_SIDEBAR_COUNT = 'checkout/sidebar/count';
 
@@ -47,7 +47,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Mage
     protected $_urlHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -62,7 +62,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Mage
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -93,7 +93,10 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Mage
     {
         $count = $this->getData('item_count');
         if (is_null($count)) {
-            $count = $this->_storeConfig->getConfig(self::XML_PATH_CHECKOUT_SIDEBAR_COUNT);
+            $count = $this->_scopeConfig->getValue(
+                self::XML_PATH_CHECKOUT_SIDEBAR_COUNT,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
             $this->setData('item_count', $count);
         }
         return $count;
@@ -267,7 +270,10 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Mage
      */
     public function getIsNeedToDisplaySideBar()
     {
-        return (bool)$this->_storeManager->getStore()->getConfig('checkout/sidebar/display');
+        return (bool)$this->_scopeConfig->getValue(
+            'checkout/sidebar/display',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -321,16 +327,8 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Mage
         foreach ($this->getLayout()->getChildBlocks(
             $this->_getRendererList()->getNameInLayout()
         ) as $alias => $block) {
-            /** @var $block \Magento\View\Element\Template */
-            $result[] = implode(
-                '|',
-                array(
-                    // skip $this->getNameInLayout() and '.'
-                    $alias,
-                    get_class($block),
-                    $block->getTemplate()
-                )
-            );
+            /** @var $block \Magento\Framework\View\Element\Template */
+            $result[] = implode('|', array($alias, get_class($block), $block->getTemplate()));
         }
         return implode('|', $result);
     }
@@ -346,7 +344,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Mage
         if (!is_string($renders)) {
             return $this;
         }
-        $rendererList = $this->addChild('renderer.list', 'Magento\View\Element\RendererList');
+        $rendererList = $this->addChild('renderer.list', 'Magento\Framework\View\Element\RendererList');
 
         $renders = explode('|', $renders);
         while (!empty($renders)) {

@@ -15,22 +15,22 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy;
 class Manage extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_systemStore = $systemStore;
@@ -64,7 +64,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(array('data' => array('id' => 'manage_form', 'method' => 'post')));
 
         $currentWebsite = $this->getRequest()->getParam('website');
@@ -143,9 +143,9 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
                         }
                     }
                 }
-            } elseif ($website['value'] == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
+            } elseif ($website['value'] == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
                 $website['value'] = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE .
-                    \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+                    \Magento\Store\Model\Store::DEFAULT_STORE_ID;
                 $options[] = array('label' => $website['label'], 'value' => $website['value']);
             }
         }

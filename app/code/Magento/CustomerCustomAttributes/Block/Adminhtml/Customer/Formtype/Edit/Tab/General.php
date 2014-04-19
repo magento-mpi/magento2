@@ -16,29 +16,29 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements
     \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var \Magento\View\Design\Theme\LabelFactory
+     * @var \Magento\Framework\View\Design\Theme\LabelFactory
      */
     protected $_themeLabelFactory;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\View\Design\Theme\LabelFactory $themeLabelFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Framework\View\Design\Theme\LabelFactory $themeLabelFactory
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\View\Design\Theme\LabelFactory $themeLabelFactory,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Framework\View\Design\Theme\LabelFactory $themeLabelFactory,
+        \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_themeLabelFactory = $themeLabelFactory;
@@ -68,7 +68,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements
         /* @var $model \Magento\Eav\Model\Form\Type */
         $model = $this->_coreRegistry->registry('current_form_type');
 
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('general_fieldset', array('legend' => __('General Information')));
 
@@ -103,7 +103,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements
             )
         );
 
-        /** @var $label \Magento\View\Design\Theme\Label */
+        /** @var $label \Magento\Framework\View\Design\Theme\Label */
         $label = $this->_themeLabelFactory->create();
         $options = $label->getLabelsCollection();
         array_unshift($options, array('label' => __('All Themes'), 'value' => ''));

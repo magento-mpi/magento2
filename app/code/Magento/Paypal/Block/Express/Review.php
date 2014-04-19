@@ -16,7 +16,7 @@ namespace Magento\Paypal\Block\Express;
  * @package    Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Review extends \Magento\View\Element\Template
+class Review extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Sales\Model\Quote
@@ -55,13 +55,13 @@ class Review extends \Magento\View\Element\Template
     /**
      * Initialize dependencies.
      *
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Tax\Helper\Data $taxHelper
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Customer\Model\Address\Config $addressConfig,
         array $data = array()
@@ -128,7 +128,7 @@ class Review extends \Magento\View\Element\Template
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = $this->_storeConfig->getConfig("carriers/{$carrierCode}/title")) {
+        if ($name = $this->_scopeConfig->getValue("carriers/{$carrierCode}/title", \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             return $name;
         }
         return $carrierCode;

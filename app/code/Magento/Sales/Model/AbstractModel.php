@@ -13,7 +13,7 @@ namespace Magento\Sales\Model;
  * Sales abstract model
  * Provide date processing functionality
  */
-abstract class AbstractModel extends \Magento\Model\AbstractModel
+abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * @var \Magento\Stdlib\DateTime\TimezoneInterface
@@ -26,21 +26,21 @@ abstract class AbstractModel extends \Magento\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -51,7 +51,7 @@ abstract class AbstractModel extends \Magento\Model\AbstractModel
     /**
      * Get object store identifier
      *
-     * @return int | string | \Magento\Core\Model\Store
+     * @return int | string | \Magento\Store\Model\Store
      */
     abstract public function getStore();
 

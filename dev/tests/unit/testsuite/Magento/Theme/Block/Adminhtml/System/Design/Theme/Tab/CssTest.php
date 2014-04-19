@@ -44,7 +44,7 @@ class CssTest extends \PHPUnit_Framework_TestCase
         $constructArguments = $objectManagerHelper->getConstructArguments(
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css',
             array(
-                'formFactory' => $this->getMock('Magento\Data\FormFactory', array(), array(), '', false),
+                'formFactory' => $this->getMock('Magento\Framework\Data\FormFactory', array(), array(), '', false),
                 'objectManager' => $this->_objectManager,
                 'uploaderService' => $this->getMock(
                     'Magento\Theme\Model\Uploader\Service',
@@ -91,15 +91,15 @@ class CssTest extends \PHPUnit_Framework_TestCase
     {
         $method = self::getMethod('_getAdditionalElementTypes');
 
-        /** @var $configModel \Magento\App\ConfigInterface */
-        $configModel = $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false);
+        /** @var $configModel \Magento\Framework\App\Config\ScopeConfigInterface */
+        $configModel = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
         $this->_objectManager->expects(
             $this->any()
         )->method(
             'get'
         )->with(
-            'Magento\App\ConfigInterface'
+            'Magento\Framework\App\Config\ScopeConfigInterface'
         )->will(
             $this->returnValue($configModel)
         );

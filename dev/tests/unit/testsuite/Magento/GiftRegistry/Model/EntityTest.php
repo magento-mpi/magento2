@@ -45,11 +45,10 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);
-        $translate = $this->getMock('Magento\Translate\Inline\StateInterface', array(), array(), '', false);
 
-        $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $this->_store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMockBuilder(
-            'Magento\Core\Model\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->disableOriginalConstructor()->setMethods(
             array('getStore')
         )->getMockForAbstractClass();
@@ -85,21 +84,34 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $this->_store->expects($this->any())->method('getId')->will($this->returnValue(1));
 
 
-        $appState = $this->getMock('Magento\App\State', array(), array(), '', false);
+        $appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
+
         $eventDispatcher = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false, false);
-        $cacheManager = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false, false);
+        $cacheManager = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false, false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $actionValidatorMock = $this->getMock(
-            '\Magento\Model\ActionValidator\RemoveAction', array(), array(), '', false
+            '\Magento\Framework\Model\ActionValidator\RemoveAction',
+            array(),
+            array(),
+            '',
+            false
         );
-        $context = new \Magento\Model\Context(
-            $logger, $eventDispatcher, $cacheManager, $appState, $actionValidatorMock
+        $context = new \Magento\Framework\Model\Context(
+            $logger,
+            $eventDispatcher,
+            $cacheManager,
+            $appState,
+            $actionValidatorMock
         );
-        $giftRegistryData = $this->getMock('Magento\GiftRegistry\Helper\Data', array('getRegistryLink'),
-            array(), '', false, false);
-        $giftRegistryData->expects($this->any())
-            ->method('getRegistryLink')
-            ->will($this->returnArgument(0));
+        $giftRegistryData = $this->getMock(
+            'Magento\GiftRegistry\Helper\Data',
+            array('getRegistryLink'),
+            array(),
+            '',
+            false,
+            false
+        );
+        $giftRegistryData->expects($this->any())->method('getRegistryLink')->will($this->returnArgument(0));
         $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
 
         $attributeConfig = $this->getMock('Magento\GiftRegistry\Model\Attribute\Config', array(), array(), '', false);
@@ -122,36 +134,46 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $request = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
+        $request = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false);
         $escaper = $this->getMock('Magento\Escaper', array('escapeHtml'), array(), '', false, false);
         $escaper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
         $mathRandom = $this->getMock('Magento\Math\Random', array(), array(), '', false, false);
+        $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
+        $inlineTranslate = $this->getMock(
+            '\Magento\Translate\Inline\StateInterface',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
 
         $this->_model = new \Magento\GiftRegistry\Model\Entity(
-            $context, 
-            $coreRegistry, 
-            $giftRegistryData, 
+            $context,
+            $coreRegistry,
+            $giftRegistryData,
             $this->_storeManagerMock,
-            $this->_transportBuilderMock, 
-            $type, 
-            $attributeConfig, 
-            $item, 
-            $inventoryStockItem, 
+            $this->_transportBuilderMock,
+            $type,
+            $attributeConfig,
+            $item,
+            $inventoryStockItem,
             $session,
-            $quoteFactory, 
-            $customerFactory, 
-            $personFactory, 
-            $itemFactory, 
-            $addressFactory, 
+            $quoteFactory,
+            $customerFactory,
+            $personFactory,
+            $itemFactory,
+            $addressFactory,
             $productFactory,
-            $dateFactory, 
-            $loggingEventFactory, 
-            $request, 
-            $escaper, 
-            $mathRandom, 
-            $translate, 
-            $resource, 
-            null, 
+            $dateFactory,
+            $loggingEventFactory,
+            $request,
+            $escaper,
+            $mathRandom,
+            $scopeConfig,
+            $inlineTranslate,
+            $resource,
+            null,
             array()
         );
     }

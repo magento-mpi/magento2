@@ -23,31 +23,31 @@ class DesignExceptions
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $coreStoreConfig;
+    protected $scopeConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(\Magento\Core\Model\Store\Config $coreStoreConfig)
+    public function __construct(\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig)
     {
-        $this->coreStoreConfig = $coreStoreConfig;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
      * Get theme that should be applied for current user-agent according to design exceptions configuration
      *
-     * @param \Magento\App\Request\Http $request
+     * @param \Magento\Framework\App\Request\Http $request
      * @return string|bool
      */
-    public function getThemeForUserAgent(\Magento\App\Request\Http $request)
+    public function getThemeForUserAgent(\Magento\Framework\App\Request\Http $request)
     {
         $userAgent = $request->getServer('HTTP_USER_AGENT');
         if (empty($userAgent)) {
             return false;
         }
-        $expressions = $this->coreStoreConfig->getConfig(self::XML_PATH_DESIGN_EXCEPTION);
+        $expressions = $this->scopeConfig->getValue(self::XML_PATH_DESIGN_EXCEPTION, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if (!$expressions) {
             return false;
         }

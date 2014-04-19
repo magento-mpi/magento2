@@ -18,13 +18,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_blockInjections = array(
-        'Magento\Model\Context',
+        'Magento\Framework\Model\Context',
         'Magento\Registry',
-        'Magento\App\Filesystem',
-        'Magento\View\Url',
-        'Magento\View\FileSystem',
+        'Magento\Framework\App\Filesystem',
+        'Magento\Framework\View\Url',
+        'Magento\Framework\View\FileSystem',
         'Magento\Core\Model\View\Design',
-        'Magento\Core\Model\Store\Config',
+        'Magento\Framework\App\Config\ScopeConfigInterface',
         'Magento\Email\Model\Template\Config'
     );
 
@@ -36,8 +36,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testGenerateGiftCardAccountsEmailSending()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
-        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');
         $this->_checkOrderItemProductOptions($order, true);
 
         $event = new \Magento\Event(array('order' => $order));

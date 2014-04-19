@@ -10,13 +10,13 @@
 namespace Magento\Rma\Model;
 
 use Magento\Rma\Model\Item;
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 use Magento\Sales\Model\Order\Address;
 
 /**
  * RMA model
  */
-class Rma extends \Magento\Model\AbstractModel
+class Rma extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * XML configuration paths
@@ -77,7 +77,7 @@ class Rma extends \Magento\Model\AbstractModel
     /**
      * Core session model
      *
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\Generic
      */
     protected $_session;
 
@@ -91,7 +91,7 @@ class Rma extends \Magento\Model\AbstractModel
     /**
      * Core store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -234,12 +234,12 @@ class Rma extends \Magento\Model\AbstractModel
     protected $inlineTranslation;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Session\Generic $session
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Rma\Model\Config $rmaConfig
      * @param \Magento\Rma\Model\ItemFactory $rmaItemFactory
@@ -262,18 +262,18 @@ class Rma extends \Magento\Model\AbstractModel
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\Session $session,
+        \Magento\Session\Generic $session,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rma\Model\Config $rmaConfig,
         \Magento\Rma\Model\ItemFactory $rmaItemFactory,
@@ -296,7 +296,7 @@ class Rma extends \Magento\Model\AbstractModel
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
@@ -465,8 +465,8 @@ class Rma extends \Magento\Model\AbstractModel
     public function canClose()
     {
         $status = $this->getStatus();
-        if ($status === \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED ||
-            $status === \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED
+        if ($status === \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED
+            || $status === \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED
         ) {
             return false;
         }
@@ -595,7 +595,6 @@ class Rma extends \Magento\Model\AbstractModel
                     'rma' => $this,
                     'order' => $this->getOrder(),
                     'return_address' => $returnAddress,
-                    //We cannot use $this->_items as items collection, because some items might not be loaded now
                     'item_collection' => $this->getItemsForDisplay()
                 )
             )->setFrom(
@@ -773,11 +772,13 @@ class Rma extends \Magento\Model\AbstractModel
                     )
                 );
                 foreach ($qtyToStatus as $qtyKey => $qtyValue) {
-                    if ($item->getStatus() === $qtyValue['status'] && $item->getOrigData(
-                        'status'
-                    ) !== $qtyValue['status'] && !$item->getData(
-                        $qtyKey
-                    )
+                    if ($item->getStatus() === $qtyValue['status']
+                        && $item->getOrigData(
+                            'status'
+                        ) !== $qtyValue['status']
+                        && !$item->getData(
+                            $qtyKey
+                        )
                     ) {
                         $errors[] = __('%1 for item %2 cannot be empty.', $qtyValue['name'], $escapedProductName);
                         $errorKeys[$item->getId()] = $qtyKey;
@@ -873,8 +874,8 @@ class Rma extends \Magento\Model\AbstractModel
                         }
 
                         if (empty($item['reason_other'])) {
-                            $item['reason_other'] = $itemModel->getReasonOther() ===
-                                null ? '' : $itemModel->getReasonOther();
+                            $item['reason_other'] =
+                                $itemModel->getReasonOther() === null ? '' : $itemModel->getReasonOther();
                         }
 
                         if (empty($item['condition'])) {
@@ -897,8 +898,8 @@ class Rma extends \Magento\Model\AbstractModel
 
                 $itemModels[] = $itemModel;
 
-                if ($itemModel->getStatus() === \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED &&
-                    $itemModel->getOrigData(
+                if ($itemModel->getStatus() === \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED
+                    && $itemModel->getOrigData(
                         'status'
                     ) !== $itemModel->getStatus()
                 ) {
@@ -1222,9 +1223,9 @@ class Rma extends \Magento\Model\AbstractModel
      */
     protected function _isRmaAvailableForPrintLabel()
     {
-        return $this->getStatus() !== \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED &&
-            $this->getStatus() !== \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED &&
-            $this->getStatus() !== \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING;
+        return $this->getStatus() !== \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED
+        && $this->getStatus() !== \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED
+        && $this->getStatus() !== \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING;
     }
 
     /**
@@ -1251,9 +1252,11 @@ class Rma extends \Magento\Model\AbstractModel
             ) {
                 return false;
             }
-            if ($item->getStatus() === \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED && is_numeric(
-                $item->getQtyAuthorized()
-            ) && $item->getQtyAuthorized() > 0
+            if ($item->getStatus() === \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED
+                && is_numeric(
+                    $item->getQtyAuthorized()
+                )
+                && $item->getQtyAuthorized() > 0
             ) {
                 $return = true;
             }

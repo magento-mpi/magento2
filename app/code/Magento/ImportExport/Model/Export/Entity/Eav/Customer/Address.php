@@ -113,8 +113,8 @@ class Address extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
     protected $_customers = array();
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -125,8 +125,8 @@ class Address extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -137,7 +137,7 @@ class Address extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
         array $data = array()
     ) {
         parent::__construct(
-            $coreStoreConfig,
+            $scopeConfig,
             $storeManager,
             $collectionFactory,
             $resourceColFactory,

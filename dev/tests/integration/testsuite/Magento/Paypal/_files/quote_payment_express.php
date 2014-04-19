@@ -6,10 +6,20 @@
  * @license     {license_link}
  */
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea('adminhtml');
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')->getStore()
-    ->setConfig('carriers/flatrate/active', 1);
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')->getStore()
-    ->setConfig('payment/paypal_express/active', 1);
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+    'Magento\Framework\App\Config\MutableScopeConfigInterface'
+)->setValue(
+    'carriers/flatrate/active',
+    1,
+    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+);
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+    'Magento\Framework\App\Config\MutableScopeConfigInterface'
+)->setValue(
+    'payment/paypal_express/active',
+    1,
+    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+);
 /** @var $product \Magento\Catalog\Model\Product */
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
@@ -61,17 +71,23 @@ $shippingAddress->setShippingMethod('flatrate_flatrate');
 $shippingAddress->setCollectShippingRates(true);
 
 /** @var $quote \Magento\Sales\Model\Quote */
-$quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Quote');
-$quote->setCustomerIsGuest(true)
-    ->setStoreId(
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->getId()
-    )
-    ->setReservedOrderId('test02')
-    ->setBillingAddress($billingAddress)
-    ->setShippingAddress($shippingAddress)
-    ->addProduct($product, 10);
+$quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
+$quote->setCustomerIsGuest(
+    true
+)->setStoreId(
+    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+        'Magento\Store\Model\StoreManagerInterface'
+    )->getStore()->getId()
+)->setReservedOrderId(
+    'test02'
+)->setBillingAddress(
+    $billingAddress
+)->setShippingAddress(
+    $shippingAddress
+)->addProduct(
+    $product,
+    10
+);
 $quote->getShippingAddress()->setShippingMethod('flatrate_flatrate');
 $quote->getShippingAddress()->setCollectShippingRates(true);
 $quote->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_WPS);

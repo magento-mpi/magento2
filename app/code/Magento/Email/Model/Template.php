@@ -9,9 +9,9 @@
  */
 namespace Magento\Email\Model;
 
-use Magento\Model\Exception;
 use Magento\Email\Model\Template\Filter;
 use Magento\Filter\Template as FilterTemplate;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Template model
@@ -20,7 +20,10 @@ use Magento\Filter\Template as FilterTemplate;
  *
  * // Loading of template
  * \Magento\Email\Model\TemplateFactory $templateFactory
- * $templateFactory->create()->load($this->_coreStoreConfig->getConfig('path_to_email_template_id_config'));
+ * $templateFactory->create()->load($this->_scopeConfig->getValue(
+ *  'path_to_email_template_id_config',
+ *  \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+ *  ));
  * $variables = array(
  *    'someObject' => $this->_coreResourceEmailTemplate
  *    'someString' => 'Some string value'
@@ -118,26 +121,26 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     protected $_sendingException = null;
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var \Magento\View\FileSystem
+     * @var \Magento\Framework\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
-     * Core store config
+     * Scope config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Email\Model\Template\Config
@@ -154,16 +157,15 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     protected $_emailFilterFactory;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\Url $viewUrl
-     * @param \Magento\View\FileSystem $viewFileSystem
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\App\ConfigInterface $coreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\View\Url $viewUrl
+     * @param \Magento\Framework\View\FileSystem $viewFileSystem
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Template\FilterFactory $emailFilterFactory
      * @param Template\Config $emailConfig
      * @param array $data
@@ -171,25 +173,23 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\View\DesignInterface $design,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\View\DesignInterface $design,
         \Magento\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Filesystem $filesystem,
-        \Magento\View\Url $viewUrl,
-        \Magento\View\FileSystem $viewFileSystem,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\App\ConfigInterface $coreConfig,
+        StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\View\Url $viewUrl,
+        \Magento\Framework\View\FileSystem $viewFileSystem,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Email\Model\Template\FilterFactory $emailFilterFactory,
         \Magento\Email\Model\Template\Config $emailConfig,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_filesystem = $filesystem;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
-        $this->_coreConfig = $coreConfig;
         $this->_emailFilterFactory = $emailFilterFactory;
         $this->_emailConfig = $emailConfig;
         parent::__construct($context, $design, $registry, $appEmulation, $storeManager, $data);
@@ -208,16 +208,20 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     /**
      * Return logo URL for emails. Take logo from theme if custom logo is undefined
      *
-     * @param  \Magento\Core\Model\Store|int|string $store
+     * @param  \Magento\Store\Model\Store|int|string $store
      * @return string
      */
     protected function _getLogoUrl($store)
     {
         $store = $this->_storeManager->getStore($store);
-        $fileName = $store->getConfig(self::XML_PATH_DESIGN_EMAIL_LOGO);
+        $fileName = $this->_scopeConfig->getValue(
+            self::XML_PATH_DESIGN_EMAIL_LOGO,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
         if ($fileName) {
             $uploadDir = \Magento\Backend\Model\Config\Backend\Email\Logo::UPLOAD_DIR;
-            $mediaDirectory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
+            $mediaDirectory = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
             if ($mediaDirectory->isFile($uploadDir . '/' . $fileName)) {
                 return $this->_storeManager->getStore()->getBaseUrl(
                     \Magento\UrlInterface::URL_TYPE_MEDIA
@@ -243,13 +247,17 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     /**
      * Return logo alt for emails
      *
-     * @param  \Magento\Core\Model\Store|int|string $store
+     * @param  \Magento\Store\Model\Store|int|string $store
      * @return string
      */
     protected function _getLogoAlt($store)
     {
         $store = $this->_storeManager->getStore($store);
-        $alt = $store->getConfig(self::XML_PATH_DESIGN_EMAIL_LOGO_ALT);
+        $alt = $this->_scopeConfig->getValue(
+            self::XML_PATH_DESIGN_EMAIL_LOGO_ALT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
         if ($alt) {
             return $alt;
         }
@@ -311,7 +319,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
         $templateTypeCode = $templateType == 'html' ? self::TYPE_HTML : self::TYPE_TEXT;
         $this->setTemplateType($templateTypeCode);
 
-        $modulesDirectory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
+        $modulesDirectory = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
         $templateText = $modulesDirectory->readFile($modulesDirectory->getRelativePath($templateFile));
 
         if (preg_match('/<!--@subject\s*(.*?)\s*@-->/u', $templateText, $matches)) {
@@ -368,8 +376,9 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
      */
     public function isValidForSend()
     {
-        return !$this->_coreStoreConfig->getConfigFlag(
-            'system/smtp/disable'
+        return !$this->_scopeConfig->isSetFlag(
+            'system/smtp/disable',
+            ScopeInterface::SCOPE_STORE
         ) && $this->getSenderName() && $this->getSenderEmail() && $this->getTemplateSubject();
     }
 

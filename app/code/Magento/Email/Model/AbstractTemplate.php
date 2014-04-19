@@ -9,6 +9,9 @@
  */
 namespace Magento\Email\Model;
 
+use Magento\Framework\App\TemplateTypesInterface;
+use Magento\Framework\Model\AbstractModel;
+
 /**
  * Template model class
  *
@@ -16,7 +19,7 @@ namespace Magento\Email\Model;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractTemplate extends \Magento\Model\AbstractModel implements \Magento\App\TemplateTypesInterface
+abstract class AbstractTemplate extends AbstractModel implements TemplateTypesInterface
 {
     /**
      * Default design area for emulation
@@ -62,7 +65,7 @@ abstract class AbstractTemplate extends \Magento\Model\AbstractModel implements 
     /**
      * Design package instance
      *
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_design = null;
 
@@ -72,24 +75,24 @@ abstract class AbstractTemplate extends \Magento\Model\AbstractModel implements 
     protected $_appEmulation;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\View\DesignInterface $design,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\View\DesignInterface $design,
         \Magento\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_design = $design;

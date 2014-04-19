@@ -33,7 +33,7 @@ class CustomerRegistrationTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterIsRegistrationIsAllowedRestrictsRegistrationIfRestrictionModeForbidsIt()
     {
-        $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $storeMock->expects($this->any())->method('isAdmin')->will($this->returnValue(false));
         $this->restrictionConfig->expects(
             $this->any()

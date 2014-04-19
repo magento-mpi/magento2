@@ -14,7 +14,7 @@ namespace Magento\PricePermissions\Helper;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Path to edit_product_price node in ACL
@@ -52,21 +52,21 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Configuration interface
      *
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
 
     /**
      * Constructor
      *
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\App\ConfigInterface $coreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\AuthorizationInterface $authorization,
-        \Magento\App\ConfigInterface $coreConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
     ) {
         parent::__construct($context);
         $this->_authorization = $authorization;

@@ -98,8 +98,8 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
     protected $_eavCustomerFactory;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
      * @param \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
@@ -108,8 +108,8 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
         \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollectionFactory,
@@ -117,7 +117,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
+        parent::__construct($scopeConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
 
         $this->_customerCollectionFactory = $customerCollectionFactory;
         $this->_eavCustomerFactory = $eavCustomerFactory;
@@ -134,7 +134,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
      */
     protected function _initFrontendWebsites()
     {
-        /** @var $website \Magento\Core\Model\Website */
+        /** @var $website \Magento\Store\Model\Website */
         foreach ($this->_storeManager->getWebsites() as $website) {
             $this->_websiteIdToCode[$website->getId()] = $website->getCode();
         }

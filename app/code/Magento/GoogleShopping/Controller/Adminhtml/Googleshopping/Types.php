@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * GoogleShopping Admin Item Types Controller
@@ -37,7 +37,7 @@ class Types extends \Magento\Backend\App\Action
      * Dispatches controller_action_postdispatch_adminhtml Event
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -325,15 +325,15 @@ class Types extends \Magento\Backend\App\Action
     /**
      * Get store object, basing on request
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function _getStore()
     {
         $storeId = (int)$this->getRequest()->getParam('store', 0);
         if ($storeId == 0) {
-            return $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getDefaultStoreView();
+            return $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getDefaultStoreView();
         }
-        return $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore($storeId);
+        return $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore($storeId);
     }
 
     /**

@@ -12,7 +12,7 @@ namespace Magento\CustomerBalance\Block\Account;
 /**
  * Customer balance block
  */
-class Balance extends \Magento\View\Element\Template
+class Balance extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\CustomerBalance\Model\BalanceFactory
@@ -25,13 +25,13 @@ class Balance extends \Magento\View\Element\Template
     protected $currentCustomer;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array()

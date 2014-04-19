@@ -16,7 +16,7 @@ namespace Magento\Core\Model\Resource;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Variable extends \Magento\Model\Resource\Db\AbstractDb
+class Variable extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Constructor
@@ -68,10 +68,10 @@ class Variable extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Perform actions after object save
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         parent::_afterSave($object);
         if ($object->getUseDefaultValue()) {
@@ -104,7 +104,7 @@ class Variable extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param string $field
      * @param mixed $value
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -123,7 +123,7 @@ class Variable extends \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _addValueToSelect(
         \Zend_Db_Select $select,
-        $storeId = \Magento\Core\Model\Store::DEFAULT_STORE_ID
+        $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID
     ) {
         $adapter = $this->_getReadAdapter();
         $ifNullPlainValue = $adapter->getCheckSql('store.plain_value IS NULL', 'def.plain_value', 'store.plain_value');

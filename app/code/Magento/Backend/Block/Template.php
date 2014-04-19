@@ -14,7 +14,7 @@ namespace Magento\Backend\Block;
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Template extends \Magento\View\Element\Template
+class Template extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\AuthorizationInterface
@@ -32,7 +32,7 @@ class Template extends \Magento\View\Element\Template
     protected $_backendSession;
 
     /**
-     * @var \Magento\Data\Form\FormKey
+     * @var \Magento\Framework\Data\Form\FormKey
      */
     protected $formKey;
 
@@ -80,7 +80,11 @@ class Template extends \Magento\View\Element\Template
         if ($moduleName === null) {
             $moduleName = $this->getModuleName();
         }
-        return !$this->_storeConfig->getConfigFlag('advanced/modules_disable_output/' . $moduleName);
+
+        return !$this->_scopeConfig->isSetFlag(
+            'advanced/modules_disable_output/' . $moduleName,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -102,5 +106,15 @@ class Template extends \Magento\View\Element\Template
     {
         $this->_eventManager->dispatch('adminhtml_block_html_before', array('block' => $this));
         return parent::_toHtml();
+    }
+
+    /**
+     * Return toolbar block instance
+     *
+     * @return bool|\Magento\Framework\View\Element\BlockInterface
+     */
+    public function getToolbar()
+    {
+        return $this->getLayout()->getBlock('page.actions.toolbar');
     }
 }

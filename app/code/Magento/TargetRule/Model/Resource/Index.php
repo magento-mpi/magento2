@@ -60,7 +60,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     protected $_visibility;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -85,12 +85,12 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     protected $_indexPool;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\TargetRule\Model\Resource\IndexPool $indexPool
      * @param \Magento\TargetRule\Model\Resource\Rule $rule
      * @param \Magento\CustomerSegment\Model\Resource\Segment $segmentCollectionFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\CustomerSegment\Model\Customer $customer
      * @param \Magento\Customer\Model\Session $session
@@ -99,12 +99,12 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\TargetRule\Model\Resource\IndexPool $indexPool,
         \Magento\TargetRule\Model\Resource\Rule $rule,
         \Magento\CustomerSegment\Model\Resource\Segment $segmentCollectionFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\CustomerSegment\Model\Customer $customer,
         \Magento\Customer\Model\Session $session,
@@ -406,7 +406,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Retrieve new SELECT instance (used Read Adapter)
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function select()
     {
@@ -564,14 +564,14 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * Remove index data from index tables
      *
      * @param int|null $typeId
-     * @param \Magento\Core\Model\Store|int|array|null $store
+     * @param \Magento\Store\Model\Store|int|array|null $store
      * @return $this
      */
     public function cleanIndex($typeId = null, $store = null)
     {
         $adapter = $this->_getWriteAdapter();
 
-        if ($store instanceof \Magento\Core\Model\Store) {
+        if ($store instanceof \Magento\Store\Model\Store) {
             $store = $store->getId();
         }
 
@@ -597,7 +597,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Remove index by product ids and type
      *
-     * @param int|array|\Magento\DB\Select $productIds
+     * @param int|array|\Magento\Framework\DB\Select $productIds
      * @param int|null $typeId
      * @return $this
      */
@@ -649,11 +649,11 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Adds order by random to select object
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @param string|null $field
      * @return $this
      */
-    public function orderRand(\Magento\DB\Select $select, $field = null)
+    public function orderRand(\Magento\Framework\DB\Select $select, $field = null)
     {
         $this->_getReadAdapter()->orderRand($select, $field);
         return $this;

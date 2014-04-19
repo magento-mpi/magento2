@@ -9,8 +9,8 @@
  */
 namespace Magento\Invitation\Controller\Customer;
 
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\RequestInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
@@ -46,7 +46,7 @@ class Account extends \Magento\Customer\Controller\Account
     protected $_invitation;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Customer\Helper\Data $customerHelperData
@@ -55,11 +55,11 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Helper\Data $coreHelperData
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Core\Helper\Data $coreHelperData,
      * @param \Magento\Escaper $escaper
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
      * @param CustomerGroupServiceInterface $customerGroupService
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder
@@ -71,7 +71,7 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Customer\Helper\Data $customerHelperData,
@@ -80,11 +80,11 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Helper\Data $coreHelperData,
         \Magento\Escaper $escaper,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\State $appState,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder,
@@ -106,7 +106,7 @@ class Account extends \Magento\Customer\Controller\Account
             $formKeyValidator,
             $subscriberFactory,
             $storeManager,
-            $storeConfig,
+            $scopeConfig,
             $coreHelperData,
             $escaper,
             $appState,
@@ -130,8 +130,8 @@ class Account extends \Magento\Customer\Controller\Account
      * No way to logged in customers
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
-     * @throws \Magento\App\Action\NotFoundException
+     * @return \Magento\Framework\App\ResponseInterface
+     * @throws \Magento\Framework\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
     {
@@ -180,7 +180,7 @@ class Account extends \Magento\Customer\Controller\Account
             $this->_view->getLayout()->initMessages();
             $this->_view->renderLayout();
             return;
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         }
         $this->_redirect('customer/account/login');
@@ -225,7 +225,7 @@ class Account extends \Magento\Customer\Controller\Account
 
             $this->_redirect('customer/account/');
             return;
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $_definedErrorCodes = array(
                 \Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS,
                 \Magento\Invitation\Model\Invitation::ERROR_INVALID_DATA
@@ -242,9 +242,10 @@ class Account extends \Magento\Customer\Controller\Account
                         __(
                             'Your invitation is not valid. Please contact us at %1.',
                             $this->_objectManager->get(
-                                'Magento\Core\Model\Store\Config'
-                            )->getConfig(
-                                'trans_email/ident_support/email'
+                                'Magento\Framework\App\Config\ScopeConfigInterface'
+                            )->getValue(
+                                'trans_email/ident_support/email',
+                                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                             )
                         )
                     );

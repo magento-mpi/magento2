@@ -29,7 +29,7 @@ namespace Magento\GiftCardAccount\Model;
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class History extends \Magento\Model\AbstractModel
+class History extends \Magento\Framework\Model\AbstractModel
 {
     const ACTION_CREATED = 0;
 
@@ -44,24 +44,24 @@ class History extends \Magento\Model\AbstractModel
     const ACTION_UPDATED = 5;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -168,12 +168,12 @@ class History extends \Magento\Model\AbstractModel
      * Processing object before save data
      *
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave()
     {
         if (!$this->hasGiftcardaccount()) {
-            throw new \Magento\Model\Exception(__('Please assign a gift card account.'));
+            throw new \Magento\Framework\Model\Exception(__('Please assign a gift card account.'));
         }
 
         $this->setAction($this->getGiftcardaccount()->getHistoryAction());
@@ -203,7 +203,7 @@ class History extends \Magento\Model\AbstractModel
                 $this->setAdditionalInfo($this->_getExpiredAdditionalInfo());
                 break;
             default:
-                throw new \Magento\Model\Exception(__('Unknown history action.'));
+                throw new \Magento\Framework\Model\Exception(__('Unknown history action.'));
                 break;
         }
 

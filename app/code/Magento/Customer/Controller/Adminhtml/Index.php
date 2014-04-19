@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Controller\Adminhtml;
 
-use Magento\App\Action\NotFoundException;
+use Magento\Framework\App\Action\NotFoundException;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
@@ -42,7 +42,7 @@ class Index extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
@@ -93,7 +93,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
@@ -112,7 +112,7 @@ class Index extends \Magento\Backend\App\Action
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
@@ -403,7 +403,7 @@ class Index extends \Magento\Backend\App\Action
                 if ($isExistingCustomer) {
                     $this->_customerAccountService->updateCustomer($customerDetails);
                 } else {
-                    $customer = $this->_customerAccountService->createAccount($customerDetails);
+                    $customer = $this->_customerAccountService->createCustomer($customerDetails);
                     $customerId = $customer->getId();
                 }
 
@@ -431,7 +431,7 @@ class Index extends \Magento\Backend\App\Action
                 $this->_addSessionErrorMessages($exception->getMessages());
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;
-            } catch (\Magento\Model\Exception $exception) {
+            } catch (\Magento\Framework\Model\Exception $exception) {
                 $messages = $exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR);
                 if (!count($messages)) {
                     $messages = $exception->getMessage();
@@ -463,7 +463,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Reset password handler
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function resetPasswordAction()
     {
@@ -476,13 +476,13 @@ class Index extends \Magento\Backend\App\Action
             $customer = $this->_customerAccountService->getCustomer($customerId);
             $this->_customerAccountService->initiatePasswordReset(
                 $customer->getEmail(),
-                $customer->getWebsiteId(),
-                CustomerAccountServiceInterface::EMAIL_REMINDER
+                CustomerAccountServiceInterface::EMAIL_REMINDER,
+                $customer->getWebsiteId()
             );
             $this->messageManager->addSuccess(__('Customer will receive an email with a link to reset password.'));
         } catch (NoSuchEntityException $exception) {
             return $this->_redirect('customer/index');
-        } catch (\Magento\Model\Exception $exception) {
+        } catch (\Magento\Framework\Model\Exception $exception) {
             $messages = $exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR);
             if (!count($messages)) {
                 $messages = $exception->getMessage();
@@ -605,7 +605,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Export customer grid to CSV format
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function exportCsvAction()
     {
@@ -613,13 +613,17 @@ class Index extends \Magento\Backend\App\Action
         $fileName = 'customers.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_view->getLayout()->getChildBlock('admin.block.customer.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getCsvFile(),
+            \Magento\Framework\App\Filesystem::VAR_DIR
+        );
     }
 
     /**
      * Export customer grid to XML format
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function exportXmlAction()
     {
@@ -628,7 +632,7 @@ class Index extends \Magento\Backend\App\Action
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_view->getLayout()->getChildBlock('admin.block.customer.grid', 'grid.export');
         $content = $exportBlock->getExcelFile($fileName);
-        return $this->_fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $content, \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -722,12 +726,13 @@ class Index extends \Magento\Backend\App\Action
         // delete an item from cart
         $deleteItemId = $this->getRequest()->getPost('delete');
         if ($deleteItemId) {
-            $quote = $this->_objectManager
-                ->create('Magento\Sales\Model\Quote')
-                ->setWebsite(
-                    $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsite($websiteId)
-                )
-                ->loadByCustomer($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
+            $quote = $this->_objectManager->create(
+                'Magento\Sales\Model\Quote'
+            )->setWebsite(
+                $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsite($websiteId)
+            )->loadByCustomer(
+                $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
+            );
             $item = $quote->getItemById($deleteItemId);
             if ($item && $item->getId()) {
                 $quote->removeItem($deleteItemId);
@@ -837,7 +842,7 @@ class Index extends \Magento\Backend\App\Action
 
             $customer = $this->_customerBuilder->populateWithArray($data)->create();
             $errors = $this->_customerAccountService->validateCustomerData($customer);
-        } catch (\Magento\Model\Exception $exception) {
+        } catch (\Magento\Framework\Model\Exception $exception) {
             /* @var $error Error */
             foreach ($exception->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR) as $error) {
                 $errors[] = $error->getText();
@@ -963,7 +968,10 @@ class Index extends \Magento\Backend\App\Action
                 $customer = $this->_customerAccountService->getCustomer($customerId);
                 $this->_customerBuilder->populate($customer);
                 $customer = $this->_customerBuilder->setGroupId($this->getRequest()->getParam('group'))->create();
-                $this->_customerAccountService->saveCustomer($customer);
+                $customerDetails = $this->_customerDetailsBuilder
+                    ->setCustomer($customer)
+                    ->create();
+                $this->_customerAccountService->updateCustomer($customerDetails);
             },
             $customerIds
         );
@@ -1012,8 +1020,11 @@ class Index extends \Magento\Backend\App\Action
         $plain = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = $this->_objectManager->get('Magento\Core\Helper\Data')
-                ->urlDecode($this->getRequest()->getParam('file'));
+            $file = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->urlDecode(
+                $this->getRequest()->getParam('file')
+            );
         } elseif ($this->getRequest()->getParam('image')) {
             // show plain image
             $file = $this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode(
@@ -1024,9 +1035,9 @@ class Index extends \Magento\Backend\App\Action
             throw new NotFoundException();
         }
 
-        /** @var \Magento\App\Filesystem $filesystem */
-        $filesystem = $this->_objectManager->get('Magento\App\Filesystem');
-        $directory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
+        /** @var \Magento\Framework\App\Filesystem $filesystem */
+        $filesystem = $this->_objectManager->get('Magento\Framework\App\Filesystem');
+        $directory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
         $fileName = 'customer' . '/' . ltrim($file, '/');
         $path = $directory->getAbsolutePath($fileName);
         if (!$directory->isFile($fileName)
@@ -1074,7 +1085,7 @@ class Index extends \Magento\Backend\App\Action
             $this->_fileFactory->create(
                 $name,
                 array('type' => 'filename', 'value' => $fileName),
-                \Magento\App\Filesystem::MEDIA_DIR
+                \Magento\Framework\App\Filesystem::MEDIA_DIR
             )->sendResponse();
         }
 

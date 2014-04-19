@@ -33,18 +33,18 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $coreStoreConfig = $this->getMockBuilder(
-            '\Magento\Core\Model\Store\Config'
+        $scopeConfig = $this->getMockBuilder(
+            '\Magento\Framework\App\Config\ScopeConfigInterface'
         )->setMethods(
-            array('getConfigFlag', 'getConfig')
+            array('isSetFlag', 'getValue')
         )->disableOriginalConstructor()->getMock();
-        $coreStoreConfig->expects($this->any())->method('getConfigFlag')->will($this->returnValue(true));
-        $coreStoreConfig->expects(
+        $scopeConfig->expects($this->any())->method('isSetFlag')->will($this->returnValue(true));
+        $scopeConfig->expects(
             $this->any()
         )->method(
-            'getConfig'
+            'getValue'
         )->will(
-            $this->returnCallback(array($this, 'coreStoreConfigGetConfig'))
+            $this->returnCallback(array($this, 'scopeConfiggetValue'))
         );
 
         // xml element factory
@@ -115,7 +115,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
 
         $httpClientFactory->expects($this->any())->method('create')->will($this->returnValue($httpClient));
         $modulesDirectory = $this->getMockBuilder(
-            '\Magento\Filesystem\Directory\Read'
+            '\Magento\Framework\Filesystem\Directory\Read'
         )->disableOriginalConstructor()->setMethods(
             array('getRelativePath', 'readFile')
         )->getMock();
@@ -127,18 +127,18 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(file_get_contents(__DIR__ . '/_files/countries.xml'))
         );
         $filesystem = $this->getMockBuilder(
-            '\Magento\App\Filesystem'
+            '\Magento\Framework\App\Filesystem'
         )->disableOriginalConstructor()->setMethods(
             array('getDirectoryRead')
         )->getMock();
         $filesystem->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($modulesDirectory));
         $storeManager = $this->getMockBuilder(
-            '\Magento\Core\Model\StoreManager'
+            '\Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->setMethods(
             array('getWebsite')
         )->getMock();
         $website = $this->getMockBuilder(
-            '\Magento\Core\Model\Website'
+            '\Magento\Store\Model\Website'
         )->disableOriginalConstructor()->setMethods(
             array('getBaseCurrencyCode', '__wakeup')
         )->getMock();
@@ -148,7 +148,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         $this->_model = $this->_helper->getObject(
             'Magento\Dhl\Model\Carrier',
             array(
-                'coreStoreConfig' => $coreStoreConfig,
+                'scopeConfig' => $scopeConfig,
                 'xmlElFactory' => $xmlElFactory,
                 'rateFactory' => $rateFactory,
                 'rateMethodFactory' => $rateMethodFactory,
@@ -161,11 +161,11 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Callback function, emulates getConfig function
+     * Callback function, emulates getValue function
      * @param $path
      * @return null|string
      */
-    public function coreStoreConfigGetConfig($path)
+    public function scopeConfiggetValue($path)
     {
         $pathMap = array(
             'carriers/dhl/shipment_days' => 'Mon,Tue,Wed,Thu,Fri,Sat',
@@ -184,7 +184,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
     public function testPrepareShippingLabelContent()
     {
         $xml = simplexml_load_file(
-            __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'response_shipping_label.xml'
+            __DIR__ . '/_files/response_shipping_label.xml'
         );
         $result = $this->_invokePrepareShippingLabelContent($xml);
         $this->assertEquals(1111, $result->getTrackingNumber());
@@ -193,7 +193,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider prepareShippingLabelContentExceptionDataProvider
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage Unable to retrieve shipping label
      */
     public function testPrepareShippingLabelContentException(\SimpleXMLElement $xml)

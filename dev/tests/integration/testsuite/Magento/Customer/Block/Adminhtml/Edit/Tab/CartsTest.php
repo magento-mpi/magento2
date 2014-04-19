@@ -34,7 +34,7 @@ class CartsTest extends \PHPUnit_Framework_TestCase
         $this->_customerAccountService = $this->_objectManager->get(
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
         );
-        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
+        $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManager');
         $this->_context = $this->_objectManager->get(
             'Magento\Backend\Block\Template\Context',
             array('storeManager' => $storeManager)
@@ -51,7 +51,7 @@ class CartsTest extends \PHPUnit_Framework_TestCase
         $this->_context->getBackendSession()->setCustomerData($data);
 
         $this->_block = $this->_objectManager->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\Carts',
             '',
@@ -71,7 +71,7 @@ class CartsTest extends \PHPUnit_Framework_TestCase
         $this->_context->getBackendSession()->setCustomerData($data);
 
         $this->_block = $this->_objectManager->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\Carts',
             '',

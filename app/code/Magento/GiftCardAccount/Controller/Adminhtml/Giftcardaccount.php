@@ -9,7 +9,7 @@
  */
 namespace Magento\GiftCardAccount\Controller\Adminhtml;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Backend\App\Action;
 
 class Giftcardaccount extends \Magento\Backend\App\Action
@@ -29,7 +29,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
@@ -41,13 +41,13 @@ class Giftcardaccount extends \Magento\Backend\App\Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Stdlib\DateTime\Filter\Date $dateFilter
      */
     public function __construct(
         Action\Context $context,
         \Magento\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
         \Magento\Stdlib\DateTime\Filter\Date $dateFilter
     ) {
         parent::__construct($context);
@@ -162,9 +162,9 @@ class Giftcardaccount extends \Magento\Backend\App\Action
                 return;
             }
 
-            if ($this->_objectManager->get('Magento\Core\Model\StoreManager')->isSingleStoreMode()) {
+            if ($this->_objectManager->get('Magento\Store\Model\StoreManager')->isSingleStoreMode()) {
                 $data['website_id'] = $this->_objectManager->get(
-                    'Magento\Core\Model\StoreManager'
+                    'Magento\Store\Model\StoreManager'
                 )->getStore(
                     true
                 )->getWebsiteId();
@@ -291,7 +291,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         try {
             $this->_objectManager->create('Magento\GiftCardAccount\Model\Pool')->generatePool();
             $this->messageManager->addSuccess(__('New code pool was generated.'));
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We were unable to generate a new code pool.'));
@@ -364,7 +364,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
 
@@ -382,7 +382,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getCsvFile($fileName),
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
 

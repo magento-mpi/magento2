@@ -24,12 +24,12 @@ class DepersonalizePlugin
     protected $customerSession;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
@@ -50,16 +50,16 @@ class DepersonalizePlugin
 
     /**
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Module\Manager $moduleManager
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\PageCache\Model\Config $cacheConfig
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Module\Manager $moduleManager,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\PageCache\Model\Config $cacheConfig
     ) {
         $this->customerSession = $customerSession;
@@ -72,10 +72,10 @@ class DepersonalizePlugin
     /**
      * Before layout generate
      *
-     * @param \Magento\View\LayoutInterface $subject
+     * @param \Magento\Framework\View\LayoutInterface $subject
      * @return void
      */
-    public function beforeGenerateXml(\Magento\View\LayoutInterface $subject)
+    public function beforeGenerateXml(\Magento\Framework\View\LayoutInterface $subject)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')
             && $this->cacheConfig->isEnabled()
@@ -89,11 +89,11 @@ class DepersonalizePlugin
     /**
      * After layout generate
      *
-     * @param \Magento\View\LayoutInterface $subject
-     * @param \Magento\View\LayoutInterface $result
-     * @return \Magento\View\LayoutInterface
+     * @param \Magento\Framework\View\LayoutInterface $subject
+     * @param \Magento\Framework\View\LayoutInterface $result
+     * @return \Magento\Framework\View\LayoutInterface
      */
-    public function afterGenerateXml(\Magento\View\LayoutInterface $subject, $result)
+    public function afterGenerateXml(\Magento\Framework\View\LayoutInterface $subject, $result)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')
             && $this->cacheConfig->isEnabled()

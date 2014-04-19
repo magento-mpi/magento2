@@ -13,7 +13,7 @@
  */
 namespace Magento\PersistentHistory\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     const XML_PATH_PERSIST_WISHLIST = 'persistent/options/wishlist';
 
@@ -40,23 +40,23 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_modulesReader;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Module\Dir\Reader $modulesReader
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Module\Dir\Reader $modulesReader,
-        \Magento\Core\Model\Store\Config $storeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         parent::__construct($context);
         $this->_modulesReader = $modulesReader;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -72,66 +72,66 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check whether wishlist is persist
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isWishlistPersist($store = null)
     {
-        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_WISHLIST, $store);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_PERSIST_WISHLIST, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
      * Check whether ordered items is persist
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isOrderedItemsPersist($store = null)
     {
-        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_ORDERED_ITEMS, $store);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_PERSIST_ORDERED_ITEMS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
      * Check whether compare products is persist
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isCompareProductsPersist($store = null)
     {
-        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_COMPARE_PRODUCTS, $store);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_PERSIST_COMPARE_PRODUCTS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
      * Check whether compared products is persist
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isComparedProductsPersist($store = null)
     {
-        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_COMPARED_PRODUCTS, $store);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_PERSIST_COMPARED_PRODUCTS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
      * Check whether viewed products is persist
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isViewedProductsPersist($store = null)
     {
-        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_VIEWED_PRODUCTS, $store);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_PERSIST_VIEWED_PRODUCTS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
      * Check whether customer and segments is persist
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isCustomerAndSegmentsPersist($store = null)
     {
-        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_CUSTOMER_AND_SEGM, $store);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_PERSIST_CUSTOMER_AND_SEGM, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 }

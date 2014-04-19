@@ -39,7 +39,7 @@ class RoleTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_resourceMock = $this->getMock('Magento\App\Resource', array(), array(), '', false, false);
+        $this->_resourceMock = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false, false);
         $this->_groupFactoryMock = $this->getMock(
             'Magento\User\Model\Acl\Role\GroupFactory',
             array('create'),
@@ -66,10 +66,10 @@ class RoleTest extends \PHPUnit_Framework_TestCase
         );
 
 
-        $selectMock = $this->getMock('Magento\DB\Select', array(), array(), '', false);
+        $selectMock = $this->getMock('Magento\Framework\DB\Select', array(), array(), '', false);
         $selectMock->expects($this->any())->method('from')->will($this->returnValue($selectMock));
 
-        $this->_adapterMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
+        $this->_adapterMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         $this->_adapterMock->expects($this->once())->method('select')->will($this->returnValue($selectMock));
 
         $this->_resourceMock->expects(

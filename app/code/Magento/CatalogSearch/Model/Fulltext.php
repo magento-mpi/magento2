@@ -9,14 +9,12 @@
  */
 namespace Magento\CatalogSearch\Model;
 
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\CatalogSearch\Helper\Data;
-use Magento\CatalogSearch\Model\Query;
-use Magento\Model\AbstractModel;
-use Magento\Model\Context;
+use Magento\Framework\Model\Context;
 use Magento\Registry;
-use Magento\Model\Resource\AbstractResource;
-use Magento\Core\Model\Store\Config;
-use Magento\Data\Collection\Db;
+use Magento\Framework\Model\Resource\AbstractResource;
+use Magento\Framework\Data\Collection\Db;
 
 /**
  * Catalog advanced search model
@@ -34,7 +32,7 @@ use Magento\Data\Collection\Db;
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Fulltext extends AbstractModel
+class Fulltext extends \Magento\Framework\Model\AbstractModel
 {
     const SEARCH_TYPE_LIKE = 1;
 
@@ -54,15 +52,15 @@ class Fulltext extends AbstractModel
     /**
      * Core store config
      *
-     * @var Config
+     * @var ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @param Context $context
      * @param Registry $registry
      * @param Data $catalogSearchData
-     * @param Config $coreStoreConfig
+     * @param ScopeConfigInterface $scopeConfig
      * @param AbstractResource $resource
      * @param Db $resourceCollection
      * @param array $data
@@ -71,13 +69,13 @@ class Fulltext extends AbstractModel
         Context $context,
         Registry $registry,
         Data $catalogSearchData,
-        Config $coreStoreConfig,
+        ScopeConfigInterface $scopeConfig,
         AbstractResource $resource = null,
         Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogSearchData = $catalogSearchData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -166,7 +164,11 @@ class Fulltext extends AbstractModel
      */
     public function getSearchType($storeId = null)
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_CATALOG_SEARCH_TYPE, $storeId);
+        return $this->_scopeConfig->getValue(
+            self::XML_PATH_CATALOG_SEARCH_TYPE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     // Deprecated methods

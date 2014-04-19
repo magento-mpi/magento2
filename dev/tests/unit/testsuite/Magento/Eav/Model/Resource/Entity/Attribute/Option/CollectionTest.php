@@ -25,7 +25,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected $loggerMock;
 
     /**
-     * @var \Magento\Data\Collection\Db\FetchStrategyInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Data\Collection\Db\FetchStrategyInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $fetchStrategyMock;
 
@@ -35,22 +35,22 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected $eventManagerMock;
 
     /**
-     * @var \Magento\App\Resource|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Resource|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $coreResourceMock;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
 
     /**
-     * @var \Magento\DB\Adapter\Pdo\Mysql|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\DB\Adapter\Pdo\Mysql|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $connectionMock;
 
     /**
-     * @var \Magento\Model\Resource\Db\AbstractDb|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Model\Resource\Db\AbstractDb|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $resourceMock;
 
@@ -64,7 +64,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->entityFactoryMock = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
         $this->loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
         $this->fetchStrategyMock = $this->getMock(
-            'Magento\Data\Collection\Db\FetchStrategyInterface',
+            'Magento\Framework\Data\Collection\Db\FetchStrategyInterface',
             array(),
             array(),
             '',
@@ -72,22 +72,27 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         );
         $this->eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $this->coreResourceMock = $this->getMock(
-            'Magento\App\Resource',
+            'Magento\Framework\App\Resource',
             array('getConnection', 'getTableName'),
             array(),
             '',
             false
         );
         $this->storeManagerMock = $this->getMock(
-            'Magento\Core\Model\StoreManagerInterface',
+            'Magento\Store\Model\StoreManagerInterface',
             array(),
             array(),
             '',
             false
         );
-        $this->connectionMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
+        $this->connectionMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         $this->resourceMock = $this->getMockForAbstractClass(
-            'Magento\Model\Resource\Db\AbstractDb', array(), '', false, true, true,
+            'Magento\Framework\Model\Resource\Db\AbstractDb',
+            array(),
+            '',
+            false,
+            true,
+            true,
             array('__wakeup', 'getReadConnection', 'getMainTable', 'getTable')
         );
         $this->selectMock = $this->getMock('Zend_Db_Select', array(), array(), '', false);

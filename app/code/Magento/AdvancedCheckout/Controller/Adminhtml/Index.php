@@ -11,7 +11,7 @@ namespace Magento\AdvancedCheckout\Controller\Adminhtml;
 
 use Magento\AdvancedCheckout\Exception as AdvancedCheckoutException;
 use Magento\Backend\App\Action;
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Admin Checkout index controller
@@ -81,8 +81,10 @@ class Index extends \Magento\Backend\App\Action
             throw new AdvancedCheckoutException(__('Customer not found'));
         }
 
-        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
-        if ($storeManager->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getWebsiteId() == $customer->getWebsiteId()
+        $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManager');
+        if ($storeManager->getStore(
+            \Magento\Store\Model\Store::ADMIN_CODE
+        )->getWebsiteId() == $customer->getWebsiteId()
         ) {
             if ($useRedirects) {
                 $this->messageManager->addError(__('Shopping cart management disabled for this customer.'));
@@ -99,7 +101,7 @@ class Index extends \Magento\Backend\App\Action
 
         $storeId = $this->getRequest()->getParam('store');
 
-        if ($storeId === null || $storeId == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
+        if ($storeId === null || $storeId == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
             $storeId = $cart->getPreferredStoreId();
             if ($storeId && $useRedirects) {
                 // Redirect to preferred store view
@@ -518,7 +520,7 @@ class Index extends \Magento\Backend\App\Action
         $customer = $this->_registry->registry('checkout_current_customer');
         $store = $this->_registry->registry('checkout_current_store');
 
-        $storeId = $store instanceof \Magento\Core\Model\Store ? $store->getId() : (int)$store;
+        $storeId = $store instanceof \Magento\Store\Model\Store ? $store->getId() : (int)$store;
         $customerId = $customer instanceof \Magento\Customer\Model\Customer ? $customer->getId() : (int)$customer;
 
         // Prepare data
@@ -556,7 +558,7 @@ class Index extends \Magento\Backend\App\Action
             $customer = $this->_registry->registry('checkout_current_customer');
             $customerId = $customer instanceof \Magento\Customer\Model\Customer ? $customer->getId() : (int)$customer;
             $store = $this->_registry->registry('checkout_current_store');
-            $storeId = $store instanceof \Magento\Core\Model\Store ? $store->getId() : (int)$store;
+            $storeId = $store instanceof \Magento\Store\Model\Store ? $store->getId() : (int)$store;
 
             $itemId = (int)$this->getRequest()->getParam('id');
             if (!$itemId) {
@@ -610,7 +612,7 @@ class Index extends \Magento\Backend\App\Action
             $customer = $this->_registry->registry('checkout_current_customer');
             $customerId = $customer instanceof \Magento\Customer\Model\Customer ? $customer->getId() : (int)$customer;
             $store = $this->_registry->registry('checkout_current_store');
-            $storeId = $store instanceof \Magento\Core\Model\Store ? $store->getId() : (int)$store;
+            $storeId = $store instanceof \Magento\Store\Model\Store ? $store->getId() : (int)$store;
 
             $itemId = (int)$this->getRequest()->getParam('id');
             if (!$itemId) {

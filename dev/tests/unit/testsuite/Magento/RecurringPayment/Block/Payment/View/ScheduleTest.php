@@ -48,10 +48,10 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_payment)
         );
 
-        $store = $this->getMockBuilder('Magento\Core\Model\Store')->disableOriginalConstructor()->getMock();
+        $store = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
 
         $storeManager = $this->getMockBuilder(
-            'Magento\Core\Model\StoreManager'
+            'Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->setMethods(
             array('getStore')
         )->getMock();
@@ -63,7 +63,7 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
         );
 
         $layout = $this->getMockBuilder(
-            'Magento\Core\Model\Layout'
+            'Magento\Framework\View\Layout'
         )->disableOriginalConstructor()->setMethods(
             array('helper')
         )->getMock();

@@ -15,11 +15,11 @@ use Magento\Catalog\Model\Resource\Category\Flat\Collection as FlatCollection;
 use Magento\Catalog\Model\Resource\Product\Collection as ProductCollection;
 use Magento\CatalogPermissions\Helper\Data as Helper;
 use Magento\CatalogPermissions\Model\Permission;
-use Magento\Core\Model\Store;
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\Store;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Eav\Model\Entity\Attribute;
 
-class Index extends \Magento\Model\Resource\Db\AbstractDb
+class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Catalog permissions data
@@ -34,11 +34,11 @@ class Index extends \Magento\Model\Resource\Db\AbstractDb
     protected $storeManager;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param Helper $helper
      * @param StoreManagerInterface $storeManager
      */
-    public function __construct(\Magento\App\Resource $resource, Helper $helper, StoreManagerInterface $storeManager)
+    public function __construct(\Magento\Framework\App\Resource $resource, Helper $helper, StoreManagerInterface $storeManager)
     {
         $this->helper = $helper;
         $this->storeManager = $storeManager;

@@ -12,12 +12,12 @@
  */
 namespace Magento\CatalogEvent\Model\Resource;
 
-use Magento\App\Resource as AppResource;
+use Magento\Framework\App\Resource as AppResource;
 use Magento\Catalog\Model\Resource\Category\CollectionFactory;
-use Magento\Model\AbstractModel;
-use Magento\Model\Resource\Db\AbstractDb;
-use Magento\Core\Model\Store;
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Resource\Db\AbstractDb;
+use Magento\Store\Model\Store;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Event extends AbstractDb
 {
@@ -85,7 +85,7 @@ class Event extends AbstractDb
     /**
      * Before model save
      *
-     * @param AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
     protected function _beforeSave(AbstractModel $object)
@@ -107,7 +107,7 @@ class Event extends AbstractDb
     {
         $rootCategoryId = $this->_storeManager->getStore($storeId)->getRootCategoryId();
 
-        /* @var $select \Magento\DB\Select */
+        /* @var $select \Magento\Framework\DB\Select */
         $select = $this->_categoryCollectionFactory->create()->setStoreId(
             $this->_storeManager->getStore($storeId)->getId()
         )->addIsActiveFilter()->addPathsFilter(
@@ -143,10 +143,12 @@ class Event extends AbstractDb
         foreach ($this->_eventCategories as $categoryId => $category) {
             if ($category['event_id'] === null && isset($category['level']) && $category['level'] > 2) {
                 $result[$categoryId] = $this->_getEventFromParent($categoryId, self::EVENT_FROM_PARENT_LAST);
-            } else if ($category['event_id'] !== null) {
-                $result[$categoryId] = $category['event_id'];
             } else {
-                $result[$categoryId] = null;
+                if ($category['event_id'] !== null) {
+                    $result[$categoryId] = $category['event_id'];
+                } else {
+                    $result[$categoryId] = null;
+                }
             }
         }
 
@@ -198,8 +200,10 @@ class Event extends AbstractDb
         if ($flag == self::EVENT_FROM_PARENT_LAST) {
             if (isset($eventId) && $eventId !== null) {
                 return $eventId;
-            } else if ($eventId === null) {
-                return $this->_getEventFromParent($parentId, $flag);
+            } else {
+                if ($eventId === null) {
+                    return $this->_getEventFromParent($parentId, $flag);
+                }
             }
         }
         return null;
@@ -233,7 +237,7 @@ class Event extends AbstractDb
     /**
      * After model load (loads event image)
      *
-     * @param AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
     protected function _afterLoad(AbstractModel $object)

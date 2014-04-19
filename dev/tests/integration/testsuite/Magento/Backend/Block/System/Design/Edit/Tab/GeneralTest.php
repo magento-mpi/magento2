@@ -23,7 +23,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get(
-            'Magento\View\DesignInterface'
+            'Magento\Framework\View\DesignInterface'
         )->setArea(
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         )->setDefaultDesignTheme();
@@ -33,7 +33,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
             'design',
             $objectManager->create('Magento\Core\Model\Design')
         );
-        $layout = $objectManager->create('Magento\Core\Model\Layout');
+        $layout = $objectManager->create('Magento\Framework\View\Layout');
         $block = $layout->addBlock('Magento\Backend\Block\System\Design\Edit\Tab\General');
         $prepareFormMethod = new \ReflectionMethod(
             'Magento\Backend\Block\System\Design\Edit\Tab\General',

@@ -46,21 +46,21 @@ abstract class AbstractAccordion extends \Magento\Backend\Block\Widget\Grid\Exte
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Data\CollectionFactory
+     * @var \Magento\Framework\Data\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
@@ -112,7 +112,7 @@ abstract class AbstractAccordion extends \Magento\Backend\Block\Widget\Grid\Exte
     /**
      * Return items collection
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getItemsCollection()
     {
@@ -229,7 +229,7 @@ abstract class AbstractAccordion extends \Magento\Backend\Block\Widget\Grid\Exte
     /**
      * Return current store from registry
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getStore()
     {

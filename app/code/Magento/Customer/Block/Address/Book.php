@@ -19,7 +19,7 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Book extends \Magento\View\Element\Template
+class Book extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Customer\Service\V1\CustomerCurrentService
@@ -42,7 +42,7 @@ class Book extends \Magento\View\Element\Template
     protected $_addressConfig;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
@@ -50,7 +50,7 @@ class Book extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,

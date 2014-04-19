@@ -9,7 +9,7 @@
  */
 namespace Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor;
 
-use Magento\Model\Exception as CoreException;
+use Magento\Framework\Model\Exception as CoreException;
 
 /**
  * Backend controller for the design editor
@@ -114,7 +114,7 @@ class Tools extends \Magento\Backend\App\Action
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
             $customization = $editableTheme->getCustomization();
-            $customJsFiles = $customization->getFilesByType(\Magento\View\Design\Theme\Customization\File\Js::TYPE);
+            $customJsFiles = $customization->getFilesByType(\Magento\Framework\View\Design\Theme\Customization\File\Js::TYPE);
             $result = array('error' => false, 'files' => $customization->generateFileInfo($customJsFiles));
             $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
         } catch (\Exception $e) {
@@ -131,8 +131,8 @@ class Tools extends \Magento\Backend\App\Action
     {
         /** @var $serviceModel \Magento\Theme\Model\Uploader\Service */
         $serviceModel = $this->_objectManager->get('Magento\Theme\Model\Uploader\Service');
-        /** @var $jsService \Magento\View\Design\Theme\Customization\File\Js */
-        $jsService = $this->_objectManager->create('Magento\View\Design\Theme\Customization\File\Js');
+        /** @var $jsService \Magento\Framework\View\Design\Theme\Customization\File\Js */
+        $jsService = $this->_objectManager->create('Magento\Framework\View\Design\Theme\Customization\File\Js');
         try {
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
@@ -185,7 +185,7 @@ class Tools extends \Magento\Backend\App\Action
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
             $editableTheme->getCustomization()->reorder(
-                \Magento\View\Design\Theme\Customization\File\Js::TYPE,
+                \Magento\Framework\View\Design\Theme\Customization\File\Js::TYPE,
                 $reorderJsFiles
             );
             $result = array('success' => true);
@@ -330,15 +330,15 @@ class Tools extends \Magento\Backend\App\Action
         $storeId = (int)$this->getRequest()->getParam('store_id');
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         try {
-            /** @var $theme \Magento\View\Design\ThemeInterface */
-            $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface');
+            /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
+            $theme = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface');
             if (!$theme->load($themeId)->getId() || !$theme->isEditable()) {
                 throw new CoreException(__('The file can\'t be found or edited.'));
             }
 
             /** @var $customizationConfig \Magento\Theme\Model\Config\Customization */
             $customizationConfig = $this->_objectManager->get('Magento\Theme\Model\Config\Customization');
-            $store = $this->_objectManager->get('Magento\Core\Model\Store')->load($storeId);
+            $store = $this->_objectManager->get('Magento\Store\Model\Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
                 throw new CoreException(__('This theme is not assigned to a store view #%1.', $theme->getId()));
@@ -377,15 +377,15 @@ class Tools extends \Magento\Backend\App\Action
         $storeId = (int)$this->getRequest()->getParam('store_id');
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         try {
-            /** @var $theme \Magento\View\Design\ThemeInterface */
-            $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface');
+            /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
+            $theme = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface');
             if (!$theme->load($themeId)->getId() || !$theme->isEditable()) {
                 throw new CoreException(__('The file can\'t be found or edited.'));
             }
 
             /** @var $customizationConfig \Magento\Theme\Model\Config\Customization */
             $customizationConfig = $this->_objectManager->get('Magento\Theme\Model\Config\Customization');
-            $store = $this->_objectManager->get('Magento\Core\Model\Store')->load($storeId);
+            $store = $this->_objectManager->get('Magento\Store\Model\Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
                 throw new CoreException(__('This theme is not assigned to a store view #%1.', $theme->getId()));
@@ -456,12 +456,12 @@ class Tools extends \Magento\Backend\App\Action
     /**
      * Re-init system configuration
      *
-     * @return \Magento\App\ReinitableConfigInterface
+     * @return \Magento\Framework\App\Config\ReinitableConfigInterface
      */
     protected function _reinitSystemConfiguration()
     {
-        /** @var $configModel \Magento\App\ReinitableConfigInterface */
-        $configModel = $this->_objectManager->get('Magento\App\ReinitableConfigInterface');
+        /** @var $configModel \Magento\Framework\App\Config\ReinitableConfigInterface */
+        $configModel = $this->_objectManager->get('Magento\Framework\App\Config\ReinitableConfigInterface');
         return $configModel->reinit();
     }
 }

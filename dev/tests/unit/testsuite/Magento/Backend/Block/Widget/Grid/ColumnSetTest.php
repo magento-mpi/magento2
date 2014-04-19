@@ -56,7 +56,7 @@ class ColumnSetTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
+        $this->_layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $this->_layoutMock->expects(
             $this->any()
         )->method(
@@ -194,7 +194,7 @@ class ColumnSetTest extends \PHPUnit_Framework_TestCase
     {
         $item = new \Magento\Object();
         // prepare sub-collection
-        $subCollection = new \Magento\Data\Collection(
+        $subCollection = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         $subCollection->addItem(new \Magento\Object(array('test4' => '1', 'test5' => '2')));
@@ -216,7 +216,7 @@ class ColumnSetTest extends \PHPUnit_Framework_TestCase
     {
         $this->_prepareLayoutWithGrid(
             $this->_prepareGridMock(
-                new \Magento\Data\Collection(
+                new \Magento\Framework\Data\Collection(
                     $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
                 )
             )
@@ -248,7 +248,7 @@ class ColumnSetTest extends \PHPUnit_Framework_TestCase
     {
         $item = new \Magento\Object();
         // prepare sub-collection
-        $subCollection = new \Magento\Data\Collection(
+        $subCollection = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         $subCollection->addItem(new \Magento\Object(array('test4' => '1', 'test5' => '2')));
@@ -263,7 +263,7 @@ class ColumnSetTest extends \PHPUnit_Framework_TestCase
     {
         $item = new \Magento\Object(array('test1' => '1'));
         // prepare sub-collection
-        $subCollection = new \Magento\Data\Collection(
+        $subCollection = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         $subCollection->addItem(new \Magento\Object(array('test4' => '1', 'test5' => '2')));
@@ -281,7 +281,7 @@ class ColumnSetTest extends \PHPUnit_Framework_TestCase
     public function testGetSubTotals()
     {
         // prepare sub-collection
-        $subCollection = new \Magento\Data\Collection(
+        $subCollection = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         $subCollection->addItem(new \Magento\Object(array('column' => '1')));
@@ -325,7 +325,7 @@ class ColumnSetTest extends \PHPUnit_Framework_TestCase
     /**
      * Retrieve prepared mock for \Magento\Backend\Model\Widget\Grid with collection
      *
-     * @param \Magento\Data\Collection $collection
+     * @param \Magento\Framework\Data\Collection $collection
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _prepareGridMock($collection)
@@ -340,11 +340,11 @@ class ColumnSetTest extends \PHPUnit_Framework_TestCase
     /**
      * Retrieve test collection
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     protected function _getTestCollection()
     {
-        $collection = new \Magento\Data\Collection(
+        $collection = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         $items = array(

@@ -40,7 +40,7 @@ class Layer extends \Magento\Object
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -93,7 +93,7 @@ class Layer extends \Magento\Object
      * @param CategoryFactory $categoryFactory
      * @param Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param Resource\Product $catalogProduct
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Registry $registry
      * @param array $data
      */
@@ -103,7 +103,7 @@ class Layer extends \Magento\Object
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Catalog\Model\Resource\Product $catalogProduct,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Registry $registry,
         array $data = array()
     ) {
@@ -210,7 +210,7 @@ class Layer extends \Magento\Object
      *
      * @param mixed $category
      * @return \Magento\Catalog\Model\Layer
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function setCurrentCategory($category)
     {
@@ -218,12 +218,12 @@ class Layer extends \Magento\Object
             $category = $this->_categoryFactory->create()->load($category);
         }
         if (!$category instanceof \Magento\Catalog\Model\Category) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('The category must be an instance of \Magento\Catalog\Model\Category.')
             );
         }
         if (!$category->getId()) {
-            throw new \Magento\Model\Exception(__('Please correct the category.'));
+            throw new \Magento\Framework\Model\Exception(__('Please correct the category.'));
         }
 
         if ($category->getId() != $this->getCurrentCategory()->getId()) {
@@ -236,7 +236,7 @@ class Layer extends \Magento\Object
     /**
      * Retrieve current store model
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getCurrentStore()
     {

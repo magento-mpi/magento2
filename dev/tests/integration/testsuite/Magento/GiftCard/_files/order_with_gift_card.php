@@ -80,7 +80,7 @@ $order->addItem(
 $order->save();
 
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\App\ConfigInterface'
+    'Magento\Framework\App\Config\MutableScopeConfigInterface'
 )->setValue(
     \Magento\GiftCardAccount\Model\Pool::XML_CONFIG_POOL_SIZE,
     1,

@@ -16,7 +16,7 @@ namespace Magento\Customer\Model;
  * @method \Magento\Customer\Model\Group setCustomerGroupCode(string $value)
  * @method \Magento\Customer\Model\Group setTaxClassId(int $value)
  */
-class Group extends \Magento\Model\AbstractModel
+class Group extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Xml config path for create account default group
@@ -53,9 +53,9 @@ class Group extends \Magento\Model\AbstractModel
     protected static $_taxClassIds = array();
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\StoresConfig
      */
-    protected $_storeConfig;
+    protected $_storesConfig;
 
     /**
      * @var \Magento\Index\Model\Indexer
@@ -65,24 +65,24 @@ class Group extends \Magento\Model\AbstractModel
     /**
      * Constructor
      *
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\StoresConfig $storesConfig
      * @param \Magento\Index\Model\Indexer $indexer
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\StoresConfig $storesConfig,
         \Magento\Index\Model\Indexer $indexer,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_storeConfig = $storeConfig;
+        $this->_storesConfig = $storesConfig;
         $this->_indexer = $indexer;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -141,7 +141,7 @@ class Group extends \Magento\Model\AbstractModel
      */
     public function usesAsDefault()
     {
-        $data = $this->_storeConfig->getStoresConfigByPath(self::XML_PATH_DEFAULT_ID);
+        $data = $this->_storesConfig->getStoresConfigByPath(self::XML_PATH_DEFAULT_ID);
         if (in_array($this->getId(), $data)) {
             return true;
         }

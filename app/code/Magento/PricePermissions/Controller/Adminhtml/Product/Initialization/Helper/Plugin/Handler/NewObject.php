@@ -7,7 +7,7 @@
  */
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
 
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface;
 use Magento\Catalog\Model\Product;
 
@@ -16,7 +16,7 @@ class NewObject implements HandlerInterface
     /**
      * Request interface
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
 
@@ -36,12 +36,12 @@ class NewObject implements HandlerInterface
 
     /**
      * @param StoreManagerInterface $storeManager
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
      */
     public function __construct(
         StoreManagerInterface $storeManager,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\PricePermissions\Helper\Data $pricePermData
     ) {
         $this->storeManager = $storeManager;

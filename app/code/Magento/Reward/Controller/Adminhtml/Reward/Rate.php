@@ -9,7 +9,7 @@
  */
 namespace Magento\Reward\Controller\Adminhtml\Reward;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 
 /**
  * Reward admin rate controller
@@ -40,10 +40,10 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Check if module functionality enabled
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
         if (!$this->_objectManager->get(
             'Magento\Reward\Helper\Data'
@@ -194,8 +194,8 @@ class Rate extends \Magento\Backend\App\Action
         $response = new \Magento\Object(array('error' => false));
         $post = $this->getRequest()->getParam('rate');
         $message = null;
-        /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */
-        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface');
+        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
+        $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
         if ($storeManager->isSingleStoreMode()) {
             $post['website_id'] = $storeManager->getStore(true)->getWebsiteId();
         }

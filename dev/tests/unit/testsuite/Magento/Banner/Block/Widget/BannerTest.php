@@ -47,7 +47,11 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->httpContext = $this->getMock(
-            '\Magento\App\Http\Context', array('getValue'), array(), '', false
+            '\Magento\Framework\App\Http\Context',
+            array('getValue'),
+            array(),
+            '',
+            false
         );
         $this->httpContext->expects($this->any())->method('getValue')->will($this->returnValue(4));
 
@@ -59,7 +63,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         $currentStore = new \Magento\Object(array('id' => 42));
         $currentWebsite = new \Magento\Object(array('id' => 57));
         $storeManager = $this->getMockForAbstractClass(
-            'Magento\Core\Model\StoreManagerInterface',
+            'Magento\Store\Model\StoreManagerInterface',
             array(),
             '',
             true,
@@ -72,7 +76,8 @@ class BannerTest extends \PHPUnit_Framework_TestCase
 
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_block = $helper->getObject('Magento\Banner\Block\Widget\Banner',
+        $this->_block = $helper->getObject(
+            'Magento\Banner\Block\Widget\Banner',
             array(
                 'resource' => $this->_bannerResource,
                 'checkoutSession' => $this->_checkoutSession,
@@ -81,9 +86,10 @@ class BannerTest extends \PHPUnit_Framework_TestCase
                 'storeManager' => $storeManager,
                 'data' => array(
                     'types' => array('footer', 'header'),
-                    'rotate' => \Magento\Banner\Block\Widget\Banner::BANNER_WIDGET_RORATE_NONE,
+                    'rotate' => \Magento\Banner\Block\Widget\Banner::BANNER_WIDGET_RORATE_NONE
                 )
-            ));
+            )
+        );
     }
 
     public function testGetBannersContentFixed()

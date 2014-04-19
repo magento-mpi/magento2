@@ -16,7 +16,7 @@ namespace Magento\Core\Model\Layout;
 class DepersonalizePlugin
 {
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
 
@@ -41,14 +41,14 @@ class DepersonalizePlugin
     protected $messageSession;
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Event\Manager $eventManager
      * @param \Magento\PageCache\Model\Config $cacheConfig
      * @param \Magento\Message\Session $messageSession
      */
     public function __construct(
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Module\Manager $moduleManager,
         \Magento\Event\Manager $eventManager,
         \Magento\PageCache\Model\Config $cacheConfig,
@@ -64,11 +64,11 @@ class DepersonalizePlugin
     /**
      * After generate Xml
      *
-     * @param \Magento\View\LayoutInterface $subject
-     * @param \Magento\View\LayoutInterface $result
-     * @return \Magento\View\LayoutInterface
+     * @param \Magento\Framework\View\LayoutInterface $subject
+     * @param \Magento\Framework\View\LayoutInterface $result
+     * @return \Magento\Framework\View\LayoutInterface
      */
-    public function afterGenerateXml(\Magento\View\LayoutInterface $subject, $result)
+    public function afterGenerateXml(\Magento\Framework\View\LayoutInterface $subject, $result)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')
             && $this->cacheConfig->isEnabled()

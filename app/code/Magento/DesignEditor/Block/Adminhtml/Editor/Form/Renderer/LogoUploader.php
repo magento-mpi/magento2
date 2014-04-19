@@ -62,7 +62,7 @@ class LogoUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Ren
     /**
      * Get logo upload url
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return string
      */
     public function getLogoUploadUrl($store)
@@ -76,7 +76,7 @@ class LogoUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Ren
     /**
      * Get logo upload url
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return string
      */
     public function getLogoRemoveUrl($store)
@@ -90,14 +90,14 @@ class LogoUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Ren
     /**
      * Get logo image
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return string|null
      */
     public function getLogoImage($store)
     {
         $image = null;
         if (null !== $store) {
-            $image = basename($this->_storeConfig->getConfig('design/header/logo_src', $store->getId()));
+            $image = basename($this->_scopeConfig->getValue('design/header/logo_src', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store->getId()));
         }
         return $image;
     }
@@ -105,7 +105,7 @@ class LogoUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Ren
     /**
      * Get stores list
      *
-     * @return \Magento\Core\Model\Store|null
+     * @return \Magento\Store\Model\Store|null
      */
     public function getStoresList()
     {

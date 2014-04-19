@@ -26,7 +26,7 @@ class Eav extends \Magento\Eav\Helper\Data
     /**
      * Core store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -40,32 +40,32 @@ class Eav extends \Magento\Eav\Helper\Data
     /**
      * Application resource
      *
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resource;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory,
-        \Magento\App\Resource $resource
+        \Magento\Framework\App\Resource $resource
     ) {
         $this->_storeManager = $storeManager;
         $this->_collectionFactory = $collectionFactory;
         $this->_resource = $resource;
-        parent::__construct($context, $attributeConfig, $coreStoreConfig, $eavConfig);
+        parent::__construct($context, $attributeConfig, $scopeConfig, $eavConfig);
     }
 
     /**
@@ -140,7 +140,7 @@ class Eav extends \Magento\Eav\Helper\Data
      *
      * Uses internal protected method, which must use data from protected variable
      *
-     * @param null|int|\Magento\Core\Model\Store $storeId
+     * @param null|int|\Magento\Store\Model\Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -162,7 +162,7 @@ class Eav extends \Magento\Eav\Helper\Data
      * Uses internal protected method, which must use data from protected variable
      *
      * @param string $attributeCode
-     * @param null|int|\Magento\Core\Model\Store $storeId
+     * @param null|int|\Magento\Store\Model\Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -181,7 +181,7 @@ class Eav extends \Magento\Eav\Helper\Data
     /**
      * Get complicated array of select-typed attribute values depending by store
      *
-     * @param null|int|\Magento\Core\Model\Store $storeId
+     * @param null|int|\Magento\Store\Model\Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -189,7 +189,7 @@ class Eav extends \Magento\Eav\Helper\Data
     {
         if (is_null($storeId)) {
             $storeId = $this->_storeManager->getStore()->getId();
-        } elseif ($storeId instanceof \Magento\Core\Model\Store) {
+        } elseif ($storeId instanceof \Magento\Store\Model\Store) {
             $storeId = $storeId->getId();
         }
 

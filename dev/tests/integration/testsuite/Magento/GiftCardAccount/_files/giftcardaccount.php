@@ -21,7 +21,7 @@ $model->setCode(
     \Magento\GiftCardAccount\Model\Giftcardaccount::STATE_AVAILABLE
 )->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Core\Model\StoreManagerInterface'
+        'Magento\Store\Model\StoreManagerInterface'
     )->getWebsite()->getId()
 )->setIsRedeemable(
     \Magento\GiftCardAccount\Model\Giftcardaccount::REDEEMABLE

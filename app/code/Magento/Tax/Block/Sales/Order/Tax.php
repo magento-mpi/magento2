@@ -15,7 +15,7 @@ namespace Magento\Tax\Block\Sales\Order;
 
 use Magento\Sales\Model\Order;
 
-class Tax extends \Magento\View\Element\Template
+class Tax extends \Magento\Framework\View\Element\Template
 {
     /**
      * Tax configuration model
@@ -35,12 +35,12 @@ class Tax extends \Magento\View\Element\Template
     protected $_source;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Tax\Model\Config $taxConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Tax\Model\Config $taxConfig,
         array $data = array()
     ) {
@@ -110,7 +110,7 @@ class Tax extends \Magento\View\Element\Template
     /**
      * Get order store object
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {

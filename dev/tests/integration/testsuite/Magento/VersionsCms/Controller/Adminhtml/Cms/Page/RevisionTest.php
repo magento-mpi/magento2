@@ -37,10 +37,12 @@ class RevisionTest extends \Magento\Backend\Utility\Controller
      */
     public function testDropAction()
     {
-        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getAnyStoreView(); // fixture design_change
+        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getAnyStoreView();
+        // fixture design_change
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Http\Context');
+            ->get('Magento\Framework\App\Http\Context');
         $context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
 
         $this->getRequest()->setParam('preview_selected_store', $storeId);
@@ -52,7 +54,7 @@ class RevisionTest extends \Magento\Backend\Utility\Controller
         $this->getRequest()->setPost('page_id', $page->getId());
 
         $this->dispatch('backend/admin/cms_page_revision/drop/');
-        $this->assertContains('static/frontend/magento_plushe', $this->getResponse()->getBody());
+        $this->assertContains('static/frontend/Magento/plushe', $this->getResponse()->getBody());
         $this->assertContains($page->getContent(), $this->getResponse()->getBody());
     }
 }

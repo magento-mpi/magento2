@@ -16,7 +16,7 @@ namespace Magento\Invitation\Model\Resource\Invitation;
  * @package     Magento_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Fields mapping 
@@ -88,7 +88,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     public function addWebsiteInformation()
     {
         $this->getSelect()->joinInner(
-            array('w' => $this->getTable('core_store')),
+            array('w' => $this->getTable('store')),
             'main_table.store_id = w.store_id',
             'w.website_id'
         );
