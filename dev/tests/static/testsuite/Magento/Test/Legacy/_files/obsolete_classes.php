@@ -790,6 +790,7 @@ return array(
     array('Magento\Core\Model\Resource\Entity\Table', 'Magento\Model\Resource\Entity\Table'),
     array('Magento\Core\Model\Resource\Flag', 'Magento\Flag\Resource'),
     array('Magento\Core\Model\Resource\Iterator', 'Magento\Model\Resource\Iterator'),
+    array('Magento\Core\Model\Resource\Resource', 'Magento\Install\Model\Resource\Resource'),
     array('Magento\Core\Model\Resource\Type\AbstractType', 'Magento\Model\Resource\Type\AbstractType'),
     array('Magento\Core\Model\Resource\Type\Db', 'Magento\Model\Resource\Type\Db'),
     array('Magento\Core\Model\Resource\Type\Db\Pdo\Mysql', 'Magento\Model\Resource\Type\Db\Pdo\Mysql'),
@@ -1954,6 +1955,7 @@ return array(
     ),
     array('Magento\Core\Model\Layout\Argument\Updater', 'Magento\View\Layout\Argument\Interpreter\Decorator\Updater'),
     array('Magento\Core\Model\Layout\Argument\UpdaterInterface', 'Magento\View\Layout\Argument\UpdaterInterface'),
+    array('Magento\Core\Model\Layout\Filter\Acl', 'Magento\Backend\Model\Layout\Filter\Acl'),
     array('Magento\View\Layout\Argument\HandlerInterface', 'Magento\Data\Argument\InterpreterInterface'),
     array('Magento\View\Layout\Argument\HandlerFactory', 'Magento\Data\Argument\Interpreter\Composite'),
     array('Magento\Phrase\Renderer\Factory'),
@@ -2006,6 +2008,7 @@ return array(
     array('Recurring\Profile', 'Recurring\Payment'), // recurring profile was renamed to recurring payment
     array('Magento\Catalog\Helper\Product\Flat'),
     array('Magento\Catalog\Helper\Flat\AbstractFlat'),
+    array('Magento\Core\App\Action\Plugin\Install', 'Magento\Install\App\Action\Plugin\Install'),
     array('Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie'),
     array(
         'Magento\Core\Model\LocaleInterface',
@@ -2110,8 +2113,8 @@ return array(
     array('Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'),
     array('Magento\Catalog\Model\Product\Indexer\Price'),
     array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
-    ['Magento\PubSub'], // unused library code which was removed
-    ['Magento\Outbound'], // unused library code which was removed
+    ['Magento\PubSub'],
+    ['Magento\Outbound'],
     array('Magento\Indexer\Model\Processor\CacheInvalidate', 'Magento\Indexer\Model\Processor\InvalidateCache'),
     array(
         'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Reviews',
@@ -2149,4 +2152,67 @@ return array(
     ['Magento\Backend\Model\Translate\Inline'],
     ['Magento\Backend\Model\Translate\Inline\ConfigFactory'],
     ['Magento\Translate\Inline\ConfigFactory'],
+    array('Magento\Core\Model\Template', 'Magento\Email\Model\AbstractTemplate'),
+    array('Magento\Core\Helper\Js'),
+    array('Magento\Backend\Helper\Media\Js'),
+    array(
+        'Magento\Core\Model\Resource\Url\Rewrite\Collection',
+        'Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection'
+    ),
+    array(
+        'Magento\Core\Model\Resource\Url\Rewrite',
+        'Magento\UrlRewrite\Model\Resource\UrlRewrite'
+    ),
+    array(
+        'Magento\Core\Model\Url\Rewrite',
+        'Magento\UrlRewrite\Model\UrlRewrite'
+    ),
+    array(
+        'Magento\Core\Model\Source\Urlrewrite\Options',
+        'Magento\UrlRewrite\Model\UrlRewrite\OptionProvider'
+    ),
+    array(
+        'Magento\Core\Model\Source\Urlrewrite\Types',
+        'Magento\UrlRewrite\Model\UrlRewrite\TypeProvider'
+    ),
+    array(
+        'Magento\Core\Helper\Url\Rewrite',
+        'Magento\UrlRewrite\Helper\UrlRewrite'
+    ),
+    array(
+        'Magento\Core\App\FrontController\Plugin\UrlRewrite',
+        'Magento\UrlRewrite\App\FrontController\Plugin\UrlRewrite'
+    ),
+    array(
+        'Magento\Core\App\Request\RewriteService',
+        'Magento\UrlRewrite\App\Request\RewriteService'
+    ),
+    ['Magento\Rating\Helper\Data', 'Magento\Review\Helper\Data'],
+    ['Magento\Rating\Controller\Adminhtml\Index', 'Magento\Review\Controller\Adminhtml\Rating'],
+    ['Magento\Rating\Block\Entity\Detailed', 'Magento\Review\Block\Rating\Entity\Detailed'],
+    ['Magento\Rating\Block\Adminhtml\Rating', 'Magento\Review\Block\Adminhtml\Rating'],
+    ['Magento\Rating\Block\Adminhtml\Edit', 'Magento\Review\Block\Adminhtml\Rating\Edit'],
+    ['Magento\Rating\Block\Adminhtml\Edit\Tabs', 'Magento\Review\Block\Adminhtml\Rating\Edit\Tabs'],
+    ['Magento\Rating\Block\Adminhtml\Edit\Form', 'Magento\Review\Block\Adminhtml\Rating\Edit\Form'],
+    ['Magento\Rating\Block\Adminhtml\Edit\Tab\Form', 'Magento\Review\Block\Adminhtml\Rating\Edit\Tab\Form'],
+    ['Magento\Rating\Block\Adminhtml\Edit\Tab\Options'],
+    ['Magento\Rating\Model\Rating', 'Magento\Review\Model\Rating'],
+    [
+        'Magento\Rating\Model\Resource\Rating\Option\Vote\Collection',
+        'Magento\Review\Model\Resource\Rating\Option\Vote\Collection'
+    ],
+    [
+        'Magento\Rating\Model\Resource\Rating\Option\Collection',
+        'Magento\Review\Model\Resource\Rating\Option\Collection'
+    ],
+    ['Magento\Rating\Model\Resource\Rating\Grid\Collection', 'Magento\Review\Model\Resource\Rating\Grid\Collection'],
+    ['Magento\Rating\Model\Resource\Rating\Collection', 'Magento\Review\Model\Resource\Rating\Collection'],
+    ['Magento\Rating\Model\Resource\Rating\Option\Vote', 'Magento\Review\Model\Resource\Rating\Option\Vote'],
+    ['Magento\Rating\Model\Rating\Option\Vote', 'Magento\Review\Model\Rating\Option\Vote'],
+    ['Magento\Rating\Model\Resource\Rating\Option', 'Magento\Review\Model\Resource\Rating\Option'],
+    ['Magento\Rating\Model\Resource\Rating\Entity', 'Magento\Review\Model\Resource\Rating\Entity'],
+    ['Magento\Rating\Model\Rating\Entity', 'Magento\Review\Model\Rating\Entity'],
+    ['Magento\Rating\Model\Resource\Rating', 'Magento\Review\Model\Resource\Rating'],
+    ['Magento\Rating\Model\Rating\Option', 'Magento\Review\Model\Rating\Option'],
+    ['Magento\Rating\Model\Observer'],
 );

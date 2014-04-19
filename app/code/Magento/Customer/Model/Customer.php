@@ -13,20 +13,23 @@ use Magento\Customer\Model\Config\Share;
 use Magento\Customer\Model\Resource\Address\CollectionFactory;
 use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\Customer as CustomerData;
 
 /**
  * Customer model
  *
  * @method int getWebsiteId() getWebsiteId()
- * @method \Magento\Customer\Model\Customer setWebsiteId(int)
+ * @method Customer setWebsiteId(int)
  * @method int getStoreId() getStoreId()
  * @method string getEmail() getEmail()
  * @method ResourceCustomer _getResource()
  * @method mixed getDisableAutoGroupChange()
- * @method \Magento\Customer\Model\Customer setDisableAutoGroupChange($value)
- * @method \Magento\Customer\Model\Customer setGroupId($value)
- * @method \Magento\Customer\Model\Customer setDefaultBilling($value)
- * @method \Magento\Customer\Model\Customer setDefaultShipping($value)
+ * @method Customer setDisableAutoGroupChange($value)
+ * @method Customer setGroupId($value)
+ * @method Customer setDefaultBilling($value)
+ * @method Customer setDefaultShipping($value)
+ * @method Customer setPasswordHash($string)
+ * @method string getPasswordHash()
  */
 class Customer extends \Magento\Model\AbstractModel
 {
@@ -337,10 +340,10 @@ class Customer extends \Magento\Model\AbstractModel
     protected function _afterSave()
     {
         $customerData = (array)$this->getData();
-        $customerData[\Magento\Customer\Service\V1\Data\Customer::ID] = $this->getId();
+        $customerData[CustomerData::ID] = $this->getId();
         $dataObject = $this->_customerDataBuilder->populateWithArray($customerData)->create();
         $customerOrigData = (array)$this->getOrigData();
-        $customerOrigData[\Magento\Customer\Service\V1\Data\Customer::ID] = $this->getId();
+        $customerOrigData[CustomerData::ID] = $this->getId();
         $origDataObject = $this->_customerDataBuilder->populateWithArray($customerOrigData)->create();
         $this->_eventManager->dispatch(
             'customer_save_after_data_object',

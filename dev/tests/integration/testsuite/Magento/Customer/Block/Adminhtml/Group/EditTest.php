@@ -5,12 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Block\Adminhtml\Group;
 
 use Magento\Backend\App\Area\FrontNameResolver;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\Data\CustomerGroup;
-use Magento\Customer\Service\V1\Data\FilterBuilder;
+use Magento\Service\V1\Data\FilterBuilder;
 use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\AbstractController;
@@ -45,11 +46,10 @@ class EditTest extends AbstractController
         parent::setUp();
         $this->layout = Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Layout',
-            array('area' => FrontNameResolver::AREA_CODE)
+            ['area' => FrontNameResolver::AREA_CODE]
         );
-        $this->customerGroupService = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\CustomerGroupService'
-        );
+        $this->customerGroupService = Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Service\V1\CustomerGroupService');
         $this->registry = Bootstrap::getObjectManager()->get('Magento\Registry');
     }
 
@@ -82,9 +82,9 @@ class EditTest extends AbstractController
      */
     public function testDeleteButtonExistInCustomGroup()
     {
-        $searchCriteria = (new SearchCriteriaBuilder())->addFilter(
-            (new FilterBuilder())->setField('code')->setValue('custom_group')->create()
-        )->create();
+        $searchCriteria = Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Service\V1\Data\SearchCriteriaBuilder')
+            ->addFilter((new FilterBuilder())->setField('code')->setValue('custom_group')->create())->create();
         /** @var CustomerGroup $customerGroup */
         $customerGroup = $this->customerGroupService->searchGroups($searchCriteria)->getItems()[0];
         $this->getRequest()->setParam('id', $customerGroup->getId());

@@ -475,7 +475,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Save correct store list in rating (while Managing Ratings)
      *
-     * @param \Magento\Rating\Model\Rating $model
+     * @param \Magento\Review\Model\Rating $model
      * @return void
      */
     public function ratingSaveBefore($model)
@@ -897,7 +897,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Prevent loading disallowed urlrewrites
      *
-     * @param \Magento\Core\Model\Url\Rewrite $model
+     * @param \Magento\UrlRewrite\Model\UrlRewrite $model
      * @return void
      */
     public function coreUrlRewriteLoadAfter($model)

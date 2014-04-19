@@ -262,7 +262,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit core URL rewrites
      *
-     * @param \Magento\Core\Model\Resource\Url\Rewrite\Collection $collection
+     * @param \Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection $collection
      * @return void
      */
     public function limitCoreUrlRewrites($collection)
@@ -273,7 +273,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit ratings collection
      *
-     * @param \Magento\Rating\Model\Resource\Rating\Collection $collection
+     * @param \Magento\Review\Model\Resource\Rating\Collection $collection
      * @return void
      */
     public function limitRatings($collection)
