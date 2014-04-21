@@ -81,8 +81,8 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
             array('_getRoutes'),
             array(
                 'reader' => $this->objectManager->get('Magento\Framework\App\Route\Config\Reader'),
-                'cache' => $this->objectManager->get('Magento\Config\CacheInterface'),
-                'configScope' => $this->objectManager->get('Magento\Config\ScopeInterface'),
+                'cache' => $this->objectManager->get('Magento\Framework\Config\CacheInterface'),
+                'configScope' => $this->objectManager->get('Magento\Framework\Config\ScopeInterface'),
                 'areaList' => $this->objectManager->get('Magento\Framework\App\AreaList'),
                 'cacheId' => 'RoutesConfig'
             )

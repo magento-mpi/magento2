@@ -128,7 +128,7 @@ class Index extends \Magento\Framework\App\Action\Action
                 )
                 ) {
                     $this->_objectManager->get(
-                        'Magento\View\DesignInterface'
+                        'Magento\Framework\View\DesignInterface'
                     )->setDesignTheme(
                         $page->getCustomTheme()
                     );

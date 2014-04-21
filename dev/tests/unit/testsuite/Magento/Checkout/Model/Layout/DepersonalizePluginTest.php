@@ -21,7 +21,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $plugin;
 
     /**
-     * @var \Magento\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $layoutMock;
 
@@ -50,7 +50,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->layoutMock = $this->getMock('Magento\View\Layout', array(), array(), '', false);
+        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $this->checkoutSessionMock = $this->getMock(
             'Magento\Session\Generic',
             array('clearStorage', 'setData', 'getData'),
@@ -81,7 +81,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterGenerateXml()
     {
-        $expectedResult = $this->getMock('Magento\View\Layout', array(), array(), '', false);
+        $expectedResult = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $this->moduleManagerMock->expects($this->once())
             ->method('isEnabled')
             ->with($this->equalTo('Magento_PageCache'))

@@ -12,7 +12,7 @@ namespace Magento\CatalogSearch\Model\Resource;
 /**
  * CatalogSearch Fulltext Index resource model
  */
-class Fulltext extends \Magento\Model\Resource\Db\AbstractDb
+class Fulltext extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Searchable attributes cache
@@ -391,7 +391,7 @@ class Fulltext extends \Magento\Model\Resource\Db\AbstractDb
             $this->_eventManager->dispatch('catalogsearch_reset_search_result');
         } else {
             // Optimized deletion only product-related records
-            /** @var $select \Magento\DB\Select */
+            /** @var $select \Magento\Framework\DB\Select */
             $select = $adapter->select()->from(
                 array('r' => $this->getTable('catalogsearch_result')),
                 null
@@ -413,7 +413,7 @@ class Fulltext extends \Magento\Model\Resource\Db\AbstractDb
             $query = $select->deleteFromSelect('res');
             $adapter->query($query);
 
-            /** @var $select \Magento\DB\Select */
+            /** @var $select \Magento\Framework\DB\Select */
             $select = $adapter->select();
             $subSelect = $adapter->select()->from(array('res' => $this->getTable('catalogsearch_result')), null);
             $select->exists($subSelect, 'res.query_id=' . $this->getTable('catalogsearch_query') . '.query_id', false);
@@ -513,7 +513,7 @@ class Fulltext extends \Magento\Model\Resource\Db\AbstractDb
                 $select,
                 $this->getTable('catalogsearch_result'),
                 array(),
-                \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
+                \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
             );
             $adapter->query($sql, $bind);
 

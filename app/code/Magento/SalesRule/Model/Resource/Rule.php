@@ -9,7 +9,7 @@
  */
 namespace Magento\SalesRule\Model\Resource;
 
-use Magento\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Sales Rule resource model
@@ -89,7 +89,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Prepare sales rule's discount quantity
      *
-     * @param AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
     public function _beforeSave(AbstractModel $object)
@@ -107,7 +107,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Save rule's associated store labels.
      * Save product attributes used in rule.
      *
-     * @param AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
     protected function _afterSave(AbstractModel $object)

@@ -171,7 +171,7 @@ class Proxy extends \Magento\Backend\Model\Config\Structure\Element\Group
     /**
      * Retrieve clone model
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     public function getCloneModel()
     {
@@ -181,10 +181,10 @@ class Proxy extends \Magento\Backend\Model\Config\Structure\Element\Group
     /**
      * Populate form fieldset with group data
      *
-     * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @param \Magento\Framework\Data\Form\Element\Fieldset $fieldset
      * @return void
      */
-    public function populateFieldset(\Magento\Data\Form\Element\Fieldset $fieldset)
+    public function populateFieldset(\Magento\Framework\Data\Form\Element\Fieldset $fieldset)
     {
         $this->_getSubject()->populateFieldset($fieldset);
     }

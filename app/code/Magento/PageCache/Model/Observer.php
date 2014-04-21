@@ -82,13 +82,13 @@ class Observer
     public function processLayoutRenderElement(\Magento\Event\Observer $observer)
     {
         $event = $observer->getEvent();
-        /** @var \Magento\View\Layout $layout */
+        /** @var \Magento\Framework\View\Layout $layout */
         $layout = $event->getLayout();
         if ($layout->isCacheable() && $this->_config->isEnabled()) {
             $name = $event->getElementName();
             $block = $layout->getBlock($name);
             $transport = $event->getTransport();
-            if ($block instanceof \Magento\View\Element\AbstractBlock) {
+            if ($block instanceof \Magento\Framework\View\Element\AbstractBlock) {
                 $blockTtl = $block->getTtl();
                 $varnishIsEnabledFlag = ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH);
                 $output = $transport->getData('output');
@@ -109,10 +109,10 @@ class Observer
     /**
      * Replace the output of the block, containing ttl attribute, with ESI tag
      *
-     * @param \Magento\View\Element\AbstractBlock $block
+     * @param \Magento\Framework\View\Element\AbstractBlock $block
      * @return string
      */
-    protected function _wrapEsi(\Magento\View\Element\AbstractBlock $block)
+    protected function _wrapEsi(\Magento\Framework\View\Element\AbstractBlock $block)
     {
         $url = $block->getUrl(
             'page_cache/block/esi',
@@ -181,7 +181,7 @@ class Observer
     {
         $formKeyFromCookie = $this->_formKey->get();
         if ($formKeyFromCookie) {
-            $this->_session->setData(\Magento\Data\Form\FormKey::FORM_KEY, $formKeyFromCookie);
+            $this->_session->setData(\Magento\Framework\Data\Form\FormKey::FORM_KEY, $formKeyFromCookie);
         }
     }
 }

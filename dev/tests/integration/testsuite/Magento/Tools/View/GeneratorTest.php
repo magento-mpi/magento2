@@ -15,7 +15,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     protected $shell;
 
     /**
-     * @var \Magento\Filesystem\Driver\File
+     * @var \Magento\Framework\Filesystem\Driver\File
      */
     protected $filesystem;
 
@@ -30,7 +30,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->tmpDir = BP . '/var/static';
         $this->shell = new \Magento\Shell(new \Magento\Shell\CommandRenderer());
-        $this->filesystem = new \Magento\Filesystem\Driver\File();
+        $this->filesystem = new \Magento\Framework\Filesystem\Driver\File();
         if (!$this->filesystem->isExists($this->tmpDir)) {
             $this->filesystem->createDirectory($this->tmpDir, 0777);
         }

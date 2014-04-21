@@ -16,7 +16,7 @@ namespace Magento\Paypal\Model\Resource\Report\Settlement;
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Row extends \Magento\Model\Resource\Db\AbstractDb
+class Row extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource model initialization.

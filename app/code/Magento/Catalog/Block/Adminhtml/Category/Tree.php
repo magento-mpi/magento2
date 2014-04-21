@@ -19,7 +19,7 @@
 namespace Magento\Catalog\Block\Adminhtml\Category;
 
 use Magento\Catalog\Model\Resource\Category\Collection;
-use Magento\Data\Tree\Node;
+use Magento\Framework\Data\Tree\Node;
 
 class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 {
@@ -34,7 +34,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     protected $_backendSession;
 
     /**
-     * @var \Magento\DB\Helper
+     * @var \Magento\Framework\DB\Helper
      */
     protected $_resourceHelper;
 
@@ -49,7 +49,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\DB\Helper $resourceHelper
+     * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Backend\Model\Auth\Session $backendSession
      * @param array $data
      */
@@ -59,7 +59,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
         \Magento\Registry $registry,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\DB\Helper $resourceHelper,
+        \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Backend\Model\Auth\Session $backendSession,
         array $data = array()
     ) {
@@ -328,7 +328,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     {
         // create a node from data array
         if (is_array($node)) {
-            $node = new Node($node, 'entity_id', new \Magento\Data\Tree());
+            $node = new Node($node, 'entity_id', new \Magento\Framework\Data\Tree());
         }
 
         $item = array();

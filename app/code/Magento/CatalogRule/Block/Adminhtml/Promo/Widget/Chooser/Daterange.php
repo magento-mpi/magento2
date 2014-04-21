@@ -38,7 +38,7 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
     protected $_rangeDelimiter = '...';
 
     /**
-     * @var \Magento\Data\FormFactory
+     * @var \Magento\Framework\Data\FormFactory
      */
     protected $_formFactory;
 
@@ -49,13 +49,13 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
@@ -77,7 +77,7 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
         }
 
         $idSuffix = $this->mathRandom->getUniqueHash();
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $dateFields = array('from' => __('From'), 'to' => __('To'));
         foreach ($dateFields as $key => $label) {

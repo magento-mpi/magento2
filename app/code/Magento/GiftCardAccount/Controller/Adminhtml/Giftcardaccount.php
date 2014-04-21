@@ -291,7 +291,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         try {
             $this->_objectManager->create('Magento\GiftCardAccount\Model\Pool')->generatePool();
             $this->messageManager->addSuccess(__('New code pool was generated.'));
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We were unable to generate a new code pool.'));

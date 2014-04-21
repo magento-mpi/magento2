@@ -9,7 +9,6 @@
  */
 namespace Magento\GiftCardAccount\Controller;
 
-use Magento\Framework\App\Action\NotFoundException;
 use Magento\Framework\App\RequestInterface;
 
 class Customer extends \Magento\Framework\App\Action\Action
@@ -41,7 +40,7 @@ class Customer extends \Magento\Framework\App\Action\Action
             $code = $data['giftcard_code'];
             try {
                 if (!$this->_objectManager->get('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
-                    throw new \Magento\Model\Exception(__("You can't redeem a gift card now."));
+                    throw new \Magento\Framework\Model\Exception(__("You can't redeem a gift card now."));
                 }
                 $this->_objectManager->create(
                     'Magento\GiftCardAccount\Model\Giftcardaccount'
@@ -56,7 +55,7 @@ class Customer extends \Magento\Framework\App\Action\Action
                         $this->_objectManager->get('Magento\Escaper')->escapeHtml($code)
                     )
                 );
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('We cannot redeem this gift card.'));

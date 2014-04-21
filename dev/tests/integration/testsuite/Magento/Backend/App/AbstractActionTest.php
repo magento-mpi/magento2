@@ -22,7 +22,7 @@ class AbstractActionTest extends \Magento\Backend\Utility\Controller
     {
         $this->markTestSkipped('Session destruction doesn\'t work');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Config\ScopeInterface'
+            'Magento\Framework\Config\ScopeInterface'
         )->setCurrentScope(
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         );
@@ -93,7 +93,9 @@ class AbstractActionTest extends \Magento\Backend\Utility\Controller
 
         $this->dispatch('backend/admin/dashboard');
 
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
         $actualBlocks = $layout->getAllBlocks();
 
         $this->assertNotEmpty($actualBlocks);

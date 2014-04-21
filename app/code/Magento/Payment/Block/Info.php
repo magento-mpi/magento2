@@ -12,7 +12,7 @@ namespace Magento\Payment\Block;
 /**
  * Base payment iformation block
  */
-class Info extends \Magento\View\Element\Template
+class Info extends \Magento\Framework\View\Element\Template
 {
     /**
      * Payment rendered specific information
@@ -30,13 +30,13 @@ class Info extends \Magento\View\Element\Template
      * Retrieve info model
      *
      * @return \Magento\Payment\Model\Info
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getInfo()
     {
         $info = $this->getData('info');
         if (!$info instanceof \Magento\Payment\Model\Info) {
-            throw new \Magento\Model\Exception(__('We cannot retrieve the payment info model object.'));
+            throw new \Magento\Framework\Model\Exception(__('We cannot retrieve the payment info model object.'));
         }
         return $info;
     }

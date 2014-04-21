@@ -9,7 +9,7 @@
  */
 namespace Magento\Pci\Model;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\Encryption\Crypt;
 
 /**

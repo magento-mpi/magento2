@@ -8,7 +8,7 @@
 namespace Magento\Webapi\Model\Soap;
 
 use Magento\Webapi\Model\Config\Converter;
-use Magento\Filesystem\Directory\ReadInterface;
+use Magento\Framework\Filesystem\Directory\ReadInterface;
 
 /**
  * Webapi Config Model for Soap.

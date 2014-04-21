@@ -21,7 +21,7 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
      * @param bool $result
      * @param array $messages
      *
-     * @covers \Magento\View\Design\Theme\Validator::validate
+     * @covers \Magento\Framework\View\Design\Theme\Validator::validate
      * @dataProvider dataProviderValidate
      */
     public function testValidate(array $data, $result, array $messages)
@@ -30,7 +30,7 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
         $themeMock = new \Magento\Object();
         $themeMock->setData($data);
 
-        $validator = new \Magento\View\Design\Theme\Validator();
+        $validator = new \Magento\Framework\View\Design\Theme\Validator();
 
         $this->assertEquals($result, $validator->validate($themeMock));
         $this->assertEquals($messages, $validator->getErrorMessages());

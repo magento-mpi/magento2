@@ -8,7 +8,7 @@
 namespace Magento\Framework\App\Filesystem\DirectoryList;
 
 use Magento\Framework\App\Filesystem;
-use Magento\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem\DirectoryList;
 
 /**
  * Class Configuration

@@ -7,7 +7,7 @@
  */
 namespace Magento\Logging\Model;
 
-use Magento\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 use Magento\Logging\Model\Event\Changes;
 
 class Processor
@@ -234,7 +234,7 @@ class Processor
      * Action model processing.
      * Get defference between data & orig_data and store in the internal modelsHandler container.
      *
-     * @param AbstractModel $model
+     * @param \Magento\Framework\Model\AbstractModel $model
      * @param string $action
      * @return $this|bool
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -420,7 +420,7 @@ class Processor
             }
             if (!$handler || !$callback || !method_exists($handler, $callback)) {
                 $this->_logger->logException(
-                    new \Magento\Model\Exception(sprintf("Unknown callback function: %s::%s", $handler, $callback))
+                    new \Magento\Framework\Model\Exception(sprintf("Unknown callback function: %s::%s", $handler, $callback))
                 );
             }
         }
@@ -525,7 +525,7 @@ class Processor
      *              )
      *     )
      *
-     * @param AbstractModel $model
+     * @param \Magento\Framework\Model\AbstractModel $model
      * @param array $attributes
      * @return void
      */

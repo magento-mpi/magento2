@@ -135,7 +135,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'addFieldToFilter'
         )->with(
             'path',
-            \Magento\View\DesignInterface::XML_PATH_THEME_ID
+            \Magento\Framework\View\DesignInterface::XML_PATH_THEME_ID
         )->will(
             $this->returnValue(array($configEntity))
         );
@@ -186,7 +186,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'addFieldToFilter'
         )->with(
             'path',
-            \Magento\View\DesignInterface::XML_PATH_THEME_ID
+            \Magento\Framework\View\DesignInterface::XML_PATH_THEME_ID
         )->will(
             $this->returnValue(array($configEntity))
         );

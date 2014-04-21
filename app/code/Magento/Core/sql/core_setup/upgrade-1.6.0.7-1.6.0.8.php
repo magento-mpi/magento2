@@ -20,7 +20,7 @@ $connection = $installer->getConnection();
 $connection->addColumn(
     $installer->getTable('core_layout_update'),
     'updated_at',
-    array('type' => \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, 'nullable' => true, 'comment' => 'Last Update Timestamp')
+    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP, 'nullable' => true, 'comment' => 'Last Update Timestamp')
 );
 
 $installer->endSetup();

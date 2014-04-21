@@ -66,7 +66,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
     protected $_storeFactory;
 
     /**
-     * @var \Magento\Data\Form\FormKey
+     * @var \Magento\Framework\Data\Form\FormKey
      */
     protected $formKey;
 
@@ -91,7 +91,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      * @param Auth\Session $authSession
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Store\Model\StoreFactory $storeFactory
-     * @param \Magento\Data\Form\FormKey $formKey
+     * @param \Magento\Framework\Data\Form\FormKey $formKey
      * @param string $scopeType
      * @param array $data
      *
@@ -113,7 +113,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Store\Model\StoreFactory $storeFactory,
-        \Magento\Data\Form\FormKey $formKey,
+        \Magento\Framework\Data\Form\FormKey $formKey,
         $scopeType,
         array $data = array()
     ) {

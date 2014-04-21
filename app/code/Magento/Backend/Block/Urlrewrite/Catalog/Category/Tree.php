@@ -141,7 +141,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     /**
      * Convert categories tree to array recursively
      *
-     * @param  \Magento\Data\Tree\Node $node
+     * @param  \Magento\Framework\Data\Tree\Node $node
      * @return array
      */
     protected function _getNodesArray($node)

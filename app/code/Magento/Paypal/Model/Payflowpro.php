@@ -703,7 +703,7 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Object $response
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _processErrors(\Magento\Object $response)
     {
@@ -712,7 +712,7 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
         } elseif ($response->getResultCode() != self::RESPONSE_CODE_APPROVED &&
             $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
         ) {
-            throw new \Magento\Model\Exception($response->getRespmsg());
+            throw new \Magento\Framework\Model\Exception($response->getRespmsg());
         }
     }
 

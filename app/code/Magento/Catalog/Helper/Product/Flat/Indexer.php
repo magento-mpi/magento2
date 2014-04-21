@@ -172,7 +172,7 @@ class Indexer extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $columns = array();
         $columns['entity_id'] = array(
-            'type' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
+            'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             'length' => null,
             'unsigned' => true,
             'nullable' => false,
@@ -182,7 +182,7 @@ class Indexer extends \Magento\Framework\App\Helper\AbstractHelper
         );
         if ($this->isAddChildData()) {
             $columns['child_id'] = array(
-                'type' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
                 'length' => null,
                 'unsigned' => true,
                 'nullable' => true,
@@ -191,7 +191,7 @@ class Indexer extends \Magento\Framework\App\Helper\AbstractHelper
                 'comment' => 'Child Id'
             );
             $columns['is_child'] = array(
-                'type' => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
                 'length' => 1,
                 'unsigned' => true,
                 'nullable' => false,
@@ -200,7 +200,7 @@ class Indexer extends \Magento\Framework\App\Helper\AbstractHelper
             );
         }
         $columns['attribute_set_id'] = array(
-            'type' => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+            'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
             'length' => 5,
             'unsigned' => true,
             'nullable' => false,
@@ -208,7 +208,7 @@ class Indexer extends \Magento\Framework\App\Helper\AbstractHelper
             'comment' => 'Attribute Set Id'
         );
         $columns['type_id'] = array(
-            'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
+            'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             'length' => 32,
             'unsigned' => false,
             'nullable' => false,
@@ -381,29 +381,29 @@ class Indexer extends \Magento\Framework\App\Helper\AbstractHelper
             $this->_indexes = array();
             if ($this->isAddChildData()) {
                 $this->_indexes['PRIMARY'] = array(
-                    'type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY,
+                    'type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY,
                     'fields' => array('entity_id', 'child_id')
                 );
                 $this->_indexes['IDX_CHILD'] = array(
-                    'type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX,
+                    'type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX,
                     'fields' => array('child_id')
                 );
                 $this->_indexes['IDX_IS_CHILD'] = array(
-                    'type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX,
+                    'type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX,
                     'fields' => array('entity_id', 'is_child')
                 );
             } else {
                 $this->_indexes['PRIMARY'] = array(
-                    'type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY,
+                    'type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY,
                     'fields' => array('entity_id')
                 );
             }
             $this->_indexes['IDX_TYPE_ID'] = array(
-                'type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX,
+                'type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX,
                 'fields' => array('type_id')
             );
             $this->_indexes['IDX_ATTRIBUTE_SET'] = array(
-                'type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX,
+                'type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX,
                 'fields' => array('attribute_set_id')
             );
 
@@ -469,7 +469,7 @@ class Indexer extends \Magento\Framework\App\Helper\AbstractHelper
      * Retrieve loaded attribute by code
      *
      * @param string $attributeCode
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return \Magento\Eav\Model\Entity\Attribute
      */
     public function getAttribute($attributeCode)
@@ -479,7 +479,7 @@ class Indexer extends \Magento\Framework\App\Helper\AbstractHelper
             $attribute = $this->_attributeFactory->create();
             $attribute->loadByCode($this->getEntityTypeId(), $attributeCode);
             if (!$attribute->getId()) {
-                throw new \Magento\Model\Exception(__('Invalid attribute %1', $attributeCode));
+                throw new \Magento\Framework\Model\Exception(__('Invalid attribute %1', $attributeCode));
             }
             $entity = $this->_eavConfig->getEntityType($this->getEntityType())->getEntity();
             $attribute->setEntity($entity);

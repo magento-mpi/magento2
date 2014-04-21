@@ -30,7 +30,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_customerSession = $this->objectManager->get('Magento\Customer\Model\Session');
-        $this->_block = $this->objectManager->get('Magento\View\LayoutInterface')
+        $this->_block = $this->objectManager->get('Magento\Framework\View\LayoutInterface')
             ->createBlock(
                 'Magento\Customer\Block\Account\Dashboard\Address',
                 '',
@@ -50,7 +50,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomer()
     {
         $objectManager = Bootstrap::getObjectManager();
-        $layout = $objectManager->get('Magento\View\LayoutInterface');
+        $layout = $objectManager->get('Magento\Framework\View\LayoutInterface');
         $layout->setIsCacheable(false);
         /** @var CustomerAccountServiceInterface $customerAccountService */
         $customerAccountService = $objectManager

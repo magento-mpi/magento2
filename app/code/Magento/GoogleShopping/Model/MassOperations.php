@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleShopping\Model;
 
-use Magento\Model\Exception as CoreException;
+use Magento\Framework\Model\Exception as CoreException;
 use Magento\GoogleShopping\Model\Resource\Item\Collection as ItemCollection;
 
 /**

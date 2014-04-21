@@ -145,7 +145,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
 
         $dirWriteMock = $this->getMock(
-            'Magento\Filesystem\Directory\Write',
+            'Magento\Framework\Filesystem\Directory\Write',
             array('changePermissions', 'create', 'getAbsolutePath'),
             array(),
             '',

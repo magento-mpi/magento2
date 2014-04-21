@@ -23,7 +23,7 @@ class Application
     /**
      * Configuration object
      *
-     * @param \Magento\Config
+     * @var \Magento\TestFramework\Performance\Config
      */
     protected $_config;
 
@@ -172,7 +172,7 @@ class Application
      */
     protected function _updateFilesystemPermissions()
     {
-        /** @var \Magento\Filesystem\Directory\Write $varDirectory */
+        /** @var \Magento\Framework\Filesystem\Directory\Write $varDirectory */
         $varDirectory = $this->getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
@@ -191,7 +191,7 @@ class Application
         $this->getObjectManager()->configure(
             $this->getObjectManager()->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
         );
-        $this->getObjectManager()->get('Magento\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
+        $this->getObjectManager()->get('Magento\Framework\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
         return $this;
     }
 

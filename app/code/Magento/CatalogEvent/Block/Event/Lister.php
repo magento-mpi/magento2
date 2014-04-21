@@ -18,7 +18,7 @@ use Magento\CatalogEvent\Helper\Data;
 use Magento\CatalogEvent\Model\Event;
 use Magento\CatalogEvent\Model\Resource\Event\Collection;
 use Magento\CatalogEvent\Model\Resource\Event\CollectionFactory;
-use Magento\View\Element\Template\Context;
+use Magento\Framework\View\Element\Template\Context;
 
 class Lister extends AbstractEvent
 {
@@ -110,7 +110,7 @@ class Lister extends AbstractEvent
             $this->_events = array();
             $categories = $this->_categoryHelper->getStoreCategories('position', true, false);
             if ($categories instanceof \Magento\Eav\Model\Entity\Collection\AbstractCollection ||
-                $categories instanceof \Magento\Model\Resource\Db\Collection\AbstractCollection
+                $categories instanceof \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
             ) {
                 $allIds = $categories->getAllIds();
             } else {

@@ -43,7 +43,7 @@ class Express implements ManagerInterface
      *
      * @param RecurringPayment $payment
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validate(RecurringPayment $payment)
     {
@@ -65,7 +65,7 @@ class Express implements ManagerInterface
             $errors[] = __('The schedule description is too long.');
         }
         if ($errors) {
-            throw new \Magento\Model\Exception(implode(' ', $errors));
+            throw new \Magento\Framework\Model\Exception(implode(' ', $errors));
         }
     }
 
