@@ -411,11 +411,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $errorData = json_decode($e->getMessage(), true);
 
             $this->assertContains(
-                'Invalid value of "%value" provided for the %fieldName field.',
+                'Customer group with code %value already exists.',
                 $errorData['message']
             );
             $this->assertContains(
-                '"parameters":{"fieldName":"code","value":"Duplicate Group Code REST"}',
+                '"parameters":{"value":"Duplicate Group Code REST"}',
                 $e->getMessage()
             );
             $this->assertEquals(400, $e->getCode(), 'Invalid HTTP code');
