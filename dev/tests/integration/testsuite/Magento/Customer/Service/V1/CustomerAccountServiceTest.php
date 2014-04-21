@@ -1511,8 +1511,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppArea frontend
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
+     * @magentoDataFixture Magento/Customer/_files/customer_non_default_website_id.php
      */
     public function testUpdateCustomerDetailsByEmail()
     {
@@ -1523,6 +1522,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $city = 'San Jose';
 
         $customerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
+        $website = Bootstrap::getObjectManager()->get('Magento\Store\Model\Website');
+        $websiteId = $website->load('newwebsite')->getId();
         $email = $customerDetails->getCustomer()->getEmail();
         $customerData = array_merge(
             $customerDetails->getCustomer()->__toArray(),
@@ -1539,9 +1540,13 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerBuilder->populateWithArray($customerData);
         $this->_addressBuilder->populateWithArray($newAddress);
         $this->_customerDetailsBuilder->setCustomer(($this->_customerBuilder->create()))
-            ->setAddresses(array($this->_addressBuilder->create(), $addresses[1]));
+            ->setAddresses([$this->_addressBuilder->create(), $addresses[1]]);
 
-        $this->_customerAccountService->updateCustomerDetailsByEmail($email, $this->_customerDetailsBuilder->create());
+        $this->_customerAccountService->updateCustomerDetailsByEmail(
+            $email,
+            $this->_customerDetailsBuilder->create(),
+            $websiteId
+        );
 
         $updatedCustomerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
         $updateCustomerData = $updatedCustomerDetails->getCustomer();
@@ -1555,6 +1560,29 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 $this->assertEquals($city, $newAddress->getCity());
             }
         }
+    }
+
+    /**
+     * @magentoAppArea frontend
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @expectedException \Magento\Exception\StateException
+     */
+    public function testUpdateCustomerDetailsByEmailWithException()
+    {
+        $customerId = 1;
+        $customerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
+        $email = $customerDetails->getCustomer()->getEmail();
+        $customerData = array_merge(
+            $customerDetails->getCustomer()->__toArray(),
+            [
+                'firstname' => 'fname',
+                'id' => 1234567
+            ]
+        );
+        $this->_customerBuilder->populateWithArray($customerData);
+        $this->_customerDetailsBuilder->setCustomer(($this->_customerBuilder->create()))->setAddresses([]);
+        $this->_customerAccountService->updateCustomerDetailsByEmail($email, $this->_customerDetailsBuilder->create());
+
     }
 
     /**

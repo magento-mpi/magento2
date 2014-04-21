@@ -846,13 +846,13 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $websiteId = null
     ) {
         $customerData = $customerDetails->getCustomer();
-        $customer = $this->getCustomerByEmail($customerEmail, $websiteId);
-        if ($customerData->getId() && $customerData->getId() !== $customer->getId()) {
+        $customerId = $this->getCustomerByEmail($customerEmail, $websiteId)->getId();
+        if ($customerData->getId() && $customerData->getId() !== $customerId) {
             throw new StateException('Altering the customer ID is not permitted');
         }
 
         $customerData = $this->customerBuilder->populate($customerData)
-            ->setId($customer->getId())
+            ->setId($customerId)
             ->create();
         $customerDetails = $this->customerDetailsBuilder->populate($customerDetails)
             ->setCustomer($customerData)

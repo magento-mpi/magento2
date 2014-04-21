@@ -860,7 +860,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
     {
         $customerData = $this->_createSampleCustomer();
         $customerId = $customerData[Customer::ID];
-        $customerDetails = $this->customerAccountService->getCustomerDetails($customerId);
+        $customerDetails = $this->_getCustomerDetails($customerId);
         $customer = $customerDetails->getCustomer();
         $customerAddress = $customerDetails->getAddresses();
         $firstName = $customer->getFirstname() . 'updated';
@@ -904,7 +904,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertTrue($response);
 
         //Verify if the customer is updated
-        $customerDetails = $this->customerAccountService->getCustomerDetails($customerId);
+        $customerDetails = $this->_getCustomerDetails($customerId);
         $updateCustomerData = $customerDetails->getCustomer();
         $this->assertEquals($firstName, $updateCustomerData->getFirstname());
         $this->assertEquals($lastName, $updateCustomerData->getLastname());
