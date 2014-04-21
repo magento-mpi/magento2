@@ -22,13 +22,13 @@ class FormTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get(
-            'Magento\View\DesignInterface'
+            'Magento\Framework\View\DesignInterface'
         )->setArea(
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         )->setDefaultDesignTheme();
 
         $block = $objectManager->create('Magento\Invitation\Block\Adminhtml\Invitation\Add\Form');
-        $block->setLayout($objectManager->create('Magento\View\Layout'));
+        $block->setLayout($objectManager->create('Magento\Framework\View\Layout'));
         $prepareFormMethod = new \ReflectionMethod(
             'Magento\Invitation\Block\Adminhtml\Invitation\Add\Form',
             '_prepareForm'
