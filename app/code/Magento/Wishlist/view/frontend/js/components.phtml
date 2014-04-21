@@ -20,6 +20,10 @@
             ],
             wishlistSearch: [
                 '<?php echo $this->getViewFileUrl('Magento_Wishlist::js/search.js') ?>'
+            ],
+            configurable: [
+                '<?php echo $this->getViewFileUrl('jquery/jquery.parsequery.js') ?>',
+                '<?php echo $this->getViewFileUrl('Magento_ConfigurableProduct::js/configurable.js') ?>'
             ]
         });
     })(jQuery);
