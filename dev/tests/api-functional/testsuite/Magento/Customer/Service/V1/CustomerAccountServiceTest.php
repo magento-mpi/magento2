@@ -979,7 +979,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             );
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
-            $this->assertEquals($expectedMessage, $errorObj['message']);
+            $this->assertContains($expectedMessage, $errorObj['message']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
         }
     }
