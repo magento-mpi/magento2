@@ -16,7 +16,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Transactions extends \Magento\View\Element\Text\ListText implements
+class Transactions extends \Magento\Framework\View\Element\Text\ListText implements
     \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
@@ -25,12 +25,12 @@ class Transactions extends \Magento\View\Element\Text\ListText implements
     protected $_authorization;
 
     /**
-     * @param \Magento\View\Element\Context $context
+     * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\AuthorizationInterface $authorization
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Context $context,
+        \Magento\Framework\View\Element\Context $context,
         \Magento\AuthorizationInterface $authorization,
         array $data = array()
     ) {

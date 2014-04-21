@@ -10,8 +10,8 @@
 namespace Magento\Core\Model\Theme;
 
 use Magento\Framework\App\Filesystem;
-use Magento\Model\Exception;
-use Magento\View\Design\ThemeInterface;
+use Magento\Framework\Model\Exception;
+use Magento\Framework\View\Design\ThemeInterface;
 
 /**
  * Theme registration model class
@@ -51,7 +51,7 @@ class Registration
     );
 
     /**
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $directoryRead;
 

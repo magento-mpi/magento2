@@ -12,7 +12,7 @@ require_once __DIR__ . '/../../../../../../../../tools/Magento/Tools/View/Genera
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_rootDirectory;
 
@@ -23,7 +23,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_rootDirectory = $this->getMockForAbstractClass('Magento\Filesystem\Directory\WriteInterface');
+        $this->_rootDirectory = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\WriteInterface');
         $this->_rootDirectory->expects($this->never())->method('getAbsolutePath');
         $this->_filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->_filesystem->expects(

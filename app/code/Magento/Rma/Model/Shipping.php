@@ -12,7 +12,7 @@ namespace Magento\Rma\Model;
 /**
  * RMA Shipping Model
  */
-class Shipping extends \Magento\Model\AbstractModel
+class Shipping extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Store address
@@ -118,7 +118,7 @@ class Shipping extends \Magento\Model\AbstractModel
     protected $filesystem;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -130,11 +130,11 @@ class Shipping extends \Magento\Model\AbstractModel
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param Resource\Shipping $resource
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -146,7 +146,7 @@ class Shipping extends \Magento\Model\AbstractModel
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Resource\Shipping $resource,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
@@ -188,7 +188,7 @@ class Shipping extends \Magento\Model\AbstractModel
      * Prepare and do return of shipment
      *
      * @return \Magento\Object
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function requestToShipment()
     {
@@ -206,7 +206,7 @@ class Shipping extends \Magento\Model\AbstractModel
         $baseCurrencyCode = $this->_storeManager->getStore($shipmentStoreId)->getBaseCurrencyCode();
 
         if (!$shipmentCarrier) {
-            throw new \Magento\Model\Exception(__('Invalid carrier: %1', $carrierCode));
+            throw new \Magento\Framework\Model\Exception(__('Invalid carrier: %1', $carrierCode));
         }
         $shipperRegionCode = $this->_regionFactory->create()->load($shipperAddress->getRegionId())->getCode();
         $recipientRegionCode = $recipientAddress->getRegionId();
@@ -222,7 +222,7 @@ class Shipping extends \Magento\Model\AbstractModel
             !$recipientAddress->getPostcode() ||
             !$recipientAddress->getCountryId()
         ) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __(
                     'We need more information to create your shipping label(s). Please verify your store information and shipping settings.'
                 )

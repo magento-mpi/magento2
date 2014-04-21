@@ -32,7 +32,7 @@ class Downloadable extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRende
     protected $_itemsFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
@@ -40,7 +40,7 @@ class Downloadable extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRende
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Stdlib\String $string,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,

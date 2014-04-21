@@ -28,7 +28,7 @@ class Register extends \Magento\Directory\Block\Data
     protected $_customerHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -42,7 +42,7 @@ class Register extends \Magento\Directory\Block\Data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,

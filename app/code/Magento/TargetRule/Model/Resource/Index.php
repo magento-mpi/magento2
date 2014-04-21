@@ -406,7 +406,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Retrieve new SELECT instance (used Read Adapter)
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function select()
     {
@@ -597,7 +597,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Remove index by product ids and type
      *
-     * @param int|array|\Magento\DB\Select $productIds
+     * @param int|array|\Magento\Framework\DB\Select $productIds
      * @param int|null $typeId
      * @return $this
      */
@@ -649,11 +649,11 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Adds order by random to select object
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @param string|null $field
      * @return $this
      */
-    public function orderRand(\Magento\DB\Select $select, $field = null)
+    public function orderRand(\Magento\Framework\DB\Select $select, $field = null)
     {
         $this->_getReadAdapter()->orderRand($select, $field);
         return $this;

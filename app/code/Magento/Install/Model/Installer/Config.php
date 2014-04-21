@@ -41,12 +41,12 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $_pubDirectory;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $_configDirectory;
 
@@ -206,7 +206,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
      *
      * @param string $baseUrl
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @throws \Exception
      */
     protected function _checkUrl($baseUrl)
@@ -224,7 +224,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
         }
         if ($response->getStatus() != 200) {
             $this->messageManager->addError(__('The URL "%1" is invalid.', $baseUrl));
-            throw new \Magento\Model\Exception(__('Response from the server is invalid.'));
+            throw new \Magento\Framework\Model\Exception(__('Response from the server is invalid.'));
         }
     }
 

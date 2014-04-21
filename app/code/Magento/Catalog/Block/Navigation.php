@@ -16,7 +16,7 @@ use Magento\Catalog\Model\Category;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Navigation extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
+class Navigation extends \Magento\Framework\View\Element\Template implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * @var Category
@@ -76,7 +76,7 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
     protected $flatState;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
@@ -87,7 +87,7 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Layer\Category $catalogLayer,
@@ -181,7 +181,7 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
     /**
      * Get catagories of current store
      *
-     * @return \Magento\Data\Tree\Node\Collection
+     * @return \Magento\Framework\Data\Tree\Node\Collection
      */
     public function getStoreCategories()
     {
@@ -191,7 +191,7 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
     /**
      * Retrieve child categories of current category
      *
-     * @return \Magento\Data\Tree\Node\Collection
+     * @return \Magento\Framework\Data\Tree\Node\Collection
      */
     public function getCurrentChildCategories()
     {

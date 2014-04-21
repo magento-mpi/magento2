@@ -62,7 +62,7 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
     protected $_customerConverter;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
@@ -76,7 +76,7 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,

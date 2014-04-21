@@ -14,8 +14,8 @@
  */
 namespace Magento\Code\Minifier\Strategy;
 
-use Magento\Filesystem\Directory\Read;
-use Magento\Filesystem\Directory\Write;
+use Magento\Framework\Filesystem\Directory\Read;
+use Magento\Framework\Filesystem\Directory\Write;
 
 class Lite implements \Magento\Code\Minifier\StrategyInterface
 {

@@ -114,13 +114,13 @@ class Customerbalance extends \Magento\Backend\App\Action
      *
      * @param string $idFieldName
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _initCustomer($idFieldName = 'id')
     {
         $customer = $this->_customerFactory->create()->load((int)$this->getRequest()->getParam($idFieldName));
         if (!$customer->getId()) {
-            throw new \Magento\Model\Exception(__('Failed to initialize customer'));
+            throw new \Magento\Framework\Model\Exception(__('Failed to initialize customer'));
         }
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());

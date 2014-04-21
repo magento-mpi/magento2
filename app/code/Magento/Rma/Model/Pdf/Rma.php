@@ -106,7 +106,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * Retrieve PDF
      *
      * @param array $rmaArray
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return \Zend_Pdf
      */
     public function getPdf($rmaArray = array())
@@ -119,7 +119,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $this->_setFontBold($style, 10);
 
         if (!(is_array($rmaArray) && count($rmaArray) == 1)) {
-            throw new \Magento\Model\Exception(__('Only one RMA is available for printing'));
+            throw new \Magento\Framework\Model\Exception(__('Only one RMA is available for printing'));
         }
         $rma = $rmaArray[0];
 

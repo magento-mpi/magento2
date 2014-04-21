@@ -21,9 +21,9 @@ lib/Magento/Translate/AdapterInterface.php
 # Pretty printer overrides methods that do not comply with standard, so just ignore entire file
 dev/tools/Magento/Tools/Formatter/PrettyPrinter.php
 # Has special characters in it that should not get pretty printed
-lib/Magento/DB/Adapter/Pdo/Mysql.php
+lib/Magento/Framework/DB/Adapter/Pdo/Mysql.php
 # formatter incorrectly formats these files causing failures
-dev/tests/unit/testsuite/Magento/DB/Adapter/Pdo/MysqlTest.php
+dev/tests/unit/testsuite/Magento/Framework/DB/Adapter/Pdo/MysqlTest.php
 dev/tests/unit/testsuite/Magento/Simplexml/ElementTest.php
 dev/tests/unit/testsuite/Magento/Test/Tools/Migration/System/Configuration/ParserTest.php
 # The following is third party code not really in the correct location

@@ -24,7 +24,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     protected $_storeManager;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -45,7 +45,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      *
@@ -63,7 +63,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
         Carrier $carrierHelper,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {

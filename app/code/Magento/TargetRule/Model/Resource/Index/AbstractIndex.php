@@ -18,7 +18,7 @@ use Magento\TargetRule\Model\Index;
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractIndex extends \Magento\Model\Resource\Db\AbstractDb
+abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Product List Type identifier
@@ -46,12 +46,12 @@ abstract class AbstractIndex extends \Magento\Model\Resource\Db\AbstractDb
      * Retrieve Product List Type identifier
      *
      * @return int
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getListType()
     {
         if (is_null($this->_listType)) {
-            throw new \Magento\Model\Exception(__('The product list type identifier is not defined.'));
+            throw new \Magento\Framework\Model\Exception(__('The product list type identifier is not defined.'));
         }
         return $this->_listType;
     }
@@ -190,7 +190,7 @@ abstract class AbstractIndex extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Remove index by product ids
      *
-     * @param \Magento\DB\Select|array $entityIds
+     * @param \Magento\Framework\DB\Select|array $entityIds
      * @return $this
      */
     public function removeIndex($entityIds)

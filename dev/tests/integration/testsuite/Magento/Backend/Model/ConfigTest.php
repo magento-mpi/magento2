@@ -24,7 +24,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testSaveWithSingleStoreModeEnabled($groups)
     {
         Bootstrap::getObjectManager()->get(
-            'Magento\Config\ScopeInterface'
+            'Magento\Framework\Config\ScopeInterface'
         )->setCurrentScope(
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         );

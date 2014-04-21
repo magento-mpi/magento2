@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="head.components">
-        <block class="Magento\View\Element\Template" name="theme_page_head_components" template="Magento_Theme::js/components.phtml"/>
+        <block class="Magento\Framework\View\Element\Template" name="theme_page_head_components" template="Magento_Theme::js/components.phtml"/>
     </referenceBlock>
     <referenceBlock name="head">
         <block class="Magento\Theme\Block\Html\Head\Css" name="magento-calendar-css">
@@ -110,5 +110,6 @@
                 <argument name="file" xsi:type="string">mage/dataPost.js</argument>
             </arguments>
         </block>
+        <block class="Magento\View\Element\Js\Components" name="head.components" as="components" template="Magento_Theme::js/components.phtml"/>
     </referenceBlock>
 </layout>

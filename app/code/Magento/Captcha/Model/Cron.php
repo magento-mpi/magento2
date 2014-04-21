@@ -29,7 +29,7 @@ class Cron
     protected $_adminHelper;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_mediaDirectory;
 

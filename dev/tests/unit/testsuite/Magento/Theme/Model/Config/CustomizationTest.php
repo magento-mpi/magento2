@@ -22,7 +22,7 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
     protected $_storeManager;
 
     /**
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_designPackage;
 
@@ -53,7 +53,7 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
             array('getStores')
         );
         $this->_designPackage = $this->getMockForAbstractClass(
-            'Magento\View\DesignInterface',
+            'Magento\Framework\View\DesignInterface',
             array(),
             '',
             true,

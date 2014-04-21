@@ -14,7 +14,7 @@ namespace Magento\Pbridge\Block\Checkout\Payment;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Result extends \Magento\View\Element\Template
+class Result extends \Magento\Framework\View\Element\Template
 {
     /**
      * Pbridge data

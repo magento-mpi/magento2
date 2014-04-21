@@ -19,10 +19,10 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Composite\Update;
 
-class Result extends \Magento\View\Element\Template
+class Result extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @var \Magento\View\Helper\Js
+     * @var \Magento\Framework\View\Helper\Js
      */
     protected $_jsHelper = null;
 
@@ -41,14 +41,14 @@ class Result extends \Magento\View\Element\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\View\Helper\Js $jsHelper
+     * @param \Magento\Framework\View\Helper\Js $jsHelper
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\View\Helper\Js $jsHelper,
+        \Magento\Framework\View\Helper\Js $jsHelper,
         \Magento\Registry $registry,
         array $data = array()
     ) {

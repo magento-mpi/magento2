@@ -37,7 +37,7 @@ abstract class AbstractEntity
     /**
      * DB connection.
      *
-     * @var \Magento\DB\Adapter\Pdo\Mysql
+     * @var \Magento\Framework\DB\Adapter\Pdo\Mysql
      */
     protected $_connection;
 
@@ -194,7 +194,7 @@ abstract class AbstractEntity
     /**
      * Get entity collection
      *
-     * @return \Magento\Data\Collection\Db
+     * @return \Magento\Framework\Data\Collection\Db
      */
     abstract protected function _getEntityCollection();
 
@@ -496,12 +496,12 @@ abstract class AbstractEntity
      * Inner writer object getter.
      *
      * @return AbstractAdapter
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getWriter()
     {
         if (!$this->_writer) {
-            throw new \Magento\Model\Exception(__('Please specify writer.'));
+            throw new \Magento\Framework\Model\Exception(__('Please specify writer.'));
         }
         return $this->_writer;
     }

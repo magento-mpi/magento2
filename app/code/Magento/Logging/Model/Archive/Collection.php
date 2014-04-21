@@ -13,7 +13,7 @@
  */
 namespace Magento\Logging\Model\Archive;
 
-class Collection extends \Magento\Data\Collection\Filesystem
+class Collection extends \Magento\Framework\Data\Collection\Filesystem
 {
     /**
      * Filenames regex filter

@@ -29,7 +29,7 @@ class Contents extends \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Ta
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Connect\Model\Session $session
      * @param \Magento\Connect\Model\ExtensionFactory $extensionFactory
      * @param array $data
@@ -37,7 +37,7 @@ class Contents extends \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Ta
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Connect\Model\Session $session,
         \Magento\Connect\Model\ExtensionFactory $extensionFactory,
         array $data = array()

@@ -9,8 +9,7 @@
  */
 namespace Magento\Wishlist\Model;
 
-use Magento\Model\Exception;
-use Magento\Customer\Model\Customer;
+use Magento\Framework\Model\Exception;
 use Magento\Wishlist\Model\Resource\Item\CollectionFactory;
 use Magento\Wishlist\Model\Resource\Wishlist as ResourceWishlist;
 use Magento\Wishlist\Model\Resource\Wishlist\Collection;
@@ -27,7 +26,7 @@ use Magento\Wishlist\Model\Resource\Wishlist\Collection;
  * @method string getUpdatedAt()
  * @method \Magento\Wishlist\Model\Wishlist setUpdatedAt(string $value)
  */
-class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Cache tag
@@ -117,7 +116,7 @@ class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\I
     protected $_useCurrentWebsite;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Wishlist\Helper\Data $wishlistData
@@ -134,7 +133,7 @@ class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\I
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Wishlist\Helper\Data $wishlistData,
@@ -636,7 +635,7 @@ class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\I
              * Error message
              */
             if (is_string($resultItem)) {
-                throw new Exception(__($resultItem));
+                throw new \Magento\Framework\Model\Exception(__($resultItem));
             }
 
             if ($resultItem->getId() != $itemId) {
@@ -650,7 +649,7 @@ class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\I
                 $resultItem->setOrigData('qty', 0);
             }
         } else {
-            throw new Exception(__('The product does not exist.'));
+            throw new \Magento\Framework\Model\Exception(__('The product does not exist.'));
         }
         return $this;
     }

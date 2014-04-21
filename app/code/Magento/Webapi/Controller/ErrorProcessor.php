@@ -51,7 +51,7 @@ class ErrorProcessor
     protected $_filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $directoryWrite;
 

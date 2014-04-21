@@ -7,7 +7,7 @@
  */
 namespace Magento\Mview\View;
 
-class Collection extends \Magento\Data\Collection implements CollectionInterface
+class Collection extends \Magento\Framework\Data\Collection implements CollectionInterface
 {
     /**
      * Item object class name
@@ -27,12 +27,12 @@ class Collection extends \Magento\Data\Collection implements CollectionInterface
     protected $statesFactory;
 
     /**
-     * @param \Magento\Data\Collection\EntityFactoryInterface $entityFactory
+     * @param \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory
      * @param \Magento\Mview\ConfigInterface $config
      * @param State\CollectionFactory $statesFactory
      */
     public function __construct(
-        \Magento\Data\Collection\EntityFactoryInterface $entityFactory,
+        \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
         \Magento\Mview\ConfigInterface $config,
         \Magento\Mview\View\State\CollectionFactory $statesFactory
     ) {

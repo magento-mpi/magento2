@@ -13,7 +13,7 @@
 namespace Magento\Module\Dir;
 
 use \Magento\Framework\App\Filesystem,
-    \Magento\Config\FileIteratorFactory;
+    \Magento\Framework\Config\FileIteratorFactory;
 
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -69,7 +69,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->_filesystemMock =
             $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false, false);
         $this->_fileIteratorFactory =
-            $this->getMock('\Magento\Config\FileIteratorFactory', array(), array(), '', false, false);
+            $this->getMock('\Magento\Framework\Config\FileIteratorFactory', array(), array(), '', false, false);
 
         $this->_model = new \Magento\Module\Dir\Reader(
             $this->_dirsMock,
@@ -112,7 +112,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ),
         );
         $configPath = 'app/code/Test/Module/etc/config.xml';
-        $modulesDirectoryMock = $this->getMock('Magento\Filesystem\Directory\ReadInterface');
+        $modulesDirectoryMock = $this->getMock('Magento\Framework\Filesystem\Directory\ReadInterface');
         $modulesDirectoryMock->expects($this->any())->method('getRelativePath')->will($this->returnArgument(0));
         $modulesDirectoryMock->expects($this->any())->method('isExist')
             ->with($configPath)

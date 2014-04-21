@@ -20,7 +20,7 @@ namespace Magento\Catalog\Model\Product;
 use Magento\Store\Model\Store;
 use Magento\Image as MagentoImage;
 
-class Image extends \Magento\Model\AbstractModel
+class Image extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * @var int
@@ -118,7 +118,7 @@ class Image extends \Magento\Model\AbstractModel
     protected $_watermarkImageOpacity = 70;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_mediaDirectory;
 
@@ -128,12 +128,12 @@ class Image extends \Magento\Model\AbstractModel
     protected $_imageFactory;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var \Magento\View\FileSystem
+     * @var \Magento\Framework\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -166,33 +166,33 @@ class Image extends \Magento\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Image\Factory $imageFactory
-     * @param \Magento\View\Url $viewUrl
-     * @param \Magento\View\FileSystem $viewFileSystem
+     * @param \Magento\Framework\View\Url $viewUrl
+     * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Image\Factory $imageFactory,
-        \Magento\View\Url $viewUrl,
-        \Magento\View\FileSystem $viewFileSystem,
+        \Magento\Framework\View\Url $viewUrl,
+        \Magento\Framework\View\FileSystem $viewFileSystem,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;

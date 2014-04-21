@@ -18,7 +18,7 @@ interface CacheInterface
     public function clear();
 
     /**
-     * @return null|\Magento\View\Publisher\FileInterface
+     * @return null|\Magento\Framework\View\Publisher\FileInterface
      */
     public function get();
 
@@ -29,7 +29,7 @@ interface CacheInterface
     public function add($lessFile);
 
     /**
-     * @param \Magento\View\Publisher\FileInterface $cachedFile
+     * @param \Magento\Framework\View\Publisher\FileInterface $cachedFile
      * @return $this
      */
     public function save($cachedFile);

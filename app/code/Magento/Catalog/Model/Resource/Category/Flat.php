@@ -383,7 +383,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
      * @param boolean|string $sorted
      * @param boolean $asCollection
      * @param boolean $toLoad
-     * @return array|\Magento\Data\Collection
+     * @return array|\Magento\Framework\Data\Collection
      */
     public function getCategories($parent, $recursionLevel = 0, $sorted = false, $asCollection = false, $toLoad = true)
     {

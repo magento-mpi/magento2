@@ -17,7 +17,7 @@
  */
 namespace Magento\Authorizenet\Block\Directpost;
 
-class Iframe extends \Magento\View\Element\Template
+class Iframe extends \Magento\Framework\View\Element\Template
 {
     /**
      * Core registry
@@ -27,12 +27,12 @@ class Iframe extends \Magento\View\Element\Template
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         array $data = array()
     ) {
@@ -45,7 +45,7 @@ class Iframe extends \Magento\View\Element\Template
      *
      * You can redefine this method in child classes for changing layout
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {

@@ -28,7 +28,7 @@ namespace Magento\UrlRewrite\Model;
  * @method string getDescription()
  * @method \Magento\UrlRewrite\Model\UrlRewrite setDescription(string $value)
  */
-class UrlRewrite extends \Magento\Model\AbstractModel
+class UrlRewrite extends \Magento\Framework\Model\AbstractModel
 {
     const TYPE_CATEGORY = 1;
 
@@ -66,25 +66,25 @@ class UrlRewrite extends \Magento\Model\AbstractModel
     protected $_httpContext;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\Cookie $cookie,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_scopeConfig = $scopeConfig;
@@ -227,7 +227,7 @@ class UrlRewrite extends \Magento\Model\AbstractModel
 
         $removeTags = is_array($tags) ? $tags : explode(',', $tags);
 
-        foreach ($removeTags as $t) {
+        foreach ($removeTags as $k => $t) {
             if (!is_numeric($k)) {
                 $t = $k . '=' . $t;
             }

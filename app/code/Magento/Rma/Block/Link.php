@@ -14,7 +14,7 @@ namespace Magento\Rma\Block;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Link extends \Magento\View\Element\Html\Link\Current
+class Link extends \Magento\Framework\View\Element\Html\Link\Current
 {
     /**
      * Rma data
@@ -24,13 +24,13 @@ class Link extends \Magento\View\Element\Html\Link\Current
     protected $_rmaHelper = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\App\DefaultPathInterface $defaultPath
      * @param \Magento\Rma\Helper\Data $rmaHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\DefaultPathInterface $defaultPath,
         \Magento\Rma\Helper\Data $rmaHelper,
         array $data = array()

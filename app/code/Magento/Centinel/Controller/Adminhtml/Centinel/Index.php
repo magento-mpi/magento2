@@ -53,7 +53,7 @@ class Index extends \Magento\Backend\App\Action
             $validator->reset();
             $this->_getPayment()->importData($paymentData);
             $result['authenticationUrl'] = $validator->getAuthenticationStartUrl();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $result['message'] = $e->getMessage();
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);

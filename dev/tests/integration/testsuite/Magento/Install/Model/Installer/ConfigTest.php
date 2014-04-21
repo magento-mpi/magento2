@@ -15,7 +15,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected static $_tmpDir = '';
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected static $_varDirectory;
 

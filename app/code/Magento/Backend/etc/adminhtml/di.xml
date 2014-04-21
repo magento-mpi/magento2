@@ -19,7 +19,7 @@
     <preference for="Magento\Backend\App\ConfigInterface" type="Magento\Backend\App\Config" />
     <preference for="Magento\Framework\App\Response\Http\FileFactory" type="Magento\Backend\App\Response\Http\FileFactory" />
     <preference for="Magento\Framework\App\View" type="Magento\Backend\Model\View" />
-    <preference for="Magento\Model\ActionValidator\RemoveAction" type="Magento\Model\ActionValidator\RemoveAction\Allowed" />
+    <preference for="Magento\Framework\Model\ActionValidator\RemoveAction" type="Magento\Framework\Model\ActionValidator\RemoveAction\Allowed" />
      <type name="Magento\Backend\App\Action\Context">
         <arguments>
             <argument name="helper" xsi:type="object">Magento\Backend\Helper\Data</argument>
@@ -69,7 +69,7 @@
         </arguments>
     </type>
     <type name="Magento\Backend\Model\Config\Structure\Element\Group\Proxy" shared="false" />
-    <type name="Magento\View\Layout">
+    <type name="Magento\Framework\View\Layout">
         <arguments>
             <argument name="area" xsi:type="string">adminhtml</argument>
         </arguments>

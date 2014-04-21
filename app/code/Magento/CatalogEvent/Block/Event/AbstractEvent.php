@@ -7,12 +7,12 @@
  */
 namespace Magento\CatalogEvent\Block\Event;
 
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 
 /**
  * Catalog Event Abstract event block
  */
-abstract class AbstractEvent extends \Magento\View\Element\Template
+abstract class AbstractEvent extends \Magento\Framework\View\Element\Template
 {
     /**
      * Event statuses titles

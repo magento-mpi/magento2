@@ -28,7 +28,7 @@ namespace Magento\VersionsCms\Model\Hierarchy;
  * @method string getXpath()
  * @method \Magento\VersionsCms\Model\Hierarchy\Node setXpath(string $value)
  */
-class Node extends \Magento\Model\AbstractModel
+class Node extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Meta node's types
@@ -133,7 +133,7 @@ class Node extends \Magento\Model\AbstractModel
     protected $_nodeFactory;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig
@@ -142,11 +142,11 @@ class Node extends \Magento\Model\AbstractModel
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig,
@@ -155,7 +155,7 @@ class Node extends \Magento\Model\AbstractModel
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_cmsHierarchy = $cmsHierarchy;
@@ -290,7 +290,7 @@ class Node extends \Magento\Model\AbstractModel
      * @param array $data       modified nodes data array
      * @param array $remove     the removed node ids
      * @return $this
-     * @throws \Magento\Model\Exception|Exception
+     * @throws \Magento\Framework\Model\Exception|Exception
      */
     public function collectTree($data, $remove)
     {
@@ -304,7 +304,7 @@ class Node extends \Magento\Model\AbstractModel
             // validate required node data
             foreach ($required as $field) {
                 if (!array_key_exists($field, $v)) {
-                    throw new \Magento\Model\Exception(__('Please correct the node data.'));
+                    throw new \Magento\Framework\Model\Exception(__('Please correct the node data.'));
                 }
             }
             $parentNodeId = empty($v['parent_node_id']) ? 0 : $v['parent_node_id'];

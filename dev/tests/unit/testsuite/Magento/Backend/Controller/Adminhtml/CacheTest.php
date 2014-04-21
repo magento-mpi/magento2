@@ -51,7 +51,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $controller = $helper->getObject('Magento\Backend\Controller\Adminhtml\Cache', array('context' => $context));
 
         // Setup expectations
-        $mergeService = $this->getMock('Magento\View\Asset\MergeService', array(), array(), '', false);
+        $mergeService = $this->getMock('Magento\Framework\View\Asset\MergeService', array(), array(), '', false);
         $mergeService->expects($this->once())->method('cleanMergedJsCss');
 
         $messageManager->expects(
@@ -65,7 +65,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $session->expects($this->once())->method('setIsUrlNotice')->will($this->returnSelf());
 
         $valueMap = array(
-            array('Magento\View\Asset\MergeService', $mergeService),
+            array('Magento\Framework\View\Asset\MergeService', $mergeService),
             array('Magento\Session\SessionManager', $session)
         );
         $objectManager->expects($this->any())->method('get')->will($this->returnValueMap($valueMap));

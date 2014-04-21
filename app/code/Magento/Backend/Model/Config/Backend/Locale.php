@@ -36,29 +36,29 @@ class Locale extends \Magento\Framework\App\Config\Value
     protected $_localeCurrency;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory
      * @param \Magento\Store\Model\Website\Factory $websiteFactory
      * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory,
         \Magento\Store\Model\Website\Factory $websiteFactory,
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\Locale\CurrencyInterface $localeCurrency,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_configsFactory = $configsFactory;
@@ -70,7 +70,7 @@ class Locale extends \Magento\Framework\App\Config\Value
 
     /**
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _afterSave()
     {
@@ -119,7 +119,7 @@ class Locale extends \Magento\Framework\App\Config\Value
             }
         }
         if ($exceptions) {
-            throw new \Magento\Model\Exception(join("\n", $exceptions));
+            throw new \Magento\Framework\Model\Exception(join("\n", $exceptions));
         }
 
         return $this;
