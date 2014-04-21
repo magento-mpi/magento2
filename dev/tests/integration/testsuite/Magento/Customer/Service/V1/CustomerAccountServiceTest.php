@@ -1427,7 +1427,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Customer/_files/customer_nondefault_websiteid.php
+     * @magentoDataFixture Magento/Customer/_files/customer_non_default_website_id.php
      */
     public function testGetCustomerByEmailWithNonDefaultWebsiteId()
     {
@@ -1463,9 +1463,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Customer/_files/customer_nondefault_websiteid.php
+     * @magentoDataFixture Magento/Customer/_files/customer_non_default_website_id.php
      */
-    public function testGetCustomerDetailsByEmailWithnonDefaultWebsiteId()
+    public function testGetCustomerDetailsByEmailWithNonDefaultWebsiteId()
     {
         /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
         $email = 'customer2@example.com';
