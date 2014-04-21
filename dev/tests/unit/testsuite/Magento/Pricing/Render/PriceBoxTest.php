@@ -227,4 +227,9 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
             ['prefix', 'suffix', '', '']
         ];
     }
+
+    public function testGetRendererPool()
+    {
+        $this->assertEquals($this->rendererPool, $this->model->getRendererPool());
+    }
 }

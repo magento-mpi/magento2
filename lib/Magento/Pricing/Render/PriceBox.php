@@ -108,12 +108,11 @@ class PriceBox extends Template implements PriceBoxRenderInterface
      * Retrieve price object of given type and quantity
      *
      * @param string $priceCode
-     * @param float|null $quantity
      * @return PriceInterface
      */
-    public function getPriceType($priceCode, $quantity = null)
+    public function getPriceType($priceCode)
     {
-        return $this->saleableItem->getPriceInfo()->getPrice($priceCode, $quantity);
+        return $this->saleableItem->getPriceInfo()->getPrice($priceCode);
     }
 
     /**

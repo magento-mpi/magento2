@@ -105,9 +105,7 @@ abstract class AbstractPrice implements PriceInterface
      */
     public function getCustomAmount($amount = null, $exclude = null)
     {
-        if ($amount === null) {
-            $amount = $this->getValue();
-        }
+        $amount = (null === $amount) ? $this->getValue() : $amount;
         return $this->calculator->getAmount($amount, $this->product, $exclude);
     }
 
