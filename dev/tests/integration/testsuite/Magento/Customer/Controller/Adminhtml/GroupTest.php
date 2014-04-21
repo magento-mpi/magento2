@@ -19,36 +19,9 @@ use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 class GroupTest extends \Magento\Backend\Utility\Controller
 {
     const TAX_CLASS_ID = 3;
-    const CUSTOMER_GROUP_CODE = 'New Customer Group';
+    const CUSTOMER_GROUP_CODE = 'custom_group';
     const BASE_CONTROLLER_URL = 'http://localhost/index.php/backend/customer/group/';
-
-    protected static $_customerGroupId;
-
-    public static function setUpBeforeClass()
-    {
-        /** @var CustomerGroupServiceInterface $groupService */
-        $groupService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
-
-        /** @var CustomerGroupBuilder $groupBuilder */
-        $groupBuilder = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
-        $group = $groupBuilder->populateWithArray([
-                'id' => null,
-                'code' => self::CUSTOMER_GROUP_CODE,
-                'tax_class_id' => self::TAX_CLASS_ID
-            ])
-            ->create();
-        self::$_customerGroupId = $groupService->saveGroup($group);;
-    }
-
-    public static function tearDownAfterClass()
-    {
-        /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
-        $groupService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
-        $groupService->deleteGroup(self::$_customerGroupId);
-    }
+    const CUSTOMER_GROUP_ID = 2;
 
     public function testNewAction()
     {
@@ -57,6 +30,9 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         $this->assertRegExp('/<h1 class\="title">\s*New Customer Group\s*<\/h1>/', $responseBody);
     }
 
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer_group.php
+     */
     public function testDeleteActionNoGroupId()
     {
         $this->dispatch('backend/customer/group/delete');
@@ -64,11 +40,11 @@ class GroupTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
-     * @magentoDbIsolation enabled
+     * @magentoDataFixture Magento/Customer/_files/customer_group.php
      */
     public function testDeleteActionExistingGroup()
     {
-        $this->getRequest()->setParam('id', self::$_customerGroupId);
+        $this->getRequest()->setParam('id', self::CUSTOMER_GROUP_ID);
         $this->dispatch('backend/customer/group/delete');
 
         /**
@@ -81,6 +57,9 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         $this->assertRedirect($this->stringStartsWith(self::BASE_CONTROLLER_URL . 'index'));
     }
 
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer_group.php
+     */
     public function testDeleteActionNonExistingGroupId()
     {
         $this->getRequest()->setParam('id', 10000);
@@ -97,12 +76,12 @@ class GroupTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
-     * @magentoDbIsolation enabled
+     * @magentoDataFixture Magento/Customer/_files/customer_group.php
      */
     public function testSaveActionExistingGroup()
     {
         $this->getRequest()->setParam('tax_class', self::TAX_CLASS_ID);
-        $this->getRequest()->setParam('id', self::$_customerGroupId);
+        $this->getRequest()->setParam('id', self::CUSTOMER_GROUP_ID);
         $this->getRequest()->setParam('code', self::CUSTOMER_GROUP_CODE);
 
         $this->dispatch('backend/customer/group/save');
@@ -119,14 +98,14 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         $groupService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
         $customerGroupData = \Magento\Service\DataObjectConverter::toFlatArray(
-            $groupService->getGroup(self::$_customerGroupId)
+            $groupService->getGroup(self::CUSTOMER_GROUP_ID)
         );
         ksort($customerGroupData);
 
         $this->assertEquals(
             [
                 'code' => self::CUSTOMER_GROUP_CODE,
-                'id' => self::$_customerGroupId,
+                'id' => self::CUSTOMER_GROUP_ID,
                 'tax_class_id' => self::TAX_CLASS_ID
             ],
             $customerGroupData
@@ -134,7 +113,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
-     * @magentoDbIsolation enabled
+     * @magentoDataFixture Magento/Customer/_files/customer_group.php
      */
     public function testSaveActionExistingGroupWithEmptyGroupCode()
     {
@@ -142,10 +121,10 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         $groupService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
-        $originalCode = $groupService->getGroup(self::$_customerGroupId)->getCode();
+        $originalCode = $groupService->getGroup(self::CUSTOMER_GROUP_ID)->getCode();
 
         $this->getRequest()->setParam('tax_class', self::TAX_CLASS_ID);
-        $this->getRequest()->setParam('id', self::$_customerGroupId);
+        $this->getRequest()->setParam('id', self::CUSTOMER_GROUP_ID);
         $this->getRequest()->setParam('code', '');
 
         $this->dispatch('backend/customer/group/save');
@@ -155,8 +134,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
             MessageInterface::TYPE_ERROR
         );
         $this->assertSessionMessages($this->isEmpty(), MessageInterface::TYPE_SUCCESS);
-
-        $this->assertEquals($originalCode, $groupService->getGroup(self::$_customerGroupId)->getCode());
+        $this->assertEquals($originalCode, $groupService->getGroup(self::CUSTOMER_GROUP_ID)->getCode());
     }
 
     public function testSaveActionForwardNewCreateNewGroup()
@@ -168,13 +146,13 @@ class GroupTest extends \Magento\Backend\Utility\Controller
 
     public function testSaveActionForwardNewEditExistingGroup()
     {
-        $this->getRequest()->setParam('id', self::$_customerGroupId);
+        $this->getRequest()->setParam('id', self::CUSTOMER_GROUP_ID);
         $this->dispatch('backend/customer/group/save');
 
         /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
         $groupService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
-        $customerGroupCode = $groupService->getGroup(self::$_customerGroupId)->getCode();
+        $customerGroupCode = $groupService->getGroup(self::CUSTOMER_GROUP_ID)->getCode();
 
         $responseBody = $this->getResponse()->getBody();
         $this->assertRegExp('/<h1 class\="title">\s*' . $customerGroupCode . '\s*<\/h1>/', $responseBody);
@@ -193,11 +171,54 @@ class GroupTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(['No such entity with groupId = 10000']),
             MessageInterface::TYPE_ERROR
         );
+        $this->assertRedirect($this->stringStartsWith(self::BASE_CONTROLLER_URL . 'edit/'));
+    }
 
-        /** @var \MagentoRegistry $coreRegistry */
-        $coreRegistry = Bootstrap::getObjectManager()->get('Magento\Registry');
-        $this->assertNull($coreRegistry->registry(RegistryConstants::CURRENT_GROUP_ID));
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer_group.php
+     */
+    public function testSaveActionNewGroupWithExistingGroupCode()
+    {
+        /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
+        $groupService = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
-        $this->assertRedirect($this->stringStartsWith(self::BASE_CONTROLLER_URL . 'edit/id/10000'));
+        $originalCode = $groupService->getGroup(self::CUSTOMER_GROUP_ID)->getCode();
+
+        $this->getRequest()->setParam('tax_class', self::TAX_CLASS_ID);
+        $this->getRequest()->setParam('code', self::CUSTOMER_GROUP_CODE);
+
+        $this->dispatch('backend/customer/group/save');
+
+        $this->assertSessionMessages($this->equalTo(['Customer Group already exists.']), MessageInterface::TYPE_ERROR);
+        $this->assertSessionMessages($this->isEmpty(), MessageInterface::TYPE_SUCCESS);
+
+        $this->assertEquals($originalCode, $groupService->getGroup(self::CUSTOMER_GROUP_ID)->getCode());
+        $this->assertRedirect($this->stringStartsWith(self::BASE_CONTROLLER_URL . 'edit/'));
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer_group.php
+     */
+    public function testSaveActionNewGroupWithoutGroupCode()
+    {
+        /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
+        $groupService = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
+
+        $originalCode = $groupService->getGroup(self::CUSTOMER_GROUP_ID)->getCode();
+
+        $this->getRequest()->setParam('tax_class', self::TAX_CLASS_ID);
+
+        $this->dispatch('backend/customer/group/save');
+
+        $this->assertSessionMessages(
+            $this->equalTo(['Invalid value of "" provided for the code field.']),
+            MessageInterface::TYPE_ERROR
+        );
+        $this->assertSessionMessages($this->isEmpty(), MessageInterface::TYPE_SUCCESS);
+
+        $this->assertEquals($originalCode, $groupService->getGroup(self::CUSTOMER_GROUP_ID)->getCode());
+        $this->assertRedirect($this->stringStartsWith(self::BASE_CONTROLLER_URL . 'edit/'));
     }
 }

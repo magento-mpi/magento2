@@ -36,11 +36,16 @@ class InputException extends AbstractAggregateException
      *
      * @param string $fieldName Name of the field which had an invalid value provided.
      * @param string $fieldValue The invalid value that was provided for the field.
+     * @param \Exception $cause   Cause of the InputException
      * @return InputException
      */
-    public static function invalidFieldValue($fieldName, $fieldValue)
+    public static function invalidFieldValue($fieldName, $fieldValue, \Exception $cause = null)
     {
-        return new InputException(self::INVALID_FIELD_VALUE, ['fieldName' => $fieldName, 'value' => $fieldValue]);
+        return new InputException(
+            self::INVALID_FIELD_VALUE,
+            ['fieldName' => $fieldName, 'value' => $fieldValue],
+            $cause
+        );
     }
 
     /**

@@ -283,9 +283,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
              *  difficult to do without imposing more database calls
              */
             if ($e->getMessage() === __('Customer Group already exists.')) {
-                throw new InputException('Customer group with code %value already exists.', [
-                    'value' => $group->getCode()
-                ]);
+                throw InputException::invalidFieldValue('code', $group->getCode(), $e);
             }
             throw $e;
         }

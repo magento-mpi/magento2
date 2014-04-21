@@ -12,6 +12,7 @@ use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Data\CustomerGroup;
 use Magento\Customer\Service\V1\Data\CustomerGroupBuilder;
+use Magento\Exception\InputException;
 
 /**
  * Customer groups controller
@@ -158,11 +159,15 @@ class Group extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('The customer group has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl('customer/group'));
                 return;
+            } catch (InputException $e) {
+                if ($e->getPrevious()) {
+                    $this->messageManager->addError($e->getPrevious()->getMessage());
+                } else {
+                    $this->messageManager->addError($e->getMessage());
+                }
+                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));               return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                if ($customerGroup != null) {
-                    $this->_coreRegistry->register(RegistryConstants::CURRENT_GROUP_ID, $id);
-                }
                 $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
                 return;
             }
