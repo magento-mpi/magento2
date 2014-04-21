@@ -85,7 +85,7 @@ abstract class AbstractObjectBuilder extends \Magento\Service\Data\AbstractObjec
         $dataObjectMethods = get_class_methods($this->_getDataObjectType());
         foreach ($data as $key => $value) {
             /* First, verify is there any getter for the key on the Service Data Object */
-            $camelCaseKey = $this->_snakeCaseToCamelCase($key);
+            $camelCaseKey = \Magento\Service\DataObjectConverter::snakeCaseToCamelCase($key);
             $possibleMethods = array(
                 'get' . $camelCaseKey,
                 'is' . $camelCaseKey

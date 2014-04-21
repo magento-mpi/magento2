@@ -53,6 +53,11 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     private $customerDataObjectMethods;
 
     /**
+     * @var array
+     */
+    private $addressDataObjectMethods;
+
+    /**
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory
      * @param \Magento\Store\Model\StoreManager $storeManager
@@ -236,8 +241,9 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         }
         foreach ($this->getAllCustomerAttributeMetadata() as $attributeMetadata) {
             $attributeCode = $attributeMetadata->getAttributeCode();
-            $camelCaseKey = $this->_snakeCaseToCamelCase($attributeCode);
-            $isDataObjectMethod = isset($this->customerDataObjectMethods['get' . $camelCaseKey]);
+            $camelCaseKey = \Magento\Service\DataObjectConverter::snakeCaseToCamelCase($attributeCode);
+            $isDataObjectMethod = isset($this->customerDataObjectMethods['get' . $camelCaseKey])
+                || isset($this->customerDataObjectMethods['is' . $camelCaseKey]);
 
             /** Even though disable_auto_group_change is system attribute, it should be available to the clients */
             if (!$isDataObjectMethod && (!$attributeMetadata->isSystem()
@@ -255,27 +261,21 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     public function getCustomAddressAttributeMetadata()
     {
         $customAttributes = [];
+        if (!$this->addressDataObjectMethods) {
+            $this->addressDataObjectMethods = array_flip(
+                get_class_methods('Magento\Customer\Service\V1\Data\Address')
+            );
+        }
         foreach ($this->getAllAddressAttributeMetadata() as $attributeMetadata) {
-            if (!$attributeMetadata->isSystem()) {
+            $attributeCode = $attributeMetadata->getAttributeCode();
+            $camelCaseKey = \Magento\Service\DataObjectConverter::snakeCaseToCamelCase($attributeCode);
+            $isDataObjectMethod = isset($this->addressDataObjectMethods['get' . $camelCaseKey])
+                || isset($this->addressDataObjectMethods['is' . $camelCaseKey]);
+
+            if (!$isDataObjectMethod && !$attributeMetadata->isSystem()) {
                 $customAttributes[] = $attributeMetadata;
             }
         }
         return $customAttributes;
-    }
-
-    /**
-     * Converts an input string from snake_case to upper CamelCase.
-     *
-     * @param string $input
-     * @return string
-     */
-    protected function _snakeCaseToCamelCase($input)
-    {
-        $output = '';
-        $segments = explode('_', $input);
-        foreach ($segments as $segment) {
-            $output .= ucfirst($segment);
-        }
-        return $output;
     }
 }

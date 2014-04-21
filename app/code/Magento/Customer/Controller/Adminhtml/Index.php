@@ -228,7 +228,7 @@ class Index extends \Magento\Backend\App\Action
         if ($isExistingCustomer) {
             try {
                 $customer = $this->_customerAccountService->getCustomer($customerId);
-                $customerData['account'] = \Magento\Service\DataObjectConverter::toFlatArray($customer);
+                $customerData['account'] = \Magento\Service\EavDataObjectConverter::toFlatArray($customer);
                 $customerData['account']['id'] = $customerId;
                 try {
                     $addresses = $this->_addressService->getAddresses($customerId);
@@ -378,7 +378,7 @@ class Index extends \Magento\Backend\App\Action
                 if ($isExistingCustomer) {
                     $savedCustomerData = $this->_customerAccountService->getCustomer($customerId);
                     $customerData = array_merge(
-                        \Magento\Service\DataObjectConverter::toFlatArray($savedCustomerData),
+                        \Magento\Service\EavDataObjectConverter::toFlatArray($savedCustomerData),
                         $customerData
                     );
                 }
@@ -825,7 +825,7 @@ class Index extends \Magento\Backend\App\Action
             $customerForm = $this->_formFactory->create(
                 'customer',
                 'adminhtml_customer',
-                \Magento\Service\DataObjectConverter::toFlatArray($customer),
+                \Magento\Service\EavDataObjectConverter::toFlatArray($customer),
                 true
             );
             $customerForm->setInvisibleIgnored(true);

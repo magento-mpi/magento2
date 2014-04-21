@@ -49,7 +49,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\Data\CustomerBuilder',
             ['metadataService' => $customerMetadataService]
         );
-        $expected = \Magento\Service\DataObjectConverter::toFlatArray($customerAccountService->getCustomer(1));
+        $expected = \Magento\Service\EavDataObjectConverter::toFlatArray($customerAccountService->getCustomer(1));
         $customerBuilder->populateWithArray($expected);
         $customerDataSet = $customerBuilder->create();
         $fixtureGroupCode = 'custom_group';

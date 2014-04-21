@@ -234,7 +234,7 @@ class Account extends GenericMetadata
         return $this->_customerFormFactory->create(
             'customer',
             'adminhtml_customer',
-            \Magento\Service\DataObjectConverter::toFlatArray($customer)
+            \Magento\Service\EavDataObjectConverter::toFlatArray($customer)
         );
     }
 

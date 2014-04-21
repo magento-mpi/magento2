@@ -94,4 +94,21 @@ class DataObjectConverter
         }
         return $result;
     }
+
+
+    /**
+     * Converts an input string from snake_case to upper CamelCase.
+     *
+     * @param string $input
+     * @return string
+     */
+    public static function snakeCaseToCamelCase($input)
+    {
+        $output = '';
+        $segments = explode('_', $input);
+        foreach ($segments as $segment) {
+            $output .= ucfirst($segment);
+        }
+        return $output;
+    }
 }

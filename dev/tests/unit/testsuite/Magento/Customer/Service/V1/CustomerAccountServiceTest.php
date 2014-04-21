@@ -1492,7 +1492,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::FIRSTNAME, $actualCustomer->getFirstName());
         $this->assertEquals(self::LASTNAME, $actualCustomer->getLastName());
         $this->assertEquals(self::EMAIL, $actualCustomer->getEmail());
-        $this->assertEquals(4, count(\Magento\Service\DataObjectConverter::toFlatArray($actualCustomer)));
+        $this->assertEquals(4, count(\Magento\Service\EavDataObjectConverter::toFlatArray($actualCustomer)));
     }
 
     public function testSearchCustomersEmpty()
