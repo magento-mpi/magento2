@@ -402,16 +402,6 @@ class Generator
         $wrappedErrorComplexType = Fault::NODE_DETAIL_WRAPPED_ERROR;
         $wrappedErrorData = array(
             'parameters' => array(
-                Fault::NODE_DETAIL_WRAPPED_ERROR_FIELD_NAME => array(
-                    'type' => 'string',
-                    'required' => true,
-                    'documentation' => '',
-                ),
-                Fault::NODE_DETAIL_WRAPPED_ERROR_CODE => array(
-                    'type' => 'string',
-                    'required' => true,
-                    'documentation' => '',
-                ),
                 Fault::NODE_DETAIL_WRAPPED_ERROR_VALUE => array(
                     'type' => 'string',
                     'required' => true,
