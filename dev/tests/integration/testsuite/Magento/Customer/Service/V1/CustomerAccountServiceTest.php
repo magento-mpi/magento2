@@ -1032,6 +1032,45 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDbIsolation enabled
+     */
+    public function testCreateNewCustomerWithPasswordHash()
+    {
+        $email = 'email@example.com';
+        $storeId = 1;
+        $firstname = 'Tester';
+        $lastname = 'McTest';
+        $groupId = 1;
+
+        $this->_customerBuilder->setStoreId($storeId)
+            ->setEmail($email)
+            ->setFirstname($firstname)
+            ->setLastname($lastname)
+            ->setGroupId($groupId);
+        $newCustomerEntity = $this->_customerBuilder->create();
+        $customerDetails = $this->_customerDetailsBuilder->setCustomer($newCustomerEntity)->create();
+        /** @var \Magento\Math\Random $mathRandom */
+        $password = $this->_objectManager->get('Magento\Math\Random')->getRandomString(
+            CustomerAccountServiceInterface::DEFAULT_PASSWORD_LENGTH
+        );
+        /** @var \Magento\Encryption\EncryptorInterface $encryptor */
+        $encryptor = $this->_objectManager->get('Magento\Encryption\EncryptorInterface');
+        $passwordHash = $encryptor->getHash($password);
+        $savedCustomer = $this->_customerAccountService->createAccountWithPasswordHash($customerDetails, $passwordHash);
+        $this->assertNotNull($savedCustomer->getId());
+        $this->assertEquals($email, $savedCustomer->getEmail());
+        $this->assertEquals($storeId, $savedCustomer->getStoreId());
+        $this->assertEquals($firstname, $savedCustomer->getFirstname());
+        $this->assertEquals($lastname, $savedCustomer->getLastname());
+        $this->assertEquals($groupId, $savedCustomer->getGroupId());
+        $this->assertTrue(!$savedCustomer->getSuffix());
+        $this->assertEquals(
+            $savedCustomer->getId(),
+            $this->_customerAccountService->authenticate($email, $password)->getId()
+        );
+    }
+
+    /**
      * @magentoAppArea frontend
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */

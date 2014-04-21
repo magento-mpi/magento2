@@ -428,7 +428,7 @@ class Account extends \Magento\Framework\App\Action\Action
                 ->setCustomer($customer)
                 ->setAddresses($addresses)
                 ->create();
-            $customer = $this->_customerAccountService->createCustomer($customerDetails, $password, null, $redirectUrl);
+            $customer = $this->_customerAccountService->createCustomer($customerDetails, $password, $redirectUrl);
 
             if ($this->getRequest()->getParam('is_subscribed', false)) {
                 $this->_subscriberFactory->create()->subscribeCustomerById($customer->getId());
