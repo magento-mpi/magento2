@@ -123,7 +123,7 @@ class ErrorProcessor
                 $httpCode,
                 $exception->getParameters(),
                 get_class($exception),
-                $errors, 
+                $errors,
                 $stackTrace
             );
 
