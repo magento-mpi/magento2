@@ -38,7 +38,7 @@
                 <argument name="file" xsi:type="string">Magento_Catalog::js/product/list/toolbar.js</argument>
             </arguments>
         </block>
-        <block class="Magento\View\Element\Js\Components" name="head.components" as="components" template="Magento_Catalog::js/components.phtml"/>
+        <block class="Magento\Framework\View\Element\Js\Components" name="head.components" as="components" template="Magento_Catalog::js/components.phtml"/>
     </referenceBlock>
     <block class="Magento\Pricing\Render" name="product.price.render.default">
         <arguments>

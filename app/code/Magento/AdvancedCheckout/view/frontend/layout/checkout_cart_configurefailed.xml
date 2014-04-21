@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="head.components">
-        <block class="Magento\View\Element\Js\Components" name="advancedcheckout_cart_configurefailed_head_components" template="Magento_Checkout::js/components.phtml"/>
+        <block class="Magento\Framework\View\Element\Js\Components" name="advancedcheckout_cart_configurefailed_head_components" template="Magento_Checkout::js/components.phtml"/>
     </referenceBlock>
     <referenceBlock name="product.info">
         <block class="Magento\AdvancedCheckout\Block\Cart\Item\Configure" name="checkout.cart.item.configure.block"/>

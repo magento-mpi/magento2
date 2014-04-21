@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <update handle="customer_account"/>
     <referenceBlock name="head.components">
-        <block class="Magento\View\Element\Js\Components" name="magento_invitation_send_head_components" template="Magento_Invitation::js/components.phtml"/>
+        <block class="Magento\Framework\View\Element\Js\Components" name="magento_invitation_send_head_components" template="Magento_Invitation::js/components.phtml"/>
     </referenceBlock>
     <referenceBlock name="customer_account_navigation">
         <action method="setActive">

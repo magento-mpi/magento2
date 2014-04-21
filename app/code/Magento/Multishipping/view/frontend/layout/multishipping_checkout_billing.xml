@@ -21,6 +21,6 @@
         </block>
     </referenceContainer>
     <referenceBlock name="head.components">
-        <block class="Magento\View\Element\Js\Components" name="multishipping_checkout_billing_page_head_components" template="Magento_Checkout::js/components.phtml"/>
+        <block class="Magento\Framework\View\Element\Js\Components" name="multishipping_checkout_billing_page_head_components" template="Magento_Checkout::js/components.phtml"/>
     </referenceBlock>
 </layout>
