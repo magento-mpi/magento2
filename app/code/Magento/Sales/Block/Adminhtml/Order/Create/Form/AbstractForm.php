@@ -183,7 +183,7 @@ abstract class AbstractForm extends \Magento\Sales\Block\Adminhtml\Order\Create\
                 if ($inputType == 'select' || $inputType == 'multiselect') {
                     $options = array();
                     foreach ($attribute->getOptions() as $optionData) {
-                        $options[] = \Magento\Service\EavDataObjectConverter::toFlatArray($optionData);
+                        $options[] = \Magento\Service\DataObjectConverter::toFlatArray($optionData);
                     }
                     $element->setValues($options);
                 } elseif ($inputType == 'date') {
