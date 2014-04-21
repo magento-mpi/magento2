@@ -26,13 +26,16 @@ class Fault extends \RuntimeException
      */
     const NODE_DETAIL_PARAMETERS = 'Parameters';
     const NODE_DETAIL_WRAPPED_ERRORS = 'WrappedErrors';
+    const NODE_DETAIL_WRAPPED_EXCEPTION = 'WrappedException';
     /** Note that parameter node must be unique in scope of all complex types declared in WSDL */
     const NODE_DETAIL_PARAMETER = 'GenericFaultParameter';
     const NODE_DETAIL_PARAMETER_KEY = 'key';
     const NODE_DETAIL_PARAMETER_VALUE = 'value';
     const NODE_DETAIL_WRAPPED_ERROR = 'WrappedError';
-    const NODE_DETAIL_WRAPPED_ERROR_FIELD_NAME = 'fieldName';
-    const NODE_DETAIL_WRAPPED_ERROR_CODE = 'code';
+    const NODE_DETAIL_WRAPPED_ERROR_MESSAGE = 'message';
+    const NODE_DETAIL_WRAPPED_ERROR_PARAMETERS = 'parameters';
+    const NODE_DETAIL_WRAPPED_ERROR_PARAMETER = 'parameter';
+    const NODE_DETAIL_WRAPPED_ERROR_KEY = 'key';
     const NODE_DETAIL_WRAPPED_ERROR_VALUE = 'value';
     const NODE_DETAIL_TRACE = 'Trace';
     const NODE_DETAIL_WRAPPER = 'GenericFault';
@@ -381,17 +384,28 @@ FAULT_MESSAGE;
      */
     protected function _generateErrorNodeXML($error)
     {
-        $fieldNameNode = self::NODE_DETAIL_WRAPPED_ERROR_FIELD_NAME;
-        $codeNode = self::NODE_DETAIL_WRAPPED_ERROR_CODE;
-        $valueNode = self::NODE_DETAIL_WRAPPED_ERROR_VALUE;
         $wrappedErrorNode = self::NODE_DETAIL_WRAPPED_ERROR;
+        $messageNode = self::NODE_DETAIL_WRAPPED_ERROR_MESSAGE;
 
-        $fieldName = isset($error['fieldName']) ? $error['fieldName'] : "";
-        $code = isset($error['code']) ? $error['code'] : "";
-        $value = isset($error['value']) ? $error['value'] : "";
+        $parametersNode = $error->getParameters();
+        $rawMessage = $error->getRawMessage();
+        $xml = "<m:$wrappedErrorNode><m:$messageNode>$rawMessage</m:$messageNode>";
 
-        return "<m:$wrappedErrorNode><m:$fieldNameNode>$fieldName</m:$fieldNameNode><m:$codeNode>"
-            . "$code</m:$codeNode><m:$valueNode>" . htmlspecialchars($value)
-            .  "</m:$valueNode></m:$wrappedErrorNode>";
+        if (!empty($parametersNode)) {
+            $parametersNode = self::NODE_DETAIL_WRAPPED_ERROR_PARAMETERS;
+            $xml .= "<m:$parametersNode>";
+            foreach ($parametersNode as $key => $value) {
+                $parameterNode = self::NODE_DETAIL_WRAPPED_ERROR_PARAMETER;
+                $keyNode = self::NODE_DETAIL_PARAMETER_KEY;
+                $valueNode = self::NODE_DETAIL_WRAPPED_ERROR_VALUE;
+                $xml .= "<m:$parameterNode>" .
+                    "<m:$keyNode>$key</m:$keyNode><m:$valueNode>$value</m:$valueNode>" .
+                    "</m:$parameterNode>";
+            }
+            $xml .= "</m:$parametersNode>";
+        }
+        $xml .= "</m:$wrappedErrorNode>";
+
+        return $xml;
     }
 }
