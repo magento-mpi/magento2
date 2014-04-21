@@ -13,6 +13,7 @@
  * Test class for \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance
  */
 namespace Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer;
+
 use Magento\ImportExport\Model\Import\AbstractEntity;
 use Magento\Customer\Model\ImportExport\Import\Address;
 use Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection;
@@ -217,7 +218,13 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             $storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
-            $this->getMock('Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory', array(), array(), '', false),
+            $this->getMock(
+                'Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory',
+                array(),
+                array(),
+                '',
+                false
+            ),
             $authSession,
             $moduleHelper,
             $customerFactory,

@@ -440,7 +440,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             $this->_storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
-            $this->getMock('Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory', array(), array(), '', false),
+            $this->getMock(
+                'Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory',
+                array(),
+                array(),
+                '',
+                false
+            ),
             $this->getMock('Magento\Customer\Model\AddressFactory', array(), array(), '', false),
             $this->getMock('Magento\Directory\Model\Resource\Region\CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\CustomerFactory', array(), array(), '', false),

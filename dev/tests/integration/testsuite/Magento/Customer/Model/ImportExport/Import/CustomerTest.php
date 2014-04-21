@@ -2,7 +2,7 @@
 /**
  * {license_notice}
  *
-* @copyright   {copyright}
+ * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Customer\Model\ImportExport\Import;

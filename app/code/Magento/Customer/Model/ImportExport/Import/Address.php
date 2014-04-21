@@ -505,7 +505,8 @@ class Address extends AbstractCustomer
         $attributes = array();
         foreach ($this->_attributes as $attributeParams) {
             if (isset($addressAttributes[$attributeParams['id']])) {
-                $attributes[$attributeParams['table']][$addressId][$attributeParams['id']] = $addressAttributes[$attributeParams['id']];
+                $attributes[$attributeParams['table']][$addressId][$attributeParams['id']]
+                    = $addressAttributes[$attributeParams['id']];
             }
         }
 
