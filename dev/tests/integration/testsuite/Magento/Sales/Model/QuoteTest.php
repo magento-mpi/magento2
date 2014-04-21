@@ -295,7 +295,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             Customer::EMAIL => 'qa@example.com',
             Customer::FIRSTNAME => 'Joe',
             Customer::GENDER => 'Male',
-            Customer::GROUP_ID => \Magento\Customer\Service\V1\CustomerGroupService::NOT_LOGGED_IN_ID,
+            Customer::GROUP_ID => \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
             Customer::LASTNAME => 'Dou',
             Customer::MIDDLENAME => 'Ivan',
             Customer::PREFIX => 'Dr.',

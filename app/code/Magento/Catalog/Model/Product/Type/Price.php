@@ -430,7 +430,7 @@ class Price
      * @param   string $specialPriceTo
      * @param   bool|float|null $rulePrice
      * @param   mixed|null $wId
-     * @param   mixed|null $gId
+     * @param   integer|null $gId
      * @param   int|null $productId
      * @return  float
      */
@@ -453,9 +453,6 @@ class Price
         }
 
         $finalPrice = $basePrice;
-        if ($gId instanceof \Magento\Customer\Model\Group) {
-            $gId = $gId->getId();
-        }
 
         $finalPrice = $this->calculateSpecialPrice(
             $finalPrice,

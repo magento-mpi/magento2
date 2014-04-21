@@ -380,9 +380,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_categoryColFactory;
 
     /**
-     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
-    protected $_groupColFactory;
+    protected $_customerGroupService;
 
     /**
      * @var \Magento\Catalog\Model\ProductFactory
@@ -460,7 +460,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\ImportExport\Model\Import\Entity\Product\OptionFactory $optionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryColFactory
-     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupColFactory
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Import\Entity\Product\Type\Factory $productTypeFactory
@@ -491,7 +491,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\ImportExport\Model\Import\Entity\Product\OptionFactory $optionFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryColFactory,
-        \Magento\Customer\Model\Resource\Group\CollectionFactory $groupColFactory,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Import\Entity\Product\Type\Factory $productTypeFactory,
@@ -513,7 +513,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_resourceFactory = $resourceFactory;
         $this->_setColFactory = $setColFactory;
         $this->_categoryColFactory = $categoryColFactory;
-        $this->_groupColFactory = $groupColFactory;
+        $this->_customerGroupService = $customerGroupService;
         $this->_productFactory = $productFactory;
         $this->_storeManager = $storeManager;
         $this->_productTypeFactory = $productTypeFactory;
@@ -670,8 +670,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
     protected function _initCustomerGroups()
     {
-        foreach ($this->_groupColFactory->create() as $customerGroup) {
-            $this->_customerGroups[$customerGroup->getId()] = true;
+        foreach ($this->_customerGroupService->getGroups() as $group) {
+            $this->_customerGroups[$group->getId()] = true;
         }
         return $this;
     }

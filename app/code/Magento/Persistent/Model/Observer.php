@@ -594,7 +594,7 @@ class Observer
             )->setCustomerLastname(
                 null
             )->setCustomerGroupId(
-                \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
+                \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID
             )->setIsPersistent(
                 false
             )->removeAllAddresses();
@@ -645,7 +645,7 @@ class Observer
                 ->setIsActive(true)
                 ->setIsPersistent(false)
                 ->setCustomerId(null)
-                ->setCustomerGroupId(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID);
+                ->setCustomerGroupId(\Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID);
         }
     }
 
