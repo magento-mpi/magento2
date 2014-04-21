@@ -42,8 +42,10 @@ class CustomerGroupServiceTest extends WebapiAbstract
     {
         $objectManager = Bootstrap::getObjectManager();
         $this->groupRegistry = $objectManager->get('Magento\Customer\Model\GroupRegistry');
-        $this->groupService = $objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface',
-            [ 'groupRegistry' => $this->groupRegistry ]);
+        $this->groupService = $objectManager->get(
+            'Magento\Customer\Service\V1\CustomerGroupServiceInterface',
+            ['groupRegistry' => $this->groupRegistry]
+        );
     }
 
     /**
@@ -408,10 +410,14 @@ class CustomerGroupServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             $errorData = json_decode($e->getMessage(), true);
 
-            $this->assertContains('Invalid value of "%value" provided for the %fieldName field.',
-                $errorData['message']);
-            $this->assertContains('"parameters":{"fieldName":"code","value":"Duplicate Group Code REST"}',
-                $e->getMessage());
+            $this->assertContains(
+                'Invalid value of "%value" provided for the %fieldName field.',
+                $errorData['message']
+            );
+            $this->assertContains(
+                '"parameters":{"fieldName":"code","value":"Duplicate Group Code REST"}',
+                $e->getMessage()
+            );
             $this->assertEquals(400, $e->getCode(), 'Invalid HTTP code');
         }
     }
@@ -644,7 +650,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $duplicateGroupCode = 'Duplicate Group Code SOAP';
 
-        $groupId = $this->createGroup(
+        $this->createGroup(
             (new CustomerGroupBuilder())->populateWithArray([
                 CustomerGroup::ID => null,
                 CustomerGroup::CODE => $duplicateGroupCode,
@@ -667,12 +673,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = "Customer Group already exists.\n"
-            . "{\n"
-            . "\tcode: INVALID_FIELD_VALUE\n"
-            . "\tcode: " . $duplicateGroupCode . "\n"
-            . "\tparams: []\n"
-            . ' }';
+        $expectedMessage = 'Customer group with code %value already exists.';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -743,12 +744,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = "One or more input exceptions have occurred.\n"
-            . "{\n"
-            . "\tcode: INVALID_FIELD_VALUE\n"
-            . "\tcode: \n"
-            . "\tparams: []\n"
-            . ' }';
+        $expectedMessage ='Invalid value of "%value" provided for the %fieldName field.';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -786,12 +782,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = "One or more input exceptions have occurred.\n"
-            . "{\n"
-            . "\tcode: INVALID_FIELD_VALUE\n"
-            . "\ttaxClassId: " . $invalidTaxClassId . "\n"
-            . "\tparams: []\n"
-            . ' }';
+        $expectedMessage = 'Invalid value of "%value" provided for the %fieldName field.';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -874,7 +865,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         try {
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\Exception $e) {
-            $expectedMessage = "No such entity with id = $nonExistentGroupId";
+            $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
             $this->assertContains(
                 $expectedMessage,
