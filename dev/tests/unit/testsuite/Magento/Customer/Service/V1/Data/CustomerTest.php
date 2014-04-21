@@ -6,8 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Customer\Service\V1\Data;
-
-use Magento\Service\Data\Eav\AttributeValueBuilder;
+use Magento\Service\Data\Eav\AttributeValue;
 
 /**
  * Customer
@@ -143,7 +142,16 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidCustomAttributes()
     {
-        $customAttributes = array('custom_attribute1' => 'value1', 'custom_attribute2' => 'value2');
+        $customAttributes= [
+            'custom_attribute1' => [
+                AttributeValue::ATTRIBUTE_CODE => 'custom_attribute1',
+                AttributeValue::VALUE => 'value1'
+            ],
+            'custom_attribute2' => [
+                AttributeValue::ATTRIBUTE_CODE => 'custom_attribute1',
+                AttributeValue::VALUE => 'value2'
+            ]
+        ];
         $customerData = array('attribute1' => 'value1', Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes);
         $customerDataObject = $this->_customerBuilder->populateWithArray($customerData)->create();
         $this->assertEquals(
@@ -155,11 +163,23 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCustomAttributes()
     {
-        $customAttributes = array('zip' => 'value1', 'locale' => 'value2');
+        $customAttributes= [
+            'zip' => [
+                AttributeValue::ATTRIBUTE_CODE => 'zip',
+                AttributeValue::VALUE => 'value1'
+            ],
+            'locale' => [
+                AttributeValue::ATTRIBUTE_CODE => 'locale',
+                AttributeValue::VALUE => 'value2'
+            ]
+        ];
         $customerData = array('attribute1' => 'value1', Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes);
         $customerDataObject = $this->_customerBuilder->populateWithArray($customerData)->create();
         foreach ($customerDataObject->getCustomAttributes() as $attributeValue) {
-            $this->assertEquals($customAttributes[$attributeValue->getAttributeCode()], $attributeValue->getValue());
+            $this->assertEquals(
+                $customAttributes[$attributeValue->getAttributeCode()][AttributeValue::VALUE],
+                $attributeValue->getValue()
+            );
         }
     }
 

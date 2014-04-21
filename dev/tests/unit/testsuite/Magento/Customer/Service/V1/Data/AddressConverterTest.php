@@ -8,7 +8,7 @@
 namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Customer\Service\V1\CustomerMetadataService;
-use Magento\Service\Data\Eav\AttributeValueBuilder;
+use Magento\Service\Data\Eav\AttributeValue;
 
 class AddressConverterTest extends \PHPUnit_Framework_TestCase
 {
@@ -70,8 +70,16 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
             'firstname' => 'John',
             'lastname' => 'Doe',
             'unknown_key' => 'Golden Necklace',
-            'warehouse_zip' => '78777',
-            'warehouse_alternate' => '90051'
+            'custom_attributes' => [
+                'warehouse_zip' => [
+                    AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
+                    AttributeValue::VALUE => '78777'
+                ],
+                'warehouse_alternate' => [
+                    AttributeValue::ATTRIBUTE_CODE => 'warehouse_alternate',
+                    AttributeValue::VALUE => '90051'
+                ]
+            ]
         );
 
         $expected = array(
@@ -92,17 +100,16 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
 
         $addressData = $this->_sampleAddressDataObject();
         $valueBuilder = $this->_objectManager->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
-        $addressData = $this->_objectManager->getObject(
+        /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressDataBuilder */
+        $addressDataBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\AddressBuilder',
             [
                 'valueBuilder' => $valueBuilder,
                 'regionBuilder' => new RegionBuilder(),
                 'metadataService' => $this->_customerMetadataService
             ]
-        )->mergeDataObjectWithArray(
-                $addressData,
-                $updatedAddressData
-            );
+        );
+        $addressData = $addressDataBuilder->mergeDataObjectWithArray($addressData, $updatedAddressData);
 
         $result = AddressConverter::toFlatArray($addressData);
         $this->assertEquals($expected, $result);
@@ -115,6 +122,7 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
     {
         $regionBuilder = (new RegionBuilder())->setRegion('Texas')->setRegionId(1)->setRegionCode('TX');
         $valueBuilder = $this->_objectManager->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
+        /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressData */
         $addressData = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\AddressBuilder',
             [

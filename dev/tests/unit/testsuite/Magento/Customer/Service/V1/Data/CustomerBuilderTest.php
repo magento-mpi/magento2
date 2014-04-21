@@ -7,11 +7,7 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Customer\Service\V1\CustomerMetadataService;
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
-use Magento\Service\Data\AbstractObject;
-use Magento\Service\Data\AbstractObjectBuilder;
-use Magento\Service\Data\Eav\AttributeValueBuilder;
+use Magento\Service\Data\Eav\AttributeValue;
 
 class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -202,94 +198,97 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             'firstname' => 'John',
             'lastname' => 'Doe',
             'unknown_key' => 'Golden Necklace',
-            'warehouse_zip' => '78777',
-            'warehouse_alternate' => '90051'
+            Customer::CUSTOM_ATTRIBUTES_KEY => [
+                'warehouse_zip' => [
+                    AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
+                    AttributeValue::VALUE => '78777'
+                ],
+                'warehouse_alternate' => [
+                    AttributeValue::ATTRIBUTE_CODE => 'warehouse_alternate',
+                    AttributeValue::VALUE => '90051'
+                ]
+            ]
         );
         $customer = $this->_customerBuilder->populateWithArray($customerData)->create();
-
-        $expectedData = array(
-            'email' => 'test@example.com',
-            'firstname' => 'John',
-            'lastname' => 'Doe',
-            Customer::CUSTOM_ATTRIBUTES_KEY => array('warehouse_zip' => '78777', 'warehouse_alternate' => '90051')
-        );
-        $this->assertEquals($expectedData, $customer->__toArray());
+        unset($customerData['unknown_key']);
+        $this->assertEquals($customerData, $customer->__toArray());
     }
 
     public function testSetCustomAttribute()
     {
-        $customer = $this->_customerBuilder->setCustomAttribute(
+        $this->_customerBuilder->populateWithArray(array());
+        $address = $this->_customerBuilder->setCustomAttribute(
             'warehouse_zip',
             '78777'
         )->setCustomAttribute(
-            'warehouse_alternate',
-            '90051'
-        )->create();
-        $this->assertEquals('78777', $customer->getCustomAttribute('warehouse_zip')->getValue());
-        $this->assertEquals('90051', $customer->getCustomAttribute('warehouse_alternate')->getValue());
+                'warehouse_alternate',
+                '90051'
+            )->create();
+        $this->assertEquals('78777', $address->getCustomAttribute('warehouse_zip')->getValue());
+        $this->assertEquals('90051', $address->getCustomAttribute('warehouse_alternate')->getValue());
 
-        $expectedData = array(
-            Customer::CUSTOM_ATTRIBUTES_KEY => array('warehouse_zip' => '78777', 'warehouse_alternate' => '90051')
-        );
-        foreach ($customer->getCustomAttributes() as $customAttribute) {
-            $this->assertEquals(
-                $expectedData[Customer::CUSTOM_ATTRIBUTES_KEY][$customAttribute->getAttributeCode()],
-                $customAttribute->getValue()
-            );
+        foreach ($address->getCustomAttributes() as $customAttribute) {
+            $attributes[Customer::CUSTOM_ATTRIBUTES_KEY][$customAttribute->getAttributeCode()] = [
+                AttributeValue::ATTRIBUTE_CODE => $customAttribute->getAttributeCode(),
+                AttributeValue::VALUE => $customAttribute->getValue()
+            ];
         }
-        $this->assertEquals($expectedData, $customer->__toArray());
+        $this->assertEquals($attributes, $address->__toArray());
     }
 
     public function testSetCustomAttributes()
     {
-        $customerData = array(
-            'email' => 'test@example.com',
-            'firstname' => 'John',
-            'lastname' => 'Doe',
-            'unknown_key' => 'Golden Necklace',
-            'warehouse_zip' => '78777',
-            'warehouse_alternate' => '90051'
-        );
-        $expectedData = array(
-            Customer::CUSTOM_ATTRIBUTES_KEY => array('warehouse_zip' => '78777', 'warehouse_alternate' => '90051')
-        );
-        $customer = $this->_customerBuilder->setCustomAttributes($customerData)->create();
 
-        $this->assertEquals('78777', $customer->getCustomAttribute('warehouse_zip')->getValue());
-        $this->assertEquals('90051', $customer->getCustomAttribute('warehouse_alternate')->getValue());
-        foreach ($customer->getCustomAttributes() as $customAttribute) {
-            $this->assertEquals(
-                $expectedData[Customer::CUSTOM_ATTRIBUTES_KEY][$customAttribute->getAttributeCode()],
-                $customAttribute->getValue()
-            );
-        }
-        $this->assertEquals($expectedData, $customer->__toArray());
+        $customerAttributes = [
+            'warehouse_zip' => [
+                AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
+                AttributeValue::VALUE => '78777'
+            ],
+            'warehouse_alternate' => [
+                AttributeValue::ATTRIBUTE_CODE => 'warehouse_alternate',
+                AttributeValue::VALUE => '90051'
+            ]
+        ];
+
+        $attributeValue1 = $this->_valueBuilder
+            ->populateWithArray($customerAttributes['warehouse_zip'])
+            ->create();
+        $attributeValue2 = $this->_valueBuilder
+            ->populateWithArray($customerAttributes['warehouse_alternate'])
+            ->create();
+
+        $address = $this->_customerBuilder->setCustomAttributes([$attributeValue1, $attributeValue2])
+            ->create();
+
+        $this->assertEquals('78777', $address->getCustomAttribute('warehouse_zip')->getValue());
+        $this->assertEquals('90051', $address->getCustomAttribute('warehouse_alternate')->getValue());
+        $this->assertEquals($customerAttributes, $address->__toArray()[Customer::CUSTOM_ATTRIBUTES_KEY]);
     }
 
     public function testToArrayCustomAttributes()
     {
+        $customAttributes = [
+            'warehouse_zip' => [
+                AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
+                AttributeValue::VALUE => '78777'
+            ],
+            'warehouse_alternate' => [
+                AttributeValue::ATTRIBUTE_CODE => 'warehouse_alternate',
+                AttributeValue::VALUE => '90051'
+            ]
+        ];
         $customerData = array(
             'email' => 'test@example.com',
             'firstname' => 'John',
             'lastname' => 'Doe',
             'unknown_key' => 'Golden Necklace',
-            'warehouse_zip' => '78777',
-            'warehouse_alternate' => '90051'
+            Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes
         );
-        $expected = $customerData;
-        $expected['custom_attributes'] = [
-            'warehouse_zip' => '78777',
-            'warehouse_alternate' => '90051'
-        ];
-        unset($expected['unknown_key']);
-        unset($expected['warehouse_zip']);
-        unset($expected['warehouse_alternate']);
         $customer = $this->_customerBuilder->populateWithArray($customerData)->create();
-        $customer2 = $customer;
         $this->assertEquals(
-            $expected, $customer->__toArray()
+            $customAttributes,
+            $customer->__toArray()[Customer::CUSTOM_ATTRIBUTES_KEY]
         );
-        $this->assertEquals($customer, $customer2);
     }
 
     public function testMergeDataObjectWithArrayCustomData()
@@ -299,25 +298,58 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             'firstname' => 'John',
             'lastname' => 'Doe',
             'unknown_key' => 'Golden Necklace',
-            'warehouse_zip' => '78777',
-            'warehouse_alternate' => '90051'
+            Customer::CUSTOM_ATTRIBUTES_KEY => [
+                'warehouse_zip' => [
+                    AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
+                    AttributeValue::VALUE => '78777'
+                ],
+                'warehouse_alternate' => [
+                    AttributeValue::ATTRIBUTE_CODE => 'warehouse_alternate',
+                    AttributeValue::VALUE => '90051'
+                ]
+            ]
         );
+        $customer = $this->_customerBuilder->populateWithArray($customerData)->create();
+
+        $customer2 = $this->_customerBuilder->mergeDataObjectWithArray(
+            $customer,
+            [
+                'lastname' => 'Johnson',
+                'unknown_key' => 'Golden Necklace',
+                Customer::CUSTOM_ATTRIBUTES_KEY => [
+                    'warehouse_zip' => [
+                        AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
+                        AttributeValue::VALUE => '78666'
+                    ],
+                    'warehouse_alternate' => [
+                        AttributeValue::ATTRIBUTE_CODE => 'warehouse_alternate',
+                        AttributeValue::VALUE => '90051'
+                    ]
+                ]
+            ]
+        );
+
         $expectedData = array(
             'email' => 'test@example.com',
             'firstname' => 'John',
             'lastname' => 'Johnson',
-            Customer::CUSTOM_ATTRIBUTES_KEY => array('warehouse_zip' => '78666', 'warehouse_alternate' => '90051')
+            Customer::CUSTOM_ATTRIBUTES_KEY => [
+                'warehouse_zip' => [
+                    AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
+                    AttributeValue::VALUE => '78666'
+                ],
+                'warehouse_alternate' => [
+                    AttributeValue::ATTRIBUTE_CODE => 'warehouse_alternate',
+                    AttributeValue::VALUE => '90051'
+                ]
+            ]
         );
-        $customer = $this->_customerBuilder->populateWithArray($customerData)->create();
-        $customer2 = $this->_customerBuilder->mergeDataObjectWithArray(
-            $customer,
-            array('unknown_key' => 'Golden Necklace', 'warehouse_zip' => '78666', 'lastname' => 'Johnson')
-        );
+
         $this->assertEquals('78666', $customer2->getCustomAttribute('warehouse_zip')->getValue());
         $this->assertEquals('90051', $customer2->getCustomAttribute('warehouse_alternate')->getValue());
         foreach ($customer2->getCustomAttributes() as $customAttribute) {
             $this->assertEquals(
-                $expectedData[Customer::CUSTOM_ATTRIBUTES_KEY][$customAttribute->getAttributeCode()],
+                $expectedData[Customer::CUSTOM_ATTRIBUTES_KEY][$customAttribute->getAttributeCode()]['value'],
                 $customAttribute->getValue()
             );
         }
@@ -331,22 +363,43 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             'firstname' => 'John',
             'lastname' => 'Doe',
             'unknown_key' => 'Golden Necklace',
-            'warehouse_zip' => '78777',
-            'warehouse_alternate' => '90051'
+            Customer::CUSTOM_ATTRIBUTES_KEY => [
+                'warehouse_zip' => [
+                    AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
+                    AttributeValue::VALUE => '78777'
+                ],
+                'warehouse_alternate' => [
+                    AttributeValue::ATTRIBUTE_CODE => 'warehouse_alternate',
+                    AttributeValue::VALUE => '90051'
+                ]
+            ]
         );
         $customer2Data = array(
             'email' => 'test@example.com',
             'firstname' => 'John',
             'lastname' => 'Johnson',
             'unknown_key' => 'Golden Necklace',
-            'warehouse_zip' => '78666',
-            'warehouse_alternate' => '90051'
+            Customer::CUSTOM_ATTRIBUTES_KEY => [
+                'warehouse_zip' => [
+                    AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
+                    AttributeValue::VALUE => '78666'
+                ]
+            ]
         );
         $expectedData = array(
             'email' => 'test@example.com',
             'firstname' => 'John',
             'lastname' => 'Johnson',
-            Customer::CUSTOM_ATTRIBUTES_KEY => array('warehouse_zip' => '78666', 'warehouse_alternate' => '90051')
+            Customer::CUSTOM_ATTRIBUTES_KEY => [
+                'warehouse_zip' => [
+                    AttributeValue::ATTRIBUTE_CODE => 'warehouse_zip',
+                    AttributeValue::VALUE => '78666'
+                ],
+                'warehouse_alternate' => [
+                    AttributeValue::ATTRIBUTE_CODE => 'warehouse_alternate',
+                    AttributeValue::VALUE => '90051'
+                ]
+            ]
         );
         $customer1 = $this->_customerBuilder->populateWithArray($customer1Data)->create();
         $customer2 = $this->_customerBuilder->populateWithArray($customer2Data)->create();
@@ -355,7 +408,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('90051', $customer3->getCustomAttribute('warehouse_alternate')->getValue());
         foreach ($customer3->getCustomAttributes() as $customAttribute) {
             $this->assertEquals(
-                $expectedData[Customer::CUSTOM_ATTRIBUTES_KEY][$customAttribute->getAttributeCode()],
+                $expectedData[Customer::CUSTOM_ATTRIBUTES_KEY][$customAttribute->getAttributeCode()]['value'],
                 $customAttribute->getValue()
             );
         }
@@ -381,6 +434,6 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         );
         $customer = $this->_customerBuilder->populateWithArray($customerData)->create();
 
-        $this->assertEquals($expectedCustomerData, \Magento\Service\DataObjectConverter::toFlatArray($customer));
+        $this->assertEquals($expectedCustomerData, \Magento\Service\EavDataObjectConverter::toFlatArray($customer));
     }
 }
