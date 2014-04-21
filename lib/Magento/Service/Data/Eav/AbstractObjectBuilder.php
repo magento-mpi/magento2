@@ -37,7 +37,7 @@ abstract class AbstractObjectBuilder extends \Magento\Service\Data\AbstractObjec
         $customAttributesCodes = $this->getCustomAttributesCodes();
         foreach ($attributes as $attribute) {
             if (in_array($attribute->getAttributeCode(), $customAttributesCodes)) {
-                $this->_data[AbstractObject::CUSTOM_ATTRIBUTES_KEY][] = $attribute;
+                $this->_data[AbstractObject::CUSTOM_ATTRIBUTES_KEY][$attribute->getAttributeCode()] = $attribute;
             }
         }
         return $this;
@@ -59,7 +59,7 @@ abstract class AbstractObjectBuilder extends \Magento\Service\Data\AbstractObjec
                 ->setAttributeCode($attributeCode)
                 ->setValue($attributeValue)
                 ->create();
-            $this->_data[AbstractObject::CUSTOM_ATTRIBUTES_KEY][] = $valueObject;
+            $this->_data[AbstractObject::CUSTOM_ATTRIBUTES_KEY][$attributeCode] = $valueObject;
         }
         return $this;
     }

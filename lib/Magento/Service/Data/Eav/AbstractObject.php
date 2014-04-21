@@ -25,17 +25,10 @@ abstract class AbstractObject extends \Magento\Service\Data\AbstractObject
      */
     public function getCustomAttribute($attributeCode)
     {
-        if (isset(
-            $this->_data[self::CUSTOM_ATTRIBUTES_KEY]
-        ) && array_key_exists(
-            $attributeCode,
-            $this->_data[self::CUSTOM_ATTRIBUTES_KEY]
-        )
-        ) {
-            return $this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode];
-        } else {
-            return null;
-        }
+        return isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY])
+            && isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode])
+                ? $this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode]
+                : null;
     }
 
     /**

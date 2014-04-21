@@ -8,6 +8,7 @@
 namespace Magento\Service;
 
 use Magento\Service\Data\AbstractObject;
+use Magento\Service\Data\Eav\AbstractObject as EavAbstractObject;
 use Magento\Convert\ConvertArray;
 
 class DataObjectConverter
@@ -33,6 +34,9 @@ class DataObjectConverter
     public function convertKeysToCamelCase(array $dataArray)
     {
         $response = [];
+        if (isset($dataArray[EavAbstractObject::CUSTOM_ATTRIBUTES_KEY])) {
+            $dataArray = EavDataObjectConverter::convertCustomAttributesToSequentialArray($dataArray);
+        }
         foreach ($dataArray as $fieldName => $fieldValue) {
             if (is_array($fieldValue) && !$this->_isSimpleSequentialArray($fieldValue)) {
                 $fieldValue = $this->convertKeysToCamelCase($fieldValue);
