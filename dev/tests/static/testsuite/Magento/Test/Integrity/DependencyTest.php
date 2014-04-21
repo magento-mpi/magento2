@@ -13,6 +13,9 @@
  */
 namespace Magento\Test\Integrity;
 
+/**
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ */
 class DependencyTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -589,6 +592,8 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Initialise map of dependencies
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected static function _initDependencies()
     {
