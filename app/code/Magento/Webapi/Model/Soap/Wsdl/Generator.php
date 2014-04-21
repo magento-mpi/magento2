@@ -402,10 +402,15 @@ class Generator
         $wrappedErrorComplexType = Fault::NODE_DETAIL_WRAPPED_ERROR;
         $wrappedErrorData = array(
             'parameters' => array(
-                Fault::NODE_DETAIL_WRAPPED_ERROR_VALUE => array(
+                Fault::NODE_DETAIL_WRAPPED_ERROR_MESSAGE => array(
                     'type' => 'string',
                     'required' => true,
                     'documentation' => '',
+                ),
+                Fault::NODE_DETAIL_WRAPPED_ERROR_PARAMETERS => array(
+                    'type' => "{$faultParamsComplexType}[]",
+                    'required' => false,
+                    'documentation' => 'Message parameters.',
                 ),
             )
         );
