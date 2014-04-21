@@ -131,11 +131,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
         $expectedException = new \Magento\Exception\InputException();
         foreach ($parameters as $error) {
-            $expectedException->addError(
-                $error['code'],
-                $error['fieldName'],
-                $error['value']
-            );
+            $expectedException->addError(\Magento\Exception\InputException::INVALID_FIELD_VALUE, $error);
         }
 
         $arguments = [
@@ -278,7 +274,10 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
                 "Wrapped errors in fault details are invalid."
             );
         } else {
-            $this->assertFalse(isset($errorDetails->$wrappedErrorsNode), "Wrapped errors are not expected in fault details.");
+            $this->assertFalse(
+                isset($errorDetails->$wrappedErrorsNode),
+                "Wrapped errors are not expected in fault details."
+            );
         }
     }
 }
