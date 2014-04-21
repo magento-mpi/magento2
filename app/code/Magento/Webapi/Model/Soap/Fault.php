@@ -387,14 +387,14 @@ FAULT_MESSAGE;
         $wrappedErrorNode = self::NODE_DETAIL_WRAPPED_ERROR;
         $messageNode = self::NODE_DETAIL_WRAPPED_ERROR_MESSAGE;
 
-        $parametersNode = $error->getParameters();
+        $parameters = $error->getParameters();
         $rawMessage = $error->getRawMessage();
         $xml = "<m:$wrappedErrorNode><m:$messageNode>$rawMessage</m:$messageNode>";
 
-        if (!empty($parametersNode)) {
+        if (!empty($parameters)) {
             $parametersNode = self::NODE_DETAIL_WRAPPED_ERROR_PARAMETERS;
             $xml .= "<m:$parametersNode>";
-            foreach ($parametersNode as $key => $value) {
+            foreach ($parameters as $key => $value) {
                 $parameterNode = self::NODE_DETAIL_WRAPPED_ERROR_PARAMETER;
                 $keyNode = self::NODE_DETAIL_PARAMETER_KEY;
                 $valueNode = self::NODE_DETAIL_WRAPPED_ERROR_VALUE;
