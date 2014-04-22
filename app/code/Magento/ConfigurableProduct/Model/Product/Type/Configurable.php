@@ -345,7 +345,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getConfigurableAttributes($product)
     {
-        \Magento\Profiler::start(
+        \Magento\Framework\Profiler::start(
             'CONFIGURABLE:' . __METHOD__,
             array('group' => 'CONFIGURABLE', 'method' => __METHOD__)
         );
@@ -353,7 +353,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
             $configurableAttributes = $this->getConfigurableAttributeCollection($product)->orderByPosition()->load();
             $product->setData($this->_configurableAttributes, $configurableAttributes);
         }
-        \Magento\Profiler::stop('CONFIGURABLE:' . __METHOD__);
+        \Magento\Framework\Profiler::stop('CONFIGURABLE:' . __METHOD__);
         return $product->getData($this->_configurableAttributes);
     }
 
@@ -423,7 +423,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getUsedProducts($product, $requiredAttributeIds = null)
     {
-        \Magento\Profiler::start(
+        \Magento\Framework\Profiler::start(
             'CONFIGURABLE:' . __METHOD__,
             array('group' => 'CONFIGURABLE', 'method' => __METHOD__)
         );
@@ -432,7 +432,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
                 // If used products load before attributes, we will load attributes.
                 $this->getConfigurableAttributes($product);
                 // After attributes loading products loaded too.
-                \Magento\Profiler::stop('CONFIGURABLE:' . __METHOD__);
+                \Magento\Framework\Profiler::stop('CONFIGURABLE:' . __METHOD__);
                 return $product->getData($this->_usedProducts);
             }
 
@@ -458,7 +458,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
 
             $product->setData($this->_usedProducts, $usedProducts);
         }
-        \Magento\Profiler::stop('CONFIGURABLE:' . __METHOD__);
+        \Magento\Framework\Profiler::stop('CONFIGURABLE:' . __METHOD__);
         return $product->getData($this->_usedProducts);
     }
 
@@ -655,7 +655,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
     public function getSelectedAttributesInfo($product)
     {
         $attributes = array();
-        \Magento\Profiler::start(
+        \Magento\Framework\Profiler::start(
             'CONFIGURABLE:' . __METHOD__,
             array('group' => 'CONFIGURABLE', 'method' => __METHOD__)
         );
@@ -680,7 +680,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
                 }
             }
         }
-        \Magento\Profiler::stop('CONFIGURABLE:' . __METHOD__);
+        \Magento\Framework\Profiler::stop('CONFIGURABLE:' . __METHOD__);
         return $attributes;
     }
 

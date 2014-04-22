@@ -151,18 +151,18 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected function _afterLoad()
     {
         parent::_afterLoad();
-        \Magento\Profiler::start('TTT1:' . __METHOD__, array('group' => 'TTT1', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('TTT1:' . __METHOD__, array('group' => 'TTT1', 'method' => __METHOD__));
         $this->_addProductAttributes();
-        \Magento\Profiler::stop('TTT1:' . __METHOD__);
-        \Magento\Profiler::start('TTT2:' . __METHOD__, array('group' => 'TTT2', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::stop('TTT1:' . __METHOD__);
+        \Magento\Framework\Profiler::start('TTT2:' . __METHOD__, array('group' => 'TTT2', 'method' => __METHOD__));
         $this->_addAssociatedProductFilters();
-        \Magento\Profiler::stop('TTT2:' . __METHOD__);
-        \Magento\Profiler::start('TTT3:' . __METHOD__, array('group' => 'TTT3', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::stop('TTT2:' . __METHOD__);
+        \Magento\Framework\Profiler::start('TTT3:' . __METHOD__, array('group' => 'TTT3', 'method' => __METHOD__));
         $this->_loadLabels();
-        \Magento\Profiler::stop('TTT3:' . __METHOD__);
-        \Magento\Profiler::start('TTT4:' . __METHOD__, array('group' => 'TTT4', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::stop('TTT3:' . __METHOD__);
+        \Magento\Framework\Profiler::start('TTT4:' . __METHOD__, array('group' => 'TTT4', 'method' => __METHOD__));
         $this->_loadPrices();
-        \Magento\Profiler::stop('TTT4:' . __METHOD__);
+        \Magento\Framework\Profiler::stop('TTT4:' . __METHOD__);
         return $this;
     }
 

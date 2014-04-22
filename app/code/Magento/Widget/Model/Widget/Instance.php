@@ -58,7 +58,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
     protected $_specificEntitiesLayoutHandles = array();
 
     /**
-     * @var \Magento\Simplexml\Element
+     * @var \Magento\Framework\Simplexml\Element
      */
     protected $_widgetConfigXml = null;
 

@@ -136,7 +136,7 @@ class Factory
             'frontend_type' => $frontend['type'],
             'backend_type' => $backend['type']
         );
-        \Magento\Profiler::start('cache_frontend_create', $profilerTags);
+        \Magento\Framework\Profiler::start('cache_frontend_create', $profilerTags);
 
         /** @var $result \Magento\Framework\Cache\Frontend\Adapter\Zend */
         $result = $this->_objectManager->create(
@@ -156,7 +156,7 @@ class Factory
         $result = $this->_applyDecorators($result);
 
         // stop profiling
-        \Magento\Profiler::stop('cache_frontend_create');
+        \Magento\Framework\Profiler::stop('cache_frontend_create');
         return $result;
     }
 

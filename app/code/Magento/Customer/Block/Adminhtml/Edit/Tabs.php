@@ -57,7 +57,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      */
     protected function _beforeToHtml()
     {
-        \Magento\Profiler::start('customer/tabs');
+        \Magento\Framework\Profiler::start('customer/tabs');
 
         $this->addTab(
             'account',
@@ -139,7 +139,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         }
 
         $this->_updateActiveTab();
-        \Magento\Profiler::stop('customer/tabs');
+        \Magento\Framework\Profiler::stop('customer/tabs');
         return parent::_beforeToHtml();
     }
 

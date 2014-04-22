@@ -815,7 +815,7 @@ HANDLE;
         )->will(
             $this->returnValue($this->_layoutMergeMock)
         );
-        $testElement = new \Magento\Simplexml\Element('<test>test</test>');
+        $testElement = new \Magento\Framework\Simplexml\Element('<test>test</test>');
         $this->_layoutMock->expects($this->any())->method('getNode')->will($this->returnValue($testElement));
         // for _setActiveMenu
         $this->_viewMock->expects($this->any())->method('getLayout')->will($this->returnValue($this->_layoutMock));

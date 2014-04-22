@@ -105,7 +105,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Get and sort available payment methods for specified or current store
      *
      * Array structure:
-     *  $index => \Magento\Simplexml\Element
+     *  $index => \Magento\Framework\Simplexml\Element
      *
      * @param null|string|bool|int|Store $store
      * @param Quote|null $quote

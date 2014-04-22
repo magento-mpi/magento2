@@ -1032,7 +1032,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
      */
     public function load($object, $entityId, $attributes = array())
     {
-        \Magento\Profiler::start('EAV:load_entity');
+        \Magento\Framework\Profiler::start('EAV:load_entity');
         /**
          * Load object base row data
          */
@@ -1059,7 +1059,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
 
         $this->_afterLoad($object);
 
-        \Magento\Profiler::stop('EAV:load_entity');
+        \Magento\Framework\Profiler::stop('EAV:load_entity');
         return $this;
     }
 
@@ -1075,7 +1075,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
             return $this;
         }
 
-        \Magento\Profiler::start('load_model_attributes');
+        \Magento\Framework\Profiler::start('load_model_attributes');
 
         $selects = array();
         foreach (array_keys($this->getAttributesByTable()) as $table) {
@@ -1095,7 +1095,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
             }
         }
 
-        \Magento\Profiler::stop('load_model_attributes');
+        \Magento\Framework\Profiler::stop('load_model_attributes');
 
         return $this;
     }
@@ -1718,9 +1718,9 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
      */
     protected function _afterLoad(\Magento\Object $object)
     {
-        \Magento\Profiler::start('after_load');
+        \Magento\Framework\Profiler::start('after_load');
         $this->walkAttributes('backend/afterLoad', array($object));
-        \Magento\Profiler::stop('after_load');
+        \Magento\Framework\Profiler::stop('after_load');
         return $this;
     }
 

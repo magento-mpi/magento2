@@ -35,7 +35,7 @@ class Validator extends \Zend_Validate_Abstract
     /**
      * The Magento SimpleXml object
      *
-     * @var \Magento\Simplexml\Element
+     * @var \Magento\Framework\Simplexml\Element
      */
     protected $_value;
 
@@ -126,7 +126,7 @@ class Validator extends \Zend_Validate_Abstract
             $this->_domConfigFactory->createDom(array('xml' => $value, 'schemaFile' => $this->_xsdSchemas[$schema]));
 
             if ($isSecurityCheck) {
-                $value = new \Magento\Simplexml\Element($value);
+                $value = new \Magento\Framework\Simplexml\Element($value);
                 $value->registerXPathNamespace('xsi', self::XML_NAMESPACE_XSI);
                 foreach ($this->_protectedExpressions as $key => $xpr) {
                     if ($value->xpath($xpr)) {

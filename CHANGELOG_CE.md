@@ -75,6 +75,8 @@
     * Moved lib/Magento/Pear to lib/Magento/Framework/Pear
     * Moved lib/Magento/Pricing to lib/Magento/Framework/Pricing
     * Moved lib/Magento/Connect to lib/Magento/Framework/Connect
+    * Moved lib/Magento/Profiler to lib/Magento/Framework/Profiler
+    * Moved lib/Magento/Simplexml to lib/Magento/Framework/Simplexml
     * Moved lib/Magento/Controller to lib/Magento/Framework/Controller
     * Moved lib/Magento/Convert to lib/Magento/Framework/Convert
 * Refactored the following modules to use Customer Service

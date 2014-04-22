@@ -40,6 +40,8 @@ return [
     ['Magento\Css', 'Magento\Framework\Css'],
     ['Magento\Pear', 'Magento\Framework\Pear'],
     ['Magento\Pricing', 'Magento\Framework\Pricing'],
+    ['Magento\Profiler', 'Magento\Framework\Profiler'],
+    ['Magento\Simplexml', 'Magento\Framework\Simplexml'],
     ['Magento\Controller', 'Magento\Framework\Controller'],
     ['Magento\Convert', 'Magento\Framework\Convert'],
 ];

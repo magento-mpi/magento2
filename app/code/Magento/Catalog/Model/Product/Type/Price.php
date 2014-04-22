@@ -444,7 +444,7 @@ class Price
         $gId = null,
         $productId = null
     ) {
-        \Magento\Profiler::start('__PRODUCT_CALCULATE_PRICE__');
+        \Magento\Framework\Profiler::start('__PRODUCT_CALCULATE_PRICE__');
         if ($wId instanceof Store) {
             $sId = $wId->getId();
             $wId = $wId->getWebsiteId();
@@ -475,7 +475,7 @@ class Price
         }
 
         $finalPrice = max($finalPrice, 0);
-        \Magento\Profiler::stop('__PRODUCT_CALCULATE_PRICE__');
+        \Magento\Framework\Profiler::stop('__PRODUCT_CALCULATE_PRICE__');
         return $finalPrice;
     }
 

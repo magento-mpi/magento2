@@ -130,7 +130,7 @@ class Cache
      */
     public function save($object, $idx = null, $tags = null)
     {
-        //\Magento\Profiler::start('OBJECT_SAVE');
+        //\Magento\Framework\Profiler::start('OBJECT_SAVE');
         if (!is_object($object)) {
             return false;
         }
@@ -175,7 +175,7 @@ class Cache
                 $this->_objectTags[$idx][$t] = true;
             }
         }
-        //\Magento\Profiler::stop('OBJECT_SAVE');
+        //\Magento\Framework\Profiler::stop('OBJECT_SAVE');
 
         return $idx;
     }
@@ -221,18 +221,18 @@ class Cache
      */
     public function delete($idx)
     {
-        //\Magento\Profiler::start("OBJECT_DELETE");
+        //\Magento\Framework\Profiler::start("OBJECT_DELETE");
         if (is_object($idx)) {
             $idx = $this->find($idx);
             if (false === $idx) {
-                //\Magento\Profiler::stop("OBJECT_DELETE");
+                //\Magento\Framework\Profiler::stop("OBJECT_DELETE");
                 return false;
             }
             unset($this->_objects[$idx]);
-            //\Magento\Profiler::stop("OBJECT_DELETE");
+            //\Magento\Framework\Profiler::stop("OBJECT_DELETE");
             return false;
         } elseif (!isset($this->_objects[$idx])) {
-            //\Magento\Profiler::stop("OBJECT_DELETE");
+            //\Magento\Framework\Profiler::stop("OBJECT_DELETE");
             return false;
         }
 
@@ -253,7 +253,7 @@ class Cache
             }
             unset($this->_objectReferences[$idx]);
         }
-        //\Magento\Profiler::stop("OBJECT_DELETE");
+        //\Magento\Framework\Profiler::stop("OBJECT_DELETE");
 
         return true;
     }

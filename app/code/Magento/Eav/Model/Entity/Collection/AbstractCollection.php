@@ -876,35 +876,35 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
         if ($this->isLoaded()) {
             return $this;
         }
-        \Magento\Profiler::start('EAV:load_collection');
+        \Magento\Framework\Profiler::start('EAV:load_collection');
 
-        \Magento\Profiler::start('before_load');
+        \Magento\Framework\Profiler::start('before_load');
         $this->_eventManager->dispatch('eav_collection_abstract_load_before', array('collection' => $this));
         $this->_beforeLoad();
-        \Magento\Profiler::stop('before_load');
+        \Magento\Framework\Profiler::stop('before_load');
 
         $this->_renderFilters();
         $this->_renderOrders();
 
-        \Magento\Profiler::start('load_entities');
+        \Magento\Framework\Profiler::start('load_entities');
         $this->_loadEntities($printQuery, $logQuery);
-        \Magento\Profiler::stop('load_entities');
-        \Magento\Profiler::start('load_attributes');
+        \Magento\Framework\Profiler::stop('load_entities');
+        \Magento\Framework\Profiler::start('load_attributes');
         $this->_loadAttributes($printQuery, $logQuery);
-        \Magento\Profiler::stop('load_attributes');
+        \Magento\Framework\Profiler::stop('load_attributes');
 
-        \Magento\Profiler::start('set_orig_data');
+        \Magento\Framework\Profiler::start('set_orig_data');
         foreach ($this->_items as $item) {
             $item->setOrigData();
         }
-        \Magento\Profiler::stop('set_orig_data');
+        \Magento\Framework\Profiler::stop('set_orig_data');
 
         $this->_setIsLoaded();
-        \Magento\Profiler::start('after_load');
+        \Magento\Framework\Profiler::start('after_load');
         $this->_afterLoad();
-        \Magento\Profiler::stop('after_load');
+        \Magento\Framework\Profiler::stop('after_load');
 
-        \Magento\Profiler::stop('EAV:load_collection');
+        \Magento\Framework\Profiler::stop('EAV:load_collection');
         return $this;
     }
 

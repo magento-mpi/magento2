@@ -1833,7 +1833,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
             $debugData['result'] = $responseBody;
             $this->_debug($debugData);
             libxml_use_internal_errors(true);
-            $responseXmlDocument = new \Magento\Simplexml\Element($responseBody);
+            $responseXmlDocument = new \Magento\Framework\Simplexml\Element($responseBody);
             libxml_use_internal_errors(false);
         } catch (\Exception $e) {
             throw new \Magento\Framework\Model\Exception(__('Payment updating error.'));

@@ -132,6 +132,12 @@ return [
     ['/lib/Magento/Connect', '/lib/Magento/Framework/Connect'],
     ['/dev/tests/integration/testsuite/Magento/Connect', '/dev/tests/integration/testsuite/Magento/Framework/Connect'],
     ['/dev/tests/unit/testsuite/Magento/Connect', '/dev/tests/unit/testsuite/Magento/Framework/Connect'],
+    ['/lib/Magento/Profiler', '/lib/Magento/Framework/Profiler'],
+    ['/dev/tests/unit/testsuite/Magento/Profiler', '/dev/tests/unit/testsuite/Magento/Framework/Profiler'],
+    ['/dev/tests/integration/testsuite/Magento/Profiler', '/dev/tests/integration/testsuite/Magento/Framework/Profiler'],
+    ['/lib/Magento/Simplexml', '/lib/Magento/Framework/Simplexml'],
+    ['/dev/tests/unit/testsuite/Magento/Simplexml', '/dev/tests/unit/testsuite/Magento/Framework/Simplexml'],
+    ['/dev/tests/integration/testsuite/Magento/Simplexml', '/dev/tests/integration/testsuite/Magento/Framework/Simplexml'],
     ['/lib/Magento/Controller', '/lib/Magento/Framework/Controller'],
     [
         '/dev/tests/integration/testsuite/Magento/Controller',

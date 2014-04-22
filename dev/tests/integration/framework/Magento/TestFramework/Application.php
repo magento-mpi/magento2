@@ -35,7 +35,7 @@ class Application
     protected $_db;
 
     /**
-     * @var \Magento\Simplexml\Element
+     * @var \Magento\Framework\Simplexml\Element
      */
     protected $_localXml;
 
@@ -105,7 +105,7 @@ class Application
      *
      * @param \Magento\TestFramework\Db\AbstractDb $dbInstance
      * @param string $installDir
-     * @param \Magento\Simplexml\Element $localXml
+     * @param \Magento\Framework\Simplexml\Element $localXml
      * @param $globalConfigDir
      * @param array $moduleEtcFiles
      * @param string $appMode
@@ -113,7 +113,7 @@ class Application
     public function __construct(
         \Magento\TestFramework\Db\AbstractDb $dbInstance,
         $installDir,
-        \Magento\Simplexml\Element $localXml,
+        \Magento\Framework\Simplexml\Element $localXml,
         $globalConfigDir,
         array $moduleEtcFiles,
         $appMode

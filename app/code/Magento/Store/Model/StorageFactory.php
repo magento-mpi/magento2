@@ -7,7 +7,7 @@
  */
 namespace Magento\Store\Model;
 
-use Magento\Profiler;
+use Magento\Framework\Profiler;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Store\Model\Store;
 

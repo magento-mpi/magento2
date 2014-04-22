@@ -239,15 +239,15 @@ class Bootstrap
 
     /**
      * @param array $configFiles
-     * @return \Magento\Simplexml\Element
+     * @return \Magento\Framework\Simplexml\Element
      */
     protected function _loadConfigFiles(array $configFiles)
     {
-        /** @var $result \Magento\Simplexml\Element */
-        $result = simplexml_load_string('<config/>', 'Magento\Simplexml\Element');
+        /** @var $result \Magento\Framework\Simplexml\Element */
+        $result = simplexml_load_string('<config/>', 'Magento\Framework\Simplexml\Element');
         foreach ($configFiles as $configFile) {
-            /** @var $configXml \Magento\Simplexml\Element */
-            $configXml = simplexml_load_file($configFile, 'Magento\Simplexml\Element');
+            /** @var $configXml \Magento\Framework\Simplexml\Element */
+            $configXml = simplexml_load_file($configFile, 'Magento\Framework\Simplexml\Element');
             $result->extend($configXml);
         }
         return $result;

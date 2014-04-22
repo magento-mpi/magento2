@@ -258,7 +258,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     protected function _assignProducts()
     {
-        \Magento\Profiler::start('WISHLIST:' . __METHOD__, array('group' => 'WISHLIST', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('WISHLIST:' . __METHOD__, array('group' => 'WISHLIST', 'method' => __METHOD__));
         $productIds = array();
 
         $isBackendArea = $this->_appState->getAreaCode() === \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE;
@@ -320,7 +320,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             }
         }
 
-        \Magento\Profiler::stop('WISHLIST:' . __METHOD__);
+        \Magento\Framework\Profiler::stop('WISHLIST:' . __METHOD__);
 
         return $this;
     }

@@ -162,14 +162,14 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      */
     public function processEvent($eventName, $customer, $website)
     {
-        \Magento\Profiler::start('__SEGMENTS_MATCHING__');
+        \Magento\Framework\Profiler::start('__SEGMENTS_MATCHING__');
 
         $website = $this->_storeManager->getWebsite($website);
         $segments = $this->getActiveSegmentsForEvent($eventName, $website->getId());
 
         $this->_processSegmentsValidation($customer, $website, $segments);
 
-        \Magento\Profiler::stop('__SEGMENTS_MATCHING__');
+        \Magento\Framework\Profiler::stop('__SEGMENTS_MATCHING__');
         return $this;
     }
 

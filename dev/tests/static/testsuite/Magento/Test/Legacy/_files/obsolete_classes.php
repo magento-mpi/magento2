@@ -1016,7 +1016,7 @@ return array(
     array('Varien_Convert_Validator_Dryrun'),
     array('Varien_Convert_Validator_Interface'),
     array('Mage_File_Uploader_Image'),
-    array('Varien_Profiler', 'Magento_Profiler'),
+    array('Varien_Profiler', 'Magento_Framework_Profiler'),
     array('Mage_Adminhtml_Block_Notification_Window', 'Magento\AdminNotification\Block\Window'),
     array('Mage_Adminhtml_Block_Notification_Toolbar'),
     array('Mage_Adminhtml_Block_Notification_Survey'),
@@ -2364,4 +2364,5 @@ return array(
     ['Magento\Connect\Rest', 'Magento\Framework\Connect\Rest'],
     ['Magento\Connect\Singleconfig', 'Magento\Framework\Connect\Singleconfig'],
     ['Magento\Connect\Validator', 'Magento\Framework\Connect\Validator'],
+    ['Magento\Profiler', 'Magento\Framework\Profiler'],
 );

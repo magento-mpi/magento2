@@ -434,7 +434,7 @@ class Config extends \Magento\Object
      * @param string $path
      * @param null|bool &$inherit
      * @param null|array $configData
-     * @return \Magento\Simplexml\Element
+     * @return \Magento\Framework\Simplexml\Element
      */
     public function getConfigDataValue($path, &$inherit = null, $configData = null)
     {

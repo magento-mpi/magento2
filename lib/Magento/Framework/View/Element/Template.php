@@ -234,7 +234,7 @@ class Template extends AbstractBlock
     public function fetchView($fileName)
     {
         $relativeFilePath = $this->getRootDirectory()->getRelativePath($fileName);
-        \Magento\Profiler::start(
+        \Magento\Framework\Profiler::start(
             'TEMPLATE:' . $fileName,
             array('group' => 'TEMPLATE', 'file_name' => $relativeFilePath)
         );
@@ -248,7 +248,7 @@ class Template extends AbstractBlock
             $this->_logger->log("Invalid template file: '{$fileName}'", \Zend_Log::CRIT);
         }
 
-        \Magento\Profiler::stop('TEMPLATE:' . $fileName);
+        \Magento\Framework\Profiler::stop('TEMPLATE:' . $fileName);
         return $html;
     }
 

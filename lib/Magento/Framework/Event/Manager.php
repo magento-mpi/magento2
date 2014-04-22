@@ -55,7 +55,7 @@ class Manager implements ManagerInterface
      */
     public function dispatch($eventName, array $data = array())
     {
-        \Magento\Profiler::start('EVENT:' . $eventName, array('group' => 'EVENT', 'name' => $eventName));
+        \Magento\Framework\Profiler::start('EVENT:' . $eventName, array('group' => 'EVENT', 'name' => $eventName));
         foreach ($this->_eventConfig->getObservers($eventName) as $observerConfig) {
             $event = new \Magento\Framework\Event($data);
             $event->setName($eventName);
@@ -63,10 +63,10 @@ class Manager implements ManagerInterface
             $wrapper = new Observer();
             $wrapper->setData(array_merge(array('event' => $event), $data));
 
-            \Magento\Profiler::start('OBSERVER:' . $observerConfig['name']);
+            \Magento\Framework\Profiler::start('OBSERVER:' . $observerConfig['name']);
             $this->_invoker->dispatch($observerConfig, $wrapper);
-            \Magento\Profiler::stop('OBSERVER:' . $observerConfig['name']);
+            \Magento\Framework\Profiler::stop('OBSERVER:' . $observerConfig['name']);
         }
-        \Magento\Profiler::stop('EVENT:' . $eventName);
+        \Magento\Framework\Profiler::stop('EVENT:' . $eventName);
     }
 }

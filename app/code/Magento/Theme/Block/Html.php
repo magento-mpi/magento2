@@ -232,9 +232,9 @@ class Html extends \Magento\Framework\View\Element\Template
     {
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
             $this->_sidResolver->setUseSessionVar(false);
-            \Magento\Profiler::start('CACHE_URL');
+            \Magento\Framework\Profiler::start('CACHE_URL');
             $html = $this->_urlBuilder->sessionUrlVar($html);
-            \Magento\Profiler::stop('CACHE_URL');
+            \Magento\Framework\Profiler::stop('CACHE_URL');
         }
         return $html;
     }

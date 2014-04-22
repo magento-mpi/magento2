@@ -590,10 +590,10 @@ class Proxy extends \Magento\Framework\View\Layout
     /**
      * Sets xml for this configuration
      *
-     * @param \Magento\Simplexml\Element $node
+     * @param \Magento\Framework\Simplexml\Element $node
      * @return $this
      */
-    public function setXml(\Magento\Simplexml\Element $node)
+    public function setXml(\Magento\Framework\Simplexml\Element $node)
     {
         return $this->getSubject()->setXml($node);
     }
@@ -602,8 +602,8 @@ class Proxy extends \Magento\Framework\View\Layout
      * Returns node found by the $path
      *
      * @param string $path
-     * @return \Magento\Simplexml\Element|bool
-     * @see \Magento\Simplexml\Element::descend
+     * @return \Magento\Framework\Simplexml\Element|bool
+     * @see \Magento\Framework\Simplexml\Element::descend
      */
     public function getNode($path = null)
     {
@@ -624,7 +624,7 @@ class Proxy extends \Magento\Framework\View\Layout
     /**
      * Set cache
      *
-     * @param \Magento\Simplexml\Config\Cache\AbstractCache $cache
+     * @param \Magento\Framework\Simplexml\Config\Cache\AbstractCache $cache
      * @return $this
      */
     public function setCache($cache)
@@ -635,7 +635,7 @@ class Proxy extends \Magento\Framework\View\Layout
     /**
      * Return cache
      *
-     * @return \Magento\Simplexml\Config\Cache\AbstractCache
+     * @return \Magento\Framework\Simplexml\Config\Cache\AbstractCache
      */
     public function getCache()
     {
@@ -901,11 +901,11 @@ class Proxy extends \Magento\Framework\View\Layout
     /**
      * Extend configuration
      *
-     * @param \Magento\Simplexml\Config $config
+     * @param \Magento\Framework\Simplexml\Config $config
      * @param boolean $overwrite
      * @return $this
      */
-    public function extend(\Magento\Simplexml\Config $config, $overwrite = true)
+    public function extend(\Magento\Framework\Simplexml\Config $config, $overwrite = true)
     {
         return $this->getSubject()->extend($config, $overwrite);
     }

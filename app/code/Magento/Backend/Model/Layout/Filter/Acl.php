@@ -30,10 +30,10 @@ class Acl
      * Delete nodes that have "acl" attribute but value is "not allowed"
      * In any case, the "acl" attribute will be unset
      *
-     * @param \Magento\Simplexml\Element $xml
+     * @param \Magento\Framework\Simplexml\Element $xml
      * @return void
      */
-    public function filterAclNodes(\Magento\Simplexml\Element $xml)
+    public function filterAclNodes(\Magento\Framework\Simplexml\Element $xml)
     {
         $limitations = $xml->xpath('//*[@acl]') ?: array();
         foreach ($limitations as $node) {

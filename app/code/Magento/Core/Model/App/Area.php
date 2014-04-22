@@ -218,7 +218,7 @@ class Area implements \Magento\Framework\App\AreaInterface
         if (isset($this->_loadedParts[$part])) {
             return $this;
         }
-        \Magento\Profiler::start(
+        \Magento\Framework\Profiler::start(
             'load_area:' . $this->_code . '.' . $part,
             array('group' => 'load_area', 'area_code' => $this->_code, 'part' => $part)
         );
@@ -234,7 +234,7 @@ class Area implements \Magento\Framework\App\AreaInterface
                 break;
         }
         $this->_loadedParts[$part] = true;
-        \Magento\Profiler::stop('load_area:' . $this->_code . '.' . $part);
+        \Magento\Framework\Profiler::stop('load_area:' . $this->_code . '.' . $part);
         return $this;
     }
 

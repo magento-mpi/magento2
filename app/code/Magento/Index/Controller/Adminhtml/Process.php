@@ -145,10 +145,10 @@ class Process extends \Magento\Backend\App\Action
         $process = $this->_initProcess();
         if ($process) {
             try {
-                \Magento\Profiler::start('__INDEX_PROCESS_REINDEX_ALL__');
+                \Magento\Framework\Profiler::start('__INDEX_PROCESS_REINDEX_ALL__');
 
                 $process->reindexEverything();
-                \Magento\Profiler::stop('__INDEX_PROCESS_REINDEX_ALL__');
+                \Magento\Framework\Profiler::stop('__INDEX_PROCESS_REINDEX_ALL__');
                 $this->messageManager->addSuccess(__('%1 index was rebuilt.', $process->getIndexer()->getName()));
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());

@@ -243,7 +243,7 @@ class Template implements \Zend_Filter_Interface
      */
     protected function _getVariable($value, $default = '{no_value_defined}')
     {
-        \Magento\Profiler::start('email_template_processing_variables');
+        \Magento\Framework\Profiler::start('email_template_processing_variables');
         $tokenizer = new \Magento\Framework\Filter\Template\Tokenizer\Variable();
         $tokenizer->setString($value);
         $stackVars = $tokenizer->tokenize();
@@ -291,7 +291,7 @@ class Template implements \Zend_Filter_Interface
             // If value for construction exists set it
             $result = $stackVars[$last]['variable'];
         }
-        \Magento\Profiler::stop('email_template_processing_variables');
+        \Magento\Framework\Profiler::stop('email_template_processing_variables');
         return $result;
     }
 }

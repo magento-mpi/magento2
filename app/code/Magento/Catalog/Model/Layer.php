@@ -252,10 +252,10 @@ class Layer extends \Magento\Object
     {
         $state = $this->getData('state');
         if (is_null($state)) {
-            \Magento\Profiler::start(__METHOD__);
+            \Magento\Framework\Profiler::start(__METHOD__);
             $state = $this->_layerStateFactory->create();
             $this->setData('state', $state);
-            \Magento\Profiler::stop(__METHOD__);
+            \Magento\Framework\Profiler::stop(__METHOD__);
         }
 
         return $state;
