@@ -61,74 +61,66 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->_translator = $this->getMock('Magento\Translate\Inline\StateInterface', array(), array(), '', false);
         $this->_context = $this->getMock('\Magento\App\Helper\Context', array(), array(), '', false);
         $this->_eventManager = $this->getMockForAbstractClass('\Magento\Event\ManagerInterface');
-        $this->_context->expects(
-            $this->once()
-        )->method(
-                'getEventManager'
-            )->will(
-                $this->returnValue(
-                    $this->_eventManager
-                )
-            );
+        $this->_context->expects($this->once())
+            ->method('getEventManager')
+            ->will($this->returnValue($this->_eventManager));
         $this->_scopeConfig = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
-        $this->_scopeConfig->expects(
-            $this->any()
-        )->method(
-            'getValue'
-        )->will(
-            $this->returnValueMap(
-                array(
+        $this->_scopeConfig->expects($this->any())
+            ->method('getValue')
+            ->will(
+                $this->returnValueMap(
                     array(
-                        'checkout/payment_failed/template',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        8,
-                        'fixture_email_template_payment_failed'
-                    ),
-                    array(
-                        'checkout/payment_failed/receiver',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        8,
-                        'sysadmin'
-                    ),
-                    array(
-                        'trans_email/ident_sysadmin/email',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        8,
-                        'sysadmin@example.com'
-                    ),
-                    array(
-                        'trans_email/ident_sysadmin/name',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        8,
-                        'System Administrator'
-                    ),
-                    array(
-                        'checkout/payment_failed/identity',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        8,
-                        'noreply@example.com'
-                    ),
-                    array(
-                        'carriers/ground/title',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        null,
-                        'Ground Shipping'
-                    ),
-                    array(
-                        'payment/fixture-payment-method/title',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        null,
-                        'Check Money Order'
-                    ),
-                    array(
-                        'checkout/options/onepage_checkout_enabled',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        null,
-                        'One Page Checkout'
+                        array(
+                            'checkout/payment_failed/template',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            8,
+                            'fixture_email_template_payment_failed'
+                        ),
+                        array(
+                            'checkout/payment_failed/receiver',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            8,
+                            'sysadmin'
+                        ),
+                        array(
+                            'trans_email/ident_sysadmin/email',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            8,
+                            'sysadmin@example.com'
+                        ),
+                        array(
+                            'trans_email/ident_sysadmin/name',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            8,
+                            'System Administrator'
+                        ),
+                        array(
+                            'checkout/payment_failed/identity',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            8,
+                            'noreply@example.com'
+                        ),
+                        array(
+                            'carriers/ground/title',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            null,
+                            'Ground Shipping'
+                        ),
+                        array(
+                            'payment/fixture-payment-method/title',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            null,
+                            'Check Money Order'
+                        ),
+                        array(
+                            'checkout/options/onepage_checkout_enabled',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            null,
+                            'One Page Checkout'
+                        )
                     )
                 )
-            )
-        );
+            );
 
         $this->_storeManager = $this->getMockForAbstractClass('\Magento\Store\Model\StoreManagerInterface');
 
@@ -137,21 +129,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $localeDate = $this->getMock('\Magento\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false);
         $localeDate->expects($this->any())->method('date')->will($this->returnValue('Oct 02, 2013'));
 
-        $this->_collectionFactory = $this->getMock(
-            '\Magento\Checkout\Model\Resource\Agreement\CollectionFactory',
-            array('create'),
-            array(),
-            '',
-            false
-        );
+        $this->_collectionFactory = $this->getMockBuilder('Magento\Checkout\Model\Resource\Agreement\CollectionFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
 
-        $this->_transportBuilder = $this->getMock(
-            '\Magento\Mail\Template\TransportBuilder',
-            array(),
-            array(),
-            '',
-            false
-        );
+        $this->_transportBuilder = $this->getMockBuilder('Magento\Mail\Template\TransportBuilder')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->_helper = new Data(
             $this->_context,

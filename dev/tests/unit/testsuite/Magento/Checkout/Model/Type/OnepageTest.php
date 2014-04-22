@@ -10,6 +10,10 @@ namespace Magento\Checkout\Model\Type;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class OnepageTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Checkout\Model\Type\Onepage */
@@ -287,6 +291,9 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider saveBillingDataProvider
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function testSaveBilling(
         $data,
