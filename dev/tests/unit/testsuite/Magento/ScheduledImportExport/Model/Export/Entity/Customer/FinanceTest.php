@@ -66,7 +66,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         );
 
         $eavCustomerFactory = $this->getMock(
-            'Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory',
+            'Magento\Customer\Model\ImportExport\Export\CustomerFactory',
             array(),
             array(),
             '',

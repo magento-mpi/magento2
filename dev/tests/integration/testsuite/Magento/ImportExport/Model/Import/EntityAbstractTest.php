@@ -25,7 +25,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Framework\App\Filesystem');
         $directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
-            __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv',
+            __DIR__ . '/Entity/_files/customers_for_validation_test.csv',
             $directory
         );
         $source->rewind();
