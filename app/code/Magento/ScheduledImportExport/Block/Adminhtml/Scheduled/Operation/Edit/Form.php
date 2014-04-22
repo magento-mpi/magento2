@@ -48,7 +48,7 @@ abstract class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_emailMethod;
 
     /**
-     * @var \Magento\Option\ArrayPool
+     * @var \Magento\Framework\Option\ArrayPool
      */
     protected $_optionArrayPool;
 
@@ -61,7 +61,7 @@ abstract class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Option\ArrayPool $optionArrayPool
+     * @param \Magento\Framework\Option\ArrayPool $optionArrayPool
      * @param \Magento\Backend\Model\Config\Source\Email\Method $emailMethod
      * @param \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData
@@ -73,7 +73,7 @@ abstract class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Option\ArrayPool $optionArrayPool,
+        \Magento\Framework\Option\ArrayPool $optionArrayPool,
         \Magento\Backend\Model\Config\Source\Email\Method $emailMethod,
         \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData,

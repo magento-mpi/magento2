@@ -13,7 +13,7 @@ namespace Magento\WebsiteRestriction\Model\System\Config\Source;
  * Sys config source model for restriction modes
  *
  */
-class Modes extends \Magento\Object implements \Magento\Option\ArrayInterface
+class Modes extends \Magento\Object implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Get options for select

@@ -45,4 +45,5 @@ return [
     ['Magento\Controller', 'Magento\Framework\Controller'],
     ['Magento\Convert', 'Magento\Framework\Convert'],
     ['Magento\Shell', 'Magento\Framework\Shell'],
+    ['Magento\Option', 'Magento\Framework\Option'],
 ];

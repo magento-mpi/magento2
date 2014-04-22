@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Config\Source\Locale;
 
-class Timezone implements \Magento\Option\ArrayInterface
+class Timezone implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\Framework\Locale\ListsInterface

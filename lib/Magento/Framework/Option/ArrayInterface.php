@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Option;
+namespace Magento\Framework\Option;
 
 /**
  * @todo Remove in favor of the ancestor interface

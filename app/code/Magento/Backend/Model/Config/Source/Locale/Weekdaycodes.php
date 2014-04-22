@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Config\Source\Locale;
 
-class Weekdaycodes implements \Magento\Option\ArrayInterface
+class Weekdaycodes implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\Framework\Locale\ListsInterface

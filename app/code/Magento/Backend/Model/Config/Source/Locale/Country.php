@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Config\Source\Locale;
 
-class Country implements \Magento\Option\ArrayInterface
+class Country implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\Framework\Locale\ListsInterface

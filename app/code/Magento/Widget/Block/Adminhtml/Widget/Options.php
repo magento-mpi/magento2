@@ -31,7 +31,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_widget;
 
     /**
-     * @var \Magento\Option\ArrayPool
+     * @var \Magento\Framework\Option\ArrayPool
      */
     protected $_sourceModelPool;
 
@@ -39,7 +39,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Option\ArrayPool $sourceModelPool
+     * @param \Magento\Framework\Option\ArrayPool $sourceModelPool
      * @param \Magento\Widget\Model\Widget $widget
      * @param array $data
      */
@@ -47,7 +47,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Option\ArrayPool $sourceModelPool,
+        \Magento\Framework\Option\ArrayPool $sourceModelPool,
         \Magento\Widget\Model\Widget $widget,
         array $data = array()
     ) {

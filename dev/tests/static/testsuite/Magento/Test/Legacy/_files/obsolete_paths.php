@@ -150,4 +150,7 @@ return [
     ['/lib/Magento/Shell', '/lib/Magento/Framework/Shell'],
     ['/dev/tests/unit/testsuite/Magento/Shell', '/dev/tests/unit/testsuite/Magento/Framework/Shell'],
     ['/dev/tests/integration/testsuite/Magento/Shell', '/dev/tests/integration/testsuite/Magento/Framework/Shell'],
+    ['/lib/Magento/Option', '/lib/Magento/Framework/Option'],
+    ['/dev/tests/unit/testsuite/Magento/Option', '/dev/tests/unit/testsuite/Magento/Framework/Option'],
+    ['/dev/tests/integration/testsuite/Magento/Option', '/dev/tests/integration/testsuite/Magento/Framework/Option'],
 ];

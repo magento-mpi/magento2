@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Model\Config\Source\Locale\Currency;
 
-class All implements \Magento\Option\ArrayInterface
+class All implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var array

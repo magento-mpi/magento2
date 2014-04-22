@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Config\Source;
 
-class Locale implements \Magento\Option\ArrayInterface
+class Locale implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\Framework\Locale\ListsInterface

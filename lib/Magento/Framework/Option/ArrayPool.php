@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Option;
+namespace Magento\Framework\Option;
 
 /**
  * Array optioned object factory
@@ -30,13 +30,13 @@ class ArrayPool
      *
      * @param string $model
      * @throws \InvalidArgumentException
-     * @return \Magento\Option\ArrayInterface
+     * @return \Magento\Framework\Option\ArrayInterface
      */
     public function get($model)
     {
         $modelInstance = $this->_objectManager->get($model);
-        if (false == $modelInstance instanceof \Magento\Option\ArrayInterface) {
-            throw new \InvalidArgumentException($model . 'doesn\'t implement \Magento\Option\ArrayInterface');
+        if (false == $modelInstance instanceof \Magento\Framework\Option\ArrayInterface) {
+            throw new \InvalidArgumentException($model . 'doesn\'t implement \Magento\Framework\Option\ArrayInterface');
         }
         return $modelInstance;
     }

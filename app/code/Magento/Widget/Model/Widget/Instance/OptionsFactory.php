@@ -29,7 +29,7 @@ class OptionsFactory
      *
      * @param string $type
      * @param array $data
-     * @return \Magento\Option\ArrayInterface
+     * @return \Magento\Framework\Option\ArrayInterface
      */
     public function create($type, array $data = array())
     {

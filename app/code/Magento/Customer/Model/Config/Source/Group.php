@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Model\Config\Source;
 
-class Group implements \Magento\Option\ArrayInterface
+class Group implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var array

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
 class ProfilerTest extends \PHPUnit_Framework_TestCase
 {
