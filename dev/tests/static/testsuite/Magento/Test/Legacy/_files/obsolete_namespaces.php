@@ -10,7 +10,6 @@
  * @license     {license_link}
  */
 return [
-    ['Mage', 'Magento'],
     ['Magento\App', 'Magento\Framework\App'],
     ['Magento\Data', 'Magento\Framework\Data'],
     ['Magento\Filesystem', 'Magento\Framework\Filesystem'],
