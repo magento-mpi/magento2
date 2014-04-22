@@ -5,19 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Service\V1\Data\Eav;
+namespace Magento\Service\Data\Eav;
 
 /**
- * Class Attribute
+ * Custom Attribute Data object
  */
-class Attribute extends \Magento\Service\Data\AbstractObject
+class AttributeValue extends \Magento\Service\Data\AbstractObject
 {
-    /**
-     * Constants used as keys into $_data
+    /**#@+
+     * Constant used as key into $_data
      */
     const ATTRIBUTE_CODE = 'attribute_code';
-
     const VALUE = 'value';
+    /**#@-*/
 
     /**
      * Get attribute code

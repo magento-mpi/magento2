@@ -5,14 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Service\V1\Data\Eav;
-
-use Magento\Service\Data\AbstractObjectBuilder;
+namespace Magento\Service\Data\Eav;
 
 /**
- * Class AttributeBuilder
+ * Custom Attribute Data object builder
  */
-class AttributeBuilder extends AbstractObjectBuilder
+class AttributeValueBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**
      * Set attribute code
@@ -22,7 +20,7 @@ class AttributeBuilder extends AbstractObjectBuilder
      */
     public function setAttributeCode($attributeCode)
     {
-        return $this->_set(Attribute::ATTRIBUTE_CODE, $attributeCode);
+        return $this->_set(AttributeValue::ATTRIBUTE_CODE, $attributeCode);
     }
 
     /**
@@ -33,6 +31,6 @@ class AttributeBuilder extends AbstractObjectBuilder
      */
     public function setValue($value)
     {
-        return $this->_set(Attribute::VALUE, $value);
+        return $this->_set(AttributeValue::VALUE, $value);
     }
 }

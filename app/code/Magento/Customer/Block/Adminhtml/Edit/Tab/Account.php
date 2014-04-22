@@ -129,7 +129,8 @@ class Account extends GenericMetadata
             )->setDisableAutoGroupChangeAttribute(
                 $customerForm->getAttribute(self::DISABLE_ATTRIBUTE_NAME)
             )->setDisableAutoGroupChangeAttributeValue(
-                $customerDataObject->getCustomAttribute(self::DISABLE_ATTRIBUTE_NAME)
+                $customerDataObject->getCustomAttribute(self::DISABLE_ATTRIBUTE_NAME) ?
+                    $customerDataObject->getCustomAttribute(self::DISABLE_ATTRIBUTE_NAME)->getValue() : null
             )
         );
 
@@ -232,7 +233,7 @@ class Account extends GenericMetadata
         return $this->_customerFormFactory->create(
             'customer',
             'adminhtml_customer',
-            \Magento\Service\DataObjectConverter::toFlatArray($customer)
+            \Magento\Service\EavDataObjectConverter::toFlatArray($customer)
         );
     }
 
@@ -275,14 +276,14 @@ class Account extends GenericMetadata
             }
             $sendEmail->setAfterElementHtml(
                 '<script type="text/javascript">' .
-                "\n                document.observe('dom:loaded', function()".
-                "{\n                    \$('{$prefix}website_id').disableSendemail = function() ".
-                "{\n                        \$('{$prefix}sendemail').disabled = ('' == this.value || ".
+                "\n                document.observe('dom:loaded', function()" .
+                "{\n                    \$('{$prefix}website_id').disableSendemail = function() " .
+                "{\n                        \$('{$prefix}sendemail').disabled = ('' == this.value || " .
                 "'0' == this.value);" .
                 $_disableStoreField .
-                "\n}.bind(\$('{$prefix}website_id'));\n                    ".
-                "Event.observe('{$prefix}website_id', 'change', \$('{$prefix}website_id').disableSendemail);".
-                "\n                    \$('{$prefix}website_id').disableSendemail();\n                });".
+                "\n}.bind(\$('{$prefix}website_id'));\n                    " .
+                "Event.observe('{$prefix}website_id', 'change', \$('{$prefix}website_id').disableSendemail);" .
+                "\n                    \$('{$prefix}website_id').disableSendemail();\n                });" .
                 "\n                " .
                 '</script>'
             );
@@ -324,13 +325,13 @@ class Account extends GenericMetadata
                 $this->_jsonEncoder->encode(
                     $websites
                 ) .
-                ";\n                jQuery.validator.addMethod('validate-website-has-store', function(v, elem)".
-                "{\n                        return {$prefix}_websites[elem.value] == true;\n                    },".
+                ";\n                jQuery.validator.addMethod('validate-website-has-store', function(v, elem)" .
+                "{\n                       return {$prefix}_websites[elem.value] == true;\n                    }," .
                 "\n                    '" .
                 $note .
-                "'\n                );\n                ".
-                "Element.observe('{$prefix}website_id', 'change', function()".
-                "{\n                    jQuery.validator.validateElement('#{$prefix}website_id');".
+                "'\n                );\n                " .
+                "Element.observe('{$prefix}website_id', 'change', function()" .
+                "{\n                    jQuery.validator.validateElement('#{$prefix}website_id');" .
                 "\n                }.bind(\$('{$prefix}website_id')));\n                " .
                 '</script>'
             );
