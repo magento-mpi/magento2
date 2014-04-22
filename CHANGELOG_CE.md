@@ -39,6 +39,11 @@
   * Fixed: Position of page actions buttons on "Categories" backend page (MAGETWO-22969)
   * Fixed: Improve backend grids UI (MAGETWO-23338)
 * Framework Improvements:
+  * Refactor ImportExport move Customer-specific logic to the Customer module (MAGETWO-20507)
+  * Refactor the rest of Customer Group usages (MAGETWO-23278)
+  * Modify the REST PUT/POST usages of the Customer services to return full resource representations (MAGETWO-22688)
+  * Refactor customerAccountService::createAccount to not expose hashed password input from webapi (MAGETWO-22977)
+  * Use delimiter for Cache key in Customer Registry (MAGETWO-23478)
   * Simplify Search related Data Objects (MAGETWO-22613)
   * Moved lib/Magento/* to lib/Magento/Framework/* (Part 1): (MAGETWO-20866)
     * Moved lib/Magento/App to lib/Magento/Framework/App
