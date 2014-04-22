@@ -669,7 +669,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = 'Customer group already exists.';
+        $expectedMessage = 'Customer Group already exists.';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
