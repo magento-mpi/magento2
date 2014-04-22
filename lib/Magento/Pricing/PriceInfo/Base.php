@@ -2,41 +2,29 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pricing
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Pricing\PriceInfo;
 
-use Magento\Pricing\Amount\AmountFactory;
 use Magento\Pricing\PriceInfoInterface;
-use Magento\Pricing\PriceComposite;
 use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\Adjustment\Collection;
 use Magento\Pricing\Adjustment\AdjustmentInterface;
-use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Price\Collection as PriceCollection;
 
 /**
+ * Class Base
  * Price info base model
+ * @package Magento\Pricing\PriceInfo
  */
 class Base implements PriceInfoInterface
 {
     /**
-     * @var SaleableInterface
-     */
-    protected $saleableItem;
-
-    /**
      * @var PriceCollection
      */
-    protected $prices;
-
-    /**
-     * @var PriceInterface[]
-     */
+    protected $priceCollection;
 
     /**
      * @var Collection
@@ -44,45 +32,25 @@ class Base implements PriceInfoInterface
     protected $adjustmentCollection;
 
     /**
-     * @var float
-     */
-    protected $quantity;
-
-    /**
-     * @var AmountFactory
-     */
-    protected $amountFactory;
-
-    /**
-     * @param SaleableInterface $saleableItem
      * @param PriceCollection $prices
      * @param Collection $adjustmentCollection
-     * @param AmountFactory $amountFactory
-     * @param float $quantity
      */
     public function __construct(
-        SaleableInterface $saleableItem,
         PriceCollection $prices,
-        Collection $adjustmentCollection,
-        AmountFactory $amountFactory,
-        $quantity = self::PRODUCT_QUANTITY_DEFAULT
+        Collection $adjustmentCollection
     ) {
-        $this->saleableItem = $saleableItem;
-
         $this->adjustmentCollection = $adjustmentCollection;
-        $this->amountFactory = $amountFactory;
-        $this->quantity = $quantity;
-        $this->prices = $prices;
+        $this->priceCollection = $prices;
     }
 
     /**
      * Returns array of prices
      *
-     * @return PriceInterface[]
+     * @return PriceCollection
      */
     public function getPrices()
     {
-        return $this->prices;
+        return $this->priceCollection;
     }
 
     /**
@@ -93,7 +61,7 @@ class Base implements PriceInfoInterface
      */
     public function getPrice($priceCode)
     {
-        return $this->prices->get($priceCode);
+        return $this->priceCollection->get($priceCode);
     }
 
     /**
