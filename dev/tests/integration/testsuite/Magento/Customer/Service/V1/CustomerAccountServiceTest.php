@@ -8,6 +8,7 @@
 namespace Magento\Customer\Service\V1;
 
 namespace Magento\Customer\Service\V1;
+
 use Magento\Customer\Service\V1;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
@@ -688,7 +689,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $lastName = 'Lastsave';
 
         $customerBefore = $this->_customerAccountService->getCustomer($existingCustId);
-        $customerData = array_merge($customerBefore->__toArray(),
+        $customerData = array_merge(
+            $customerBefore->__toArray(),
             [
                 'id' => 1,
                 'email' => $email,
@@ -753,7 +755,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $lastName = 'Lastsave';
 
         $customerBefore = $this->_customerAccountService->getCustomer($existingCustId);
-        $customerData = array_merge($customerBefore->__toArray(),
+        $customerData = array_merge(
+            $customerBefore->__toArray(),
             [
                 'id' => 1,
                 'email' => $email,
@@ -839,7 +842,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $email = 'savecustomer@example.com';
         $firstName = 'Firstsave';
         $lastName = 'Lastsave';
-        $customerData = array_merge($existingCustomer->__toArray(),
+        $customerData = array_merge(
+            $existingCustomer->__toArray(),
             [
                 'email' => $email,
                 'firstname' => $firstName,
@@ -931,15 +935,26 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($customerData->getId());
         $savedCustomer = $this->_customerAccountService->getCustomer($customerData->getId());
         $dataInService = \Magento\Service\DataObjectConverter::toFlatArray($savedCustomer);
-        $expectedDifferences = ['created_at', 'updated_at', 'email', 'is_active', 'entity_id', 'entity_type_id',
-            'password_hash', 'attribute_set_id', 'disable_auto_group_change', 'confirmation',
-            'reward_update_notification', 'reward_warning_notification'];
+        $expectedDifferences = [
+            'created_at',
+            'updated_at',
+            'email',
+            'is_active',
+            'entity_id',
+            'entity_type_id',
+            'password_hash',
+            'attribute_set_id',
+            'disable_auto_group_change',
+            'confirmation',
+            'reward_update_notification',
+            'reward_warning_notification'
+        ];
         foreach ($dataInModel as $key => $value) {
             if (!in_array($key, $expectedDifferences)) {
                 if (is_null($value)) {
                     $this->assertArrayNotHasKey($key, $dataInService);
                 } else {
-                    $this->assertEquals($value, $dataInService[$key], 'Failed asserting value for '. $key);
+                    $this->assertEquals($value, $dataInService[$key], 'Failed asserting value for ' . $key);
                 }
             }
         }
@@ -990,7 +1005,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $existingCustId = 1;
         $existingCustomer = $this->_customerAccountService->getCustomer($existingCustId);
-        $customerData = array_merge($existingCustomer->__toArray(),
+        $customerData = array_merge(
+            $existingCustomer->__toArray(),
             [
                 'email' => $email,
                 'firstname' => $firstName,
@@ -1226,7 +1242,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customer = $customerDetails->getCustomer();
         // All these expected values come from _files/customer.php fixture
         $this->assertEquals(1, $customer->getId());
-        $this->assertEquals('example@domain.com', $customer->getEmail());
+        $this->assertEquals('customer@example.com', $customer->getEmail());
         $this->assertEquals('test firstname', $customer->getFirstname());
         $this->assertEquals('test lastname', $customer->getLastname());
         $this->assertEquals(3, count($customerDetails->getAddresses()));
@@ -1248,13 +1264,16 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoAppIsolation enabled
-     * @expectedException \Magento\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with customerId = 1
      */
     public function testDeleteCustomer()
     {
         // _files/customer.php sets the customer id to 1
         $this->_customerAccountService->deleteCustomer(1);
+        //Verify if the customer is deleted
+        $this->setExpectedException(
+            'Magento\Exception\NoSuchEntityException',
+            'No such entity with customerId = 1'
+        );
         $this->_customerAccountService->getCustomer(1);
     }
 
@@ -1326,6 +1345,210 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_customerAccountService->isEmailAvailable('nonexistent@example.com', 1));
     }
 
+    /**
+     * @param $email
+     * @param $websiteId
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @dataProvider getValidEmailDataProvider
+     */
+    public function testGetCustomerByEmail($email, $websiteId)
+    {
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
+        $customer = $this->_customerAccountService->getCustomerByEmail($email, $websiteId);
+
+        // All these expected values come from _files/customer.php fixture
+        $this->assertEquals(1, $customer->getId());
+        $this->assertEquals('customer@example.com', $customer->getEmail());
+        $this->assertEquals('Firstname', $customer->getFirstname());
+        $this->assertEquals('Lastname', $customer->getLastname());
+    }
+
+    /**
+     * @param $email
+     * @param $websiteId
+     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @dataProvider getInvalidEmailDataProvider
+     */
+    public function testGetCustomerByEmailWithException($email, $websiteId)
+    {
+        $this->_customerAccountService->getCustomerByEmail($email, $websiteId);
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer_non_default_website_id.php
+     */
+    public function testGetCustomerByEmailWithNonDefaultWebsiteId()
+    {
+        $email = 'customer2@example.com';
+        /** @var \Magento\Store\Model\Website $website */
+        $website = Bootstrap::getObjectManager()->get('Magento\Store\Model\Website');
+        $websiteId = $website->load('newwebsite')->getId();
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
+        $customer = $this->_customerAccountService->getCustomerByEmail($email, $websiteId);
+
+        // All these expected values come from _files/customer.php fixture
+        $this->assertEquals(1, $customer->getId());
+        $this->assertEquals($email, $customer->getEmail());
+        $this->assertEquals('Firstname', $customer->getFirstname());
+        $this->assertEquals('Lastname', $customer->getLastname());
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer_sample.php
+     * @magentoAppIsolation enabled
+     * @dataProvider getValidEmailDataProvider
+     */
+    public function testGetCustomerDetailsByEmail($email, $websiteId)
+    {
+        $customerDetails = $this->_customerAccountService->getCustomerDetailsByEmail($email, $websiteId);
+        $customer = $customerDetails->getCustomer();
+
+        $this->assertEquals(1, $customer->getId());
+        $this->assertEquals('customer@example.com', $customer->getEmail());
+        $this->assertEquals('test firstname', $customer->getFirstname());
+        $this->assertEquals('test lastname', $customer->getLastname());
+        $this->assertEquals(3, count($customerDetails->getAddresses()));
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer_non_default_website_id.php
+     */
+    public function testGetCustomerDetailsByEmailWithNonDefaultWebsiteId()
+    {
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
+        $email = 'customer2@example.com';
+        /** @var \Magento\Store\Model\Website $website */
+        $website = Bootstrap::getObjectManager()->get('Magento\Store\Model\Website');
+        $websiteId = $website->load('newwebsite')->getId();
+        $customerDetails = $this->_customerAccountService->getCustomerDetailsByEmail($email, $websiteId);
+        $customer = $customerDetails->getCustomer();
+
+        $this->assertEquals(1, $customer->getId());
+        $this->assertEquals($email, $customer->getEmail());
+        $this->assertEquals('Firstname', $customer->getFirstname());
+        $this->assertEquals('Lastname', $customer->getLastname());
+        $this->assertEquals(3, count($customerDetails->getAddresses()));
+    }
+
+    /**
+     * @return array
+     *
+     */
+    public function getValidEmailDataProvider()
+    {
+        /** @var \Magento\Store\Model\StoreManagerInterface  $storeManager */
+        $storeManager = Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface');
+        $defaultWebsiteId = $storeManager->getStore()->getWebsiteId();
+        return [
+            'valid email' => ['customer@example.com', null],
+            'default websiteId' => ['customer@example.com', $defaultWebsiteId],
+        ];
+    }
+
+    /**
+     * @return array
+     *
+     */
+    public function getInvalidEmailDataProvider()
+    {
+        return [
+            'invalid email' => ['nonexistent@example.com', null],
+            'invalid websiteId' => ['customer@example.com', 123456],
+        ];
+    }
+
+    /**
+     * @magentoAppArea frontend
+     * @magentoDataFixture Magento/Customer/_files/customer_non_default_website_id.php
+     */
+    public function testUpdateCustomerDetailsByEmail()
+    {
+        $customerId = 1;
+        $firstName = 'Firstsave';
+        $lastName = 'Lastsave';
+        $newEmail = 'newcustomeremail@example.com';
+        $city = 'San Jose';
+
+        $customerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
+        $website = Bootstrap::getObjectManager()->get('Magento\Store\Model\Website');
+        $websiteId = $website->load('newwebsite')->getId();
+        $email = $customerDetails->getCustomer()->getEmail();
+        $customerData = array_merge(
+            $customerDetails->getCustomer()->__toArray(),
+            [
+                'firstname' => $firstName,
+                'lastname' => $lastName,
+                'email' => $newEmail,
+                'id' => null
+            ]
+        );
+        $addresses = $customerDetails->getAddresses();
+        $addressId = $addresses[0]->getId();
+        $newAddress = array_merge($addresses[0]->__toArray(), ['city' => $city]);
+        $this->_customerBuilder->populateWithArray($customerData);
+        $this->_addressBuilder->populateWithArray($newAddress);
+        $this->_customerDetailsBuilder->setCustomer(($this->_customerBuilder->create()))
+            ->setAddresses([$this->_addressBuilder->create(), $addresses[1]]);
+
+        $this->_customerAccountService->updateCustomerDetailsByEmail(
+            $email,
+            $this->_customerDetailsBuilder->create(),
+            $websiteId
+        );
+
+        $updatedCustomerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
+        $updateCustomerData = $updatedCustomerDetails->getCustomer();
+        $this->assertEquals($firstName, $updateCustomerData->getFirstname());
+        $this->assertEquals($lastName, $updateCustomerData->getLastname());
+        $this->assertEquals($newEmail, $updateCustomerData->getEmail());
+        $this->assertEquals(2, count($updatedCustomerDetails->getAddresses()));
+
+        foreach ($updatedCustomerDetails->getAddresses() as $newAddress) {
+            if ($newAddress->getId() == $addressId) {
+                $this->assertEquals($city, $newAddress->getCity());
+            }
+        }
+    }
+
+    /**
+     * @magentoAppArea frontend
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @expectedException \Magento\Exception\StateException
+     */
+    public function testUpdateCustomerDetailsByEmailWithException()
+    {
+        $customerId = 1;
+        $customerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
+        $email = $customerDetails->getCustomer()->getEmail();
+        $customerData = array_merge(
+            $customerDetails->getCustomer()->__toArray(),
+            [
+                'firstname' => 'fname',
+                'id' => 1234567
+            ]
+        );
+        $this->_customerBuilder->populateWithArray($customerData);
+        $this->_customerDetailsBuilder->setCustomer(($this->_customerBuilder->create()))->setAddresses([]);
+        $this->_customerAccountService->updateCustomerDetailsByEmail($email, $this->_customerDetailsBuilder->create());
+
+    }
+
+    /**
+     * @magentoAppArea adminhtml
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoAppIsolation enabled
+     */
+    public function testDeleteCustomerByEmail()
+    {
+        // _files/customer.php sets the customer email to customer@example.com
+        $this->_customerAccountService->deleteCustomerByEmail('customer@example.com');
+        //Verify if the customer is deleted
+        $this->setExpectedException(
+            'Magento\Exception\NoSuchEntityException',
+            'No such entity with email = customer@example.com'
+        );
+        $this->_customerAccountService->getCustomerByEmail('customer@example.com');
+    }
 
     /**
      * Set Rp data to Customer in fixture

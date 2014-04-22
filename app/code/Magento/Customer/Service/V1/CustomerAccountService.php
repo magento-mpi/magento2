@@ -8,6 +8,7 @@
 
 namespace Magento\Customer\Service\V1;
 
+use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Model\Converter;
 use Magento\Customer\Model\Customer as CustomerModel;
@@ -22,6 +23,7 @@ use Magento\Exception\InvalidEmailOrPasswordException;
 use Magento\Exception\State\ExpiredException;
 use Magento\Exception\InputException;
 use Magento\Exception\AuthenticationException;
+use Magento\Exception\StateException;
 use Magento\Exception\State\InputMismatchException;
 use Magento\Exception\State\InvalidTransitionException;
 use Magento\Exception\NoSuchEntityException;
@@ -820,5 +822,63 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         } catch (NoSuchEntityException $e) {
             return null;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCustomerByEmail($customerEmail, $websiteId = null)
+    {
+        $customerModel = $this->customerRegistry->retrieveByEmail($customerEmail, $websiteId);
+        return $this->converter->createCustomerFromModel($customerModel);
+    }
+
+    /**
+     * {inheritDoc}
+     */
+    public function getCustomerDetailsByEmail($customerEmail, $websiteId = null)
+    {
+        $customerData = $this->getCustomerByEmail($customerEmail, $websiteId);
+        return $this->customerDetailsBuilder
+            ->setCustomer($customerData)
+            ->setAddresses($this->customerAddressService->getAddresses($customerData->getId()))
+            ->create();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateCustomerDetailsByEmail(
+        $customerEmail,
+        CustomerDetails $customerDetails,
+        $websiteId = null
+    ) {
+        $customerData = $customerDetails->getCustomer();
+        $customerId = $this->getCustomerByEmail($customerEmail, $websiteId)->getId();
+        if ($customerData->getId() && $customerData->getId() !== $customerId) {
+            throw new StateException('Altering the customer ID is not permitted');
+        }
+
+        $customerData = $this->customerBuilder->populate($customerData)
+            ->setId($customerId)
+            ->create();
+        $customerDetails = $this->customerDetailsBuilder->populate($customerDetails)
+            ->setCustomer($customerData)
+            ->create();
+
+        return $this->updateCustomer($customerDetails);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteCustomerByEmail($customerEmail, $websiteId = null)
+    {
+        $customerModel = $this->customerRegistry->retrieveByEmail($customerEmail, $websiteId);
+        $customerId = $customerModel->getId();
+        $customerModel->delete();
+        $this->customerRegistry->remove($customerId);
+
+        return true;
     }
 }

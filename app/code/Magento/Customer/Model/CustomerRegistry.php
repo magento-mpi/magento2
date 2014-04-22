@@ -10,6 +10,7 @@ namespace Magento\Customer\Model;
 
 use Magento\Customer\Model\CustomerFactory;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Registry for \Magento\Customer\Model\Customer
@@ -32,13 +33,20 @@ class CustomerRegistry
     private $customerRegistryByEmail = [];
 
     /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
+    /**
      * Constructor
      *
      * @param CustomerFactory $customerFactory
+     * @param StoreManagerInterface $storeManager
      */
-    public function __construct(CustomerFactory $customerFactory)
+    public function __construct(CustomerFactory $customerFactory, StoreManagerInterface $storeManager)
     {
         $this->customerFactory = $customerFactory;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -69,13 +77,16 @@ class CustomerRegistry
     /**
      * Retrieve Customer Model from registry given an email
      *
-     * @param string $customerEmail
-     * @param string $websiteId
+     * @param string $customerEmail Customers email address
+     * @param string|null $websiteId Optional website ID, if not set, will use the current websiteId
      * @return Customer
      * @throws NoSuchEntityException
      */
-    public function retrieveByEmail($customerEmail, $websiteId)
+    public function retrieveByEmail($customerEmail, $websiteId = null)
     {
+        if (is_null($websiteId)) {
+            $websiteId = $this->storeManager->getStore()->getWebsiteId();
+        }
         $emailKey = $this->getEmailKey($customerEmail, $websiteId);
         if (isset($this->customerRegistryByEmail[$emailKey])) {
             return $this->customerRegistryByEmail[$emailKey];
@@ -127,12 +138,15 @@ class CustomerRegistry
     /**
      * Remove instance of the Customer Model from registry given an email
      *
-     * @param string $customerEmail
-     * @param string $websiteId
+     * @param string $customerEmail Customers email address
+     * @param string|null $websiteId Optional website ID, if not set, will use the current websiteId
      * @return void
      */
-    public function removeByEmail($customerEmail, $websiteId)
+    public function removeByEmail($customerEmail, $websiteId = null)
     {
+        if (is_null($websiteId)) {
+            $websiteId = $this->storeManager->getStore()->getWebsiteId();
+        }
         $emailKey = $this->getEmailKey($customerEmail, $websiteId);
         if ($emailKey) {
             /** @var Customer $customer */

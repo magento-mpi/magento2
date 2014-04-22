@@ -902,6 +902,197 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals(0, $searchResults['total_count'], 'No results expected for non-existent email.');
     }
 
+    public function testGetCustomerByEmail()
+    {
+        $customerData = $this->_createSampleCustomer();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '?customerEmail='. $customerData[Customer::EMAIL],
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetCustomerByEmail'
+            ]
+        ];
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $customerResponseData = $this->_webApiCall(
+                $serviceInfo,
+                ['customerEmail' => $customerData[Customer::EMAIL]]
+            );
+        } else {
+            $customerResponseData = $this->_webApiCall($serviceInfo);
+        }
+        $this->assertEquals($customerData, $customerResponseData);
+
+    }
+
+    public function testGetCustomerDetailsByEmail()
+    {
+        $customerData = $this->_createSampleCustomer();
+        //Get expected details from the Service directly
+        $expectedCustomerDetails = $this->customerAccountService
+            ->getCustomerDetailsByEmail($customerData[Customer::EMAIL])
+            ->__toArray();
+
+        //Test GetDetails
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/details/?customerEmail=' . $customerData[Customer::EMAIL],
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetCustomerDetailsByEmail'
+            ]
+        ];
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $customerDetailsResponse = $this->_webApiCall(
+                $serviceInfo,
+                ['customerEmail' => $customerData[Customer::EMAIL]]
+            );
+        } else {
+            $customerDetailsResponse = $this->_webApiCall($serviceInfo);
+        }
+        // TODO: Reset custom_attributes to empty array for now since webapi does not support it. Need to fix this.
+        unset($expectedCustomerDetails['customer']['custom_attributes']);
+        unset($customerDetailsResponse['customer']['customAttributes']); //For SOAP
+        unset($customerDetailsResponse['customer']['custom_attributes']); //for REST
+
+        $this->assertEquals($expectedCustomerDetails, $customerDetailsResponse);
+    }
+
+    public function testUpdateCustomerDetailsByEmail()
+    {
+        $customerData = $this->_createSampleCustomer();
+        $customerId = $customerData[Customer::ID];
+        $customerDetails = $this->_getCustomerDetails($customerId);
+        $customer = $customerDetails->getCustomer();
+        $customerAddress = $customerDetails->getAddresses();
+        $firstName = $customer->getFirstname() . 'updated';
+        $lastName = $customer->getLastname() . 'updated';
+        $newEmail = 'janedoeupdated' . uniqid() . '@example.com';
+        $email = $customer->getEmail();
+        $city = 'San Jose';
+
+        $customerData = array_merge(
+            $customer->__toArray(),
+            [
+                'firstname' => $firstName,
+                'lastname' => $lastName,
+                'email' => $newEmail,
+                'id' => null
+            ]
+        );
+
+        $addressId = $customerAddress[0]->getId();
+        $newAddress = array_merge($customerAddress[0]->__toArray(), ['city' => $city]);
+        $this->customerBuilder->populateWithArray($customerData);
+        $this->addressBuilder->populateWithArray($newAddress);
+        $this->customerDetailsBuilder->setCustomer(($this->customerBuilder->create()))
+            ->setAddresses(array($this->addressBuilder->create(), $customerAddress[1]));
+        $updatedCustomerDetails = $this->customerDetailsBuilder->create();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/details',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'UpdateCustomerDetailsByEmail'
+            ]
+        ];
+        $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
+        $requestData = ['customerEmail' => $email, 'customerDetails' => $customerDetailsAsArray];
+        $response = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertTrue($response);
+
+        //Verify if the customer is updated
+        $customerDetails = $this->_getCustomerDetails($customerId);
+        $updateCustomerData = $customerDetails->getCustomer();
+        $this->assertEquals($firstName, $updateCustomerData->getFirstname());
+        $this->assertEquals($lastName, $updateCustomerData->getLastname());
+        $this->assertEquals($newEmail, $updateCustomerData->getEmail());
+        foreach ($customerDetails->getAddresses() as $newAddress) {
+            if ($newAddress->getId() == $addressId) {
+                $this->assertEquals($city, $newAddress->getCity());
+            }
+        }
+    }
+
+    public function testDeleteCustomerByEmail()
+    {
+        $customerData = $this->_createSampleCustomer();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '?customerEmail=' . $customerData[Customer::EMAIL] ,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'DeleteCustomerByEmail'
+            ]
+        ];
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $response = $this->_webApiCall($serviceInfo, ['customerEmail' => $customerData[Customer::EMAIL]]);
+        } else {
+            $response = $this->_webApiCall($serviceInfo);
+        }
+
+        $this->assertTrue($response);
+
+        //Verify if the customer is deleted
+        $this->setExpectedException(
+            'Magento\Exception\NoSuchEntityException',
+            sprintf("No such entity with email = %s", $customerData[Customer::EMAIL])
+        );
+        $this->customerAccountService->getCustomerByEmail($customerData[Customer::EMAIL]);
+    }
+
+    public function testDeleteCustomerByEmailUnknownEmail()
+    {
+        $unknownEmail = 'unknown@email.com';
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '?customerEmail=' . $unknownEmail,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'DeleteCustomerByEmail'
+            ]
+        ];
+
+        $expectedMessage = NoSuchEntityException::MESSAGE_DOUBLE_FIELDS;
+
+        try {
+            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+                $this->_webApiCall($serviceInfo, ['customerEmail' => $unknownEmail]);
+            } else {
+                $this->_webApiCall($serviceInfo);
+            }
+            $this->fail("Expected exception");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
+            );
+        } catch (\Exception $e) {
+            $errorObj = $this->_processRestExceptionResult($e);
+            $this->assertEquals($expectedMessage, $errorObj['message']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
+        }
+    }
+
     /**
      * Test using multiple filters
      */

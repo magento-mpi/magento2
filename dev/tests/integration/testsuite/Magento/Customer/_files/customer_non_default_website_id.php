@@ -2,33 +2,53 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var \Magento\Customer\Model\Customer $customer */
-$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
 
-$customerData = array(
-    'group_id' => 1,
-    'website_id' => 1,
-    'firstname' => 'test firstname',
-    'lastname' => 'test lastname',
-    'email' => 'customer@example.com',
-    'default_billing' => 1,
-    'password' => '123123q',
-    'attribute_set_id' => 1
-);
-$customer->setData($customerData);
-$customer->setId(1);
+
+$website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Website');
+$website->setName('new Website')->setCode('newwebsite')->save();
+
+$websiteId = $website->getId();
+
+
+$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
+/** @var Magento\Customer\Model\Customer $customer */
+$customer->setWebsiteId(
+    $websiteId
+)->setId(
+        1
+    )->setEntityTypeId(
+        1
+    )->setAttributeSetId(
+        1
+    )->setEmail(
+        'customer2@example.com'
+    )->setPassword(
+        'password'
+    )->setGroupId(
+        1
+    )->setStoreId(
+        1
+    )->setIsActive(
+        1
+    )->setFirstname(
+        'Firstname'
+    )->setLastname(
+        'Lastname'
+    )->setDefaultBilling(
+        1
+    )->setDefaultShipping(
+        1
+    );
+$customer->isObjectNew(true);
 
 /** @var \Magento\Customer\Model\Address $addressOne  */
 $addressOne = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Address');
 $addressOneData = array(
-    'firstname' => 'test firstname',
-    'lastname' => 'test lastname',
+    'firstname' => 'Firstname',
+    'lastname' => 'LastName',
     'street' => array('test street'),
     'city' => 'test city',
     'country_id' => 'US',
@@ -68,5 +88,4 @@ $addressThreeData = array(
 );
 $addressThree->setData($addressThreeData);
 $customer->addAddress($addressThree);
-
 $customer->save();
