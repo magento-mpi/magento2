@@ -36,7 +36,7 @@
             discountCode: [
                 '<?php echo $this->getViewFileUrl('Magento_Checkout::js/discount-codes.js')?>'
             ],
-            gallery: [
+            catalogGallery: [
                 '<?php echo $this->getViewFileUrl('Magento_Catalog::js/gallery.js')?>'
             ],
             wishlist: [
@@ -69,10 +69,11 @@
             zoom: [
                 '<?php echo $this->getViewFileUrl('mage/zoom.js') ?>'
             ],
-            libGallery: [
+            gallery: [
                 '<?php echo $this->getViewFileUrl('mage/gallery.js') ?>'
             ],
             galleryFullScreen: [
+                '<?php echo $this->getViewFileUrl('mage/gallery.js') ?>',
                 '<?php echo $this->getViewFileUrl('mage/gallery-fullscreen.js') ?>'
             ]
         });
