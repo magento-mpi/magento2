@@ -556,7 +556,7 @@ return array(
         '\Magento\Payment\Model\Recurring\Profile',
         '\Magento\RecurringPayment\Model\PeriodUnits::DAY'
     ),
-    [
+    array(
         'PERIOD_UNIT_WEEK',
         '\Magento\Payment\Model\Recurring\Profile',
         '\Magento\RecurringPayment\Model\PeriodUnits::WEEK'
@@ -575,7 +575,7 @@ return array(
         'PERIOD_UNIT_YEAR',
         '\Magento\Payment\Model\Recurring\Profile',
         '\Magento\RecurringPayment\Model\PeriodUnits::YEAR'
-    ],
+    ),
     array(
         'XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY',
         '\Magento\Catalog\Helper\Category\Flat',
