@@ -39,7 +39,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Mail\TransportInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_transportMock;
 
-    /** @var \Magento\Encryption\EncryptorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Encryption\EncryptorInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_encryptor;
 
     protected function setUp()
@@ -58,7 +58,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_transportMock = $this->getMock('Magento\Mail\TransportInterface', array(), array(), '', false);
-        $this->_encryptor = $this->getMock('Magento\Encryption\EncryptorInterface');
+        $this->_encryptor = $this->getMock('Magento\Framework\Encryption\EncryptorInterface');
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(
             'Magento\Customer\Model\Customer',

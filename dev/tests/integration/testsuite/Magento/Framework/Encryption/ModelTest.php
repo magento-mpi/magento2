@@ -8,19 +8,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Encryption;
+namespace Magento\Framework\Encryption;
 
 class ModelTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Encryption\Encryptor
+     * @var \Magento\Framework\Encryption\Encryptor
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Encryption\Encryptor'
+            'Magento\Framework\Encryption\Encryptor'
         );
     }
 
@@ -45,7 +45,7 @@ class ModelTest extends \PHPUnit_Framework_TestCase
     public function testValidateKey()
     {
         $validKey = md5(uniqid());
-        $this->assertInstanceOf('Magento\Encryption\Crypt', $this->_model->validateKey($validKey));
+        $this->assertInstanceOf('Magento\Framework\Encryption\Crypt', $this->_model->validateKey($validKey));
     }
 
     public function testGetValidateHash()

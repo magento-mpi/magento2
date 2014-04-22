@@ -155,7 +155,7 @@ class Onepage
      * @param CustomerBuilder $customerBuilder
      * @param AddressBuilder $addressBuilder
      * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param CustomerAddressServiceInterface $customerAddressService
      */
     public function __construct(
@@ -178,7 +178,7 @@ class Onepage
         CustomerBuilder $customerBuilder,
         AddressBuilder $addressBuilder,
         \Magento\Math\Random $mathRandom,
-        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerAccountServiceInterface $accountService
     ) {

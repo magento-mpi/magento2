@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Encryption;
+namespace Magento\Framework\Encryption;
 
 /**
  * Provides basic logic for hashing passwords and encrypting/decrypting misc data
@@ -35,23 +35,23 @@ class Encryptor implements EncryptorInterface
     protected $_cryptKey;
 
     /**
-     * @var \Magento\Encryption\CryptFactory
+     * @var \Magento\Framework\Encryption\CryptFactory
      */
     protected $_cryptFactory;
 
     /**
-     * @var \Magento\Encryption\Crypt
+     * @var \Magento\Framework\Encryption\Crypt
      */
     protected $_crypt;
 
     /**
      * @param \Magento\Math\Random $randomGenerator
-     * @param \Magento\Encryption\CryptFactory $cryptFactory
+     * @param \Magento\Framework\Encryption\CryptFactory $cryptFactory
      * @param string $cryptKey
      */
     public function __construct(
         \Magento\Math\Random $randomGenerator,
-        \Magento\Encryption\CryptFactory $cryptFactory,
+        \Magento\Framework\Encryption\CryptFactory $cryptFactory,
         $cryptKey
     ) {
         $this->_randomGenerator = $randomGenerator;
@@ -152,7 +152,7 @@ class Encryptor implements EncryptorInterface
      * Return crypt model, instantiate if it is empty
      *
      * @param string|null $key NULL value means usage of the default key specified on constructor
-     * @return \Magento\Encryption\Crypt
+     * @return \Magento\Framework\Encryption\Crypt
      */
     public function validateKey($key)
     {
@@ -163,7 +163,7 @@ class Encryptor implements EncryptorInterface
      * Instantiate crypt model
      *
      * @param string|null $key NULL value means usage of the default key specified on constructor
-     * @return \Magento\Encryption\Crypt
+     * @return \Magento\Framework\Encryption\Crypt
      */
     protected function _getCrypt($key = null)
     {

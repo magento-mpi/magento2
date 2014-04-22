@@ -28,7 +28,7 @@
     </type>
     <type name="Magento\Install\Block\End">
         <arguments>
-            <argument name="cryptKey" xsi:type="init_parameter">Magento\Encryption\Encryptor::PARAM_CRYPT_KEY</argument>
+            <argument name="cryptKey" xsi:type="init_parameter">Magento\Framework\Encryption\Encryptor::PARAM_CRYPT_KEY</argument>
             <argument name="session" xsi:type="object">Magento\Install\Model\Session</argument>
         </arguments>
     </type>

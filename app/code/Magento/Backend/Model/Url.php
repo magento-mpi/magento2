@@ -56,7 +56,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
     protected $_cache;
 
     /**
-     * @var \Magento\Encryption\EncryptorInterface
+     * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -89,7 +89,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      * @param Menu\Config $menuConfig
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param Auth\Session $authSession
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\Framework\Data\Form\FormKey $formKey
      * @param string $scopeType
@@ -111,7 +111,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\Framework\Data\Form\FormKey $formKey,
         $scopeType,

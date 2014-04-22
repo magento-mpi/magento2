@@ -70,7 +70,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected $_paramsResolverMock;
 
     /**
-     * @var \Magento\Encryption\EncryptorInterface
+     * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -146,7 +146,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             false
         );
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_encryptor = $this->getMock('Magento\Encryption\Encryptor', null, array(), '', false);
+        $this->_encryptor = $this->getMock('Magento\Framework\Encryption\Encryptor', null, array(), '', false);
         $this->_paramsResolverMock = $this->getMock(
             'Magento\Url\RouteParamsResolverFactory',
             array(),

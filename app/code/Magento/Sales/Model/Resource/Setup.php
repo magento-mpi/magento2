@@ -20,7 +20,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     protected $_config;
 
     /**
-     * @var \Magento\Encryption\EncryptorInterface
+     * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -259,7 +259,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     }
 
     /**
-     * @return \Magento\Encryption\EncryptorInterface
+     * @return \Magento\Framework\Encryption\EncryptorInterface
      */
     public function getEncryptor()
     {

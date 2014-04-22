@@ -58,7 +58,7 @@ class Backup extends \Magento\Object implements \Magento\Framework\Backup\Db\Bac
     protected $_backendAuthSession;
 
     /**
-     * @var \Magento\Encryption\EncryptorInterface
+     * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -71,7 +71,7 @@ class Backup extends \Magento\Object implements \Magento\Framework\Backup\Db\Bac
      * @param \Magento\Backup\Helper\Data $helper
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param array $data
      */
@@ -79,7 +79,7 @@ class Backup extends \Magento\Object implements \Magento\Framework\Backup\Db\Bac
         \Magento\Backup\Helper\Data $helper,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\App\Filesystem $filesystem,
         $data = array()
     ) {
