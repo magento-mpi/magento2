@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Convert;
+namespace Magento\Framework\Convert;
 
 class ConvertArrayTest extends \PHPUnit_Framework_TestCase
 {

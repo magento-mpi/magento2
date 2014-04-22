@@ -138,4 +138,7 @@ return [
         '/dev/tests/integration/testsuite/Magento/Framework/Controller'
     ],
     ['/dev/tests/unit/testsuite/Magento/Controller', '/dev/tests/unit/testsuite/Magento/Framework/Controller'],
+    ['/lib/Magento/Convert', '/lib/Magento/Framework/Convert'],
+    ['/dev/tests/integration/testsuite/Magento/Convert', '/dev/tests/integration/testsuite/Magento/Framework/Convert'],
+    ['/dev/tests/unit/testsuite/Magento/Convert', '/dev/tests/unit/testsuite/Magento/Framework/Convert'],
 ];

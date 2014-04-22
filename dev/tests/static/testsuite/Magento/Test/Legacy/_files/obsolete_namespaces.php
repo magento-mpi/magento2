@@ -41,4 +41,5 @@ return [
     ['Magento\Pear', 'Magento\Framework\Pear'],
     ['Magento\Pricing', 'Magento\Framework\Pricing'],
     ['Magento\Controller', 'Magento\Framework\Controller'],
+    ['Magento\Convert', 'Magento\Framework\Convert'],
 ];

@@ -103,7 +103,7 @@ lib/Magento/HTTP/Client
 lib/Magento/Framework/Acl
 lib/PEAR
 lib/phpseclib
-lib/Magento/Convert
+lib/Magento/Framework/Convert
 lib/Magento/Framework/App/Config
 Magento/Cron/Model
 Magento/SalesRule/Model/Resource/Report/Rule

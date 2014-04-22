@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Convert;
+namespace Magento\Framework\Convert;
 
 use Magento\Framework\Filesystem\File\WriteInterface;
 

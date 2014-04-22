@@ -116,7 +116,7 @@ class Review extends \Magento\Framework\View\Element\Template
     {
         /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
         $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-        $addressData = \Magento\Convert\ConvertArray::toFlatArray($address->getData());
+        $addressData = \Magento\Framework\Convert\ConvertArray::toFlatArray($address->getData());
         return $renderer->renderArray($addressData);
     }
 
