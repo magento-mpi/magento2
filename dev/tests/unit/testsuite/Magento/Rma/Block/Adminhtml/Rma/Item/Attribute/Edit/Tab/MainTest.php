@@ -49,8 +49,8 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $scopeConfig;
 
-    /** @var \Magento\Framework\View\Url|\PHPUnit_Framework_MockObject_MockObject */
-    protected $url;
+    /** @var \Magento\Framework\View\Asset\Repository|\PHPUnit_Framework_MockObject_MockObject */
+    protected $assetRepo;
 
     /** @var \Magento\Framework\View\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $configInterface;
@@ -145,7 +145,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->session = $this->getMock('Magento\Session\Generic', [], [], '', false);
         $this->sidResolverInterface = $this->getMock('Magento\Session\SidResolverInterface');
         $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->url = $this->getMock('Magento\Framework\View\Url', [], [], '', false);
+        $this->assetRepo = $this->getMock('Magento\Framework\View\Asset\Repository', [], [], '', false);
         $this->configInterface = $this->getMock('Magento\Framework\View\ConfigInterface');
         $this->cacheState = $this->getMock('Magento\Framework\App\Cache\StateInterface');
         $this->logger = $this->getMock('Magento\Logger', [], [], '', false);
@@ -178,7 +178,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
                 'session' => $this->session,
                 'sidResolver' => $this->sidResolverInterface,
                 'storeConfig' => $this->scopeConfig,
-                'viewUrl' => $this->url,
+                'assetRepo' => $this->assetRepo,
                 'viewConfig' => $this->configInterface,
                 'cacheState' => $this->cacheState,
                 'logger' => $this->logger,

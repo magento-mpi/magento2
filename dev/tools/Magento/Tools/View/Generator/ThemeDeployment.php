@@ -65,6 +65,11 @@ class ThemeDeployment
     private $appState;
 
     /**
+     * @var \Magento\Framework\View\Asset\Repository
+     */
+    private $assetRepo;
+
+    /**
      * @var \Magento\Framework\View\Asset\PreProcessorInterface
      */
     private $preProcessor;
@@ -89,6 +94,7 @@ class ThemeDeployment
      *
      * @param \Magento\Framework\View\Url\CssResolver $cssUrlResolver
      * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\View\Asset\PreProcessorInterface $preProcessor
      * @param \Magento\Framework\View\Publisher\FileFactory $fileFactory
      * @param \Magento\Framework\App\State $appState
@@ -106,6 +112,7 @@ class ThemeDeployment
     public function __construct(
         \Magento\Framework\View\Url\CssResolver $cssUrlResolver,
         \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\View\Asset\PreProcessorInterface $preProcessor,
         \Magento\Framework\View\Publisher\FileFactory $fileFactory,
         \Magento\Framework\App\State $appState,
@@ -120,6 +127,7 @@ class ThemeDeployment
     ) {
         $this->themeFactory = $themeFactory;
         $this->appState = $appState;
+        $this->assetRepo = $assetRepo;
         $this->preProcessor = $preProcessor;
         $this->tmpDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         $this->fileFactory = $fileFactory;

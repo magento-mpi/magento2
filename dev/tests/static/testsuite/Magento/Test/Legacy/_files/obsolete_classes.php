@@ -1774,7 +1774,7 @@ return array(
     array('Magento\Core\Model\Page\Asset\MinifyService', 'Magento\Framework\View\Asset\MinifyService'),
     array('Magento\Core\Model\Page\Asset\PublicFile', 'Magento\Framework\View\Asset\PublicFile'),
     array('Magento\Core\Model\Page\Asset\Remote', 'Magento\Framework\View\Asset\Remote'),
-    array('Magento\Core\Model\Page\Asset\ViewFile', 'Magento\Framework\View\Asset\ViewFile'),
+    array('Magento\Core\Model\Page\Asset\ViewFile', 'Magento\Framework\View\Asset\File'),
     array('Magento\Page\Block\Html\Head\AssetBlock', 'Magento\Theme\Block\Html\Head\AssetBlockInterface'),
     array('Magento\Page\Block\Html\Head\Css', 'Magento\Theme\Block\Html\Head\Css'),
     array('Magento\Page\Block\Html\Head\Link', 'Magento\Theme\Block\Html\Head\Link'),

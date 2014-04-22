@@ -16,6 +16,11 @@ namespace Magento;
 class Translate implements \Magento\TranslateInterface
 {
     /**
+     * Scope separator
+     */
+    const SCOPE_SEPARATOR   = '::';
+
+    /**
      * Locale code
      *
      * @var string
@@ -297,14 +302,14 @@ class Translate implements \Magento\TranslateInterface
                 /**
                  * Checking previous value
                  */
-                $scopeKey = $this->_dataScope[$key] . \Magento\Framework\View\Service::SCOPE_SEPARATOR . $key;
+                $scopeKey = $this->_dataScope[$key] . self::SCOPE_SEPARATOR . $key;
                 if (!isset($this->_data[$scopeKey])) {
                     if (isset($this->_data[$key])) {
                         $this->_data[$scopeKey] = $this->_data[$key];
                         unset($this->_data[$key]);
                     }
                 }
-                $scopeKey = $scope . \Magento\Framework\View\Service::SCOPE_SEPARATOR . $key;
+                $scopeKey = $scope . self::SCOPE_SEPARATOR . $key;
                 $this->_data[$scopeKey] = $value;
             } else {
                 $this->_data[$key] = $value;

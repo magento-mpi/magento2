@@ -37,9 +37,7 @@ class Translate implements \Magento\Phrase\RendererInterface
     {
         $text = end($source);
 
-        $code = $this->translator->getTheme()
-            . \Magento\Framework\View\Service::SCOPE_SEPARATOR
-            . $text;
+        $code = $this->translator->getTheme() . \Magento\Translate::SCOPE_SEPARATOR . $text;
 
         $data = $this->translator->getData();
 

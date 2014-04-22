@@ -84,13 +84,13 @@ class AggregateTest extends \PHPUnit_Framework_TestCase
         );
 
         $files = array(
-            new \Magento\Framework\View\Layout\File('0.xml', 'Module_One'),
-            new \Magento\Framework\View\Layout\File('1.xml', 'Module_One', $parentTheme),
-            new \Magento\Framework\View\Layout\File('2.xml', 'Module_One', $parentTheme),
-            new \Magento\Framework\View\Layout\File('3.xml', 'Module_One', $parentTheme),
-            new \Magento\Framework\View\Layout\File('4.xml', 'Module_One', $theme),
-            new \Magento\Framework\View\Layout\File('5.xml', 'Module_One', $theme),
-            new \Magento\Framework\View\Layout\File('6.xml', 'Module_One', $theme)
+            new \Magento\Framework\View\File('0.xml', 'Module_One'),
+            new \Magento\Framework\View\File('1.xml', 'Module_One', $parentTheme),
+            new \Magento\Framework\View\File('2.xml', 'Module_One', $parentTheme),
+            new \Magento\Framework\View\File('3.xml', 'Module_One', $parentTheme),
+            new \Magento\Framework\View\File('4.xml', 'Module_One', $theme),
+            new \Magento\Framework\View\File('5.xml', 'Module_One', $theme),
+            new \Magento\Framework\View\File('6.xml', 'Module_One', $theme)
         );
 
         $this->_baseFiles->expects(

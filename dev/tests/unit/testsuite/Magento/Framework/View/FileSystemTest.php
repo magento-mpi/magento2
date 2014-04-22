@@ -164,8 +164,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
                 false
             ),
             'locale' => 'some_locale',
-            'module' => 'Some_Module'   //It should be set in \Magento\Framework\View\Service::extractScope
-                                        // but PHPUnit has problems with passing arguments by reference
+            'module' => 'Some_Module'
         );
         $file = 'Some_Module::some_file.ext';
         $expected = 'path/to/some_file.ext';

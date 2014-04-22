@@ -126,7 +126,9 @@ class Source
         if ($cached) {
             return unserialize($cached);
         }
-        $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain($asset, $this->rootDir->readFile($path), $this->getContentType($path));
+        $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain(
+            $asset, $this->rootDir->readFile($path), $this->getContentType($path)
+        );
         $preProcessors = $this->preProcessorPool
             ->getPreProcessors($chain->getOrigContentType(), $chain->getTargetContentType());
         foreach ($preProcessors as $processor) {

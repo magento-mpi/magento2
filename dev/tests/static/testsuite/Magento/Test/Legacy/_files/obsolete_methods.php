@@ -1333,7 +1333,6 @@ return array(
     array('getUpdateUrl', 'Magento\Wishlist\Helper\Data'),
     array('getItemRemoveUrl', 'Magento\Wishlist\Block\AbstractBlock'),
     array('_getUrlParams', 'Magento\Catalog\Helper\Product\Compare'),
-    array('getFileIdentifier', 'Magento\Framework\View\Layout\File\FileList', 'Magento\Framework\View\File'),
     array('_getInitialXml', 'Magento\Framework\Config\Theme'),
     array('_getIdAttributes', 'Magento\Framework\Config\Theme'),
     array(
