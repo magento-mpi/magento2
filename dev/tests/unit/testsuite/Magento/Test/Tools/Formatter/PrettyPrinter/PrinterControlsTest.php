@@ -347,11 +347,16 @@ function alpha()
 {
     if ($ftp) {
         $cwd = $ftpObj->getcwd();
-        $dir = $cwd . '/' . $config->downloader_path . '/' . \Magento\Framework\Connect\Config::DEFAULT_CACHE_PATH
-            . '/' . trim(
-                $pChan,
-                "\\/"
-            );
+        $dir = $cwd .
+            '/' .
+            $config->downloader_path .
+            '/' .
+            \Magento\Framework\Connect\Config::DEFAULT_CACHE_PATH .
+            '/' .
+            trim(
+            $pChan,
+            "\\/"
+        );
         $ftpObj->mkdirRecursive($dir, 0777);
         $ftpObj->chdir($cwd);
     } else {
