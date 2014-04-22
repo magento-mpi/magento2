@@ -33,15 +33,13 @@
 </div>
 <script type="text/javascript">
     (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('Magento_Customer::js/checkout-balance.js') ?>",
-            function() {
-                $('#use-customer-balance').checkoutBalance({
-                    balance: <?php echo (float)$this->getBalance(); ?>,
-                    amountSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
-                    usedAmount: <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>
-                });
+        head.js("<?php echo $this->getViewFileUrl('Magento_Customer::js/checkout-balance.js') ?>", head.ready(function () {
+            $('#use-customer-balance').checkoutBalance({
+                balance: <?php echo (float)$this->getBalance(); ?>,
+                amountSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
+                usedAmount: <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>
             });
+        }));
     })(jQuery);
 </script>
 <?php endif; ?>

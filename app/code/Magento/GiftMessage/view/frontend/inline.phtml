@@ -10,9 +10,9 @@
 <?php $_giftMessage = false; ?>
 <?php if(!$this->getDontDisplayContainer()): ?>
 <script type="text/javascript">
-    head.js("<?php echo $this->getViewFileUrl('Magento_GiftMessage::extra-options.js') ?>", function() {
+    head.js("<?php echo $this->getViewFileUrl('Magento_GiftMessage::extra-options.js') ?>", head.ready(function () {
         jQuery('#checkoutSteps').extraOptions({additionalUrl: '<?php echo $this->getAdditionalUrl(); ?>'});
-    });
+    }));
 </script>
 <?php endif ?>
 
@@ -139,11 +139,11 @@
         </dl>
     </fieldset>
     <script type="text/javascript">
-        head.js("<?php echo $this->getViewFileUrl('Magento_GiftMessage::gift-options.js')?>", function() {
+        head.js("<?php echo $this->getViewFileUrl('Magento_GiftMessage::gift-options.js')?>", head.ready(function () {
             jQuery('#allow_gift_options')
                 .add('#allow_gift_options_for_order')
                 .add('#allow_gift_options_for_items').giftOptions();
-        });
+        }));
     </script>
 <?php break; ?>
 
@@ -269,11 +269,11 @@
     <script type="text/javascript">
         (function($) {
             $(function() {
-                head.js("<?php echo $this->getViewFileUrl('Magento_GiftMessage::gift-options.js')?>", function() {
+                head.js("<?php echo $this->getViewFileUrl('Magento_GiftMessage::gift-options.js')?>", head.ready(function () {
                     $('#allow_gift_options_<?php echo $this->getEntity()->getId() ?>')
                         .add('#allow_gift_options_for_order_<?php echo $this->getEntity()->getId() ?>')
                         .add('#allow_gift_options_for_items_<?php echo $this->getEntity()->getId() ?>').giftOptions();
-                });
+                }));
             });
         })(jQuery);
     </script>
@@ -281,11 +281,13 @@
 <?php endswitch ?>
 <?php if ($_giftMessage): ?>
 <script type="text/javascript">
-    head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+    head.js(
+        "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
         "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
         "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-        "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
+        "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+        head.ready(function () {
             jQuery("#shipping_method_form").validation();
-        });
+        }));
 </script>
 <?php endif; ?>

@@ -53,14 +53,13 @@
             <script type="text/javascript">
                 //<![CDATA[
                 (function($) {
-                    head.js("<?php echo $this->getViewFileUrl('Magento_Checkout::js/shopping-cart.js')?>",
-                        function() {
-                            // Internet Explorer (lt 8) does not support value attribute in button elements
-                            $('#shopping-cart-table').shoppingCart({
-                                emptyCartButton: 'action.clear',
-                                updateCartActionContainer: '#update_cart_action_container'
-                            });
+                    head.js("<?php echo $this->getViewFileUrl('Magento_Checkout::js/shopping-cart.js')?>", head.ready(function () {
+                        // Internet Explorer (lt 8) does not support value attribute in button elements
+                        $('#shopping-cart-table').shoppingCart({
+                            emptyCartButton: 'action.clear',
+                            updateCartActionContainer: '#update_cart_action_container'
                         });
+                    }));
                 })(jQuery);
                 //]]>
             </script>
@@ -75,12 +74,12 @@
                 "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
                 "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
-                function() {
+                head.ready(function () {
                     $('#form-validate').validation();
                     $('.cart.summary').sticky({
                         container: '.cart.container'
-                });
-                });
+                    });
+                }));
         })(jQuery)
     </script>
 </div>

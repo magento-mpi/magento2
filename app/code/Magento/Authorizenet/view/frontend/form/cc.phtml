@@ -26,13 +26,13 @@
 
         <script type="text/javascript">
             (function ($) {
-                head.js("<?php echo $this->getViewFileUrl('Magento_Authorizenet::authorizenet-authenticate.js') ?>", function () {
+                head.js("<?php echo $this->getViewFileUrl('Magento_Authorizenet::authorizenet-authenticate.js') ?>", head.ready(function () {
                     $('[data-container="release-amounts"]').authorizenetAuthenticate({
                         partialAuthorizationConfirmationMessage: '<?php echo $this->getPartialAuthorizationConfirmationMessage()?>',
                         cancelConfirmationMessage: '<?php echo $this->getCancelConfirmationMessage() ?>',
                         cancelUrl: '<?php echo $this->getCancelUrl() ?>'
                     });
-                });
+                }));
             })(jQuery);
         </script>
         <span id="cancel-please-wait" class="please-wait load indicator" style="display: none" data-text="<?php echo __('Processing...') ?>">

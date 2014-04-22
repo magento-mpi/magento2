@@ -89,7 +89,7 @@
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
             "<?php echo $this->getViewFileUrl('Magento_MultipleWishlist::js/multiple-wishlist.js') ?>",
-            function() {
+            head.ready(function () {
                 $(function () {
                     $('body').multipleWishlist({
                         canCreate: <?php echo $this->canCreateWishlists($this->getWishlists()) ? 'true' : 'false';?>,
@@ -112,6 +112,6 @@
                             }]
                         });
                 });
-            });
+            }));
     })(jQuery);
 </script>

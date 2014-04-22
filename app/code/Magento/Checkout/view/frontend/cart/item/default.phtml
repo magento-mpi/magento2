@@ -70,7 +70,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
                 <?php $_product = $_item->getProduct(); ?>
                 <script type="text/javascript">
                     (function ($) {
-                        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>", function () {
+                        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>", head.ready(function () {
                             $('#<?php echo $helpLinkId ?>').addToCart({
                                 popupId: "#<?php echo $helpLinkId ?>",
                                 productName: '<?php echo $_product->getName() ?>',
@@ -79,7 +79,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
                                 closeButtonId: '#map-popup-close',
                                 showAddToCart: false
                             });
-                        });
+                        }));
                     })(jQuery);
                 </script>
             </span>

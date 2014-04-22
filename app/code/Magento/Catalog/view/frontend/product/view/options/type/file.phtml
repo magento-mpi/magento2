@@ -18,7 +18,7 @@
 <script type="text/javascript">
     //<![CDATA[
     (function($) {
-        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/file-option.js')?>", function() {
+        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/file-option.js')?>", head.ready(function () {
             $('#input-box-<?php echo $_fileName ?>').fileOption({
                 fileName: '<?php echo $_fileName ?>',
                 fileNamed: '<?php echo $_fileNamed ?>',
@@ -26,7 +26,7 @@
                 changeFileSelector: '#change-<?php echo $_fileName ?>',
                 deleteFileSelector: '#delete-<?php echo $_fileName ?>'
             });
-        });
+        }));
     })(jQuery);
     //]]>
 </script>

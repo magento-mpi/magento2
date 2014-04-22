@@ -52,25 +52,24 @@
 <script>
     //<![CDATA[
     (function ($) {
-        head.js("<?php echo $this->getViewFileUrl('mage/sticky.js') ?>",function() {
+        head.js("<?php echo $this->getViewFileUrl('mage/sticky.js') ?>", head.ready(function () {
             $('#bundleSummary').sticky({
                 container: '.product.add.form'
             });
-        });
+        }));
 
-        head.js("<?php echo $this->getViewFileUrl('Magento_Bundle::js/slide.js')?>", function() {
+        head.js("<?php echo $this->getViewFileUrl('Magento_Bundle::js/slide.js')?>", head.ready(function () {
             $('.product.add.form').slide({
-                    slideSpeed: 1500,
-                    slideSelector: '#bundle-slide',
-                    slideBackSelector: '.action.customization.back',
-                    bundleProductSelector: '#bundleProduct',
-                    bundleOptionsContainer: '.product.add.form',
-                    <?php if ($this->isStartCustomization()): ?>
-                    autostart: true
-                    <?php endif;?>
-                }
-            );
-        });
+                slideSpeed: 1500,
+                slideSelector: '#bundle-slide',
+                slideBackSelector: '.action.customization.back',
+                bundleProductSelector: '#bundleProduct',
+                bundleOptionsContainer: '.product.add.form',
+                <?php if ($this->isStartCustomization()): ?>
+                autostart: true
+                <?php endif;?>
+            });
+        }));
     })(jQuery);
     //]]>
 </script>

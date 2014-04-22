@@ -47,11 +47,13 @@
     </script>
     <script>
         (function($) {
-            head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+            head.js(
+                "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
                 "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-                "<?php echo $this->getViewFileUrl('Magento_Wishlist::wishlist.js')?>", function() {
+                "<?php echo $this->getViewFileUrl('Magento_Wishlist::wishlist.js')?>",
+                head.ready(function () {
                     $('#wishlist-view-form').wishlist({
                         dataAttribute: 'item-id',
                         nameFormat: 'qty[{0}]',
@@ -61,12 +63,12 @@
                         addAllToCartSelector: '.primary > .action.tocart',
                         commentInputType: 'textarea',
                         infoList: false,
-                        addToCartUrl: '<?php echo $this->getItemAddToCartUrl('%item%');?>' ,
+                        addToCartUrl: '<?php echo $this->getItemAddToCartUrl('%item%');?>',
                         confirmRemoveMessage: '<?php echo __('Are you sure you want to remove this product from your wishlist?') ?>',
-                        addAllToCartUrl : '<?php echo $this->getAddAllToCartUrl(); ?>',
-                        commentString : ''
+                        addAllToCartUrl: '<?php echo $this->getAddAllToCartUrl(); ?>',
+                        commentString: ''
                     });
-                });
+                }));
         })(jQuery);
     </script>
 <?php endif ?>

@@ -47,13 +47,15 @@
 
 <script type="text/javascript">
     (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+        head.js(
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+            head.ready(function () {
                 $('#wishlist-search-form')
                     .add('#wishlist-search-email-form').validation();
-            });
+            }));
     })(jQuery);
 </script>
 

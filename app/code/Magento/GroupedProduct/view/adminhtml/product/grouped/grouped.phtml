@@ -26,12 +26,12 @@ $_helper = $this->helper('Magento\Core\Helper\Data');
     </div>
     <button type="button" data-role="add-product">Add Products to Group</button>
     <script type="text/javascript">
-        jQuery(function($) {
-            head.js("<?php echo $this->getViewFileUrl('Magento_GroupedProduct::js/grouped-product.js') ?>", function() {
+        jQuery(function ($) {
+            head.js("<?php echo $this->getViewFileUrl('Magento_GroupedProduct::js/grouped-product.js') ?>", head.ready(function () {
                 $('#grouped-product-container').mage('groupedProduct', {
                     gridPopup: window.<?php echo $_gridPopupBlock->getJsObjectName() ?>
                 });
-            });
+            }));
         });
     </script>
 </div>

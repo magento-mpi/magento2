@@ -102,11 +102,13 @@
 <script type="text/javascript">
     //<![CDATA[
     (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+        head.js(
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('Magento_Theme::js/row-builder.js')?>", function() {
+            "<?php echo $this->getViewFileUrl('Magento_Theme::js/row-builder.js')?>",
+            head.ready(function () {
                 $('#product-sendtofriend-form').rowBuilder({
                     rowTemplate: '#add-recipient-tmpl',
                     rowContainer: '#recipients-options',
@@ -117,8 +119,11 @@
                     addRowBtn: '#add-recipient-button',
                     additionalRowClass: 'additional'
                 }).validation();
-                $('a[role="back"]').on('click', function() { history.back(); return false; });
-            })
+                $('a[role="back"]').on('click', function () {
+                    history.back();
+                    return false;
+                });
+            }))
     })(jQuery);
     //]]>
 </script>

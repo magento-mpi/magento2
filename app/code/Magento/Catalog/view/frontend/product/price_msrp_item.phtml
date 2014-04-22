@@ -53,26 +53,25 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
 <script type="text/javascript">
     //<![CDATA[
     (function ($) {
-        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>",
-            function () {
+        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>", head.ready(function () {
             <?php if ($this->helper('Magento\Catalog\Helper\Data')->isShowPriceOnGesture($_product)): ?>
-                $('#<?php echo($popupId);?>').addToCart({
-                    cartForm: "#product_addtocart_form",
-                    popupId: "#<?php echo($popupId);?>",
-                    productName: '<?php echo $_product->getName() ?>',
-                    realPrice: '<?php echo $this->getRealPriceJs($_product) ?>',
-                    msrpPrice: '<?php echo $_msrpPrice ?>',
-                    priceElementId: '<?php echo $priceElementId ?>',
-                    closeButtonId: '#map-popup-close',
-                    popupCartButtonId: "#map-popup-button"
-                });
-            <?php endif; ?>
-                $("#<?php echo($helpLinkId);?>").addToCart({
-                    helpLinkId: "#<?php echo($helpLinkId);?>",
-                    productName: '<?php echo $_product->getName() ?>',
-                    closeButtonId: '#map-popup-close'
-                });
+            $('#<?php echo($popupId);?>').addToCart({
+                cartForm: "#product_addtocart_form",
+                popupId: "#<?php echo($popupId);?>",
+                productName: '<?php echo $_product->getName() ?>',
+                realPrice: '<?php echo $this->getRealPriceJs($_product) ?>',
+                msrpPrice: '<?php echo $_msrpPrice ?>',
+                priceElementId: '<?php echo $priceElementId ?>',
+                closeButtonId: '#map-popup-close',
+                popupCartButtonId: "#map-popup-button"
             });
+            <?php endif; ?>
+            $("#<?php echo($helpLinkId);?>").addToCart({
+                helpLinkId: "#<?php echo($helpLinkId);?>",
+                productName: '<?php echo $_product->getName() ?>',
+                closeButtonId: '#map-popup-close'
+            });
+        }));
     })(jQuery);
     //]]>
 </script>

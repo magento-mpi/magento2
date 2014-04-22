@@ -64,7 +64,7 @@
         "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
         "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
         "<?php echo $this->getViewFileUrl('Magento_Checkout::js/payment.js') ?>",
-        function() {
+        head.ready(function () {
             jQuery('#multishipping-billing-form').payment({
                 checkoutPrice: <?php echo (float)$this->getQuoteBaseGrandTotal(); ?>
             }).validation({
@@ -76,6 +76,6 @@
                     }
                 }
             });
-        });
+        }));
 </script>
 

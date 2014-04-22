@@ -8,14 +8,10 @@
 ?>
 <script type="text/javascript">
     (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('Magento_Paypal::js/opcheckout.js')?>",
-            function() {
-                $('#checkoutSteps')
-                    .accordion({
-                        activeSelector: '#opc-<?php echo $this->getActiveStep() ?>'
-                    }).opcheckoutPaypalIframe();
-            }
-        );
+        head.js("<?php echo $this->getViewFileUrl('Magento_Paypal::js/opcheckout.js')?>", head.ready(function () {
+            $('#checkoutSteps')
+                .accordion({activeSelector: '#opc-<?php echo $this->getActiveStep() ?>'})
+                .opcheckoutPaypalIframe();
+        }));
     })(jQuery);
 </script>

@@ -132,7 +132,7 @@ $thumbHeight =  $this->getVar("product_page_more_views:height") ? : $thumbWidth;
             head.js("<?php echo $this->getViewFileUrl('mage/zoom.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/gallery.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/gallery-fullscreen.js')?>",
-                function() {
+                head.ready(function () {
                     $('[data-role=media-gallery]')
                         .gallery({
                             sizes: {
@@ -163,7 +163,7 @@ $thumbHeight =  $this->getVar("product_page_more_views:height") ? : $thumbWidth;
                             }
                         })
                         .galleryFullScreen();
-            });
+                }));
         })(jQuery);
     </script>
 <?php endif; ?>

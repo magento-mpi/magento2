@@ -34,19 +34,19 @@ $_paymentBlock = $this->getLayout()->getBlock('checkout.onepage.payment');
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('Magento_Checkout::js/opcheckout.js') ?>",
                 "<?php echo $this->getViewFileUrl('Magento_Checkout::js/accordion.js') ?>",
-                function() {
+                head.ready(function () {
                     $('#checkoutSteps')
                         .accordion({
                             activeSelector: '#opc-<?php echo $this->getActiveStep() ?>'
                         })
                         .opcheckout($.extend({
-                            checkoutAgreements: '#checkout-agreements',
-                            checkoutProgressContainer: '#checkout-progress-wrapper',
-                            methodDescription: '.items'
+                                checkoutAgreements: '#checkout-agreements',
+                                checkoutProgressContainer: '#checkout-progress-wrapper',
+                                methodDescription: '.items'
                             },
                             <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($_paymentBlock->getOptions()); ?>
                         ));
-                });
+                }));
         })(jQuery);
     </script>
 </div>

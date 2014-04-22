@@ -45,12 +45,12 @@
     <script type="text/javascript">
         //<![CDATA[
         (function ($) {
-            head.js("<?php echo $this->getViewFileUrl('Magento_Downloadable::downloadable.js') ?>", function () {
+            head.js("<?php echo $this->getViewFileUrl('Magento_Downloadable::downloadable.js') ?>", head.ready(function () {
                 $('#downloadable-links-list').downloadable({
                     linkElement: 'input:checkbox',
                     config: <?php echo $this->getJsonConfig() ?>
                 });
-            });
+            }));
         })(jQuery);
         //]]>
     </script>

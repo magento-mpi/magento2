@@ -24,13 +24,13 @@
                 <script type="text/javascript">
                     //<![CDATA[
                     (function($) {
-                        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/date-option.js') ?>", function() {
+                        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/date-option.js') ?>", head.ready(function () {
                             $.mage.dateOption({
                                 datepickerFieldSelector: 'select.datetime-picker',
                                 monthSelector: '#options_<?php echo $_optionId ?>_month',
                                 yearSelector: '#options_<?php echo $_optionId ?>_year'
                             });
-                        });
+                        }));
                     })(jQuery);
                     //]]>
                 </script>
@@ -60,9 +60,9 @@
         <script type="text/javascript">
             //<![CDATA[
             (function($) {
-                head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>", function() {
+                head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>", head.ready(function () {
                     $.validator.setDefaults({ignore: ':hidden:not(input[name^="validate_datetime_"])'});
-                });
+                }));
             })(jQuery);
             //]]>
         </script>

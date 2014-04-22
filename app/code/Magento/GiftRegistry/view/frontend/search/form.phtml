@@ -79,17 +79,19 @@
 
 <script type="text/javascript">
     (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+        head.js(
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('Magento_GiftRegistry::advanced-search.js')?>", function() {
+            "<?php echo $this->getViewFileUrl('Magento_GiftRegistry::advanced-search.js')?>",
+            head.ready(function () {
                 $('form[id^="gr-search"]').validation();
                 $('#params-type-id').advancedSearch({
                     url: '<?php echo $this->getAdvancedUrl() ?>',
                     selectedOption: '<?php echo ($this->getFormData('type_id') ? $this->getFormData('type_id') : null); ?>'
                 });
-            });
+            }));
     })(jQuery);
 </script>
 

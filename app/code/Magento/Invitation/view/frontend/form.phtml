@@ -48,7 +48,7 @@
                 "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
                 "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
-                function() {
+                head.ready(function () {
                     /**
                      * All input fields have the same name attribute 'email[]',
                      * by default jQuery validate only validate the first input field.
@@ -63,7 +63,7 @@
                         return this.valid();
                     }});
                     $('#invitationForm').validation({});
-                });
+                }));
         })(jQuery);
     </script>
 <?php else:?>

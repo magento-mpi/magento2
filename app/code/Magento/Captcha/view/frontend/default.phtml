@@ -27,12 +27,12 @@
                 </div>
                 <script type="text/javascript">//<![CDATA[
                 (function ($) {
-                    head.js("<?php echo $this->getViewFileUrl('Magento_Captcha::captcha.js') ?>",function() {
+                    head.js("<?php echo $this->getViewFileUrl('Magento_Captcha::captcha.js') ?>", head.ready(function () {
                         $('#captcha-container-<?php echo $this->getFormId()?>').captcha({
                             url: '<?php echo $this->getRefreshUrl()?>',
                             type: '<?php echo $this->getFormId() ?>'
                         });
-                    });
+                    }));
                 })(jQuery);
                 //]]></script>
             </div>

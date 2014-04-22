@@ -84,12 +84,12 @@ $product = $this->getSaleableItem();
     <?php if ($msrpShowOnGesture):?>
         <script type="text/javascript">
             (function($) {
-                head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/tier-price.js') ?>", function () {
+                head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/tier-price.js') ?>", head.ready(function () {
                     $('.product.info.main').tierPrice({
                         inputQty: '#qty',
                         productForm: '#product_addtocart_form'
                     });
-                });
+                }));
             })(jQuery);
         </script>
     <?php endif;?>

@@ -17,7 +17,7 @@
     <?php $selectedGrAddressesIndexes = $this->getGiftregistrySelectedAddressesIndexes(); ?>
     <?php $selectedGrAddressesIndexesJson = '[' . implode(',', $selectedGrAddressesIndexes) . ']'; ?>
     (function($) {
-        head.js("<?php echo $this->getViewFileUrl('Magento_GiftRegistry::address-option.js') ?>", function() {
+        head.js("<?php echo $this->getViewFileUrl('Magento_GiftRegistry::address-option.js') ?>", head.ready(function () {
             var registryItems = [];
             <?php foreach ($this->getItems() as $itemId => $registryItem): ?>
                 registryItems.push({"item": <?php echo $itemId ?>, "address": <?php echo $registryItem['item_id'] ?>});
@@ -27,7 +27,7 @@
                 addressItemPrefix: '<?php echo $this->getAddressIdPrefix(); ?>',
                 selectedAddressIndices: <?php echo $selectedGrAddressesIndexesJson ?>
             });
-        });
+        }));
     })(jQuery);
 </script>
 <?php endif; ?>

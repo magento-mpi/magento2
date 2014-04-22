@@ -23,14 +23,12 @@
     </div>
 </div>
 <script type="text/javascript">
-    head.js(
-        "<?php echo $this->getViewFileUrl('Magento_Customer::js/checkout-balance.js') ?>",
-        function() {
-            jQuery('#use-customer-balance').checkoutBalance({
-                amountSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
-                usedAmount: <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>,
-                balance: <?php echo (float)$this->getBalance(); ?>
-            });
+    head.js("<?php echo $this->getViewFileUrl('Magento_Customer::js/checkout-balance.js') ?>", head.ready(function () {
+        jQuery('#use-customer-balance').checkoutBalance({
+            amountSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
+            usedAmount: <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>,
+            balance: <?php echo (float)$this->getBalance(); ?>
         });
+    }));
 </script>
 <?php endif; ?>
