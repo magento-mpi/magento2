@@ -29,7 +29,7 @@ class AdditionalTest extends \PHPUnit_Framework_TestCase
     protected $_customerSession;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
