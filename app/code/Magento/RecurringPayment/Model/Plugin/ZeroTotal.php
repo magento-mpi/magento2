@@ -8,7 +8,7 @@
 namespace Magento\RecurringPayment\Model\Plugin;
 
 use Magento\Sales\Model\Quote;
-use Magento\Payment\Model\Method\AbstractMethod;
+use Magento\Payment\Model\MethodInterface;
 use Magento\RecurringPayment\Model\Method\RecurringPaymentSpecification;
 
 /**
@@ -38,7 +38,7 @@ class ZeroTotal
     /**
      * @param \Magento\Payment\Model\Checks\ZeroTotal $subject
      * @param callable $proceed
-     * @param AbstractMethod $paymentMethod
+     * @param MethodInterface $paymentMethod
      * @param Quote $quote
      * @return bool
      *
@@ -47,7 +47,7 @@ class ZeroTotal
     public function aroundIsApplicable(
         \Magento\Payment\Model\Checks\ZeroTotal $subject,
         \Closure $proceed,
-        AbstractMethod $paymentMethod,
+        MethodInterface $paymentMethod,
         Quote $quote
     ) {
         return $proceed(
