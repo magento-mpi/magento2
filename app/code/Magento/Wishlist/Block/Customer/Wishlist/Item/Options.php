@@ -12,6 +12,8 @@ namespace Magento\Wishlist\Block\Customer\Wishlist\Item;
 
 /**
  * Wishlist block customer items
+ *
+ * @method \Magento\Wishlist\Model\Item getItem()
  */
 class Options extends \Magento\Wishlist\Block\AbstractBlock
 {

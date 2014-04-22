@@ -114,14 +114,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $this->assertGreaterThan(0, $this->_block->getMinimalQty($this->_product));
     }
 
-    public function testGetPriceHtml()
-    {
-        $this->_block->setLayout(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-        );
-        $this->assertContains('10', $this->_block->getPriceHtml($this->_product));
-    }
-
     public function testGetReviewsSummaryHtml()
     {
         $this->_block->setLayout(

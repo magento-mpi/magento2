@@ -36,6 +36,10 @@
                     <item name="custom_option_price" xsi:type="array">
                         <item name="amount_render_template" xsi:type="string">Magento_Catalog::product/price/amount/option.phtml</item>
                     </item>
+                    <item name="configured_price" xsi:type="array">
+                        <item name="render_class" xsi:type="string">Magento\Catalog\Pricing\Render\ConfiguredPriceBox</item>
+                        <item name="render_template" xsi:type="string">Magento_Catalog::product/price/configured_price.phtml</item>
+                    </item>
                 </item>
                 <!--<item name="adjustments" xsi:type="array"></item>-->
             </argument>

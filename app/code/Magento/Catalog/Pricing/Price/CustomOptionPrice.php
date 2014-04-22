@@ -11,6 +11,7 @@ namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price;
 use Magento\Catalog\Model\Product\Option\Value;
+use Magento\Pricing\Price\AbstractPrice;
 
 /**
  * Class OptionPrice
@@ -30,11 +31,47 @@ class CustomOptionPrice extends AbstractPrice implements CustomOptionPriceInterf
     protected $priceOptions;
 
     /**
-     * Get Value
+     * Get minimal optoin item values
      *
      * @return bool|float
      */
     public function getValue()
+    {
+        $requiredMinimalOptions = [];
+        $options = $this->product->getOptions();
+        if ($options) {
+            /** @var $optionItem \Magento\Catalog\Model\Product\Option */
+            foreach ($options as $optionItem) {
+                if (!$optionItem->getIsRequire()) {
+                    continue;
+                }
+                $min = 0.;
+                /** @var $optionValue \Magento\Catalog\Model\Product\Option\Value */
+                foreach ($optionItem->getValues() as $optionValue) {
+                    $price = $optionValue->getPrice($optionValue->getPriceType() == Value::TYPE_PERCENT);
+                    if (!$min) {
+                        $min = $price;
+                    }
+                    if ($price < $min) {
+                        $min = $price;
+                    }
+                }
+                $requiredMinimalOptions[] = [
+                    'option_id' => $optionItem->getId(),
+                    'type' => $optionItem->getType(),
+                    'min' => $min
+                ];
+            }
+        }
+        return $requiredMinimalOptions;
+    }
+
+    /**
+     * Return price for select custom options
+     *
+     * @return float
+     */
+    public function getSelectedOptions()
     {
         if (null !== $this->value) {
             return $this->value;
@@ -100,7 +137,7 @@ class CustomOptionPrice extends AbstractPrice implements CustomOptionPriceInterf
                     $price = $optionValue->getPrice($optionValue->getPriceType() == Value::TYPE_PERCENT);
                     $this->priceOptions[$optionValue->getId()][$price] = [
                         'base_amount' => $price,
-                        'adjustment' => $this->getAmount()->getValue()
+                        'adjustment' => $this->getCustomAmount($price)->getValue()
                     ];
                 }
             }

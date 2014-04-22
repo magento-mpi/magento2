@@ -22,7 +22,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
-        $this->_model = new \Magento\View\Layout\File(__FILE__, 'Fixture_TestModule', $this->_theme);
+        $this->_model = new \Magento\View\Layout\File(__FILE__, 'Fixture_TestModule', $this->_theme, true);
     }
 
     public function testGetFilename()
@@ -49,7 +49,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         $this->_theme->expects($this->once())->method('getFullPath')->will($this->returnValue('theme_name'));
         $this->assertSame(
-            'theme:theme_name|module:Fixture_TestModule|file:FileTest.php',
+            'base|theme:theme_name|module:Fixture_TestModule|file:FileTest.php',
             $this->_model->getFileIdentifier()
         );
     }

@@ -13,6 +13,7 @@ namespace Magento\Catalog\Pricing\Price;
 use Magento\Pricing\Adjustment\CalculatorInterface;
 use \Magento\Catalog\Model\Product;
 use Magento\Customer\Model\Session;
+use Magento\Pricing\Price\AbstractPrice;
 use Magento\Pricing\Price\BasePriceProviderInterface;
 
 /**

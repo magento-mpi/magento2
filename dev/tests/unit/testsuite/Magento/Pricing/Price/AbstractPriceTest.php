@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Pricing\Price;
+namespace Magento\Pricing\Price;
 
 /**
  * Class RegularPriceTest
@@ -14,27 +14,27 @@ namespace Magento\Catalog\Pricing\Price;
 class AbstractPriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Pricing\Price\RegularPrice
+     * @var AbstractPrice
      */
     protected $price;
 
     /**
-     * @var \Magento\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Pricing\PriceInfoInterface |\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceInfoMock;
 
     /**
-     * @var \Magento\Pricing\Amount\Base|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Pricing\Amount\Base |\PHPUnit_Framework_MockObject_MockObject
      */
     protected $amountMock;
 
     /**
-     * @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Pricing\Object\SaleableInterface |\PHPUnit_Framework_MockObject_MockObject
      */
     protected $saleableItemMock;
 
     /**
-     * @var \Magento\Pricing\Adjustment\Calculator
+     * @var \Magento\Pricing\Adjustment\Calculator |\PHPUnit_Framework_MockObject_MockObject
      */
     protected $calculatorMock;
 
@@ -54,7 +54,7 @@ class AbstractPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->priceInfoMock));
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->price = $objectManager->getObject(
-            'Magento\Catalog\Pricing\Price\Stub',
+            'Magento\Pricing\Price\Stub',
             [
                 'saleableItem' => $this->saleableItemMock,
                 'quantity' => $qty,
@@ -83,5 +83,29 @@ class AbstractPriceTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceCode()
     {
         $this->assertEquals(AbstractPrice::PRICE_CODE, $this->price->getPriceCode());
+    }
+
+    public function testGetCustomAmount()
+    {
+        $exclude = false;
+        $amount = 21.0;
+        $customAmount = 42.0;
+        $this->calculatorMock->expects($this->once())
+            ->method('getAmount')
+            ->with($amount, $this->saleableItemMock, $exclude)
+            ->will($this->returnValue($customAmount));
+
+        $this->assertEquals($customAmount, $this->price->getCustomAmount($amount, $exclude));
+    }
+
+    public function testGetCustomAmountDefault()
+    {
+        $customAmount = 42.0;
+        $this->calculatorMock->expects($this->once())
+            ->method('getAmount')
+            ->with($this->price->getValue(), $this->saleableItemMock, null)
+            ->will($this->returnValue($customAmount));
+
+        $this->assertEquals($customAmount, $this->price->getCustomAmount());
     }
 }

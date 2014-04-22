@@ -139,21 +139,20 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceType()
     {
         $priceCode = 'test_price';
-        $quantity = 1.;
 
         $price = $this->getMock('Magento\Pricing\Price\PriceInterface');
 
         $priceInfo = $this->getMock('Magento\Pricing\PriceInfoInterface');
         $priceInfo->expects($this->once())
             ->method('getPrice')
-            ->with($priceCode, $quantity)
+            ->with($priceCode)
             ->will($this->returnValue($price));
 
         $this->saleable->expects($this->once())
             ->method('getPriceInfo')
             ->will($this->returnValue($priceInfo));
 
-        $this->assertEquals($price, $this->model->getPriceType($priceCode, $quantity));
+        $this->assertEquals($price, $this->model->getPriceType($priceCode));
     }
 
     public function testRenderAmount()
@@ -226,5 +225,10 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
             ['', '', 'default_prefix', 'default_suffix'],
             ['prefix', 'suffix', '', '']
         ];
+    }
+
+    public function testGetRendererPool()
+    {
+        $this->assertEquals($this->rendererPool, $this->model->getRendererPool());
     }
 }

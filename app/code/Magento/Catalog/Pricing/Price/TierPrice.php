@@ -12,6 +12,7 @@ use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Customer\Model\Group;
 use Magento\Customer\Model\Session;
+use Magento\Pricing\Price\AbstractPrice;
 use Magento\Pricing\PriceInfoInterface;
 use Magento\Pricing\Amount\AmountInterface;
 use Magento\Pricing\Price\BasePriceProviderInterface;

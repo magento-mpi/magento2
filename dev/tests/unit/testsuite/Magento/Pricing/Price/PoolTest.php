@@ -77,12 +77,28 @@ class PoolTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test abilities of ArrayAccess method
+     * Test abilities of ArrayAccess interface
      */
     public function testArrayAccess()
     {
         $this->assertEquals('RegularPrice', $this->pool['regular_price']);
         $this->assertEquals('SpecialPrice', $this->pool['special_price']);
         $this->assertEquals('TargetGroupPrice', $this->pool['group_price']);
+        $this->pool['fake_price'] = 'FakePrice';
+        $this->assertEquals('FakePrice', $this->pool['fake_price']);
+        $this->assertTrue(isset($this->pool['fake_price']));
+        unset($this->pool['fake_price']);
+        $this->assertFalse(isset($this->pool['fake_price']));
+        $this->assertNull($this->pool['fake_price']);
+    }
+
+    /**
+     * Test abilities of Iterator interface
+     */
+    public function testIterator()
+    {
+        foreach ($this->pool as $code => $class) {
+            $this->assertEquals($this->pool[$code], $class);
+        }
     }
 }

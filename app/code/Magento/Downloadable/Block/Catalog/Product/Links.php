@@ -9,6 +9,8 @@
  */
 namespace Magento\Downloadable\Block\Catalog\Product;
 
+use Magento\Catalog\Pricing\Price\FinalPrice;
+use Magento\Catalog\Pricing\Price\RegularPrice;
 use Magento\Downloadable\Model\Link;
 use Magento\Customer\Controller\RegistryConstants;
 
@@ -18,10 +20,6 @@ use Magento\Customer\Controller\RegistryConstants;
  */
 class Links extends \Magento\Catalog\Block\Product\AbstractProduct
 {
-    /**
-     * @var \Magento\Tax\Model\Calculation
-     */
-    protected $calculationModel;
 
     /**
      * @var \Magento\Json\EncoderInterface
@@ -40,7 +38,6 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\Tax\Model\Calculation $calculationModel
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
@@ -48,13 +45,11 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Tax\Model\Calculation $calculationModel,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService,
         array $data = array()
     ) {
-        $this->calculationModel = $calculationModel;
         $this->jsonEncoder = $jsonEncoder;
         $this->coreData = $coreData;
         $this->accountService = $accountService;
@@ -100,48 +95,6 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
     }
 
     /**
-     * @param Link $link
-     * @return string
-     */
-    public function getFormattedLinkPrice($link)
-    {
-        $price = $link->getPrice();
-        $store = $this->getProduct()->getStore();
-
-        if (0 == $price) {
-            return '';
-        }
-
-        if (!$this->calculationModel->getCustomerData()->getId()
-            && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
-        ) {
-            $customer = $this->accountService
-                ->getCustomer($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
-            $this->calculationModel->setCustomerData($customer);
-        }
-
-        $taxHelper = $this->_taxData;
-        $coreHelper = $this->coreData;
-        $_priceInclTax = $taxHelper->getPrice($link->getProduct(), $price, true);
-        $_priceExclTax = $taxHelper->getPrice($link->getProduct(), $price);
-
-        $priceStr = '<span class="price-notice">+';
-        if ($taxHelper->displayPriceIncludingTax()) {
-            $priceStr .= $coreHelper->currencyByStore($_priceInclTax, $store);
-        } elseif ($taxHelper->displayPriceExcludingTax()) {
-            $priceStr .= $coreHelper->currencyByStore($_priceExclTax, $store);
-        } elseif ($taxHelper->displayBothPrices()) {
-            $priceStr .= $coreHelper->currencyByStore($_priceExclTax, $store);
-            if ($_priceInclTax != $_priceExclTax) {
-                $priceStr .= ' (+' . $coreHelper->currencyByStore($_priceInclTax, $store) . ' ' . __('Incl. Tax') . ')';
-            }
-        }
-        $priceStr .= '</span>';
-
-        return $priceStr;
-    }
-
-    /**
      * Returns price converted to current currency rate
      *
      * @param float $price
@@ -158,14 +111,28 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getJsonConfig()
     {
-        $config = array();
+        $productRegularPrice = $this->getProduct()->getPriceInfo()->getPrice(RegularPrice::PRICE_CODE);
+        $productFinalPrice = $this->getProduct()->getPriceInfo()->getPrice(FinalPrice::PRICE_CODE);
+        $config = [
+            'price' => $this->coreData->currency(
+                $productFinalPrice->getAmount()->getValue(),
+                false,
+                false
+            ),
+            'oldPrice' => $this->coreData->currency(
+                $productRegularPrice->getValue(),
+                false,
+                false
+            )
+        ];
 
         $priceModel = $this->getProduct()->getPriceInfo()->getPrice('final_price');
 
         foreach ($this->getLinks() as $link) {
             $amount = $priceModel->getCustomAmount($link->getPrice());
-            $config[$link->getId()] = [
+            $config['links'][$link->getId()] = [
                 'price' => $this->coreData->currency($link->getPrice(), false, false),
+                'oldPrice' => $this->coreData->currency($link->getPrice(), false, false),
                 'inclTaxPrice' => $this->coreData->currency(
                     $amount->getValue(),
                     false,
@@ -186,7 +153,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param Link $link
      * @return string
      */
-    public function getLinkSamlpeUrl($link)
+    public function getLinkSampleUrl($link)
     {
         $store = $this->getProduct()->getStore();
         return $store->getUrl('downloadable/download/linkSample', array('link_id' => $link->getId()));

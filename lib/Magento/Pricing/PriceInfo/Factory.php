@@ -77,7 +77,8 @@ class Factory
             $arguments['quantity'] = $quantity;
         }
 
-        $arguments['prices'] = $this->objectManager->create($priceCollection,
+        $arguments['prices'] = $this->objectManager->create(
+            $priceCollection,
             [
                 'saleableItem' => $arguments['saleableItem'],
                 'quantity' => $quantity

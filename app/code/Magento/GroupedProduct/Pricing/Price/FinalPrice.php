@@ -10,7 +10,7 @@
 
 namespace Magento\GroupedProduct\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price\AbstractPrice;
+use Magento\Pricing\Price\AbstractPrice;
 use Magento\Catalog\Model\Product;
 use Magento\GroupedProduct\Model\Product\Type\Grouped;
 
