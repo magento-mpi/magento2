@@ -327,7 +327,7 @@ class Account extends GenericMetadata
                         $websites
                     ) .
                     ";\n                jQuery.validator.addMethod('validate-website-has-store', function(v, elem)" .
-                    "{\n                        return {$prefix}_websites[elem.value] == true;\n                    }," .
+                    "{\n                       return {$prefix}_websites[elem.value] == true;\n                    }," .
                     "\n                    '" .
                     $note .
                     "'\n                );\n                " .

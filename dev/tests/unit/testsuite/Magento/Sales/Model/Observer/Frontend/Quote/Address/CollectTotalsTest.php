@@ -420,8 +420,6 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->customerDataMock)
         );
-
-        /** SUT execution */
         $this->model->dispatch($this->observerMock);
     }
 }
