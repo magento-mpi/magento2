@@ -32,8 +32,10 @@ class Factory
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Search\Model\Solr\State $solrState
      */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager, \Magento\Search\Model\Solr\State $solrState)
-    {
+    public function __construct(
+        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Search\Model\Solr\State $solrState
+    ) {
         $this->_objectManager = $objectManager;
         $this->_solrState = $solrState;
     }

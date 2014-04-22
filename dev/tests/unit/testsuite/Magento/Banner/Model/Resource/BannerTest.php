@@ -77,7 +77,13 @@ class BannerTest extends \PHPUnit_Framework_TestCase
             $this->returnValueMap(array(array('core_write', $writeAdapter), array('core_read', $this->_readAdapter)))
         );
 
-        $this->_eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array('dispatch'), array(), '', false);
+        $this->_eventManager = $this->getMock(
+            'Magento\Framework\Event\ManagerInterface',
+            array('dispatch'),
+            array(),
+            '',
+            false
+        );
 
         $this->_bannerConfig = $this->getMock(
             'Magento\Banner\Model\Config',

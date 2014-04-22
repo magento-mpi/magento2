@@ -7,6 +7,8 @@
  */
 namespace Magento\Checkout\Helper;
 
+use Magento\Store\Model\ScopeInterface;
+
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -35,59 +37,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
         $context = $this->getMock('\Magento\Framework\App\Helper\Context', array(), array(), '', false);
 
-        $scopeConfig = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
-        $scopeConfig->expects(
-            $this->any()
-        )->method(
-            'getValue'
-        )->will(
-            $this->returnValueMap(
-                array(
-                    array(
-                        'checkout/payment_failed/template',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        8,
-                        'fixture_email_template_payment_failed'
-                    ),
-                    array(
-                        'checkout/payment_failed/receiver',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        8,
-                        'sysadmin'
-                    ),
-                    array(
-                        'trans_email/ident_sysadmin/email',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        8,
-                        'sysadmin@example.com'
-                    ),
-                    array(
-                        'trans_email/ident_sysadmin/name',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        8,
-                        'System Administrator'
-                    ),
-                    array(
-                        'checkout/payment_failed/identity',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        8,
-                        'noreply@example.com'
-                    ),
-                    array(
-                        'carriers/ground/title',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        null,
-                        'Ground Shipping'
-                    ),
-                    array(
-                        'payment/fixture-payment-method/title',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        null,
-                        'Check Money Order'
-                    )
-                )
-            )
-        );
+        $scopeConfig = $this->getScopeConfigMock();
 
         $storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
 
@@ -240,5 +190,64 @@ class DataTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->assertSame($this->_helper, $this->_helper->sendPaymentFailedEmail($quote, 'test message'));
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getScopeConfigMock()
+    {
+        $scopeConfig = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
+        $scopeConfig->expects($this->any())
+            ->method('getValue')
+            ->will(
+                $this->returnValueMap(
+                    array(
+                        array(
+                            'checkout/payment_failed/template',
+                            ScopeInterface::SCOPE_STORE,
+                            8,
+                            'fixture_email_template_payment_failed'
+                        ),
+                        array(
+                            'checkout/payment_failed/receiver',
+                            ScopeInterface::SCOPE_STORE,
+                            8,
+                            'sysadmin'
+                        ),
+                        array(
+                            'trans_email/ident_sysadmin/email',
+                            ScopeInterface::SCOPE_STORE,
+                            8,
+                            'sysadmin@example.com'
+                        ),
+                        array(
+                            'trans_email/ident_sysadmin/name',
+                            ScopeInterface::SCOPE_STORE,
+                            8,
+                            'System Administrator'
+                        ),
+                        array(
+                            'checkout/payment_failed/identity',
+                            ScopeInterface::SCOPE_STORE,
+                            8,
+                            'noreply@example.com'
+                        ),
+                        array(
+                            'carriers/ground/title',
+                            ScopeInterface::SCOPE_STORE,
+                            null,
+                            'Ground Shipping'
+                        ),
+                        array(
+                            'payment/fixture-payment-method/title',
+                            ScopeInterface::SCOPE_STORE,
+                            null,
+                            'Check Money Order'
+                        )
+                    )
+                )
+            );
+        return $scopeConfig;
     }
 }

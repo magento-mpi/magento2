@@ -54,13 +54,9 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $total1->expects($this->once())->method('setOrder')->with($order)->will($this->returnSelf());
         $total1->expects($this->once())->method('setSource')->with($source)->will($this->returnSelf());
         $total1->expects($this->once())->method('canDisplay')->will($this->returnValue(true));
-        $total1->expects(
-            $this->once()
-        )->method(
-            'getTotalsForDisplay'
-        )->will(
-            $this->returnValue(array(array('label' => 'label1', 'font_size' => 1, 'amount' => '$1')))
-        );
+        $total1->expects($this->once())
+            ->method('getTotalsForDisplay')
+            ->will($this->returnValue(array(array('label' => 'label1', 'font_size' => 1, 'amount' => '$1'))));
 
         $total2 = $this->getMock(
             'Magento\Sales\Model\Order\Pdf\Total\DefaultTotal',
@@ -72,13 +68,9 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $total2->expects($this->once())->method('setOrder')->with($order)->will($this->returnSelf());
         $total2->expects($this->once())->method('setSource')->with($source)->will($this->returnSelf());
         $total2->expects($this->once())->method('canDisplay')->will($this->returnValue(true));
-        $total2->expects(
-            $this->once()
-        )->method(
-            'getTotalsForDisplay'
-        )->will(
-            $this->returnValue(array(array('label' => 'label2', 'font_size' => 2, 'amount' => '$2')))
-        );
+        $total2->expects($this->once())
+            ->method('getTotalsForDisplay')
+            ->will($this->returnValue(array(array('label' => 'label2', 'font_size' => 2, 'amount' => '$2'))));
 
         $valueMap = array(array(null, array(), $total1), array('custom_class', array(), $total2));
         $pdfTotalFactory = $this->getMock('Magento\Sales\Model\Order\Pdf\Total\Factory', array(), array(), '', false);

@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\RecurringPayment\Model;
+
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 /**
