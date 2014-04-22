@@ -66,7 +66,7 @@ interface CustomerAccountServiceInterface
      * @throws \Magento\Exception\InputException If bad input is provided
      * @throws \Magento\Exception\StateException If the provided email is already used
      */
-    public function createAccountWithPasswordHash(
+    public function createCustomerWithPasswordHash(
         \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
         $hash,
         $redirectUrl = ''

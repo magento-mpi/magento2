@@ -193,7 +193,7 @@ class Quote
             if ($customerData->getId()) {
                 $this->_customerAccountService->updateCustomer($customerDetails);
             } else { //for new customers
-                $customerData = $this->_customerAccountService->createAccountWithPasswordHash(
+                $customerData = $this->_customerAccountService->createCustomerWithPasswordHash(
                     $customerDetails,
                     $quote->getPasswordHash()
                 );
