@@ -57,7 +57,6 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
         return $this->getAmount();
     }
 
-
     /**
      * @return \Magento\Pricing\Amount\AmountInterface
      */

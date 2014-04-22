@@ -10,6 +10,7 @@ namespace Magento\Bundle\Pricing\Price;
 use Magento\Pricing\Price\AbstractPrice;
 use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
 use Magento\Catalog\Model\Product;
+use Magento\Bundle\Pricing\BundleOptionService;
 
 /**
  * Bundle option price model
@@ -22,14 +23,14 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
     const PRICE_CODE = 'bundle_option';
 
     /**
-     * @var array
+     * @var BundleCalculatorInterface
      */
-    protected $priceOptions;
+    protected $calculator;
 
     /**
-     * @var BundleSelectionFactory
+     * @var \Magento\Bundle\Pricing\BundleOptionService
      */
-    protected $selectionFactory;
+    protected $optionService;
 
     /**
      * @var float|bool|null
@@ -40,15 +41,15 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
      * @param Product $saleableItem
      * @param float $quantity
      * @param BundleCalculatorInterface $calculator
-     * @param BundleSelectionFactory $bundleSelectionFactory
+     * @param BundleOptionService $optionService
      */
     public function __construct(
         Product $saleableItem,
         $quantity,
         BundleCalculatorInterface $calculator,
-        BundleSelectionFactory $bundleSelectionFactory
+        BundleOptionService $optionService
     ) {
-        $this->selectionFactory = $bundleSelectionFactory;
+        $this->optionService = $optionService;
         parent::__construct($saleableItem, $quantity, $calculator);
         $this->product->setQty($this->quantity);
     }
@@ -84,23 +85,21 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
      */
     public function getOptions()
     {
-        if (null !== $this->priceOptions) {
-            return $this->priceOptions;
-        }
+        $bundleProduct = $this->product;
         /** @var \Magento\Bundle\Model\Product\Type $typeInstance */
-        $typeInstance = $this->product->getTypeInstance();
-        $typeInstance->setStoreFilter($this->product->getStoreId(), $this->product);
+        $typeInstance = $bundleProduct->getTypeInstance();
+        $typeInstance->setStoreFilter($bundleProduct->getStoreId(), $bundleProduct);
 
         /** @var \Magento\Bundle\Model\Resource\Option\Collection $optionCollection */
-        $optionCollection = $typeInstance->getOptionsCollection($this->product);
+        $optionCollection = $typeInstance->getOptionsCollection($bundleProduct);
 
         $selectionCollection = $typeInstance->getSelectionsCollection(
-            $typeInstance->getOptionsIds($this->product),
-            $this->product
+            $typeInstance->getOptionsIds($bundleProduct),
+            $bundleProduct
         );
 
-        $this->priceOptions = $optionCollection->appendSelections($selectionCollection, false, false);
-        return $this->priceOptions;
+        $priceOptions = $optionCollection->appendSelections($selectionCollection, false, false);
+        return $priceOptions;
     }
 
     /**
@@ -109,16 +108,7 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
      */
     public function getOptionSelectionAmount($selection)
     {
-        return $this->createSelection($selection)->getAmount();
-    }
-
-    /**
-     * @param \Magento\Bundle\Model\Selection $selection
-     * @return \Magento\Bundle\Pricing\Price\BundleSelectionPrice
-     */
-    protected function createSelection($selection)
-    {
-        return $this->selectionFactory->create($this->product, $selection, $selection->getSelectionQty());
+        return $this->optionService->createSelectionAmount($selection, $this->product);
     }
 
     /**
@@ -134,7 +124,13 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
             if (!$option->getSelections()) {
                 continue;
             }
-            $amountList = array_merge($amountList, $this->processOptions($option, $searchMin));
+            if ($option->getSelections() && !($searchMin && !$option->getRequired())) {
+                $selectionAmountList = $this->optionService->createSelectionAmountList($this->product, $option, true);
+                $amountList = array_merge(
+                    $amountList,
+                    $this->optionService->processOptions($option, $selectionAmountList, $searchMin)
+                );
+            }
         }
         if (!empty($amountList)) {
             $price = 0.;
@@ -143,36 +139,6 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
             }
         }
         return $price;
-    }
-
-    /**
-     * @param \Magento\Bundle\Model\Option $option
-     * @param bool $searchMin
-     * @return \Magento\Pricing\Amount\AmountInterface[]
-     */
-    protected function processOptions($option, $searchMin = true)
-    {
-        $result = [];
-        foreach ($option->getSelections() as $selection) {
-            /* @var $selection \Magento\Bundle\Model\Selection */
-            if (!$selection->isSalable() || ($searchMin && !$option->getRequired())) {
-                // @todo CatalogInventory Show out of stock Products
-                continue;
-            }
-            $current = $this->createSelection($selection);
-            if (empty($result)) {
-                $result = [$current];
-                continue;
-            }
-            if ($searchMin && end($result)->getValue() > $current->getValue()) {
-                $result = [$current];
-            } elseif (!$searchMin && $option->isMultiSelection()) {
-                $result[] = $current;
-            } elseif (!$searchMin && !$option->isMultiSelection() && end($result)->getValue() < $current->getValue()) {
-                $result = [$current];
-            }
-        }
-        return $result;
     }
 
     /**
