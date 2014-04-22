@@ -13,6 +13,6 @@ $customerGroupBuilder = (new Magento\Customer\Service\V1\Data\CustomerGroupBuild
     'custom_group'
 )->setTaxClassId(
     3
-)->setId(2);
+);
 $customerGroup = new Magento\Customer\Service\V1\Data\CustomerGroup($customerGroupBuilder);
 $customerGroupService->saveGroup($customerGroup);

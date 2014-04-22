@@ -165,9 +165,16 @@ class Group extends \Magento\Backend\App\Action
                 } else {
                     $this->messageManager->addError($e->getMessage());
                 }
-                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));               return;
+                if ($customerGroup != null) {
+                    $this->storeCustomerGroupDataToSession($customerGroup);
+                }
+                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
+                return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
+                if ($customerGroup != null) {
+                    $this->storeCustomerGroupDataToSession($customerGroup);
+                }
                 $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
                 return;
             }
@@ -211,5 +218,20 @@ class Group extends \Magento\Backend\App\Action
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Customer::group');
+    }
+
+    /**
+     * Store Customer Group Data to session
+     *
+     * @param $customerGroup
+     */
+    protected function storeCustomerGroupDataToSession($customerGroup)
+    {
+        $customerGroupData = $customerGroup->__toArray();
+        if (array_key_exists('code', $customerGroupData)) {
+            $customerGroupData['customer_group_code'] = $customerGroupData['code'];
+            unset($customerGroupData['code']);
+        }
+        $this->_getSession()->setCustomerGroupData($customerGroupData);
     }
 }
