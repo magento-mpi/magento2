@@ -21,16 +21,6 @@ class WrappedErrorParameter extends \Magento\Service\Data\AbstractObject
     }
 
     /**
-     * Get code.
-     *
-     * @return string $code
-     */
-    public function getCode()
-    {
-        return $this->_data['code'];
-    }
-
-    /**
      * Get value.
      *
      * @return string $value
