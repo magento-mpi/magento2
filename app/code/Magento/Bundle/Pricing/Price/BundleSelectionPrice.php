@@ -15,11 +15,12 @@ use Magento\Bundle\Model\Product\Price;
 use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Event\ManagerInterface;
 use Magento\Pricing\Object\SaleableInterface;
+use Magento\Pricing\Price\AbstractPrice;
 
 /**
  * Bundle option price
  */
-class BundleSelectionPrice extends CatalogPrice\AbstractPrice
+class BundleSelectionPrice extends AbstractPrice
 {
     /**
      * Price model code

@@ -10,7 +10,7 @@
 
 namespace Magento\CatalogRule\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price\AbstractPrice;
+use Magento\Pricing\Price\AbstractPrice;
 use Magento\Pricing\Adjustment\Calculator;
 use Magento\Catalog\Model\Product;
 use Magento\Stdlib\DateTime\TimezoneInterface;

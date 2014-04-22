@@ -10,6 +10,8 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
+use Magento\Pricing\Price\AbstractPrice;
+
 /**
  * Class BasePrice
  */

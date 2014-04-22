@@ -7,7 +7,7 @@
  */
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price\AbstractPrice;
+use Magento\Pricing\Price\AbstractPrice;
 use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
 use Magento\Catalog\Model\Product;
 

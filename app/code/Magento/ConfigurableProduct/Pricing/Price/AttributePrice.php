@@ -9,7 +9,7 @@
 namespace Magento\ConfigurableProduct\Pricing\Price;
 
 use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute;
-use Magento\Catalog\Pricing\Price\AbstractPrice;
+use Magento\Pricing\Price\AbstractPrice;
 use Magento\ConfigurableProduct\Block\Product\View;
 use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Catalog\Model\Product;
