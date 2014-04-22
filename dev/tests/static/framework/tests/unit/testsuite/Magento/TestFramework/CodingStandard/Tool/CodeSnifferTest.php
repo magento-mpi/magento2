@@ -52,7 +52,7 @@ class CodeSnifferTest extends \PHPUnit_Framework_TestCase
 
         $expectedCliEmulation = array(
             'files' => $whiteList,
-            'standard' => self::RULE_SET,
+            'standard' => [self::RULE_SET],
             'ignored' => $blackList,
             'extensions' => $extensions,
             'reportFile' => self::REPORT_FILE,

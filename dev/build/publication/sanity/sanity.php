@@ -9,7 +9,7 @@
  * @license    {license_link}
  */
 require __DIR__ . '/../../../../app/autoload.php';
-\Magento\Autoload\IncludePath::addIncludePath(array(
+(new \Magento\Autoload\IncludePath())->addIncludePath(array(
     __DIR__,
     realpath(__DIR__ . '/../../../tests/static/framework')
 ));

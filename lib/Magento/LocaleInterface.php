@@ -36,7 +36,7 @@ interface LocaleInterface
      *
      * @return array Returns an array of all locale string
      */
-    public static function getDefault();
+    public function getDefault();
 
     /**
      * Sets a new default locale which will be used when no locale can be detected
@@ -50,7 +50,7 @@ interface LocaleInterface
      * @throws \Zend_Locale_Exception When a unknown locale was given
      * @return void
      */
-    public static function setDefault($locale, $quality = 1);
+    public function setDefault($locale, $quality = 1);
 
     /**
      * Expects the Systems standard locale
@@ -61,7 +61,7 @@ interface LocaleInterface
      *
      * @return array
      */
-    public static function getEnvironment();
+    public function getEnvironment();
 
     /**
      * Return an array of all accepted languages of the client
@@ -72,7 +72,7 @@ interface LocaleInterface
      *
      * @return array - list of accepted languages including quality
      */
-    public static function getBrowser();
+    public function getBrowser();
 
     /**
      * Sets a new locale
@@ -101,7 +101,7 @@ interface LocaleInterface
      *
      * @return string
      */
-    public static function getHttpCharset();
+    public function getHttpCharset();
 
     /**
      * Returns true if both locales are equal
@@ -121,7 +121,7 @@ interface LocaleInterface
      * @param  string             $value  (Optional) Value for detail list
      * @return array Array with the wished information in the given language
      */
-    public static function getTranslationList($path = null, $locale = null, $value = null);
+    public function getTranslationList($path = null, $locale = null, $value = null);
 
     /**
      * Returns an array with the name of all languages translated to the given language
@@ -130,7 +130,7 @@ interface LocaleInterface
      * @return array
      * @deprecated
      */
-    public static function getLanguageTranslationList($locale = null);
+    public function getLanguageTranslationList($locale = null);
 
     /**
      * Returns an array with the name of all scripts translated to the given language
@@ -139,7 +139,7 @@ interface LocaleInterface
      * @return array
      * @deprecated
      */
-    public static function getScriptTranslationList($locale = null);
+    public function getScriptTranslationList($locale = null);
 
     /**
      * Returns an array with the name of all countries translated to the given language
@@ -148,7 +148,7 @@ interface LocaleInterface
      * @return array
      * @deprecated
      */
-    public static function getCountryTranslationList($locale = null);
+    public function getCountryTranslationList($locale = null);
 
     /**
      * Returns an array with the name of all territories translated to the given language
@@ -158,7 +158,7 @@ interface LocaleInterface
      * @return array
      * @deprecated
      */
-    public static function getTerritoryTranslationList($locale = null);
+    public function getTerritoryTranslationList($locale = null);
 
     /**
      * Returns a localized information string, supported are several types of informations.
@@ -169,7 +169,7 @@ interface LocaleInterface
      * @param  string|\Magento\LocaleInterface $locale (Optional) Locale|Language for which this informations should be returned
      * @return string|false The wished information in the given language
      */
-    public static function getTranslation($value = null, $path = null, $locale = null);
+    public function getTranslation($value = null, $path = null, $locale = null);
 
     /**
      * Returns the localized language name
@@ -179,7 +179,7 @@ interface LocaleInterface
      * @return array
      * @deprecated
      */
-    public static function getLanguageTranslation($value, $locale = null);
+    public function getLanguageTranslation($value, $locale = null);
 
     /**
      * Returns the localized script name
@@ -189,7 +189,7 @@ interface LocaleInterface
      * @return array
      * @deprecated
      */
-    public static function getScriptTranslation($value, $locale = null);
+    public function getScriptTranslation($value, $locale = null);
 
     /**
      * Returns the localized country name
@@ -199,7 +199,7 @@ interface LocaleInterface
      * @return array
      * @deprecated
      */
-    public static function getCountryTranslation($value, $locale = null);
+    public function getCountryTranslation($value, $locale = null);
 
     /**
      * Returns the localized territory name
@@ -210,7 +210,7 @@ interface LocaleInterface
      * @return array
      * @deprecated
      */
-    public static function getTerritoryTranslation($value, $locale = null);
+    public function getTerritoryTranslation($value, $locale = null);
 
     /**
      * Returns an array with translated yes strings
@@ -218,7 +218,7 @@ interface LocaleInterface
      * @param  string|\Magento\LocaleInterface $locale (Optional) Locale for language translation (defaults to $this locale)
      * @return array
      */
-    public static function getQuestion($locale = null);
+    public function getQuestion($locale = null);
 
     /**
      * Checks if a locale identifier is a real locale or not
@@ -231,7 +231,7 @@ interface LocaleInterface
      * @param  boolean            $compatible (DEPRECATED) Only for internal usage, brakes compatibility mode
      * @return boolean If the locale is known dependend on the settings
      */
-    public static function isLocale($locale, $strict = false, $compatible = true);
+    public function isLocale($locale, $strict = false, $compatible = true);
 
     /**
      * Finds the proper locale based on the input
@@ -243,7 +243,7 @@ interface LocaleInterface
      * @throws \Zend_Locale_Exception When the given locale is no locale or the autodetection fails
      * @return string
      */
-    public static function findLocale($locale = null);
+    public function findLocale($locale = null);
 
     /**
      * Returns the expected locale for a given territory
@@ -251,7 +251,7 @@ interface LocaleInterface
      * @param string $territory Territory for which the locale is being searched
      * @return string|null Locale string or null when no locale has been found
      */
-    public static function getLocaleToTerritory($territory);
+    public function getLocaleToTerritory($territory);
 
     /**
      * Returns a list of all known locales where the locale is the key
@@ -260,14 +260,14 @@ interface LocaleInterface
      *
      * @return array List of all Locales
      */
-    public static function getLocaleList();
+    public function getLocaleList();
 
     /**
      * Returns the set cache
      *
      * @return \Zend_Cache_Core The set cache
      */
-    public static function getCache();
+    public function getCache();
 
     /**
      * Sets a cache
@@ -275,21 +275,21 @@ interface LocaleInterface
      * @param  \Zend_Cache_Core $cache Cache to set
      * @return void
      */
-    public static function setCache(\Zend_Cache_Core $cache);
+    public function setCache(\Zend_Cache_Core $cache);
 
     /**
      * Returns true when a cache is set
      *
      * @return boolean
      */
-    public static function hasCache();
+    public function hasCache();
 
     /**
      * Removes any set cache
      *
      * @return void
      */
-    public static function removeCache();
+    public function removeCache();
 
     /**
      * Clears all set cache data
@@ -297,7 +297,7 @@ interface LocaleInterface
      * @param string $tag Tag to clear when the default tag name is not used
      * @return void
      */
-    public static function clearCache($tag = null);
+    public function clearCache($tag = null);
 
     /**
      * Disables the set cache
@@ -305,7 +305,7 @@ interface LocaleInterface
      * @param  boolean $flag True disables any set cache, default is false
      * @return void
      */
-    public static function disableCache($flag);
+    public function disableCache($flag);
 
     /**
      * Search the locale automatically and return all used locales
@@ -316,5 +316,5 @@ interface LocaleInterface
      * @param  string  $searchorder (Optional) Searchorder
      * @return array Returns an array of all detected locales
      */
-    public static function getOrder($order = null);
+    public function getOrder($order = null);
 }

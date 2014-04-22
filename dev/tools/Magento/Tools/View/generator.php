@@ -12,7 +12,7 @@
  */
 
 require __DIR__ . '/../../../../../app/bootstrap.php';
-\Magento\Autoload\IncludePath::addIncludePath(__DIR__ . '/../../../');
+(new \Magento\Autoload\IncludePath())->addIncludePath(__DIR__ . '/../../../');
 
 /**
  * Command line usage help

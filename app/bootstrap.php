@@ -47,7 +47,7 @@ define('BP', dirname(__DIR__));
 require_once BP . '/app/functions.php';
 
 require_once __DIR__ . '/autoload.php';
-\Magento\Autoload\IncludePath::addIncludePath(array(BP . '/app/code', BP . '/lib'));
+(new \Magento\Autoload\IncludePath())->addIncludePath(array(BP . '/app/code', BP . '/lib'));
 $classMapPath = BP . '/var/classmap.ser';
 if (file_exists($classMapPath)) {
     require_once BP . '/lib/Magento/Autoload/ClassMap.php';

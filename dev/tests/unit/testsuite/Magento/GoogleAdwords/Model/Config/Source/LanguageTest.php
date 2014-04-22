@@ -38,7 +38,8 @@ class LanguageTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_helperMock = $this->getMock('Magento\GoogleAdwords\Helper\Data', array(), array(), '', false);
-        $this->_localeMock = $this->getMock('Zend_Locale', array(), array(), '', false);
+        $this->_localeMock = $this->getMock('Magento\LocaleInterface');
+
         $this->_localeModelMock = $this->getMock('Magento\Locale\ResolverInterface', array(), array(), '', false);
         $this->_localeModelMock->expects(
             $this->once()
@@ -97,19 +98,12 @@ class LanguageTest extends \PHPUnit_Framework_TestCase
         );
 
         $localeMock = $this->_localeMock;
-        $localeMock::staticExpects(
-            $this->at(0)
-        )->method(
-            'getTranslation'
-        )->with(
-            'localeCode1',
-            'language',
-            'languageCode1'
-        )->will(
-            $this->returnValue('translationForSpecifiedLanguage1')
-        );
+        $localeMock->expects($this->at(0))
+            ->method('getTranslation')
+            ->with('localeCode1', 'language', 'languageCode1')
+            ->will($this->returnValue('translationForSpecifiedLanguage1'));
 
-        $localeMock::staticExpects(
+        $localeMock->expects(
             $this->at(1)
         )->method(
             'getTranslation'
@@ -120,7 +114,7 @@ class LanguageTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('translationForDefaultLanguage1')
         );
 
-        $localeMock::staticExpects(
+        $localeMock->expects(
             $this->at(2)
         )->method(
             'getTranslation'
@@ -132,7 +126,7 @@ class LanguageTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('translationForSpecifiedLanguage2')
         );
 
-        $localeMock::staticExpects(
+        $localeMock->expects(
             $this->at(3)
         )->method(
             'getTranslation'

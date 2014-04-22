@@ -136,14 +136,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             );
 
             if ($varnishIsEnabled) {
-                $this->_blockMock->setTtl($blockTtl);
-                $this->_blockMock->expects(
-                    $this->any()
-                )->method(
-                    'getUrl'
-                )->will(
-                    $this->returnValue('page_cache/block/wrapesi/with/handles/and/other/stuff')
-                );
+                $this->_blockMock->expects($this->once())
+                    ->method('getTtl')
+                    ->will($this->returnValue($blockTtl));
+                $this->_blockMock->expects($this->any())
+                    ->method('getUrl')
+                    ->will($this->returnValue('page_cache/block/wrapesi/with/handles/and/other/stuff'));
             }
             if ($scopeIsPrivate) {
                 $this->_blockMock->expects(

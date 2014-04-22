@@ -66,7 +66,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $this->_generationDir = $this->_tmpDir . '/generation';
         $this->_compilationDir = $this->_tmpDir . '/di';
 
-        \Magento\Autoload\IncludePath::addIncludePath(
+        (new \Magento\Autoload\IncludePath())->addIncludePath(
             array($basePath . '/app/code', $basePath . '/lib', $this->_generationDir)
         );
 

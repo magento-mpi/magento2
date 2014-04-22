@@ -57,7 +57,7 @@ try {
     exit($example);
 }
 
-\Magento\Autoload\IncludePath::addIncludePath($generationDir);
+(new \Magento\Autoload\IncludePath())->addIncludePath($generationDir);
 
 //reinit generator with correct generation path
 $io = new \Magento\Code\Generator\Io(new \Magento\Filesystem\Driver\File(), null, $generationDir);

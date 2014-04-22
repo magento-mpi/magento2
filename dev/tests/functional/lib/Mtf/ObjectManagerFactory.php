@@ -60,7 +60,7 @@ class ObjectManagerFactory
             ? $arguments[\Magento\Framework\App\Filesystem::PARAM_APP_DIRS]
             : array();
         $directoryList = new \Magento\Framework\App\Filesystem\DirectoryList(realpath(MTF_BP . '../../../../'), $directories);
-        \Magento\Autoload\IncludePath::addIncludePath(
+        (new \Magento\Autoload\IncludePath())->addIncludePath(
             array($directoryList->getDir(\Magento\Framework\App\Filesystem::GENERATION_DIR))
         );
 

@@ -58,7 +58,9 @@ class ObjectManagerFactory
         ) ? $arguments[Filesystem::PARAM_APP_DIRS] : array();
         $directoryList = new DirectoryList($rootDir, $directories);
 
-        \Magento\Autoload\IncludePath::addIncludePath(array($directoryList->getDir(Filesystem::GENERATION_DIR)));
+        (new \Magento\Autoload\IncludePath())->addIncludePath(
+            array($directoryList->getDir(Filesystem::GENERATION_DIR))
+        );
 
         $appArguments = $this->createAppArguments($directoryList, $arguments);
 
