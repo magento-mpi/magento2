@@ -287,6 +287,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
 
         $newPasswordToken = $this->mathRandom->getUniqueHash();
         $customer->changeResetPasswordLinkToken($newPasswordToken);
+        $this->url->setScope($customer->getStoreId());
         $resetUrl = $this->url->getUrl(
             'customer/account/createPassword',
             [
