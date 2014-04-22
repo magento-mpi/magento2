@@ -132,4 +132,10 @@ return [
     ['/lib/Magento/Connect', '/lib/Magento/Framework/Connect'],
     ['/dev/tests/integration/testsuite/Magento/Connect', '/dev/tests/integration/testsuite/Magento/Framework/Connect'],
     ['/dev/tests/unit/testsuite/Magento/Connect', '/dev/tests/unit/testsuite/Magento/Framework/Connect'],
+    ['/lib/Magento/Controller', '/lib/Magento/Framework/Controller'],
+    [
+        '/dev/tests/integration/testsuite/Magento/Controller',
+        '/dev/tests/integration/testsuite/Magento/Framework/Controller'
+    ],
+    ['/dev/tests/unit/testsuite/Magento/Controller', '/dev/tests/unit/testsuite/Magento/Framework/Controller'],
 ];

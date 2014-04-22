@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Controller\Router\Route;
+namespace Magento\Framework\Controller\Router\Route;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -56,7 +56,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($router));
 
-        $object = new \Magento\Controller\Router\Route\Factory($this->objectManager);
+        $object = new \Magento\Framework\Controller\Router\Route\Factory($this->objectManager);
         $expectedRouter = $object->createRoute(
             $routerClass,
             $parameterRoute,
@@ -79,7 +79,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue(new \StdClass));
 
-        $object = new \Magento\Controller\Router\Route\Factory($this->objectManager);
+        $object = new \Magento\Framework\Controller\Router\Route\Factory($this->objectManager);
         $object->createRoute(
             'routerClass',
             'router'

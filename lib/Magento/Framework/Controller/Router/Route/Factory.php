@@ -4,7 +4,7 @@
  *
  * @copyright {copyright}
  */
-namespace Magento\Controller\Router\Route;
+namespace Magento\Framework\Controller\Router\Route;
 
 class Factory
 {
