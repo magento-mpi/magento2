@@ -14,9 +14,9 @@
     <preference for="Magento\Catalog\Model\Attribute\LockValidatorInterface" type="Magento\Catalog\Model\Attribute\LockValidatorComposite" />
     <preference for="Magento\Catalog\Model\Entity\Product\Attribute\Group\AttributeMapperInterface" type="Magento\Catalog\Model\Entity\Product\Attribute\Group\AttributeMapper" />
     <preference for="Magento\Catalog\Block\Product\ReviewRendererInterface" type="Magento\Catalog\Block\Product\ReviewRenderer\DefaultProvider" />
-    <preference for="Magento\Pricing\PriceInfoInterface" type="Magento\Pricing\PriceInfo\Base" />
-    <preference for="Magento\Pricing\PriceCurrencyInterface" type="Magento\Directory\Model\PriceCurrency" />
-    <preference for="Magento\Pricing\Adjustment\CalculatorInterface" type="Magento\Pricing\Adjustment\Calculator" />
+    <preference for="Magento\Framework\Pricing\PriceInfoInterface" type="Magento\Framework\Pricing\PriceInfo\Base" />
+    <preference for="Magento\Framework\Pricing\PriceCurrencyInterface" type="Magento\Directory\Model\PriceCurrency" />
+    <preference for="Magento\Framework\Pricing\Adjustment\CalculatorInterface" type="Magento\Framework\Pricing\Adjustment\Calculator" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
@@ -304,14 +304,14 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Pricing\PriceInfo\Factory">
+    <type name="Magento\Framework\Pricing\PriceInfo\Factory">
         <arguments>
             <argument name="types" xsi:type="array">
-                <item name="simple" xsi:type="string">Magento\Pricing\PriceInfo\Base</item>
+                <item name="simple" xsi:type="string">Magento\Framework\Pricing\PriceInfo\Base</item>
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Pricing\PriceComposite">
+    <type name="Magento\Framework\Pricing\PriceComposite">
         <arguments>
             <argument name="metadata" xsi:type="array">
                 <item name="regular_price" xsi:type="array">
@@ -349,7 +349,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Pricing\Adjustment\Collection">
+    <type name="Magento\Framework\Pricing\Adjustment\Collection">
         <arguments>
             <argument name="adjustments" xsi:type="array">
                 <item name="tax" xsi:type="const">Magento\Tax\Pricing\Adjustment::CODE</item>

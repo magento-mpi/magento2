@@ -63,7 +63,7 @@
     <preference for="Magento\Less\PreProcessor\ErrorHandlerInterface" type="Magento\Less\PreProcessor\ErrorHandler" />
     <preference for="Magento\Framework\Module\ResourceInterface" type="Magento\Install\Model\Resource\Resource" />
     <preference for="Magento\Framework\App\Config\Resource\ConfigInterface" type="Magento\Core\Model\Resource\Config" />
-    <preference for="Magento\Pricing\Amount\AmountInterface" type="Magento\Pricing\Amount\Base" />
+    <preference for="Magento\Framework\Pricing\Amount\AmountInterface" type="Magento\Framework\Pricing\Amount\Base" />
     <type name="Magento\Framework\App\DefaultPath\DefaultPath">
         <arguments>
             <argument name="parts" xsi:type="array">

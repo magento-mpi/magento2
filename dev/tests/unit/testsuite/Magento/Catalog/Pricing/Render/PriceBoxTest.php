@@ -85,7 +85,7 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
     public function testGetCanDisplayQty($typeCode, $expected)
     {
         $product = $this->getMockForAbstractClass(
-            'Magento\Pricing\Object\SaleableInterface',
+            'Magento\Framework\Pricing\Object\SaleableInterface',
             [],
             '',
             true,

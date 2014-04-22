@@ -26,13 +26,13 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
 
-    /** @var \Magento\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $saleableInterfaceMock;
 
     /** @var float */
     protected $quantity = 1.;
 
-    /** @var \Magento\Pricing\Adjustment\CalculatorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Pricing\Adjustment\CalculatorInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $calculatorInterfaceMock;
 
     /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject */
@@ -41,7 +41,7 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $managerInterfaceMock;
 
-    /** @var \Magento\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $priceInfoMock;
 
     /** @var \Magento\Catalog\Pricing\Price\BasePrice|\PHPUnit_Framework_MockObject_MockObject */
@@ -77,7 +77,7 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->calculatorInterfaceMock = $this->getMock('Magento\Pricing\Adjustment\CalculatorInterface');
+        $this->calculatorInterfaceMock = $this->getMock('Magento\Framework\Pricing\Adjustment\CalculatorInterface');
         $this->productMock = $this->getMock(
             'Magento\Catalog\Model\Product',
             ['getPriceType', 'setFinalPrice', 'getQty', 'getData', 'getPriceInfo', '__wakeup', '__sleep'],
@@ -89,7 +89,7 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
 
         $this->managerInterfaceMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
 
-        $this->priceInfoMock = $this->getMock('\Magento\Pricing\PriceInfoInterface');
+        $this->priceInfoMock = $this->getMock('\Magento\Framework\Pricing\PriceInfoInterface');
         $this->priceInfoMock->expects($this->atLeastOnce())
             ->method('getPrice')
             ->will($this->returnCallback(array($this, 'getPriceCallback')));

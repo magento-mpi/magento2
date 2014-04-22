@@ -124,4 +124,6 @@ return [
     ['/dev/tests/integration/testsuite/Magento/Css', '/dev/tests/integration/testsuite/Magento/Framework/Css'],
     ['/dev/tests/unit/testsuite/Magento/Css', '/dev/tests/unit/testsuite/Magento/Framework/Css'],
     ['/lib/Magento/Pear', '/lib/Magento/Framework/Pear'],
+    ['/lib/Magento/Pricing', '/lib/Magento/Framework/Pricing'],
+    ['/dev/tests/unit/testsuite/Magento/Pricing', '/dev/tests/unit/testsuite/Magento/Framework/Pricing'],
 ];

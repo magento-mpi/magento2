@@ -56,7 +56,7 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param Session $persistentSession
      * @param \Magento\Framework\Module\Dir\Reader $modulesReader
      * @param \Magento\Escaper $escaper
@@ -67,7 +67,7 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\State $appState,
-        \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         Session $persistentSession,
         \Magento\Framework\Module\Dir\Reader $modulesReader,
         \Magento\Escaper $escaper,

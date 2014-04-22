@@ -40,4 +40,5 @@ return [
     ['Magento\Module', 'Magento\Framework\Module'],
     ['Magento\Css', 'Magento\Framework\Css'],
     ['Magento\Pear', 'Magento\Framework\Pear'],
+    ['Magento\Pricing', 'Magento\Framework\Pricing'],
 ];

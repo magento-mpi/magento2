@@ -8,7 +8,7 @@
 
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Framework\Pricing\Object\SaleableInterface;
 
 /**
  * Bundle selection price factory

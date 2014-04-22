@@ -18,12 +18,12 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $saleable;
 
     /**
-     * @var \Magento\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceInfo;
 
@@ -39,7 +39,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->localeDate = $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
-        $this->priceInfo = $this->getMock('Magento\Pricing\PriceInfoInterface');
+        $this->priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfoInterface');
 
         $this->saleable->expects($this->once())
             ->method('getPriceInfo')
@@ -87,7 +87,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($isScopeDateInInterval));
 
         if ($isScopeDateInInterval) {
-            $price = $this->getMock('Magento\Pricing\Price\PriceInterface');
+            $price = $this->getMock('Magento\Framework\Pricing\Price\PriceInterface');
             $this->priceInfo->expects($this->once())
                 ->method('getPrice')
                 ->with(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE, null)

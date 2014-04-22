@@ -11,8 +11,8 @@
 namespace Magento\CatalogRule\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price\RegularPrice;
-use Magento\Pricing\Adjustment\Calculator;
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Framework\Pricing\Adjustment\Calculator;
+use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Store\Model\StoreManager;
 use Magento\Customer\Model\Session;

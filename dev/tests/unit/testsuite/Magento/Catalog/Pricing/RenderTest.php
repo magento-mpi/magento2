@@ -37,7 +37,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
     {
         $this->registry = $this->getMock('Magento\Registry', ['registry'], [], '', false);
 
-        $this->pricingRenderBlock = $this->getMock('Magento\Pricing\Render', [], [], '', false);
+        $this->pricingRenderBlock = $this->getMock('Magento\Framework\Pricing\Render', [], [], '', false);
 
         $this->layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
 
@@ -109,7 +109,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
         $this->registry->expects($this->never())
             ->method('registry');
 
-        $block = $this->getMock('Magento\Pricing\Render', ['getProductItem', 'render'], [], '', false);
+        $block = $this->getMock('Magento\Framework\Pricing\Render', ['getProductItem', 'render'], [], '', false);
 
         $block->expects($this->any())
             ->method('render')

@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Model;
 
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Object\IdentityInterface;
 
 /**
@@ -242,7 +242,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     protected $_productPriceIndexerProcessor;
 
     /**
-     * @var \Magento\Pricing\PriceInfo\Base
+     * @var \Magento\Framework\Pricing\PriceInfo\Base
      */
     protected $_priceInfo;
 
@@ -837,7 +837,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Get product Price Info object
      *
-     * @return \Magento\Pricing\PriceInfo\Base
+     * @return \Magento\Framework\Pricing\PriceInfo\Base
      */
     public function getPriceInfo()
     {
@@ -2052,7 +2052,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Reload PriceInfo object
      *
-     * @return \Magento\Pricing\PriceInfo\Base
+     * @return \Magento\Framework\Pricing\PriceInfo\Base
      */
     public function reloadPriceInfo()
     {

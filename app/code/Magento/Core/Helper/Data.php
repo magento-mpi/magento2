@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Helper;
 
-use Magento\Pricing\PriceCurrencyInterface;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
  * Core data helper
