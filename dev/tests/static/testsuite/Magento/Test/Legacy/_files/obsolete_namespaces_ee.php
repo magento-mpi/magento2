@@ -9,6 +9,4 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return [
-    ['Enterprise', 'Magento'],
-];
+return [];

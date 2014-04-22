@@ -241,7 +241,7 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
                 $this->_suggestReplacement(sprintf("Namespace '%s' is obsolete.", $namespace), $replacement)
             );
             $this->_assertNotRegExp(
-                '/[^a-z\d_\\\\]' . preg_quote($namespace, '/') . '\\\\/iS',
+                '/[^a-z\d_]' . preg_quote($namespace . '\\', '/') . '/iS',
                 $content,
                 $this->_suggestReplacement(sprintf("Namespace '%s' is obsolete.", $namespace), $replacement)
             );
