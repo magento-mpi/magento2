@@ -76,13 +76,13 @@ class VatGroupAssignmentTest extends Functional
     /**
      * Check customer group in grid
      *
-     * @param Page\CustomerIndex $page
+     * @param Page\Adminhtml\CustomerIndex $page
      * @param $groupName
      */
-    protected function checkCustomerGroup(Page\CustomerIndex $page, $groupName)
+    protected function checkCustomerGroup(Page\Adminhtml\CustomerIndex $page, $groupName)
     {
         $page->open();
-        $grid = $page->getGridBlock();
+        $grid = $page->getCustomerGridBlock();
         $email = $this->vatFixture->getCustomer()->getEmail();
         $this->assertTrue($grid->isRowVisible(array(
             'email' => $email,
@@ -107,10 +107,10 @@ class VatGroupAssignmentTest extends Functional
      */
     protected function tearDown()
     {
-        Factory::getApp()->magentoCustomerRemoveCustomerGroup($this->vatFixture);
-
-        $config = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $config->switchData('customer_disable_group_assign');
-        $config->persist();
+//        Factory::getApp()->magentoCustomerRemoveCustomerGroup($this->vatFixture);
+//
+//        $config = Factory::getFixtureFactory()->getMagentoCoreConfig();
+//        $config->switchData('customer_disable_group_assign');
+//        $config->persist();
     }
 }

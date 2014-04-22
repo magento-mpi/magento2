@@ -119,20 +119,6 @@
             <default_value></default_value>
             <input>text</input>
         </prefix>
-        <reward_update_notification>
-            <attribute_code>reward_update_notification</attribute_code>
-            <backend_type>int</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>text</input>
-        </reward_update_notification>
-        <reward_warning_notification>
-            <attribute_code>reward_warning_notification</attribute_code>
-            <backend_type>int</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>text</input>
-        </reward_warning_notification>
         <rp_token>
             <attribute_code>rp_token</attribute_code>
             <backend_type>varchar</backend_type>

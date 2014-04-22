@@ -9,20 +9,20 @@
 -->
 <page mca="customer/index/new" >
     <block>
-        <name>blockMessages</name>
+        <name>messagesBlock</name>
         <class>Magento\Core\Test\Block\Messages</class>
         <locator>#messages</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>pageActions</name>
+        <name>pageActionsBlock</name>
         <class>Magento\Backend\Test\Block\FormPageActions</class>
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
         <name>customerForm</name>
-        <class>Magento\Customer\Test\Block\Adminhtml\Edit\CustomerForm</class>
+        <class>Magento\Customer\Test\Block\Adminhtml\Edit\Form</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>

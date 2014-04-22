@@ -39,18 +39,24 @@ class AssertCustomerInGrid extends AbstractConstraint
             'name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
             'email' => $customer->getEmail(),
         ];
+
         $pageCustomerIndex->open();
         \PHPUnit_Framework_Assert::assertTrue(
-            $pageCustomerIndex->getCustomerGrid()->isRowVisible($filter),
-            'Customer with name \'' . $filter['name'] . '\', email \'' . $filter['email'] . '\' is absent in Customer grid.'
+            $pageCustomerIndex->getCustomerGridBlock()->isRowVisible($filter),
+            'Customer with '
+            . 'name \'' . $filter['name'] . '\', '
+            . 'email \'' . $filter['email'] . '\' '
+            . 'is absent in Customer grid.'
         );
     }
 
     /**
+     * Text success exist Customer in grid
+     *
      * @return string
      */
     public function toString()
     {
-        return 'Customer is present in Customer grid.';
+        return 'Customer is present in Customer grid';
     }
 }

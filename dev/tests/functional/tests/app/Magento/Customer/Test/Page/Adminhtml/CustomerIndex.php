@@ -20,21 +20,21 @@ class CustomerIndex extends BackendPage
     const MCA = 'customer/index';
 
     protected $_blocks = [
-        'blockMessages' => [
-            'name' => 'blockMessages',
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
-        'pageActions' => [
-            'name' => 'pageActions',
+        'pageActionsBlock' => [
+            'name' => 'pageActionsBlock',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'customerGrid' => [
-            'name' => 'customerGrid',
-            'class' => 'Magento\Customer\Test\Block\Adminhtml\Customer\Grid',
+        'customerGridBlock' => [
+            'name' => 'customerGridBlock',
+            'class' => 'Magento\Customer\Test\Block\Adminhtml\CustomerGrid',
             'locator' => '#customerGrid',
             'strategy' => 'css selector',
         ],
@@ -43,24 +43,24 @@ class CustomerIndex extends BackendPage
     /**
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getBlockMessages()
+    public function getMessagesBlock()
     {
-        return $this->getBlockInstance('blockMessages');
+        return $this->getBlockInstance('messagesBlock');
     }
 
     /**
      * @return \Magento\Backend\Test\Block\GridPageActions
      */
-    public function getPageActions()
+    public function getPageActionsBlock()
     {
-        return $this->getBlockInstance('pageActions');
+        return $this->getBlockInstance('pageActionsBlock');
     }
 
     /**
-     * @return \Magento\Customer\Test\Block\Adminhtml\Customer\Grid
+     * @return \Magento\Customer\Test\Block\Adminhtml\CustomerGrid
      */
-    public function getCustomerGrid()
+    public function getCustomerGridBlock()
     {
-        return $this->getBlockInstance('customerGrid');
+        return $this->getBlockInstance('customerGridBlock');
     }
 }

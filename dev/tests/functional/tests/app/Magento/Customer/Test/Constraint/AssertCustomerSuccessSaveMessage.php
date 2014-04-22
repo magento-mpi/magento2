@@ -35,9 +35,7 @@ class AssertCustomerSuccessSaveMessage extends AbstractConstraint
      */
     public function processAssert(CustomerIndex $pageCustomerIndex)
     {
-        sleep(1);
-
-        $actualMessage = $pageCustomerIndex->getBlockMessages()->getSuccessMessages();
+        $actualMessage = $pageCustomerIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,
@@ -48,10 +46,12 @@ class AssertCustomerSuccessSaveMessage extends AbstractConstraint
     }
 
     /**
+     * Text success save message is displayed
+     *
      * @return string
      */
     public function toString()
     {
-        return 'Assert that message "You saved the customer." is displayed';
+        return 'Assert that success message is displayed';
     }
 }

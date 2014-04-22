@@ -33,6 +33,9 @@ class CustomerInjectable extends InjectableFixture
     protected $handlerInterface = 'Magento\Customer\Test\Handler\CustomerInjectable\CustomerInjectableInterface';
 
     protected $defaultDataSet = [
+        'firstname' => 'John',
+        'lastname' => 'Doe',
+        'email' => 'John.Doe%isolation%@example.com',
     ];
 
     protected $confirmation = [
@@ -163,22 +166,6 @@ class CustomerInjectable extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'group' => self::GROUP_ACCOUNT_INFORMATION,
-    ];
-
-    protected $reward_update_notification = [
-        'attribute_code' => 'reward_update_notification',
-        'backend_type' => 'int',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'text',
-    ];
-
-    protected $reward_warning_notification = [
-        'attribute_code' => 'reward_warning_notification',
-        'backend_type' => 'int',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'text',
     ];
 
     protected $rp_token = [
@@ -317,16 +304,6 @@ class CustomerInjectable extends InjectableFixture
     public function getPrefix()
     {
         return $this->getData('prefix');
-    }
-
-    public function getRewardUpdateNotification()
-    {
-        return $this->getData('reward_update_notification');
-    }
-
-    public function getRewardWarningNotification()
-    {
-        return $this->getData('reward_warning_notification');
     }
 
     public function getRpToken()

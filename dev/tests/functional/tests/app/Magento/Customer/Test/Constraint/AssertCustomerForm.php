@@ -46,15 +46,17 @@ class AssertCustomerForm extends AbstractConstraint
         $filter = ['email' => $customer->getEmail()];
 
         $pageCustomerIndex->open();
-        $pageCustomerIndex->getCustomerGrid()->searchAndOpen($filter);
+        $pageCustomerIndex->getCustomerGridBlock()->searchAndOpen($filter);
         $pageCustomerIndexEdit->getCustomerForm()->verifyCustomer($customer, $address);
     }
 
     /**
+     * Text success verify Customer form
+     *
      * @return string
      */
     public function toString()
     {
-        return 'Displayed customer data on edit page(backend) equals passed from fixture ';
+        return 'Displayed customer data on edit page(backend) equals passed from fixture';
     }
 }

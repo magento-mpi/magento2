@@ -22,14 +22,14 @@ class CustomerIndexEdit extends BackendPage
     protected $_blocks = [
         'customerForm' => [
             'name' => 'customerForm',
-            'class' => 'Magento\Customer\Test\Block\Adminhtml\Edit\CustomerForm',
+            'class' => 'Magento\Customer\Test\Block\Adminhtml\Edit\Form',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
     ];
 
     /**
-     * @return \Magento\Customer\Test\Block\Adminhtml\Edit\CustomerForm
+     * @return \Magento\Customer\Test\Block\Adminhtml\Edit\Form
      */
     public function getCustomerForm()
     {

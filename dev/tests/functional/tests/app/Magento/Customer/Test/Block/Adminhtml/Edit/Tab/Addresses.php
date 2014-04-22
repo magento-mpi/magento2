@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,8 @@ use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
- * Custom Addresses tab
+ * Class Addresses
+ * Customer addresses edit block
  *
  * @package Magento\Customer\Test\Block\Adminhtml\Edit\Tab
  */
@@ -28,9 +26,18 @@ class Addresses extends Tab
     protected $addNewAddress = '#add_address_button';
 
     /**
+     * Check exist selected tab for address
+     *
      * @var string
      */
     protected $selectedAddress = './/*[@id="address_list"]/li[@aria-selected="true"]';
+
+    /**
+     * Open inner tab of address
+     *
+     * @var string
+     */
+    protected $addressTab = '//*[@id="address_list"]/li[%d]/a';
 
     /**
      * @param array $fields
@@ -39,7 +46,7 @@ class Addresses extends Tab
      */
     public function fillFormTab(array $fields, Element $element)
     {
-        if (! $this->_rootElement->find($this->selectedAddress, Locator::SELECTOR_XPATH)->isVisible()) {
+        if (!$this->_rootElement->find($this->selectedAddress, Locator::SELECTOR_XPATH)->isVisible()) {
             $this->addNewAddress();
         }
         parent::fillFormTab($fields, $element);
@@ -53,16 +60,6 @@ class Addresses extends Tab
     public function addNewAddress()
     {
         $this->_rootElement->find($this->addNewAddress)->click();
-        return $this;
-    }
-
-    /**
-     * @param int $number
-     * @return $this
-     */
-    public function selectAddress($number)
-    {
-        $this->_rootElement->find('//*[@id="address_list"]/li[' . $number . ']/a', Locator::SELECTOR_XPATH)->click();
         return $this;
     }
 }

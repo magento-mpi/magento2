@@ -19,7 +19,7 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexNew;
  */
 class AssertCustomerInvalidEmail extends AbstractConstraint
 {
-    const CORRECT_EMAIL_MESSAGE_TPL = 'Please correct this email address: "%email%".';
+    const ERROR_EMAIL_MESSAGE = 'Please correct this email address: "%email%".';
 
     /**
      * Constraint severeness
@@ -29,7 +29,8 @@ class AssertCustomerInvalidEmail extends AbstractConstraint
     protected $severeness = 'middle';
 
     /**
-     * Assert that error message "Please correct this email address: "%email%"." is displayed after customer with invalid email save
+     * Assert that error message "Please correct this email address: "%email%"." is displayed
+     * after customer with invalid email save
      *
      * @param CustomerInjectable $customer
      * @param CustomerIndexNew $pageCustomerIndexNew
@@ -37,8 +38,8 @@ class AssertCustomerInvalidEmail extends AbstractConstraint
      */
     public function processAssert(CustomerInjectable $customer, CustomerIndexNew $pageCustomerIndexNew)
     {
-        $expectMessage = str_replace('%email%', $customer->getEmail(), self::CORRECT_EMAIL_MESSAGE_TPL);
-        $actualMessage = $pageCustomerIndexNew->getBlockMessages()->getErrorMessages();
+        $expectMessage = str_replace('%email%', $customer->getEmail(), self::ERROR_EMAIL_MESSAGE);
+        $actualMessage = $pageCustomerIndexNew->getMessagesBlock()->getErrorMessages();
 
         \PHPUnit_Framework_Assert::assertEquals(
             $expectMessage,
@@ -50,10 +51,12 @@ class AssertCustomerInvalidEmail extends AbstractConstraint
     }
 
     /**
+     * Text success display error message
+     *
      * @return string
      */
     public function toString()
     {
-        return 'Assert that error message "Please correct this email address: "%email%"." is displayed';
+        return 'Assert that error message is displayed';
     }
 }

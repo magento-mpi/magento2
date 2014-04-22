@@ -160,22 +160,20 @@ class FormTabs extends Form
      *
      * @param FixtureInterface $fixture
      * @param Element $element
-     * @throws \Exception
-     * @return boolean
+     * @return bool
      */
     public function verify(FixtureInterface $fixture, Element $element = null)
     {
-        $isVerify = true;
         $tabs = $this->getFieldsByTabs($fixture);
 
         foreach ($tabs as $tab => $tabFields) {
-            if ($this->openTab($tab)) {
-                $tabElement = $this->getTabElement($tab);
-                $isVerify = $isVerify && $tabElement->verifyFormTab($tabFields, $this->_rootElement);
+            $this->openTab($tab);
+            if (!$this->getTabElement($tab)->verifyFormTab($tabFields, $this->_rootElement)) {
+                return false;
             }
         }
 
-        return $isVerify;
+        return true;
     }
 
     /**
