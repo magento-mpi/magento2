@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertCustomerIsSubscribedToNewsletter module="Magento_Newsletter">
+        <severeness>low</severeness>
+        <require></require>
+    </assertCustomerIsSubscribedToNewsletter>
+</constraint>

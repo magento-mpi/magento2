@@ -14,7 +14,7 @@ namespace Magento\Customer\Test\Block\Form;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Customer\Test\Fixture\Customer;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Customer create form for frontend
@@ -33,19 +33,11 @@ class Create extends Form
     /**
      * Fill form with customer data and submit
      *
-     * @param Customer $fixture
+     * @param FixtureInterface $fixture
      */
-    public function create(Customer $fixture)
+    public function create(FixtureInterface $fixture)
     {
         $this->fill($fixture);
-        $this->submit();
-    }
-
-    /**
-     * Submit login form
-     */
-    public function submit()
-    {
         $this->_rootElement->find($this->submitButton, Locator::SELECTOR_CSS)->click();
     }
 }

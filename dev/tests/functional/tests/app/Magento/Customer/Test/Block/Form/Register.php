@@ -12,6 +12,7 @@
 namespace Magento\Customer\Test\Block\Form;
 
 use Mtf\Block\Form;
+use Mtf\Client\Element\Locator;
 use Magento\Customer\Test\Fixture\Customer;
 
 /**
@@ -23,17 +24,21 @@ use Magento\Customer\Test\Fixture\Customer;
 class Register extends Form
 {
     /**
-     * Create Account button
+     * 'Submit' form button
      *
      * @var string
      */
     protected $submit = '.action.submit';
 
     /**
-     * Click on Create Account button
+     * Fill billing address
+     *
+     * @param Customer $fixture
      */
-    public function registerCustomer()
+    public function registerCustomer(Customer $fixture)
     {
-        $this->_rootElement->find($this->submit)->click();
+        $this->fill($fixture);
+        $this->fill($fixture->getDefaultBillingAddress());
+        $this->_rootElement->find($this->submit, Locator::SELECTOR_CSS)->click();
     }
 }

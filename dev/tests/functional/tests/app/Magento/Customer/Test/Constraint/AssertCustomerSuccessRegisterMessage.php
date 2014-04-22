@@ -46,6 +46,8 @@ class AssertCustomerSuccessRegisterMessage extends AbstractConstraint
     }
 
     /**
+     * Text of success register message is displayed
+     *
      * @return string
      */
     public function toString()

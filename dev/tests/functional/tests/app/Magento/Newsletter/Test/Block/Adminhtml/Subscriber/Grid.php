@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,9 +11,10 @@ namespace Magento\Newsletter\Test\Block\Adminhtml\Subscriber;
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
- * Custom Newsletter Subscriber Grid
+ * Newsletter subscribers grid block
  *
  * @package Magento\Newsletter\Test\Block\Adminhtml\Subscriber
+ * @param array $filters
  */
 class Grid extends AbstractGrid {
     protected $filters = [

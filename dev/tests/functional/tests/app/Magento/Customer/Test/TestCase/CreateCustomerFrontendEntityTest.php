@@ -10,6 +10,7 @@ namespace Magento\Customer\Test\TestCase;
 
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountCreate;
+use Magento\Customer\Test\Page\HomePage;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Mtf\TestCase\Injectable;
 
@@ -34,20 +35,28 @@ class CreateCustomerFrontendEntityTest extends Injectable
     protected $customerAccountCreate;
 
     /**
-     * @var \Magento\Customer\Test\Page\CustomerAccountLogout
+     * @var CustomerAccountLogout
      */
     protected $customerAccountLogout;
 
     /**
+     * @var HomePage
+     */
+    protected $homePage;
+
+    /**
      * @param CustomerAccountCreate $customerAccountCreate
      * @param CustomerAccountLogout $customerAccountLogout
+     * @param HomePage $homePage
      */
     public function __inject(
         CustomerAccountCreate $customerAccountCreate,
-        CustomerAccountLogout $customerAccountLogout
+        CustomerAccountLogout $customerAccountLogout,
+        HomePage $homePage
     ) {
         $this->customerAccountLogout = $customerAccountLogout;
         $this->customerAccountCreate = $customerAccountCreate;
+        $this->homePage = $homePage;
     }
 
     /**
@@ -58,12 +67,14 @@ class CreateCustomerFrontendEntityTest extends Injectable
     public function testCreateCustomer(CustomerInjectable $customer)
     {
        //Steps
-       $this->customerAccountCreate->open();
-       $this->customerAccountCreate->getCreateForm()->fill($customer);
-       $this->customerAccountCreate->getCreateForm()->registerCustomer();
+       $this->homePage->open();
+       $this->homePage->getHomePage()->clickRegisterButton();
+       $this->customerAccountCreate->getCreateForm()->create($customer);
     }
 
     /**
+     * Logout customer from frontend account
+     *
      * return void
      */
     public function tearDown()

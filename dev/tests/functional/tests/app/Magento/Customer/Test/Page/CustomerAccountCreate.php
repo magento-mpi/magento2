@@ -22,7 +22,7 @@ class CustomerAccountCreate extends FrontendPage
     protected $_blocks = [
         'createForm' => [
             'name' => 'createForm',
-            'class' => 'Magento\Customer\Test\Block\Form\Register',
+            'class' => 'Magento\Customer\Test\Block\Form\Create',
             'locator' => '#form-validate',
             'strategy' => 'css selector',
         ],
@@ -35,7 +35,7 @@ class CustomerAccountCreate extends FrontendPage
     ];
 
     /**
-     * @return \Magento\Customer\Test\Block\Form\Register
+     * @return \Magento\Customer\Test\Block\Form\Create
      */
     public function getCreateForm()
     {

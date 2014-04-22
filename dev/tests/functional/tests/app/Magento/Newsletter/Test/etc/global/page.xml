@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page>
+    <newsletterSubscriber>
+        <mca>newsletter/subscriber/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Newsletter\Test\Page\Adminhtml\NewsletterSubscriber</class>
+    </newsletterSubscriber>
+</page>

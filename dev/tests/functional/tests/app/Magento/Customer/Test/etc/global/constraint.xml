@@ -16,13 +16,14 @@
     </assertCustomerSuccessSaveMessage>
     <assertCustomerSuccessRegisterMessage module="Magento_Customer">
         <severeness>low</severeness>
-        <require></require>
+        <require>
+            <registerPage class="Magento\Customer\Test\Page\CustomerAccountCreate" />
+        </require>
     </assertCustomerSuccessRegisterMessage>
     <assertCustomerInGrid module="Magento_Customer">
         <severeness>middle</severeness>
         <require>
             <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
-            <customerInjectable class="Magento\Customer\Test\Fixture\CustomerInjectable" />
             <pageCustomerIndex class="Magento\Customer\Test\Page\Adminhtml\CustomerIndex" />
         </require>
     </assertCustomerInGrid>
@@ -42,8 +43,4 @@
             <pageCustomerIndexNew class="Magento\Customer\Test\Page\Adminhtml\CustomerIndexNew" />
         </require>
     </assertCustomerInvalidEmail>
-    <assertCustomerIsSubscribedToNewsletter module="Magento_Customer">
-        <severeness>low</severeness>
-        <require></require>
-    </assertCustomerIsSubscribedToNewsletter>
 </constraint>
