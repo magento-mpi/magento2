@@ -26,7 +26,6 @@ use Magento\Sitemap\Test\Page\Adminhtml\SitemapEdit;
  * @group XML_Sitemap_(MX)
  * @ZephyrId MAGETWO-23296
  */
-
 class DeleteSitemapEntityTest extends Injectable
 {
     /**
@@ -46,8 +45,7 @@ class DeleteSitemapEntityTest extends Injectable
     public function __inject(
         SitemapIndex $adminSitemapIndex,
         SitemapEdit $sitemapEdit
-    )
-    {
+    ){
         $this->adminSitemapIndex = $adminSitemapIndex;
         $this->sitemapEdit = $sitemapEdit;
     }
@@ -57,17 +55,16 @@ class DeleteSitemapEntityTest extends Injectable
      */
     public function testDeleteSitemap(Sitemap $sitemap)
     {
+        // Preconditions
         $sitemap->persist();
-
         $filter = [
             'sitemap_filename' => $sitemap->getSitemapFilename(),
             'sitemap_path' => $sitemap->getSitemapPath(),
             'sitemap_id' => $sitemap->getSitemapId()
         ];
-
         //Steps
         $this->adminSitemapIndex->open();
         $this->adminSitemapIndex->getSitemapGrid()->searchAndOpen($filter);
-        $this->sitemapEdit->getSitemapPageActions()->delete();
+        $this->sitemapEdit->getFormPageActions()->delete();
     }
 }

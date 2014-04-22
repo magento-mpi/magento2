@@ -23,14 +23,18 @@ use Mtf\System\Config;
  */
 class Curl extends AbstractCurl implements SitemapInterface
 {
-
+    /**
+     * Default attribute values for fixture
+     *
+     * @var array
+     */
     protected $defaultAttributeValues = ['sitemap_store_id' => 1];
 
     /**
      * Prepare data for deleting sitemap
      *
      * @param FixtureInterface $fixture
-     * @return mixed|void
+     * @return array
      * @throws \Exception
      */
     public function persist(FixtureInterface $fixture = null)
@@ -59,7 +63,7 @@ class Curl extends AbstractCurl implements SitemapInterface
      */
     protected function getSitemapId($data)
     {
-        //Sort data in grid to define user id if more than 20 items in grid
+        //Sort data in grid to define sitemap id if more than 20 items in grid
         $url = $_ENV['app_backend_url'] . 'admin/sitemap/index/sort/sitemap_id/dir/desc';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
@@ -67,7 +71,8 @@ class Curl extends AbstractCurl implements SitemapInterface
         $response = $curl->read();
         $curl->close();
 
-        $pattern = '/class=\" col\-sitemap_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?' . $data['sitemap_filename'] . '/siu';
+        $pattern = '/class=\" col\-sitemap_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
+            . $data['sitemap_filename'] . '/siu';
         preg_match($pattern, $response, $matches);
         if (empty($matches)) {
             throw new \Exception('Cannot find sitemap id');

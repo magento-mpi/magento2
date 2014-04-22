@@ -9,8 +9,8 @@
 -->
 <page mca="admin/sitemap/edit" >
     <block>
-        <name>sitemapPageActions</name>
-        <class>Magento\Sitemap\Test\Block\Adminhtml\SitemapPageActions</class>
+        <name>formPageActions</name>
+        <class>Magento\Backend\Test\Block\FormPageActions</class>
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>

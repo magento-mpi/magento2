@@ -36,7 +36,7 @@ class SitemapGrid extends Grid
     ];
 
     /**
-     * Filters array mapping
+     * Locator value for link in sitemap id column
      *
      * @var string
      */

@@ -20,19 +20,19 @@ class SitemapEdit extends BackendPage
     const MCA = 'admin/sitemap/edit';
 
     protected $_blocks = [
-        'sitemapPageActions' => [
-            'name' => 'sitemapPageActions',
-            'class' => 'Magento\Sitemap\Test\Block\Adminhtml\SitemapPageActions',
+        'formPageActions' => [
+            'name' => 'formPageActions',
+            'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
     ];
 
     /**
-     * @return \Magento\Sitemap\Test\Block\Adminhtml\SitemapPageActions
+     * @return \Magento\Backend\Test\Block\FormPageActions
      */
-    public function getSitemapPageActions()
+    public function getFormPageActions()
     {
-        return $this->getBlockInstance('sitemapPageActions');
+        return $this->getBlockInstance('formPageActions');
     }
 }
