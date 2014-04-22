@@ -10,6 +10,7 @@
 namespace Magento\TestModule3\Service\V1;
 
 use Magento\Exception\AuthorizationException;
+use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\TestModule3\Service\V1\Entity\Parameter;
 use Magento\TestModule3\Service\V1\Entity\ParameterBuilder;
@@ -92,11 +93,11 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function inputException($wrappedErrorParameters)
     {
-        $exception = new \Magento\Exception\InputException();
+        $exception = new InputException();
         if ($wrappedErrorParameters) {
             foreach ($wrappedErrorParameters as $error) {
                 $exception->addError(
-                    \Magento\Exception\InputException::INVALID_FIELD_VALUE,
+                    InputException::INVALID_FIELD_VALUE,
                     ['fieldName' => $error->getFieldName(), 'value' => $error->getValue()]
                 );
             }

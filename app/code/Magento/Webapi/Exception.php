@@ -56,6 +56,8 @@ class Exception extends \RuntimeException
 
     /**
      * Stacktrace
+     *
+     * @var string
      */
     protected $_stackTrace;
 
@@ -73,9 +75,9 @@ class Exception extends \RuntimeException
      * @param int $code Error code
      * @param int $httpCode
      * @param array $details Additional exception details
-     * @param ErrorMessage[]|null $errors Array of errors messages
      * @param string $name Exception name
-     * @param string stackTrace
+     * @param ErrorMessage[]|null $errors Array of errors messages
+     * @param string $stackTrace
      *
      * @throws \InvalidArgumentException
      */
