@@ -76,7 +76,7 @@ final class Controller
     /**
      * Connect config instance
      *
-     * @var \Magento\Connect\Config
+     * @var \Magento\Framework\Connect\Config
      */
     private $_config;
 
@@ -626,7 +626,7 @@ final class Controller
     /**
      * Retrieve object of config
      *
-     * @return \Magento\Connect\Config
+     * @return \Magento\Framework\Connect\Config
      */
     public function config()
     {
@@ -888,7 +888,7 @@ final class Controller
             $maintenance_filename = 'maintenance.flag';
             $config = $this->config();
             if (!$this->isWritable() || strlen($config->__get('remote_config')) > 0) {
-                $ftpObj = new \Magento\Connect\Ftp();
+                $ftpObj = new \Magento\Framework\Connect\Ftp();
                 $ftpObj->connect($config->__get('remote_config'));
                 $tempFile = tempnam(sys_get_temp_dir(), 'maintenance');
                 @file_put_contents($tempFile, 'maintenance');
@@ -978,7 +978,7 @@ final class Controller
             $maintenance_filename = 'maintenance.flag';
             $config = $this->config();
             if (!$this->isWritable() && strlen($config->__get('remote_config')) > 0) {
-                $ftpObj = new \Magento\Connect\Ftp();
+                $ftpObj = new \Magento\Framework\Connect\Ftp();
                 $ftpObj->connect($config->__get('remote_config'));
                 $ftpObj->delete($maintenance_filename);
                 $ftpObj->close();

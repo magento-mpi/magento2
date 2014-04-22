@@ -51,13 +51,13 @@ class __cli_Magento_Connect
 
     public function getCommands()
     {
-        return \Magento\Connect\Command::getCommands();
+        return \Magento\Framework\Connect\Command::getCommands();
     }
 
     public function getFrontend()
     {
-        $frontend = \Magento\Connect\Frontend::getInstance('CLI');
-        \Magento\Connect\Command::setFrontendObject($frontend);
+        $frontend = \Magento\Framework\Connect\Frontend::getInstance('CLI');
+        \Magento\Framework\Connect\Command::setFrontendObject($frontend);
         return $frontend;
     }
 
@@ -66,11 +66,11 @@ class __cli_Magento_Connect
         if (isset($this->config)) {
             return $this->config;
         }
-        $config = new \Magento\Connect\Config($fileName);
+        $config = new \Magento\Framework\Connect\Config($fileName);
         if (empty($config->magento_root)) {
            $config->magento_root = dirname(__DIR__);
         }
-        \Magento\Connect\Command::setConfigObject($config);
+        \Magento\Framework\Connect\Command::setConfigObject($config);
         $this->config = $config;
         return $config;
     }
@@ -98,7 +98,7 @@ class __cli_Magento_Connect
 
     public function runCommand($cmd, $options, $params)
     {
-        $c = \Magento\Connect\Command::getInstance($cmd);
+        $c = \Magento\Framework\Connect\Command::getInstance($cmd);
         $c->run($cmd, $options, $params);
     }
 
@@ -106,13 +106,13 @@ class __cli_Magento_Connect
     public function getSingleConfig()
     {
         if(!$this->_sconfig) {
-            $this->_sconfig = new \Magento\Connect\Singleconfig(
+            $this->_sconfig = new \Magento\Framework\Connect\Singleconfig(
                     $this->getConfig()->magento_root . '/' .
                     $this->getConfig()->downloader_path . '/' .
-                    \Magento\Connect\Singleconfig::DEFAULT_SCONFIG_FILENAME
+                    \Magento\Framework\Connect\Singleconfig::DEFAULT_SCONFIG_FILENAME
             );
         }
-        \Magento\Connect\Command::setSconfig($this->_sconfig);
+        \Magento\Framework\Connect\Command::setSconfig($this->_sconfig);
         return $this->_sconfig;
     }
 
