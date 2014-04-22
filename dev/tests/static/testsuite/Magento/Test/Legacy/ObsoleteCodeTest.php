@@ -589,7 +589,7 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
                     "HeadJS usage found in file {$filename}:\n"
                 );
             },
-            $this->HeadJsDataProvider()
+            $this->headJsDataProvider()
         );
     }
 
@@ -598,7 +598,7 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function HeadJsDataProvider()
+    public function headJsDataProvider()
     {
         $blackList = include __DIR__ . '/_files/blacklist/obsolete_headjs.php';
         $ignored = array();
