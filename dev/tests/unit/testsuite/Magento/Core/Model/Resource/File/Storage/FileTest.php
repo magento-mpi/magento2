@@ -28,7 +28,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     protected $filesystemMock;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $directoryReadMock;
 
@@ -46,7 +46,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->directoryReadMock = $this->getMock(
-            'Magento\Filesystem\Directory\Read',
+            'Magento\Framework\Filesystem\Directory\Read',
             array('isDirectory', 'readRecursively'),
             array(),
             '',

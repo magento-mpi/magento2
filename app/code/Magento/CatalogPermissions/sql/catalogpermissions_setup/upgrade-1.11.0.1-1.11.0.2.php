@@ -9,7 +9,7 @@
 /* @var $this \Magento\Module\Setup */
 $this->startSetup();
 
-/** @var \Magento\DB\Adapter\AdapterInterface $connection */
+/** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
 $connection = $this->getConnection();
 
 $connection->addIndex(
@@ -17,10 +17,10 @@ $connection->addIndex(
     $this->getIdxName(
         'magento_catalogpermissions_index',
         array('category_id', 'website_id', 'customer_group_id'),
-        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
     array('category_id', 'website_id', 'customer_group_id'),
-    \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
 );
 
 $connection->addIndex(
@@ -28,10 +28,10 @@ $connection->addIndex(
     $this->getIdxName(
         'magento_catalogpermissions_index',
         array('category_id', 'website_id', 'customer_group_id'),
-        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
     array('category_id', 'website_id', 'customer_group_id'),
-    \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
 );
 
 $connection->dropForeignKey(
@@ -73,47 +73,47 @@ $connection->addIndex(
     $this->getIdxName(
         'magento_catalogpermissions_index_product',
         array('product_id', 'store_id', 'customer_group_id'),
-        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
     array('product_id', 'store_id', 'customer_group_id'),
-    \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
 );
 
 $table = $connection->newTable(
     $this->getTable('magento_catalogpermissions_index_product_tmp')
 )->addColumn(
     'product_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false),
     'Product Id'
 )->addColumn(
     'store_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false),
     'Store Id'
 )->addColumn(
     'customer_group_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false),
     'Customer Group Id'
 )->addColumn(
     'grant_catalog_category_view',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array(),
     'Grant Catalog Category View'
 )->addColumn(
     'grant_catalog_product_price',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array(),
     'Grant Catalog Product Price'
 )->addColumn(
     'grant_checkout_items',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array(),
     'Grant Checkout Items'
@@ -121,10 +121,10 @@ $table = $connection->newTable(
     $this->getIdxName(
         'magento_catalogpermissions_index_product_tmp',
         array('product_id', 'store_id', 'customer_group_id'),
-        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
     array('product_id', 'store_id', 'customer_group_id'),
-    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
 )->addIndex(
     $this->getIdxName('magento_catalogpermissions_index_product_tmp', array('store_id')),
     array('store_id')

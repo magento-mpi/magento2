@@ -19,7 +19,7 @@ namespace Magento;
  * @method string getLastUpdate()
  * @method \Magento\Flag setLastUpdate(string $value)
  */
-class Flag extends \Magento\Model\AbstractModel
+class Flag extends Framework\Model\AbstractModel
 {
     /**
      * Flag code
@@ -45,13 +45,13 @@ class Flag extends \Magento\Model\AbstractModel
     /**
      * Processing object before save data
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
     protected function _beforeSave()
     {
         if (is_null($this->_flagCode)) {
-            throw new \Magento\Model\Exception(__('Please define flag code.'));
+            throw new \Magento\Framework\Model\Exception(__('Please define flag code.'));
         }
 
         $this->setFlagCode($this->_flagCode);
@@ -88,13 +88,13 @@ class Flag extends \Magento\Model\AbstractModel
     /**
      * load self (load by flag code)
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
     public function loadSelf()
     {
         if (is_null($this->_flagCode)) {
-            throw new \Magento\Model\Exception(__('Please define flag code.'));
+            throw new \Magento\Framework\Model\Exception(__('Please define flag code.'));
         }
 
         return $this->load($this->_flagCode, 'flag_code');

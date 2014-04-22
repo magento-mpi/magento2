@@ -86,7 +86,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array('name' => array(), 'price' => array())));
 
         $context = $this->getMock(
-            'Magento\View\Element\Template\Context',
+            'Magento\Framework\View\Element\Template\Context',
             array('getUrlBuilder', 'getStoreConfig'),
             array(),
             '',

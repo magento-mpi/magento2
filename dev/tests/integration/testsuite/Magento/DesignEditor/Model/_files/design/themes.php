@@ -18,7 +18,7 @@
 );
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->get('Magento\Framework\App\State')
-    ->setAreaCode(\Magento\View\DesignInterface::DEFAULT_AREA);
+    ->setAreaCode(\Magento\Framework\View\DesignInterface::DEFAULT_AREA);
 
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\AreaList')
     ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)

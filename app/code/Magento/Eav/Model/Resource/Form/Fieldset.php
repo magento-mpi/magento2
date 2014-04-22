@@ -9,9 +9,9 @@
  */
 namespace Magento\Eav\Model\Resource\Form;
 
-use Magento\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 use Magento\Eav\Model\Form\Fieldset as FormFieldset;
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * Eav Form Fieldset Resource Model
@@ -20,7 +20,7 @@ use Magento\DB\Select;
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Fieldset extends \Magento\Model\Resource\Db\AbstractDb
+class Fieldset extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table

@@ -60,7 +60,7 @@ class Emulation extends \Magento\Object
 
     /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\View\DesignInterface $viewDesign
+     * @param \Magento\Framework\View\DesignInterface $viewDesign
      * @param \Magento\Framework\App\DesignInterface $design
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -71,7 +71,7 @@ class Emulation extends \Magento\Object
      */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\View\DesignInterface $viewDesign,
+        \Magento\Framework\View\DesignInterface $viewDesign,
         \Magento\Framework\App\DesignInterface $design,
         \Magento\TranslateInterface $translate,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,

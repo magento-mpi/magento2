@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock;
 
 class Country extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {

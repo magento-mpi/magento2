@@ -9,7 +9,7 @@
  */
 namespace Magento\Locale\Hierarchy\Config;
 
-class Converter implements \Magento\Config\ConverterInterface
+class Converter implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * Compose locale inheritance hierarchy based on given config

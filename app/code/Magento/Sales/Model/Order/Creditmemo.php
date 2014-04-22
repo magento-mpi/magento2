@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Model\Order;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Order creditmemo model
@@ -246,7 +246,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     protected $_transportBuilder;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -261,12 +261,12 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
      * @param Creditmemo\CommentFactory $commentFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollectionFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Stdlib\DateTime $dateTime,
@@ -281,8 +281,8 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Order\Creditmemo\CommentFactory $commentFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollectionFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
@@ -1091,7 +1091,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _beforeDelete()
     {

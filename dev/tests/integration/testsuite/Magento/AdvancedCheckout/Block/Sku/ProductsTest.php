@@ -18,7 +18,7 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
             ->get('Magento\Framework\App\State')
             ->setAreaCode('frontend');
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\AdvancedCheckout\Block\Sku\Products'
         )->setTemplate(

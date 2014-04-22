@@ -35,7 +35,7 @@ class ContainerAbstractTest extends \PHPUnit_Framework_TestCase
         $paymentInfo->setMethodInstance($methodInstance);
         $block->expects($this->atLeastOnce())->method('getPaymentInfo')->will($this->returnValue($paymentInfo));
 
-        $childBlock = $objectManagerHelper->getObject('Magento\View\Element\Template');
+        $childBlock = $objectManagerHelper->getObject('Magento\Framework\View\Element\Template');
         $block->expects(
             $this->atLeastOnce()
         )->method(

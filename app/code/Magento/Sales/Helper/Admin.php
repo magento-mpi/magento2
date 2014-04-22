@@ -97,8 +97,8 @@ class Admin extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Filter collection by removing not available product types
      *
-     * @param \Magento\Model\Resource\Db\Collection\AbstractCollection $collection
-     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
+     * @param \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection $collection
+     * @return \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     public function applySalableProductTypesFilter($collection)
     {

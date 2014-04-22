@@ -151,7 +151,7 @@ abstract class AbstractAdapter implements AdapterInterface
     protected $_filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $directoryWrite;
 
@@ -664,7 +664,7 @@ abstract class AbstractAdapter implements AdapterInterface
         if (!is_writable($destination)) {
             try {
                 $this->directoryWrite->create($this->directoryWrite->getRelativePath($destination));
-            } catch (\Magento\Filesystem\FilesystemException $e) {
+            } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
                 $this->logger->addStreamLog(\Magento\Logger::LOGGER_SYSTEM);
                 $this->logger->log($e->getMessage());
                 throw new \Exception('Unable to write file into directory ' . $destination . '. Access forbidden.');

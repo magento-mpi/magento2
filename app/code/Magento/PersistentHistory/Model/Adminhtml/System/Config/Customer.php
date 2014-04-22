@@ -26,7 +26,7 @@ class Customer extends \Magento\Framework\App\Config\Value
     /**
      * Processing object before save data
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _beforeSave()
     {

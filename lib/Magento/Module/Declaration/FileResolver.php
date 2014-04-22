@@ -10,9 +10,9 @@
 namespace Magento\Module\Declaration;
 
 use Magento\Framework\App\Filesystem;
-use Magento\Filesystem\Directory\ReadInterface;
+use Magento\Framework\Filesystem\Directory\ReadInterface;
 
-class FileResolver implements \Magento\Config\FileResolverInterface
+class FileResolver implements \Magento\Framework\Config\FileResolverInterface
 {
     /**
      * Modules directory with read access
@@ -38,15 +38,15 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     /**
      * File iterator factory
      *
-     * @var \Magento\Config\FileIteratorFactory
+     * @var \Magento\Framework\Config\FileIteratorFactory
      */
     protected $iteratorFactory;
 
     /**
      * @param Filesystem $filesystem
-     * @param \Magento\Config\FileIteratorFactory $iteratorFactory
+     * @param \Magento\Framework\Config\FileIteratorFactory $iteratorFactory
      */
-    public function __construct(Filesystem $filesystem, \Magento\Config\FileIteratorFactory $iteratorFactory)
+    public function __construct(Filesystem $filesystem, \Magento\Framework\Config\FileIteratorFactory $iteratorFactory)
     {
         $this->iteratorFactory = $iteratorFactory;
         $this->modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES_DIR);

@@ -8,7 +8,7 @@
 namespace Magento\Store\Model;
 
 use Magento\Directory\Model\Currency\Filter;
-use Magento\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Store model
@@ -305,7 +305,7 @@ class Store extends AbstractModel implements
     protected $currencyFactory;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\Resource\Store $resource
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
@@ -321,12 +321,12 @@ class Store extends AbstractModel implements
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param bool $isCustomEntryPoint
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Store\Model\Resource\Store $resource,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
@@ -342,7 +342,7 @@ class Store extends AbstractModel implements
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Session\SessionManagerInterface $session,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()
     ) {

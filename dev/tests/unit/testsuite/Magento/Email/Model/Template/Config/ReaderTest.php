@@ -25,7 +25,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected $_moduleDirResolver;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystemDirectoryMock;
 
@@ -66,12 +66,12 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         );
         $schemaLocator = new \Magento\Email\Model\Template\Config\SchemaLocator($moduleReader);
 
-        $validationState = $this->getMock('Magento\Config\ValidationStateInterface');
+        $validationState = $this->getMock('Magento\Framework\Config\ValidationStateInterface');
         $validationState->expects($this->once())->method('isValidated')->will($this->returnValue(false));
 
         $this->_moduleDirResolver = $this->getMock('Magento\Module\Dir\ReverseResolver', array(), array(), '', false);
         $this->_filesystemDirectoryMock = $this->getMock(
-            '\Magento\Filesystem\Directory\Read',
+            '\Magento\Framework\Filesystem\Directory\Read',
             array(),
             array(),
             '',

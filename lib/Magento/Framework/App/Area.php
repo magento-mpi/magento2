@@ -176,11 +176,11 @@ class Area implements \Magento\Framework\App\AreaInterface
     }
 
     /**
-     * @return \Magento\View\DesignInterface
+     * @return \Magento\Framework\View\DesignInterface
      */
     protected function _getDesign()
     {
-        return $this->_objectManager->get('Magento\View\DesignInterface');
+        return $this->_objectManager->get('Magento\Framework\View\DesignInterface');
     }
 
     /**

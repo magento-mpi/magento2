@@ -7,7 +7,7 @@
  */
 namespace Magento\Sales\Model\Order\Grid\Massaction;
 
-class ItemsUpdater implements \Magento\View\Layout\Argument\UpdaterInterface
+class ItemsUpdater implements \Magento\Framework\View\Layout\Argument\UpdaterInterface
 {
     /**
      * @var \Magento\AuthorizationInterface

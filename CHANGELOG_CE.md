@@ -10,6 +10,8 @@
     * Downloadable (MAGETWO-20404)
   * Resolved dependencies of price calculation from Tax module (MAGETWO-20457)
   * Resolved dependencies of price calculation from Weee tax module (MAGETWO-20458)
+* Themes update:
+  * Updated the look&feel of the Admin theme (MAGETWO-21912, MAGETWO-21913)
 * Fixed bugs:
   * Fixed Magento breaks down after delete Main Web Site (MAGETWO-23537)
   * An issue with the inability to save product with grouped price when Price Scope = Website was fixed (MAGETWO-21709)
@@ -38,12 +40,27 @@
   * Fixed: Scheduled Export for 'Remote FTP' does not work (MAGETWO-18584)
   * Fixed: [TD] Wrong default value for PHP memory_limit (MAGETWO-21340)
   * Fixed Messages absence on Frontend with FPC turned off (MAGETWO-23535)
+  * Fixed potential security risk with orders protect_code (MAGETWO-21266)
+  * Fixed error on place order with cache turned on (MAGETWO-23523)
+  * Fixed: Position of page actions buttons on "Categories" backend page (MAGETWO-22969)
+  * Fixed: Improve backend grids UI (MAGETWO-23338)
 * Framework Improvements:
   * Simplify Search related Data Objects (MAGETWO-22613)
   * Moved lib/Magento/* to lib/Magento/Framework/*: (MAGETWO-20866)
     * Moved lib/Magento/App to lib/Magento/Framework/App (MAGETWO-23476)
   * Covered Magento Store components with unit tests:
      * Magento\Store\Model\*
+  * Updated obsolete_classes with changes, introduced by Offline Payment Methods Module implementation (MAGETWO-23619)
+  * Moved lib/Magento/* to lib/Magento/Framework/* (Part 1): (MAGETWO-20866)
+    * Moved lib/Magento/App to lib/Magento/Framework/App
+  * Moved lib/Magento/* to lib/Magento/Framework/* (Part 2): (MAGETWO-23646)
+    * Moved lib/Magento/Data to lib/Magento/Framework/Data
+    * Moved lib/Magento/Filesystem to lib/Magento/Framework/Filesystem
+    * Moved lib/Magento/Config to lib/Magento/Framework/Config
+    * Moved lib/Magento/Model to lib/Magento/Framework/Model
+    * Moved lib/Magento/DB to lib/Magento/Framework/DB
+    * Moved lib/Magento/View to lib/Magento/Framework/View
+
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
   * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)
@@ -56,6 +73,10 @@
   * Implement Service Context Provider (MAGETWO-11084)
   * Restructure webapi.xml (MAGETWO-22665)
   * Renamed createAccount to createCustomer in CustomerAccountService (MAGETWO-22830)
+  * Refactored Persistent Module (MAGETWO-20877)
+  * Refactored GoogleShopping module (MAGETWO-20474)
+  * Refactored ProductAlert module (MAGETWO-20481)
+  * Refactored SendFriend module (MAGETWO-20497)
 * GitHub requests:
   * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
   * [#488] (https://github.com/magento/magento2/issues/488) -- Converted several grids from Magento\Sales module to new layout XML config format

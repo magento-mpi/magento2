@@ -118,7 +118,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @param \Magento\Data\Collection $collection
+     * @param \Magento\Framework\Data\Collection $collection
      * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @return void
      */

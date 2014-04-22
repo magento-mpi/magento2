@@ -20,8 +20,8 @@ namespace Magento\CatalogSearch\Block;
 use Magento\CatalogSearch\Model\Resource\Query\CollectionFactory;
 use Magento\UrlFactory;
 use Magento\UrlInterface;
-use Magento\View\Element\Template;
-use Magento\View\Element\Template\Context;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
 
 class Term extends Template
 {

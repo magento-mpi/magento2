@@ -12,9 +12,9 @@ namespace Magento\Core\Model\Resource\Theme;
 /**
  * Theme collection
  */
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection implements
-    \Magento\View\Design\Theme\Label\ListInterface,
-    \Magento\View\Design\Theme\ListInterface
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection implements
+    \Magento\Framework\View\Design\Theme\Label\ListInterface,
+    \Magento\Framework\View\Design\Theme\ListInterface
 {
     /**
      * Default page size
@@ -102,8 +102,8 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     {
         $this->addTypeFilter(
             array(
-                \Magento\View\Design\ThemeInterface::TYPE_PHYSICAL,
-                \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
+                \Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL,
+                \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL
             )
         );
         return $this;
@@ -159,15 +159,15 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     /**
      * Update all child themes relations
      *
-     * @param \Magento\View\Design\ThemeInterface $themeModel
+     * @param \Magento\Framework\View\Design\ThemeInterface $themeModel
      * @return $this
      */
-    public function updateChildRelations(\Magento\View\Design\ThemeInterface $themeModel)
+    public function updateChildRelations(\Magento\Framework\View\Design\ThemeInterface $themeModel)
     {
         $parentThemeId = $themeModel->getParentId();
         $this->addFieldToFilter('parent_id', array('eq' => $themeModel->getId()))->load();
 
-        /** @var $theme \Magento\View\Design\ThemeInterface */
+        /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         foreach ($this->getItems() as $theme) {
             $theme->setParentId($parentThemeId)->save();
         }
@@ -190,7 +190,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         $this->addAreaFilter(
             \Magento\Framework\App\Area::AREA_FRONTEND
         )->addTypeFilter(
-            \Magento\View\Design\ThemeInterface::TYPE_PHYSICAL
+            \Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL
         );
         if ($page) {
             $this->setPageSize($pageSize)->setCurPage($page);
@@ -207,7 +207,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     public function filterThemeCustomizations(
         $area = \Magento\Framework\App\Area::AREA_FRONTEND,
-        $type = \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
+        $type = \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL
     ) {
         $this->addAreaFilter($area)->addTypeFilter($type);
         return $this;
@@ -221,7 +221,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         $this->_reset()->clear();
         $labels = $this->setOrder(
             'theme_title',
-            \Magento\Data\Collection::SORT_ORDER_ASC
+            \Magento\Framework\Data\Collection::SORT_ORDER_ASC
         )->filterVisibleThemes()->addAreaFilter(
             \Magento\Framework\App\Area::AREA_FRONTEND
         );

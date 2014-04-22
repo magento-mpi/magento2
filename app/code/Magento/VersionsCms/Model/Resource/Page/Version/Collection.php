@@ -97,7 +97,7 @@ class Collection extends \Magento\VersionsCms\Model\Resource\Page\Collection\Abs
      * @param string $dir
      * @return $this
      */
-    public function addNumberSort($dir = \Magento\DB\Select::SQL_DESC)
+    public function addNumberSort($dir = \Magento\Framework\DB\Select::SQL_DESC)
     {
         $this->setOrder('version_number', $dir);
         return $this;

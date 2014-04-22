@@ -13,7 +13,7 @@
             <argument name="sessionName" xsi:type="string">frontend</argument>
         </arguments>
     </type>
-    <type name="Magento\View\Layout">
+    <type name="Magento\Framework\View\Layout">
         <plugin name="core-session-depersonalize"
                 type="Magento\Core\Model\Layout\DepersonalizePlugin" sortOrder="1"/>
     </type>

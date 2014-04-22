@@ -9,7 +9,7 @@
  */
 namespace Magento\Rma\Block\Returns;
 
-class Tracking extends \Magento\View\Element\Template
+class Tracking extends \Magento\Framework\View\Element\Template
 {
     /**
      * Get whether rma is allowed for PSL
@@ -33,12 +33,12 @@ class Tracking extends \Magento\View\Element\Template
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         array $data = array()
     ) {

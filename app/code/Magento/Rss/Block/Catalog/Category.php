@@ -50,7 +50,7 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected $customerSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
@@ -63,7 +63,7 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Layer\Category $catalogLayer,

@@ -176,7 +176,7 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
     public function getTypeSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array(
                 'id' => $this->getFieldPrefix() . '_attribute_{{id}}_type',
@@ -199,7 +199,7 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
     public function getGroupSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array(
                 'id' => $this->getFieldPrefix() . '_attribute_{{id}}_group',
@@ -222,7 +222,7 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
     public function getSearcheableSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array(
                 'id' => $this->getFieldPrefix() . '_attribute_{{id}}_is_searcheable',
@@ -245,7 +245,7 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
     public function getListedSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array(
                 'id' => $this->getFieldPrefix() . '_attribute_{{id}}_is_listed',
@@ -268,7 +268,7 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
     public function getRequiredSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array(
                 'id' => $this->getFieldPrefix() . '_attribute_{{id}}_is_required',

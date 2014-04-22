@@ -181,7 +181,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Cloned Select after dispatching 'catalog_prepare_price_select' event
      *
-     * @var \Magento\DB\Select
+     * @var \Magento\Framework\DB\Select
      */
     protected $_catalogPreparePriceSelect = null;
 
@@ -247,7 +247,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\App\Resource $resource
@@ -270,7 +270,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\App\Resource $resource,
@@ -315,7 +315,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Get cloned Select after dispatching 'catalog_prepare_price_select' event
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getCatalogPreparedSelect()
     {
@@ -325,7 +325,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Prepare additional price expression sql part
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @return $this
      */
     protected function _preparePriceExpressionParameters($select)
@@ -361,7 +361,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Get price expression sql part
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @return string
      */
     public function getPriceExpression($select)
@@ -375,7 +375,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Get additional price expression sql part
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @return string
      */
     public function getAdditionalPriceExpression($select)
@@ -498,7 +498,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function setEntity($entity)
     {
-        if ($this->isEnabledFlat() && $entity instanceof \Magento\Model\Resource\Db\AbstractDb) {
+        if ($this->isEnabledFlat() && $entity instanceof \Magento\Framework\Model\Resource\Db\AbstractDb) {
             $this->_entity = $entity;
             return $this;
         }
@@ -943,7 +943,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function getAllAttributeValues($attribute)
     {
-        /** @var $select \Magento\DB\Select */
+        /** @var $select \Magento\Framework\DB\Select */
         $select = clone $this->getSelect();
         $attribute = $this->getEntity()->getAttribute($attribute);
 
@@ -968,7 +968,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Get SQL for get record count without left JOINs
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {
@@ -980,7 +980,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      *
      * @param null $select
      * @param bool $resetLeftJoins
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getSelectCountSql($select = null, $resetLeftJoins = true)
     {
@@ -1024,7 +1024,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Retrieve clear select
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getClearSelect()
     {
@@ -1034,8 +1034,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Build clear select
      *
-     * @param \Magento\DB\Select $select
-     * @return \Magento\DB\Select
+     * @param \Magento\Framework\DB\Select $select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _buildClearSelect($select = null)
     {
@@ -1070,7 +1070,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Retrieve product count select for categories
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getProductCountSelect()
     {
@@ -1179,7 +1179,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     public function getSetIds()
     {
         $select = clone $this->getSelect();
-        /** @var $select \Magento\DB\Select */
+        /** @var $select \Magento\Framework\DB\Select */
         $select->reset(\Zend_Db_Select::COLUMNS);
         $select->distinct(true);
         $select->columns('attribute_set_id');
@@ -1194,7 +1194,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     public function getProductTypeIds()
     {
         $select = clone $this->getSelect();
-        /** @var $select \Magento\DB\Select */
+        /** @var $select \Magento\Framework\DB\Select */
         $select->reset(\Zend_Db_Select::COLUMNS);
         $select->distinct(true);
         $select->columns('type_id');

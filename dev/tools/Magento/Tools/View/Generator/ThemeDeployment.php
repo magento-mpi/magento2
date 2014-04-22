@@ -17,7 +17,7 @@ class ThemeDeployment
     /**
      * Helper to process CSS content and fix urls
      *
-     * @var \Magento\View\Url\CssResolver
+     * @var \Magento\Framework\View\Url\CssResolver
      */
     private $_cssUrlResolver;
 
@@ -57,27 +57,27 @@ class ThemeDeployment
     private $appState;
 
     /**
-     * @var \Magento\View\Asset\PreProcessor\PreProcessorInterface
+     * @var \Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface
      */
     private $preProcessor;
 
     /**
-     * @var \Magento\View\Publisher\FileFactory
+     * @var \Magento\Framework\View\Publisher\FileFactory
      */
     private $fileFactory;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     private $tmpDirectory;
 
     /**
      * Constructor
      *
-     * @param \Magento\View\Url\CssResolver $cssUrlResolver
+     * @param \Magento\Framework\View\Url\CssResolver $cssUrlResolver
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\View\Asset\PreProcessor\PreProcessorInterface $preProcessor
-     * @param \Magento\View\Publisher\FileFactory $fileFactory
+     * @param \Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface $preProcessor
+     * @param \Magento\Framework\View\Publisher\FileFactory $fileFactory
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Core\Model\Theme\DataFactory $themeFactory
      * @param string $destinationHomeDir
@@ -88,10 +88,10 @@ class ThemeDeployment
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Url\CssResolver $cssUrlResolver,
+        \Magento\Framework\View\Url\CssResolver $cssUrlResolver,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\View\Asset\PreProcessor\PreProcessorInterface $preProcessor,
-        \Magento\View\Publisher\FileFactory $fileFactory,
+        \Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface $preProcessor,
+        \Magento\Framework\View\Publisher\FileFactory $fileFactory,
         \Magento\Framework\App\State $appState,
         \Magento\Core\Model\Theme\DataFactory $themeFactory,
         $destinationHomeDir,
@@ -150,7 +150,7 @@ class ThemeDeployment
             $destinationContext = $copyRule['destinationContext'];
             $context = array('source' => $copyRule['source'], 'destinationContext' => $destinationContext);
 
-            $destDir = \Magento\View\DeployedFilesManager::buildDeployedFilePath(
+            $destDir = \Magento\Framework\View\DeployedFilesManager::buildDeployedFilePath(
                 $destinationContext['area'],
                 $destinationContext['themePath'],
                 '',
@@ -196,7 +196,7 @@ class ThemeDeployment
                 array_merge($context['destinationContext'], array('themeModel' => $themeModel)),
                 $fileSource
             );
-            /** @var \Magento\View\Publisher\FileAbstract $fileObject */
+            /** @var \Magento\Framework\View\Publisher\FileAbstract $fileObject */
             $fileObject = $this->appState->emulateAreaCode(
                 $context['destinationContext']['area'],
                 array($this->preProcessor, 'process'),
@@ -252,13 +252,13 @@ class ThemeDeployment
             $destContext = $context['destinationContext'];
             $destHomeDir = $this->_destinationHomeDir;
             $callback = function ($relativeUrl) use ($destContext, $destFileDir, $destHomeDir) {
-                $parts = explode(\Magento\View\Service::SCOPE_SEPARATOR, $relativeUrl);
+                $parts = explode(\Magento\Framework\View\Service::SCOPE_SEPARATOR, $relativeUrl);
                 if (count($parts) == 2) {
                     list($module, $file) = $parts;
                     if (!strlen($module) || !strlen($file)) {
                         throw new \Magento\Exception("Wrong module url: {$relativeUrl}");
                     }
-                    $relPath = \Magento\View\DeployedFilesManager::buildDeployedFilePath(
+                    $relPath = \Magento\Framework\View\DeployedFilesManager::buildDeployedFilePath(
                         $destContext['area'],
                         $destContext['themePath'],
                         $file,

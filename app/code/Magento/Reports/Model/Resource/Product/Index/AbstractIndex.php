@@ -12,7 +12,7 @@ namespace Magento\Reports\Model\Resource\Product\Index;
 /**
  * Reports Product Index Abstract Resource Model
  */
-abstract class AbstractIndex extends \Magento\Model\Resource\Db\AbstractDb
+abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime
@@ -125,10 +125,10 @@ abstract class AbstractIndex extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Save Product Index data (forced save)
      *
-     * @param \Magento\Model\AbstractModel $object
-     * @return $this|\Magento\Model\Resource\Db\AbstractDb
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return $this|\Magento\Framework\Model\Resource\Db\AbstractDb
      */
-    public function save(\Magento\Model\AbstractModel $object)
+    public function save(\Magento\Framework\Model\AbstractModel $object)
     {
         if ($object->isDeleted()) {
             return $this->delete($object);

@@ -31,16 +31,16 @@ class FormTest extends \PHPUnit_Framework_TestCase
             false
         );
         $paypalConfigFactory->expects($this->once())->method('create')->will($this->returnValue($this->_paypalConfig));
-        $mark = $this->getMock('Magento\View\Element\Template', array(), array(), '', false);
+        $mark = $this->getMock('Magento\Framework\View\Element\Template', array(), array(), '', false);
         $mark->expects($this->once())->method('setTemplate')->will($this->returnSelf());
         $mark->expects($this->any())->method('__call')->will($this->returnSelf());
-        $layout = $this->getMockForAbstractClass('Magento\View\LayoutInterface');
+        $layout = $this->getMockForAbstractClass('Magento\Framework\View\LayoutInterface');
         $layout->expects(
             $this->once()
         )->method(
             'createBlock'
         )->with(
-            'Magento\View\Element\Template'
+            'Magento\Framework\View\Element\Template'
         )->will(
             $this->returnValue($mark)
         );

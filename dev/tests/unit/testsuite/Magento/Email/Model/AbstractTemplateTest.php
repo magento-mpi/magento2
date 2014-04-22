@@ -31,7 +31,7 @@ class AbstractTemplateTest extends \PHPUnit_Framework_TestCase
             $helper->getConstructArguments(
                 'Magento\Email\Model\AbstractTemplate',
                 array(
-                    'design' => $this->getMock('Magento\View\DesignInterface'),
+                    'design' => $this->getMock('Magento\Framework\View\DesignInterface'),
                     'data' => array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 1)
                 )
             )

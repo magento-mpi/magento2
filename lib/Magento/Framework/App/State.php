@@ -47,7 +47,7 @@ class State
     /**
      * Config scope model
      *
-     * @var \Magento\Config\ScopeInterface
+     * @var \Magento\Framework\Config\ScopeInterface
      */
     protected $_configScope;
 
@@ -71,13 +71,16 @@ class State
     const PARAM_INSTALL_DATE = 'install.date';
 
     /**
-     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Framework\Config\ScopeInterface $configScope
      * @param string $installDate
      * @param string $mode
      * @throws \LogicException
      */
-    public function __construct(\Magento\Config\ScopeInterface $configScope, $installDate, $mode = self::MODE_DEFAULT)
-    {
+    public function __construct(
+        \Magento\Framework\Config\ScopeInterface $configScope,
+        $installDate,
+        $mode = self::MODE_DEFAULT
+    ) {
         $this->_installDate = strtotime((string)$installDate);
         $this->_configScope = $configScope;
         switch ($mode) {

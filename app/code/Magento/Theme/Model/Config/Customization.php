@@ -20,12 +20,12 @@ class Customization
     protected $_storeManager;
 
     /**
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_design;
 
     /**
-     * @var \Magento\View\Design\Theme\ThemeProviderInterface
+     * @var \Magento\Framework\View\Design\Theme\ThemeProviderInterface
      */
     protected $themeProvider;
 
@@ -47,13 +47,13 @@ class Customization
 
     /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\View\DesignInterface $design
-     * @param \Magento\View\Design\Theme\ThemeProviderInterface $themeProvider
+     * @param \Magento\Framework\View\DesignInterface $design
+     * @param \Magento\Framework\View\Design\Theme\ThemeProviderInterface $themeProvider
      */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\View\DesignInterface $design,
-        \Magento\View\Design\Theme\ThemeProviderInterface $themeProvider
+        \Magento\Framework\View\DesignInterface $design,
+        \Magento\Framework\View\Design\Theme\ThemeProviderInterface $themeProvider
     ) {
         $this->_storeManager = $storeManager;
         $this->_design = $design;
@@ -111,7 +111,7 @@ class Customization
     /**
      * Check if current theme has assigned to any store
      *
-     * @param \Magento\View\Design\ThemeInterface $theme
+     * @param \Magento\Framework\View\Design\ThemeInterface $theme
      * @param null|\Magento\Store\Model\Store $store
      * @return bool
      */
@@ -137,7 +137,7 @@ class Customization
     /**
      * Is theme assigned to specific store
      *
-     * @param \Magento\View\Design\ThemeInterface $theme
+     * @param \Magento\Framework\View\Design\ThemeInterface $theme
      * @param \Magento\Store\Model\Store $store
      * @return bool
      */
@@ -179,7 +179,7 @@ class Customization
         $this->_assignedTheme = array();
         $this->_unassignedTheme = array();
 
-        /** @var $theme \Magento\View\Design\ThemeInterface */
+        /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         foreach ($themeCollection as $theme) {
             if (isset($assignedThemes[$theme->getId()])) {
                 $theme->setAssignedStores($assignedThemes[$theme->getId()]);

@@ -39,7 +39,7 @@ lib/Magento/Translate/Adapter.php
 # __ method for Translate cannot be in camelCase
 lib/Magento/Translate/AdapterInterface.php
 # WrapperInterface methods cannot be camelCase as they follow method naming convention from framework classes
-lib/Magento/Filesystem/WrapperInterface.php
+lib/Magento/Framework/Filesystem/WrapperInterface.php
 # PSR-1 not applied to
 dev/tests/integration/testsuite/Magento
 # PSR-1 not applied to

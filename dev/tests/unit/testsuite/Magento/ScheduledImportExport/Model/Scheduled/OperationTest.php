@@ -33,7 +33,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Model\Context | Mock
+     * @var \Magento\Framework\Model\Context | Mock
      */
     protected $contextMock;
 
@@ -98,13 +98,13 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     protected $resourceMock;
 
     /**
-     * @var \Magento\Data\Collection\Db | Mock
+     * @var \Magento\Framework\Data\Collection\Db | Mock
      */
     protected $resourceCollectionMock;
 
     protected function setUp()
     {
-        $this->contextMock = $this->getMockBuilder('Magento\Model\Context')
+        $this->contextMock = $this->getMockBuilder('Magento\Framework\Model\Context')
             ->disableOriginalConstructor()
             ->getMock();
         $this->registryMock = $this->getMockBuilder('Magento\Registry')
@@ -146,7 +146,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $this->resourceMock = $this->getMockBuilder('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->resourceCollectionMock = $this->getMockBuilder('Magento\Data\Collection\Db')
+        $this->resourceCollectionMock = $this->getMockBuilder('Magento\Framework\Data\Collection\Db')
             ->disableOriginalConstructor()
             ->getMock();
         $data = [];
@@ -241,7 +241,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         );
 
         $directory = $this->getMockBuilder(
-            'Magento\Filesystem\Directory\Write'
+            'Magento\Framework\Filesystem\Directory\Write'
         )->disableOriginalConstructor()->getMock();
         $directory->expects($this->once())->method('getAbsolutePath')->will($this->returnArgument(0));
         $filesystem =
@@ -328,7 +328,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
             ->method('getScheduledFileName')
             ->will($this->returnValue($scheduledFileName));
 
-        $writeDirectoryMock = $this->getMockBuilder('Magento\Filesystem\Directory\Write')
+        $writeDirectoryMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\Write')
             ->disableOriginalConstructor()
             ->getMock();
         $writeDirectoryMock->expects($this->any())
@@ -394,7 +394,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
             ->method('getScheduledFileName')
             ->will($this->returnValue($scheduledFileName));
 
-        $writeDirectoryMock = $this->getMockBuilder('Magento\Filesystem\Directory\Write')
+        $writeDirectoryMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\Write')
             ->disableOriginalConstructor()
             ->getMock();
         $writeDirectoryMock->expects($this->any())
@@ -416,7 +416,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     /**
      * Test saveFileSource() that throws Exception during opening ftp connection
      *
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage We couldn't write file "scheduled_filename.csv" to "/test" with the "ftp" driver.
      */
     public function testSaveFileSourceException()
@@ -458,7 +458,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
             ->method('getScheduledFileName')
             ->will($this->returnValue($scheduledFileName));
 
-        $writeDirectoryMock = $this->getMockBuilder('Magento\Filesystem\Directory\Write')
+        $writeDirectoryMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\Write')
             ->disableOriginalConstructor()
             ->getMock();
         $writeDirectoryMock->expects($this->any())
@@ -481,7 +481,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     /**
      * Test getFileSource() if 'file_name' not exists
      *
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedMessage We couldn't read the file source because the file name is empty.
      */
     public function testGetFileSource()
@@ -525,7 +525,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
             ->method('getServerTypesOptionArray')
             ->will($this->returnValue($serverOptions));
 
-        $writeDirectoryMock = $this->getMockBuilder('Magento\Filesystem\Directory\Write')
+        $writeDirectoryMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\Write')
             ->disableOriginalConstructor()
             ->getMock();
         $writeDirectoryMock->expects($this->any())
@@ -585,10 +585,10 @@ class OperationTest extends \PHPUnit_Framework_TestCase
             ->method('getServerTypesOptionArray')
             ->will($this->returnValue($serverOptions));
 
-        $writeDirectoryMock = $this->getMockBuilder('Magento\Filesystem\Directory\Write')
+        $writeDirectoryMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\Write')
             ->disableOriginalConstructor()
             ->getMock();
-        $readDirectoryMock = $this->getMockBuilder('Magento\Filesystem\Directory\Read')
+        $readDirectoryMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\Read')
             ->disableOriginalConstructor()
             ->getMock();
         $readDirectoryMock->expects($this->any())
@@ -628,7 +628,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @exceptionMessage We couldn't read the import file.
      */
     public function testGetFileSourceFtpException()
@@ -657,7 +657,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
             ->method('getServerTypesOptionArray')
             ->will($this->returnValue($serverOptions));
 
-        $writeDirectoryMock = $this->getMockBuilder('Magento\Filesystem\Directory\Write')
+        $writeDirectoryMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\Write')
             ->disableOriginalConstructor()
             ->getMock();
         $writeDirectoryMock->expects($this->any())
@@ -675,7 +675,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
 
         $this->ftpMock->expects($this->any())
             ->method('open')
-            ->will($this->throwException(new \Magento\Filesystem\FilesystemException('Can not open file')));
+            ->will($this->throwException(new \Magento\Framework\Filesystem\FilesystemException('Can not open file')));
         $this->ftpMock->expects($this->any())
             ->method('read')
             ->will($this->returnValue(true));

@@ -12,7 +12,7 @@ namespace Magento\Backend\Controller\Adminhtml;
 use Magento\Backend\App\Action;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * URL rewrite adminhtml controller
@@ -363,7 +363,7 @@ class Urlrewrite extends Action
      *
      * @param \Magento\UrlRewrite\Model\UrlRewrite $model
      * @return void
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     private function _handleCmsPageUrlRewrite($model)
     {

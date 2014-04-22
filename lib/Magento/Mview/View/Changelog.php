@@ -22,7 +22,7 @@ class Changelog implements ChangelogInterface
     /**
      * Database write connection
      *
-     * @var \Magento\DB\Adapter\AdapterInterface
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $write;
 
@@ -78,13 +78,13 @@ class Changelog implements ChangelogInterface
             $changelogTableName
         )->addColumn(
             'version_id',
-            \Magento\DB\Ddl\Table::TYPE_INTEGER,
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             null,
             array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
             'Version ID'
         )->addColumn(
             $this->getColumnName(),
-            \Magento\DB\Ddl\Table::TYPE_INTEGER,
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             null,
             array('unsigned' => true, 'nullable' => false, 'default' => '0'),
             'Entity ID'

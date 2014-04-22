@@ -47,7 +47,7 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
     /** @var \Magento\Framework\App\State */
     protected $_appState;
 
-    /** @var \Magento\View\LayoutInterface */
+    /** @var \Magento\Framework\View\LayoutInterface */
     protected $_layout;
 
     /**
@@ -77,7 +77,7 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
      * @param \Magento\Webapi\Model\Soap\Server $soapServer
      * @param ErrorProcessor $errorProcessor
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param PathProcessor $pathProcessor
@@ -92,7 +92,7 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
         \Magento\Webapi\Model\Soap\Server $soapServer,
         ErrorProcessor $errorProcessor,
         \Magento\Framework\App\State $appState,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Locale\ResolverInterface $localeResolver,
         PathProcessor $pathProcessor,

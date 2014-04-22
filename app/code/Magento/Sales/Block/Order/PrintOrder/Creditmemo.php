@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Block\Order\PrintOrder;
 
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock;
 
 /**
  * Sales order details block
@@ -29,13 +29,13 @@ class Creditmemo extends \Magento\Sales\Block\Items\AbstractItems
     protected $_paymentHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Payment\Helper\Data $paymentHelper,
         array $data = array()

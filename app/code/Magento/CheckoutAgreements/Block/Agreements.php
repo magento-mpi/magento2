@@ -7,7 +7,7 @@
  */
 namespace Magento\CheckoutAgreements\Block;
 
-class Agreements extends \Magento\View\Element\Template
+class Agreements extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory
@@ -15,12 +15,12 @@ class Agreements extends \Magento\View\Element\Template
     protected $_agreementCollectionFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory,
         array $data = array()
     ) {

@@ -33,7 +33,7 @@ class Store extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Store\Model\GroupFactory $groupFactory
      * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
      * @param array $data
@@ -41,7 +41,7 @@ class Store extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\GroupFactory $groupFactory,
         \Magento\Store\Model\WebsiteFactory $websiteFactory,
         array $data = array()
@@ -54,11 +54,11 @@ class Store extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
     /**
      * Prepare store specific fieldset
      *
-     * @param \Magento\Data\Form $form
+     * @param \Magento\Framework\Data\Form $form
      * @return void
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    protected function _prepareStoreFieldset(\Magento\Data\Form $form)
+    protected function _prepareStoreFieldset(\Magento\Framework\Data\Form $form)
     {
         $storeModel = $this->_coreRegistry->registry('store_data');
         $postData = $this->_coreRegistry->registry('store_post_data');

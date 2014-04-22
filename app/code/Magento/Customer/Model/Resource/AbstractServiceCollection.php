@@ -17,7 +17,7 @@ use Magento\Exception;
 /**
  * Base for customer service collections
  */
-abstract class AbstractServiceCollection extends \Magento\Data\Collection
+abstract class AbstractServiceCollection extends \Magento\Framework\Data\Collection
 {
     /**
      * Filters on specific fields

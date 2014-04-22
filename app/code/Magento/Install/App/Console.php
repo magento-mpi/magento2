@@ -40,7 +40,7 @@ class Console implements \Magento\Framework\AppInterface
     protected $_objectManager;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $rootDirectory;
 

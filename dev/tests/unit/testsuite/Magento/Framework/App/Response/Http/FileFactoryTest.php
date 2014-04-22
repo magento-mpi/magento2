@@ -25,7 +25,7 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
     protected $_responseMock;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_dirMock;
 
@@ -39,7 +39,7 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_dirMock = $this->getMockBuilder(
-            '\Magento\Filesystem\Directory\Write'
+            '\Magento\Framework\Filesystem\Directory\Write'
         )->disableOriginalConstructor()->getMock();
 
         $this->_fileSystemMock->expects(

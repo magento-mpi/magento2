@@ -173,7 +173,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
     protected $_transportBuilder;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -186,12 +186,12 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
      * @param Shipment\CommentFactory $commentFactory
      * @param \Magento\Sales\Model\Resource\Order\Shipment\Comment\CollectionFactory $commentCollectionFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Stdlib\DateTime $dateTime,
@@ -204,8 +204,8 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Order\Shipment\CommentFactory $commentFactory,
         \Magento\Sales\Model\Resource\Order\Shipment\Comment\CollectionFactory $commentCollectionFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
@@ -309,12 +309,12 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
      * Apply to order, order items etc.
      *
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function register()
     {
         if ($this->getId()) {
-            throw new \Magento\Model\Exception(__('We cannot register an existing shipment'));
+            throw new \Magento\Framework\Model\Exception(__('We cannot register an existing shipment'));
         }
 
         $totalQty = 0;
@@ -459,7 +459,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
 
         /**
          * Track saving is implemented in _afterSave()
-         * This enforces \Magento\Model\AbstractModel::save() not to skip _afterSave()
+         * This enforces \Magento\Framework\Model\AbstractModel::save() not to skip _afterSave()
          */
         $this->_hasDataChanges = true;
 
@@ -766,12 +766,12 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
      * Before object save
      *
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave()
     {
         if ((!$this->getId() || null !== $this->_items) && !count($this->getAllItems())) {
-            throw new \Magento\Model\Exception(__('We cannot create an empty shipment.'));
+            throw new \Magento\Framework\Model\Exception(__('We cannot create an empty shipment.'));
         }
 
         if (!$this->getOrderId() && $this->getOrder()) {
@@ -783,7 +783,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _beforeDelete()
     {

@@ -10,7 +10,7 @@ namespace Magento\Core\Model;
 class DesignLoaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\DesignLoader
+     * @var \Magento\Framework\View\DesignLoader
      */
     protected $_model;
 
@@ -34,7 +34,7 @@ class DesignLoaderTest extends \PHPUnit_Framework_TestCase
         $this->_areaListMock = $this->getMock('\Magento\Framework\App\AreaList', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
         $this->appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
-        $this->_model = new \Magento\View\DesignLoader(
+        $this->_model = new \Magento\Framework\View\DesignLoader(
             $this->_requestMock,
             $this->_areaListMock,
             $this->appState

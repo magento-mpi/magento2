@@ -8,7 +8,7 @@
 
 namespace Magento\Translation\Block;
 
-use Magento\View\Element\BlockInterface;
+use Magento\Framework\View\Element\BlockInterface;
 use \Magento\Translation\Model\Js as DataProvider;
 use \Magento\Translate\InlineInterface as InlineTranslator;
 

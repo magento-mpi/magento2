@@ -12,7 +12,7 @@ namespace Magento\Rss\Block;
 /**
  * Review form block
  */
-class ListBlock extends \Magento\View\Element\Template
+class ListBlock extends \Magento\Framework\View\Element\Template
 {
     const XML_PATH_RSS_METHODS = 'rss';
 
@@ -32,13 +32,13 @@ class ListBlock extends \Magento\View\Element\Template
     protected $_categoryFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         array $data = array()

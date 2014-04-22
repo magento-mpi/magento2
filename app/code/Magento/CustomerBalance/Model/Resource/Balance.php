@@ -16,7 +16,7 @@ namespace Magento\CustomerBalance\Model\Resource;
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Balance extends \Magento\Model\Resource\Db\AbstractDb
+class Balance extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize table name and primary key name

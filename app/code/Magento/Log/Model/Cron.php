@@ -18,7 +18,7 @@
  */
 namespace Magento\Log\Model;
 
-class Cron extends \Magento\Model\AbstractModel
+class Cron extends \Magento\Framework\Model\AbstractModel
 {
     const XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE = 'system/log/error_email_template';
 
@@ -63,27 +63,27 @@ class Cron extends \Magento\Model\AbstractModel
     protected $inlineTranslation;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Log\Model\Log $log
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Log\Model\Log $log,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_transportBuilder = $transportBuilder;

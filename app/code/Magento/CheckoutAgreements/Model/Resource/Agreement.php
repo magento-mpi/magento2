@@ -10,7 +10,7 @@ namespace Magento\CheckoutAgreements\Model\Resource;
 /**
  * Resource Model for Checkout Agreement
  */
-class Agreement extends \Magento\Model\Resource\Db\AbstractDb
+class Agreement extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Filter\FilterManager
@@ -40,10 +40,10 @@ class Agreement extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Method to run before save
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         // format height
         $height = $object->getContentHeight();
@@ -61,10 +61,10 @@ class Agreement extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Method to run after save
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $condition = array('agreement_id = ?' => $object->getId());
         $this->_getWriteAdapter()->delete($this->getTable('checkout_agreement_store'), $condition);
@@ -82,10 +82,10 @@ class Agreement extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Method to run after load
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterLoad(\Magento\Model\AbstractModel $object)
+    protected function _afterLoad(\Magento\Framework\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select()->from(
             $this->getTable('checkout_agreement_store'),
@@ -106,8 +106,8 @@ class Agreement extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param string $field
      * @param mixed $value
-     * @param \Magento\Model\AbstractModel $object
-     * @return \Magento\DB\Select
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {

@@ -11,7 +11,7 @@
  */
 namespace Magento\Logging\Model\Resource;
 
-class Helper extends \Magento\DB\Helper
+class Helper extends \Magento\Framework\DB\Helper
 {
     /**
      * Construct

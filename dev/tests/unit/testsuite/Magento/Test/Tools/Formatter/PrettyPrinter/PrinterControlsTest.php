@@ -90,7 +90,7 @@ protected function alpha() {
             throw new \Magento\SomeModule\Exception(__('You cannot void a verification transaction.'));
         }elseif($response->getResultCode() != self::RESPONSE_CODE_APPROVED
             && $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
-        ){throw new \Magento\Model\Exception($response->getRespmsg());}}}
+        ){throw new \Magento\Framework\Model\Exception($response->getRespmsg());}}}
 ORIGINALIF5;
         $formattedIf5 = <<<'FORMATTEDIF5'
 <?php
@@ -103,7 +103,7 @@ class If5
         } elseif ($response->getResultCode() != self::RESPONSE_CODE_APPROVED &&
             $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
         ) {
-            throw new \Magento\Model\Exception($response->getRespmsg());
+            throw new \Magento\Framework\Model\Exception($response->getRespmsg());
         }
     }
 }
@@ -414,7 +414,7 @@ FORMATTEDCLOSURE2;
 class CSample3 {
     public function cS3() {
         $order = array_merge(array($codeDir, $jsDir), array_map(function ($fileTheme) {
-            /** @var $fileTheme \Magento\View\Design\ThemeInterface */
+            /** @var $fileTheme \Magento\Framework\View\Design\ThemeInterface */
             return $fileTheme->getThemeId();
         }, $themes));}}
 ORIGINALCLOSURE3;
@@ -428,7 +428,7 @@ class CSample3
             array($codeDir, $jsDir),
             array_map(
                 function ($fileTheme) {
-                    /** @var $fileTheme \Magento\View\Design\ThemeInterface */
+                    /** @var $fileTheme \Magento\Framework\View\Design\ThemeInterface */
                     return $fileTheme->getThemeId();
                 },
                 $themes

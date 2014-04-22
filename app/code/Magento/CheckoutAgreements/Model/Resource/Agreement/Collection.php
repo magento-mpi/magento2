@@ -10,7 +10,7 @@ namespace Magento\CheckoutAgreements\Model\Resource\Agreement;
 /**
  * Resource Model for Agreement Collection
  */
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var array

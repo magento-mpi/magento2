@@ -9,7 +9,7 @@
  */
 namespace Magento\Eav\Model\Entity\Attribute\Config;
 
-class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
+class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
 {
     /**
      * Schema file

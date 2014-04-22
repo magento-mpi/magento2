@@ -22,7 +22,7 @@ class CouponTest extends \PHPUnit_Framework_TestCase
     /**
      * Layout
      *
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -30,7 +30,7 @@ class CouponTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\LayoutInterface');
+            ->get('Magento\Framework\View\LayoutInterface');
     }
 
     /**

@@ -72,10 +72,10 @@ class DepersonalizePlugin
     /**
      * Before layout generate
      *
-     * @param \Magento\View\LayoutInterface $subject
+     * @param \Magento\Framework\View\LayoutInterface $subject
      * @return void
      */
-    public function beforeGenerateXml(\Magento\View\LayoutInterface $subject)
+    public function beforeGenerateXml(\Magento\Framework\View\LayoutInterface $subject)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')
             && $this->cacheConfig->isEnabled()
@@ -89,11 +89,11 @@ class DepersonalizePlugin
     /**
      * After layout generate
      *
-     * @param \Magento\View\LayoutInterface $subject
-     * @param \Magento\View\LayoutInterface $result
-     * @return \Magento\View\LayoutInterface
+     * @param \Magento\Framework\View\LayoutInterface $subject
+     * @param \Magento\Framework\View\LayoutInterface $result
+     * @return \Magento\Framework\View\LayoutInterface
      */
-    public function afterGenerateXml(\Magento\View\LayoutInterface $subject, $result)
+    public function afterGenerateXml(\Magento\Framework\View\LayoutInterface $subject, $result)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')
             && $this->cacheConfig->isEnabled()

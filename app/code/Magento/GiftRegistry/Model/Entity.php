@@ -39,7 +39,7 @@ namespace Magento\GiftRegistry\Model;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Entity extends \Magento\Model\AbstractModel
+class Entity extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * XML configuration paths
@@ -193,7 +193,7 @@ class Entity extends \Magento\Model\AbstractModel
     protected $inlineTranslation;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -221,7 +221,7 @@ class Entity extends \Magento\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -287,7 +287,7 @@ class Entity extends \Magento\Model\AbstractModel
     /**
      * Get resource instance
      *
-     * @return \Magento\Model\Resource\Db\AbstractDb
+     * @return \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _getResource()
     {
@@ -330,7 +330,7 @@ class Entity extends \Magento\Model\AbstractModel
      * @param int|\Magento\Sales\Model\Quote\Item $itemToAdd
      * @param null|\Magento\Object $request
      * @return false|Item
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function addItem($itemToAdd, $request = null)
     {
@@ -347,7 +347,7 @@ class Entity extends \Magento\Model\AbstractModel
             $product
         ) && (!$request && !$itemToAdd instanceof \Magento\Sales\Model\Quote\Item)
         ) {
-            throw new \Magento\Model\Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
+            throw new \Magento\Framework\Model\Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
         if ($itemToAdd instanceof \Magento\Sales\Model\Quote\Item) {
@@ -365,7 +365,7 @@ class Entity extends \Magento\Model\AbstractModel
 
         if (is_string($cartCandidates)) {
             //prepare process has error, seems like we have bundle
-            throw new \Magento\Model\Exception($cartCandidates, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
+            throw new \Magento\Framework\Model\Exception($cartCandidates, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
         $item = $this->itemFactory->create();
@@ -948,7 +948,7 @@ class Entity extends \Magento\Model\AbstractModel
         $product = $this->_getData('product');
         if (is_null($product)) {
             if (!$productId) {
-                throw new \Magento\Model\Exception(__('We cannot specify the product.'));
+                throw new \Magento\Framework\Model\Exception(__('We cannot specify the product.'));
             }
 
             $product = $this->productFactory->create()->load($productId);
@@ -1105,7 +1105,7 @@ class Entity extends \Magento\Model\AbstractModel
      * @param array $items
      * @return void
      * @throws \Magento\Exception
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _validateItems($items)
     {
@@ -1116,13 +1116,13 @@ class Entity extends \Magento\Model\AbstractModel
                     /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
                     $stockItem = $this->inventoryStockItem;
                     $stockItem->loadByProduct($model->getProductId());
-                    // not \Magento\Model\Exception intentionally
+                    // not \Magento\Framework\Model\Exception intentionally
                     if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
                         throw new \Magento\Exception(__('Please correct the  gift registry item quantity.'));
                     }
                 }
             } else {
-                throw new \Magento\Model\Exception(__('Please correct the gift registry item ID.'));
+                throw new \Magento\Framework\Model\Exception(__('Please correct the gift registry item ID.'));
             }
         }
     }

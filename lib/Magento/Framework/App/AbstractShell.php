@@ -34,7 +34,7 @@ abstract class AbstractShell
     protected $_entryPoint = null;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $rootDirectory;
 

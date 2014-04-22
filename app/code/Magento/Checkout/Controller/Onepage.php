@@ -491,7 +491,7 @@ class Onepage extends Action
                 $result['fields'] = $e->getFields();
             }
             $result['error'] = $e->getMessage();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $result['error'] = $e->getMessage();
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -597,7 +597,7 @@ class Onepage extends Action
             }
             $result['goto_section'] = 'payment';
             $result['update_section'] = array('name' => 'payment-method', 'html' => $this->_getPaymentMethodsHtml());
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_objectManager->get(
                 'Magento\Checkout\Helper\Data'

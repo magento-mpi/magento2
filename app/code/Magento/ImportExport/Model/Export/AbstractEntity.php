@@ -23,7 +23,7 @@ abstract class AbstractEntity
     /**#@+
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = 'Magento\Data\Collection';
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento\Framework\Data\Collection';
 
     /**#@-*/
 
@@ -135,7 +135,7 @@ abstract class AbstractEntity
     /**
      * Address attributes collection
      *
-     * @var \Magento\Data\Collection
+     * @var \Magento\Framework\Data\Collection
      */
     protected $_attributeCollection;
 
@@ -266,7 +266,7 @@ abstract class AbstractEntity
     /**
      * Export one item
      *
-     * @param \Magento\Model\AbstractModel $item
+     * @param \Magento\Framework\Model\AbstractModel $item
      * @return void
      */
     abstract public function exportItem($item);
@@ -274,10 +274,10 @@ abstract class AbstractEntity
     /**
      * Iterate through given collection page by page and export items
      *
-     * @param \Magento\Data\Collection\Db $collection
+     * @param \Magento\Framework\Data\Collection\Db $collection
      * @return void
      */
-    protected function _exportCollectionByPages(\Magento\Data\Collection\Db $collection)
+    protected function _exportCollectionByPages(\Magento\Framework\Data\Collection\Db $collection)
     {
         $this->_byPagesIterator->iterate($collection, $this->_pageSize, array(array($this, 'exportItem')));
     }
@@ -300,14 +300,14 @@ abstract class AbstractEntity
     /**
      * Get entity collection
      *
-     * @return \Magento\Data\Collection\Db
+     * @return \Magento\Framework\Data\Collection\Db
      */
     abstract protected function _getEntityCollection();
 
     /**
      * Entity attributes collection getter
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getAttributeCollection()
     {
@@ -317,10 +317,10 @@ abstract class AbstractEntity
     /**
      * Clean up attribute collection
      *
-     * @param \Magento\Data\Collection $collection
-     * @return \Magento\Data\Collection
+     * @param \Magento\Framework\Data\Collection $collection
+     * @return \Magento\Framework\Data\Collection
      */
-    public function filterAttributeCollection(\Magento\Data\Collection $collection)
+    public function filterAttributeCollection(\Magento\Framework\Data\Collection $collection)
     {
         /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
         foreach ($collection as $attribute) {
@@ -400,12 +400,12 @@ abstract class AbstractEntity
      * Inner writer object getter
      *
      * @return AbstractAdapter
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getWriter()
     {
         if (!$this->_writer) {
-            throw new \Magento\Model\Exception(__('Please specify writer.'));
+            throw new \Magento\Framework\Model\Exception(__('Please specify writer.'));
         }
 
         return $this->_writer;

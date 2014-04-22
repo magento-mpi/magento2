@@ -11,7 +11,7 @@
  */
 namespace Magento\Core\Model\Theme\Image;
 
-class Path implements \Magento\View\Design\Theme\Image\PathInterface
+class Path implements \Magento\Framework\View\Design\Theme\Image\PathInterface
 {
     /**
      * Default theme preview image
@@ -26,7 +26,7 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
     protected $filesystem;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $viewUrl;
 
@@ -39,12 +39,12 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
      * Initialize dependencies
      * 
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\View\Url $viewUrl,
+        \Magento\Framework\View\Url $viewUrl,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->filesystem = $filesystem;
