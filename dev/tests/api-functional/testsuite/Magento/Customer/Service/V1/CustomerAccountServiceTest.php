@@ -8,6 +8,7 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Service\V1\Data\AddressBuilder;
+use Magento\Exception\NoSuchEntityException;
 use Magento\Service\V1\Data\FilterBuilder;
 use Magento\Service\V1\Data\SearchCriteria;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
@@ -129,8 +130,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
     public function testCreateCustomerWithErrors()
     {
         $serviceInfo = [
-            'rest' => ['resourcePath' => self::RESOURCE_PATH, 'httpMethod' => RestConfig::HTTP_METHOD_POST]
-            ,
+            'rest' => ['resourcePath' => self::RESOURCE_PATH, 'httpMethod' => RestConfig::HTTP_METHOD_POST],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
@@ -429,7 +429,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
             $this->assertEquals(
-                'No such entity with %fieldName = %fieldValue, %field2Name = %field2Value',
+                NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
                 $errorObj['message']
             );
             $this->assertEquals([
