@@ -35,7 +35,7 @@ class Application
     protected $_installerScript;
 
     /**
-     * @var \Magento\Shell
+     * @var \Magento\Framework\Shell
      */
     protected $_shell;
 
@@ -62,10 +62,10 @@ class Application
      * Constructor
      *
      * @param \Magento\TestFramework\Performance\Config $config
-     * @param \Magento\Shell $shell
+     * @param \Magento\Framework\Shell $shell
      * @throws \Magento\Framework\Exception
      */
-    public function __construct(\Magento\TestFramework\Performance\Config $config, \Magento\Shell $shell)
+    public function __construct(\Magento\TestFramework\Performance\Config $config, \Magento\Framework\Shell $shell)
     {
         $installerScript = $config->getApplicationBaseDir() . '/dev/shell/install.php';
         if (!is_file($installerScript)) {

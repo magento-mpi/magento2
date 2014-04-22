@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Shell;
+namespace Magento\Framework\Shell;
 
 class CommandRendererTest extends \PHPUnit_Framework_TestCase
 {

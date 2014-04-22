@@ -16,7 +16,7 @@ namespace Magento\TestFramework\Performance\Scenario\Handler;
 class Php implements \Magento\TestFramework\Performance\Scenario\HandlerInterface
 {
     /**
-     * @var \Magento\Shell
+     * @var \Magento\Framework\Shell
      */
     protected $_shell;
 
@@ -28,10 +28,10 @@ class Php implements \Magento\TestFramework\Performance\Scenario\HandlerInterfac
     /**
      * Constructor
      *
-     * @param \Magento\Shell $shell
+     * @param \Magento\Framework\Shell $shell
      * @param bool $validateExecutable
      */
-    public function __construct(\Magento\Shell $shell, $validateExecutable = true)
+    public function __construct(\Magento\Framework\Shell $shell, $validateExecutable = true)
     {
         $this->_shell = $shell;
         $this->_validateExecutable = $validateExecutable;

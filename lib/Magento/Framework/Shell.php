@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shell
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
-use Magento\Shell\CommandRendererInterface;
+use Magento\Framework\Shell\CommandRendererInterface;
 
 /**
  * Shell command line wrapper encapsulates command execution and arguments escaping

@@ -57,7 +57,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     protected $_memoryBootstrap;
 
     /**
-     * @var \Magento\Shell|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Shell|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shell;
 
@@ -95,7 +95,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_shell = $this->getMock('Magento\Shell', array('execute'), array(), '', false);
+        $this->_shell = $this->getMock('Magento\Framework\Shell', array('execute'), array(), '', false);
         $this->_object = new \Magento\TestFramework\Bootstrap(
             $this->_settings,
             $this->_envBootstrap,

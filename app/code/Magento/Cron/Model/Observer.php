@@ -82,7 +82,7 @@ class Observer
     protected $_request;
 
     /**
-     * @var \Magento\ShellInterface
+     * @var \Magento\Framework\ShellInterface
      */
     protected $_shell;
 
@@ -93,7 +93,7 @@ class Observer
      * @param ConfigInterface $config
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\Console\Request $request
-     * @param \Magento\ShellInterface $shell
+     * @param \Magento\Framework\ShellInterface $shell
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
@@ -102,7 +102,7 @@ class Observer
         \Magento\Cron\Model\ConfigInterface $config,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\Console\Request $request,
-        \Magento\ShellInterface $shell
+        \Magento\Framework\ShellInterface $shell
     ) {
         $this->_objectManager = $objectManager;
         $this->_scheduleFactory = $scheduleFactory;

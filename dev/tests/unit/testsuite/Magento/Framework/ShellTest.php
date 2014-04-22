@@ -2,18 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shell
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
 class ShellTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Shell\CommandRendererInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Shell\CommandRendererInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $commandRenderer;
 
@@ -28,18 +25,18 @@ class ShellTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('log'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->commandRenderer = new \Magento\Shell\CommandRenderer();
+        $this->commandRenderer = new \Magento\Framework\Shell\CommandRenderer();
     }
 
     /**
      * Test that a command with input arguments returns an expected result
      *
-     * @param \Magento\Shell $shell
+     * @param \Magento\Framework\Shell $shell
      * @param string $command
      * @param array $commandArgs
      * @param string $expectedResult
      */
-    protected function _testExecuteCommand(\Magento\Shell $shell, $command, $commandArgs, $expectedResult)
+    protected function _testExecuteCommand(\Magento\Framework\Shell $shell, $command, $commandArgs, $expectedResult)
     {
         $this->expectOutputString('');
         // nothing is expected to be ever printed to the standard output
@@ -56,7 +53,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     public function testExecute($command, $commandArgs, $expectedResult)
     {
         $this->_testExecuteCommand(
-            new \Magento\Shell($this->commandRenderer, $this->logger), $command, $commandArgs, $expectedResult
+            new \Magento\Framework\Shell($this->commandRenderer, $this->logger), $command, $commandArgs, $expectedResult
         );
     }
 
@@ -78,7 +75,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
                 ->with($expectedLogMessage, \Zend_Log::INFO);
         }
         $this->_testExecuteCommand(
-            new \Magento\Shell($this->commandRenderer, $this->logger),
+            new \Magento\Framework\Shell($this->commandRenderer, $this->logger),
             $command,
             $commandArgs,
             $expectedResult
@@ -119,7 +116,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteFailure()
     {
-        $shell = new \Magento\Shell($this->commandRenderer, $this->logger);
+        $shell = new \Magento\Framework\Shell($this->commandRenderer, $this->logger);
         $shell->execute('non_existing_command');
     }
 

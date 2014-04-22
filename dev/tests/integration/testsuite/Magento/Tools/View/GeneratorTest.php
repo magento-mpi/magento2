@@ -10,7 +10,7 @@ namespace Magento\Tools\View;
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Shell
+     * @var \Magento\Framework\Shell
      */
     protected $shell;
 
@@ -29,7 +29,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->tmpDir = BP . '/var/static';
-        $this->shell = new \Magento\Shell(new \Magento\Shell\CommandRenderer());
+        $this->shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer());
         $this->filesystem = new \Magento\Framework\Filesystem\Driver\File();
         if (!$this->filesystem->isExists($this->tmpDir)) {
             $this->filesystem->createDirectory($this->tmpDir, 0777);

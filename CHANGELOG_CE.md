@@ -79,6 +79,7 @@
     * Moved lib/Magento/Simplexml to lib/Magento/Framework/Simplexml
     * Moved lib/Magento/Controller to lib/Magento/Framework/Controller
     * Moved lib/Magento/Convert to lib/Magento/Framework/Convert
+    * Moved lib/Magento/Shell to lib/Magento/Framework/Shell
     * Moved lib/Magento/Encryption to lib/Magento/Framework/Encryption
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)

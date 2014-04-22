@@ -59,7 +59,7 @@ class Bootstrap
     private $_profilerBootstrap;
 
     /**
-     * @var \Magento\Shell
+     * @var \Magento\Framework\Shell
      */
     private $_shell;
 
@@ -77,7 +77,7 @@ class Bootstrap
      * @param \Magento\TestFramework\Bootstrap\Environment $envBootstrap,
      * @param \Magento\TestFramework\Bootstrap\DocBlock $docBlockBootstrap,
      * @param \Magento\TestFramework\Bootstrap\Profiler $profilerBootstrap
-     * @param \Magento\Shell $shell
+     * @param \Magento\Framework\Shell $shell
      * @param string $tmpDir
      */
     public function __construct(
@@ -85,7 +85,7 @@ class Bootstrap
         \Magento\TestFramework\Bootstrap\Environment $envBootstrap,
         \Magento\TestFramework\Bootstrap\DocBlock $docBlockBootstrap,
         \Magento\TestFramework\Bootstrap\Profiler $profilerBootstrap,
-        \Magento\Shell $shell,
+        \Magento\Framework\Shell $shell,
         $tmpDir
     ) {
         $this->_settings = $settings;
