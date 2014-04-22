@@ -7,6 +7,8 @@
  */
 namespace Magento\Wishlist\Model;
 
+use Magento\Catalog\Model\Product\Configuration\Item\ItemInterface;
+use Magento\Model\AbstractModel;
 use Magento\Wishlist\Model\Item\Option;
 use Magento\Wishlist\Model\Item\OptionFactory;
 use Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory;
@@ -26,9 +28,7 @@ use Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory;
  * @method string getDescription()
  * @method \Magento\Wishlist\Model\Item setDescription(string $value)
  */
-class Item
-    extends \Magento\Model\AbstractModel
-    implements \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
+class Item extends AbstractModel implements ItemInterface
 {
     const EXCEPTION_CODE_NOT_SALABLE = 901;
 
