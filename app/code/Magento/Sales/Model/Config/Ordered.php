@@ -79,7 +79,7 @@ abstract class Ordered extends \Magento\Framework\App\Config\Base
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Sales\Model\Config $salesConfig
-     * @param \Magento\Simplexml\Element $sourceData
+     * @param \Magento\Framework\Simplexml\Element $sourceData
      */
     public function __construct(
         \Magento\Framework\App\Cache\Type\Config $configCacheType,

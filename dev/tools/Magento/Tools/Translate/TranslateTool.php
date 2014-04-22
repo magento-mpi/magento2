@@ -574,13 +574,13 @@ class TranslateTool
      */
     public static function parseXml($file, &$data_arr, $mod_name = null)
     {
-        $xml = new \Magento\Simplexml\Config();
+        $xml = new \Magento\Framework\Simplexml\Config();
         $xml->loadFile($file, 'SimpleXMLElement');
         $arr = $xml->getXpath("//*[@translate]");
         unset($xml);
         if (is_array($arr)) {
             foreach ($arr as $val) {
-                if (is_a($val, "Magento\\Simplexml\\Element")) {
+                if (is_a($val, "Magento\\Framework\\Simplexml\\Element")) {
                     $attr = $val->attributes();
                     $transl = $attr['translate'];
                     $transl = explode(' ', (string)$transl);

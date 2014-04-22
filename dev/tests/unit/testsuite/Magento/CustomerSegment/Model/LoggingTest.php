@@ -39,7 +39,7 @@ class LoggingTest extends \PHPUnit_Framework_TestCase
         );
 
         $model = new \Magento\CustomerSegment\Model\Logging($resourceMock, $requestMock);
-        $config = new \Magento\Simplexml\Element('<config/>');
+        $config = new \Magento\Framework\Simplexml\Element('<config/>');
         $eventMock = $this->getMock('Magento\Logging\Model\Event', array('setInfo', '__wakeup'), array(), '', false);
         $eventMock->expects($this->once())->method('setInfo')->with($expectedText);
 

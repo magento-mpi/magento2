@@ -764,7 +764,7 @@ XMLRequest;
         $costArr = array();
         $priceArr = array();
         if (strlen(trim($xmlResponse)) > 0) {
-            $xml = new \Magento\Simplexml\Config();
+            $xml = new \Magento\Framework\Simplexml\Config();
             $xml->loadString($xmlResponse);
             $arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/ResponseStatusCode/text()");
             $success = (int)$arr[0];
@@ -992,7 +992,7 @@ XMLAuth;
         $packageProgress = array();
 
         if ($xmlResponse) {
-            $xml = new \Magento\Simplexml\Config();
+            $xml = new \Magento\Framework\Simplexml\Config();
             $xml->loadString($xmlResponse);
             $arr = $xml->getXpath("//TrackResponse/Response/ResponseStatusCode/text()");
             $success = (int)$arr[0][0];

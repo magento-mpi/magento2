@@ -59,7 +59,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getNode'
         )->will(
-            $this->returnValue(new \Magento\Simplexml\Element('<root />'))
+            $this->returnValue(new \Magento\Framework\Simplexml\Element('<root />'))
         );
         $blockMessage = $this->getMock(
             'Magento\Framework\View\Element\Messages',

@@ -2,23 +2,16 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Simplexml
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
+namespace Magento\Framework\Simplexml\Config\Cache;
 
 /**
  * File based cache for configuration
- *
- * @category   Magento
- * @package    Magento_Simplexml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Simplexml\Config\Cache;
-
-class File extends \Magento\Simplexml\Config\Cache\AbstractCache
+class File extends \Magento\Framework\Simplexml\Config\Cache\AbstractCache
 {
     /**
      * Initialize variables that depend on the cache key

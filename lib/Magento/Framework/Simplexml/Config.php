@@ -2,26 +2,20 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Simplexml
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Simplexml;
+namespace Magento\Framework\Simplexml;
 
 /**
  * Base class for simplexml based configurations
- *
- * @category   Magento
- * @package    Magento_Simplexml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Config
 {
     /**
      * Configuration xml
      *
-     * @var \Magento\Simplexml\Element
+     * @var \Magento\Framework\Simplexml\Element
      */
     protected $_xml = null;
 
@@ -63,7 +57,7 @@ class Config
     /**
      * Cache resource object
      *
-     * @var \Magento\Simplexml\Config\Cache\AbstractCache
+     * @var \Magento\Framework\Simplexml\Config\Cache\AbstractCache
      */
     protected $_cache = null;
 
@@ -72,7 +66,7 @@ class Config
      *
      * @var string
      */
-    protected $_elementClass = 'Magento\Simplexml\Element';
+    protected $_elementClass = 'Magento\Framework\Simplexml\Element';
 
     /**
      * Xpath describing nodes in configuration that need to be extended
@@ -87,14 +81,14 @@ class Config
      * Initializes XML for this configuration
      *
      * @see self::setXml
-     * @param string|\Magento\Simplexml\Element $sourceData
+     * @param string|\Magento\Framework\Simplexml\Element $sourceData
      */
     public function __construct($sourceData = null)
     {
         if (is_null($sourceData)) {
             return;
         }
-        if ($sourceData instanceof \Magento\Simplexml\Element) {
+        if ($sourceData instanceof \Magento\Framework\Simplexml\Element) {
             $this->setXml($sourceData);
         } elseif (is_string($sourceData) && !empty($sourceData)) {
             if (strlen($sourceData) < 1000 && is_readable($sourceData)) {
@@ -108,10 +102,10 @@ class Config
     /**
      * Sets xml for this configuration
      *
-     * @param \Magento\Simplexml\Element $node
+     * @param \Magento\Framework\Simplexml\Element $node
      * @return $this
      */
-    public function setXml(\Magento\Simplexml\Element $node)
+    public function setXml(\Magento\Framework\Simplexml\Element $node)
     {
         $this->_xml = $node;
         return $this;
@@ -120,13 +114,13 @@ class Config
     /**
      * Returns node found by the $path
      *
-     * @see     \Magento\Simplexml\Element::descend
+     * @see     \Magento\Framework\Simplexml\Element::descend
      * @param   string $path
-     * @return  \Magento\Simplexml\Element|bool
+     * @return  \Magento\Framework\Simplexml\Element|bool
      */
     public function getNode($path = null)
     {
-        if (!$this->_xml instanceof \Magento\Simplexml\Element) {
+        if (!$this->_xml instanceof \Magento\Framework\Simplexml\Element) {
             return false;
         } elseif ($path === null) {
             return $this->_xml;
@@ -157,7 +151,7 @@ class Config
     /**
      * Enter description here...
      *
-     * @param \Magento\Simplexml\Config\Cache\AbstractCache $cache
+     * @param \Magento\Framework\Simplexml\Config\Cache\AbstractCache $cache
      * @return $this
      */
     public function setCache($cache)
@@ -169,7 +163,7 @@ class Config
     /**
      * Enter description here...
      *
-     * @return \Magento\Simplexml\Config\Cache\AbstractCache
+     * @return \Magento\Framework\Simplexml\Config\Cache\AbstractCache
      */
     public function getCache()
     {
@@ -494,7 +488,7 @@ class Config
     {
         if (!empty($string)) {
             $xml = simplexml_load_string($string, $this->_elementClass);
-            if ($xml instanceof \Magento\Simplexml\Element) {
+            if ($xml instanceof \Magento\Framework\Simplexml\Element) {
                 $this->_xml = $xml;
                 return true;
             }
@@ -574,11 +568,11 @@ class Config
     /**
      * Enter description here...
      *
-     * @param \Magento\Simplexml\Config $config
+     * @param \Magento\Framework\Simplexml\Config $config
      * @param boolean $overwrite
      * @return $this
      */
-    public function extend(\Magento\Simplexml\Config $config, $overwrite = true)
+    public function extend(\Magento\Framework\Simplexml\Config $config, $overwrite = true)
     {
         $this->getNode()->extend($config->getNode(), $overwrite);
         return $this;

@@ -40,7 +40,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $object = new \Magento\TestFramework\Application(
             $dbInstance,
             $installDir,
-            new \Magento\Simplexml\Element('<data/>'),
+            new \Magento\Framework\Simplexml\Element('<data/>'),
             '',
             array(),
             $appMode,

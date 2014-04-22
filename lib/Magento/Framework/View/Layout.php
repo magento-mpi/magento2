@@ -21,7 +21,7 @@ use Magento\Framework\View\Layout\Element;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\View\LayoutInterface
+class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Framework\View\LayoutInterface
 {
     /**
      * Scheduled structure array index for name

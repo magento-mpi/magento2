@@ -24,7 +24,7 @@ dev/tools/Magento/Tools/Formatter/PrettyPrinter.php
 lib/Magento/Framework/DB/Adapter/Pdo/Mysql.php
 # formatter incorrectly formats these files causing failures
 dev/tests/unit/testsuite/Magento/Framework/DB/Adapter/Pdo/MysqlTest.php
-dev/tests/unit/testsuite/Magento/Simplexml/ElementTest.php
+dev/tests/unit/testsuite/Magento/Framework/Simplexml/ElementTest.php
 dev/tests/unit/testsuite/Magento/Test/Tools/Migration/System/Configuration/ParserTest.php
 # The following is third party code not really in the correct location
 dev/tools/Magento/Tools/I18n/Zend

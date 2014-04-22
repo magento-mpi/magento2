@@ -296,7 +296,7 @@ class Extension extends \Magento\Object
             $this->unsPackageXml();
             $this->unsTargets();
             $xml = $this->_convertArray->assocToXml($this->getData());
-            $xml = new \Magento\Simplexml\Element($xml->asXML());
+            $xml = new \Magento\Framework\Simplexml\Element($xml->asXML());
 
             // prepare dir to save
             $parts = explode('/', $fileName);

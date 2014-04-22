@@ -161,7 +161,7 @@ class File extends \Magento\Framework\App\Config\Value
     protected function _getUploadDir()
     {
         $fieldConfig = $this->getFieldConfig();
-        /* @var $fieldConfig \Magento\Simplexml\Element */
+        /* @var $fieldConfig \Magento\Framework\Simplexml\Element */
 
         if (!array_key_exists('upload_dir', $fieldConfig)) {
             throw new \Magento\Framework\Model\Exception(__('The base directory to upload file is not specified.'));

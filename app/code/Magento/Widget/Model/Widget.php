@@ -95,7 +95,7 @@ class Widget
      * Return widget XML configuration as \Magento\Object and makes some data preparations
      *
      * @param string $type Widget type
-     * @return null|\Magento\Simplexml\Element
+     * @return null|\Magento\Framework\Simplexml\Element
      */
     public function getConfigAsXml($type)
     {
@@ -305,7 +305,7 @@ class Widget
     }
 
     /**
-     * Remove attributes from widget array so that emulates how \Magento\Simplexml\Element::asCanonicalArray works
+     * Remove attributes from widget array so that emulates how \Magento\Framework\Simplexml\Element::asCanonicalArray works
      *
      * @param array $inputArray
      * @return array

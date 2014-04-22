@@ -2,22 +2,15 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Simplexml
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
+namespace Magento\Framework\Simplexml;
 
 /**
  * Extends SimpleXML to add valuable functionality to \SimpleXMLElement class
- *
- * @category   Magento
- * @package    Magento_Simplexml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Simplexml;
-
 class Element extends \SimpleXMLElement
 {
     /**
@@ -27,14 +20,14 @@ class Element extends \SimpleXMLElement
      *
      * @todo make use of spl_object_hash to keep global array of simplexml elements
      *       to emulate complicated attributes
-     * @var \Magento\Simplexml\Element
+     * @var \Magento\Framework\Simplexml\Element
      */
     protected $_parent = null;
 
     /**
      * For future use
      *
-     * @param \Magento\Simplexml\Element $element
+     * @param \Magento\Framework\Simplexml\Element $element
      * @return void
      */
     public function setParent($element)
@@ -48,7 +41,7 @@ class Element extends \SimpleXMLElement
      * Currently using xpath
      *
      * @throws \InvalidArgumentException
-     * @return \Magento\Simplexml\Element
+     * @return \Magento\Framework\Simplexml\Element
      */
     public function getParent()
     {
@@ -101,7 +94,7 @@ class Element extends \SimpleXMLElement
      * @todo    Check if we still need all this and revert to plain XPath if this makes any sense
      * @todo    param string $path Subset of xpath. Example: "child/grand[@attrName='attrValue']/subGrand"
      * @param   string $path Example: "child/grand@attrName=attrValue/subGrand" (to make it faster without regex)
-     * @return  \Magento\Simplexml\Element
+     * @return  \Magento\Framework\Simplexml\Element
      */
     public function descend($path)
     {
@@ -309,7 +302,7 @@ class Element extends \SimpleXMLElement
     /**
      * Appends $source to current node
      *
-     * @param \Magento\Simplexml\Element $source
+     * @param \Magento\Framework\Simplexml\Element $source
      * @return $this
      */
     public function appendChild($source)
@@ -338,13 +331,13 @@ class Element extends \SimpleXMLElement
      * If $overwrite is false will merge only missing nodes
      * Otherwise will overwrite existing nodes
      *
-     * @param \Magento\Simplexml\Element $source
+     * @param \Magento\Framework\Simplexml\Element $source
      * @param boolean $overwrite
      * @return $this
      */
     public function extend($source, $overwrite = false)
     {
-        if (!$source instanceof \Magento\Simplexml\Element) {
+        if (!$source instanceof \Magento\Framework\Simplexml\Element) {
             return $this;
         }
 
@@ -358,7 +351,7 @@ class Element extends \SimpleXMLElement
     /**
      * Extends one node
      *
-     * @param \Magento\Simplexml\Element $source
+     * @param \Magento\Framework\Simplexml\Element $source
      * @param boolean $overwrite
      * @return $this
      */

@@ -2,22 +2,15 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Simplexml
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
+namespace Magento\Framework\Simplexml\Config\Cache;
 
 /**
  * Abstract class for configuration cache
- *
- * @category   Magento
- * @package    Magento_Simplexml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Simplexml\Config\Cache;
-
 abstract class AbstractCache extends \Magento\Object
 {
     /**

@@ -41,4 +41,5 @@ return [
     ['Magento\Pear', 'Magento\Framework\Pear'],
     ['Magento\Pricing', 'Magento\Framework\Pricing'],
     ['Magento\Profiler', 'Magento\Framework\Profiler'],
+    ['Magento\Simplexml', 'Magento\Framework\Simplexml'],
 ];

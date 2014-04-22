@@ -27,7 +27,7 @@ class BaseFactory
     /**
      * Create config model
      *
-     * @param string|\Magento\Simplexml\Element $sourceData
+     * @param string|\Magento\Framework\Simplexml\Element $sourceData
      * @return \Magento\Framework\App\Config\Base
      */
     public function create($sourceData = null)
