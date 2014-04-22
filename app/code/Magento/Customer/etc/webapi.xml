@@ -111,7 +111,7 @@
             <resource ref="Magento_Customer::customer"/>
         </resources>
     </route>
-    <route url="/V1/customerAccounts/update" method="PUT">
+    <route url="/V1/customerAccounts/details" method="PUT">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="updateCustomerDetailsByEmail"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>

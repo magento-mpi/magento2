@@ -889,7 +889,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/update',
+                'resourcePath' => self::RESOURCE_PATH . '/details',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
