@@ -86,7 +86,9 @@ class AbstractActionTest extends \Magento\Backend\Utility\Controller
         );
 
         /** @var $acl \Magento\Framework\Acl */
-        $acl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Acl\Builder')->getAcl();
+        $acl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\Acl\Builder')
+            ->getAcl();
         if ($isLimitedAccess) {
             $acl->deny(null, $resource);
         }

@@ -65,7 +65,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_directoryMock)
         );
 
-        $this->_messageManager = $this->getMock('\Magento\Framework\Message\ManagerInterface', array(), array(), '', false);
+        $this->_messageManager = $this->getMock(
+            '\Magento\Framework\Message\ManagerInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_model = new \Magento\Install\Model\Installer\Config(
             $this->getMock('Magento\Install\Model\Installer', array(), array(), '', false),
             $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false),

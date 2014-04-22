@@ -7,6 +7,8 @@
  */
 namespace Magento\RecurringPayment\Model;
 
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+
 /**
  * Recurring payment
  * Extends from \Magento\Core\Abstract for a reason: to make descendants have its own resource
@@ -78,7 +80,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
     protected $_fields;
 
     /**
-     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
+     * @var TimezoneInterface
      */
     protected $_localeDate;
 
@@ -99,7 +101,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
      * @param PeriodUnits $periodUnits
      * @param \Magento\RecurringPayment\Block\Fields $fields
      * @param ManagerInterfaceFactory $managerFactory
-     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param TimezoneInterface $localeDate
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -114,7 +116,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
         \Magento\RecurringPayment\Model\PeriodUnits $periodUnits,
         \Magento\RecurringPayment\Block\Fields $fields,
         ManagerInterfaceFactory $managerFactory,
-        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        TimezoneInterface $localeDate,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -145,7 +147,10 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
         // start date, order ref ID, schedule description
         if (!$this->getStartDatetime()) {
             $this->_errors['start_datetime'][] = __('The start date is undefined.');
-        } elseif (!\Zend_Date::isDate($this->getStartDatetime(), \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)) {
+        } elseif (!\Zend_Date::isDate(
+            $this->getStartDatetime(),
+            \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
+        )) {
             $this->_errors['start_datetime'][] = __('The start date has an invalid format.');
         }
         if (!$this->getScheduleDescription()) {
@@ -263,7 +268,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
                 throw new \Exception('Locale and store instances must be set for this operation.');
             }
             $dateFormat = $this->_localeDate->getDateTimeFormat(
-                \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                TimezoneInterface::FORMAT_TYPE_SHORT
             );
             $localeCode = $this->_localeResolver->getLocaleCode();
             if (!\Zend_Date::isDate($startDate, $dateFormat, $localeCode)) {
@@ -374,7 +379,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
         }
         $date = $this->_localeDate->scopeDate($this->_store, strtotime($datetime), true);
         return $date->toString(
-            $this->_localeDate->getDateTimeFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
+            $this->_localeDate->getDateTimeFormat(TimezoneInterface::FORMAT_TYPE_SHORT)
         );
     }
 

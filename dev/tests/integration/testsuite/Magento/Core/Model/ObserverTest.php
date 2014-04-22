@@ -76,6 +76,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Event',
             array('data' => array('response_object' => $response))
         );
-        return $this->_objectManager->create('Magento\Framework\Event\Observer', array('data' => array('event' => $event)));
+        return $this->_objectManager->create(
+            'Magento\Framework\Event\Observer',
+            array('data' => array('event' => $event))
+        );
     }
 }

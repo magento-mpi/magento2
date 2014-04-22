@@ -53,7 +53,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         );
 
         /** @var \Magento\Framework\Module\ModuleList $modulesList */
-        $modulesList = $objectManager->create('Magento\Framework\Module\ModuleList', array('reader' => $filesystemReader));
+        $modulesList = $objectManager
+            ->create('Magento\Framework\Module\ModuleList', array('reader' => $filesystemReader));
 
         /** @var \Magento\Framework\Module\Dir\Reader $moduleReader */
         $moduleReader = $objectManager->create(

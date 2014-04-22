@@ -27,7 +27,13 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_configReaderMock = $this->getMock('Magento\Framework\Config\ReaderInterface');
-        $this->_treeBuilderMock = $this->getMock('Magento\Framework\Acl\Resource\TreeBuilder', array(), array(), '', false);
+        $this->_treeBuilderMock = $this->getMock(
+            'Magento\Framework\Acl\Resource\TreeBuilder',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_model = new \Magento\Framework\Acl\Resource\Provider($this->_configReaderMock, $this->_treeBuilderMock);
     }
 

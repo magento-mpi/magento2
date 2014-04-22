@@ -29,7 +29,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->ioObjectMock->expects($this->once())->method('getResultFileName')
-            ->with('\Magento\Framework\ObjectManager\Code\Generator\SampleFactory')->will($this->returnValue('sample_file.php'));
+            ->with('\Magento\Framework\ObjectManager\Code\Generator\SampleFactory')
+            ->will($this->returnValue('sample_file.php'));
         $factoryCode = file_get_contents(__DIR__ . '/_files/SampleFactory.txt');
         $this->ioObjectMock->expects($this->once())->method('writeResultFile')
             ->with('sample_file.php', $factoryCode);

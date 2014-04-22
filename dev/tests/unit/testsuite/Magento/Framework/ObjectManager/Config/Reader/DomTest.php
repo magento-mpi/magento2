@@ -40,7 +40,13 @@ class DomTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->fileResolverMock = $this->getMock('\Magento\Framework\Config\FileResolverInterface');
-        $this->converterMock = $this->getMock('\Magento\Framework\ObjectManager\Config\Mapper\Dom', array(), array(), '', false);
+        $this->converterMock = $this->getMock(
+            '\Magento\Framework\ObjectManager\Config\Mapper\Dom',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->schemaLocatorMock = $this->getMock(
             '\Magento\Framework\ObjectManager\Config\SchemaLocator',
             array(),

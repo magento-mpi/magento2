@@ -41,7 +41,10 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     public function testNow()
     {
         $this->assertEquals(date(\Magento\Framework\Stdlib\DateTime::DATE_PHP_FORMAT), $this->_dateTime->now(true));
-        $this->assertEquals(date(\Magento\Framework\Stdlib\DateTime::DATETIME_PHP_FORMAT), $this->_dateTime->now(false));
+        $this->assertEquals(
+            date(\Magento\Framework\Stdlib\DateTime::DATETIME_PHP_FORMAT),
+            $this->_dateTime->now(false)
+        );
     }
 
     /**

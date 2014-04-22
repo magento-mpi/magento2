@@ -52,7 +52,9 @@ class Factory
     public function create(ThemeInterface $theme)
     {
         if (!isset($this->_types[$theme->getType()])) {
-            throw new \Magento\Framework\Exception(sprintf('Invalid type of theme domain model "%s"', $theme->getType()));
+            throw new \Magento\Framework\Exception(
+                sprintf('Invalid type of theme domain model "%s"', $theme->getType())
+            );
         }
         $class = $this->_types[$theme->getType()];
         return $this->_objectManager->create($class, array('theme' => $theme));

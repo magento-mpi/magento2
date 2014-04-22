@@ -11,6 +11,8 @@ namespace Magento\Persistent\Model;
 
 /**
  * Persistent Session Model
+ *
+ * @method int getCustomerId()
  */
 class Session extends \Magento\Framework\Model\AbstractModel
 {

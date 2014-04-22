@@ -90,4 +90,3 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->_customerSession->getCustomerDataObject(), $this->_wishlistData->getCustomer());
     }
 }
- 

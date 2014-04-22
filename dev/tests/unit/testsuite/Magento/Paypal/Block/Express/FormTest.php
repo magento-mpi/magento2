@@ -50,7 +50,14 @@ class FormTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $localeResolver = $this->getMock('Magento\Framework\Locale\ResolverInterface', array(), array(), '', false, false);
+        $localeResolver = $this->getMock(
+            'Magento\Framework\Locale\ResolverInterface',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(
             'Magento\Paypal\Block\Express\Form',

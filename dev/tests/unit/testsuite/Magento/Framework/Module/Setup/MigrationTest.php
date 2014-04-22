@@ -155,7 +155,11 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
         $contextMock->expects($this->any())->method('getFilesystem')->will($this->returnValue($filesystemMock));
         $contextMock->expects($this->once())
             ->method('getEventManager')
-            ->will($this->returnValue($this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false)));
+            ->will(
+                $this->returnValue(
+                    $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false)
+                )
+            );
         $contextMock->expects($this->once())
             ->method('getResourceModel')
             ->will($this->returnValue($this->getMock('Magento\Framework\App\Resource', array(), array(), '', false)));
@@ -164,7 +168,11 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->getMock('Magento\Framework\Logger', array(), array(), '', false)));
         $contextMock->expects($this->once())
             ->method('getModulesReader')
-            ->will($this->returnValue($this->getMock('Magento\Framework\Module\Dir\Reader', array(), array(), '', false)));
+            ->will(
+                $this->returnValue(
+                    $this->getMock('Magento\Framework\Module\Dir\Reader', array(), array(), '', false)
+                )
+            );
         $contextMock->expects($this->once())->method('getModuleList')->will($this->returnValue($moduleListMock));
 
         $migrationData = $this->getMock('Magento\Framework\Module\Setup\MigrationData', array(), array(), '', false);

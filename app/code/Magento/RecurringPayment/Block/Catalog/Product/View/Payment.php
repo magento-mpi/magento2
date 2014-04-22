@@ -11,6 +11,8 @@
  */
 namespace Magento\RecurringPayment\Block\Catalog\Product\View;
 
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+
 class Payment extends \Magento\Framework\View\Element\Template
 {
     /**
@@ -88,9 +90,9 @@ class Payment extends \Magento\Framework\View\Element\Template
             )->setImage(
                 $this->getViewFileUrl('Magento_Core::calendar.gif')
             )->setDateFormat(
-                $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
+                $this->_localeDate->getDateFormat(TimezoneInterface::FORMAT_TYPE_SHORT)
             )->setTimeFormat(
-                $this->_localeDate->getTimeFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
+                $this->_localeDate->getTimeFormat(TimezoneInterface::FORMAT_TYPE_SHORT)
             );
             return $calendar->getHtml();
         }

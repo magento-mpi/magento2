@@ -15,7 +15,7 @@
  * @package     Mage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento;
+namespace Magento\Framework;
 
 class Exception extends \Exception
 {

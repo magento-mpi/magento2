@@ -218,6 +218,7 @@ class Config implements \Magento\Framework\ObjectManager\Config
      *
      * @param array $configuration
      * @return void
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _mergeConfiguration(array $configuration)
     {

@@ -19,7 +19,13 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager\ObjectManager', array(), array(), '', false);
+        $this->_objectManagerMock = $this->getMock(
+            'Magento\Framework\ObjectManager\ObjectManager',
+            array(),
+            array(),
+            '',
+            false
+        );
     }
 
     /**

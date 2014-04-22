@@ -116,7 +116,8 @@ class Factory implements \Magento\Framework\ObjectManager\Factory
             } else if (is_array($argument)) {
                 if (isset($argument['argument'])) {
                     $argKey = $argument['argument'];
-                    $argument = isset($this->globalArguments[$argKey]) ? $this->globalArguments[$argKey] : $paramDefault;
+                    $argument =
+                        isset($this->globalArguments[$argKey]) ? $this->globalArguments[$argKey] : $paramDefault;
                 } else if (!empty($argument)) {
                     $this->parseArray($argument);
                 }

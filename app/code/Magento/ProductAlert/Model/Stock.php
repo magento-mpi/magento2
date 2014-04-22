@@ -9,7 +9,7 @@
  */
 namespace Magento\ProductAlert\Model;
 
-use Magento\ProductAlert\Model\Resource\Price\Customer\Collection;
+use Resource\Stock\Customer\Collection;
 
 /**
  * ProductAlert for back in stock model

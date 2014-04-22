@@ -18,7 +18,13 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     {
         $fileResolver = $this->getFileResolver(__DIR__ . '/../FileResolver/_files');
         $converter = new \Magento\Framework\Module\Declaration\Converter\Dom();
-        $schemaLocatorMock = $this->getMock('Magento\Framework\Module\Declaration\SchemaLocator', array(), array(), '', false);
+        $schemaLocatorMock = $this->getMock(
+            'Magento\Framework\Module\Declaration\SchemaLocator',
+            array(),
+            array(),
+            '',
+            false
+        );
         $validationStateMock = $this->getMock('Magento\Framework\Config\ValidationStateInterface');
 
         $appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);

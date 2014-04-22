@@ -135,7 +135,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $data = array('status' => 'custom_new_status', 'state' => \Magento\Sales\Model\Order::STATE_NEW);
         $event = $this->_objectManager->create('Magento\Framework\Event', array('data' => $data));
-        return $this->_objectManager->create('Magento\Framework\Event\Observer', array('data' => array('event' => $event)));
+        return $this->_objectManager
+            ->create('Magento\Framework\Event\Observer', array('data' => array('event' => $event)));
     }
 
     /**

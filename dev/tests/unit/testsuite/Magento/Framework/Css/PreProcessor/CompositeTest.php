@@ -109,7 +109,10 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
                     'css_source_processor' => 'Magento\Framework\Css\PreProcessor\Less',
                     'css_url_processor' => 'Magento\Framework\Css\PreProcessor\UrlResolver'
                 ),
-                'createMap' => array('Magento\Framework\Css\PreProcessor\Less', 'Magento\Framework\Css\PreProcessor\UrlResolver')
+                'createMap' => array(
+                    'Magento\Framework\Css\PreProcessor\Less',
+                    'Magento\Framework\Css\PreProcessor\UrlResolver'
+                )
             ),
             'no processors' => array('preProcessors' => array(), 'createMap' => array())
         );

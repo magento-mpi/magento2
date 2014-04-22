@@ -40,7 +40,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(require __DIR__ . '/Config/_files/email_templates_merged.php')
         );
-        $this->_moduleReader = $this->getMock('Magento\Framework\Module\Dir\Reader', array('getModuleDir'), array(), '', false);
+        $this->_moduleReader = $this->getMock(
+            'Magento\Framework\Module\Dir\Reader',
+            array('getModuleDir'),
+            array(),
+            '',
+            false
+        );
         $this->_model = new \Magento\Email\Model\Template\Config($this->_dataStorage, $this->_moduleReader);
     }
 

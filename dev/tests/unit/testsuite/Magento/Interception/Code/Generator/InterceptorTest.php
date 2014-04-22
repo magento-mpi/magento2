@@ -28,8 +28,13 @@ class InterceptorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->ioObjectMock = $this->getMock('\Magento\Framework\Code\Generator\Io', array(), array(), '', false);
-        $this->classGeneratorMock = $this->getMock('\Magento\Framework\Code\Generator\CodeGenerator\CodeGeneratorInterface',
-            array(), array(), '', false);
+        $this->classGeneratorMock = $this->getMock(
+            '\Magento\Framework\Code\Generator\CodeGenerator\CodeGeneratorInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->autoloaderMock = $this->getMock('\Magento\Framework\Autoload\IncludePath', array(), array(), '', false);
     }
 

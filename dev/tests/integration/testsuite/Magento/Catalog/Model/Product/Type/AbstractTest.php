@@ -25,7 +25,13 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         );
         $eavConfig = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
         $catalogProductType = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
-        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array('dispatch'), array(), '', false);
+        $eventManager = $this->getMock(
+            'Magento\Framework\Event\ManagerInterface',
+            array('dispatch'),
+            array(),
+            '',
+            false
+        );
         $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $fileStorageDb = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
         $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);

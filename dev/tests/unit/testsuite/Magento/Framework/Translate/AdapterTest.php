@@ -31,7 +31,9 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($translatedStr)
         );
-        $translator = new \Magento\Framework\Translate\Adapter(array('translator' => array($translatorMock, 'translate')));
+        $translator = new \Magento\Framework\Translate\Adapter(
+            array('translator' => array($translatorMock, 'translate'))
+        );
 
         $this->assertEquals($translatedStr, $translator->{$method}($strToTranslate));
     }

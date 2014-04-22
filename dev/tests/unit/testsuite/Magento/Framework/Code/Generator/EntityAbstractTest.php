@@ -79,7 +79,13 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 
         // with all arguments
         $ioObject = $this->getMock('Magento\Framework\Code\Generator\Io', array(), array(), '', false);
-        $codeGenerator = $this->getMock('Magento\Framework\Code\Generator\CodeGenerator\Zend', array(), array(), '', false);
+        $codeGenerator = $this->getMock(
+            'Magento\Framework\Code\Generator\CodeGenerator\Zend',
+            array(),
+            array(),
+            '',
+            false
+        );
         $autoloader = $this->getMock('Magento\Framework\Autoload\IncludePath', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
