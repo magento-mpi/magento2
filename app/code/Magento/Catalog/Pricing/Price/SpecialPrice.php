@@ -14,6 +14,7 @@ use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Stdlib\DateTime\TimezoneInterface;
 use Magento\Pricing\Price\BasePriceProviderInterface;
+
 /**
  * Special price model
  */

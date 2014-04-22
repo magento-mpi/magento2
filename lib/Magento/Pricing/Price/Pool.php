@@ -27,7 +27,7 @@ class Pool implements \Iterator, \ArrayAccess
         \Iterator $target = null
     ) {
         $this->prices = $prices;
-        foreach($target ?: [] as $code => $class) {
+        foreach ($target ?: [] as $code => $class) {
             if (empty($this->prices[$code])) {
                 $this->prices[$code] = $class;
             }
@@ -100,8 +100,10 @@ class Pool implements \Iterator, \ArrayAccess
      *
      * @param string $offset
      * @param string $value
+     * @return void
      */
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         if (is_null($offset)) {
             $this->prices[] = $value;
         } else {
@@ -124,6 +126,7 @@ class Pool implements \Iterator, \ArrayAccess
      * The offset to unset.
      *
      * @param string $offset
+     * @return void
      */
     public function offsetUnset($offset)
     {

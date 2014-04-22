@@ -9,6 +9,7 @@
 namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Pricing\Price\BasePriceProviderInterface;
+
 /**
  * Class RegularPrice
  */
