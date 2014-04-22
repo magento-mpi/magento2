@@ -2347,7 +2347,7 @@ return array(
     ['Magento\View\Asset\PreProcessor\PreProcessorInterface', 'Magento\View\Asset\PreProcessorInterface'],
     ['Magento\View\FileResolver', 'Magento\View\Asset\Repository, Magento\View\Asset\Source'],
     ['Magento\View\FilesManagerInterface', 'Magento\View\Asset\SourceFileInterface'],
-    ['Magento\View\Publisher', '\Magento\App\View\Asset\Publisher'],
+    ['Magento\View\Publisher', '\Magento\Framework\App\View\Asset\Publisher'],
     ['Magento\Css\PreProcessor\Composite\UrlResolver'],
     ['Magento\View\Publisher\FileAbstract'],
     ['Magento\View\Publisher\File'],

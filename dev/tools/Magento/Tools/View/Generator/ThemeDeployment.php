@@ -20,12 +20,12 @@ class ThemeDeployment
     private $_cssUrlResolver;
 
     /**
-     * @var \Magento\App\View\Deployment\Version\StorageInterface
+     * @var \Magento\Framework\App\View\Deployment\Version\StorageInterface
      */
     private $_versionStorage;
 
     /**
-     * @var \Magento\App\View\Deployment\Version\GeneratorInterface
+     * @var \Magento\Framework\App\View\Deployment\Version\GeneratorInterface
      */
     private $_versionGenerator;
 
@@ -93,8 +93,8 @@ class ThemeDeployment
      * @param \Magento\Framework\View\Publisher\FileFactory $fileFactory
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Core\Model\Theme\DataFactory $themeFactory
-     * @param \Magento\App\View\Deployment\Version\StorageInterface $versionStorage
-     * @param \Magento\App\View\Deployment\Version\GeneratorInterface $versionGenerator
+     * @param \Magento\Framework\App\View\Deployment\Version\StorageInterface $versionStorage
+     * @param \Magento\Framework\App\View\Deployment\Version\GeneratorInterface $versionGenerator
      * @param \Magento\View\Asset\ModuleNotation\Resolver $notationResolver
      * @param string $destinationHomeDir
      * @param string $configPermitted
@@ -110,8 +110,8 @@ class ThemeDeployment
         \Magento\Framework\View\Publisher\FileFactory $fileFactory,
         \Magento\Framework\App\State $appState,
         \Magento\Core\Model\Theme\DataFactory $themeFactory,
-        \Magento\App\View\Deployment\Version\StorageInterface $versionStorage,
-        \Magento\App\View\Deployment\Version\GeneratorInterface $versionGenerator,
+        \Magento\Framework\App\View\Deployment\Version\StorageInterface $versionStorage,
+        \Magento\Framework\App\View\Deployment\Version\GeneratorInterface $versionGenerator,
         \Magento\View\Asset\ModuleNotation\Resolver $notationResolver,
         $destinationHomeDir,
         $configPermitted,

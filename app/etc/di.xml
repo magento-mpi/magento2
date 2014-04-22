@@ -326,7 +326,7 @@
             <argument name="stateCollection" xsi:type="object" shared="false">Magento\Mview\View\State\CollectionInterface</argument>
         </arguments>
     </type>
-    <type name="Magento\App\StaticResource">
+    <type name="Magento\Framework\App\StaticResource">
         <arguments>
             <argument name="response" xsi:type="object" shared="false">Magento\Core\Model\File\Storage\Response</argument>
         </arguments>

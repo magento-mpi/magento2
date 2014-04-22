@@ -80,8 +80,8 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $this->filesystemAdapter = new \Magento\Framework\Filesystem\Driver\File();
         $this->filesystemAdapter->createDirectory($this->_tmpDir, 0777);
 
-        $this->versionStorage = $this->getMock('Magento\App\View\Deployment\Version\StorageInterface');
-        $this->versionGenerator = $this->getMock('Magento\App\View\Deployment\Version\GeneratorInterface');
+        $this->versionStorage = $this->getMock('Magento\Framework\App\View\Deployment\Version\StorageInterface');
+        $this->versionGenerator = $this->getMock('Magento\Framework\App\View\Deployment\Version\GeneratorInterface');
 
         $assetRepository = new \Magento\View\Asset\Repository(
             $this->getMockForAbstractClass('Magento\UrlInterface'),

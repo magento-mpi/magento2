@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\App\View\Deployment\Version\Storage;
+namespace Magento\Framework\App\View\Deployment\Version\Storage;
 
 /**
  * Persistence of deployment version of static files in a local file
  */
-class File implements \Magento\App\View\Deployment\Version\StorageInterface
+class File implements \Magento\Framework\App\View\Deployment\Version\StorageInterface
 {
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     private $directory;
 
@@ -24,12 +24,12 @@ class File implements \Magento\App\View\Deployment\Version\StorageInterface
     private $fileName;
 
     /**
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param string $directoryCode
      * @param string $fileName
      */
     public function __construct(
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         $directoryCode,
         $fileName
     ) {
@@ -44,7 +44,7 @@ class File implements \Magento\App\View\Deployment\Version\StorageInterface
     {
         try {
             return $this->directory->readFile($this->fileName);
-        } catch (\Magento\Filesystem\FilesystemException $e) {
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
             throw new \UnexpectedValueException(
                 'Unable to retrieve deployment version of static files from the file system.', 0, $e
             );

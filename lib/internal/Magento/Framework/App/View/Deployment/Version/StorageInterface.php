@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\App\View\Deployment\Version;
+namespace Magento\Framework\App\View\Deployment\Version;
 
 /**
  * Persistence of deployment version of static files

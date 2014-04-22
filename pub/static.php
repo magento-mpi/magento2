@@ -9,5 +9,5 @@
  */
 require __DIR__ . '/../app/bootstrap.php';
 
-$entryPoint = new \Magento\App\EntryPoint\EntryPoint(BP, $_SERVER);
-$entryPoint->run('Magento\App\StaticResource');
+$entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(BP, $_SERVER);
+$entryPoint->run('Magento\Framework\App\StaticResource');

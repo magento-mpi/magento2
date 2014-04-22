@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\App\View\Asset;
+namespace Magento\Framework\App\View\Asset;
 
-use Magento\View\Asset;
+use Magento\Framework\View\Asset;
 
 /**
  * A publishing service for view assets
@@ -16,22 +16,22 @@ use Magento\View\Asset;
 class Publisher
 {
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $appState;
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
 
     /**
-     * @param \Magento\App\State $appState
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
-        \Magento\App\State $appState,
-        \Magento\App\Filesystem $filesystem
+        \Magento\Framework\App\State $appState,
+        \Magento\Framework\App\Filesystem $filesystem
     ) {
         $this->appState = $appState;
         $this->filesystem = $filesystem;
@@ -42,10 +42,10 @@ class Publisher
      */
     public function publish(Asset\LocalInterface $asset)
     {
-        if ($this->appState->getMode() === \Magento\App\State::MODE_DEVELOPER) {
+        if ($this->appState->getMode() === \Magento\Framework\App\State::MODE_DEVELOPER) {
             return false;
         }
-        $dir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::STATIC_VIEW_DIR);
+        $dir = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR);
         if ($dir->isExist($asset->getPath())) {
             return true;
         }
@@ -60,8 +60,8 @@ class Publisher
      */
     private function publishAsset(Asset\LocalInterface $asset)
     {
-        $dir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
-        $rootDir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
+        $dir = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR);
+        $rootDir = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
         $source = $rootDir->getRelativePath($asset->getSourceFile());
         $destination = $asset->getPath();
         return $rootDir->copyFile($source, $destination, $dir);

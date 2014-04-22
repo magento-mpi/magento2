@@ -5,27 +5,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\App;
+namespace Magento\Framework\App;
 
 class StaticResourceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\State|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject
      */
     private $state;
 
     /**
-     * @var \Magento\App\Response\FileInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Response\FileInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $response;
 
     /**
-     * @var \Magento\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
      */
     private $request;
 
     /**
-     * @var \Magento\App\View\Asset\Publisher|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\View\Asset\Publisher|\PHPUnit_Framework_MockObject_MockObject
      */
     private $publisher;
 
@@ -45,26 +45,26 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
     private $objectManager;
 
     /**
-     * @var \Magento\App\ObjectManager\ConfigLoader|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\ObjectManager\ConfigLoader|\PHPUnit_Framework_MockObject_MockObject
      */
     private $configLoader;
 
     /**
-     * @var \Magento\App\StaticResource
+     * @var \Magento\Framework\App\StaticResource
      */
     private $object;
 
     protected function setUp()
     {
         $this->state = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $this->response = $this->getMockForAbstractClass('Magento\App\Response\FileInterface');
+        $this->response = $this->getMockForAbstractClass('Magento\Framework\App\Response\FileInterface');
         $this->request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
-        $this->publisher = $this->getMock('Magento\App\View\Asset\Publisher', array(), array(), '', false);
+        $this->publisher = $this->getMock('Magento\Framework\App\View\Asset\Publisher', array(), array(), '', false);
         $this->assetRepo = $this->getMock('Magento\View\Asset\Repository', array(), array(), '', false);
         $this->moduleList = $this->getMock('Magento\Module\ModuleList', array(), array(), '', false);
         $this->objectManager = $this->getMockForAbstractClass('Magento\ObjectManager');
         $this->configLoader = $this->getMock('Magento\App\ObjectManager\ConfigLoader', array(), array(), '', false);
-        $this->object = new \Magento\App\StaticResource(
+        $this->object = new \Magento\Framework\App\StaticResource(
             $this->state,
             $this->response,
             $this->request,
@@ -80,7 +80,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
     {
         $this->state->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue(\Magento\App\State::MODE_PRODUCTION));
+            ->will($this->returnValue(\Magento\Framework\App\State::MODE_PRODUCTION));
         $this->response->expects($this->once())
             ->method('setHttpResponseCode')
             ->with(404);
@@ -148,7 +148,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'developer mode with non-modular resource' => array(
-                \Magento\App\State::MODE_DEVELOPER,
+                \Magento\Framework\App\State::MODE_DEVELOPER,
                 'area/theme/locale/dir/file.js',
                 'dir',
                 null,
@@ -156,7 +156,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
                 array('area' => 'area', 'locale' => 'locale', 'module' => '', 'theme' => 'theme'),
             ),
             'default mode with modular resource' => array(
-                \Magento\App\State::MODE_DEFAULT,
+                \Magento\Framework\App\State::MODE_DEFAULT,
                 'area/theme/locale/Namespace_Module/dir/file.js',
                 'Namespace_Module',
                 array('some data'),
@@ -174,7 +174,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
     {
         $this->state->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue(\Magento\App\State::MODE_DEVELOPER));
+            ->will($this->returnValue(\Magento\Framework\App\State::MODE_DEVELOPER));
         $this->request->expects($this->once())
             ->method('get')
             ->with('resource')

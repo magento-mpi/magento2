@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\App\View\Deployment\Version\Generator;
+namespace Magento\Framework\App\View\Deployment\Version\Generator;
 
 /**
  * Generation of deployment version of static files using the timestamp
  */
-class Timestamp implements \Magento\App\View\Deployment\Version\GeneratorInterface
+class Timestamp implements \Magento\Framework\App\View\Deployment\Version\GeneratorInterface
 {
     /**
      * {@inheritdoc}

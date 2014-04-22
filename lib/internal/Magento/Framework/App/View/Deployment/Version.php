@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\App\View\Deployment;
+namespace Magento\Framework\App\View\Deployment;
 
 /**
  * Deployment version of static files
@@ -14,17 +14,17 @@ namespace Magento\App\View\Deployment;
 class Version
 {
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     private $appState;
 
     /**
-     * @var Version\StorageInterface
+     * @var \Magento\Framework\App\View\Deployment\Version\StorageInterface
      */
     private $versionStorage;
 
     /**
-     * @var Version\GeneratorInterface
+     * @var \Magento\Framework\App\View\Deployment\Version\GeneratorInterface
      */
     private $versionGenerator;
 
@@ -34,14 +34,14 @@ class Version
     private $cachedValue;
 
     /**
-     * @param \Magento\App\State $appState
-     * @param Version\StorageInterface $versionStorage
-     * @param Version\GeneratorInterface $versionGenerator
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Framework\App\View\Deployment\Version\StorageInterface $versionStorage
+     * @param \Magento\Framework\App\View\Deployment\Version\GeneratorInterface $versionGenerator
      */
     public function __construct(
-        \Magento\App\State $appState,
-        Version\StorageInterface $versionStorage,
-        Version\GeneratorInterface $versionGenerator
+        \Magento\Framework\App\State $appState,
+        \Magento\Framework\App\View\Deployment\Version\StorageInterface $versionStorage,
+        \Magento\Framework\App\View\Deployment\Version\GeneratorInterface $versionGenerator
     ) {
         $this->appState = $appState;
         $this->versionStorage = $versionStorage;
@@ -70,7 +70,7 @@ class Version
     protected function readValue($appMode)
     {
         switch ($appMode) {
-            case \Magento\App\State::MODE_DEFAULT:
+            case \Magento\Framework\App\State::MODE_DEFAULT:
                 try {
                     $result = $this->versionStorage->load();
                 } catch (\UnexpectedValueException $e) {
@@ -79,7 +79,7 @@ class Version
                 }
                 break;
 
-            case \Magento\App\State::MODE_DEVELOPER:
+            case \Magento\Framework\App\State::MODE_DEVELOPER:
                 $result = $this->versionGenerator->generate();
                 break;
 

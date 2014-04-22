@@ -5,14 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\App;
+namespace Magento\Framework\App;
+
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\App\Request;
+use Magento\Framework\App\Response;
 
 /**
  * Entry point for retrieving static resources like JS, CSS, images by requested public path
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class StaticResource implements \Magento\LauncherInterface
+class StaticResource implements \Magento\Framework\AppInterface
 {
     /**
      * @var State
@@ -30,7 +34,7 @@ class StaticResource implements \Magento\LauncherInterface
     private $request;
 
     /**
-     * @var \Magento\App\View\Asset\Publisher
+     * @var \Magento\Framework\App\View\Asset\Publisher
      */
     private $publisher;
 
@@ -58,7 +62,7 @@ class StaticResource implements \Magento\LauncherInterface
      * @param State $state
      * @param Response\FileInterface $response
      * @param Request\Http $request
-     * @param \Magento\App\View\Asset\Publisher $publisher
+     * @param \Magento\Framework\App\View\Asset\Publisher $publisher
      * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\Module\ModuleList $moduleList
      * @param \Magento\ObjectManager $objectManager
@@ -68,7 +72,7 @@ class StaticResource implements \Magento\LauncherInterface
         State $state,
         Response\FileInterface $response,
         Request\Http $request,
-        \Magento\App\View\Asset\Publisher $publisher,
+        View\Asset\Publisher $publisher,
         \Magento\View\Asset\Repository $assetRepo,
         \Magento\Module\ModuleList $moduleList,
         \Magento\ObjectManager $objectManager,
@@ -87,13 +91,13 @@ class StaticResource implements \Magento\LauncherInterface
     /**
      * Finds requested resource and provides it to the client
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      * @throws \Exception
      */
     public function launch()
     {
         $appMode = $this->state->getMode();
-        if ($appMode == \Magento\App\State::MODE_PRODUCTION) {
+        if ($appMode == \Magento\Framework\App\State::MODE_PRODUCTION) {
             $this->response->setHttpResponseCode(404);
         } else {
             $path = $this->request->get('resource');
@@ -108,7 +112,7 @@ class StaticResource implements \Magento\LauncherInterface
                 $this->response->setFilePath($asset->getSourceFile());
                 $this->publisher->publish($asset);
             } catch (\Exception $e) {
-                if ($appMode == \Magento\App\State::MODE_DEVELOPER) {
+                if ($appMode == \Magento\Framework\App\State::MODE_DEVELOPER) {
                     throw $e;
                 }
                 $this->response->setHttpResponseCode(404);

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\App\View\Deployment\Version\Generator;
+namespace Magento\Framework\App\View\Deployment\Version\Generator;
 
 class TimestampTest extends \PHPUnit_Framework_TestCase
 {

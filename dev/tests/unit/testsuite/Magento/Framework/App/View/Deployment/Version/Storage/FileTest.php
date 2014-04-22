@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\App\View\Deployment\Version\Storage;
+namespace Magento\Framework\App\View\Deployment\Version\Storage;
 
 class FileTest extends \PHPUnit_Framework_TestCase
 {
@@ -65,7 +65,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadExceptionWrapping()
     {
-        $filesystemException = new \Magento\Filesystem\FilesystemException('File does not exist');
+        $filesystemException = new \Magento\Framework\Filesystem\FilesystemException('File does not exist');
         $this->directory
             ->expects($this->once())
             ->method('readFile')

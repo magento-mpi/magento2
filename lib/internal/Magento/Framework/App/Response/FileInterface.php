@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\App\Response;
+namespace Magento\Framework\App\Response;
 
 interface FileInterface extends HttpInterface
 {

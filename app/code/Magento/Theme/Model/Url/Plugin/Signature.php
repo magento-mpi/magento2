@@ -31,17 +31,17 @@ class Signature
     private $config;
 
     /**
-     * @var \Magento\App\View\Deployment\Version
+     * @var \Magento\Framework\App\View\Deployment\Version
      */
     private $deploymentVersion;
 
     /**
      * @param \Magento\View\Url\ConfigInterface $config
-     * @param \Magento\App\View\Deployment\Version $deploymentVersion
+     * @param \Magento\Framework\App\View\Deployment\Version $deploymentVersion
      */
     public function __construct(
         \Magento\View\Url\ConfigInterface $config,
-        \Magento\App\View\Deployment\Version $deploymentVersion
+        \Magento\Framework\App\View\Deployment\Version $deploymentVersion
     ) {
         $this->config = $config;
         $this->deploymentVersion = $deploymentVersion;

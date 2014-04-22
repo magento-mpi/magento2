@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\App\Response;
+namespace Magento\Framework\App\Response;
 
-interface HttpInterface extends \Magento\App\ResponseInterface
+interface HttpInterface extends \Magento\Framework\App\ResponseInterface
 {
     /**
      * Set HTTP response code

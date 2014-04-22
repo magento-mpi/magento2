@@ -81,8 +81,8 @@ try {
 
     $copyRules = $generator->getCopyRules();
 
-    /** @var \Magento\App\View\Deployment\Version\Storage\File $versionFile */
-    $versionFile = $objectManager->create('Magento\App\View\Deployment\Version\Storage\File', array(
+    /** @var \Magento\Framework\App\View\Deployment\Version\Storage\File $versionFile */
+    $versionFile = $objectManager->create('Magento\Framework\App\View\Deployment\Version\Storage\File', array(
         'directoryCode' => 'deployment',
     ));
 

@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\App\View\Deployment;
+namespace Magento\Framework\App\View\Deployment;
+
+use Magento\Framework\App\View\Deployment\Version;
 
 class VersionTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,9 +34,9 @@ class VersionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->appState = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $this->versionStorage = $this->getMock('Magento\App\View\Deployment\Version\StorageInterface');
-        $this->versionGenerator = $this->getMock('Magento\App\View\Deployment\Version\GeneratorInterface');
+        $this->appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
+        $this->versionStorage = $this->getMock('Magento\Framework\App\View\Deployment\Version\StorageInterface');
+        $this->versionGenerator = $this->getMock('Magento\Framework\App\View\Deployment\Version\GeneratorInterface');
         $this->object = new Version($this->appState, $this->versionStorage, $this->versionGenerator);
     }
 
@@ -43,7 +45,7 @@ class VersionTest extends \PHPUnit_Framework_TestCase
         $this->appState
             ->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue(\Magento\App\State::MODE_DEVELOPER))
+            ->will($this->returnValue(\Magento\Framework\App\State::MODE_DEVELOPER))
         ;
         $this->versionStorage->expects($this->never())->method($this->anything());
         $this->versionGenerator->expects($this->once())->method('generate')->will($this->returnValue('123'));
@@ -72,8 +74,8 @@ class VersionTest extends \PHPUnit_Framework_TestCase
     public function getValueFromStorageDataProvider()
     {
         return array(
-            'default mode'      => array(\Magento\App\State::MODE_DEFAULT),
-            'production mode'   => array(\Magento\App\State::MODE_PRODUCTION),
+            'default mode'      => array(\Magento\Framework\App\State::MODE_DEFAULT),
+            'production mode'   => array(\Magento\Framework\App\State::MODE_PRODUCTION),
             'arbitrary mode'    => array('test'),
         );
     }
@@ -83,7 +85,7 @@ class VersionTest extends \PHPUnit_Framework_TestCase
         $this->appState
             ->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue(\Magento\App\State::MODE_DEFAULT))
+            ->will($this->returnValue(\Magento\Framework\App\State::MODE_DEFAULT))
         ;
         $storageException = new \UnexpectedValueException('Does not exist in the storage');
         $this->versionStorage

@@ -6,37 +6,39 @@
  * @license     {license_link}
  */
 
-namespace Magento\App\View\Asset;
+namespace Magento\Framework\App\View\Asset;
+
+use Magento\Framework\App\View\Asset\Publisher;
 
 class PublisherTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\State|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject
      */
     private $appState;
 
     /**
-     * @var \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     private $filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $rootDirWrite;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $staticDirRead;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $staticDirWrite;
 
     /**
-     * @var \Magento\App\View\Asset\Publisher
+     * @var \Magento\Framework\App\View\Asset\Publisher
      */
     private $object;
 
@@ -51,13 +53,13 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
         $this->staticDirWrite = $this->getMockForAbstractClass('Magento\Filesystem\Directory\WriteInterface');
         $this->filesystem->expects($this->any())
             ->method('getDirectoryRead')
-            ->with(\Magento\App\Filesystem::STATIC_VIEW_DIR)
+            ->with(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR)
             ->will($this->returnValue($this->staticDirRead));
         $this->filesystem->expects($this->any())
             ->method('getDirectoryWrite')
             ->will($this->returnValueMap([
-                [\Magento\App\Filesystem::ROOT_DIR, $this->rootDirWrite],
-                [\Magento\App\Filesystem::STATIC_VIEW_DIR, $this->staticDirWrite],
+                [\Magento\Framework\App\Filesystem::ROOT_DIR, $this->rootDirWrite],
+                [\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR, $this->staticDirWrite],
             ]));
     }
 
@@ -65,7 +67,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
     {
         $this->appState->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue(\Magento\App\State::MODE_DEVELOPER));
+            ->will($this->returnValue(\Magento\Framework\App\State::MODE_DEVELOPER));
         $this->assertFalse($this->object->publish($this->getAsset()));
     }
 
@@ -73,7 +75,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
     {
         $this->appState->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue(\Magento\App\State::MODE_PRODUCTION));
+            ->will($this->returnValue(\Magento\Framework\App\State::MODE_PRODUCTION));
         $this->staticDirRead->expects($this->once())
             ->method('isExist')
             ->with('some/file.ext')
@@ -85,7 +87,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
     {
         $this->appState->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue(\Magento\App\State::MODE_PRODUCTION));
+            ->will($this->returnValue(\Magento\Framework\App\State::MODE_PRODUCTION));
         $this->staticDirRead->expects($this->once())
             ->method('isExist')
             ->with('some/file.ext')
