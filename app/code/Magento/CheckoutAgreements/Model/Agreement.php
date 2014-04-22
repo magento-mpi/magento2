@@ -24,7 +24,7 @@ namespace Magento\CheckoutAgreements\Model;
  * @method \Magento\CheckoutAgreements\Model\Agreement setIsHtml(int $value)
  *
  */
-class Agreement extends \Magento\Model\AbstractModel
+class Agreement extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * @return void

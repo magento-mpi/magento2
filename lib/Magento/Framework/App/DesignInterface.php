@@ -27,5 +27,5 @@ interface DesignInterface
      * @param \Magento\View\DesignInterface $packageInto
      * @return $this
      */
-    public function changeDesign(\Magento\View\DesignInterface $packageInto);
+    public function changeDesign(\Magento\Framework\View\DesignInterface $packageInto);
 }
