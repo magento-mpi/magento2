@@ -159,21 +159,10 @@ class Group extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('The customer group has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl('customer/group'));
                 return;
-            } catch (InputException $e) {
-                if ($e->getPrevious()) {
-                    $this->messageManager->addError($e->getPrevious()->getMessage());
-                } else {
-                    $this->messageManager->addError($e->getMessage());
-                }
-                if ($customerGroup != null) {
-                    $this->storeCustomerGroupDataToSession($customerGroup);
-                }
-                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
-                return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 if ($customerGroup != null) {
-                    $this->storeCustomerGroupDataToSession($customerGroup);
+                    $this->storeCustomerGroupDataToSession($customerGroup->__toArray());
                 }
                 $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
                 return;
@@ -223,11 +212,10 @@ class Group extends \Magento\Backend\App\Action
     /**
      * Store Customer Group Data to session
      *
-     * @param $customerGroup
+     * @param array $customerGroupData
      */
-    protected function storeCustomerGroupDataToSession($customerGroup)
+    protected function storeCustomerGroupDataToSession($customerGroupData)
     {
-        $customerGroupData = $customerGroup->__toArray();
         if (array_key_exists('code', $customerGroupData)) {
             $customerGroupData['customer_group_code'] = $customerGroupData['code'];
             unset($customerGroupData['code']);
