@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shell
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Shell;
+namespace Magento\Framework\Shell;
 
 class CommandRenderer implements CommandRendererInterface
 {

@@ -20,7 +20,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     protected $_command;
 
     /**
-     * @var \Magento\Shell
+     * @var \Magento\Framework\Shell
      */
     protected $_shell;
 
@@ -58,7 +58,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_shell = new \Magento\Shell(new \Magento\Shell\CommandRenderer());
+        $this->_shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer());
         $basePath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $basePath = str_replace('\\', '/', $basePath);
 

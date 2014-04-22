@@ -23,16 +23,16 @@ class Memory
     const MEMORY_UNITS = 'BKMGTPE';
 
     /**
-     * @var \Magento\Shell
+     * @var \Magento\Framework\Shell
      */
     private $_shell;
 
     /**
      * Inject dependencies
      *
-     * @param \Magento\Shell $shell
+     * @param \Magento\Framework\Shell $shell
      */
-    public function __construct(\Magento\Shell $shell)
+    public function __construct(\Magento\Framework\Shell $shell)
     {
         $this->_shell = $shell;
     }

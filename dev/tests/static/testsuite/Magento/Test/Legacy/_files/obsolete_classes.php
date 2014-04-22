@@ -2365,4 +2365,5 @@ return array(
     ['Magento\Connect\Singleconfig', 'Magento\Framework\Connect\Singleconfig'],
     ['Magento\Connect\Validator', 'Magento\Framework\Connect\Validator'],
     ['Magento\Profiler', 'Magento\Framework\Profiler'],
+    ['Magento\Shell', 'Magento\Framework\Shell'],
 );

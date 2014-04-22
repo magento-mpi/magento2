@@ -28,7 +28,7 @@ class Application
     protected $_application;
 
     /**
-     * @var \Magento\Shell
+     * @var \Magento\Framework\Shell
      */
     protected $_shell;
 
@@ -51,9 +51,9 @@ class Application
 
     /**
      * @param string $applicationBaseDir
-     * @param \Magento\Shell $shell
+     * @param \Magento\Framework\Shell $shell
      */
-    public function __construct($applicationBaseDir, \Magento\Shell $shell)
+    public function __construct($applicationBaseDir, \Magento\Framework\Shell $shell)
     {
         $this->_applicationBaseDir = $applicationBaseDir;
         $this->_shell = $shell;
