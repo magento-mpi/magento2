@@ -25,7 +25,7 @@ class Indexer extends \Magento\Object implements IndexerInterface
     protected $actionFactory;
 
     /**
-     * @var \Magento\Mview\ViewInterface
+     * @var \Magento\Framework\Mview\ViewInterface
      */
     protected $view;
 
@@ -47,7 +47,7 @@ class Indexer extends \Magento\Object implements IndexerInterface
     /**
      * @param ConfigInterface $config
      * @param ActionFactory $actionFactory
-     * @param \Magento\Mview\ViewInterface $view
+     * @param \Magento\Framework\Mview\ViewInterface $view
      * @param Indexer\StateFactory $stateFactory
      * @param Indexer\CollectionFactory $indexersFactory
      * @param array $data
@@ -55,7 +55,7 @@ class Indexer extends \Magento\Object implements IndexerInterface
     public function __construct(
         ConfigInterface $config,
         ActionFactory $actionFactory,
-        \Magento\Mview\ViewInterface $view,
+        \Magento\Framework\Mview\ViewInterface $view,
         Indexer\StateFactory $stateFactory,
         Indexer\CollectionFactory $indexersFactory,
         array $data = array()
@@ -131,7 +131,7 @@ class Indexer extends \Magento\Object implements IndexerInterface
     /**
      * Return related view object
      *
-     * @return \Magento\Mview\ViewInterface
+     * @return \Magento\Framework\Mview\ViewInterface
      */
     public function getView()
     {

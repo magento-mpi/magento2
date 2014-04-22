@@ -46,11 +46,11 @@
     <preference for="Magento\Url\QueryParamsResolverInterface" type="Magento\Url\QueryParamsResolver" />
     <preference for="Magento\Url\ScopeResolverInterface" type="Magento\Core\Model\Url\ScopeResolver" />
     <preference for="Magento\Url\SecurityInfoInterface" type="Magento\Core\Model\Url\SecurityInfo" />
-    <preference for="Magento\Mview\ConfigInterface" type="Magento\Mview\Config" />
-    <preference for="Magento\Mview\ViewInterface" type="Magento\Mview\View" />
-    <preference for="Magento\Mview\ProcessorInterface" type="Magento\Mview\Processor" />
-    <preference for="Magento\Mview\View\CollectionInterface" type="Magento\Mview\View\Collection" />
-    <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
+    <preference for="Magento\Framework\Mview\ConfigInterface" type="Magento\Framework\Mview\Config" />
+    <preference for="Magento\Framework\Mview\ViewInterface" type="Magento\Framework\Mview\View" />
+    <preference for="Magento\Framework\Mview\ProcessorInterface" type="Magento\Framework\Mview\Processor" />
+    <preference for="Magento\Framework\Mview\View\CollectionInterface" type="Magento\Framework\Mview\View\Collection" />
+    <preference for="Magento\Framework\Mview\View\SubscriptionInterface" type="Magento\Framework\Mview\View\Subscription" />
     <preference for="Magento\Framework\Css\PreProcessor\AdapterInterface" type="Magento\Framework\Css\PreProcessor\Adapter\Oyejorge" />
     <preference for="Magento\Framework\Translate\ResourceInterface" type="Magento\Translation\Model\Resource\Translate" />
     <preference for="Magento\Framework\LocaleInterface" type="Magento\Framework\Locale" />

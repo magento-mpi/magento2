@@ -65,12 +65,12 @@
     <preference for="Magento\Framework\TranslateInterface" type="Magento\Framework\Translate" />
     <preference for="Magento\Framework\Config\ScopeListInterface" type="interceptionConfigScope" />
     <preference for="Magento\Framework\View\Design\Theme\Label\ListInterface" type="Magento\Core\Model\Resource\Theme\Collection" />
-    <preference for="Magento\Mview\ConfigInterface" type="Magento\Mview\Config" />
-    <preference for="Magento\Mview\ViewInterface" type="Magento\Mview\View" />
-    <preference for="Magento\Mview\ProcessorInterface" type="Magento\Mview\Processor" />
-    <preference for="Magento\Mview\View\CollectionInterface" type="Magento\Mview\View\Collection" />
-    <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
-    <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
+    <preference for="Magento\Framework\Mview\ConfigInterface" type="Magento\Framework\Mview\Config" />
+    <preference for="Magento\Framework\Mview\ViewInterface" type="Magento\Framework\Mview\View" />
+    <preference for="Magento\Framework\Mview\ProcessorInterface" type="Magento\Framework\Mview\Processor" />
+    <preference for="Magento\Framework\Mview\View\CollectionInterface" type="Magento\Framework\Mview\View\Collection" />
+    <preference for="Magento\Framework\Mview\View\SubscriptionInterface" type="Magento\Framework\Mview\View\Subscription" />
+    <preference for="Magento\Framework\Mview\View\ChangelogInterface" type="Magento\Framework\Mview\View\Changelog" />
     <type name="Magento\Framework\Model\Context">
         <arguments>
             <argument name="actionValidator" xsi:type="object">Magento\Framework\Model\ActionValidator\RemoveAction\Proxy</argument>
@@ -322,20 +322,20 @@
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
-    <type name="Magento\Mview\View">
+    <type name="Magento\Framework\Mview\View">
         <arguments>
             <argument name="state" xsi:type="object" shared="false">Magento\Indexer\Model\Mview\View\State</argument>
-            <argument name="changelog" xsi:type="object" shared="false">Magento\Mview\View\Changelog</argument>
+            <argument name="changelog" xsi:type="object" shared="false">Magento\Framework\Mview\View\Changelog</argument>
         </arguments>
     </type>
-    <type name="Magento\Mview\Config">
+    <type name="Magento\Framework\Mview\Config">
         <arguments>
-            <argument name="configData" xsi:type="object">Magento\Mview\Config\Data\Proxy</argument>
+            <argument name="configData" xsi:type="object">Magento\Framework\Mview\Config\Data\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Mview\Config\Data">
+    <type name="Magento\Framework\Mview\Config\Data">
         <arguments>
-            <argument name="stateCollection" xsi:type="object" shared="false">Magento\Mview\View\State\CollectionInterface</argument>
+            <argument name="stateCollection" xsi:type="object" shared="false">Magento\Framework\Mview\View\State\CollectionInterface</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Code\Generator">
