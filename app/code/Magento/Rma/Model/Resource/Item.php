@@ -69,7 +69,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -83,7 +83,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,

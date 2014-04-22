@@ -55,7 +55,7 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     protected $resourceHelperMock;
 
     /**
-     * @var \Magento\Validator\UniversalFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Validator\UniversalFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $validatorFactoryMock;
 
@@ -87,7 +87,7 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         );
         $this->resourceHelperMock = $this->getMock('Magento\Eav\Model\Resource\Helper', array(), array(), '', false);
         $this->validatorFactoryMock = $this->getMock(
-            'Magento\Validator\UniversalFactory',
+            'Magento\Framework\Validator\UniversalFactory',
             array(),
             array(),
             '',

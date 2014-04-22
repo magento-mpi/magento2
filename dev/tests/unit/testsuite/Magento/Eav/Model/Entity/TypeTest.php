@@ -75,7 +75,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->universalFactoryMock = $this->getMock(
-            'Magento\Validator\UniversalFactory',
+            'Magento\Framework\Validator\UniversalFactory',
             array(),
             array(),
             '',

@@ -1949,14 +1949,23 @@ return array(
         'Magento\RecurringPayment\Model\Resource\Payment\Collection'
     ),
     array('Magento\Payment\Model\Recurring\Profile', 'Magento\RecurringPayment\Model\RecurringPayment'),
-    array('Magento\Validator\Composite\VarienObject', 'Magento\Validator\Object'),
+    array('Magento\Validator\Composite\VarienObject', 'Magento\Framework\Validator\Object'),
     array('Magento\GoogleShopping\Helper\Price', 'Magento\Catalog\Model\Product\CatalogPrice'),
-    array('Magento\Core\Model\Layout\Argument\Handler\ArrayHandler', 'Magento\Framework\Data\Argument\Interpreter\ArrayType'),
+    array(
+        'Magento\Core\Model\Layout\Argument\Handler\ArrayHandler',
+        'Magento\Framework\Data\Argument\Interpreter\ArrayType'
+    ),
     array('Magento\Core\Model\Layout\Argument\Handler\String', 'Magento\Framework\Data\Argument\Interpreter\String'),
     array('Magento\Core\Model\Layout\Argument\Handler\Number', 'Magento\Framework\Data\Argument\Interpreter\Number'),
     array('Magento\Core\Model\Layout\Argument\Handler\Boolean', 'Magento\Framework\Data\Argument\Interpreter\Boolean'),
-    array('Magento\Core\Model\Layout\Argument\Handler\Object', 'Magento\Framework\View\Layout\Argument\Interpreter\Object'),
-    array('Magento\Core\Model\Layout\Argument\Handler\Options', 'Magento\Framework\View\Layout\Argument\Interpreter\Options'),
+    array(
+        'Magento\Core\Model\Layout\Argument\Handler\Object',
+        'Magento\Framework\View\Layout\Argument\Interpreter\Object'
+    ),
+    array(
+        'Magento\Core\Model\Layout\Argument\Handler\Options',
+        'Magento\Framework\View\Layout\Argument\Interpreter\Options'
+    ),
     array('Magento\Core\Model\Layout\Argument\Handler\Url', 'Magento\Framework\View\Layout\Argument\Interpreter\Url'),
     array(
         'Magento\Core\Model\Layout\Argument\Handler\Helper',
@@ -1970,11 +1979,23 @@ return array(
         'Magento\Core\Model\Layout\Argument\Processor',
         'Magento\Framework\View\Layout\Argument\Interpreter\Decorator\Updater'
     ),
-    array('Magento\Core\Model\Layout\Argument\Updater', 'Magento\Framework\View\Layout\Argument\Interpreter\Decorator\Updater'),
-    array('Magento\Core\Model\Layout\Argument\UpdaterInterface', 'Magento\Framework\View\Layout\Argument\UpdaterInterface'),
+    array(
+        'Magento\Core\Model\Layout\Argument\Updater',
+        'Magento\Framework\View\Layout\Argument\Interpreter\Decorator\Updater'
+    ),
+    array(
+        'Magento\Core\Model\Layout\Argument\UpdaterInterface',
+        'Magento\Framework\View\Layout\Argument\UpdaterInterface'
+    ),
     array('Magento\Core\Model\Layout\Filter\Acl', 'Magento\Backend\Model\Layout\Filter\Acl'),
-    array('Magento\Framework\View\Layout\Argument\HandlerInterface', 'Magento\Framework\Data\Argument\InterpreterInterface'),
-    array('Magento\Framework\View\Layout\Argument\HandlerFactory', 'Magento\Framework\Data\Argument\Interpreter\Composite'),
+    array(
+        'Magento\Framework\View\Layout\Argument\HandlerInterface',
+        'Magento\Framework\Data\Argument\InterpreterInterface'
+    ),
+    array(
+        'Magento\Framework\View\Layout\Argument\HandlerFactory',
+        'Magento\Framework\Data\Argument\Interpreter\Composite'
+    ),
     array('Magento\Framework\Phrase\Renderer\Factory'),
     array('Magento\Framework\View\Layout\Factory', 'Magento\DesignEditor\Model\AreaEmulator'),
     array('Magento\Catalog\Model\Category\Indexer\Product'),
@@ -2037,10 +2058,19 @@ return array(
         'Magento\Framework\Locale\Resolver, Magento\Framework\Locale\Currency, Magento\Framework\Locale\Format, ' .
         'Magento\Framework\Stdlib\DateTime\Timezone, Magento\Framework\Locale\Lists'
     ),
-    array('Magento\Core\Model\Locale\Hierarchy\Config\Converter', 'Magento\Framework\Locale\Hierarchy\Config\Converter'),
-    array('Magento\Core\Model\Locale\Hierarchy\Config\FileResolver', 'Magento\Framework\Locale\Hierarchy\Config\FileResolver'),
+    array(
+        'Magento\Core\Model\Locale\Hierarchy\Config\Converter',
+        'Magento\Framework\Locale\Hierarchy\Config\Converter'
+    ),
+    array(
+        'Magento\Core\Model\Locale\Hierarchy\Config\FileResolver',
+        'Magento\Framework\Locale\Hierarchy\Config\FileResolver'
+    ),
     array('Magento\Core\Model\Locale\Hierarchy\Config\Reader', 'Magento\Framework\Locale\Hierarchy\Config\Reader'),
-    array('Magento\Core\Model\Locale\Hierarchy\Config\SchemaLocator', 'Magento\Framework\Locale\Hierarchy\Config\SchemaLocator'),
+    array(
+        'Magento\Core\Model\Locale\Hierarchy\Config\SchemaLocator',
+        'Magento\Framework\Locale\Hierarchy\Config\SchemaLocator'
+    ),
     array('Magento\Core\Model\Locale\Config', 'Magento\Framework\Locale\Config'),
     array('Magento\Core\Model\Locale\Validator', 'Magento\Framework\Locale\Validator'),
     array('Magento\Core\Model\Date', 'Magento\Framework\Stdlib\DateTime\DateTime'),
@@ -2382,4 +2412,6 @@ return array(
     ['Magento\Url', 'Magento\Framework\Url'],
     ['Magento\UrlFactory', 'Magento\Framework\UrlFactory'],
     ['Magento\UrlInterface', 'Magento\Framework\UrlInterface'],
+    ['Magento\Validator', 'Magento\Framework\Validator'],
+    ['Magento\ValidatorFactory', 'Magento\Framework\ValidatorFactory'],
 );

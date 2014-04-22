@@ -93,7 +93,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractModel 
     protected $_resourceHelper;
 
     /**
-     * @var \Magento\Validator\UniversalFactory
+     * @var \Magento\Framework\Validator\UniversalFactory
      */
     protected $_universalFactory;
 
@@ -105,7 +105,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractModel 
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -118,7 +118,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractModel 
         \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

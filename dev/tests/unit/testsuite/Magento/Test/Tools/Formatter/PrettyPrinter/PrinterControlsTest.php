@@ -533,7 +533,7 @@ FC6;
 <?php
 class CSample7 {
     public function cS7() {
-        $option = new \Magento\Validator\Constraint\Option\Callback(
+        $option = new \Magento\Framework\Validator\Constraint\Option\Callback(
             function () {
             }
         );
@@ -545,7 +545,7 @@ class CSample7
 {
     public function cS7()
     {
-        $option = new \Magento\Validator\Constraint\Option\Callback(
+        $option = new \Magento\Framework\Validator\Constraint\Option\Callback(
             function () {
             }
         );

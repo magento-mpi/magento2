@@ -98,7 +98,7 @@ class Config
     protected $_entityTypeFactory;
 
     /**
-     * @var \Magento\Validator\UniversalFactory
+     * @var \Magento\Framework\Validator\UniversalFactory
      */
     protected $_universalFactory;
 
@@ -106,13 +106,13 @@ class Config
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param Entity\TypeFactory $entityTypeFactory
      * @param \Magento\Framework\App\Cache\StateInterface $cacheState
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      */
     public function __construct(
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory,
         \Magento\Framework\App\Cache\StateInterface $cacheState,
-        \Magento\Validator\UniversalFactory $universalFactory
+        \Magento\Framework\Validator\UniversalFactory $universalFactory
     ) {
         $this->_cache = $cache;
         $this->_entityTypeFactory = $entityTypeFactory;

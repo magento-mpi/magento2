@@ -49,7 +49,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Reward\Model\Resource\Reward $resourceReward
      * @param \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance
@@ -68,7 +68,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
         \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Object\Copy\Config $fieldsetConfig,
         \Magento\Reward\Model\Resource\Reward $resourceReward,
         \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance,

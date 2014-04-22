@@ -24,7 +24,7 @@ class Collection extends \Magento\CustomerSegment\Model\Resource\Report\Customer
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Registry $registryManager
      * @param mixed $connection
@@ -41,7 +41,7 @@ class Collection extends \Magento\CustomerSegment\Model\Resource\Report\Customer
         \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Object\Copy\Config $fieldsetConfig,
         \Magento\Registry $registryManager,
         $connection = null,

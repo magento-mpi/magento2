@@ -30,7 +30,7 @@ use Magento\Customer\Service\V1\Data\AddressConverter;
 class Index extends \Magento\Backend\App\Action
 {
     /**
-     * @var \Magento\Validator
+     * @var \Magento\Framework\Validator
      */
     protected $_validator;
 
@@ -427,7 +427,7 @@ class Index extends \Magento\Backend\App\Action
                 $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customerId);
                 $this->messageManager->addSuccess(__('You saved the customer.'));
                 $returnToEdit = (bool)$this->getRequest()->getParam('back', false);
-            } catch (\Magento\Validator\ValidatorException $exception) {
+            } catch (\Magento\Framework\Validator\ValidatorException $exception) {
                 $this->_addSessionErrorMessages($exception->getMessages());
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;

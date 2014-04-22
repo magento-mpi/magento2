@@ -37,7 +37,7 @@ class Options extends \Magento\Backend\Block\Template
     protected $_template = 'Magento_Catalog::catalog/product/attribute/options.phtml';
 
     /**
-     * @var \Magento\Validator\UniversalFactory $universalFactory
+     * @var \Magento\Framework\Validator\UniversalFactory $universalFactory
      */
     protected $_universalFactory;
 
@@ -45,14 +45,14 @@ class Options extends \Magento\Backend\Block\Template
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);

@@ -114,7 +114,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
     protected $_resourceHelper;
 
     /**
-     * @var \Magento\Validator\UniversalFactory
+     * @var \Magento\Framework\Validator\UniversalFactory
      */
     protected $_universalFactory;
 
@@ -127,7 +127,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param mixed $connection
      */
     public function __construct(
@@ -139,7 +139,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
         \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         $connection = null
     ) {
         $this->_eventManager = $eventManager;

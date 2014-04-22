@@ -19,7 +19,7 @@ namespace Magento\Eav\Model\Validator\Attribute;
 
 use Magento\Eav\Model\Attribute;
 
-class Data extends \Magento\Validator\AbstractValidator
+class Data extends \Magento\Framework\Validator\AbstractValidator
 {
     /**
      * @var array

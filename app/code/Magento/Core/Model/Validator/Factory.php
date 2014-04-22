@@ -39,7 +39,7 @@ class Factory
     }
 
     /**
-     * Create and set default translator to \Magento\Validator\AbstractValidator.
+     * Create and set default translator to \Magento\Framework\Validator\AbstractValidator.
      *
      * @return void
      */
@@ -53,19 +53,19 @@ class Factory
         /** @var \Magento\Framework\Translate\Adapter $translator */
         $translator = $this->_objectManager->create('Magento\Framework\Translate\Adapter');
         $translator->setOptions(array('translator' => $translatorCallback));
-        \Magento\Validator\AbstractValidator::setDefaultTranslator($translator);
+        \Magento\Framework\Validator\AbstractValidator::setDefaultTranslator($translator);
     }
 
     /**
      * Get validator config object.
      *
-     * Will instantiate \Magento\Validator\Config
+     * Will instantiate \Magento\Framework\Validator\Config
      *
-     * @return \Magento\Validator\Config
+     * @return \Magento\Framework\Validator\Config
      */
     public function getValidatorConfig()
     {
-        return $this->_objectManager->create('Magento\Validator\Config', array('configFiles' => $this->_configFiles));
+        return $this->_objectManager->create('Magento\Framework\Validator\Config', array('configFiles' => $this->_configFiles));
     }
 
     /**
@@ -74,7 +74,7 @@ class Factory
      * @param string $entityName
      * @param string $groupName
      * @param array|null $builderConfig
-     * @return \Magento\Validator\Builder
+     * @return \Magento\Framework\Validator\Builder
      */
     public function createValidatorBuilder($entityName, $groupName, array $builderConfig = null)
     {
@@ -87,7 +87,7 @@ class Factory
      * @param string $entityName
      * @param string $groupName
      * @param array|null $builderConfig
-     * @return \Magento\Validator
+     * @return \Magento\Framework\Validator
      */
     public function createValidator($entityName, $groupName, array $builderConfig = null)
     {

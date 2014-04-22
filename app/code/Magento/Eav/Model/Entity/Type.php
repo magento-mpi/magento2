@@ -81,7 +81,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
     protected $_storeFactory;
 
     /**
-     * @var \Magento\Validator\UniversalFactory
+     * @var \Magento\Framework\Validator\UniversalFactory
      */
     protected $_universalFactory;
 
@@ -91,7 +91,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attSetFactory
      * @param \Magento\Eav\Model\Entity\StoreFactory $storeFactory
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -102,7 +102,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Eav\Model\Entity\Attribute\SetFactory $attSetFactory,
         \Magento\Eav\Model\Entity\StoreFactory $storeFactory,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

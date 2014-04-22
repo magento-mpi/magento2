@@ -28,7 +28,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
                 $this->getMock('Magento\Eav\Model\Entity\Attribute\Set', array(), array(), '', false),
                 $this->getMock('\Magento\Framework\Locale\FormatInterface'),
                 $this->getMock('Magento\Eav\Model\Resource\Helper', array(), array(), '', false),
-                $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false)
+                $this->getMock('Magento\Framework\Validator\UniversalFactory', array(), array(), '', false)
             )
         );
     }
@@ -278,7 +278,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Eav\Model\Entity\Attribute\Set', array(), array(), '', false),
             $this->getMock('Magento\Framework\Locale\FormatInterface'),
             $this->getMock('Magento\Eav\Model\Resource\Helper', array(), array(), '', false),
-            $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Validator\UniversalFactory', array(), array(), '', false),
             array('type' => $entityType, 'entityTable' => 'entityTable', 'attributesByCode' => $attributes)
         );
         /** @var $model \PHPUnit_Framework_MockObject_MockObject */

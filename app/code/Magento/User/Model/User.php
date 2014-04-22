@@ -92,7 +92,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     /**
      * Factory for validator composite object
      *
-     * @var \Magento\Validator\ObjectFactory
+     * @var \Magento\Framework\Validator\ObjectFactory
      */
     protected $_validatorObject;
 
@@ -128,7 +128,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
      * @param \Magento\Registry $registry
      * @param \Magento\User\Helper\Data $userData
      * @param \Magento\Backend\App\ConfigInterface $config
-     * @param \Magento\Validator\ObjectFactory $validatorObjectFactory
+     * @param \Magento\Framework\Validator\ObjectFactory $validatorObjectFactory
      * @param \Magento\User\Model\RoleFactory $roleFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
@@ -145,7 +145,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
         \Magento\Registry $registry,
         \Magento\User\Helper\Data $userData,
         \Magento\Backend\App\ConfigInterface $config,
-        \Magento\Validator\ObjectFactory $validatorObjectFactory,
+        \Magento\Framework\Validator\ObjectFactory $validatorObjectFactory,
         \Magento\User\Model\RoleFactory $roleFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
@@ -208,7 +208,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
         $this->_userData = $objectManager->get('Magento\User\Helper\Data');
         $this->_config = $objectManager->get('Magento\Backend\App\ConfigInterface');
         $this->_registry = $objectManager->get('Magento\Registry');
-        $this->_validatorObject = $objectManager->get('Magento\Validator\ObjectFactory');
+        $this->_validatorObject = $objectManager->get('Magento\Framework\Validator\ObjectFactory');
         $this->_roleFactory = $objectManager->get('Magento\User\Model\RoleFactory');
         $this->_encryptor = $objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
         $this->_transportBuilder = $objectManager->get('Magento\Mail\Template\TransportBuilder');
@@ -277,7 +277,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
         $emailValidity = new \Zend_Validate_EmailAddress();
         $emailValidity->setMessage(__('Please enter a valid email.'), \Zend_Validate_EmailAddress::INVALID);
 
-        /** @var $validator \Magento\Validator\Object */
+        /** @var $validator \Magento\Framework\Validator\Object */
         $validator = $this->_validatorObject->create();
         $validator->addRule(
             $userNameNotEmpty,
@@ -302,10 +302,10 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     /**
      * Add validation rules for the password management fields
      *
-     * @param \Magento\Validator\Object $validator
+     * @param \Magento\Framework\Validator\Object $validator
      * @return void
      */
-    protected function _addPasswordValidation(\Magento\Validator\Object $validator)
+    protected function _addPasswordValidation(\Magento\Framework\Validator\Object $validator)
     {
         $passwordNotEmpty = new \Zend_Validate_NotEmpty();
         $passwordNotEmpty->setMessage(__('Password is required field.'), \Zend_Validate_NotEmpty::IS_EMPTY);

@@ -35,7 +35,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\Validator\Factory $validatorFactory
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
@@ -47,7 +47,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\Validator\Factory $validatorFactory,
         \Magento\Framework\Stdlib\DateTime $dateTime,
@@ -151,14 +151,14 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      *
      * @param \Magento\Customer\Model\Customer $customer
      * @return void
-     * @throws \Magento\Validator\ValidatorException When validation failed
+     * @throws \Magento\Framework\Validator\ValidatorException When validation failed
      */
     protected function _validate($customer)
     {
         $validator = $this->_validatorFactory->createValidator('customer', 'save');
 
         if (!$validator->isValid($customer)) {
-            throw new \Magento\Validator\ValidatorException($validator->getMessages());
+            throw new \Magento\Framework\Validator\ValidatorException($validator->getMessages());
         }
     }
 

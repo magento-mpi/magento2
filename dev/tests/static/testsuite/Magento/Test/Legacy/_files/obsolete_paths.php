@@ -174,4 +174,10 @@ return [
     ['/lib/Magento/Url', '/lib/Magento/Framework/Url'],
     ['/dev/tests/unit/testsuite/Magento/Url', '/dev/tests/unit/testsuite/Magento/Framework/Url'],
     ['/dev/tests/integration/testsuite/Magento/Url', '/dev/tests/integration/testsuite/Magento/Framework/Url'],
+    ['/lib/Magento/Validator', '/lib/Magento/Framework/Validator'],
+    ['/dev/tests/unit/testsuite/Magento/Validator', '/dev/tests/unit/testsuite/Magento/Framework/Validator'],
+    [
+        '/dev/tests/integration/testsuite/Magento/Validator',
+        '/dev/tests/integration/testsuite/Magento/Framework/Validator'
+    ],
 ];

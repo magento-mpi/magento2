@@ -27,7 +27,7 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\Validator\Factory $validatorFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param array $data
@@ -38,7 +38,7 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\Validator\Factory $validatorFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         $data = array()
@@ -117,14 +117,14 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
      *
      * @param \Magento\Object $address
      * @return void
-     * @throws \Magento\Validator\ValidatorException When validation failed
+     * @throws \Magento\Framework\Validator\ValidatorException When validation failed
      */
     protected function _validate($address)
     {
         $validator = $this->_validatorFactory->createValidator('customer_address', 'save');
 
         if (!$validator->isValid($address)) {
-            throw new \Magento\Validator\ValidatorException($validator->getMessages());
+            throw new \Magento\Framework\Validator\ValidatorException($validator->getMessages());
         }
     }
 

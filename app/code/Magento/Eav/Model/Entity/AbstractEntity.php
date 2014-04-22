@@ -193,7 +193,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     protected $_resourceHelper;
 
     /**
-     * @var \Magento\Validator\UniversalFactory
+     * @var \Magento\Framework\Validator\UniversalFactory
      */
     protected $_universalFactory;
 
@@ -203,7 +203,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param array $data
      */
     public function __construct(
@@ -212,7 +212,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
         \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         $data = array()
     ) {
         $this->_eavConfig = $eavConfig;

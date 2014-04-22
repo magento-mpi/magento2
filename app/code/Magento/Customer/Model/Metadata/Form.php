@@ -71,12 +71,12 @@ class Form
     protected $_modulesReader;
 
     /**
-     * @var \Magento\Validator\ConfigFactory
+     * @var \Magento\Framework\Validator\ConfigFactory
      */
     protected $_validatorConfigFactory;
 
     /**
-     * @var \Magento\Validator
+     * @var \Magento\Framework\Validator
      */
     protected $_validator;
 
@@ -90,7 +90,7 @@ class Form
      * @param ElementFactory $elementFactory
      * @param \Magento\Framework\App\RequestInterface $httpRequest
      * @param \Magento\Framework\Module\Dir\Reader $modulesReader
-     * @param \Magento\Validator\ConfigFactory $validatorConfigFactory
+     * @param \Magento\Framework\Validator\ConfigFactory $validatorConfigFactory
      * @param string $entityType
      * @param string $formCode
      * @param array $attributeValues
@@ -105,7 +105,7 @@ class Form
         ElementFactory $elementFactory,
         \Magento\Framework\App\RequestInterface $httpRequest,
         \Magento\Framework\Module\Dir\Reader $modulesReader,
-        \Magento\Validator\ConfigFactory $validatorConfigFactory,
+        \Magento\Framework\Validator\ConfigFactory $validatorConfigFactory,
         $entityType,
         $formCode,
         array $attributeValues = array(),
@@ -306,7 +306,7 @@ class Form
      * Get validator
      *
      * @param array $data
-     * @return \Magento\Validator
+     * @return \Magento\Framework\Validator
      */
     protected function _getValidator(array $data)
     {

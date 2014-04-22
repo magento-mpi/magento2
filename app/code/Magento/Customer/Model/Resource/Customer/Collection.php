@@ -42,7 +42,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Object\Copy\Config $fieldsetConfig
      * @param \Zend_Db_Adapter_Abstract $connection
      * @param string $modelName
@@ -58,7 +58,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
         \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Object\Copy\Config $fieldsetConfig,
         $connection = null,
         $modelName = self::CUSTOMER_MODEL_NAME
