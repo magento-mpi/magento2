@@ -98,7 +98,7 @@ Magento/Widget/Model/Widget/Instance
 Magento/Wishlist/Block
 Magento/Wishlist/Model
 lib/Magento/Framework/Archive
-lib/Magento/Connect/Channel
+lib/Magento/Framework/Connect/Channel
 lib/Magento/HTTP/Client
 lib/Magento/Framework/Acl
 lib/PEAR

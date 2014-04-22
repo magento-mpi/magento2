@@ -73,6 +73,7 @@
     * Moved lib/Magento/Css to lib/Magento/Framework/Css
   * Moved lib/Magento/* to lib/Magento/Framework/* (Part 4): (MAGETWO-23747)
     * Moved lib/Magento/Pear to lib/Magento/Framework/Pear
+    * Moved lib/Magento/Connect to lib/Magento/Framework/Connect
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
   * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)

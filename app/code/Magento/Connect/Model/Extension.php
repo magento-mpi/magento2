@@ -24,7 +24,7 @@ class Extension extends \Magento\Object
     /**
      * Internal cache for package
      *
-     * @var \Magento\Connect\Package
+     * @var \Magento\Framework\Connect\Package
      */
     protected $_package;
 
@@ -82,12 +82,12 @@ class Extension extends \Magento\Object
     /**
      * Return package object
      *
-     * @return \Magento\Connect\Package
+     * @return \Magento\Framework\Connect\Package
      */
     protected function getPackage()
     {
-        if (!$this->_package instanceof \Magento\Connect\Package) {
-            $this->_package = new \Magento\Connect\Package();
+        if (!$this->_package instanceof \Magento\Framework\Connect\Package) {
+            $this->_package = new \Magento\Framework\Connect\Package();
         }
         return $this->_package;
     }
@@ -366,7 +366,7 @@ class Extension extends \Magento\Object
     public function getLabelTargets()
     {
         if (!is_array($this->_targets)) {
-            $objectTarget = new \Magento\Connect\Package\Target();
+            $objectTarget = new \Magento\Framework\Connect\Package\Target();
             $this->_targets = $objectTarget->getLabelTargets();
         }
         return $this->_targets;
