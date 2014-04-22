@@ -39,12 +39,12 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->factory->create('type', 'text');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Magento\Framework\Message\Error doesn't implement MessageInterface
-     */
     public function testCreateWithWrongInterfaceImplementation()
     {
+        $this->setExpectedException(
+            '\InvalidArgumentException',
+            'Magento\Framework\Message\Error doesn\'t implement \Magento\Framework\Message\MessageInterface'
+        );
         $messageMock = new \stdClass();
         $type = 'error';
         $className = 'Magento\\Framework\\Message\\' . ucfirst($type);
