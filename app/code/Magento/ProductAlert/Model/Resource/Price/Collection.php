@@ -29,25 +29,6 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     }
 
     /**
-     * Add customer filter
-     *
-     * @param mixed $customer
-     * @return $this
-     */
-    public function addCustomerFilter($customer)
-    {
-        if (is_array($customer)) {
-            $condition = $this->getConnection()->quoteInto('customer_id IN(?)', $customer);
-        } elseif ($customer instanceof \Magento\Customer\Model\Customer) {
-            $condition = $this->getConnection()->quoteInto('customer_id=?', $customer->getId());
-        } else {
-            $condition = $this->getConnection()->quoteInto('customer_id=?', $customer);
-        }
-        $this->addFilter('customer_id', $condition, 'string');
-        return $this;
-    }
-
-    /**
      * Add website filter
      *
      * @param mixed $website
