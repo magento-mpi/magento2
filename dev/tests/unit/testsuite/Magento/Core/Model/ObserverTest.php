@@ -141,7 +141,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testApplyThemeCustomization()
     {
-        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
+        $asset = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
         $file = $this->getMock('Magento\Core\Model\Theme\File', array(), array(), '', false);
         $fileService = $this->getMockForAbstractClass('\Magento\Framework\View\Design\Theme\Customization\FileAssetInterface');
         $file->expects($this->any())->method('getCustomizationService')->will($this->returnValue($fileService));

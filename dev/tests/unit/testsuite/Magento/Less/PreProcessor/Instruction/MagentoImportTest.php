@@ -42,11 +42,11 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->design = $this->getMockForAbstractClass('\Magento\View\DesignInterface');
-        $this->fileSource = $this->getMockForAbstractClass('\Magento\View\File\CollectorInterface');
+        $this->design = $this->getMockForAbstractClass('\Magento\Framework\View\DesignInterface');
+        $this->fileSource = $this->getMockForAbstractClass('\Magento\Framework\View\File\CollectorInterface');
         $this->errorHandler = $this->getMockForAbstractClass('\Magento\Less\PreProcessor\ErrorHandlerInterface');
-        $this->notationResolver = $this->getMock('\Magento\View\Asset\ModuleNotation\Resolver', [], [], '', false);
-        $this->asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
+        $this->notationResolver = $this->getMock('\Magento\Framework\View\Asset\ModuleNotation\Resolver', [], [], '', false);
+        $this->asset = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
         $this->asset->expects($this->any())->method('getContentType')->will($this->returnValue('css'));
         $this->object = new \Magento\Less\PreProcessor\Instruction\MagentoImport(
             $this->design, $this->fileSource, $this->errorHandler, $this->notationResolver
@@ -69,7 +69,7 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
             ->method('convertModuleNotationToPath')
             ->with($this->asset, $foundPath)
             ->will($this->returnValue($resolvedPath));
-        $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('\Magento\Framework\View\Design\ThemeInterface');
         $this->design->expects($this->once())
             ->method('getDesignTheme')
             ->will($this->returnValue($theme));

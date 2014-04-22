@@ -40,15 +40,15 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->fileSource = $this->getMock(
             '\Magento\RequireJs\Config\File\Collector\Aggregated', array(), array(), '', false
         );
-        $this->design = $this->getMockForAbstractClass('\Magento\View\DesignInterface');
+        $this->design = $this->getMockForAbstractClass('\Magento\Framework\View\DesignInterface');
         $this->baseDir = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\ReadInterface');
         $filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
             ->with(\Magento\Framework\App\Filesystem::ROOT_DIR)
             ->will($this->returnValue($this->baseDir));
-        $repo = $this->getMock('\Magento\View\Asset\Repository', array(), array(), '', false);
-        $this->context = $this->getMockForAbstractClass('\Magento\View\Asset\ContextInterface');
+        $repo = $this->getMock('\Magento\Framework\View\Asset\Repository', array(), array(), '', false);
+        $this->context = $this->getMockForAbstractClass('\Magento\Framework\View\Asset\ContextInterface');
         $repo->expects($this->once())->method('getStaticViewFileContext')->will($this->returnValue($this->context));
         $this->object = new \Magento\RequireJs\Config($this->fileSource, $this->design, $filesystem, $repo);
     }
@@ -65,18 +65,18 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnCallback(function ($file) {
                 return $file . ' content';
             }));
-        $fileOne = $this->getMock('\Magento\View\File', array(), array(), '', false);
+        $fileOne = $this->getMock('\Magento\Framework\View\File', array(), array(), '', false);
         $fileOne->expects($this->once())
             ->method('getFilename')
             ->will($this->returnValue('file_one.js'));
         $fileOne->expects($this->once())
             ->method('getModule')
             ->will($this->returnValue('Module_One'));
-        $fileTwo = $this->getMock('\Magento\View\File', array(), array(), '', false);
+        $fileTwo = $this->getMock('\Magento\Framework\View\File', array(), array(), '', false);
         $fileTwo->expects($this->once())
             ->method('getFilename')
             ->will($this->returnValue('file_two.js'));
-        $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('\Magento\Framework\View\Design\ThemeInterface');
         $this->design->expects($this->once())
             ->method('getDesignTheme')
             ->will($this->returnValue($theme));

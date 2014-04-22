@@ -13,7 +13,7 @@ use Magento\Theme\Block\Html\Head\AssetBlockInterface;
 /**
  * Block responsible for including RequireJs config on the page
  */
-class Config extends \Magento\View\Element\AbstractBlock implements AssetBlockInterface
+class Config extends \Magento\Framework\View\Element\AbstractBlock implements AssetBlockInterface
 {
     /**
      * @var \Magento\RequireJs\Config
@@ -26,18 +26,18 @@ class Config extends \Magento\View\Element\AbstractBlock implements AssetBlockIn
     private $fileManager;
 
     /**
-     * @var \Magento\View\Asset\LocalInterface
+     * @var \Magento\Framework\View\Asset\LocalInterface
      */
     private $asset;
 
     /**
-     * @param \Magento\View\Element\Context $context
+     * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\RequireJs\Config $config
      * @param \Magento\RequireJs\Model\FileManager $fileManager
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Context $context,
+        \Magento\Framework\View\Element\Context $context,
         \Magento\RequireJs\Config $config,
         \Magento\RequireJs\Model\FileManager $fileManager,
         array $data = array()
@@ -50,7 +50,7 @@ class Config extends \Magento\View\Element\AbstractBlock implements AssetBlockIn
     /**
      * Include RequireJs configuration as an asset on the page
      *
-     * @return \Magento\View\Asset\LocalInterface
+     * @return \Magento\Framework\View\Asset\LocalInterface
      */
     public function getAsset()
     {

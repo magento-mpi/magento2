@@ -42,13 +42,13 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->themeProvider = $this->getMock('\Magento\View\Design\Theme\Provider', array(), array(), '', false);
+        $this->themeProvider = $this->getMock('\Magento\Framework\View\Design\Theme\Provider', array(), array(), '', false);
         $this->source = $this->getMock(
             'Magento\Framework\View\Asset\Source', array('getFile', 'getContent'), array(), '', false
         );
         $this->baseUrl = $this->getMockForAbstractClass('Magento\UrlInterface');
-        $this->design = $this->getMockForAbstractClass('Magento\View\DesignInterface');
-        $this->theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+        $this->design = $this->getMockForAbstractClass('Magento\Framework\View\DesignInterface');
+        $this->theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
         $this->object = new Repository($this->baseUrl, $this->design, $this->themeProvider, $this->source);
     }
 
@@ -73,7 +73,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('getBaseUrl')
             ->will($this->returnValue('http://example.com/static/'));
         $asset = $this->object->createAsset('test/file.js');
-        $this->assertInstanceOf('\Magento\View\Asset\File', $asset);
+        $this->assertInstanceOf('\Magento\Framework\View\Asset\File', $asset);
         $this->assertEquals('area/theme/locale/test/file.js', $asset->getPath());
         $this->assertEquals('test/file.js', $asset->getFilePath());
         $this->assertEquals('js', $asset->getContentType());
@@ -253,7 +253,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetUrlWithParams()
     {
-        $defaultTheme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+        $defaultTheme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
         $defaults = array(
             'area' => 'area',
             'themeModel' => $defaultTheme,

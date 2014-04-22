@@ -58,8 +58,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $inputFile = 'watermark.png';
         $expectedFile = '/somewhere/watermark.png';
 
-        /** @var \Magento\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject $viewFilesystem */
-        $viewFilesystem = $this->getMock('Magento\View\FileSystem', array(), array(), '', false);
+        /** @var \Magento\Framework\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject $viewFilesystem */
+        $viewFilesystem = $this->getMock('Magento\Framework\View\FileSystem', array(), array(), '', false);
         $viewFilesystem->expects($this->once())
             ->method('getStaticFileName')
             ->with($inputFile)

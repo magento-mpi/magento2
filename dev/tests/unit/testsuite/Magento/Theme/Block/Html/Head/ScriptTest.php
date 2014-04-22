@@ -23,8 +23,8 @@ class ScriptTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $context = $this->getMock('\Magento\View\Element\Template\Context', array(), array(), '', false);
-        $this->_assetRepo = $this->getMock('\Magento\View\Asset\Repository', array(), array(), '', false);
+        $context = $this->getMock('\Magento\Framework\View\Element\Template\Context', array(), array(), '', false);
+        $this->_assetRepo = $this->getMock('\Magento\Framework\View\Asset\Repository', array(), array(), '', false);
 
         $context->expects($this->once())
             ->method('getAssetRepository')
@@ -40,12 +40,12 @@ class ScriptTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $this->assertInstanceOf('Magento\View\Element\AbstractBlock', $this->_block);
+        $this->assertInstanceOf('Magento\Framework\View\Element\AbstractBlock', $this->_block);
     }
 
     public function testGetAsset()
     {
-        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
+        $asset = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
 
         $this->_assetRepo->expects($this->once())
             ->method('createAsset')

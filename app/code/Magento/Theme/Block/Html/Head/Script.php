@@ -15,7 +15,7 @@ class Script extends \Magento\Framework\View\Element\AbstractBlock implements As
     /**
      * Get block asset
      *
-     * @return \Magento\View\Asset\LocalInterface
+     * @return \Magento\Framework\View\Asset\LocalInterface
      */
     public function getAsset()
     {

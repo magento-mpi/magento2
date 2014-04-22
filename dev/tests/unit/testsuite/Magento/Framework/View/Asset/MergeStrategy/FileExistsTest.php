@@ -31,7 +31,7 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->mergerMock = $this->getMockForAbstractClass('\Magento\View\Asset\MergeStrategyInterface');
+        $this->mergerMock = $this->getMockForAbstractClass('\Magento\Framework\View\Asset\MergeStrategyInterface');
         $this->dirMock = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\ReadInterface');
         $filesystem = $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())

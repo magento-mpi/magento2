@@ -130,7 +130,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         );
 
         /** @var $processorFactory \Magento\Framework\View\Layout\ProcessorFactory */
-        $processorFactory = $this->getMock('Magento\View\Layout\ProcessorFactory', array('create'), array(), '', false);
+        $processorFactory = $this->getMock('Magento\Framework\View\Layout\ProcessorFactory', array('create'), array(), '', false);
         $processorFactory->expects($this->any())
             ->method('create')
             ->with(array('theme' => $theme))

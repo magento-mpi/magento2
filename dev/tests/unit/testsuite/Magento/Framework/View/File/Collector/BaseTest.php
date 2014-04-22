@@ -61,7 +61,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFiles($files, $filePath)
     {
-        $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
         $theme->expects($this->once())->method('getArea')->will($this->returnValue('area'));
 
         $handlePath = 'code/Module/%s/view/area/subdir/%s';

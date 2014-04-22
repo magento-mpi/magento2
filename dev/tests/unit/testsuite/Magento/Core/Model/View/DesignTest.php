@@ -26,7 +26,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     {
         $storeManager = $this->getMockForAbstractClass('\Magento\Core\Model\StoreManagerInterface');
         $flyweightThemeFactory = $this->getMock(
-            '\Magento\View\Design\Theme\FlyweightFactory', array(), array(), '', false
+            '\Magento\Framework\View\Design\Theme\FlyweightFactory', array(), array(), '', false
         );
         $config = $this->getMockForAbstractClass('\Magento\App\ConfigInterface');
         $storeConfig = $this->getMockForAbstractClass('\Magento\Core\Model\Store\ConfigInterface');
@@ -61,7 +61,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetThemePath($themePath, $themeId, $expectedResult)
     {
-        $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('\Magento\Framework\View\Design\ThemeInterface');
         $theme->expects($this->once())->method('getThemePath')->will($this->returnValue($themePath));
         $theme->expects($this->any())->method('getId')->will($this->returnValue($themeId));
         $this->assertEquals($expectedResult, $this->model->getThemePath($theme));
@@ -74,8 +74,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('some_path', '', 'some_path'),
-            array('', '2', \Magento\View\DesignInterface::PUBLIC_THEME_DIR . '2'),
-            array('', '', \Magento\View\DesignInterface::PUBLIC_VIEW_DIR),
+            array('', '2', \Magento\Framework\View\DesignInterface::PUBLIC_THEME_DIR . '2'),
+            array('', '', \Magento\Framework\View\DesignInterface::PUBLIC_VIEW_DIR),
         );
     }
 }

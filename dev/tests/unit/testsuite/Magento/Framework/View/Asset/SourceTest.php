@@ -157,7 +157,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
             ->method('readFile')
             ->with($origPath)
             ->will($this->returnValue($origContent));
-        $processor = $this->getMockForAbstractClass('Magento\View\Asset\PreProcessorInterface');
+        $processor = $this->getMockForAbstractClass('Magento\Framework\View\Asset\PreProcessorInterface');
         $this->preProcessorPool->expects($this->once())
             ->method('getPreProcessors')
             ->with($origContentType, 'ext')

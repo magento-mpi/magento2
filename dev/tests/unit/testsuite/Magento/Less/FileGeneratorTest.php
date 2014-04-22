@@ -57,7 +57,7 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
             ->method('getDirectoryWrite')
             ->with(\Magento\Framework\App\Filesystem::VAR_DIR)
             ->will($this->returnValue($this->tmpDirectory));
-        $this->assetRepo = $this->getMock('\Magento\View\Asset\Repository', array(), array(), '', false);
+        $this->assetRepo = $this->getMock('\Magento\Framework\View\Asset\Repository', array(), array(), '', false);
         $this->magentoImport = $this->getMock(
             '\Magento\Less\PreProcessor\Instruction\MagentoImport', array(), array(), '', false
         );
@@ -74,7 +74,7 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
         $expectedRelativePath = 'view_preprocessed/less/some/file.less';
         $expectedPath = '/var/view_preprocessed/less/some/file.less';
 
-        $asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
+        $asset = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
         $asset->expects($this->once())
             ->method('getPath')
             ->will($this->returnValue('some/file.css'));
@@ -89,14 +89,14 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
             ->with($chain)
         ;
 
-        $relatedAssetOne = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
+        $relatedAssetOne = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
         $relatedAssetOne->expects($this->any())
             ->method('getPath')
             ->will($this->returnValue('related/file_one.css'));
         $relatedAssetOne->expects($this->any())
             ->method('getContent')
             ->will($this->returnValue("content of 'related/file_one.css'"));
-        $relatedAssetTwo = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
+        $relatedAssetTwo = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
         $relatedAssetTwo->expects($this->any())
             ->method('getPath')
             ->will($this->returnValue('related/file_two.css'));

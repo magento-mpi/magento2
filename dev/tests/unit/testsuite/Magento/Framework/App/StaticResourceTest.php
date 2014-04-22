@@ -128,7 +128,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
             ->method('getModule')
             ->with($expectedModule)
             ->will($this->returnValue($moduleExists));
-        $asset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
+        $asset = $this->getMockForAbstractClass('\Magento\Framework\View\Asset\LocalInterface');
         $asset->expects($this->once())->method('getSourceFile')->will($this->returnValue('resource/file.css'));
         $this->assetRepo->expects($this->once())
             ->method('createAsset')

@@ -45,7 +45,7 @@ class FileManagerTest extends \PHPUnit_Framework_TestCase
         $this->config = $this->getMock('\Magento\RequireJs\Config', array(), array(), '', false);
         $this->fileSystem = $this->getMock('\Magento\App\FileSystem', array(), array(), '', false);
         $this->appState = $this->getMock('\Magento\App\State', array(), array(), '', false);
-        $assetRepo = $this->getMock('\Magento\View\Asset\Repository', array(), array(), '', false);
+        $assetRepo = $this->getMock('\Magento\Framework\View\Asset\Repository', array(), array(), '', false);
         $this->object = new FileManager($this->config, $this->fileSystem, $this->appState, $assetRepo);
         $this->dir = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\WriteInterface');
         $this->fileSystem->expects($this->once())
@@ -57,7 +57,7 @@ class FileManagerTest extends \PHPUnit_Framework_TestCase
             ->method('getConfigFileRelativePath')
             ->will($this->returnValue('requirejs/file.js'))
         ;
-        $this->asset = $this->getMock('\Magento\View\Asset\File', array(), array(), '', false);
+        $this->asset = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
         $assetRepo->expects($this->once())
             ->method('createArbitrary')
             ->with('requirejs/file.js', '')

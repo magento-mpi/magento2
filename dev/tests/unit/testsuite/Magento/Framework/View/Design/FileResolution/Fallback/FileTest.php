@@ -30,7 +30,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFile()
     {
-        $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('\Magento\Framework\View\Design\ThemeInterface');
         $expected = 'some/file.ext';
         $this->resolver->expects($this->once())
             ->method('resolve')

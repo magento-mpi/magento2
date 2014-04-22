@@ -87,7 +87,7 @@ return array(
     array('_getPriceFilter', 'Magento\LayeredNavigation\Block\Navigation'),
     array('_getProcessor', 'Magento\Framework\App\Cache'),
     array('_getProductQtyForCheck', 'Magento\CatalogInventory\Model\Observer'),
-    array('getPublicFileUrl', 'Magento\View\Url', 'Magento\Url::getBaseUrl'),
+    array('getPublicFileUrl', 'Magento\Framework\View\Url', 'Magento\Url::getBaseUrl'),
     array('_getRangeByType', 'Magento\Log\Model\Resource\Visitor\Collection'),
     array('_getRecentProductsCollection'),
     array('_getRequestModel', 'Magento\Authorizenet\Model\Directpost'),
@@ -1333,7 +1333,7 @@ return array(
     array('getUpdateUrl', 'Magento\Wishlist\Helper\Data'),
     array('getItemRemoveUrl', 'Magento\Wishlist\Block\AbstractBlock'),
     array('_getUrlParams', 'Magento\Catalog\Helper\Product\Compare'),
-    array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\Framework\View\File'),
+    array('getFileIdentifier', 'Magento\Framework\View\Layout\File\FileList', 'Magento\Framework\View\File'),
     array('_getInitialXml', 'Magento\Framework\Config\Theme'),
     array('_getIdAttributes', 'Magento\Framework\Config\Theme'),
     array(
@@ -1437,12 +1437,12 @@ return array(
         'Magento\ConfigurableProduct\Model\Attribute\LockValidator::validate'
     ),
     ['_detectMimeType', 'Magento\File\Transfer\Adapter\Http', '\Magento\File\Mime::getMimeType()'],
-    ['getPublishedFilePath', 'Magento\View\Publisher'],
-    ['getViewFilePublicPath', 'Magento\View\FileResolver', 'Magento\View\AssetInterface'],
-    ['getPublicFilePath', 'Magento\View\PublicFilesManagerInterface', 'Magento\View\AssetInterface'],
-    ['getPublicFilePath', 'Magento\View\Publisher', 'Magento\View\AssetInterface'],
-    ['getPublicViewFile', 'Magento\View\FileResolver', 'Magento\View\AssetInterface'],
-    ['getPublicViewFile', 'Magento\View\Publisher', 'Magento\View\AssetInterface'],
+    ['getPublishedFilePath', 'Magento\Framework\View\Publisher'],
+    ['getViewFilePublicPath', 'Magento\Framework\View\FileResolver', 'Magento\Framework\View\AssetInterface'],
+    ['getPublicFilePath', 'Magento\Framework\View\PublicFilesManagerInterface', 'Magento\Framework\View\AssetInterface'],
+    ['getPublicFilePath', 'Magento\Framework\View\Publisher', 'Magento\Framework\View\AssetInterface'],
+    ['getPublicViewFile', 'Magento\Framework\View\FileResolver', 'Magento\Framework\View\AssetInterface'],
+    ['getPublicViewFile', 'Magento\Framework\View\Publisher', 'Magento\Framework\View\AssetInterface'],
     array('_getVatRequiredCustomerAddress', 'Magento\Sales\Model\Observer'),
     array(
         'canGetRecurringProfileDetails',
@@ -1642,9 +1642,9 @@ return array(
     ['getCustomer', 'Magento\Tax\Model\Calculation', 'Magento\Tax\Model\Calculation::getCustomerData'],
     ['setCustomer', 'Magento\Tax\Model\Calculation', 'Magento\Tax\Model\Calculation::setCustomerData'],
     ['setCustomer', 'Magento\Checkout\Model\Session', 'Magento\Checkout\Model\Session::setCustomerData'],
-    array('_isStaticFilesSigned', 'Magento\View\FileResolver',
+    array('_isStaticFilesSigned', 'Magento\Framework\View\FileResolver',
         'Magento\Theme\Model\Url\Plugin\Signature::isUrlSignatureEnabled()'),
-    ['getViewFileUrl', 'Magento\View\Url', 'Magento\Framework\View\Asset\Repository::getUrl'],
+    ['getViewFileUrl', 'Magento\Framework\View\Url', 'Magento\Framework\View\Asset\Repository::getUrl'],
     ['getCssFiles', 'Magento\Core\Helper\Theme', 'Magento\Core\Helper\Theme::getCssAssets'],
     ['getGroupedCssFiles', 'Magento\Core\Helper\Theme'],
     ['_detectTheme', 'Magento\Core\Helper\Theme'],
@@ -1656,11 +1656,11 @@ return array(
     ['_sortThemesByHierarchyCallback', 'Magento\Core\Helper\Theme'],
     ['getFileGroups', 'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css'],
     ['_convertFileData', 'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css'],
-    ['notifyViewFileLocationChanged', 'Magento\View\FileSystem'],
+    ['notifyViewFileLocationChanged', 'Magento\Framework\View\FileSystem'],
     [
         'convertModuleNotationToPath',
         'Magento\Framework\View\Asset\PreProcessor\ModuleNotation',
         'Magento\Framework\View\Asset\ModuleNotation\Resolver::convertModuleNotationToPath'
     ],
-    ['getViewFile', 'Magento\View\FileSystem', 'Magento\Framework\View\Asset\File::getSourceFile()']
+    ['getViewFile', 'Magento\Framework\View\FileSystem', 'Magento\Framework\View\Asset\File::getSourceFile()']
 );

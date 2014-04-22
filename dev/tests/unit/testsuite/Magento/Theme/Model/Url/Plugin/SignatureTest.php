@@ -32,7 +32,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->config = $this->getMock('Magento\View\Url\ConfigInterface');
+        $this->config = $this->getMock('Magento\Framework\View\Url\ConfigInterface');
         $this->deploymentVersion = $this->getMock('Magento\Framework\App\View\Deployment\Version', array(), array(), '', false);
         $this->invocationChain = $this->getMock('Magento\Code\Plugin\InvocationChain', array(), array(), '', false);
         $this->invocationChain

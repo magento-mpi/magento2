@@ -46,7 +46,7 @@ class Theme extends \Magento\Framework\App\Helper\AbstractHelper
      * Get CSS files of a given theme
      *
      * Returns an associative array of local assets with FileId used as keys:
-     * array('Magento_Catalog::widgets.css' => \Magento\View\Asset\LocalInterface)
+     * array('Magento_Catalog::widgets.css' => \Magento\Framework\View\Asset\LocalInterface)
      * The array will be sorted by keys
      *
      * @param \Magento\Framework\View\Design\ThemeInterface $theme

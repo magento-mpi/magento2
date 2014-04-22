@@ -9,7 +9,7 @@
  */
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
 
-use \Magento\View\Design\ThemeInterface;
+use \Magento\Framework\View\Design\ThemeInterface;
 
 /**
  * Theme form, general tab

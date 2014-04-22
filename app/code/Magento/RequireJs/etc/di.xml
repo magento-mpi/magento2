@@ -8,22 +8,22 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <virtualType name="requirejsConfigFileSourceBaseFiltered" type="Magento\View\File\Collector\Decorator\ModuleOutput">
+    <virtualType name="requirejsConfigFileSourceBaseFiltered" type="Magento\Framework\View\File\Collector\Decorator\ModuleOutput">
         <arguments>
-            <argument name="subject" xsi:type="object">Magento\View\File\Collector\Base</argument>
+            <argument name="subject" xsi:type="object">Magento\Framework\View\File\Collector\Base</argument>
         </arguments>
     </virtualType>
-    <virtualType name="requirejsConfigFileSourceBaseSorted" type="Magento\View\File\Collector\Decorator\ModuleDependency">
+    <virtualType name="requirejsConfigFileSourceBaseSorted" type="Magento\Framework\View\File\Collector\Decorator\ModuleDependency">
         <arguments>
             <argument name="subject" xsi:type="object">requirejsConfigFileSourceBaseFiltered</argument>
         </arguments>
     </virtualType>
-    <virtualType name="requirejsFileSourceThemeFiltered" type="Magento\View\File\Collector\Decorator\ModuleOutput">
+    <virtualType name="requirejsFileSourceThemeFiltered" type="Magento\Framework\View\File\Collector\Decorator\ModuleOutput">
         <arguments>
-            <argument name="subject" xsi:type="object">Magento\View\File\Collector\ThemeModular</argument>
+            <argument name="subject" xsi:type="object">Magento\Framework\View\File\Collector\ThemeModular</argument>
         </arguments>
     </virtualType>
-    <virtualType name="requirejsFileSourceThemeSorted" type="Magento\View\File\Collector\Decorator\ModuleDependency">
+    <virtualType name="requirejsFileSourceThemeSorted" type="Magento\Framework\View\File\Collector\Decorator\ModuleDependency">
         <arguments>
             <argument name="subject" xsi:type="object">requirejsFileSourceThemeFiltered</argument>
         </arguments>
@@ -32,7 +32,7 @@
         <arguments>
             <argument name="baseFiles" xsi:type="object">requirejsConfigFileSourceBaseSorted</argument>
             <argument name="themeModularFiles" xsi:type="object">requirejsFileSourceThemeSorted</argument>
-            <argument name="themeFiles" xsi:type="object">Magento\View\File\Collector\Theme</argument>
+            <argument name="themeFiles" xsi:type="object">Magento\Framework\View\File\Collector\Theme</argument>
         </arguments>
     </type>
 </config>

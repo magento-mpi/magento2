@@ -26,7 +26,7 @@ class Signature
     const SIGNATURE_TEMPLATE = 'version%s';
 
     /**
-     * @var \Magento\View\Url\ConfigInterface
+     * @var \Magento\Framework\View\Url\ConfigInterface
      */
     private $config;
 
@@ -36,11 +36,11 @@ class Signature
     private $deploymentVersion;
 
     /**
-     * @param \Magento\View\Url\ConfigInterface $config
+     * @param \Magento\Framework\View\Url\ConfigInterface $config
      * @param \Magento\Framework\App\View\Deployment\Version $deploymentVersion
      */
     public function __construct(
-        \Magento\View\Url\ConfigInterface $config,
+        \Magento\Framework\View\Url\ConfigInterface $config,
         \Magento\Framework\App\View\Deployment\Version $deploymentVersion
     ) {
         $this->config = $config;

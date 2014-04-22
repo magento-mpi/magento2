@@ -39,7 +39,7 @@ class LessTest extends \PHPUnit_Framework_TestCase
         $this->fileGenerator = $this->getMock('\Magento\Less\FileGenerator', array(), array(), '', false);
         $this->adapter = $this->getMockForAbstractClass('\Magento\Css\PreProcessor\AdapterInterface');
         $this->logger = $this->getMock('\Magento\Logger', array(), array(), '', false);
-        $asset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
+        $asset = $this->getMockForAbstractClass('\Magento\Framework\View\Asset\LocalInterface');
         $asset->expects($this->once())->method('getContentType')->will($this->returnValue('origType'));
         $this->chain = new \Magento\Framework\View\Asset\PreProcessor\Chain($asset, 'original content', 'origType');
         $this->object = new \Magento\Css\PreProcessor\Less($this->fileGenerator, $this->adapter, $this->logger);

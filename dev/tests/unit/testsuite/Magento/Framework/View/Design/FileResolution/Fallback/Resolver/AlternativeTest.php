@@ -81,7 +81,7 @@ class AlternativeTest extends \PHPUnit_Framework_TestCase
         $requestedFile = 'file.css';
         $expected = 'some/dir/file.less';
 
-        $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
         $theme->expects($this->any())
             ->method('getFullPath')
             ->will($this->returnValue('magento_theme'));

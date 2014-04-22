@@ -218,7 +218,7 @@ class Design implements \Magento\Framework\View\DesignInterface
     /**
      * {@inheritdoc}
      */
-    public function getThemePath(\Magento\View\Design\ThemeInterface $theme)
+    public function getThemePath(\Magento\Framework\View\Design\ThemeInterface $theme)
     {
         $themePath = $theme->getThemePath();
         if (!$themePath) {

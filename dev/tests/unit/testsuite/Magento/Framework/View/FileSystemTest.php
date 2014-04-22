@@ -79,7 +79,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     {
         $params = array(
             'area' => 'some_area',
-            'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', array(), array(), '', false, false),
+            'themeModel' => $this->getMock('Magento\Framework\View\Design\ThemeInterface', array(), array(), '', false, false),
             'module' => 'Some_Module'   //It should be set in \Magento\Framework\View\Asset\Repository::extractScope
                                         // but PHPUnit has troubles with passing arguments by reference
         );

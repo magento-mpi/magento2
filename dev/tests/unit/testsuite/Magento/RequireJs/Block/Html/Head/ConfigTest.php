@@ -14,7 +14,7 @@ namespace Magento\RequireJs\Block\Html\Head;
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Element\Context|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Element\Context|\PHPUnit_Framework_MockObject_MockObject
      */
     private $context;
 
@@ -30,14 +30,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->context = $this->getMock('\Magento\View\Element\Context', array(), array(), '', false);
+        $this->context = $this->getMock('\Magento\Framework\View\Element\Context', array(), array(), '', false);
         $this->config = $this->getMock('\Magento\RequireJs\Config', array(), array(), '', false);
         $this->fileManager = $this->getMock('\Magento\RequireJs\Model\FileManager', array(), array(), '', false);
     }
 
     public function testGetAsset()
     {
-        $asset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
+        $asset = $this->getMockForAbstractClass('\Magento\Framework\View\Asset\LocalInterface');
         $this->fileManager->expects($this->once())->method('createRequireJsAsset')->will($this->returnValue($asset));
         $object = new Config($this->context, $this->config, $this->fileManager);;
         $this->assertSame($asset, $object->getAsset());

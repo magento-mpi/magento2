@@ -15,7 +15,7 @@ class Css extends \Magento\Framework\View\Element\AbstractBlock implements Asset
     /**
      * Get block asset
      *
-     * @return \Magento\View\Asset\LocalInterface
+     * @return \Magento\Framework\View\Asset\LocalInterface
      */
     public function getAsset()
     {

@@ -85,7 +85,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
 
         $assetRepository = new \Magento\Framework\View\Asset\Repository(
             $this->getMockForAbstractClass('Magento\UrlInterface'),
-            $this->getMockForAbstractClass('Magento\View\DesignInterface'),
+            $this->getMockForAbstractClass('Magento\Framework\View\DesignInterface'),
             $this->getMock('Magento\Framework\View\Design\Theme\Provider', array(), array(), '', false),
             $this->getMock('Magento\Framework\View\Asset\Source', array(), array(), '', false),
             \Magento\Framework\App\State::MODE_PRODUCTION

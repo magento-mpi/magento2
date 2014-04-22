@@ -51,7 +51,7 @@ class FileListTest extends \PHPUnit_Framework_TestCase
     {
         $theme = null;
         if ($themeFullPath !== null) {
-            $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+            $theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
             $theme->expects($this->any())->method('getFullPath')->will($this->returnValue($themeFullPath));
         }
         return new \Magento\Framework\View\File($filename, $module, $theme);

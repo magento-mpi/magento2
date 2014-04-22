@@ -28,7 +28,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->source = $this->getMock('Magento\Framework\View\Asset\Source', [], [], '', false);
-        $this->context = $this->getMockForAbstractClass('\Magento\View\Asset\ContextInterface');
+        $this->context = $this->getMockForAbstractClass('\Magento\Framework\View\Asset\ContextInterface');
         $this->object = new File($this->source, $this->context, 'dir/file.css', 'Magento_Module', 'css');
     }
 

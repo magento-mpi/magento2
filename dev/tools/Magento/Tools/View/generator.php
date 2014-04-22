@@ -71,7 +71,7 @@ try {
     $themes->addDefaultPattern('*');
 
     /** @var \Magento\Framework\View\Design\Fallback\RulePool $fallbackPool */
-    $fallbackPool = $objectManager->create('Magento\View\Design\Fallback\RulePool');
+    $fallbackPool = $objectManager->create('Magento\Framework\View\Design\Fallback\RulePool');
 
     /** @var \Magento\Tools\View\Generator\CopyRule $generator */
     $generator = $objectManager->create('Magento\Tools\View\Generator\CopyRule', array(

@@ -38,7 +38,7 @@ class Css extends \Magento\Backend\Block\Widget\Form
      *
      * Note: someone must set them in the first place
      *
-     * @return \Magento\View\Asset\LocalInterface[]
+     * @return \Magento\Framework\View\Asset\LocalInterface[]
      */
     public function getAssets()
     {

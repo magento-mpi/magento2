@@ -44,14 +44,14 @@ class ThemeModularTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFiles()
     {
-        $grandparentTheme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+        $grandparentTheme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
         $grandparentTheme->expects($this->once())->method('getCode')->will($this->returnValue('grand_parent_theme'));
 
-        $parentTheme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+        $parentTheme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
         $parentTheme->expects($this->once())->method('getCode')->will($this->returnValue('parent_theme'));
         $parentTheme->expects($this->once())->method('getParentTheme')->will($this->returnValue($grandparentTheme));
 
-        $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
         $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme_path'));
         $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue($parentTheme));
 
@@ -78,14 +78,14 @@ class ThemeModularTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFilesWithPreset()
     {
-        $grandparentTheme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+        $grandparentTheme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
         $grandparentTheme->expects($this->once())->method('getCode')->will($this->returnValue('grand_parent_theme'));
 
-        $parentTheme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+        $parentTheme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
         $parentTheme->expects($this->once())->method('getCode')->will($this->returnValue('parent_theme'));
         $parentTheme->expects($this->once())->method('getParentTheme')->will($this->returnValue($grandparentTheme));
 
-        $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
         $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme_path'));
         $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue($parentTheme));
 
@@ -116,7 +116,7 @@ class ThemeModularTest extends \PHPUnit_Framework_TestCase
                 . ", which is not ancestor of theme 'theme_path'"
         );
 
-        $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
         $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme_path'));
         $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue(null));
         $theme->expects($this->once())->method('getCode')->will($this->returnValue('theme_path'));

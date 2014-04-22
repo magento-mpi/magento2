@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Design\FileResolution;
+namespace Magento\Framework\View\Design\FileResolution;
 
 use Magento\TestFramework\Helper\Bootstrap;
 

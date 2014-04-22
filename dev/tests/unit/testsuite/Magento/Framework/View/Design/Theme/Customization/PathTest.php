@@ -94,7 +94,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
             array(
                 \Magento\Framework\View\Design\Theme\Customization\Path::DIR_NAME,
                 '123',
-                \Magento\View\ConfigInterface::CONFIG_FILE_NAME
+                \Magento\Framework\View\ConfigInterface::CONFIG_FILE_NAME
             )
         );
         $this->assertEquals($expectedPath, $this->_model->getCustomViewConfigPath($this->_theme->setId(123)));

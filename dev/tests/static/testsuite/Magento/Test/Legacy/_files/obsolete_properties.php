@@ -323,5 +323,5 @@ return array(
     ['_layout', 'Magento\Framework\View\DesignLoader'],
     ['_area', 'Magento\Framework\View\Layout'],
     ['_mimeTypes', 'Magento\File\Transfer\Adapter\Http', '\Magento\File\Mime::$mimeTypes'],
-    ['_viewFileResolution', 'Magento\View\FileSystem', '_fileResolution, _localeFileResolution'],
+    ['_viewFileResolution', 'Magento\Framework\View\FileSystem', '_fileResolution, _localeFileResolution'],
 );

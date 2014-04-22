@@ -8,7 +8,7 @@
 
 namespace Magento\Core\Model\Theme\Image;
 
-use Magento\View\Design\ThemeInterface;
+use Magento\Framework\View\Design\ThemeInterface;
 
 /**
  * Theme Image Path

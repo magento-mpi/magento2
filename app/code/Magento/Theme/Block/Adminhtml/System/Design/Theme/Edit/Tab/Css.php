@@ -109,7 +109,7 @@ class Css extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Abstra
         $this->_addElementTypes($themeFieldset);
 
         $links = array();
-        /** @var \Magento\View\Asset\LocalInterface $asset */
+        /** @var \Magento\Framework\View\Asset\LocalInterface $asset */
         foreach ($this->getFiles() as $fileId => $asset) {
             $links[$fileId] = array(
                 'href'      => $this->getDownloadUrl($fileId, $this->_getCurrentTheme()->getId()),
