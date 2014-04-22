@@ -39,11 +39,7 @@
   * Fixed: Position of page actions buttons on "Categories" backend page (MAGETWO-22969)
   * Fixed: Improve backend grids UI (MAGETWO-23338)
 * Framework Improvements:
-  * Refactor ImportExport move Customer-specific logic to the Customer module (MAGETWO-20507)
-  * Refactor the rest of Customer Group usages (MAGETWO-23278)
-  * Modify the REST PUT/POST usages of the Customer services to return full resource representations (MAGETWO-22688)
-  * Refactor customerAccountService::createAccount to not expose hashed password input from webapi (MAGETWO-22977)
-  * Use delimiter for Cache key in Customer Registry (MAGETWO-23478)
+  * Start supporting custom attributes in SOAP (MAGETWO-23119)
   * Simplify Search related Data Objects (MAGETWO-22613)
   * Moved lib/Magento/* to lib/Magento/Framework/* (Part 1): (MAGETWO-20866)
     * Moved lib/Magento/App to lib/Magento/Framework/App
@@ -54,6 +50,11 @@
     * Moved lib/Magento/Model to lib/Magento/Framework/Model
     * Moved lib/Magento/DB to lib/Magento/Framework/DB
     * Moved lib/Magento/View to lib/Magento/Framework/View
+* Customer Service Usage
+  * Refactor ImportExport move Customer-specific logic to the Customer module (MAGETWO-20507)
+  * Refactor the rest of Customer Group usages (MAGETWO-23278)
+  * Refactor customerAccountService::createAccount to not expose hashed password input from webapi (MAGETWO-22977)
+  * Use delimiter for Cache key in Customer Registry (MAGETWO-23478)
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
   * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)
