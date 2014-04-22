@@ -68,7 +68,7 @@ class Preview extends \Magento\Backend\Block\Widget
 
         $template->setTemplateText($this->_maliciousCode->filter($template->getTemplateText()));
 
-        \Magento\Profiler::start("email_template_proccessing");
+        \Magento\Framework\Profiler::start("email_template_proccessing");
         $vars = array();
 
         $template->setDesignConfig(
@@ -80,7 +80,7 @@ class Preview extends \Magento\Backend\Block\Widget
             $templateProcessed = "<pre>" . htmlspecialchars($templateProcessed) . "</pre>";
         }
 
-        \Magento\Profiler::stop("email_template_proccessing");
+        \Magento\Framework\Profiler::stop("email_template_proccessing");
 
         return $templateProcessed;
     }

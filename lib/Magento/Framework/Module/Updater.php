@@ -110,7 +110,7 @@ class Updater implements \Magento\Framework\Module\UpdaterInterface
             return;
         }
 
-        \Magento\Profiler::start('apply_db_schema_updates');
+        \Magento\Framework\Profiler::start('apply_db_schema_updates');
         $this->_appState->setUpdateMode(true);
 
         $afterApplyUpdates = array();
@@ -132,7 +132,7 @@ class Updater implements \Magento\Framework\Module\UpdaterInterface
 
         $this->_appState->setUpdateMode(false);
         $this->_isUpdatedSchema = true;
-        \Magento\Profiler::stop('apply_db_schema_updates');
+        \Magento\Framework\Profiler::stop('apply_db_schema_updates');
     }
 
     /**

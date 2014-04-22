@@ -1016,7 +1016,7 @@ return array(
     array('Varien_Convert_Validator_Dryrun'),
     array('Varien_Convert_Validator_Interface'),
     array('Mage_File_Uploader_Image'),
-    array('Varien_Profiler', 'Magento_Profiler'),
+    array('Varien_Profiler', 'Magento_Framework_Profiler'),
     array('Mage_Adminhtml_Block_Notification_Window', 'Magento\AdminNotification\Block\Window'),
     array('Mage_Adminhtml_Block_Notification_Toolbar'),
     array('Mage_Adminhtml_Block_Notification_Survey'),
@@ -2336,4 +2336,5 @@ return array(
     ['Magento\Logger', 'Magento\Framework\Logger'],
     ['Magento\Phrase', 'Magento\Framework\Phrase'],
     ['Magento\Pear', 'Magento\Framework\Pear'],
+    ['Magento\Profiler', 'Magento\Framework\Profiler'],
 );

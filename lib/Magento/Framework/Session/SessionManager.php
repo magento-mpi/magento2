@@ -137,7 +137,7 @@ class SessionManager implements SessionManagerInterface
     public function start($sessionName = null)
     {
         if (!$this->isSessionExists()) {
-            \Magento\Profiler::start('session_start');
+            \Magento\Framework\Profiler::start('session_start');
             if (!empty($sessionName)) {
                 $this->setName($sessionName);
             }
@@ -151,7 +151,7 @@ class SessionManager implements SessionManagerInterface
             register_shutdown_function(array($this, 'writeClose'));
 
             $this->_addHost();
-            \Magento\Profiler::stop('session_start');
+            \Magento\Framework\Profiler::stop('session_start');
         }
         $this->storage->init(isset($_SESSION) ? $_SESSION : array());
         return $this;

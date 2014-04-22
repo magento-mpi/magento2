@@ -44,9 +44,9 @@ class Observer extends \Magento\Object
         ) ? get_class(
             $callback[0]
         ) : (string)$callback[0]) . ' -> ' . $callback[1];
-        \Magento\Profiler::start($_profilerKey);
+        \Magento\Framework\Profiler::start($_profilerKey);
         call_user_func($callback, $this);
-        \Magento\Profiler::stop($_profilerKey);
+        \Magento\Framework\Profiler::stop($_profilerKey);
 
         return $this;
     }

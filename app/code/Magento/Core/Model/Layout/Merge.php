@@ -440,13 +440,13 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     protected function _fetchPackageLayoutUpdates($handle)
     {
         $_profilerKey = 'layout_package_update:' . $handle;
-        \Magento\Profiler::start($_profilerKey);
+        \Magento\Framework\Profiler::start($_profilerKey);
         $layout = $this->getFileLayoutUpdatesXml();
         foreach ($layout->xpath("handle[@id='{$handle}']") as $updateXml) {
             $this->_fetchRecursiveUpdates($updateXml);
             $this->addUpdate($updateXml->innerXml());
         }
-        \Magento\Profiler::stop($_profilerKey);
+        \Magento\Framework\Profiler::stop($_profilerKey);
 
         return true;
     }
@@ -460,10 +460,10 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     protected function _fetchDbLayoutUpdates($handle)
     {
         $_profilerKey = 'layout_db_update: ' . $handle;
-        \Magento\Profiler::start($_profilerKey);
+        \Magento\Framework\Profiler::start($_profilerKey);
         $updateStr = $this->_getDbUpdateString($handle);
         if (!$updateStr) {
-            \Magento\Profiler::stop($_profilerKey);
+            \Magento\Framework\Profiler::stop($_profilerKey);
             return false;
         }
         $updateStr = '<update_xml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' .
@@ -474,7 +474,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         $this->_fetchRecursiveUpdates($updateXml);
         $this->addUpdate($updateXml->innerXml());
 
-        \Magento\Profiler::stop($_profilerKey);
+        \Magento\Framework\Profiler::stop($_profilerKey);
         return (bool)$updateStr;
     }
 

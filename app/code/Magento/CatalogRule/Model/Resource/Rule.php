@@ -212,9 +212,9 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             return $this;
         }
 
-        \Magento\Profiler::start('__MATCH_PRODUCTS__');
+        \Magento\Framework\Profiler::start('__MATCH_PRODUCTS__');
         $productIds = $rule->getMatchingProductIds();
-        \Magento\Profiler::stop('__MATCH_PRODUCTS__');
+        \Magento\Framework\Profiler::stop('__MATCH_PRODUCTS__');
 
         $customerGroupIds = $rule->getCustomerGroupIds();
         $fromTime = strtotime($rule->getFromDate());

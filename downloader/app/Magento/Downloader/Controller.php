@@ -559,13 +559,13 @@ final class Controller
     }
 
     /**
-     * Retrieve path for \Magento\Profiler
+     * Retrieve path for \Magento\Framework\Profiler
      *
      * @return string
      */
     public function getVarFilename()
     {
-        return $this->getMageDir() . '/lib/Magento/Profiler.php';
+        return $this->getMageDir() . '/lib/Magento/Framework/Profiler.php';
     }
 
     /**

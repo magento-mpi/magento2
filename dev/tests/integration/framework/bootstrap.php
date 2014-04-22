@@ -42,7 +42,7 @@ $bootstrap = new \Magento\TestFramework\Bootstrap(
     new \Magento\TestFramework\Bootstrap\Settings($testsBaseDir, $invariantSettings + get_defined_constants()),
     new \Magento\TestFramework\Bootstrap\Environment(),
     new \Magento\TestFramework\Bootstrap\DocBlock("{$testsBaseDir}/testsuite"),
-    new \Magento\TestFramework\Bootstrap\Profiler(new \Magento\Profiler\Driver\Standard()),
+    new \Magento\TestFramework\Bootstrap\Profiler(new \Magento\Framework\Profiler\Driver\Standard()),
     new \Magento\Shell(new \Magento\Shell\CommandRenderer()),
     $testsTmpDir
 );

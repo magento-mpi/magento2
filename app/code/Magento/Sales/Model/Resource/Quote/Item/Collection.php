@@ -190,7 +190,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     protected function _assignProducts()
     {
-        \Magento\Profiler::start('QUOTE:' . __METHOD__, array('group' => 'QUOTE', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('QUOTE:' . __METHOD__, array('group' => 'QUOTE', 'method' => __METHOD__));
         $productIds = array();
         foreach ($this as $item) {
             $productIds[] = (int)$item->getProductId();
@@ -256,7 +256,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         if ($recollectQuote && $this->_quote) {
             $this->_quote->collectTotals();
         }
-        \Magento\Profiler::stop('QUOTE:' . __METHOD__);
+        \Magento\Framework\Profiler::stop('QUOTE:' . __METHOD__);
 
         return $this;
     }

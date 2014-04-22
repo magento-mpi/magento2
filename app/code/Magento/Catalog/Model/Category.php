@@ -544,11 +544,11 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     {
         $url = $this->_getData('url');
         if (is_null($url)) {
-            \Magento\Profiler::start('REWRITE: ' . __METHOD__, array('group' => 'REWRITE', 'method' => __METHOD__));
+            \Magento\Framework\Profiler::start('REWRITE: ' . __METHOD__, array('group' => 'REWRITE', 'method' => __METHOD__));
 
             if ($this->hasData('request_path') && $this->getRequestPath() != '') {
                 $this->setData('url', $this->getUrlInstance()->getDirectUrl($this->getRequestPath()));
-                \Magento\Profiler::stop('REWRITE: ' . __METHOD__);
+                \Magento\Framework\Profiler::stop('REWRITE: ' . __METHOD__);
                 return $this->getData('url');
             }
 
@@ -561,11 +561,11 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
 
             if ($rewrite->getId()) {
                 $this->setData('url', $this->getUrlInstance()->getDirectUrl($rewrite->getRequestPath()));
-                \Magento\Profiler::stop('REWRITE: ' . __METHOD__);
+                \Magento\Framework\Profiler::stop('REWRITE: ' . __METHOD__);
                 return $this->getData('url');
             }
 
-            \Magento\Profiler::stop('REWRITE: ' . __METHOD__);
+            \Magento\Framework\Profiler::stop('REWRITE: ' . __METHOD__);
 
             $this->setData('url', $this->getCategoryIdUrl());
             return $this->getData('url');
@@ -580,10 +580,10 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      */
     public function getCategoryIdUrl()
     {
-        \Magento\Profiler::start('REGULAR: ' . __METHOD__, array('group' => 'REGULAR', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('REGULAR: ' . __METHOD__, array('group' => 'REGULAR', 'method' => __METHOD__));
         $urlKey = $this->getUrlKey() ? $this->getUrlKey() : $this->formatUrlKey($this->getName());
         $url = $this->getUrlInstance()->getUrl('catalog/category/view', array('s' => $urlKey, 'id' => $this->getId()));
-        \Magento\Profiler::stop('REGULAR: ' . __METHOD__);
+        \Magento\Framework\Profiler::stop('REGULAR: ' . __METHOD__);
         return $url;
     }
 

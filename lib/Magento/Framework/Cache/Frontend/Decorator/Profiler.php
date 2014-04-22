@@ -68,9 +68,9 @@ class Profiler extends \Magento\Framework\Cache\Frontend\Decorator\Bare
      */
     public function test($identifier)
     {
-        \Magento\Profiler::start('cache_test', $this->_getProfilerTags('test'));
+        \Magento\Framework\Profiler::start('cache_test', $this->_getProfilerTags('test'));
         $result = parent::test($identifier);
-        \Magento\Profiler::stop('cache_test');
+        \Magento\Framework\Profiler::stop('cache_test');
         return $result;
     }
 
@@ -79,9 +79,9 @@ class Profiler extends \Magento\Framework\Cache\Frontend\Decorator\Bare
      */
     public function load($identifier)
     {
-        \Magento\Profiler::start('cache_load', $this->_getProfilerTags('load'));
+        \Magento\Framework\Profiler::start('cache_load', $this->_getProfilerTags('load'));
         $result = parent::load($identifier);
-        \Magento\Profiler::stop('cache_load');
+        \Magento\Framework\Profiler::stop('cache_load');
         return $result;
     }
 
@@ -92,9 +92,9 @@ class Profiler extends \Magento\Framework\Cache\Frontend\Decorator\Bare
      */
     public function save($data, $identifier, array $tags = array(), $lifeTime = null)
     {
-        \Magento\Profiler::start('cache_save', $this->_getProfilerTags('save'));
+        \Magento\Framework\Profiler::start('cache_save', $this->_getProfilerTags('save'));
         $result = parent::save($data, $identifier, $tags, $lifeTime);
-        \Magento\Profiler::stop('cache_save');
+        \Magento\Framework\Profiler::stop('cache_save');
         return $result;
     }
 
@@ -103,9 +103,9 @@ class Profiler extends \Magento\Framework\Cache\Frontend\Decorator\Bare
      */
     public function remove($identifier)
     {
-        \Magento\Profiler::start('cache_remove', $this->_getProfilerTags('remove'));
+        \Magento\Framework\Profiler::start('cache_remove', $this->_getProfilerTags('remove'));
         $result = parent::remove($identifier);
-        \Magento\Profiler::stop('cache_remove');
+        \Magento\Framework\Profiler::stop('cache_remove');
         return $result;
     }
 
@@ -114,9 +114,9 @@ class Profiler extends \Magento\Framework\Cache\Frontend\Decorator\Bare
      */
     public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = array())
     {
-        \Magento\Profiler::start('cache_clean', $this->_getProfilerTags('clean'));
+        \Magento\Framework\Profiler::start('cache_clean', $this->_getProfilerTags('clean'));
         $result = parent::clean($mode, $tags);
-        \Magento\Profiler::stop('cache_clean');
+        \Magento\Framework\Profiler::stop('cache_clean');
         return $result;
     }
 }

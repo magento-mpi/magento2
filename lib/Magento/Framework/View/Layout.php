@@ -305,8 +305,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
      */
     public function generateElements()
     {
-        \Magento\Profiler::start(__CLASS__ . '::' . __METHOD__);
-        \Magento\Profiler::start('build_structure');
+        \Magento\Framework\Profiler::start(__CLASS__ . '::' . __METHOD__);
+        \Magento\Framework\Profiler::start('build_structure');
 
         $this->_scheduledStructure->flushScheduledStructure();
 
@@ -325,9 +325,9 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
             $this->_removeElement($elementToRemove);
         }
 
-        \Magento\Profiler::stop('build_structure');
+        \Magento\Framework\Profiler::stop('build_structure');
 
-        \Magento\Profiler::start('generate_elements');
+        \Magento\Framework\Profiler::start('generate_elements');
 
         while (false === $this->_scheduledStructure->isElementsEmpty()) {
             list($type, $node, $actions, $args, $attributes) = current($this->_scheduledStructure->getElements());
@@ -343,8 +343,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
                 $this->_scheduledStructure->unsetElement($elementName);
             }
         }
-        \Magento\Profiler::stop('generate_elements');
-        \Magento\Profiler::stop(__CLASS__ . '::' . __METHOD__);
+        \Magento\Framework\Profiler::stop('generate_elements');
+        \Magento\Framework\Profiler::stop(__CLASS__ . '::' . __METHOD__);
     }
 
     /**
@@ -892,7 +892,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
         }
 
         $profilerKey = 'BLOCK_ACTION:' . $parentName . '>' . $method;
-        \Magento\Profiler::start($profilerKey);
+        \Magento\Framework\Profiler::start($profilerKey);
 
         $block = $this->getBlock($parentName);
         if (!empty($block)) {
@@ -901,7 +901,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
             call_user_func_array(array($block, $method), $args);
         }
 
-        \Magento\Profiler::stop($profilerKey);
+        \Magento\Framework\Profiler::stop($profilerKey);
     }
 
     /**

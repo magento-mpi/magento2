@@ -70,7 +70,11 @@ if (!defined('BARE_BOOTSTRAP')) {
     }
 
     if (!empty($_SERVER['MAGE_PROFILER'])) {
-        \Magento\Profiler::applyConfig($_SERVER['MAGE_PROFILER'], dirname(__DIR__), !empty($_REQUEST['isAjax']));
+        \Magento\Framework\Profiler::applyConfig(
+            $_SERVER['MAGE_PROFILER'],
+            dirname(__DIR__),
+            !empty($_REQUEST['isAjax'])
+        );
     }
 }
 date_default_timezone_set(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE);

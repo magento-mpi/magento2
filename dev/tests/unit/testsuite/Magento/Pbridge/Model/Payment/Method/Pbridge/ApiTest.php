@@ -13,7 +13,7 @@ class ApiTest extends \PHPUnit_Framework_TestCase
 {
     protected function tearDown()
     {
-        \Magento\Profiler::reset();
+        \Magento\Framework\Profiler::reset();
     }
 
     protected function setUp()
@@ -42,7 +42,7 @@ class ApiTest extends \PHPUnit_Framework_TestCase
     protected function _getProfilerDriverMock()
     {
         return $this->getMockBuilder(
-            'Magento\Profiler\DriverInterface'
+            'Magento\Framework\Profiler\DriverInterface'
         )->setMethods(
             array('start', 'stop', 'reset')
         )->getMockForAbstractClass();
@@ -65,7 +65,7 @@ class ApiTest extends \PHPUnit_Framework_TestCase
             array('group' => 'pbridge', 'operation' => 'pbridge:' . $action)
         );
         $profilerDriver->expects($this->once())->method('stop')->with('pbridge_' . $action);
-        \Magento\Profiler::add($profilerDriver);
+        \Magento\Framework\Profiler::add($profilerDriver);
 
         $request = new \Magento\Object();
         $request->setData('payment_action', $action);
@@ -98,7 +98,7 @@ class ApiTest extends \PHPUnit_Framework_TestCase
             array('group' => 'pbridge', 'operation' => 'pbridge:validate_token')
         );
         $profilerDriver->expects($this->once())->method('stop')->with('pbridge_validate_token');
-        \Magento\Profiler::add($profilerDriver);
+        \Magento\Framework\Profiler::add($profilerDriver);
 
         $api = $this->_getApiMock(array('client_identifier' => 10, 'payment_action' => 'validate_token'));
         $api->validateToken(10);

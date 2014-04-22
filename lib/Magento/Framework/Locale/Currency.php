@@ -64,7 +64,7 @@ class Currency implements \Magento\Framework\Locale\CurrencyInterface
      */
     public function getCurrency($currency)
     {
-        \Magento\Profiler::start('locale/currency');
+        \Magento\Framework\Profiler::start('locale/currency');
         if (!isset(self::$_currencyCache[$this->_localeResolver->getLocaleCode()][$currency])) {
             $options = array();
             try {
@@ -89,7 +89,7 @@ class Currency implements \Magento\Framework\Locale\CurrencyInterface
             $currencyObject->setFormat($options->toArray());
             self::$_currencyCache[$this->_localeResolver->getLocaleCode()][$currency] = $currencyObject;
         }
-        \Magento\Profiler::stop('locale/currency');
+        \Magento\Framework\Profiler::stop('locale/currency');
         return self::$_currencyCache[$this->_localeResolver->getLocaleCode()][$currency];
     }
 }

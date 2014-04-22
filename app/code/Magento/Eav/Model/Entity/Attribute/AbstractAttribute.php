@@ -152,7 +152,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractModel 
      */
     public function loadByCode($entityType, $code)
     {
-        \Magento\Profiler::start('load_by_code');
+        \Magento\Framework\Profiler::start('load_by_code');
         if (is_numeric($entityType)) {
             $entityTypeId = $entityType;
         } elseif (is_string($entityType)) {
@@ -166,7 +166,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractModel 
         }
         $this->_getResource()->loadByCode($this, $entityTypeId, $code);
         $this->_afterLoad();
-        \Magento\Profiler::stop('load_by_code');
+        \Magento\Framework\Profiler::stop('load_by_code');
         return $this;
     }
 

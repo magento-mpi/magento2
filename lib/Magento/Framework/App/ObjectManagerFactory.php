@@ -10,7 +10,7 @@
 namespace Magento\Framework\App;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Profiler;
+use Magento\Framework\Profiler;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)

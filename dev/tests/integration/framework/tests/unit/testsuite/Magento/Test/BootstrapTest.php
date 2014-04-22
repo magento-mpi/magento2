@@ -82,7 +82,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
             array('registerAnnotations'),
             array(__DIR__)
         );
-        $profilerDriver = $this->getMock('Magento\Profiler\Driver\Standard', array('registerOutput'));
+        $profilerDriver = $this->getMock('Magento\Framework\Profiler\Driver\Standard', array('registerOutput'));
         $this->_profilerBootstrap = $this->getMock(
             'Magento\TestFramework\Bootstrap\Profiler',
             array('registerFileProfiler', 'registerBambooProfiler'),

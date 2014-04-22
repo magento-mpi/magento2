@@ -126,4 +126,7 @@ return [
     ['/lib/Magento/Pear', '/lib/Magento/Framework/Pear'],
     ['/lib/Magento/Pricing', '/lib/Magento/Framework/Pricing'],
     ['/dev/tests/unit/testsuite/Magento/Pricing', '/dev/tests/unit/testsuite/Magento/Framework/Pricing'],
+    ['/lib/Magento/Profiler', '/lib/Magento/Framework/Profiler'],
+    ['/dev/tests/unit/testsuite/Magento/Profiler', '/dev/tests/unit/testsuite/Magento/Framework/Profiler'],
+    ['/dev/tests/integration/testsuite/Magento/Profiler', '/dev/tests/integration/testsuite/Magento/Framework/Profiler'],
 ];

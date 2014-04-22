@@ -176,14 +176,14 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
          */
         $this->_checkoutSession->setCartWasUpdated(true);
 
-        \Magento\Profiler::start(__METHOD__ . 'cart_display');
+        \Magento\Framework\Profiler::start(__METHOD__ . 'cart_display');
 
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
         $layout->initMessages();
         $layout->getBlock('head')->setTitle(__('Shopping Cart'));
         $this->_view->renderLayout();
-        \Magento\Profiler::stop(__METHOD__ . 'cart_display');
+        \Magento\Framework\Profiler::stop(__METHOD__ . 'cart_display');
     }
 
     /**

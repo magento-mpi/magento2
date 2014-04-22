@@ -11,12 +11,12 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        \Magento\Profiler::enable();
+        \Magento\Framework\Profiler::enable();
     }
 
     protected function tearDown()
     {
-        \Magento\Profiler::reset();
+        \Magento\Framework\Profiler::reset();
     }
 
     /**
@@ -46,10 +46,10 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
         $frontendMock->expects($this->any())->method('getLowLevelFrontend')->will($this->returnValue($cacheFrontend));
 
         // Profiler setup
-        $driver = $this->getMock('Magento\Profiler\DriverInterface');
+        $driver = $this->getMock('Magento\Framework\Profiler\DriverInterface');
         $driver->expects($this->once())->method('start')->with($expectedProfileId, $expectedProfilerTags);
         $driver->expects($this->once())->method('stop')->with($expectedProfileId);
-        \Magento\Profiler::add($driver);
+        \Magento\Framework\Profiler::add($driver);
 
         // Test
         $object = new \Magento\Framework\Cache\Frontend\Decorator\Profiler($frontendMock, array('Zend_Cache_Backend_'));
