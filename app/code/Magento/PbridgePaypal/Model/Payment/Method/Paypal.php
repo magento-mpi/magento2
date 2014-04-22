@@ -18,7 +18,7 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
     protected $_pbridgeData;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -41,14 +41,14 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
 
     /**
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Payment\Model\Method\Factory $paymentFactory
      * @param string $paypalClassName
      */
     public function __construct(
         \Magento\Pbridge\Helper\Data $pbridgeData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Payment\Model\Method\Factory $paymentFactory,
         $paypalClassName

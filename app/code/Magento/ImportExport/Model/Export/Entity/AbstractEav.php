@@ -59,7 +59,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Export\AbstractEn
     protected $_localeDate;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
@@ -68,7 +68,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Export\AbstractEn
      * @param array $data
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
@@ -283,11 +283,11 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Export\AbstractEn
     /**
      * Fill row with attributes values
      *
-     * @param \Magento\Model\AbstractModel $item export entity
+     * @param \Magento\Framework\Model\AbstractModel $item export entity
      * @param array $row data row
      * @return array
      */
-    protected function _addAttributeValuesToRow(\Magento\Model\AbstractModel $item, array $row = array())
+    protected function _addAttributeValuesToRow(\Magento\Framework\Model\AbstractModel $item, array $row = array())
     {
         $validAttributeCodes = $this->_getExportAttributeCodes();
         // go through all valid attribute codes

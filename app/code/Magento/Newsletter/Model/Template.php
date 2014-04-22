@@ -65,7 +65,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate
     /**
      * Http-request, used to determine current store in multi-store mode
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -79,7 +79,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -96,27 +96,27 @@ class Template extends \Magento\Email\Model\AbstractTemplate
     protected $_filterManager;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Newsletter\Model\Template\Filter $filter
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Newsletter\Model\TemplateFactory $templateFactory
      * @param \Magento\Filter\FilterManager $filterManager
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\View\DesignInterface $design,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\View\DesignInterface $design,
         \Magento\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Newsletter\Model\Template\Filter $filter,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Newsletter\Model\TemplateFactory $templateFactory,
         \Magento\Filter\FilterManager $filterManager,
         array $data = array()
@@ -144,7 +144,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate
      * Validate Newsletter template
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validate()
     {
@@ -172,7 +172,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate
                 }
             }
 
-            throw new \Magento\Model\Exception(join("\n", $errorMessages));
+            throw new \Magento\Framework\Model\Exception(join("\n", $errorMessages));
         }
     }
 

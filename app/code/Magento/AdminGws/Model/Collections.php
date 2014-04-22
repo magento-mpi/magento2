@@ -76,7 +76,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit store groups collection
      *
-     * @param Magento\Store\Model\Resource\Group\Collection $collection
+     * @param \Magento\Store\Model\Resource\Group\Collection $collection
      * @return void
      */
     public function limitStoreGroups($collection)
@@ -90,7 +90,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit a collection by allowed stores without admin
      *
-     * @param \Magento\Model\Resource\Db\Collection\AbstractCollection $collection
+     * @param \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection $collection
      * @return void
      */
     public function addStoreFilterNoAdmin($collection)
@@ -101,7 +101,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Add filter by store views to a collection
      *
-     * @param \Magento\Model\Resource\Db\Collection\AbstractCollection $collection
+     * @param \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection $collection
      * @return void
      */
     public function addStoreFilter($collection)
@@ -450,7 +450,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit Automated Email Marketing Reminder Rules collection
      *
-     * @param \Magento\Model\Resource\Db\Collection\AbstractCollection $collection
+     * @param \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection $collection
      * @return void
      */
     public function limitRuleEntityCollection($collection)
@@ -473,7 +473,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit price rules collection
      *
-     * @param \Magento\Model\Resource\Db\Collection\AbstractCollection $collection
+     * @param \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection $collection
      * @return void
      * @deprecated after 1.12.0.0 use $this->limitRuleEntityCollection() for any rule based collection
      */

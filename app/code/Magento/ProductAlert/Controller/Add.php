@@ -9,8 +9,8 @@
  */
 namespace Magento\ProductAlert\Controller;
 
-use Magento\App\Action\Context;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * ProductAlert controller
@@ -19,8 +19,13 @@ use Magento\App\RequestInterface;
  * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Add extends \Magento\App\Action\Action
+class Add extends \Magento\Framework\App\Action\Action
 {
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
@@ -29,12 +34,15 @@ class Add extends \Magento\App\Action\Action
     /**
      * @param Context $context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        Context $context,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_storeManager = $storeManager;
+        $this->_customerSession = $customerSession;
         parent::__construct($context);
     }
 
@@ -42,18 +50,14 @@ class Add extends \Magento\App\Action\Action
      * Check customer authentication for some actions
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
-        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
+        if (!$this->_customerSession->authenticate($this)) {
             $this->_actionFlag->set('', 'no-dispatch', true);
-            if (!$this->_objectManager->get('Magento\Customer\Model\Session')->getBeforeUrl()) {
-                $this->_objectManager->get(
-                    'Magento\Customer\Model\Session'
-                )->setBeforeUrl(
-                    $this->_redirect->getRefererUrl()
-                );
+            if (!$this->_customerSession->getBeforeUrl()) {
+                $this->_customerSession->setBeforeUrl($this->_redirect->getRefererUrl());
             }
         }
         return parent::dispatch($request);
@@ -74,7 +78,7 @@ class Add extends \Magento\App\Action\Action
      */
     public function priceAction()
     {
-        $backUrl = $this->getRequest()->getParam(\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED);
+        $backUrl = $this->getRequest()->getParam(\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED);
         $productId = (int)$this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
             $this->_redirect('/');
@@ -97,7 +101,7 @@ class Add extends \Magento\App\Action\Action
             $model = $this->_objectManager->create(
                 'Magento\ProductAlert\Model\Price'
             )->setCustomerId(
-                $this->_objectManager->get('Magento\Customer\Model\Session')->getId()
+                $this->_customerSession->getCustomerId()
             )->setProductId(
                 $product->getId()
             )->setPrice(
@@ -118,7 +122,7 @@ class Add extends \Magento\App\Action\Action
      */
     public function stockAction()
     {
-        $backUrl = $this->getRequest()->getParam(\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED);
+        $backUrl = $this->getRequest()->getParam(\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED);
         $productId = (int)$this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
             $this->_redirect('/');
@@ -136,7 +140,7 @@ class Add extends \Magento\App\Action\Action
             $model = $this->_objectManager->create(
                 'Magento\ProductAlert\Model\Stock'
             )->setCustomerId(
-                $this->_objectManager->get('Magento\Customer\Model\Session')->getId()
+                $this->_customerSession->getCustomerId()
             )->setProductId(
                 $product->getId()
             )->setWebsiteId(

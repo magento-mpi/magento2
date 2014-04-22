@@ -20,7 +20,7 @@ namespace Magento\Catalog\Block\Product\View;
 
 use Magento\Catalog\Model\Product;
 
-class Attributes extends \Magento\View\Element\Template
+class Attributes extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var Product
@@ -35,12 +35,12 @@ class Attributes extends \Magento\View\Element\Template
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         array $data = array()
     ) {

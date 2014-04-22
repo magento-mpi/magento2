@@ -26,14 +26,14 @@ class Templates extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory,
         array $data = array()
     ) {
@@ -48,7 +48,7 @@ class Templates extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $model = $this->_coreRegistry->registry('current_reminder_rule');
 

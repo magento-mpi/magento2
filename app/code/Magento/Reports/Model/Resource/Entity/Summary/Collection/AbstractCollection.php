@@ -18,7 +18,7 @@
  */
 namespace Magento\Reports\Model\Resource\Entity\Summary\Collection;
 
-class AbstractCollection extends \Magento\Data\Collection
+class AbstractCollection extends \Magento\Framework\Data\Collection
 {
     /**
      * Entity collection for summaries

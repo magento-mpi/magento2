@@ -17,7 +17,7 @@
  */
 namespace Magento\Cron\Model\Config\Backend;
 
-class Sitemap extends \Magento\App\Config\Value
+class Sitemap extends \Magento\Framework\App\Config\Value
 {
     /**
      * Cron string path
@@ -30,7 +30,7 @@ class Sitemap extends \Magento\App\Config\Value
     const CRON_MODEL_PATH = 'crontab/default/jobs/sitemap_generate/run/model';
 
     /**
-     * @var \Magento\App\Config\ValueFactory
+     * @var \Magento\Framework\App\Config\ValueFactory
      */
     protected $_configValueFactory;
 
@@ -40,22 +40,22 @@ class Sitemap extends \Magento\App\Config\Value
     protected $_runModelPath = '';
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $config
-     * @param \Magento\App\Config\ValueFactory $configValueFactory
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ValueFactory $configValueFactory
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param string $runModelPath
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $config,
-        \Magento\App\Config\ValueFactory $configValueFactory,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Config\ValueFactory $configValueFactory,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $runModelPath = '',
         array $data = array()
     ) {

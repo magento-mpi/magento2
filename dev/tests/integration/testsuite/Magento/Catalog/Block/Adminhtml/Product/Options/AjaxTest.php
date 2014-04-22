@@ -24,7 +24,7 @@ class AjaxTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Catalog\Block\Adminhtml\Product\Options\Ajax'
         );

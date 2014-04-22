@@ -9,7 +9,7 @@
  */
 namespace Magento\Reports\Model\Resource\Order;
 
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * Reports orders collection
@@ -35,7 +35,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -62,32 +62,32 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\DB\Helper $coreResourceHelper
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\DB\Helper $coreResourceHelper
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param \Magento\Sales\Model\Resource\Report\OrderFactory $reportOrderFactory
      * @param mixed $connection
-     * @param \Magento\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\DB\Helper $coreResourceHelper,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\DB\Helper $coreResourceHelper,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Sales\Model\Resource\Report\OrderFactory $reportOrderFactory,
         $connection = null,
-        \Magento\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct(
             $entityFactory,
@@ -108,7 +108,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
     /**
      * Check range for live mode
      *
-     * @param unknown_type $range
+     * @param string $range
      * @return $this
      */
     public function checkIsLive($range)
@@ -375,7 +375,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
         $adapter = $this->getConnection();
         $expression = $this->_getRangeExpression($range);
         $attribute = $adapter->quoteIdentifier($attribute);
-        $periodExpr = $adapter->getDateAddSql($attribute, $tzTo, \Magento\DB\Adapter\AdapterInterface::INTERVAL_HOUR);
+        $periodExpr = $adapter->getDateAddSql($attribute, $tzTo, \Magento\Framework\DB\Adapter\AdapterInterface::INTERVAL_HOUR);
 
         return str_replace('{{attribute}}', $periodExpr, $expression);
     }

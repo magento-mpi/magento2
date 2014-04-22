@@ -28,7 +28,7 @@ class EmulationTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\DesignInterface');
+            ->get('Magento\Framework\View\DesignInterface');
 
         $initialEnvInfo = $this->_model->startEnvironmentEmulation(1);
         $initialDesign = $initialEnvInfo->getInitialDesign();

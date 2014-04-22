@@ -150,8 +150,8 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
         $checkoutSession = $this->_objectManager->create('Magento\Checkout\Model\Session');
         $quoteItem = $this->_getQuoteItemIdByProductId($checkoutSession->getQuote(), $productId);
 
-        /** @var \Magento\Data\Form\FormKey $formKey */
-        $formKey = $this->_objectManager->get('Magento\Data\Form\FormKey');
+        /** @var \Magento\Framework\Data\Form\FormKey $formKey */
+        $formKey = $this->_objectManager->get('Magento\Framework\Data\Form\FormKey');
         $postData = array(
             'cart' => array($quoteItem->getId() => array('qty' => $updatedQuantity)),
             'update_cart_action' => 'update_qty',

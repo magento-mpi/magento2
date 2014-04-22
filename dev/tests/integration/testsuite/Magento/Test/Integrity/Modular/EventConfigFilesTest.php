@@ -27,7 +27,7 @@ class EventConfigFilesTest extends \PHPUnit_Framework_TestCase
     public function testEventConfigFiles($file)
     {
         $errors = array();
-        $dom = new \Magento\Config\Dom(file_get_contents($file));
+        $dom = new \Magento\Framework\Config\Dom(file_get_contents($file));
         $result = $dom->validate($this->_schemaFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {

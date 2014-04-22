@@ -57,7 +57,7 @@ class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
 
         /* Layout updates */
         $handles = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->getUpdate()->getHandles();
         $this->assertContains('catalog_product_view_type_simple', $handles);
 

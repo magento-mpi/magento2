@@ -17,7 +17,7 @@ namespace Magento\Core\Model;
 class Observer
 {
     /**
-     * @var \Magento\App\Cache\Frontend\Pool
+     * @var \Magento\Framework\App\Cache\Frontend\Pool
      */
     private $_cacheFrontendPool;
 
@@ -27,17 +27,17 @@ class Observer
     private $_currentTheme;
 
     /**
-     * @var \Magento\View\Asset\GroupedCollection
+     * @var \Magento\Framework\View\Asset\GroupedCollection
      */
     private $_pageAssets;
 
     /**
-     * @var \Magento\App\Config\ReinitableConfigInterface
+     * @var \Magento\Framework\App\Config\ReinitableConfigInterface
      */
     protected $_config;
 
     /**
-     * @var \Magento\View\Asset\PublicFileFactory
+     * @var \Magento\Framework\View\Asset\PublicFileFactory
      */
     protected $_assetFileFactory;
 
@@ -52,20 +52,20 @@ class Observer
     protected $_logger;
 
     /**
-     * @param \Magento\App\Cache\Frontend\Pool $cacheFrontendPool
-     * @param \Magento\View\DesignInterface $design
-     * @param \Magento\View\Asset\GroupedCollection $assets
-     * @param \Magento\App\Config\ReinitableConfigInterface $config
-     * @param \Magento\View\Asset\PublicFileFactory $assetFileFactory
+     * @param \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
+     * @param \Magento\Framework\View\DesignInterface $design
+     * @param \Magento\Framework\View\Asset\GroupedCollection $assets
+     * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
+     * @param \Magento\Framework\View\Asset\PublicFileFactory $assetFileFactory
      * @param Theme\Registration $registration
      * @param \Magento\Logger $logger
      */
     public function __construct(
-        \Magento\App\Cache\Frontend\Pool $cacheFrontendPool,
-        \Magento\View\DesignInterface $design,
-        \Magento\View\Asset\GroupedCollection $assets,
-        \Magento\App\Config\ReinitableConfigInterface $config,
-        \Magento\View\Asset\PublicFileFactory $assetFileFactory,
+        \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
+        \Magento\Framework\View\DesignInterface $design,
+        \Magento\Framework\View\Asset\GroupedCollection $assets,
+        \Magento\Framework\App\Config\ReinitableConfigInterface $config,
+        \Magento\Framework\View\Asset\PublicFileFactory $assetFileFactory,
         \Magento\Core\Model\Theme\Registration $registration,
         \Magento\Logger $logger
     ) {
@@ -104,7 +104,7 @@ class Observer
         $pathPattern = $observer->getEvent()->getPathPattern();
         try {
             $this->_registration->register($pathPattern);
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->_logger->logException($e);
         }
         return $this;
@@ -123,7 +123,7 @@ class Observer
         foreach ($this->_currentTheme->getCustomization()->getFiles() as $themeFile) {
             try {
                 $service = $themeFile->getCustomizationService();
-                if ($service instanceof \Magento\View\Design\Theme\Customization\FileAssetInterface) {
+                if ($service instanceof \Magento\Framework\View\Design\Theme\Customization\FileAssetInterface) {
                     $asset = $this->_assetFileFactory->create(
                         array('file' => $themeFile->getFullPath(), 'contentType' => $service->getContentType())
                     );

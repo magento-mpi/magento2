@@ -14,7 +14,7 @@ namespace Magento\Customer\Model\Config\Backend\Address;
  *
  * @method string getWebsiteCode
  */
-class Street extends \Magento\App\Config\Value
+class Street extends \Magento\Framework\App\Config\Value
 {
     /**
      * @var \Magento\Eav\Model\Config
@@ -25,23 +25,23 @@ class Street extends \Magento\App\Config\Value
     protected $_storeManager;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eavConfig = $eavConfig;
@@ -68,7 +68,7 @@ class Street extends \Magento\App\Config\Value
                 }
                 break;
 
-            case \Magento\App\ScopeInterface::SCOPE_DEFAULT:
+            case \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT:
                 $attribute->setData('multiline_count', $value);
                 break;
         }
@@ -79,7 +79,7 @@ class Street extends \Magento\App\Config\Value
     /**
      * Processing object after delete data
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _afterDelete()
     {

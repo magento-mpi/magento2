@@ -71,7 +71,7 @@ class Currency extends \Magento\Backend\App\Action
      * Fetch rates action
      *
      * @return void
-     * @throws \Exception|\Magento\Model\Exception
+     * @throws \Exception|\Magento\Framework\Model\Exception
      */
     public function fetchRatesAction()
     {
@@ -91,7 +91,7 @@ class Currency extends \Magento\Backend\App\Action
                     $service
                 );
             } catch (\Exception $e) {
-                throw new \Magento\Model\Exception(__('We can\'t initialize the import model.'));
+                throw new \Magento\Framework\Model\Exception(__('We can\'t initialize the import model.'));
             }
             $rates = $importModel->fetchRates();
             $errors = $importModel->getMessages();

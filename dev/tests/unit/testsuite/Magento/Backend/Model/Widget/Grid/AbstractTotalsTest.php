@@ -64,11 +64,11 @@ class AbstractTotalsTest extends \PHPUnit_Framework_TestCase
     /**
      * Retrieve test collection
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     protected function _getTestCollection()
     {
-        $collection = new \Magento\Data\Collection(
+        $collection = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         $items = array(new \Magento\Object(array('test1' => '1', 'test2' => '2')));

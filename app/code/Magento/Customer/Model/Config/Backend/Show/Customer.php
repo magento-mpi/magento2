@@ -18,7 +18,7 @@ use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Customer extends \Magento\App\Config\Value
+class Customer extends \Magento\Framework\App\Config\Value
 {
     /**
      * @var \Magento\Eav\Model\Config
@@ -29,23 +29,23 @@ class Customer extends \Magento\App\Config\Value
     protected $storeManager;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eavConfig = $eavConfig;
@@ -120,7 +120,7 @@ class Customer extends \Magento\App\Config\Value
     /**
      * Processing object after delete data
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _afterDelete()
     {

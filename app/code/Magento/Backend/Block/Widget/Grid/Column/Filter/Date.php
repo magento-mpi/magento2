@@ -26,14 +26,14 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilt
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\DB\Helper $resourceHelper
+     * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\DB\Helper $resourceHelper,
+        \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Math\Random $mathRandom,
         \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()

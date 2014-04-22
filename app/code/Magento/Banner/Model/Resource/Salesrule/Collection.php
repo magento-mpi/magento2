@@ -11,7 +11,7 @@
  */
 namespace Magento\Banner\Model\Resource\Salesrule;
 
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var string

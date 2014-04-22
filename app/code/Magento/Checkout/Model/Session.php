@@ -79,7 +79,7 @@ class Session extends \Magento\Session\SessionManager
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\Request\Http $request
+     * @param \Magento\Framework\App\Request\Http $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
@@ -94,7 +94,7 @@ class Session extends \Magento\Session\SessionManager
      * @param null $sessionName
      */
     public function __construct(
-        \Magento\App\Request\Http $request,
+        \Magento\Framework\App\Request\Http $request,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Session\SaveHandlerInterface $saveHandler,

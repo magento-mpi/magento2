@@ -15,7 +15,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
     public function testToHtml()
     {
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Rss\Block\Order\Status'
         );

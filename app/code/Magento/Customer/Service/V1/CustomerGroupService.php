@@ -9,6 +9,8 @@
  */
 namespace Magento\Customer\Service\V1;
 
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\GroupRegistry;
@@ -36,9 +38,14 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     private $_groupFactory;
 
     /**
-     * @var Scope Config
+     * @var ScopeConfigInterface
      */
     private $_scopeConfig;
+
+    /**
+     * @var StoreManagerInterface
+     */
+    private $_storeManager;
 
     /**
      * @var Data\SearchResultsBuilder
@@ -67,7 +74,8 @@ class CustomerGroupService implements CustomerGroupServiceInterface
 
     /**
      * @param GroupFactory $groupFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param ScopeConfigInterface $scopeConfig
+     * @param StoreManagerInterface $storeManager
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerGroupBuilder $customerGroupBuilder
      * @param TaxClassModelFactory $taxClassModelFactory
@@ -75,7 +83,8 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function __construct(
         GroupFactory $groupFactory,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        ScopeConfigInterface $scopeConfig,
+        StoreManagerInterface $storeManager,
         Data\SearchResultsBuilder $searchResultsBuilder,
         Data\CustomerGroupBuilder $customerGroupBuilder,
         TaxClassModelFactory $taxClassModelFactory,
@@ -83,6 +92,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     ) {
         $this->_groupFactory = $groupFactory;
         $this->_scopeConfig = $scopeConfig;
+        $this->_storeManager = $storeManager;
         $this->_searchResultsBuilder = $searchResultsBuilder;
         $this->_customerGroupBuilder = $customerGroupBuilder;
         $this->_taxClassModelFactory = $taxClassModelFactory;
@@ -122,7 +132,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
 
         $groups = array();
         /** @var Collection $collection */
-        $collection = $this->_groupFactory->create()->getCollection();
+        $collection = $this->_groupFactory->create()->getCollection()->addTaxClass();
         //Add filters from root filter group to the collection
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $collection);
@@ -140,13 +150,11 @@ class CustomerGroupService implements CustomerGroupServiceInterface
 
         /** @var CustomerGroupModel $group */
         foreach ($collection as $group) {
-            $this->_customerGroupBuilder->setId(
-                $group->getId()
-            )->setCode(
-                $group->getCode()
-            )->setTaxClassId(
-                $group->getTaxClassId()
-            );
+            $this->_customerGroupBuilder
+                ->setId($group->getId())
+                ->setCode($group->getCode())
+                ->setTaxClassId($group->getTaxClassId())
+                ->setTaxClassName($group->getClassName());
             $groups[] = $this->_customerGroupBuilder->create();
         }
         $this->_searchResultsBuilder->setItems($groups);
@@ -208,15 +216,18 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getDefaultGroup($storeId)
+    public function getDefaultGroup($storeId = null)
     {
+        if (is_null($storeId)) {
+            $storeId = $this->_storeManager->getCurrentStore();
+        }
         try {
             $groupId = $this->_scopeConfig->getValue(
                 CustomerGroupModel::XML_PATH_DEFAULT_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
             );
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             throw new NoSuchEntityException('storeId', $storeId);
         }
         try {
@@ -270,7 +281,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $customerGroup->setTaxClassId($taxClassId);
         try {
             $customerGroup->save();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             /* Would like a better way to determine this error condition but
                difficult to do without imposing more database calls
             */

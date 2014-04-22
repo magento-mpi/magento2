@@ -9,7 +9,7 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\Payment\Model\Method\AbstractMethod;
 use Magento\Sales\Model\Order\Payment;
 
@@ -82,7 +82,7 @@ class Pbridge extends AbstractMethod
     /**
      * Request http
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_requestHttp;
 
@@ -119,27 +119,27 @@ class Pbridge extends AbstractMethod
      *
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\UrlInterface $url
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory $pbridgeApiFactory
-     * @param \Magento\App\RequestInterface $requestHttp
+     * @param \Magento\Framework\App\RequestInterface $requestHttp
      * @param array $data
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\UrlInterface $url,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory $pbridgeApiFactory,
-        \Magento\App\RequestInterface $requestHttp,
+        \Magento\Framework\App\RequestInterface $requestHttp,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
@@ -314,7 +314,7 @@ class Pbridge extends AbstractMethod
      * Validate response
      *
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validate()
     {
@@ -469,7 +469,7 @@ class Pbridge extends AbstractMethod
      * @param \Magento\Object $payment
      * @param float $amount
      * @return array
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function refund(\Magento\Object $payment, $amount)
     {

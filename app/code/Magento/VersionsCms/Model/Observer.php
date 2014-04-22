@@ -47,7 +47,7 @@ class Observer
     protected $_coreUrl;
 
     /**
-     * @var \Magento\App\ViewInterface
+     * @var \Magento\Framework\App\ViewInterface
      */
     protected $_view;
 
@@ -57,7 +57,7 @@ class Observer
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\UrlInterface $coreUrl
-     * @param \Magento\App\ViewInterface $view
+     * @param \Magento\Framework\App\ViewInterface $view
      */
     public function __construct(
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
@@ -65,7 +65,7 @@ class Observer
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\UrlInterface $coreUrl,
-        \Magento\App\ViewInterface $view
+        \Magento\Framework\App\ViewInterface $view
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_cmsHierarchy = $cmsHierarchy;
@@ -93,7 +93,7 @@ class Observer
         /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
         $node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
 
-        /* @var $action \Magento\App\Action\Action */
+        /* @var $action \Magento\Framework\App\Action\Action */
         $action = $observer->getEvent()->getControllerAction();
 
         // collect loaded handles for cms page
@@ -127,7 +127,7 @@ class Observer
     public function addCmsToTopmenuItems(EventObserver $observer)
     {
         /**
-         * @var $topMenuRootNode \Magento\Data\Tree\Node
+         * @var $topMenuRootNode \Magento\Framework\Data\Tree\Node
          */
         $topMenuRootNode = $observer->getMenu();
 
@@ -176,7 +176,7 @@ class Observer
                 continue;
             }
 
-            $menuNode = new \Magento\Data\Tree\Node($menuNodeData, 'id', $tree, $parentNode);
+            $menuNode = new \Magento\Framework\Data\Tree\Node($menuNodeData, 'id', $tree, $parentNode);
             $parentNode->addChild($menuNode);
 
             $nodesFlatList[$menuNodeId] = $menuNode;

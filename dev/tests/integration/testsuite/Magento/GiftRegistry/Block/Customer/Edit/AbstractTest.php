@@ -29,9 +29,10 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             self::STUB_CLASS,
             false
         );
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
+            ->setAreaCode('frontend');
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             self::STUB_CLASS
         );

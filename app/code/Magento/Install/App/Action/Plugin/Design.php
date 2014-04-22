@@ -7,48 +7,48 @@
  */
 namespace Magento\Install\App\Action\Plugin;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
 class Design
 {
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
     /**
-     * @var \Magento\App\AreaList
+     * @var \Magento\Framework\App\AreaList
      */
     protected $_areaList;
 
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $appState;
 
     /**
-     * @var \Magento\View\Design\Theme\ListInterface
+     * @var \Magento\Framework\View\Design\Theme\ListInterface
      */
     protected $_themeList;
 
     /**
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_viewDesign;
 
     /**
      * @param RequestInterface $request
-     * @param \Magento\App\AreaList $areaList
-     * @param \Magento\App\State $appState
-     * @param \Magento\View\DesignInterface $viewDesign
-     * @param \Magento\View\Design\Theme\ListInterface $themeList
+     * @param \Magento\Framework\App\AreaList $areaList
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Framework\View\DesignInterface $viewDesign
+     * @param \Magento\Framework\View\Design\Theme\ListInterface $themeList
      */
     public function __construct(
-        \Magento\App\RequestInterface $request,
-        \Magento\App\AreaList $areaList,
-        \Magento\App\State $appState,
-        \Magento\View\DesignInterface $viewDesign,
-        \Magento\View\Design\Theme\ListInterface $themeList
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\App\AreaList $areaList,
+        \Magento\Framework\App\State $appState,
+        \Magento\Framework\View\DesignInterface $viewDesign,
+        \Magento\Framework\View\Design\Theme\ListInterface $themeList
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_themeList = $themeList;
@@ -73,7 +73,7 @@ class Design
         $area->load(\Magento\Core\Model\App\Area::PART_CONFIG);
 
         $themePath = $this->_viewDesign->getConfigurationDesignTheme($areaCode);
-        $themeFullPath = $areaCode . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR . $themePath;
+        $themeFullPath = $areaCode . \Magento\Framework\View\Design\ThemeInterface::PATH_SEPARATOR . $themePath;
         $themeModel = $this->_themeList->getThemeByFullPath($themeFullPath);
         $this->_viewDesign->setDesignTheme($themeModel);
 

@@ -17,7 +17,7 @@ class Header
     /**
      * Request object
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -27,10 +27,10 @@ class Header
     protected $_converter;
 
     /**
-     * @param \Magento\App\RequestInterface $httpRequest
+     * @param \Magento\Framework\App\RequestInterface $httpRequest
      * @param \Magento\Stdlib\String $converter
      */
-    public function __construct(\Magento\App\RequestInterface $httpRequest, \Magento\Stdlib\String $converter)
+    public function __construct(\Magento\Framework\App\RequestInterface $httpRequest, \Magento\Stdlib\String $converter)
     {
         $this->_request = $httpRequest;
         $this->_converter = $converter;

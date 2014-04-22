@@ -9,9 +9,9 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <preference for="Magento\Module\UpdaterInterface" type="Magento\Module\Updater" />
-    <type name="Magento\App\Arguments\Loader">
+    <type name="Magento\Framework\App\Arguments\Loader">
         <arguments>
-            <argument name="customFile" xsi:type="init_parameter">Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE</argument>
+            <argument name="customFile" xsi:type="init_parameter">Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE</argument>
             <argument name="customConfig" xsi:type="object" shared="true">Magento\Core\Model\Config\Storage\Modules</argument>
             <argument name="customValue" xsi:type="string">someValue</argument>
             <argument name="customComplexValue" xsi:type="array">
@@ -22,9 +22,9 @@
         <plugin name="one" type="somePluginOne"/>
         <plugin name="two" type="somePluginTwo" sortOrder="15"/>
     </type>
-    <virtualType name="Magento\App\Arguments\LoaderVirtual" type="Magento\App\Arguments\Loader\Local" shared="false">
+    <virtualType name="Magento\Framework\App\Arguments\LoaderVirtual" type="Magento\Framework\App\Arguments\Loader\Local" shared="false">
         <arguments>
-            <argument name="customFile" xsi:type="init_parameter">Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE</argument>
+            <argument name="customFile" xsi:type="init_parameter">Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE</argument>
             <argument name="customConfig" xsi:type="object">Magento\Core\Model\Config\Storage\Modules</argument>
             <argument name="customValue" xsi:type="string">someValue</argument>
             <argument name="customComplexValue" xsi:type="array">
@@ -35,7 +35,7 @@
         <plugin name="one" type="somePluginOne" sortOrder="10" />
         <plugin name="two" type="somePluginTwo"/>
     </virtualType>
-    <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
+    <type name="Magento\Framework\Data\Collection\Db\FetchStrategy\Cache">
         <arguments>
             <argument name="cacheIdPrefix" xsi:type="string"><![CDATA[collection_]]></argument>
             <argument name="cacheLifetime" xsi:type="string">86400</argument>

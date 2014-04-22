@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Model\Product\Option\Type;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Catalog product option text type
@@ -30,14 +30,14 @@ class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
     /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Escaper $escaper
      * @param \Magento\Stdlib\String $string
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Escaper $escaper,
         \Magento\Stdlib\String $string,
         array $data = array()
@@ -52,7 +52,7 @@ class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      *
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validateUserValue($values)
     {

@@ -7,7 +7,7 @@
  */
 namespace Magento\Logging\Model;
 
-use Magento\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 use Magento\Logging\Model\Event\Changes;
 
 class Processor
@@ -125,7 +125,7 @@ class Processor
     /**
      * Request
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -145,7 +145,7 @@ class Processor
      * @param \Magento\Logger $logger
      * @param \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory
      * @param \Magento\Logging\Model\EventFactory $eventFactory
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
@@ -157,7 +157,7 @@ class Processor
         \Magento\Logger $logger,
         \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory,
         \Magento\Logging\Model\EventFactory $eventFactory,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
         $this->_config = $config;
@@ -234,7 +234,7 @@ class Processor
      * Action model processing.
      * Get defference between data & orig_data and store in the internal modelsHandler container.
      *
-     * @param AbstractModel $model
+     * @param \Magento\Framework\Model\AbstractModel $model
      * @param string $action
      * @return $this|bool
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -420,7 +420,7 @@ class Processor
             }
             if (!$handler || !$callback || !method_exists($handler, $callback)) {
                 $this->_logger->logException(
-                    new \Magento\Model\Exception(sprintf("Unknown callback function: %s::%s", $handler, $callback))
+                    new \Magento\Framework\Model\Exception(sprintf("Unknown callback function: %s::%s", $handler, $callback))
                 );
             }
         }
@@ -525,7 +525,7 @@ class Processor
      *              )
      *     )
      *
-     * @param AbstractModel $model
+     * @param \Magento\Framework\Model\AbstractModel $model
      * @param array $attributes
      * @return void
      */

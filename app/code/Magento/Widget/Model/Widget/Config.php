@@ -14,7 +14,7 @@ namespace Magento\Widget\Model\Widget;
 class Config
 {
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $_viewUrl;
 
@@ -41,13 +41,13 @@ class Config
     /**
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Core\Helper\Data $coreHelper
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Widget\Model\WidgetFactory $widgetFactory
      */
     public function __construct(
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Core\Helper\Data $coreHelper,
-        \Magento\View\Url $viewUrl,
+        \Magento\Framework\View\Url $viewUrl,
         \Magento\Widget\Model\WidgetFactory $widgetFactory
     ) {
         $this->_backendUrl = $backendUrl;

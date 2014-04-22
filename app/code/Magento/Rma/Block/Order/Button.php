@@ -9,7 +9,7 @@
  */
 namespace Magento\Rma\Block\Order;
 
-class Button extends \Magento\View\Element\Template
+class Button extends \Magento\Framework\View\Element\Template
 {
     /**
      * Core registry
@@ -19,12 +19,12 @@ class Button extends \Magento\View\Element\Template
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         array $data = array()
     ) {

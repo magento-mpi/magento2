@@ -10,11 +10,11 @@
 require_once __DIR__ . '/../../../../../app/bootstrap.php';
 $rootDir = realpath(__DIR__ . '/../../../../..');
 try {
-    $entryPoint = new \Magento\App\EntryPoint\EntryPoint($rootDir, array());
+    $entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint($rootDir, array());
 
-    $objectManager = new \Magento\App\ObjectManager();
-    /** @var $configModel \Magento\App\Config\ReinitableConfigInterface */
-    $configModel = $objectManager->get('Magento\App\Config\ReinitableConfigInterface');
+    $objectManager = new \Magento\Framework\App\ObjectManager();
+    /** @var $configModel \Magento\Framework\App\Config\ReinitableConfigInterface */
+    $configModel = $objectManager->get('Magento\Framework\App\Config\ReinitableConfigInterface');
     $configModel->reinit();
     $config = array();
 
@@ -51,7 +51,7 @@ function updateFieldForTable($objectManager, $table, $col)
 
         $indexList = $installer->getConnection()->getIndexList($table);
         $pkField = array_shift($indexList[$installer->getConnection()->getPrimaryKeyName($table)]['fields']);
-        /** @var $select \Magento\Db\Select */
+        /** @var $select \Magento\Framework\DB\Select */
         $select = $installer->getConnection()->select()->from($table, array('id' => $pkField, 'content' => $col));
         $result = $installer->getConnection()->fetchPairs($select);
 

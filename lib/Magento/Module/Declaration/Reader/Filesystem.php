@@ -13,10 +13,10 @@ use Magento\Module\Declaration\FileResolver;
 use Magento\Module\Declaration\Converter\Dom;
 use Magento\Module\Declaration\SchemaLocator;
 use Magento\Module\DependencyManagerInterface;
-use Magento\Config\ValidationStateInterface;
-use Magento\App\State;
+use Magento\Framework\Config\ValidationStateInterface;
+use Magento\Framework\App\State;
 
-class Filesystem extends \Magento\Config\Reader\Filesystem
+class Filesystem extends \Magento\Framework\Config\Reader\Filesystem
 {
     /**
      * Allowed modules
@@ -30,7 +30,7 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
     protected $_allowedModules;
 
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $appState;
 
@@ -71,7 +71,7 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
         DependencyManagerInterface $dependencyManager,
         $fileName = 'module.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento\Config\Dom',
+        $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global',
         array $allowedModules = array()
     ) {

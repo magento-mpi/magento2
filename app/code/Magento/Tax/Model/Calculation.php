@@ -19,7 +19,7 @@ use Magento\Exception\NoSuchEntityException;
 /**
  * Tax Calculation Model
  */
-class Calculation extends \Magento\Model\AbstractModel
+class Calculation extends \Magento\Framework\Model\AbstractModel
 {
     const CALC_TAX_BEFORE_DISCOUNT_ON_EXCL = '0_0';
 
@@ -73,7 +73,7 @@ class Calculation extends \Magento\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -118,9 +118,9 @@ class Calculation extends \Magento\Model\AbstractModel
     protected $customerBuilder;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Customer\Model\Session $customerSession
@@ -131,14 +131,14 @@ class Calculation extends \Magento\Model\AbstractModel
      * @param GroupServiceInterface $groupService
      * @param CustomerAccountServiceInterface $customerAccount
      * @param CustomerBuilder $customerBuilder
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      * @internal param \Magento\Customer\Model\Converter $converter
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\GroupFactory $groupFactory,
         \Magento\Customer\Model\Session $customerSession,
@@ -149,7 +149,7 @@ class Calculation extends \Magento\Model\AbstractModel
         GroupServiceInterface $groupService,
         CustomerAccountServiceInterface $customerAccount,
         CustomerBuilder $customerBuilder,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_scopeConfig = $scopeConfig;
@@ -336,15 +336,11 @@ class Calculation extends \Magento\Model\AbstractModel
     protected function _getRequestCacheKey($request)
     {
         $key = $request->getStore() ? $request->getStore()->getId() . '|' : '';
-        $key .= $request->getProductClassId() .
-            '|' .
-            $request->getCustomerClassId() .
-            '|' .
-            $request->getCountryId() .
-            '|' .
-            $request->getRegionId() .
-            '|' .
-            $request->getPostcode();
+        $key .= $request->getProductClassId() . '|'
+            . $request->getCustomerClassId() . '|'
+            . $request->getCountryId() . '|'
+            . $request->getRegionId() . '|'
+            . $request->getPostcode();
         return $key;
     }
 
@@ -411,7 +407,7 @@ class Calculation extends \Magento\Model\AbstractModel
      * @param   null|bool|\Magento\Object $shippingAddress
      * @param   null|bool||\Magento\Object $billingAddress
      * @param   null|int $customerTaxClass
-     * @param   null|int $store
+     * @param   null|int|\Magento\Store\Model\Store $store
      * @return  \Magento\Object
      */
     public function getRateRequest(
@@ -435,11 +431,11 @@ class Calculation extends \Magento\Model\AbstractModel
         ) {
             $basedOn = 'default';
         } else {
-            if (($billingAddress === false || is_null(
-                $billingAddress
-            ) || !$billingAddress->getCountryId()) && $basedOn == 'billing' || ($shippingAddress === false || is_null(
-                $shippingAddress
-            ) || !$shippingAddress->getCountryId()) && $basedOn == 'shipping'
+
+            if (($billingAddress === false || is_null($billingAddress) || !$billingAddress->getCountryId())
+                && $basedOn == 'billing'
+                || ($shippingAddress === false || is_null($shippingAddress) || !$shippingAddress->getCountryId())
+                && $basedOn == 'shipping'
             ) {
                 if ($customerData->getId()) {
                     try {

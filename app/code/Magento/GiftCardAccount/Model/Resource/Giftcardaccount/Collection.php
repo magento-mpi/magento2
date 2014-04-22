@@ -16,7 +16,7 @@ namespace Magento\GiftCardAccount\Model\Resource\Giftcardaccount;
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource constructor

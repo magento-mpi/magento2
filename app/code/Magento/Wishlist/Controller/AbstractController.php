@@ -9,12 +9,12 @@
  */
 namespace Magento\Wishlist\Controller;
 
-use Magento\App\Action\Context;
+use Magento\Framework\App\Action\Context;
 
 /**
  * Wishlist Abstract Front Controller Action
  */
-abstract class AbstractController extends \Magento\App\Action\Action
+abstract class AbstractController extends \Magento\Framework\App\Action\Action
 {
     /**
      * Filter to convert localized values to internal ones
@@ -121,7 +121,7 @@ abstract class AbstractController extends \Magento\App\Action\Action
                 if ($item->addToCart($cart, $isOwner)) {
                     $addedItems[] = $item->getProduct();
                 }
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_NOT_SALABLE) {
                     $notSalable[] = $item;
                 } elseif ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {

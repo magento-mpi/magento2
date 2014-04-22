@@ -18,9 +18,10 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetCalendarDateHtml()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
+            ->setAreaCode('frontend');
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\GiftRegistry\Block\Form\Element'
         );

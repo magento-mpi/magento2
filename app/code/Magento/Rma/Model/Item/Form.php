@@ -41,7 +41,7 @@ class Form extends \Magento\Eav\Model\Form
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\App\RequestInterface $httpRequest
+     * @param \Magento\Framework\App\RequestInterface $httpRequest
      * @param \Magento\Validator\ConfigFactory $validatorConfigFactory
      * @param \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory
      */
@@ -51,7 +51,7 @@ class Form extends \Magento\Eav\Model\Form
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\App\RequestInterface $httpRequest,
+        \Magento\Framework\App\RequestInterface $httpRequest,
         \Magento\Validator\ConfigFactory $validatorConfigFactory,
         \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory
     ) {

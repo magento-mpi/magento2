@@ -22,20 +22,26 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject |\Magento\Filesystem\Directory\Write
+     * @var \PHPUnit_Framework_MockObject_MockObject |\Magento\Framework\Filesystem\Directory\Write
      */
     protected $directoryWriteMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject |\Magento\Filesystem
+     * @var \PHPUnit_Framework_MockObject_MockObject |\Magento\Framework\Filesystem
      */
     protected $filesystemMock;
 
     protected function setUp()
     {
-        $this->directoryWriteMock = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
+        $this->directoryWriteMock = $this->getMock(
+            'Magento\Framework\Filesystem\Directory\Write',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->filesystemMock = $this->getMock(
-            'Magento\App\Filesystem',
+            'Magento\Framework\App\Filesystem',
             array('getDirectoryWrite', 'createDirectory'),
             array(),
             '',

@@ -15,7 +15,7 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
     protected $strategy;
 
     /**
-     * @var \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $filesystem;
 
@@ -30,12 +30,12 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
     protected $minifyDir = 'pub/cache/minify';
 
     /**
-     * @var \Magento\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $rootDirectory;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $pubViewCacheDir;
 
@@ -46,21 +46,21 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
     {
         $this->strategy = $this->getMockForAbstractClass('Magento\Code\Minifier\StrategyInterface');
         $this->filesystem = $this->getMock(
-            'Magento\App\Filesystem',
+            'Magento\Framework\App\Filesystem',
             array('getDirectoryRead', '__wakeup'),
             array(),
             '',
             false
         );
         $this->rootDirectory = $this->getMock(
-            'Magento\Filesystem\Directory\Read',
+            'Magento\Framework\Filesystem\Directory\Read',
             array('getRelativePath', 'isExist', 'getAbsolutePath'),
             array(),
             '',
             false
         );
         $this->pubViewCacheDir = $this->getMock(
-            'Magento\Filesystem\Directory\Read',
+            'Magento\Framework\Filesystem\Directory\Read',
             array('getAbsolutePath', 'getRelativePath'),
             array(),
             '',
@@ -71,7 +71,7 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-            \Magento\App\Filesystem::ROOT_DIR
+            \Magento\Framework\App\Filesystem::ROOT_DIR
         )->will(
             $this->returnValue($this->rootDirectory)
         );
@@ -80,7 +80,7 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-            \Magento\App\Filesystem::PUB_VIEW_CACHE_DIR
+            \Magento\Framework\App\Filesystem::PUB_VIEW_CACHE_DIR
         )->will(
             $this->returnValue($this->pubViewCacheDir)
         );

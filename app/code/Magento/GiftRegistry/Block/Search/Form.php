@@ -15,7 +15,7 @@ namespace Magento\GiftRegistry\Block\Search;
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-class Form extends \Magento\View\Element\Template
+class Form extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var mixed
@@ -33,13 +33,13 @@ class Form extends \Magento\View\Element\Template
     protected $typeFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         array $data = array()
@@ -95,7 +95,7 @@ class Form extends \Magento\View\Element\Template
     public function getTypeSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array('id' => 'params-type-id', 'class' => 'select')
         )->setName(

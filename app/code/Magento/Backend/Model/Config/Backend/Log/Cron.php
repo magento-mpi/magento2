@@ -13,14 +13,14 @@
  */
 namespace Magento\Backend\Model\Config\Backend\Log;
 
-class Cron extends \Magento\App\Config\Value
+class Cron extends \Magento\Framework\App\Config\Value
 {
     const CRON_STRING_PATH = 'crontab/default/jobs/log_clean/schedule/cron_expr';
 
     const CRON_MODEL_PATH = 'crontab/default/jobs/log_clean/run/model';
 
     /**
-     * @var \Magento\App\Config\ValueFactory
+     * @var \Magento\Framework\App\Config\ValueFactory
      */
     protected $_configValueFactory;
 
@@ -30,22 +30,22 @@ class Cron extends \Magento\App\Config\Value
     protected $_runModelPath = '';
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $config
-     * @param \Magento\App\Config\ValueFactory $configValueFactory
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ValueFactory $configValueFactory
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param string $runModelPath
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $config,
-        \Magento\App\Config\ValueFactory $configValueFactory,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Config\ValueFactory $configValueFactory,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $runModelPath = '',
         array $data = array()
     ) {
@@ -58,7 +58,7 @@ class Cron extends \Magento\App\Config\Value
      * Cron settings after save
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _afterSave()
     {
@@ -83,17 +83,17 @@ class Cron extends \Magento\App\Config\Value
         }
 
         try {
-            /** @var $configValue \Magento\App\Config\ValueInterface */
+            /** @var $configValue \Magento\Framework\App\Config\ValueInterface */
             $configValue = $this->_configValueFactory->create();
             $configValue->load(self::CRON_STRING_PATH, 'path');
             $configValue->setValue($cronExprString)->setPath(self::CRON_STRING_PATH)->save();
 
-            /** @var $configValue \Magento\App\Config\ValueInterface */
+            /** @var $configValue \Magento\Framework\App\Config\ValueInterface */
             $configValue = $this->_configValueFactory->create();
             $configValue->load(self::CRON_MODEL_PATH, 'path');
             $configValue->setValue($this->_runModelPath)->setPath(self::CRON_MODEL_PATH)->save();
         } catch (\Exception $e) {
-            throw new \Magento\Model\Exception(__('We can\'t save the Cron expression.'));
+            throw new \Magento\Framework\Model\Exception(__('We can\'t save the Cron expression.'));
         }
     }
 }

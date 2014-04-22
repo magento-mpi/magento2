@@ -9,7 +9,7 @@
  */
 namespace Magento\Newsletter\Block\Adminhtml\Queue;
 
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Newsletter\Model\Queue as ModelQueue;
 
 /**

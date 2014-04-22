@@ -91,8 +91,10 @@ class FilterTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
-                \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                    \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/_files/design')
+                \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
+                    \Magento\Framework\App\Filesystem::THEMES_DIR => array(
+                        'path' => dirname(__DIR__) . '/_files/design'
+                    )
                 )
             )
         );
@@ -111,17 +113,17 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         $collection = $objectManager->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
         $objectManager->get(
-            'Magento\App\Config\MutableScopeConfigInterface'
+            'Magento\Framework\App\Config\MutableScopeConfigInterface'
         )->setValue(
-            \Magento\View\DesignInterface::XML_PATH_THEME_ID,
+            \Magento\Framework\View\DesignInterface::XML_PATH_THEME_ID,
             $themeId,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
-        /** @var $layout \Magento\View\LayoutInterface */
-        $layout = $objectManager->create('Magento\View\Layout');
-        $objectManager->addSharedInstance($layout, 'Magento\View\Layout');
-        $objectManager->get('Magento\View\DesignInterface')->setDesignTheme('test_default');
+        /** @var $layout \Magento\Framework\View\LayoutInterface */
+        $layout = $objectManager->create('Magento\Framework\View\Layout');
+        $objectManager->addSharedInstance($layout, 'Magento\Framework\View\Layout');
+        $objectManager->get('Magento\Framework\View\DesignInterface')->setDesignTheme('test_default');
 
         $actualOutput = $this->_model->layoutDirective(
             array('{{layout ' . $directiveParams . '}}', 'layout', ' ' . $directiveParams)

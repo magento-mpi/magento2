@@ -80,7 +80,7 @@ class LessTest extends \PHPUnit_Framework_TestCase
             }
         }
         $this->assertInstanceOf(
-            'Magento\View\Publisher\CssFile',
+            'Magento\Framework\View\Publisher\CssFile',
             $this->plugin->aroundProcess(
                 $this->getMock('\Magento\Css\PreProcessor\Less', array(), array(), '', false),
                 $proceed,
@@ -99,14 +99,14 @@ class LessTest extends \PHPUnit_Framework_TestCase
         /**
          * Prepare first item
          */
-        $cssFileFirst = $this->getMock('Magento\View\Publisher\CssFile', array(), array(), '', false);
+        $cssFileFirst = $this->getMock('Magento\Framework\View\Publisher\CssFile', array(), array(), '', false);
         $cssFileFirst->expects($this->once())->method('getSourcePath')->will($this->returnValue(false));
 
-        $expectedFirst = $this->getMock('Magento\View\Publisher\CssFile', array(), array(), '', false);
+        $expectedFirst = $this->getMock('Magento\Framework\View\Publisher\CssFile', array(), array(), '', false);
         $cssFileFirst->expects($this->once())->method('buildUniquePath')->will($this->returnValue('expectedFirst'));
 
         $invChainFirst = function (
-            \Magento\View\Publisher\CssFile $subject,
+            \Magento\Framework\View\Publisher\CssFile $subject,
             $directory
         ) use (
             $cssFileFirst,
@@ -121,7 +121,7 @@ class LessTest extends \PHPUnit_Framework_TestCase
         /**
          * Prepare second item
          */
-        $cssFileSecond = $this->getMock('Magento\View\Publisher\CssFile', array(), array(), '', false);
+        $cssFileSecond = $this->getMock('Magento\Framework\View\Publisher\CssFile', array(), array(), '', false);
         $cssFileSecond->expects($this->once())->method('getSourcePath')->will($this->returnValue(false));
 
         $invChainSecond = function () {
@@ -131,13 +131,13 @@ class LessTest extends \PHPUnit_Framework_TestCase
         /**
          * Prepare third item
          */
-        $cssFileThird = $this->getMock('Magento\View\Publisher\CssFile', array(), array(), '', false);
+        $cssFileThird = $this->getMock('Magento\Framework\View\Publisher\CssFile', array(), array(), '', false);
         $cssFileThird->expects($this->once())->method('getSourcePath')->will($this->returnValue(false));
 
-        $expectedThird = $this->getMock('Magento\View\Publisher\CssFile', array(), array(), '', false);
+        $expectedThird = $this->getMock('Magento\Framework\View\Publisher\CssFile', array(), array(), '', false);
 
         $invChainThird = function (
-            \Magento\View\Publisher\CssFile $subject,
+            \Magento\Framework\View\Publisher\CssFile $subject,
             $directory
         ) use (
             $cssFileThird,
@@ -180,13 +180,15 @@ class LessTest extends \PHPUnit_Framework_TestCase
     public function testAroundProcessException()
     {
         $dir = 'targetDirectory';
-        $cssFile = $this->getMock('Magento\View\Publisher\CssFile', array(), array(), '', false);
+        $cssFile = $this->getMock('Magento\Framework\View\Publisher\CssFile', array(), array(), '', false);
         $cssFile->expects($this->once())->method('getSourcePath')->will($this->returnValue(false));
 
         $this->cacheManagerMock->expects($this->once())->method('getCachedFile')->will($this->returnValue(null));
 
-        $exception = new \Magento\Filesystem\FilesystemException('Test Message');
-        $proceed = function (\Magento\View\Publisher\CssFile $subject, $directory) use ($cssFile, $dir, $exception) {
+        $exception = new \Magento\Framework\Filesystem\FilesystemException('Test Message');
+        $proceed = function (
+            \Magento\Framework\View\Publisher\CssFile $subject, $directory
+        ) use ($cssFile, $dir, $exception) {
             $this->assertEquals($subject, $cssFile);
             $this->assertEquals($directory, $dir);
             throw $exception;

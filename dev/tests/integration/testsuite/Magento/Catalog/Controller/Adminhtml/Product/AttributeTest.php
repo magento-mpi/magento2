@@ -84,7 +84,7 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
     {
         // emulate admin store and design
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\DesignInterface'
+            'Magento\Framework\View\DesignInterface'
         )->setDesignTheme(
             1
         );

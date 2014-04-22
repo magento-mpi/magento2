@@ -35,8 +35,11 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      */
     public function testChangeDesign()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
-        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\View\DesignInterface');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
+            ->setAreaCode('frontend');
+        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Framework\View\DesignInterface'
+        );
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Store\Model\StoreManagerInterface'
         )->getAnyStoreView()->getId();
@@ -71,7 +74,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
                 $model->setId(null);
                 $model->save();
                 $this->fail('A validation failure is expected.');
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
             }
 
             $this->_model->delete();
@@ -115,7 +118,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $design->loadChange($storeId, $date);
 
         $cachedDesign = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\CacheInterface'
+            'Magento\Framework\App\CacheInterface'
         )->load(
             $cacheId
         );
@@ -131,7 +134,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $design->loadChange($storeId, $date);
 
         $cachedDesign = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\CacheInterface'
+            'Magento\Framework\App\CacheInterface'
         )->load(
             $cacheId
         );

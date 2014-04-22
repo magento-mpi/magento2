@@ -18,17 +18,17 @@ $result = array();
 //Get all websites
 $websites = $storeManager->getWebsites();
 foreach ($websites as $website) {
-    $website_code = $website->getCode();
+    $websiteCode = $website->getCode();
     //Get all groups
-    $website_groups = $website->getGroups();
-    foreach ($website_groups as $website_group) {
-        $website_group_root_category = $website_group->getRootCategoryId();
-        $category->load($website_group_root_category);
+    $websiteGroups = $website->getGroups();
+    foreach ($websiteGroups as $websiteGroup) {
+        $websiteGroupRootCategory = $websiteGroup->getRootCategoryId();
+        $category->load($websiteGroupRootCategory);
         $categoryResource = $category->getResource();
         //Get all categories
-        $results_categories = $categoryResource->getAllChildren($category);
-        foreach ($results_categories as $results_category) {
-            $category->load($results_category);
+        $resultsCategories = $categoryResource->getAllChildren($category);
+        foreach ($resultsCategories as $resultsCategory) {
+            $category->load($resultsCategory);
             $structure = explode('/', $category->getPath());
             $pathSize  = count($structure);
             if ($pathSize > 1) {
@@ -37,13 +37,13 @@ foreach ($websites as $website) {
                     $path[] = $category->load($structure[$i])->getName();
                 }
                 array_shift($path);
-                $results_category_name = implode('/', $path);
+                $resultsCategoryName = implode('/', $path);
             } else {
-                $results_category_name = $category->getName();
+                $resultsCategoryName = $category->getName();
             }
             //Deleted root categories
-            if (trim($results_category_name)!='') {
-                $result[$results_category] = array($website_code, $results_category_name);
+            if (trim($resultsCategoryName)!='') {
+                $result[$resultsCategory] = array($websiteCode, $resultsCategoryName);
             }
         }
     }

@@ -18,13 +18,13 @@ class Balance extends \Magento\CustomerBalance\Model\Balance
      * Get website id
      *
      * @return int
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getWebsiteId()
     {
         if ($this->hasWebsiteId()) {
             return $this->_getData('website_id');
         }
-        throw new \Magento\Model\Exception(__('A website ID must be set.'));
+        throw new \Magento\Framework\Model\Exception(__('A website ID must be set.'));
     }
 }

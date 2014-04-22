@@ -101,7 +101,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_productFactory;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -110,12 +110,12 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\TargetRule\Model\Resource\Index $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -124,7 +124,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Customer\Model\Session $session,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\TargetRule\Model\Resource\Index $resource,
-        \Magento\Data\Collection\Db $resourceCollection,
+        \Magento\Framework\Data\Collection\Db $resourceCollection,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
@@ -172,14 +172,14 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Retrieve Catalog Product List identifier
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return int
      */
     public function getType()
     {
         $type = $this->getData('type');
         if (is_null($type)) {
-            throw new \Magento\Model\Exception(__('Undefined Catalog Product List Type'));
+            throw new \Magento\Framework\Model\Exception(__('Undefined Catalog Product List Type'));
         }
         return $type;
     }
@@ -274,13 +274,13 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Retrieve Product data object
      *
      * @return \Magento\Object
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getProduct()
     {
         $product = $this->getData('product');
         if (!$product instanceof \Magento\Object) {
-            throw new \Magento\Model\Exception(__('Please define a product data object.'));
+            throw new \Magento\Framework\Model\Exception(__('Please define a product data object.'));
         }
         return $product;
     }
@@ -347,7 +347,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Retrieve SELECT instance for conditions
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function select()
     {

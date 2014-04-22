@@ -26,7 +26,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetItemRenderer($type, $expectedType)
     {
-        $renderer = $this->getMock('Magento\View\Element\RendererList', array(), array(), '', false);
+        $renderer = $this->getMock('Magento\Framework\View\Element\RendererList', array(), array(), '', false);
 
         $renderer->expects(
             $this->once()
@@ -39,7 +39,13 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('rendererObject')
         );
 
-        $layout = $this->getMock('Magento\View\Layout', array('getChildName', 'getBlock'), array(), '', false);
+        $layout = $this->getMock(
+            'Magento\Framework\View\Layout',
+            array('getChildName', 'getBlock'),
+            array(),
+            '',
+            false
+        );
 
         $layout->expects($this->once())->method('getChildName')->will($this->returnValue('renderer.list'));
 
@@ -81,7 +87,13 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetItemRendererThrowsExceptionForNonexistentRenderer()
     {
-        $layout = $this->getMock('Magento\View\Layout', array('getChildName', 'getBlock'), array(), '', false);
+        $layout = $this->getMock(
+            'Magento\Framework\View\Layout',
+            array('getChildName', 'getBlock'),
+            array(),
+            '',
+            false
+        );
         $layout->expects($this->once())->method('getChildName')->will($this->returnValue(null));
 
         /** @var $block \Magento\Checkout\Block\Cart\AbstractCart */

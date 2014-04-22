@@ -17,7 +17,7 @@ class Observer
     /**
      * Application config object
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_config;
 

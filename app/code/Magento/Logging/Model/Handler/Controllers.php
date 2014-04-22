@@ -54,14 +54,14 @@ class Controllers
     /**
      * Request
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
     /**
      * Response
      *
-     * @var \Magento\App\ResponseInterface
+     * @var \Magento\Framework\App\ResponseInterface
      */
     protected $_response;
 
@@ -79,8 +79,8 @@ class Controllers
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $actionAttribute
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\RequestInterface $request
-     * @param \Magento\App\ResponseInterface $response
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Framework\App\ResponseInterface $response
      * @param \Magento\Logging\Model\Event\ChangesFactory $eventChangesFactory
      */
     public function __construct(
@@ -90,8 +90,8 @@ class Controllers
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $actionAttribute,
         \Magento\Registry $coreRegistry,
-        \Magento\App\RequestInterface $request,
-        \Magento\App\ResponseInterface $response,
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\App\ResponseInterface $response,
         \Magento\Logging\Model\Event\ChangesFactory $eventChangesFactory
     ) {
         $this->_structureConfig = $structureConfig;

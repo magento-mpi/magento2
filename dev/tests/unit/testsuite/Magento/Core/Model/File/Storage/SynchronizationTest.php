@@ -39,7 +39,7 @@ class SynchronizationTest extends \PHPUnit_Framework_TestCase
         $storageMock->expects($this->once())->method('loadByFilename');
 
         $file = $this->getMock(
-            'Magento\Filesystem\File\Write',
+            'Magento\Framework\Filesystem\File\Write',
             array('lock', 'write', 'unlock', 'close'),
             array(),
             '',
@@ -50,7 +50,7 @@ class SynchronizationTest extends \PHPUnit_Framework_TestCase
         $file->expects($this->once())->method('unlock');
         $file->expects($this->once())->method('close');
         $directory = $this->getMock(
-            'Magento\Filesystem\Direcoty\Write',
+            'Magento\Framework\Filesystem\Direcoty\Write',
             array('openFile', 'getRelativePath'),
             array(),
             '',
@@ -58,13 +58,19 @@ class SynchronizationTest extends \PHPUnit_Framework_TestCase
         );
         $directory->expects($this->once())->method('getRelativePath')->will($this->returnArgument(0));
         $directory->expects($this->once())->method('openFile')->with($filePath)->will($this->returnValue($file));
-        $filesystem = $this->getMock('Magento\App\Filesystem', array('getDirectoryWrite'), array(), '', false);
+        $filesystem = $this->getMock(
+            'Magento\Framework\App\Filesystem',
+            array('getDirectoryWrite'),
+            array(),
+            '',
+            false
+        );
         $filesystem->expects(
             $this->once()
         )->method(
             'getDirectoryWrite'
         )->with(
-            \Magento\App\Filesystem::PUB_DIR
+            \Magento\Framework\App\Filesystem::PUB_DIR
         )->will(
             $this->returnValue($directory)
         );

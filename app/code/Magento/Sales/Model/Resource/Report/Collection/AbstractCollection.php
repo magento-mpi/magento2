@@ -28,7 +28,7 @@ class AbstractCollection extends \Magento\Reports\Model\Resource\Report\Collecti
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Resource\Report $resource
      * @param \Zend_Db_Adapter_Abstract $connection
@@ -36,7 +36,7 @@ class AbstractCollection extends \Magento\Reports\Model\Resource\Report\Collecti
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\Resource\Report $resource,
         $connection = null

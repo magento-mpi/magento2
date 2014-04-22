@@ -34,7 +34,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     /**
      * Setup Connection
      *
-     * @var \Magento\DB\Adapter\Pdo\Mysql
+     * @var \Magento\Framework\DB\Adapter\Pdo\Mysql
      */
     protected $_connection = null;
 
@@ -55,7 +55,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     /**
      * Modules configuration
      *
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resourceModel;
 
@@ -96,12 +96,12 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     /**
      * Filesystem instance
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $modulesDir;
 
@@ -126,14 +126,14 @@ class Setup implements \Magento\Module\Updater\SetupInterface
         $this->_migrationFactory = $context->getMigrationFactory();
         $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
         $this->filesystem = $context->getFilesystem();
-        $this->modulesDir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
+        $this->modulesDir = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
         $this->_connectionName = $connectionName;
     }
 
     /**
      * Get connection object
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     public function getConnection()
     {
@@ -765,7 +765,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     }
 
     /**
-     * @return \Magento\App\Filesystem
+     * @return \Magento\Framework\App\Filesystem
      */
     public function getFilesystem()
     {

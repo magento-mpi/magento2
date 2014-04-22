@@ -160,7 +160,7 @@ class ListCombine extends \Magento\CustomerSegment\Model\Condition\Combine\Abstr
      *
      * @param Customer|Zend_Db_Expr $customer
      * @param int|Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {

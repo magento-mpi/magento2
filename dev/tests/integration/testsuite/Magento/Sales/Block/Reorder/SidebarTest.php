@@ -22,8 +22,8 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
         $customerSession = $objectManager->get('Magento\Customer\Model\Session');
         $fixtureCustomerId = 1;
         $customerSession->setCustomerId($fixtureCustomerId);
-        /** @var \Magento\App\Http\Context $httpContext */
-        $httpContext = $objectManager->get('Magento\App\Http\Context');
+        /** @var \Magento\Framework\App\Http\Context $httpContext */
+        $httpContext = $objectManager->get('Magento\Framework\App\Http\Context');
         $httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, true, false);
 
         /** Execute SUT implicitly: initOrders() is called in the construct */
@@ -52,8 +52,8 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
         $customerSession = $objectManager->get('Magento\Customer\Model\Session');
         $secondCustomer = $this->createSecondCustomer();
         $customerSession->setCustomerId($secondCustomer->getId());
-        /** @var \Magento\App\Http\Context $httpContext */
-        $httpContext = $objectManager->get('Magento\App\Http\Context');
+        /** @var \Magento\Framework\App\Http\Context $httpContext */
+        $httpContext = $objectManager->get('Magento\Framework\App\Http\Context');
         $httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, true, false);
 
         /** Execute SUT implicitly: initOrders() is called in the construct */

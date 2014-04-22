@@ -25,7 +25,7 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Checkout\Block\Onepage\Payment\Methods'
         );
@@ -43,7 +43,7 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
         );
 
         $block = $this->_block->getLayout()->createBlock(
-            'Magento\View\Element\Text'
+            'Magento\Framework\View\Element\Text'
         )->setMethodTitle(
             $expectedTitle
         )->setMethodLabelAfterHtml(

@@ -9,7 +9,7 @@ namespace Magento\Less\PreProcessor\Instruction;
 
 use Magento\Less\PreProcessorInterface;
 use Magento\Less\PreProcessor;
-use Magento\View;
+use Magento\Framework\View;
 
 /**
  * Less @import instruction preprocessor
@@ -76,7 +76,7 @@ class Import implements PreProcessorInterface
                 $importedLessFile = $this->fileList->createFile($resolvedPath, $viewParams);
                 $this->fileList->addFile($importedLessFile);
                 $importPaths[$path] = $importedLessFile->getPublicationPath();
-            } catch (\Magento\Filesystem\FilesystemException $e) {
+            } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
                 $this->errorHandler->processException($e);
             }
         }

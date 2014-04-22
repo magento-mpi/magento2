@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi\Controller;
 
-use Magento\App\State;
+use Magento\Framework\App\State;
 
 class ErrorProcessor
 {
@@ -34,7 +34,7 @@ class ErrorProcessor
     protected $_coreHelper;
 
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_appState;
 
@@ -46,32 +46,32 @@ class ErrorProcessor
     /**
      * Filesystem instance
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $directoryWrite;
 
     /**
      * @param \Magento\Core\Helper\Data $helper
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Logger $logger
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Helper\Data $helper,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\State $appState,
         \Magento\Logger $logger,
-        \Magento\App\Filesystem $filesystem
+        \Magento\Framework\App\Filesystem $filesystem
     ) {
         $this->_coreHelper = $helper;
         $this->_appState = $appState;
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
-        $this->directoryWrite = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $this->directoryWrite = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         $this->registerShutdownFunction();
     }
 

@@ -133,7 +133,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Module\ModuleListInterface $moduleList
@@ -145,7 +145,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * @param \Magento\Paypal\Model\Payflow\RequestFactory $requestFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\App\RequestInterface $requestHttp
+     * @param \Magento\Framework\App\RequestInterface $requestHttp
      * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
      * @param array $data
      *
@@ -154,7 +154,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Logger $logger,
         \Magento\Module\ModuleListInterface $moduleList,
@@ -166,7 +166,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         \Magento\Paypal\Model\Payflow\RequestFactory $requestFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\App\RequestInterface $requestHttp,
+        \Magento\Framework\App\RequestInterface $requestHttp,
         \Magento\Store\Model\WebsiteFactory $websiteFactory,
         array $data = array()
     ) {
@@ -308,7 +308,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      *
      * @param array $responseData
      * @return void
-     * @throws \Magento\Model\Exception In case of validation error or order creation error
+     * @throws \Magento\Framework\Model\Exception In case of validation error or order creation error
      */
     public function process($responseData)
     {
@@ -327,7 +327,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      *
      * @param \Magento\Sales\Model\Order $order
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _processOrder(\Magento\Sales\Model\Order $order)
     {
@@ -376,7 +376,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             }
             $this->_quoteFactory->create()->load($order->getQuoteId())->setIsActive(false)->save();
         } catch (\Exception $e) {
-            throw new \Magento\Model\Exception(__('We cannot send the new order email.'));
+            throw new \Magento\Framework\Model\Exception(__('We cannot send the new order email.'));
         }
     }
 
@@ -400,7 +400,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * Check response from Payflow gateway.
      *
      * @return false|\Magento\Sales\Model\Order in case of validation passed
-     * @throws \Magento\Model\Exception In other cases
+     * @throws \Magento\Framework\Model\Exception In other cases
      */
     protected function _getOrderFromResponse()
     {
@@ -421,7 +421,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             if ($order->getState() != \Magento\Sales\Model\Order::STATE_CANCELED) {
                 $order->registerCancellation($response->getRespmsg())->save();
             }
-            throw new \Magento\Model\Exception($response->getRespmsg());
+            throw new \Magento\Framework\Model\Exception($response->getRespmsg());
         }
 
         $amountCompared = $response->getAmt() == $order->getPayment()->getBaseAmountAuthorized() ? true : false;
@@ -429,12 +429,12 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             $order->getState() != \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT ||
             !$amountCompared
         ) {
-            throw new \Magento\Model\Exception($this->_formatStr(self::RESPONSE_ERROR_MSG, 'Order'));
+            throw new \Magento\Framework\Model\Exception($this->_formatStr(self::RESPONSE_ERROR_MSG, 'Order'));
         }
 
         $fetchData = $this->fetchTransactionInfo($order->getPayment(), $response->getPnref());
         if (!isset($fetchData['custref']) || $fetchData['custref'] != $order->getIncrementId()) {
-            throw new \Magento\Model\Exception($this->_formatStr(self::RESPONSE_ERROR_MSG, 'Transaction'));
+            throw new \Magento\Framework\Model\Exception($this->_formatStr(self::RESPONSE_ERROR_MSG, 'Transaction'));
         }
 
         return $order;
@@ -635,7 +635,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * @param \Magento\Object $response
      * @param \Magento\Sales\Model\Order\Payment $payment
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _processTokenErrors($response, $payment)
     {
@@ -643,7 +643,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             $response->getResult() != self::RESPONSE_CODE_APPROVED &&
             $response->getResult() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
         ) {
-            throw new \Magento\Model\Exception($response->getRespmsg());
+            throw new \Magento\Framework\Model\Exception($response->getRespmsg());
         } else {
             $payment->setAdditionalInformation(
                 'secure_token_id',
@@ -710,7 +710,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * @deprecated since 1.6.2.0
      * @param mixed|null $token
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function prepareOrderReview($token = null)
     {
@@ -760,7 +760,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      *
      * @deprecated since 1.6.2.0
      * @return \Magento\Sales\Model\AbstractModel in case of validation passed
-     * @throws \Magento\Model\Exception In other cases
+     * @throws \Magento\Framework\Model\Exception In other cases
      */
     protected function _getDocumentFromResponse()
     {

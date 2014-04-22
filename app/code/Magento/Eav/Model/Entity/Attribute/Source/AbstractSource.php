@@ -101,7 +101,7 @@ abstract class AbstractSource implements
      * @param string $dir direction
      * @return $this
      */
-    public function addValueSortToCollection($collection, $dir = \Magento\Data\Collection::SORT_ORDER_DESC)
+    public function addValueSortToCollection($collection, $dir = \Magento\Framework\Data\Collection::SORT_ORDER_DESC)
     {
         return $this;
     }
@@ -130,7 +130,7 @@ abstract class AbstractSource implements
      * Retrieve Select For Flat Attribute update
      *
      * @param int $store
-     * @return \Magento\DB\Select|null
+     * @return \Magento\Framework\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

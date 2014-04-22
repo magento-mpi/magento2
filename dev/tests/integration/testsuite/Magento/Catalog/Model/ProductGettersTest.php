@@ -168,7 +168,7 @@ class ProductGettersTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->setMediaGallery(array('images' => array(array('file' => 'magento_image.jpg'))));
         $images = $this->_model->getMediaGalleryImages();
-        $this->assertInstanceOf('Magento\Data\Collection', $images);
+        $this->assertInstanceOf('Magento\Framework\Data\Collection', $images);
         foreach ($images as $image) {
             $this->assertInstanceOf('Magento\Object', $image);
             $image = $image->getData();
@@ -253,9 +253,9 @@ class ProductGettersTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $mediaDirectory = $objectManager->get(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\App\Filesystem::MEDIA_DIR
+            \Magento\Framework\App\Filesystem::MEDIA_DIR
         );
         $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
         $mediaDirectory->delete($config->getBaseMediaPath());
