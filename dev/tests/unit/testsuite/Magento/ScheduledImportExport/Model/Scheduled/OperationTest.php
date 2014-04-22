@@ -221,7 +221,13 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $dateModelMock = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTime', array('date'), array(), '', false);
+        $dateModelMock = $this->getMock(
+            'Magento\Framework\Stdlib\DateTime\DateTime',
+            array('date'),
+            array(),
+            '',
+            false
+        );
         $dateModelMock->expects(
             $this->any()
         )->method(

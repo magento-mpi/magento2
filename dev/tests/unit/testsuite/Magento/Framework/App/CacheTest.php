@@ -69,7 +69,10 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     protected function _initCacheTypeMocks()
     {
-        $cacheTypes = array('Magento\Framework\Cache\Frontend\Decorator\TagScope', 'Magento\Framework\Cache\Frontend\Decorator\Bare');
+        $cacheTypes = array(
+            'Magento\Framework\Cache\Frontend\Decorator\TagScope',
+            'Magento\Framework\Cache\Frontend\Decorator\Bare'
+        );
         foreach ($cacheTypes as $type) {
             $this->_cacheTypeMocks[$type] = $this->getMock(
                 $type,

@@ -219,7 +219,13 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
         );
         $this->_link->expects($this->any())->method('getCollection')->will($this->returnValue($this->_linkCollection));
 
-        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array('dispatch'), array(), '', false);
+        $eventManager = $this->getMock(
+            'Magento\Framework\Event\ManagerInterface',
+            array('dispatch'),
+            array(),
+            '',
+            false
+        );
 
         $this->_object = new \Magento\Theme\Model\CopyService(
             $this->_filesystem,

@@ -28,7 +28,13 @@ class MongoDbTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_model = $this->getMock('Magento\Framework\Cache\Backend\MongoDb', array('_getCollection'), array(), '', false);
+        $this->_model = $this->getMock(
+            'Magento\Framework\Cache\Backend\MongoDb',
+            array('_getCollection'),
+            array(),
+            '',
+            false
+        );
         $this->_model->expects($this->any())->method('_getCollection')->will($this->returnValue($this->_collection));
     }
 

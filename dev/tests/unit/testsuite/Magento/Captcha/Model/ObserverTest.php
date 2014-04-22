@@ -107,7 +107,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_helper = $this->getMock('Magento\Captcha\Helper\Data', array(), array(), '', false);
         $this->_urlManager = $this->getMock('Magento\Framework\Url', array(), array(), '', false);
         $this->_actionFlag = $this->getMock('Magento\Framework\App\ActionFlag', array(), array(), '', false);
-        $this->_messageManager = $this->getMock('\Magento\Framework\Message\ManagerInterface', array(), array(), '', false);
+        $this->_messageManager = $this->getMock(
+            '\Magento\Framework\Message\ManagerInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->redirect = $this->getMock(
             '\Magento\Framework\App\Response\RedirectInterface',
             array(),
@@ -173,7 +179,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->_session->expects($this->never())->method('addError');
 
-        $this->_observer->checkContactUsForm(new \Magento\Framework\Event\Observer(array('controller_action' => $controller)));
+        $this->_observer->checkContactUsForm(
+            new \Magento\Framework\Event\Observer(array('controller_action' => $controller))
+        );
     }
 
     public function testCheckContactUsFormRedirectsCustomerWithWarningMessageWhenCaptchaIsRequiredAndInvalid()
@@ -242,7 +250,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             true
         );
 
-        $this->_observer->checkContactUsForm(new \Magento\Framework\Event\Observer(array('controller_action' => $controller)));
+        $this->_observer->checkContactUsForm(
+            new \Magento\Framework\Event\Observer(array('controller_action' => $controller))
+        );
     }
 
     public function testCheckContactUsFormDoesNotCheckCaptchaWhenItIsNotRequired()
@@ -328,7 +338,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             true
         );
 
-        $this->_observer->checkForgotpassword(new \Magento\Framework\Event\Observer(array('controller_action' => $controller)));
+        $this->_observer->checkForgotpassword(
+            new \Magento\Framework\Event\Observer(array('controller_action' => $controller))
+        );
     }
 
     public function testCheckUserCreateRedirectsError()
@@ -408,7 +420,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             true
         );
 
-        $this->_observer->checkUserCreate(new \Magento\Framework\Event\Observer(array('controller_action' => $controller)));
+        $this->_observer->checkUserCreate(
+            new \Magento\Framework\Event\Observer(array('controller_action' => $controller))
+        );
     }
 
     /**

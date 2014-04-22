@@ -70,7 +70,13 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
+        $this->eventManagerMock = $this->getMock(
+            'Magento\Framework\Event\ManagerInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->configMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
         $this->coreResourceMock = $this->getMock(
             'Magento\Framework\App\Resource',

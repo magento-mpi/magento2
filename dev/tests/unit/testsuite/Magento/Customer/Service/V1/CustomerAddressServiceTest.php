@@ -685,7 +685,10 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->deleteAddress(2);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
-            $this->assertSame($exception->getCode(), \Magento\Framework\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+            $this->assertSame(
+                $exception->getCode(),
+                \Magento\Framework\Exception\NoSuchEntityException::NO_SUCH_ENTITY
+            );
             $this->assertSame($exception->getParams(), array('addressId' => 2));
         }
     }

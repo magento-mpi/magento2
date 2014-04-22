@@ -84,7 +84,13 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->dateModelMock = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTime', array(), array(), '', false);
+        $this->dateModelMock = $this->getMock(
+            'Magento\Framework\Stdlib\DateTime\DateTime',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->directoryMock = $this->getMock(
             'Magento\Core\Model\File\Storage\Directory\Database',
             array('setPath', 'setName', '__wakeup', 'save', 'getParentId'),

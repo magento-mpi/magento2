@@ -46,7 +46,10 @@ class ObjectManager extends \Magento\Framework\App\ObjectManager
         }
 
         \Magento\Framework\App\Config\Base::destroy();
-        $sharedInstances = array('Magento\Framework\ObjectManager' => $this, 'Magento\Framework\App\ObjectManager' => $this);
+        $sharedInstances = array(
+            'Magento\Framework\ObjectManager' => $this,
+            'Magento\Framework\App\ObjectManager' => $this
+        );
         foreach ($this->persistedInstances as $persistedClass) {
             if (isset($this->_sharedInstances[$persistedClass])) {
                 $sharedInstances[$persistedClass] = $this->_sharedInstances[$persistedClass];

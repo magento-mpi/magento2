@@ -375,7 +375,8 @@ class Factory
         if (!array_key_exists('automatic_cleaning_factor', $options)) {
             $options['automatic_cleaning_factor'] = 0;
         }
-        $options['type'] = isset($cacheOptions['frontend']) ? $cacheOptions['frontend'] : 'Magento\Framework\Cache\Core';
+        $options['type'] =
+            isset($cacheOptions['frontend']) ? $cacheOptions['frontend'] : 'Magento\Framework\Cache\Core';
         return $options;
     }
 }

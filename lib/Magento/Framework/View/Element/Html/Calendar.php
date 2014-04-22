@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\View\Element\Html;
 
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+
 /**
  * Calendar block for page header
  *
@@ -114,13 +116,13 @@ class Calendar extends \Magento\Framework\View\Element\Template
         $this->assign(
             'defaultFormat',
             $this->encoder->encode(
-                $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM)
+                $this->_localeDate->getDateFormat(TimezoneInterface::FORMAT_TYPE_MEDIUM)
             )
         );
         $this->assign(
             'toolTipFormat',
             $this->encoder->encode(
-                $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_LONG)
+                $this->_localeDate->getDateFormat(TimezoneInterface::FORMAT_TYPE_LONG)
             )
         );
 

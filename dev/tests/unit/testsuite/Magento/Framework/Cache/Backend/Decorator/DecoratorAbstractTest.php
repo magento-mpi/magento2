@@ -37,7 +37,10 @@ class DecoratorAbstractTest extends \PHPUnit_Framework_TestCase
             array($options)
         );
 
-        $backendProperty = new \ReflectionProperty('Magento\Framework\Cache\Backend\Decorator\AbstractDecorator', '_backend');
+        $backendProperty = new \ReflectionProperty(
+            'Magento\Framework\Cache\Backend\Decorator\AbstractDecorator',
+            '_backend'
+        );
         $backendProperty->setAccessible(true);
 
         $optionsProperty = new \ReflectionProperty(

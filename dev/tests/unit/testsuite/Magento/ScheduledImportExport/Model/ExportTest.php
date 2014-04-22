@@ -40,7 +40,13 @@ class ExportTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $dateModelMock = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTime', array('date'), array(), '', false);
+        $dateModelMock = $this->getMock(
+            'Magento\Framework\Stdlib\DateTime\DateTime',
+            array('date'),
+            array(),
+            '',
+            false
+        );
         $dateModelMock->expects(
             $this->any()
         )->method(

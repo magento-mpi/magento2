@@ -13,6 +13,7 @@ use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 /**
  * Customer account form block
@@ -191,7 +192,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     {
         return $this->formatDate(
             $this->getCustomer()->getCreatedAt(),
-            \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
+            TimezoneInterface::FORMAT_TYPE_MEDIUM,
             true
         );
     }
@@ -206,7 +207,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
             $this->getCustomer()->getCreatedAt(),
             true
         );
-        return $this->formatDate($date, \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
+        return $this->formatDate($date, TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
     }
 
     /**
@@ -230,7 +231,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     {
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
-            return $this->formatDate($date, \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
+            return $this->formatDate($date, TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
         }
         return __('Never');
     }
@@ -243,7 +244,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
             $date = $this->_localeDate->scopeDate($this->getCustomer()->getStoreId(), $date, true);
-            return $this->formatDate($date, \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
+            return $this->formatDate($date, TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
         }
         return __('Never');
     }

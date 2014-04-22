@@ -34,7 +34,13 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
             $this->returnSelf()
         );
 
-        $factoryObject = $this->getMock('Magento\Framework\Acl\ResourceFactory', array('createResource'), array(), '', false);
+        $factoryObject = $this->getMock(
+            'Magento\Framework\Acl\ResourceFactory',
+            array('createResource'),
+            array(),
+            '',
+            false
+        );
         $factoryObject->expects($this->any())->method('createResource')->will($this->returnValue($aclResource));
 
         /** @var $resourceProvider \Magento\Framework\Acl\Resource\ProviderInterface */

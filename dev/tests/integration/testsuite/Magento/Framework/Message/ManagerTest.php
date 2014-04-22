@@ -79,8 +79,10 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddUniqueMessages()
     {
-        $errorMessageFirst = $this->objectManager->create('Magento\Framework\Message\Error', array('text' => 'some text'));
-        $errorMessageSecond = $this->objectManager->create('Magento\Framework\Message\Error', array('text' => 'some text'));
+        $errorMessageFirst = $this->objectManager
+            ->create('Magento\Framework\Message\Error', array('text' => 'some text'));
+        $errorMessageSecond = $this->objectManager
+            ->create('Magento\Framework\Message\Error', array('text' => 'some text'));
         $this->model->addUniqueMessages($errorMessageFirst);
         $this->model->addUniqueMessages($errorMessageSecond);
 

@@ -133,7 +133,10 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
             'one processor for css' => array(
                 'extension' => 'css',
                 'preProcessorsConfig' => array(
-                    'css_preprocessor' => array('class' => 'Magento\Framework\Css\PreProcessor\Composite', 'asset_type' => 'css')
+                    'css_preprocessor' => array(
+                        'class' => 'Magento\Framework\Css\PreProcessor\Composite',
+                        'asset_type' => 'css'
+                    )
                 ),
                 'createMap' => array('Magento\Framework\Css\PreProcessor\Composite' => 'expected')
             ),
@@ -141,7 +144,10 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
             'one processor for xyz' => array(
                 'extension' => 'css',
                 'preProcessorsConfig' => array(
-                    'css_preprocessor' => array('class' => 'Magento\Framework\Css\PreProcessor\Composite', 'asset_type' => 'xyz')
+                    'css_preprocessor' => array(
+                        'class' => 'Magento\Framework\Css\PreProcessor\Composite',
+                        'asset_type' => 'xyz'
+                    )
                 ),
                 'createMap' => array('Magento\Framework\Css\PreProcessor\Composite' => 'not expected')
             )

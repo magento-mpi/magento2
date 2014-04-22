@@ -73,7 +73,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->_formKey,
             $this->_session
         );
-        $this->_observerMock = $this->getMock('Magento\Framework\Event\Observer', array('getEvent'), array(), '', false);
+        $this->_observerMock = $this->getMock(
+            'Magento\Framework\Event\Observer',
+            array('getEvent'),
+            array(),
+            '',
+            false
+        );
         $this->_layoutMock = $this->getMock(
             'Magento\Framework\View\Layout',
             array('isCacheable', 'getBlock', 'getUpdate', 'getHandles'),

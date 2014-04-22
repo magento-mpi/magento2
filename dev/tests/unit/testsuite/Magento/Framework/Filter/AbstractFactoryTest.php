@@ -26,7 +26,10 @@ class AbstractFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $_sharedList = array('Magento\Framework\Filter\Template' => true, 'Magento\Framework\Filter\ArrayFilter' => false);
+    protected $_sharedList = array(
+        'Magento\Framework\Filter\Template' => true,
+        'Magento\Framework\Filter\ArrayFilter' => false
+    );
 
     /**
      * @var \Magento\Framework\ObjectManager

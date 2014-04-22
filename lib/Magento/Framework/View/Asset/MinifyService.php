@@ -111,7 +111,8 @@ class MinifyService
             $strategyParams = array('adapter' => $adapter);
             switch ($this->appState->getMode()) {
                 case \Magento\Framework\App\State::MODE_PRODUCTION:
-                    $strategy = $this->objectManager->create('Magento\Framework\Code\Minifier\Strategy\Lite', $strategyParams);
+                    $strategy = $this->objectManager
+                        ->create('Magento\Framework\Code\Minifier\Strategy\Lite', $strategyParams);
                     break;
                 default:
                     $strategy = $this->objectManager->create(
@@ -158,7 +159,9 @@ class MinifyService
     {
         $adapterClass = $this->config->getAssetMinificationAdapter($contentType);
         if (!$adapterClass) {
-            throw new \Magento\Framework\Exception("Minification adapter is not specified for '{$contentType}' content type");
+            throw new \Magento\Framework\Exception(
+                "Minification adapter is not specified for '{$contentType}' content type"
+            );
         }
 
         $adapter = $this->objectManager->create($adapterClass);

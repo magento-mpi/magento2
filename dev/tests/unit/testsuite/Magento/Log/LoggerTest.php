@@ -139,7 +139,9 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $message = uniqid();
         /** @var $model \Magento\Framework\Logger|\PHPUnit_Framework_MockObject_MockObject */
         $model = $this->getMock('Magento\Framework\Logger', array('log'), array(), '', false);
-        $model->expects($this->at(0))->method('log')->with($message, \Zend_Log::DEBUG, \Magento\Framework\Logger::LOGGER_SYSTEM);
+        $model->expects($this->at(0))
+            ->method('log')
+            ->with($message, \Zend_Log::DEBUG, \Magento\Framework\Logger::LOGGER_SYSTEM);
         $model->expects(
             $this->at(1)
         )->method(
