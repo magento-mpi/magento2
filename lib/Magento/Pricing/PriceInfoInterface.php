@@ -52,5 +52,4 @@ interface PriceInfoInterface
      * @return AdjustmentInterface
      */
     public function getAdjustment($adjustmentCode);
-
 }

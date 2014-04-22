@@ -11,6 +11,7 @@ namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price;
 use Magento\Catalog\Model\Product\Option\Value;
+use Magento\Pricing\Price\AbstractPrice;
 
 /**
  * Class OptionPrice

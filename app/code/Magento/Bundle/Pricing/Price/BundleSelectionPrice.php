@@ -15,11 +15,12 @@ use Magento\Bundle\Model\Product\Price;
 use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Event\ManagerInterface;
 use Magento\Pricing\Object\SaleableInterface;
+use Magento\Pricing\Price\AbstractPrice;
 
 /**
  * Bundle option price
  */
-class BundleSelectionPrice extends CatalogPrice\AbstractPrice
+class BundleSelectionPrice extends AbstractPrice
 {
     /**
      * Price model code
@@ -65,6 +66,8 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
     }
 
     /**
+     * Get the price value for one of selection product
+     *
      * @return bool|float
      */
     public function getValue()
@@ -80,7 +83,6 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
         } else {
             if ($this->product->getSelectionPriceType()) {
                 // calculate price for selection type percent
-
                 $product = clone $this->bundleProduct;
                 $price = $product->getPriceInfo()
                     ->getPrice(CatalogPrice\RegularPrice::PRICE_CODE, $this->quantity)

@@ -57,6 +57,7 @@
                 <item name="special_price" xsi:type="string">Magento\Catalog\Pricing\Price\SpecialPrice</item>
                 <item name="msrp_price" xsi:type="string">Magento\Catalog\Pricing\Price\MsrpPrice</item>
                 <item name="base_price" xsi:type="string">Magento\Bundle\Pricing\Price\BasePrice</item>
+                <item name="configured_price" xsi:type="string">Magento\Bundle\Pricing\Price\ConfiguredPrice</item>
                 <item name="bundle_option" xsi:type="string">Magento\Bundle\Pricing\Price\BundleOptionPrice</item>
             </argument>
         </arguments>

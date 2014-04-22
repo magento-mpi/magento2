@@ -52,7 +52,7 @@ class Collection implements \Iterator
      * @param SaleableInterface $saleableItem
      * @param Factory $priceFactory
      * @param Pool $pool
-     * @param $quantity
+     * @param float $quantity
      */
     public function __construct(
         SaleableInterface $saleableItem,
@@ -119,12 +119,12 @@ class Collection implements \Iterator
     /**
      * Returns price model by code
      *
-     * @param $code
+     * @param string $code
      * @return PriceInterface
      */
     public function get($code)
     {
-          return $this->priceFactory->create(
+        return $this->priceFactory->create(
             $this->saleableItem,
             $this->pool[$code],
             $this->quantity
