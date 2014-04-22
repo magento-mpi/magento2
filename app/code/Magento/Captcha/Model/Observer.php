@@ -26,7 +26,7 @@ class Observer
     /**
      * URL manager
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlManager;
 
@@ -86,7 +86,7 @@ class Observer
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Captcha\Helper\Data $helper
-     * @param \Magento\UrlInterface $urlManager
+     * @param \Magento\Framework\UrlInterface $urlManager
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\App\ActionFlag $actionFlag
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
@@ -101,7 +101,7 @@ class Observer
         \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Captcha\Helper\Data $helper,
-        \Magento\UrlInterface $urlManager,
+        \Magento\Framework\UrlInterface $urlManager,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\App\ActionFlag $actionFlag,
         \Magento\Framework\Message\ManagerInterface $messageManager,

@@ -103,7 +103,7 @@ class Pbridge extends AbstractMethod
     /**
      * Url
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -123,7 +123,7 @@ class Pbridge extends AbstractMethod
      * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory $pbridgeApiFactory
      * @param \Magento\Framework\App\RequestInterface $requestHttp
@@ -136,7 +136,7 @@ class Pbridge extends AbstractMethod
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Pbridge\Model\Session $pbridgeSession,
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory $pbridgeApiFactory,
         \Magento\Framework\App\RequestInterface $requestHttp,

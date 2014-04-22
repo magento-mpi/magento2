@@ -48,7 +48,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
      */
     protected function _getUrl($route, $params = array())
     {
-        $params['_type'] = \Magento\UrlInterface::URL_TYPE_LINK;
+        $params['_type'] = \Magento\Framework\UrlInterface::URL_TYPE_LINK;
         if (isset($params['is_secure'])) {
             $params['_secure'] = (bool)$params['is_secure'];
         } elseif ($this->_storeManager->getStore()->isCurrentlySecure()) {
@@ -323,7 +323,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
         return $this->_storeManager->getStore(
             $storeId
         )->getBaseUrl(
-            \Magento\UrlInterface::URL_TYPE_LINK
+            \Magento\Framework\UrlInterface::URL_TYPE_LINK
         ) . 'authorizenet/directpost_payment/response';
     }
 }

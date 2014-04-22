@@ -17,7 +17,7 @@ class LastUrlTest extends \PHPUnit_Framework_TestCase
             return 'result';
         };
         $requestMock = $this->getMock('Magento\Framework\App\RequestInterface');
-        $url = $this->getMock('\Magento\Url', array(), array(), '', false);
+        $url = $this->getMock('\Magento\Framework\Url', array(), array(), '', false);
         $plugin = new \Magento\Core\App\Action\Plugin\LastUrl($session, $url);
         $session->expects($this->once())->method('setLastUrl')->with('http://example.com');
         $url->expects(

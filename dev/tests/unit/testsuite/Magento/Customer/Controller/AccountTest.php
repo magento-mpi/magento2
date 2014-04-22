@@ -37,7 +37,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     protected $customerSession;
 
     /**
-     * @var \Magento\UrlInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\UrlInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $url;
 
@@ -94,7 +94,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->url = $this->getMockForAbstractClass('\Magento\UrlInterface');
+        $this->url = $this->getMockForAbstractClass('\Magento\Framework\UrlInterface');
         $this->objectManager = $this->getMock(
             '\Magento\Framework\ObjectManager\ObjectManager',
             array('get'),

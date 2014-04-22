@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Url;
+namespace Magento\Framework\Url;
 
 interface QueryParamsResolverInterface
 {
@@ -21,7 +21,7 @@ interface QueryParamsResolverInterface
      * Set URL query param(s)
      *
      * @param mixed $data
-     * @return \Magento\Url\QueryParamsResolverInterface
+     * @return \Magento\Framework\Url\QueryParamsResolverInterface
      */
     public function setQuery($data);
 
@@ -30,7 +30,7 @@ interface QueryParamsResolverInterface
      *
      * @param string $key
      * @param mixed $data
-     * @return \Magento\Url\QueryParamsResolverInterface
+     * @return \Magento\Framework\Url\QueryParamsResolverInterface
      */
     public function setQueryParam($key, $data);
 
@@ -45,7 +45,7 @@ interface QueryParamsResolverInterface
      * Set query parameters
      *
      * @param array $data
-     * @return \Magento\Url\QueryParamsResolverInterface
+     * @return \Magento\Framework\Url\QueryParamsResolverInterface
      */
     public function setQueryParams(array $data);
 
@@ -53,7 +53,7 @@ interface QueryParamsResolverInterface
      * Add query parameters
      *
      * @param array $data
-     * @return \Magento\Url\QueryParamsResolverInterface
+     * @return \Magento\Framework\Url\QueryParamsResolverInterface
      */
     public function addQueryParams(array $data);
 

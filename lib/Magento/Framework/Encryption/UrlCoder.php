@@ -11,14 +11,14 @@ namespace Magento\Framework\Encryption;
 class UrlCoder
 {
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
     /**
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      */
-    public function __construct(\Magento\UrlInterface $url)
+    public function __construct(\Magento\Framework\UrlInterface $url)
     {
         $this->_url = $url;
     }

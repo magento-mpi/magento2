@@ -133,7 +133,7 @@ lib/Magento/Framework/App
 lib/Magento/Framework/Data/Argument
 lib/Magento/Framework/ObjectManager
 lib/Magento/Framework/Service
-lib/Magento/Url/SecurityInfoInterface.php
+lib/Magento/Framework/Url/SecurityInfoInterface.php
 lib/Magento/Framework/View
 lib/Magento/Framework/App/AbstractShell.php
 lib/Magento/Framework/Locale/Validator.php

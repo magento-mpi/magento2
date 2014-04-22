@@ -18,7 +18,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     const LAYOUT_NAVIGATION_CLASS_NAME = 'Magento\Framework\View\Layout';
 
     /**
-     * Url model classes that will be used instead of \Magento\UrlInterface in different vde modes
+     * Url model classes that will be used instead of \Magento\Framework\UrlInterface in different vde modes
      */
     const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = 'Magento\DesignEditor\Model\Url\NavigationMode';
 

@@ -33,7 +33,7 @@ class PostDataTest extends \PHPUnit_Framework_TestCase
             false
         );
         $urlBuilderMock = $this->getMockForAbstractClass(
-            'Magento\UrlInterface',
+            'Magento\Framework\UrlInterface',
             array(),
             '',
             true,

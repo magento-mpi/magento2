@@ -17,7 +17,7 @@ class Config extends \Magento\Payment\Model\Config
     const OGONE_PAYMENT_PATH = 'payment/ogone/';
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -32,7 +32,7 @@ class Config extends \Magento\Payment\Model\Config
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
      * @param \Magento\Framework\Locale\ListsInterface $localeLists
      * @param \Magento\Framework\Config\DataInterface $dataStorage
-     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
@@ -41,7 +41,7 @@ class Config extends \Magento\Payment\Model\Config
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
         \Magento\Framework\Locale\ListsInterface $localeLists,
         \Magento\Framework\Config\DataInterface $dataStorage,
-        \Magento\UrlInterface $urlBuilder,
+        \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor
     ) {
         parent::__construct($scopeConfig, $coreConfig, $paymentMethodFactory, $localeLists, $dataStorage);

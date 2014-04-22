@@ -45,7 +45,7 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
      * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param \Magento\Paypal\Model\InfoFactory $paypalInfoFactory
      * @param array $data
@@ -57,7 +57,7 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\UrlInterface $urlBuilder,
+        \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         \Magento\Paypal\Model\InfoFactory $paypalInfoFactory,
         array $data = array()

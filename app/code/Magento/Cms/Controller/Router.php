@@ -49,7 +49,7 @@ class Router extends \Magento\Framework\App\Router\AbstractRouter
     /**
      * Url
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -65,7 +65,7 @@ class Router extends \Magento\Framework\App\Router\AbstractRouter
      *
      * @param \Magento\Framework\App\ActionFactory $actionFactory
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -74,7 +74,7 @@ class Router extends \Magento\Framework\App\Router\AbstractRouter
     public function __construct(
         \Magento\Framework\App\ActionFactory $actionFactory,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Framework\App\State $appState,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -134,7 +134,7 @@ class Router extends \Magento\Framework\App\Router\AbstractRouter
         }
 
         $request->setModuleName('cms')->setControllerName('page')->setActionName('view')->setParam('page_id', $pageId);
-        $request->setAlias(\Magento\Url::REWRITE_REQUEST_PATH_ALIAS, $identifier);
+        $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $identifier);
 
         return $this->_actionFactory->createController(
             'Magento\Framework\App\Action\Forward',

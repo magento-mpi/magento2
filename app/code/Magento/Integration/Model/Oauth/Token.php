@@ -79,7 +79,7 @@ class Token extends \Magento\Framework\Model\AbstractModel
     protected $_consumerFactory;
 
     /**
-     * @var \Magento\Url\Validator
+     * @var \Magento\Framework\Url\Validator
      */
     protected $_urlValidator;
 
@@ -99,7 +99,7 @@ class Token extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory
-     * @param \Magento\Url\Validator $urlValidator
+     * @param \Magento\Framework\Url\Validator $urlValidator
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Integration\Model\Oauth\Consumer\Factory $consumerFactory
      * @param \Magento\Integration\Helper\Oauth\Data $oauthData
@@ -113,7 +113,7 @@ class Token extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
-        \Magento\Url\Validator $urlValidator,
+        \Magento\Framework\Url\Validator $urlValidator,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Integration\Model\Oauth\Consumer\Factory $consumerFactory,
         \Magento\Integration\Helper\Oauth\Data $oauthData,

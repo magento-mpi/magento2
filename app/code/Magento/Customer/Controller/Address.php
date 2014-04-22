@@ -258,8 +258,8 @@ class Address extends \Magento\Framework\App\Action\Action
      */
     protected function _buildUrl($route = '', $params = array())
     {
-        /** @var \Magento\UrlInterface $urlBuilder */
-        $urlBuilder = $this->_objectManager->create('Magento\UrlInterface');
+        /** @var \Magento\Framework\UrlInterface $urlBuilder */
+        $urlBuilder = $this->_objectManager->create('Magento\Framework\UrlInterface');
         return $urlBuilder->getUrl($route, $params);
     }
 }

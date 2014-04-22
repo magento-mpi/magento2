@@ -15,7 +15,7 @@ namespace Magento\DesignEditor\Model;
 class State
 {
     /**
-     * Url model classes that will be used instead of \Magento\UrlInterface in navigation vde modes
+     * Url model classes that will be used instead of \Magento\Framework\UrlInterface in navigation vde modes
      */
     const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = 'Magento\DesignEditor\Model\Url\NavigationMode';
 
@@ -162,7 +162,7 @@ class State
     }
 
     /**
-     * Create url model instance that will be used instead of \Magento\UrlInterface in navigation mode
+     * Create url model instance that will be used instead of \Magento\Framework\UrlInterface in navigation mode
      *
      * @param string $mode
      * @return void

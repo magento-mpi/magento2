@@ -109,7 +109,7 @@ class Agreement extends \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgr
     protected $_storeManager;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -126,7 +126,7 @@ class Agreement extends \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgr
      * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
-     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param array $data
      *
@@ -140,7 +140,7 @@ class Agreement extends \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgr
         \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
-        \Magento\UrlInterface $urlBuilder,
+        \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         array $data = array()
     ) {

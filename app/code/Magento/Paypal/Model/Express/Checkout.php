@@ -176,7 +176,7 @@ class Checkout
     protected $_storeManager;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_coreUrl;
 
@@ -262,7 +262,7 @@ class Checkout
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Paypal\Model\Info $paypalInfo
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\UrlInterface $coreUrl
+     * @param \Magento\Framework\UrlInterface $coreUrl
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param \Magento\Framework\Logger\AdapterFactory $logFactory
      * @param \Magento\Checkout\Model\Type\OnepageFactory $onepageFactory
@@ -290,7 +290,7 @@ class Checkout
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Paypal\Model\Info $paypalInfo,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\UrlInterface $coreUrl,
+        \Magento\Framework\UrlInterface $coreUrl,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         \Magento\Framework\Logger\AdapterFactory $logFactory,
         \Magento\Checkout\Model\Type\OnepageFactory $onepageFactory,

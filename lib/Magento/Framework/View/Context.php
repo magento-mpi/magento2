@@ -19,7 +19,7 @@ use Magento\Framework\View\LayoutInterface;
 use Magento\Framework\Session\SessionManager;
 use Magento\Framework\App\CacheInterface as Cache;
 use Magento\Framework\App\Cache\StateInterface as CacheState;
-use Magento\UrlInterface;
+use Magento\Framework\UrlInterface;
 use Magento\Framework\Event\ManagerInterface;
 
 /**
@@ -49,7 +49,7 @@ class Context
 
     /**
      * URL builder
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $urlBuilder;
 
@@ -287,7 +287,7 @@ class Context
     /**
      * Retrieve URL builder
      *
-     * @return \Magento\UrlInterface
+     * @return \Magento\Framework\UrlInterface
      */
     public function getUrlBuilder()
     {

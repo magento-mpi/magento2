@@ -58,10 +58,10 @@ class Standard extends \Magento\Core\App\Router\Base
      * @param \Magento\Framework\App\ResponseFactory $responseFactory
      * @param \Magento\Framework\App\Route\Config $routeConfig
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
+     * @param \Magento\Framework\Url\SecurityInfoInterface $urlSecurityInfo
      * @param string $routerId
      * @param \Magento\Framework\Code\NameBuilder $nameBuilder
      * @param \Magento\Framework\App\RouterListInterface $routerList
@@ -79,10 +79,10 @@ class Standard extends \Magento\Core\App\Router\Base
         \Magento\Framework\App\ResponseFactory $responseFactory,
         \Magento\Framework\App\Route\Config $routeConfig,
         \Magento\Framework\App\State $appState,
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
+        \Magento\Framework\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId,
         \Magento\Framework\Code\NameBuilder $nameBuilder,
         \Magento\Framework\App\RouterListInterface $routerList,

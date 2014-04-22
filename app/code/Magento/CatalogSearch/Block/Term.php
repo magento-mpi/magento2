@@ -18,8 +18,8 @@
 namespace Magento\CatalogSearch\Block;
 
 use Magento\CatalogSearch\Model\Resource\Query\CollectionFactory;
-use Magento\UrlFactory;
-use Magento\UrlInterface;
+use Magento\Framework\UrlFactory;
+use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 

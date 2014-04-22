@@ -416,7 +416,7 @@ class Head extends \Magento\Framework\View\Element\Template
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         $path = $folderName . '/' . $scopeConfig;
-        $faviconFile = $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . $path;
+        $faviconFile = $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . $path;
 
         if (!is_null($scopeConfig) && $this->_isFile($path)) {
             $url = $faviconFile;

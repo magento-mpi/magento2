@@ -24,7 +24,7 @@ use Magento\Framework\Model\AbstractModel;
  */
 class Store extends AbstractModel implements
     \Magento\Framework\App\ScopeInterface,
-    \Magento\Url\ScopeInterface,
+    \Magento\Framework\Url\ScopeInterface,
     \Magento\Object\IdentityInterface
 {
     /**
@@ -242,7 +242,7 @@ class Store extends AbstractModel implements
     /**
      * Url model for current store
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -305,7 +305,7 @@ class Store extends AbstractModel implements
      * @param \Magento\Store\Model\Resource\Store $resource
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\Framework\App\Filesystem $filesystem
@@ -324,7 +324,7 @@ class Store extends AbstractModel implements
         \Magento\Store\Model\Resource\Store $resource,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\Framework\App\Filesystem $filesystem,
@@ -506,7 +506,7 @@ class Store extends AbstractModel implements
      */
     public function getUrl($route = '', $params = array())
     {
-        /** @var $url \Magento\UrlInterface */
+        /** @var $url \Magento\Framework\UrlInterface */
         $url = $this->_url->setScope($this);
         if ($this->_storeManager->getStore()->getId() != $this->getId()) {
             $params['_scope_to_url'] = true;
@@ -523,36 +523,36 @@ class Store extends AbstractModel implements
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function getBaseUrl($type = \Magento\UrlInterface::URL_TYPE_LINK, $secure = null)
+    public function getBaseUrl($type = \Magento\Framework\UrlInterface::URL_TYPE_LINK, $secure = null)
     {
         $cacheKey = $type . '/' . (is_null($secure) ? 'null' : ($secure ? 'true' : 'false'));
         if (!isset($this->_baseUrlCache[$cacheKey])) {
             $secure = is_null($secure) ? $this->isCurrentlySecure() : (bool)$secure;
             switch ($type) {
-                case \Magento\UrlInterface::URL_TYPE_WEB:
+                case \Magento\Framework\UrlInterface::URL_TYPE_WEB:
                     $path = $secure ? self::XML_PATH_SECURE_BASE_URL : self::XML_PATH_UNSECURE_BASE_URL;
                     $url = $this->_getConfig($path);
                     break;
 
-                case \Magento\UrlInterface::URL_TYPE_LINK:
+                case \Magento\Framework\UrlInterface::URL_TYPE_LINK:
                     $path = $secure ? self::XML_PATH_SECURE_BASE_LINK_URL : self::XML_PATH_UNSECURE_BASE_LINK_URL;
                     $url = $this->_getConfig($path);
                     $url = $this->_updatePathUseRewrites($url);
                     $url = $this->_updatePathUseStoreView($url);
                     break;
 
-                case \Magento\UrlInterface::URL_TYPE_DIRECT_LINK:
+                case \Magento\Framework\UrlInterface::URL_TYPE_DIRECT_LINK:
                     $path = $secure ? self::XML_PATH_SECURE_BASE_LINK_URL : self::XML_PATH_UNSECURE_BASE_LINK_URL;
                     $url = $this->_getConfig($path);
                     $url = $this->_updatePathUseRewrites($url);
                     break;
 
-                case \Magento\UrlInterface::URL_TYPE_LIB:
+                case \Magento\Framework\UrlInterface::URL_TYPE_LIB:
                     $path = $secure ? self::XML_PATH_SECURE_BASE_LIB_URL : self::XML_PATH_UNSECURE_BASE_LIB_URL;
                     $url = $this->_getConfig($path);
                     if (!$url) {
                         $url = $this->getBaseUrl(
-                            \Magento\UrlInterface::URL_TYPE_WEB,
+                            \Magento\Framework\UrlInterface::URL_TYPE_WEB,
                             $secure
                         ) . $this->filesystem->getUri(
                             \Magento\Framework\App\Filesystem::PUB_LIB_DIR
@@ -560,12 +560,12 @@ class Store extends AbstractModel implements
                     }
                     break;
 
-                case \Magento\UrlInterface::URL_TYPE_STATIC:
+                case \Magento\Framework\UrlInterface::URL_TYPE_STATIC:
                     $path = $secure ? self::XML_PATH_SECURE_BASE_STATIC_URL : self::XML_PATH_UNSECURE_BASE_STATIC_URL;
                     $url = $this->_getConfig($path);
                     if (!$url) {
                         $url = $this->getBaseUrl(
-                            \Magento\UrlInterface::URL_TYPE_WEB,
+                            \Magento\Framework\UrlInterface::URL_TYPE_WEB,
                             $secure
                         ) . $this->filesystem->getUri(
                             \Magento\Framework\App\Filesystem::STATIC_VIEW_DIR
@@ -573,12 +573,12 @@ class Store extends AbstractModel implements
                     }
                     break;
 
-                case \Magento\UrlInterface::URL_TYPE_CACHE:
+                case \Magento\Framework\UrlInterface::URL_TYPE_CACHE:
                     $path = $secure ? self::XML_PATH_SECURE_BASE_CACHE_URL : self::XML_PATH_UNSECURE_BASE_CACHE_URL;
                     $url = $this->_getConfig($path);
                     if (!$url) {
                         $url = $this->getBaseUrl(
-                            \Magento\UrlInterface::URL_TYPE_WEB,
+                            \Magento\Framework\UrlInterface::URL_TYPE_WEB,
                             $secure
                         ) . $this->filesystem->getUri(
                             \Magento\Framework\App\Filesystem::PUB_VIEW_CACHE_DIR
@@ -586,14 +586,14 @@ class Store extends AbstractModel implements
                     }
                     break;
 
-                case \Magento\UrlInterface::URL_TYPE_MEDIA:
+                case \Magento\Framework\UrlInterface::URL_TYPE_MEDIA:
                     $url = $this->_getMediaScriptUrl($this->filesystem, $secure);
                     if (!$url) {
                         $path = $secure ? self::XML_PATH_SECURE_BASE_MEDIA_URL : self::XML_PATH_UNSECURE_BASE_MEDIA_URL;
                         $url = $this->_getConfig($path);
                         if (!$url) {
                             $url = $this->getBaseUrl(
-                                \Magento\UrlInterface::URL_TYPE_WEB,
+                                \Magento\Framework\UrlInterface::URL_TYPE_WEB,
                                 $secure
                             ) . $this->filesystem->getUri(
                                 \Magento\Framework\App\Filesystem::MEDIA_DIR
@@ -663,7 +663,7 @@ class Store extends AbstractModel implements
     {
         if (!$this->_getConfig(self::XML_PATH_USE_REWRITES) && $this->_coreFileStorageDatabase->checkDbUsage()) {
             return $this->getBaseUrl(
-                \Magento\UrlInterface::URL_TYPE_WEB,
+                \Magento\Framework\UrlInterface::URL_TYPE_WEB,
                 $secure
             ) . $filesystem->getUri(
                 \Magento\Framework\App\Filesystem::PUB_DIR

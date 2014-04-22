@@ -2366,4 +2366,7 @@ return array(
     ['Magento\Connect\Validator', 'Magento\Framework\Connect\Validator'],
     ['Magento\Profiler', 'Magento\Framework\Profiler'],
     ['Magento\Shell', 'Magento\Framework\Shell'],
+    ['Magento\Url', 'Magento\Framework\Url'],
+    ['Magento\UrlFactory', 'Magento\Framework\UrlFactory'],
+    ['Magento\UrlInterface', 'Magento\Framework\UrlInterface'],
 );

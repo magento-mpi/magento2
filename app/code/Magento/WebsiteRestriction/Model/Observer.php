@@ -47,7 +47,7 @@ class Observer
     protected $_eventManager;
 
     /**
-     * @var \Magento\UrlFactory
+     * @var \Magento\Framework\UrlFactory
      */
     protected $_urlFactory;
 
@@ -63,7 +63,7 @@ class Observer
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\UrlFactory $urlFactory
+     * @param \Magento\Framework\UrlFactory $urlFactory
      * @param \Magento\Framework\App\ActionFlag $actionFlag
      */
     public function __construct(
@@ -73,7 +73,7 @@ class Observer
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Framework\Session\Generic $session,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\UrlFactory $urlFactory,
+        \Magento\Framework\UrlFactory $urlFactory,
         \Magento\Framework\App\ActionFlag $actionFlag
     ) {
         $this->_config = $config;

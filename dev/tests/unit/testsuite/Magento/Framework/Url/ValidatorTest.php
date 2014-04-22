@@ -5,13 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Url;
+namespace Magento\Framework\Url;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Url\Validator */
+    /** @var \Magento\Framework\Url\Validator */
     protected $object;
 
     /** @var string[] */
@@ -20,7 +20,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->object = $objectManager->getObject('Magento\Url\Validator');
+        $this->object = $objectManager->getObject('Magento\Framework\Url\Validator');
     }
 
     public function testConstruct()

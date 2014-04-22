@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Url;
+namespace Magento\Framework\Url;
 
 class QueryParamsResolver extends \Magento\Object implements QueryParamsResolverInterface
 {

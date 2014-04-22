@@ -84,7 +84,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $this->_layoutMock          = $this->_makeMock('Magento\Framework\View\Layout');
         $this->_requestMock         = $this->_makeMock('Magento\Framework\App\RequestInterface');
         $this->_messagesMock        = $this->_makeMock('Magento\Framework\View\Element\Messages');
-        $this->_urlMock             = $this->_makeMock('Magento\UrlInterface');
+        $this->_urlMock             = $this->_makeMock('Magento\Framework\UrlInterface');
         $this->_eventManagerMock    = $this->_makeMock('Magento\Framework\Event\ManagerInterface');
         $this->_controllerMock      = $this->_makeMock('Magento\Framework\App\FrontController');
         $this->_loggerMock          = $this->_makeMock('Magento\Framework\Logger');

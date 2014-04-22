@@ -58,7 +58,7 @@ class Service extends \Magento\Object
     /**
      * Backend url
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -98,7 +98,7 @@ class Service extends \Magento\Object
     /**
      * @param \Magento\Centinel\Model\Config $config
      * @param \Magento\Centinel\Model\ApiFactory $apiFactory
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Framework\Session\SessionManagerInterface $centinelSession
      * @param \Magento\Centinel\Model\StateFactory $stateFactory
      * @param \Magento\Framework\Data\Form\FormKey $formKey
@@ -108,7 +108,7 @@ class Service extends \Magento\Object
     public function __construct(
         \Magento\Centinel\Model\Config $config,
         \Magento\Centinel\Model\ApiFactory $apiFactory,
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Framework\Session\SessionManagerInterface $centinelSession,
         \Magento\Centinel\Model\StateFactory $stateFactory,
         \Magento\Framework\Data\Form\FormKey $formKey,

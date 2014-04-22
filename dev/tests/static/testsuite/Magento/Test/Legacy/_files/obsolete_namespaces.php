@@ -49,4 +49,5 @@ return [
     ['Magento\Option', 'Magento\Framework\Option'],
     ['Magento\Service', 'Magento\Framework\Service'],
     ['Magento\System', 'Magento\Framework\System'],
+    ['Magento\Url', 'Magento\Framework\Url'],
 ];

@@ -44,7 +44,7 @@ abstract class AbstractHelper
     protected $_logger;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlBuilder;
 

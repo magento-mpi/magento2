@@ -224,7 +224,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
             $mediaDirectory = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
             if ($mediaDirectory->isFile($uploadDir . '/' . $fileName)) {
                 return $this->_storeManager->getStore()->getBaseUrl(
-                    \Magento\UrlInterface::URL_TYPE_MEDIA
+                    \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
                 ) . $uploadDir . '/' . $fileName;
             }
         }

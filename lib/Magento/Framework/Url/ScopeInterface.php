@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Url;
+namespace Magento\Framework\Url;
 
 interface ScopeInterface extends \Magento\Framework\App\ScopeInterface
 {

@@ -6,18 +6,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
 class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Url');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\Url');
     }
 
     public function testSetGetUseSession()
@@ -91,14 +91,14 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         /**
          * Set specified type
          */
-        $webUrl = $this->_model->getBaseUrl(['_type' => \Magento\UrlInterface::URL_TYPE_WEB]);
+        $webUrl = $this->_model->getBaseUrl(['_type' => \Magento\Framework\UrlInterface::URL_TYPE_WEB]);
         $this->assertEquals('http://localhost/', $webUrl, 'Incorrect web url');
         $this->assertEquals('http://localhost/index.php/', $this->_model->getBaseUrl(), 'Incorrect link url');
 
         /**
          * Get url with type specified in params
          */
-        $mediaUrl = $this->_model->getBaseUrl(array('_type' => \Magento\UrlInterface::URL_TYPE_MEDIA));
+        $mediaUrl = $this->_model->getBaseUrl(array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA));
         $this->assertEquals('http://localhost/pub/media/', $mediaUrl, 'Incorrect media url');
         $this->assertEquals('http://localhost/index.php/', $this->_model->getBaseUrl(), 'Incorrect link url');
     }
@@ -106,13 +106,13 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     public function getBaseUrlConfiguredDataProvider()
     {
         return array(
-            array(array('_type' => \Magento\UrlInterface::URL_TYPE_WEB), 'http://sample.com/base_path/'),
+            array(array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_WEB), 'http://sample.com/base_path/'),
             array(
-                array('_type' => \Magento\UrlInterface::URL_TYPE_LINK),
+                array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_LINK),
                 'http://sample.com/base_link_path/index.php/'
             ),
             array(
-                array('_type' => \Magento\UrlInterface::URL_TYPE_LINK, '_secure' => 1),
+                array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_LINK, '_secure' => 1),
                 'https://sample.com/base_link_path/index.php/'
             )
         );
@@ -193,7 +193,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     /**
      * Note: isolation flushes the URL memory cache
      * @magentoAppIsolation enabled
-     * @covers \Magento\Url::getUrl
+     * @covers \Magento\Framework\Url::getUrl
      */
     public function testGetUrlDoesntAddFragmentOnConsequentCalls()
     {
@@ -215,7 +215,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      * @param array $secondRouteParams
      * @param string $firstExpectedUrl
      * @param string $secondExpectedUrl
-     * @covers \Magento\Url::getUrl
+     * @covers \Magento\Framework\Url::getUrl
      */
     public function testGetUrlOnConsequentCalls(
         $firstCallUrl,

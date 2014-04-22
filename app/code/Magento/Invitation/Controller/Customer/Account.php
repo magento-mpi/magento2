@@ -50,7 +50,7 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Customer\Helper\Data $customerHelperData
-     * @param \Magento\UrlFactory $urlFactory
+     * @param \Magento\Framework\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
@@ -75,7 +75,7 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Customer\Helper\Data $customerHelperData,
-        \Magento\UrlFactory $urlFactory,
+        \Magento\Framework\UrlFactory $urlFactory,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,

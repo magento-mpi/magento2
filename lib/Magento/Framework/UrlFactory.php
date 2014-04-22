@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
 class UrlFactory
 {
@@ -23,7 +23,7 @@ class UrlFactory
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param string $instanceName
      */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager, $instanceName = 'Magento\UrlInterface')
+    public function __construct(\Magento\Framework\ObjectManager $objectManager, $instanceName = 'Magento\Framework\UrlInterface')
     {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
@@ -33,7 +33,7 @@ class UrlFactory
      * Create Url instance with specified parameters
      *
      * @param array $data
-     * @return \Magento\UrlInterface
+     * @return \Magento\Framework\UrlInterface
      */
     public function create(array $data = array())
     {

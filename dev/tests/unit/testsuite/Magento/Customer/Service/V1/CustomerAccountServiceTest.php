@@ -258,7 +258,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('isCustomerInStore')
             ->will($this->returnValue(false));
 
-        $this->_urlMock = $this->getMockBuilder('Magento\UrlInterface')
+        $this->_urlMock = $this->getMockBuilder('Magento\Framework\UrlInterface')
             ->disableOriginalConstructor()
             ->getMock();
 

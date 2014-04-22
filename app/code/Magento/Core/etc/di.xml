@@ -42,10 +42,10 @@
     <preference for="Magento\Framework\Translate\Inline\ParserInterface" type="Magento\Translation\Model\Inline\Parser" />
     <preference for="Magento\Framework\Session\ValidatorInterface" type="Magento\Framework\Session\Validator" />
     <preference for="Magento\Framework\Session\StorageInterface" type="Magento\Framework\Session\Storage" />
-    <preference for="Magento\Url\RouteParamsResolverInterface" type="Magento\Core\Model\Url\RouteParamsResolver" />
-    <preference for="Magento\Url\QueryParamsResolverInterface" type="Magento\Url\QueryParamsResolver" />
-    <preference for="Magento\Url\ScopeResolverInterface" type="Magento\Core\Model\Url\ScopeResolver" />
-    <preference for="Magento\Url\SecurityInfoInterface" type="Magento\Core\Model\Url\SecurityInfo" />
+    <preference for="Magento\Framework\Url\RouteParamsResolverInterface" type="Magento\Core\Model\Url\RouteParamsResolver" />
+    <preference for="Magento\Framework\Url\QueryParamsResolverInterface" type="Magento\Framework\Url\QueryParamsResolver" />
+    <preference for="Magento\Framework\Url\ScopeResolverInterface" type="Magento\Core\Model\Url\ScopeResolver" />
+    <preference for="Magento\Framework\Url\SecurityInfoInterface" type="Magento\Core\Model\Url\SecurityInfo" />
     <preference for="Magento\Framework\Mview\ConfigInterface" type="Magento\Framework\Mview\Config" />
     <preference for="Magento\Framework\Mview\ViewInterface" type="Magento\Framework\Mview\View" />
     <preference for="Magento\Framework\Mview\ProcessorInterface" type="Magento\Framework\Mview\Processor" />
@@ -293,7 +293,7 @@
     </type>
     <type name="Magento\Framework\App\Helper\Context">
         <arguments>
-            <argument name="urlBuilder" xsi:type="object">Magento\UrlInterface\Proxy</argument>
+            <argument name="urlBuilder" xsi:type="object">Magento\Framework\UrlInterface\Proxy</argument>
             <argument name="httpRequest" xsi:type="object">Magento\Framework\App\Request\Http\Proxy</argument>
         </arguments>
     </type>
@@ -429,7 +429,7 @@
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
-    <type name="Magento\Url">
+    <type name="Magento\Framework\Url">
         <arguments>
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>

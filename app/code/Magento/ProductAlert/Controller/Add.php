@@ -167,7 +167,7 @@ class Add extends \Magento\Framework\App\Action\Action
             $currentStore->getBaseUrl()
         ) === 0 || strpos(
             $url,
-            $currentStore->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, true)
+            $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK, true)
         ) === 0;
     }
 }

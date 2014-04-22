@@ -42,7 +42,7 @@ class Redirect implements \Magento\Framework\App\Response\RedirectInterface
     protected $_canUseSessionIdInParam;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -52,7 +52,7 @@ class Redirect implements \Magento\Framework\App\Response\RedirectInterface
      * @param \Magento\Framework\Encryption\UrlCoder $urlCoder
      * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
-     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param bool $canUseSessionIdInParam
      */
     public function __construct(
@@ -61,7 +61,7 @@ class Redirect implements \Magento\Framework\App\Response\RedirectInterface
         \Magento\Framework\Encryption\UrlCoder $urlCoder,
         \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
-        \Magento\UrlInterface $urlBuilder,
+        \Magento\Framework\UrlInterface $urlBuilder,
         $canUseSessionIdInParam = true
     ) {
         $this->_canUseSessionIdInParam = $canUseSessionIdInParam;
@@ -194,7 +194,7 @@ class Redirect implements \Magento\Framework\App\Response\RedirectInterface
             $unsecure = strpos($url, $this->_storeManager->getStore()->getBaseUrl()) === 0;
             $secure = strpos(
                 $url,
-                $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, true)
+                $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK, true)
             ) === 0;
             return $unsecure || $secure;
         }

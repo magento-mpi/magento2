@@ -15,7 +15,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
     protected $scopeResolverMock;
 
     /**
-     * @var \Magento\UrlInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\UrlInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $urlMock;
 
@@ -43,7 +43,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
     {
         $this->scopeResolverMock =
             $this->getMock('Magento\Framework\App\ScopeResolverInterface', array(), array(), '', false);
-        $this->urlMock = $this->getMock('Magento\UrlInterface', array(), array(), '', false);
+        $this->urlMock = $this->getMock('Magento\Framework\UrlInterface', array(), array(), '', false);
         $this->layoutMock = $this->getMock('Magento\Framework\View\LayoutInterface', array(), array(), '', false);
         $this->configMock = $this->getMock('Magento\Framework\Translate\Inline\ConfigInterface', array(), array(), '', false);
         $this->parserMock = $this->getMock('Magento\Framework\Translate\Inline\ParserInterface', array(), array(), '', false);

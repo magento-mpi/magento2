@@ -77,7 +77,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Url Builder
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlBuilder;
 

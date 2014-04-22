@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento;
+namespace Magento\Framework;
 
 /**
- * Test class for Magento\Url
+ * Test class for Magento\Framework\Url
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class UrlTest extends \PHPUnit_Framework_TestCase
@@ -20,17 +20,17 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected $routeParamsResolverMock;
 
     /**
-     * @var \Magento\Url\ScopeResolverInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Url\ScopeResolverInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $scopeResolverMock;
 
     /**
-     * @var \Magento\Url\ScopeInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Url\ScopeInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $scopeMock;
 
     /**
-     * @var \Magento\Url\QueryParamsResolverInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Url\QueryParamsResolverInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $queryParamsResolverMock;
 
@@ -53,20 +53,20 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $this->routeParamsResolverMock = $this->getMock('Magento\Core\Model\Url\RouteParamsResolver',
             ['getType', 'hasData', 'getData', 'getRouteParams'], [], '', false);
-        $this->scopeResolverMock = $this->getMock('Magento\Url\ScopeResolverInterface');
-        $this->scopeMock = $this->getMock('Magento\Url\ScopeInterface');
-        $this->queryParamsResolverMock = $this->getMock('Magento\Url\QueryParamsResolverInterface', [], [], '', false);
+        $this->scopeResolverMock = $this->getMock('Magento\Framework\Url\ScopeResolverInterface');
+        $this->scopeMock = $this->getMock('Magento\Framework\Url\ScopeInterface');
+        $this->queryParamsResolverMock = $this->getMock('Magento\Framework\Url\QueryParamsResolverInterface', [], [], '', false);
         $this->sidResolverMock = $this->getMock('Magento\Framework\Session\SidResolverInterface');
         $this->sessionMock = $this->getMock('Magento\Framework\Session\Generic', [], [], '', false);
         $this->scopeConfig = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
     }
 
     /**
-     * @return \Magento\Url\RouteParamsResolverFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Framework\Url\RouteParamsResolverFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function getRouteParamsResolver()
     {
-        $routeParamsResolverFactoryMock = $this->getMock('Magento\Url\RouteParamsResolverFactory', [], [], '', false);
+        $routeParamsResolverFactoryMock = $this->getMock('Magento\Framework\Url\RouteParamsResolverFactory', [], [], '', false);
         $routeParamsResolverFactoryMock->expects($this->once())->method('create')
             ->will($this->returnValue($this->routeParamsResolverMock));
         return $routeParamsResolverFactoryMock;
@@ -84,13 +84,13 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $arguments
-     * @return \Magento\Url
+     * @return \Magento\Framework\Url
      */
     protected function getUrlModel($arguments = [])
     {
         $arguments = array_merge($arguments, ['scopeType' => \Magento\Store\Model\ScopeInterface::SCOPE_STORE]);
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        return $objectManager->getObject('Magento\Url', $arguments);
+        return $objectManager->getObject('Magento\Framework\Url', $arguments);
     }
 
     /**
@@ -171,7 +171,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         );
 
         $baseUrl = 'http://localhost/index.php/';
-        $urlType = \Magento\UrlInterface::URL_TYPE_LINK;
+        $urlType = \Magento\Framework\UrlInterface::URL_TYPE_LINK;
 
         $this->scopeMock->expects($this->once())->method('getBaseUrl')->will($this->returnValue($baseUrl));
         $this->scopeResolverMock->expects($this->any())->method('getScope')->will($this->returnValue($this->scopeMock));
@@ -282,7 +282,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         );
 
         $baseUrl = 'http://localhost/index.php/';
-        $urlType = \Magento\UrlInterface::URL_TYPE_LINK;
+        $urlType = \Magento\Framework\UrlInterface::URL_TYPE_LINK;
 
         $this->scopeMock->expects($this->once())->method('getBaseUrl')->will($this->returnValue($baseUrl));
         $this->scopeResolverMock->expects($this->any())->method('getScope')->will($this->returnValue($this->scopeMock));
@@ -311,7 +311,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         );
 
         $baseUrl = 'http://localhost/index.php/';
-        $urlType = \Magento\UrlInterface::URL_TYPE_LINK;
+        $urlType = \Magento\Framework\UrlInterface::URL_TYPE_LINK;
 
         $this->scopeMock->expects($this->once())->method('getBaseUrl')->will($this->returnValue($baseUrl));
         $this->scopeResolverMock->expects($this->any())->method('getScope')->will($this->returnValue($this->scopeMock));
@@ -449,7 +449,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetConfigData($urlType, $configPath, $isSecure, $isSecureCallCount, $key)
     {
-        $urlSecurityInfoMock = $this->getMock('Magento\Url\SecurityInfoInterface');
+        $urlSecurityInfoMock = $this->getMock('Magento\Framework\Url\SecurityInfoInterface');
         $model = $this->getUrlModel([
             'urlSecurityInfo' => $urlSecurityInfoMock,
             'routeParamsResolver' => $this->getRouteParamsResolver(),
@@ -481,7 +481,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         return [
             'secure url' => ['some-type', 'web/secure/base_url_secure', true, 0, 'base_url_secure'],
             'unsecure url' => [
-                \Magento\UrlInterface::URL_TYPE_LINK, 'web/unsecure/base_url_unsecure', false, 1, 'base_url_unsecure'
+                \Magento\Framework\UrlInterface::URL_TYPE_LINK, 'web/unsecure/base_url_unsecure', false, 1, 'base_url_unsecure'
             ],
         ];
     }

@@ -86,7 +86,7 @@ class Observer
     protected $_configFactory;
 
     /**
-     * @var \Magento\UrlFactory
+     * @var \Magento\Framework\UrlFactory
      */
     protected $_urlFactory;
 
@@ -127,7 +127,7 @@ class Observer
      * @param \Magento\Persistent\Model\Observer $observer
      * @param \Magento\Catalog\Model\Product\Compare\Item $compareItem
      * @param \Magento\Persistent\Model\Persistent\ConfigFactory $configFactory
-     * @param \Magento\UrlFactory $urlFactory
+     * @param \Magento\Framework\UrlFactory $urlFactory
      * @param \Magento\Framework\App\Config\ValueFactory $valueFactory
      * @param \Magento\Reports\Model\Product\Index\ComparedFactory $comparedFactory
      * @param \Magento\Reports\Model\Product\Index\ViewedFactory $viewedFactory
@@ -146,7 +146,7 @@ class Observer
         \Magento\Persistent\Model\Observer $observer,
         \Magento\Catalog\Model\Product\Compare\Item $compareItem,
         \Magento\Persistent\Model\Persistent\ConfigFactory $configFactory,
-        \Magento\UrlFactory $urlFactory,
+        \Magento\Framework\UrlFactory $urlFactory,
         \Magento\Framework\App\Config\ValueFactory $valueFactory,
         \Magento\Reports\Model\Product\Index\ComparedFactory $comparedFactory,
         \Magento\Reports\Model\Product\Index\ViewedFactory $viewedFactory,

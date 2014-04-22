@@ -64,7 +64,7 @@ class Context extends \Magento\Framework\App\Action\Context
      * @param \Magento\Framework\App\ResponseInterface $response
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Framework\App\Response\RedirectInterface $redirect
      * @param \Magento\Framework\App\ActionFlag $actionFlag
      * @param \Magento\Framework\App\ViewInterface $view
@@ -84,7 +84,7 @@ class Context extends \Magento\Framework\App\Action\Context
         \Magento\Framework\App\ResponseInterface $response,
         \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Framework\App\Response\RedirectInterface $redirect,
         \Magento\Framework\App\ActionFlag $actionFlag,
         \Magento\Framework\App\ViewInterface $view,

@@ -17,7 +17,7 @@ use Magento\Backend\Model\Menu;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
+class Url extends \Magento\Framework\Url implements \Magento\Backend\Model\UrlInterface
 {
     /**
      * Authentication session
@@ -78,12 +78,12 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
     /**
      * @param \Magento\Framework\App\Route\ConfigInterface $routeConfig
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
+     * @param \Magento\Framework\Url\SecurityInfoInterface $urlSecurityInfo
      * @param \Magento\Backend\Model\Url\ScopeResolver $scopeResolver
      * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
-     * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
-     * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
+     * @param \Magento\Framework\Url\RouteParamsResolverFactory $routeParamsResolver
+     * @param \Magento\Framework\Url\QueryParamsResolverInterface $queryParamsResolver
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param Menu\Config $menuConfig
@@ -100,12 +100,12 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
     public function __construct(
         \Magento\Framework\App\Route\ConfigInterface $routeConfig,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
+        \Magento\Framework\Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\Backend\Model\Url\ScopeResolver $scopeResolver,
         \Magento\Framework\Session\Generic $session,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
-        \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
-        \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
+        \Magento\Framework\Url\RouteParamsResolverFactory $routeParamsResolver,
+        \Magento\Framework\Url\QueryParamsResolverInterface $queryParamsResolver,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Backend\Model\Menu\Config $menuConfig,

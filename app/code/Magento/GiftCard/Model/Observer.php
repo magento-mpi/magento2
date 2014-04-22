@@ -35,7 +35,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Url model
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlModel;
 
@@ -87,7 +87,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder ,
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param \Magento\UrlInterface $urlModel
+     * @param \Magento\Framework\UrlInterface $urlModel
      * @param \Magento\GiftCard\Helper\Data $giftCardData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -105,7 +105,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
-        \Magento\UrlInterface $urlModel,
+        \Magento\Framework\UrlInterface $urlModel,
         \Magento\GiftCard\Helper\Data $giftCardData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

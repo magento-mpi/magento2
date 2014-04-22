@@ -80,7 +80,7 @@ class Index extends \Magento\Framework\App\Action\Action
         $this->_view->getLayout()->getBlock(
             'contactForm'
         )->setFormAction(
-            $this->_objectManager->create('Magento\UrlInterface')->getUrl('*/*/post')
+            $this->_objectManager->create('Magento\Framework\UrlInterface')->getUrl('*/*/post')
         );
 
         $this->_view->getLayout()->initMessages();

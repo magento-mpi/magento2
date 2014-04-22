@@ -58,7 +58,7 @@ class Action extends AbstractAction
     protected $_view;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 

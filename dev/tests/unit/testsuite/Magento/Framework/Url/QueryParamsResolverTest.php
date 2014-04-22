@@ -6,19 +6,19 @@
  * @license     {license_link}
  */
 
-namespace Magento\Url;
+namespace Magento\Framework\Url;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
 class QueryParamsResolverTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Url\QueryParamsResolver */
+    /** @var \Magento\Framework\Url\QueryParamsResolver */
     protected $object;
 
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->object = $objectManager->getObject('Magento\Url\QueryParamsResolver');
+        $this->object = $objectManager->getObject('Magento\Framework\Url\QueryParamsResolver');
     }
 
     public function testGetQuery()

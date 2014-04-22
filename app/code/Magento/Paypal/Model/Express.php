@@ -156,7 +156,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_storeManager;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -172,7 +172,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param array $data
      */
@@ -183,7 +183,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\UrlInterface $urlBuilder,
+        \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         array $data = array()
     ) {

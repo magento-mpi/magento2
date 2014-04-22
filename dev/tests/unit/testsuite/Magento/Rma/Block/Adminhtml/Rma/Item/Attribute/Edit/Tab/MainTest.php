@@ -28,7 +28,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $managerInterface;
 
-    /** @var \Magento\UrlInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\UrlInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $urlInterface;
 
     /** @var \Magento\Framework\TranslateInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -138,7 +138,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         );
         $this->layoutInterface = $this->getMock('Magento\Framework\View\LayoutInterface');
         $this->managerInterface = $this->getMock('Magento\Framework\Event\ManagerInterface');
-        $this->urlInterface = $this->getMock('Magento\UrlInterface');
+        $this->urlInterface = $this->getMock('Magento\Framework\UrlInterface');
         $this->translateInterface = $this->getMock('Magento\Framework\TranslateInterface');
         $this->cacheInterface = $this->getMock('Magento\Framework\App\CacheInterface');
         $this->designInterface = $this->getMock('Magento\Framework\View\DesignInterface');

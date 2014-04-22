@@ -83,7 +83,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )->getMock();
 
         $this->_url = $this->getMockBuilder(
-            'Magento\UrlInterface'
+            'Magento\Framework\UrlInterface'
         )->disableOriginalConstructor()->setMethods(
             array()
         )->getMock();

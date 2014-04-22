@@ -50,7 +50,7 @@ class Inline implements \Magento\Framework\Translate\InlineInterface
     protected $parserFactory;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -83,7 +83,7 @@ class Inline implements \Magento\Framework\Translate\InlineInterface
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param \Magento\Framework\Translate\Inline\ParserFactory $parserFactory
      * @param \Magento\DesignEditor\Helper\Data $helper
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Framework\ObjectManager $objectManager
      */
     public function __construct(
@@ -91,7 +91,7 @@ class Inline implements \Magento\Framework\Translate\InlineInterface
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         \Magento\Framework\Translate\Inline\ParserFactory $parserFactory,
         \Magento\DesignEditor\Helper\Data $helper,
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Framework\ObjectManager $objectManager
     ) {
         $this->_design = $design;

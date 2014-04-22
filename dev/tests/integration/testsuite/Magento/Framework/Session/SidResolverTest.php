@@ -31,7 +31,7 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
     protected $scopeConfig;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\UrlInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\UrlInterface
      */
     protected $urlBuilder;
 
@@ -59,7 +59,7 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMockForAbstractClass();
 
         $this->urlBuilder = $this->getMockBuilder(
-            'Magento\Url'
+            'Magento\Framework\Url'
         )->setMethods(
             array('isOwnOriginUrl')
         )->disableOriginalConstructor()->getMockForAbstractClass();

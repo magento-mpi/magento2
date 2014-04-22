@@ -29,7 +29,7 @@
         </arguments>
     </type>
     <preference for="Magento\Framework\Locale\ConfigInterface" type="Magento\Framework\Locale\Config" />
-    <preference for="Magento\UrlInterface" type="Magento\Url" />
+    <preference for="Magento\Framework\UrlInterface" type="Magento\Framework\Url" />
     <preference for="Magento\Framework\Data\Collection\Db\FetchStrategyInterface" type="Magento\Framework\Data\Collection\Db\FetchStrategy\Query" />
     <preference for="Magento\Framework\Config\ScopeInterface" type="Magento\Framework\Config\Scope" />
     <preference for="Magento\Framework\Config\FileResolverInterface" type="Magento\Framework\App\Config\FileResolver" />
@@ -238,7 +238,7 @@
             <argument name="areaList" xsi:type="object">Magento\Framework\App\AreaList\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Url">
+    <type name="Magento\Framework\Url">
         <arguments>
             <argument name="session" xsi:type="object">Magento\Framework\Session\Generic\Proxy</argument>
         </arguments>
@@ -247,19 +247,19 @@
         <arguments>
             <argument name="fileUrlMap" xsi:type="array">
                 <item name="urlLib" xsi:type="array">
-                    <item name="key" xsi:type="const">Magento\UrlInterface::URL_TYPE_LIB</item>
+                    <item name="key" xsi:type="const">Magento\Framework\UrlInterface::URL_TYPE_LIB</item>
                     <item name="value" xsi:type="const">Magento\Framework\App\Filesystem::PUB_LIB_DIR</item>
                 </item>
                 <item name="urlMedia" xsi:type="array">
-                    <item name="key" xsi:type="const">Magento\UrlInterface::URL_TYPE_MEDIA</item>
+                    <item name="key" xsi:type="const">Magento\Framework\UrlInterface::URL_TYPE_MEDIA</item>
                     <item name="value" xsi:type="const">Magento\Framework\App\Filesystem::MEDIA_DIR</item>
                 </item>
                 <item name="urlStatic" xsi:type="array">
-                    <item name="key" xsi:type="const">Magento\UrlInterface::URL_TYPE_STATIC</item>
+                    <item name="key" xsi:type="const">Magento\Framework\UrlInterface::URL_TYPE_STATIC</item>
                     <item name="value" xsi:type="const">Magento\Framework\App\Filesystem::STATIC_VIEW_DIR</item>
                 </item>
                 <item name="urlCache" xsi:type="array">
-                    <item name="key" xsi:type="const">Magento\UrlInterface::URL_TYPE_CACHE</item>
+                    <item name="key" xsi:type="const">Magento\Framework\UrlInterface::URL_TYPE_CACHE</item>
                     <item name="value" xsi:type="const">Magento\Framework\App\Filesystem::PUB_VIEW_CACHE_DIR</item>
                 </item>
             </argument>

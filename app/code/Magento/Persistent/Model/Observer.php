@@ -91,7 +91,7 @@ class Observer
     /**
      * Url model
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -145,7 +145,7 @@ class Observer
      * @param \Magento\Store\Model\Resource\Website\CollectionFactory $websiteCollectionFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -166,7 +166,7 @@ class Observer
         \Magento\Store\Model\Resource\Website\CollectionFactory $websiteCollectionFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Persistent\Model\SessionFactory $sessionFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,

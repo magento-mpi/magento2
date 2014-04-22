@@ -24,7 +24,7 @@ use Magento\Framework\Exception\StateException;
 use Magento\Mail\Exception as MailException;
 use Magento\Math\Random;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
-use Magento\UrlInterface;
+use Magento\Framework\UrlInterface;
 use Magento\Framework\Logger;
 use Magento\Framework\Encryption\EncryptorInterface as Encryptor;
 use Magento\Customer\Model\Config\Share as ConfigShare;

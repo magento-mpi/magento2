@@ -230,7 +230,7 @@ class Category extends \Magento\Backend\App\Action
         )->getStore(
             $storeId
         )->getBaseUrl(
-            \Magento\UrlInterface::URL_TYPE_MEDIA
+            \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
         );
 
         $content = $this->_view->getLayout()->createBlock(

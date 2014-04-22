@@ -235,7 +235,7 @@ class Onepage extends Action
             return;
         }
         $this->_objectManager->get('Magento\Checkout\Model\Session')->setCartWasUpdated(false);
-        $currentUrl = $this->_objectManager->create('Magento\UrlInterface')->getUrl('*/*/*', array('_secure' => true));
+        $currentUrl = $this->_objectManager->create('Magento\Framework\UrlInterface')->getUrl('*/*/*', array('_secure' => true));
         $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeAuthUrl($currentUrl);
         $this->getOnepage()->initCheckout();
         $this->_view->loadLayout();

@@ -31,7 +31,7 @@ use Magento\Oauth\ConsumerInterface;
 class Consumer extends \Magento\Framework\Model\AbstractModel implements ConsumerInterface
 {
     /**
-     * @var \Magento\Url\Validator
+     * @var \Magento\Framework\Url\Validator
      */
     protected $_urlValidator;
 
@@ -44,7 +44,7 @@ class Consumer extends \Magento\Framework\Model\AbstractModel implements Consume
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory
-     * @param \Magento\Url\Validator $urlValidator
+     * @param \Magento\Framework\Url\Validator $urlValidator
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -53,7 +53,7 @@ class Consumer extends \Magento\Framework\Model\AbstractModel implements Consume
         \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
-        \Magento\Url\Validator $urlValidator,
+        \Magento\Framework\Url\Validator $urlValidator,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

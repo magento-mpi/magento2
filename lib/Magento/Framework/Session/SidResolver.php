@@ -24,7 +24,7 @@ class SidResolver implements SidResolverInterface
     protected $scopeConfig;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $urlBuilder;
 
@@ -49,7 +49,7 @@ class SidResolver implements SidResolverInterface
      * Use session in URL flag
      *
      * @var bool
-     * @see \Magento\UrlInterface
+     * @see \Magento\Framework\UrlInterface
      */
     protected $_useSessionInUrl = true;
 
@@ -60,14 +60,14 @@ class SidResolver implements SidResolverInterface
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Framework\App\RequestInterface $request
      * @param string $scopeType
      * @param array $sidNameMap
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\UrlInterface $urlBuilder,
+        \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\App\RequestInterface $request,
         $scopeType,
         array $sidNameMap = array()

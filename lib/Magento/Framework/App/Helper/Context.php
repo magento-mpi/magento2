@@ -42,7 +42,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     protected $_cacheConfig;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -63,7 +63,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
      * @param \Magento\Framework\App\RequestInterface $httpRequest
      * @param \Magento\Framework\Cache\ConfigInterface $cacheConfig
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\HTTP\Header $httpHeader
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      *
@@ -76,7 +76,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
         \Magento\Framework\App\RequestInterface $httpRequest,
         \Magento\Framework\Cache\ConfigInterface $cacheConfig,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\UrlInterface $urlBuilder,
+        \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\HTTP\Header $httpHeader,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
@@ -108,7 +108,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\UrlInterface
+     * @return \Magento\Framework\UrlInterface
      */
     public function getUrlBuilder()
     {

@@ -443,7 +443,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     protected $string;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -464,7 +464,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
-     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Ogone\Model\Config $config
      * @param array $data
@@ -476,7 +476,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        \Magento\UrlInterface $urlBuilder,
+        \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Ogone\Model\Config $config,
         array $data = array()

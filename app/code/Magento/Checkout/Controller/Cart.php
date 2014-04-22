@@ -522,7 +522,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
                 $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
-        $defaultUrl = $this->_objectManager->create('Magento\UrlInterface')->getUrl('*/*');
+        $defaultUrl = $this->_objectManager->create('Magento\Framework\UrlInterface')->getUrl('*/*');
         $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($defaultUrl));
     }
 
@@ -649,7 +649,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
         /** @var $store \Magento\Store\Model\Store */
         $store = $this->_storeManager->getStore();
         $unsecure = strpos($url, $store->getBaseUrl()) === 0;
-        $secure = strpos($url, $store->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, true)) === 0;
+        $secure = strpos($url, $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK, true)) === 0;
         return $unsecure || $secure;
     }
 }

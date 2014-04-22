@@ -564,7 +564,7 @@ class Checkout extends \Magento\Checkout\Controller\Action implements
      */
     public function getCustomerBeforeAuthUrl()
     {
-        return $this->_objectManager->create('Magento\UrlInterface')->getUrl('*/*', array('_secure' => true));
+        return $this->_objectManager->create('Magento\Framework\UrlInterface')->getUrl('*/*', array('_secure' => true));
     }
 
     /**

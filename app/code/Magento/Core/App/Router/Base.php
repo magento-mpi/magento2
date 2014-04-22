@@ -36,7 +36,7 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
     /**
      * Url security information.
      *
-     * @var \Magento\Url\SecurityInfoInterface
+     * @var \Magento\Framework\Url\SecurityInfoInterface
      */
     protected $_urlSecurityInfo;
 
@@ -48,7 +48,7 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -83,10 +83,10 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
      * @param \Magento\Framework\App\ResponseFactory $responseFactory
      * @param \Magento\Framework\App\Route\ConfigInterface $routeConfig
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Store\Model\StoreManagerInterface|\Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
+     * @param \Magento\Framework\Url\SecurityInfoInterface $urlSecurityInfo
      * @param string $routerId
      * @param \Magento\Framework\Code\NameBuilder $nameBuilder
      * @throws \InvalidArgumentException
@@ -97,10 +97,10 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
         \Magento\Framework\App\ResponseFactory $responseFactory,
         \Magento\Framework\App\Route\ConfigInterface $routeConfig,
         \Magento\Framework\App\State $appState,
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
+        \Magento\Framework\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId,
         \Magento\Framework\Code\NameBuilder $nameBuilder
     ) {
@@ -168,7 +168,7 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
             $moduleFrontName = $param;
         } else {
             $moduleFrontName = $this->_defaultPath->getPart('module');
-            $request->setAlias(\Magento\Url::REWRITE_REQUEST_PATH_ALIAS, '');
+            $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, '');
         }
         if (!$moduleFrontName) {
             return null;
@@ -191,7 +191,7 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
             $controller = $param;
         } else {
             $controller = $this->_defaultPath->getPart('controller');
-            $request->setAlias(\Magento\Url::REWRITE_REQUEST_PATH_ALIAS, ltrim($request->getOriginalPathInfo(), '/'));
+            $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, ltrim($request->getOriginalPathInfo(), '/'));
         }
         return $controller;
     }
@@ -383,7 +383,7 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
      */
     protected function _getCurrentSecureUrl($request)
     {
-        $alias = $request->getAlias(\Magento\Url::REWRITE_REQUEST_PATH_ALIAS);
+        $alias = $request->getAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS);
         if ($alias) {
             return $this->_storeManager->getStore()->getBaseUrl('link', true) . ltrim($alias, '/');
         }

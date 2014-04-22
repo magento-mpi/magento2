@@ -35,7 +35,7 @@ class ScopeResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetScope($scopeId)
     {
-        $scopeMock = $this->getMockBuilder('\Magento\Url\ScopeInterface')->getMock();
+        $scopeMock = $this->getMockBuilder('\Magento\Framework\Url\ScopeInterface')->getMock();
         $this->_storeManagerMock->expects(
             $this->at(0)
         )->method(

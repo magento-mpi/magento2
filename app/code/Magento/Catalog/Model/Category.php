@@ -64,7 +64,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * URL Model instance
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -181,7 +181,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\UrlRewrite\Model\UrlRewriteFactory $urlRewriteFactory
      * @param \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Index\Model\Indexer $indexIndexer
@@ -202,7 +202,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\UrlRewrite\Model\UrlRewriteFactory $urlRewriteFactory,
         \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Index\Model\Indexer $indexIndexer,
@@ -275,7 +275,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Retrieve URL instance
      *
-     * @return \Magento\UrlInterface
+     * @return \Magento\Framework\UrlInterface
      */
     public function getUrlInstance()
     {
@@ -609,7 +609,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         $image = $this->getImage();
         if ($image) {
             $url = $this->_storeManager->getStore()->getBaseUrl(
-                \Magento\UrlInterface::URL_TYPE_MEDIA
+                \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
             ) . 'catalog/category/' . $image;
         }
         return $url;

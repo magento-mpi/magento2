@@ -144,7 +144,7 @@ abstract class AbstractController extends \Magento\Framework\App\Action\Action
             $indexUrl = $this->_objectManager->get('Magento\Wishlist\Helper\Data')->getListUrl($wishlist->getId());
         } else {
             $indexUrl = $this->_objectManager->create(
-                'Magento\UrlInterface'
+                'Magento\Framework\UrlInterface'
             )->getUrl(
                 'wishlist/shared',
                 array('code' => $wishlist->getSharingCode())

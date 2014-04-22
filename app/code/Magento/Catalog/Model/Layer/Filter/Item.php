@@ -22,7 +22,7 @@ class Item extends \Magento\Object
     /**
      * Url
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -36,12 +36,12 @@ class Item extends \Magento\Object
     /**
      * Construct
      *
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Theme\Block\Html\Pager $htmlPagerBlock
      * @param array $data
      */
     public function __construct(
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Theme\Block\Html\Pager $htmlPagerBlock,
         array $data = array()
     ) {

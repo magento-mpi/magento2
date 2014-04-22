@@ -62,7 +62,7 @@
     </type>
     <type name="Magento\Catalog\Model\Product\Option\UrlBuilder">
         <arguments>
-            <argument name="frontendUrlBuilder" xsi:type="object">Magento\Url</argument>
+            <argument name="frontendUrlBuilder" xsi:type="object">Magento\Framework\Url</argument>
         </arguments>
     </type>
 </config>

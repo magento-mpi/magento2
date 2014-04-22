@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Url;
+namespace Magento\Framework\Url;
 
 class RouteParamsResolverFactory
 {
@@ -25,7 +25,7 @@ class RouteParamsResolverFactory
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
-        $instanceName = 'Magento\Url\RouteParamsResolverInterface'
+        $instanceName = 'Magento\Framework\Url\RouteParamsResolverInterface'
     ) {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
@@ -35,7 +35,7 @@ class RouteParamsResolverFactory
      * Create RouteParamsResolverInterface instance
      *
      * @param array $data
-     * @return \Magento\Url\RouteParamsResolverInterface
+     * @return \Magento\Framework\Url\RouteParamsResolverInterface
      */
     public function create(array $data = array())
     {

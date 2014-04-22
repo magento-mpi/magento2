@@ -32,7 +32,7 @@ class CurrentTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_urlBuilderMock = $this->getMock('\Magento\UrlInterface');
+        $this->_urlBuilderMock = $this->getMock('\Magento\Framework\UrlInterface');
         $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
         $this->_defaultPathMock = $this->getMock('\Magento\Framework\App\DefaultPathInterface');
     }

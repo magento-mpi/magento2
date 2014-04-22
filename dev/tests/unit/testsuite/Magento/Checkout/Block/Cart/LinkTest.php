@@ -24,7 +24,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $path = 'checkout/cart';
         $url = 'http://example.com/';
 
-        $urlBuilder = $this->getMockForAbstractClass('Magento\UrlInterface');
+        $urlBuilder = $this->getMockForAbstractClass('Magento\Framework\UrlInterface');
         $urlBuilder->expects($this->once())->method('getUrl')->with($path)->will($this->returnValue($url . $path));
 
         $helper = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();

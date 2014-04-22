@@ -53,7 +53,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $productFactory;
 
     /**
-     * @var \Magento\UrlFactory
+     * @var \Magento\Framework\UrlFactory
      */
     protected $urlFactory;
 
@@ -85,7 +85,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\UrlFactory $urlFactory
+     * @param \Magento\Framework\UrlFactory $urlFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Escaper $escaper
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
@@ -96,7 +96,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\UrlFactory $urlFactory,
+        \Magento\Framework\UrlFactory $urlFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Escaper $escaper,
         \Magento\Framework\Locale\ResolverInterface $localeResolver

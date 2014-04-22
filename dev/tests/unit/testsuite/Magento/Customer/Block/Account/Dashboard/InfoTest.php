@@ -65,7 +65,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
             array()
         );
 
-        $urlBuilder = $this->getMockForAbstractClass('Magento\UrlInterface', array(), '', false);
+        $urlBuilder = $this->getMockForAbstractClass('Magento\Framework\UrlInterface', array(), '', false);
         $urlBuilder->expects($this->any())->method('getUrl')->will($this->returnValue(self::CHANGE_PASSWORD_URL));
 
         $layout = $this->getMockForAbstractClass('Magento\Framework\View\LayoutInterface', array(), '', false);

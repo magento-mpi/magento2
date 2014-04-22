@@ -199,7 +199,7 @@ class Download extends \Magento\Framework\App\Action\Action
                 $session->authenticate($this);
                 $session->setBeforeAuthUrl(
                     $this->_objectManager->create(
-                        'Magento\UrlInterface'
+                        'Magento\Framework\UrlInterface'
                     )->getUrl(
                         'downloadable/customer/products/',
                         array('_secure' => true)

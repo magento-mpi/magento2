@@ -83,7 +83,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Framework\App\RequestInterface $requestHttp
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param \Magento\Paypal\Model\Hostedpro\RequestFactory $hostedproRequestFactory
@@ -102,7 +102,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\UrlInterface $urlBuilder,
+        \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\App\RequestInterface $requestHttp,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         \Magento\Paypal\Model\Hostedpro\RequestFactory $hostedproRequestFactory,

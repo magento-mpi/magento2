@@ -25,7 +25,7 @@ class Url extends \Magento\Object
     /**
      * Static URL instance
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -64,7 +64,7 @@ class Url extends \Magento\Object
      * Construct
      *
      * @param \Magento\UrlRewrite\Model\UrlRewriteFactory $urlRewriteFactory
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Framework\Filter\FilterManager $filter
@@ -73,7 +73,7 @@ class Url extends \Magento\Object
      */
     public function __construct(
         \Magento\UrlRewrite\Model\UrlRewriteFactory $urlRewriteFactory,
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Framework\Filter\FilterManager $filter,
@@ -92,7 +92,7 @@ class Url extends \Magento\Object
     /**
      * Retrieve URL Instance
      *
-     * @return \Magento\UrlInterface
+     * @return \Magento\Framework\UrlInterface
      */
     public function getUrlInstance()
     {

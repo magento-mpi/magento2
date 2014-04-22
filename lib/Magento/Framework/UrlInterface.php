@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
 interface UrlInterface
 {
@@ -89,7 +89,7 @@ interface UrlInterface
     /**
      * Add session param
      *
-     * @return \Magento\UrlInterface
+     * @return \Magento\Framework\UrlInterface
      */
     public function addSessionParam();
 
@@ -97,7 +97,7 @@ interface UrlInterface
      * Add query parameters
      *
      * @param array $data
-     * @return \Magento\UrlInterface
+     * @return \Magento\Framework\UrlInterface
      */
     public function addQueryParams(array $data);
 
@@ -106,7 +106,7 @@ interface UrlInterface
      *
      * @param string $key
      * @param mixed $data
-     * @return \Magento\UrlInterface
+     * @return \Magento\Framework\UrlInterface
      */
     public function setQueryParam($key, $data);
 
@@ -164,7 +164,7 @@ interface UrlInterface
      * Set scope entity
      *
      * @param mixed $params
-     * @return \Magento\UrlInterface
+     * @return \Magento\Framework\UrlInterface
      */
     public function setScope($params);
 }

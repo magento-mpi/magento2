@@ -30,7 +30,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     protected $_eventManager;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -59,7 +59,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
      * @param \Magento\Framework\App\ResponseInterface $response
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Framework\App\Response\RedirectInterface $redirect
      * @param \Magento\Framework\App\ActionFlag $actionFlag
      * @param \Magento\Framework\App\ViewInterface $view
@@ -70,7 +70,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
         \Magento\Framework\App\ResponseInterface $response,
         \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Framework\App\Response\RedirectInterface $redirect,
         \Magento\Framework\App\ActionFlag $actionFlag,
         \Magento\Framework\App\ViewInterface $view,
@@ -144,7 +144,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\UrlInterface
+     * @return \Magento\Framework\UrlInterface
      */
     public function getUrl()
     {

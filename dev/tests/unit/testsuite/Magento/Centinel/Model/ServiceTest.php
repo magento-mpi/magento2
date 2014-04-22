@@ -19,7 +19,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAuthenticationStartUrl()
     {
-        $url = $this->getMock('Magento\Url', array('getUrl'), array(), '', false);
+        $url = $this->getMock('Magento\Framework\Url', array('getUrl'), array(), '', false);
         $url->expects(
             $this->once()
         )->method(

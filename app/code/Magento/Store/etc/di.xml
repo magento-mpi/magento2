@@ -73,7 +73,7 @@
     <type name="Magento\Store\Model\Store">
         <arguments>
             <argument name="isCustomEntryPoint" xsi:type="init_parameter">Magento\Store\Model\Store::CUSTOM_ENTRY_POINT_PARAM</argument>
-            <argument name="url" xsi:type="object" shared="false">Magento\UrlInterface</argument>
+            <argument name="url" xsi:type="object" shared="false">Magento\Framework\UrlInterface</argument>
         </arguments>
     </type>
     <type name="Magento\Store\Model\StoreManager">

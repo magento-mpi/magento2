@@ -148,7 +148,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_encryptor = $this->getMock('Magento\Framework\Encryption\Encryptor', null, array(), '', false);
         $this->_paramsResolverMock = $this->getMock(
-            'Magento\Url\RouteParamsResolverFactory',
+            'Magento\Framework\Url\RouteParamsResolverFactory',
             array(),
             array(),
             '',

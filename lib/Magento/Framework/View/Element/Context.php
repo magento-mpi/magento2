@@ -42,7 +42,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     /**
      * URL builder
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -144,7 +144,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Framework\TranslateInterface $translator
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Framework\View\DesignInterface $design
@@ -166,7 +166,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\UrlInterface $urlBuilder,
+        \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\TranslateInterface $translator,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Framework\View\DesignInterface $design,
@@ -305,7 +305,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     /**
      * Get URL builder
      *
-     * @return \Magento\UrlInterface
+     * @return \Magento\Framework\UrlInterface
      */
     public function getUrlBuilder()
     {

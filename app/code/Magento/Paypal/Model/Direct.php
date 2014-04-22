@@ -133,7 +133,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     protected $_storeManager;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -158,7 +158,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Framework\App\RequestInterface $requestHttp
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param array $data
@@ -176,7 +176,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\UrlInterface $urlBuilder,
+        \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\App\RequestInterface $requestHttp,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         array $data = array()

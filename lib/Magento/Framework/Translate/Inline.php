@@ -31,7 +31,7 @@ class Inline implements \Magento\Framework\Translate\InlineInterface
     protected $isScriptInserted = false;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $url;
 
@@ -74,7 +74,7 @@ class Inline implements \Magento\Framework\Translate\InlineInterface
      * Initialize inline translation model
      *
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param Inline\ConfigInterface $config
      * @param Inline\ParserInterface $parser
@@ -85,7 +85,7 @@ class Inline implements \Magento\Framework\Translate\InlineInterface
      */
     public function __construct(
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\Translate\Inline\ConfigInterface $config,
         \Magento\Framework\Translate\Inline\ParserInterface $parser,

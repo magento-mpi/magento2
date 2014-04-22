@@ -44,7 +44,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function setItemObjectClassDataProvider()
     {
-        return array(array('Magento\Url'), array('Magento\Object'));
+        return array(array('Magento\Framework\Url'), array('Magento\Object'));
     }
 
     /**

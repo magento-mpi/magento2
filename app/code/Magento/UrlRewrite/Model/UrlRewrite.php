@@ -311,7 +311,7 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
         }
 
 
-        $request->setAlias(\Magento\Url::REWRITE_REQUEST_PATH_ALIAS, $this->getRequestPath());
+        $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $this->getRequestPath());
         $external = substr($this->getTargetPath(), 0, 6);
         $isPermanentRedirectOption = $this->hasOption('RP');
         if ($external === 'http:/' || $external === 'https:') {

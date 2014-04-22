@@ -27,7 +27,7 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->urlBuilder = $this->getMock('\Magento\UrlInterface\Proxy', array('getUrl'), array(), '', false);
+        $this->urlBuilder = $this->getMock('\Magento\Framework\UrlInterface\Proxy', array('getUrl'), array(), '', false);
         $this->urlBuilder->expects($this->any())->method('getUrl')->will($this->returnArgument(0));
 
         /** @var \Magento\Framework\View\Element\Template\Context $context */

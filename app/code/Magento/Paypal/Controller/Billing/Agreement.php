@@ -109,10 +109,10 @@ class Agreement extends \Magento\Framework\App\Action\Action
                     $paymentCode
                 )->setReturnUrl(
                     $this->_objectManager->create(
-                        'Magento\UrlInterface'
+                        'Magento\Framework\UrlInterface'
                     )->getUrl('*/*/returnWizard', array('payment_method' => $paymentCode))
                 )->setCancelUrl(
-                    $this->_objectManager->create('Magento\UrlInterface')
+                    $this->_objectManager->create('Magento\Framework\UrlInterface')
                         ->getUrl('*/*/cancelWizard', array('payment_method' => $paymentCode))
                 );
 
