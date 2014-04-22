@@ -23,7 +23,7 @@
     <type name="Magento\Indexer\Model\Indexer\State">
         <plugin name="setStatusForIndexer" type="Magento\Catalog\Model\Indexer\Category\Product\Plugin\IndexerState" />
     </type>
-    <type name="Magento\Mview\View\StateInterface">
+    <type name="Magento\Framework\Mview\View\StateInterface">
         <plugin name="setStatusForMview" type="Magento\Catalog\Model\Indexer\Category\Product\Plugin\MviewState" />
     </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Product\Plugin\IndexerState">
@@ -33,8 +33,8 @@
     </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Product\Plugin\MviewState">
         <arguments>
-            <argument name="state" xsi:type="object" shared="false">Magento\Mview\View\StateInterface</argument>
-            <argument name="changelog" xsi:type="object" shared="false">Magento\Mview\View\ChangelogInterface</argument>
+            <argument name="state" xsi:type="object" shared="false">Magento\Framework\Mview\View\StateInterface</argument>
+            <argument name="changelog" xsi:type="object" shared="false">Magento\Framework\Mview\View\ChangelogInterface</argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Helper\Product">

@@ -10,7 +10,7 @@ namespace Magento\Indexer\Model\Mview\View;
 /**
  * @method \Magento\Indexer\Model\Mview\View\State setViewId(string $value)
  */
-class State extends \Magento\Framework\Model\AbstractModel implements \Magento\Mview\View\StateInterface
+class State extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Mview\View\StateInterface
 {
     /**
      * Prefix of model events names
