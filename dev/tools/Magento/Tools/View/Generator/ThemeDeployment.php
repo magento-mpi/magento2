@@ -65,7 +65,7 @@ class ThemeDeployment
     private $appState;
 
     /**
-     * @var \Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface
+     * @var \Magento\Framework\View\Asset\PreProcessorInterface
      */
     private $preProcessor;
 
@@ -80,7 +80,7 @@ class ThemeDeployment
     private $tmpDirectory;
 
     /**
-     * @var \Magento\View\Asset\ModuleNotation\Resolver
+     * @var \Magento\Framework\View\Asset\ModuleNotation\Resolver
      */
     private $_notationResolver;
 
@@ -89,13 +89,13 @@ class ThemeDeployment
      *
      * @param \Magento\Framework\View\Url\CssResolver $cssUrlResolver
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface $preProcessor
+     * @param \Magento\Framework\View\Asset\PreProcessorInterface $preProcessor
      * @param \Magento\Framework\View\Publisher\FileFactory $fileFactory
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Core\Model\Theme\DataFactory $themeFactory
      * @param \Magento\Framework\App\View\Deployment\Version\StorageInterface $versionStorage
      * @param \Magento\Framework\App\View\Deployment\Version\GeneratorInterface $versionGenerator
-     * @param \Magento\View\Asset\ModuleNotation\Resolver $notationResolver
+     * @param \Magento\Framework\View\Asset\ModuleNotation\Resolver $notationResolver
      * @param string $destinationHomeDir
      * @param string $configPermitted
      * @param string|null $configForbidden
@@ -106,13 +106,13 @@ class ThemeDeployment
     public function __construct(
         \Magento\Framework\View\Url\CssResolver $cssUrlResolver,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface $preProcessor,
+        \Magento\Framework\View\Asset\PreProcessorInterface $preProcessor,
         \Magento\Framework\View\Publisher\FileFactory $fileFactory,
         \Magento\Framework\App\State $appState,
         \Magento\Core\Model\Theme\DataFactory $themeFactory,
         \Magento\Framework\App\View\Deployment\Version\StorageInterface $versionStorage,
         \Magento\Framework\App\View\Deployment\Version\GeneratorInterface $versionGenerator,
-        \Magento\View\Asset\ModuleNotation\Resolver $notationResolver,
+        \Magento\Framework\View\Asset\ModuleNotation\Resolver $notationResolver,
         $destinationHomeDir,
         $configPermitted,
         $configForbidden = null,
@@ -275,7 +275,7 @@ class ThemeDeployment
             // For CSS files we need to process content and fix urls
             // Callback to resolve relative urls to the file names
             $filePath = ltrim(str_replace('\\', '/', str_replace($context['source'], '', $fileSource)), '/');
-            $assetContext = new \Magento\View\Asset\File\FallbackContext(
+            $assetContext = new \Magento\Framework\View\Asset\File\FallbackContext(
                 '',
                 $context['destinationContext']['area'],
                 $context['destinationContext']['themePath'],

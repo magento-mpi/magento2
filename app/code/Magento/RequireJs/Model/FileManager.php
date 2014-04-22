@@ -19,25 +19,25 @@ class FileManager
     private $config;
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     private $filesystem;
 
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     private $appState;
 
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     private $assetRepo;
 
     public function __construct(
         \Magento\RequireJs\Config $config,
-        \Magento\App\Filesystem $appFilesystem,
-        \Magento\App\State $appState,
-        \Magento\View\Asset\Repository $assetRepo
+        \Magento\Framework\App\Filesystem $appFilesystem,
+        \Magento\Framework\App\State $appState,
+        \Magento\Framework\View\Asset\Repository $assetRepo
     ) {
         $this->config = $config;
         $this->filesystem = $appFilesystem;
@@ -48,7 +48,7 @@ class FileManager
     /**
      * Create a view asset representing the aggregated configuration file
      *
-     * @return \Magento\View\Asset\File
+     * @return \Magento\Framework\View\Asset\File
      */
     public function createRequireJsAsset()
     {
@@ -66,8 +66,8 @@ class FileManager
      */
     private function ensureSourceFile($relPath)
     {
-        $dir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
-        if ($this->appState->getMode() == \Magento\App\State::MODE_DEVELOPER || !$dir->isExist($relPath)) {
+        $dir = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR);
+        if ($this->appState->getMode() == \Magento\Framework\App\State::MODE_DEVELOPER || !$dir->isExist($relPath)) {
             $dir->writeFile($relPath, $this->config->getConfig());
         }
     }

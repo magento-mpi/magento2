@@ -46,7 +46,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
     protected $versionGenerator;
 
     /**
-     * @var \Magento\View\Asset\ModuleNotation\Resolver|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Asset\ModuleNotation\Resolver|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $notationResolver;
 
@@ -83,14 +83,14 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $this->versionStorage = $this->getMock('Magento\Framework\App\View\Deployment\Version\StorageInterface');
         $this->versionGenerator = $this->getMock('Magento\Framework\App\View\Deployment\Version\GeneratorInterface');
 
-        $assetRepository = new \Magento\View\Asset\Repository(
+        $assetRepository = new \Magento\Framework\View\Asset\Repository(
             $this->getMockForAbstractClass('Magento\UrlInterface'),
             $this->getMockForAbstractClass('Magento\View\DesignInterface'),
-            $this->getMock('Magento\View\Design\Theme\Provider', array(), array(), '', false),
-            $this->getMock('Magento\View\Asset\Source', array(), array(), '', false),
-            \Magento\App\State::MODE_PRODUCTION
+            $this->getMock('Magento\Framework\View\Design\Theme\Provider', array(), array(), '', false),
+            $this->getMock('Magento\Framework\View\Asset\Source', array(), array(), '', false),
+            \Magento\Framework\App\State::MODE_PRODUCTION
         );
-        $this->notationResolver = new \Magento\View\Asset\ModuleNotation\Resolver($assetRepository);
+        $this->notationResolver = new \Magento\Framework\View\Asset\ModuleNotation\Resolver($assetRepository);
     }
 
     protected function tearDown()
@@ -257,7 +257,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
     {
         $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $preProcessor = $this->getMock(
-            'Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface',
+            'Magento\Framework\View\Asset\PreProcessorInterface',
             array(),
             array(),
             '',

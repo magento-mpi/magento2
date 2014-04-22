@@ -30,7 +30,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
     private $publisher;
 
     /**
-     * @var \Magento\View\Asset\Repository|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Asset\Repository|\PHPUnit_Framework_MockObject_MockObject
      */
     private $assetRepo;
 
@@ -60,7 +60,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
         $this->response = $this->getMockForAbstractClass('Magento\Framework\App\Response\FileInterface');
         $this->request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $this->publisher = $this->getMock('Magento\Framework\App\View\Asset\Publisher', array(), array(), '', false);
-        $this->assetRepo = $this->getMock('Magento\View\Asset\Repository', array(), array(), '', false);
+        $this->assetRepo = $this->getMock('Magento\Framework\View\Asset\Repository', array(), array(), '', false);
         $this->moduleList = $this->getMock('Magento\Module\ModuleList', array(), array(), '', false);
         $this->objectManager = $this->getMockForAbstractClass('Magento\ObjectManager');
         $this->configLoader = $this->getMock('Magento\App\ObjectManager\ConfigLoader', array(), array(), '', false);

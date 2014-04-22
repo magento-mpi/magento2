@@ -28,7 +28,7 @@ class Path implements \Magento\Framework\View\Design\Theme\Image\PathInterface
     protected $mediaDirectory;
 
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $assetRepo;
 
@@ -41,15 +41,15 @@ class Path implements \Magento\Framework\View\Design\Theme\Image\PathInterface
      * Initialize dependencies
      * 
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\View\Asset\Repository $assetRepo,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
-        $this->mediaDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
+        $this->mediaDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
         $this->assetRepo = $assetRepo;
         $this->storeManager = $storeManager;
     }

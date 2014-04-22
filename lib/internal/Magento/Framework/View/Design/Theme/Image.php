@@ -8,6 +8,7 @@
 namespace Magento\Framework\View\Design\Theme;
 
 use Magento\Framework\Filesystem\Directory\WriteInterface;
+use Magento\View\Design\ThemeInterface;
 
 /**
  * Theme Image model class
@@ -25,46 +26,60 @@ class Image
     const PREVIEW_IMAGE_HEIGHT = 800;
 
     /**
+     * Media directory
+     *
+     * @var WriteInterface
+     */
+    protected $mediaDirectory;
+
+    /**
+     * Root directory
+     *
+     * @var WriteInterface
+     */
+    protected $rootDirectory;
+
+    /**
      * Image factory
      *
      * @var \Magento\Image\Factory
      */
-    protected $_imageFactory;
+    protected $imageFactory;
 
     /**
      * Image uploader
      *
      * @var Image\Uploader
      */
-    protected $_uploader;
+    protected $uploader;
 
     /**
      * Theme image path
      *
      * @var Image\PathInterface
      */
-    protected $_themeImagePath;
+    protected $themeImagePath;
 
     /**
      * Logger
      *
      * @var \Magento\Logger
      */
-    protected $_logger;
+    protected $logger;
 
     /**
      * Theme
      *
-     * @var \Magento\Framework\View\Design\ThemeInterface
+     * @var \Magento\Core\Model\Theme|ThemeInterface
      */
-    protected $_theme;
+    protected $theme;
 
     /**
-     * Media directory
+     * Width and height of preview image
      *
-     * @var WriteInterface
+     * @var array
      */
-    protected $_mediaDirectory;
+    protected $imageParams;
 
     /**
      * Initialize dependencies
@@ -74,7 +89,8 @@ class Image
      * @param Image\Uploader $uploader
      * @param Image\PathInterface $themeImagePath
      * @param \Magento\Logger $logger
-     * @param \Magento\Framework\View\Design\ThemeInterface $theme
+     * @param array $imageParams
+     * @param ThemeInterface $theme
      */
     public function __construct(
         \Magento\Framework\App\Filesystem $filesystem,
@@ -82,14 +98,17 @@ class Image
         Image\Uploader $uploader,
         Image\PathInterface $themeImagePath,
         \Magento\Logger $logger,
-        \Magento\Framework\View\Design\ThemeInterface $theme = null
+        $imageParams = [self::PREVIEW_IMAGE_WIDTH, self::PREVIEW_IMAGE_HEIGHT],
+        ThemeInterface $theme = null
     ) {
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
-        $this->_imageFactory = $imageFactory;
-        $this->_uploader = $uploader;
-        $this->_themeImagePath = $themeImagePath;
-        $this->_logger = $logger;
-        $this->_theme = $theme;
+        $this->mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
+        $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $this->imageFactory = $imageFactory;
+        $this->uploader = $uploader;
+        $this->themeImagePath = $themeImagePath;
+        $this->logger = $logger;
+        $this->imageParams = $imageParams;
+        $this->theme = $theme;
     }
 
     /**
@@ -100,43 +119,44 @@ class Image
      */
     public function createPreviewImage($imagePath)
     {
-        $image = $this->_imageFactory->create($imagePath);
+        list($imageWidth, $imageHeight) = $this->imageParams;
+        $image = $this->imageFactory->create($imagePath);
         $image->keepTransparency(true);
         $image->constrainOnly(true);
         $image->keepFrame(true);
         $image->keepAspectRatio(true);
         $image->backgroundColor(array(255, 255, 255));
-        $image->resize(self::PREVIEW_IMAGE_WIDTH, self::PREVIEW_IMAGE_HEIGHT);
+        $image->resize($imageWidth, $imageHeight);
 
         $imageName = uniqid('preview_image_') . image_type_to_extension($image->getMimeType());
-        $image->save($this->_themeImagePath->getImagePreviewDirectory(), $imageName);
-        $this->_theme->setPreviewImage($imageName);
+        $image->save($this->themeImagePath->getImagePreviewDirectory(), $imageName);
+        $this->theme->setPreviewImage($imageName);
         return $this;
     }
 
     /**
      * Create preview image duplicate
      *
-     * @param string $previewImagePath
+     * @param \Magento\Core\Model\Theme|ThemeInterface $theme
      * @return bool
      */
-    public function createPreviewImageCopy($previewImagePath)
+    public function createPreviewImageCopy(ThemeInterface $theme)
     {
-        $previewDir = $this->_themeImagePath->getImagePreviewDirectory();
-        $destinationFilePath = $previewDir . '/' . $previewImagePath;
-        $destinationFileRelative = $this->_mediaDirectory->getRelativePath($destinationFilePath);
-        if (empty($previewImagePath) && !$this->_mediaDirectory->isExist($destinationFileRelative)) {
+        $previewDir = $this->themeImagePath->getImagePreviewDirectory();
+        $sourcePath = $theme->getThemeImage()->getPreviewImagePath();
+        $sourceRelativePath = $this->rootDirectory->getRelativePath($sourcePath);
+        if (!$theme->getPreviewImage() && !$this->mediaDirectory->isExist($sourceRelativePath)) {
             return false;
         }
-
         $isCopied = false;
         try {
-            $destinationFileName = \Magento\File\Uploader::getNewFileName($destinationFilePath);
-            $targetRelative = $this->_mediaDirectory->getRelativePath($previewDir . '/' . $destinationFileName);
-            $isCopied = $this->_mediaDirectory->copyFile($destinationFileRelative, $targetRelative);
-            $this->_theme->setPreviewImage($destinationFileName);
-        } catch (\Exception $e) {
-            $this->_logger->logException($e);
+            $destinationFileName = \Magento\File\Uploader::getNewFileName($sourcePath);
+            $targetRelativePath =  $this->mediaDirectory->getRelativePath($previewDir . '/' . $destinationFileName);
+            $isCopied = $this->rootDirectory->copyFile($sourceRelativePath, $targetRelativePath, $this->mediaDirectory);
+            $this->theme->setPreviewImage($destinationFileName);
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
+            $this->theme->setPreviewImage(null);
+            $this->logger->logException($e);
         }
         return $isCopied;
     }
@@ -148,14 +168,12 @@ class Image
      */
     public function removePreviewImage()
     {
-        $previewImage = $this->_theme->getPreviewImage();
-        $this->_theme->setPreviewImage(null);
+        $previewImage = $this->theme->getPreviewImage();
+        $this->theme->setPreviewImage(null);
         if ($previewImage) {
-            return $this->_mediaDirectory->delete(
-                $this->_mediaDirectory->getRelativePath(
-                    $this->_themeImagePath->getImagePreviewDirectory() . '/' . $previewImage
-                )
-            );
+            return $this->mediaDirectory->delete($this->mediaDirectory->getRelativePath(
+                $this->themeImagePath->getImagePreviewDirectory() . '/' . $previewImage
+            ));
         }
         return false;
     }
@@ -168,29 +186,38 @@ class Image
      */
     public function uploadPreviewImage($scope)
     {
-        $tmpDirPath = $this->_themeImagePath->getTemporaryDirectory();
-        $tmpFilePath = $this->_uploader->uploadPreviewImage($scope, $tmpDirPath);
+        $tmpDirPath = $this->themeImagePath->getTemporaryDirectory();
+        $tmpFilePath = $this->uploader->uploadPreviewImage($scope, $tmpDirPath);
         if ($tmpFilePath) {
-            if ($this->_theme->getPreviewImage()) {
+            if ($this->theme->getPreviewImage()) {
                 $this->removePreviewImage();
             }
             $this->createPreviewImage($tmpFilePath);
-            $this->_mediaDirectory->delete($tmpFilePath);
+            $this->mediaDirectory->delete($tmpFilePath);
         }
         return $this;
     }
 
     /**
-     * Get url for themes preview image
+     * Get path to preview image
+     *
+     * @return string
+     */
+    public function getPreviewImagePath()
+    {
+        return $this->themeImagePath->getPreviewImagePath($this->theme);
+    }
+
+    /**
+     * Get url of theme preview image
      *
      * @return string
      */
     public function getPreviewImageUrl()
     {
-        $previewImage = $this->_theme->getPreviewImage();
-        if ($previewImage) {
-            return $this->_themeImagePath->getPreviewImageDirectoryUrl() . $previewImage;
-        }
-        return $this->_themeImagePath->getPreviewImageDefaultUrl();
+        $previewImage = $this->theme->getPreviewImage();
+        return empty($previewImage)
+            ? $this->themeImagePath->getPreviewImageDefaultUrl()
+            : $this->themeImagePath->getPreviewImageUrl($this->theme);
     }
 }

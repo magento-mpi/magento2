@@ -26,9 +26,9 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                     ->get('Magento\Framework\View\DesignInterface')
                     ->setDefaultDesignTheme();
-                /** @var \Magento\View\Asset\Repository $assetRepo */
+                /** @var \Magento\Framework\View\Asset\Repository $assetRepo */
                 $assetRepo = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
-                    ->get('Magento\View\Asset\Repository');
+                    ->get('Magento\Framework\View\Asset\Repository');
                 $result = $assetRepo->createAsset($file)->getSourceFile();
 
                 $fileInfo = pathinfo($result);
@@ -140,9 +140,9 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                     ->get('Magento\Framework\View\DesignInterface')
                     ->setDefaultDesignTheme();
-                /** @var \Magento\View\Asset\Repository $assetRepo */
+                /** @var \Magento\Framework\View\Asset\Repository $assetRepo */
                 $assetRepo = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
-                    ->get('Magento\View\Asset\Repository');
+                    ->get('Magento\Framework\View\Asset\Repository');
                 $this->assertFileExists($assetRepo->createAsset($file)->getSourceFile());
             },
             $this->viewFilesFromModulesCodeDataProvider()

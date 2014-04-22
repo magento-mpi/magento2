@@ -16,17 +16,17 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     private $fileSource;
 
     /**
-     * @var \Magento\View\DesignInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\DesignInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $design;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $baseDir;
 
     /**
-     * @var \Magento\View\Asset\ContextInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Asset\ContextInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $context;
 
@@ -45,7 +45,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(\Magento\App\Filesystem::ROOT_DIR)
+            ->with(\Magento\Framework\App\Filesystem::ROOT_DIR)
             ->will($this->returnValue($this->baseDir));
         $repo = $this->getMock('\Magento\View\Asset\Repository', array(), array(), '', false);
         $this->context = $this->getMockForAbstractClass('\Magento\View\Asset\ContextInterface');

@@ -7,8 +7,10 @@
  */
 namespace Magento\Framework\View\Asset\MergeStrategy;
 
+use Magento\Framework\View\Asset;
+
 /**
- * Simple merge strategy - merge anyway
+ * The actual merging service
  */
 class Direct implements \Magento\Framework\View\Asset\MergeStrategyInterface
 {
@@ -22,22 +24,16 @@ class Direct implements \Magento\Framework\View\Asset\MergeStrategyInterface
     /**#@-*/
 
     /**
-     * Directory Write
-     *
-     * @var \Magento\Framework\Filesystem\Directory\Write
+     * @var \Magento\Framework\App\Filesystem
      */
-    private $_directory;
+    private $filesystem;
 
     /**
-     * Css Resolver
-     *
      * @var \Magento\Framework\View\Url\CssResolver
      */
-    protected $cssUrlResolver;
+    private $cssUrlResolver;
 
     /**
-     * Constructor
-     *
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\View\Url\CssResolver $cssUrlResolver
      */
@@ -45,76 +41,71 @@ class Direct implements \Magento\Framework\View\Asset\MergeStrategyInterface
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\View\Url\CssResolver $cssUrlResolver
     ) {
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::PUB_DIR);
-        $this->_cssUrlResolver = $cssUrlResolver;
+        $this->filesystem = $filesystem;
+        $this->cssUrlResolver = $cssUrlResolver;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function mergeFiles(array $publicFiles, $destinationFile, $contentType)
+    public function merge(array $assetsToMerge, Asset\LocalInterface $resultAsset)
     {
-        $mergedContent = $this->composeMergedContent($publicFiles, $destinationFile, $contentType);
-        $this->_directory->writeFile($this->_directory->getRelativePath($destinationFile), $mergedContent);
+        $mergedContent = $this->composeMergedContent($assetsToMerge, $resultAsset);
+        $dir = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR);
+        $dir->writeFile($resultAsset->getPath(), $mergedContent);
     }
 
     /**
      * Merge files together and modify content if needed
      *
-     * @param array $publicFiles
-     * @param string $targetFile
-     * @param string $contentType
+     * @param \Magento\Framework\View\Asset\MergeableInterface[] $assetsToMerge
+     * @param \Magento\Framework\View\Asset\LocalInterface $resultAsset
      * @return string
      * @throws \Magento\Exception
      */
-    protected function composeMergedContent(array $publicFiles, $targetFile, $contentType)
+    private function composeMergedContent(array $assetsToMerge, Asset\LocalInterface $resultAsset)
     {
         $result = array();
-        $isCss = $contentType == \Magento\Framework\View\Publisher::CONTENT_TYPE_CSS ? true : false;
-        $delimiter = $this->_getFilesContentDelimiter($contentType);
-
-        foreach ($publicFiles as $file) {
-            if (!$this->_directory->isExist($this->_directory->getRelativePath($file))) {
-                throw new \Magento\Exception("Unable to locate file '{$file}' for merging.");
-            }
-            $content = $this->_directory->readFile($this->_directory->getRelativePath($file));
-            if ($isCss) {
-                $content = $this->_cssUrlResolver->replaceCssRelativeUrls($content, $file, $targetFile);
-            }
-            $result[] = $content;
+        /** @var Asset\MergeableInterface $asset */
+        foreach ($assetsToMerge as $asset) {
+            $result[] = $this->preProcessBeforeMerging($asset, $resultAsset, $asset->getContent());
         }
-        $result = ltrim(implode($delimiter, $result));
-        if ($isCss) {
-            $result = $this->_popCssImportsUp($result);
-        }
-
+        $delimiter = $this->_getFilesContentDelimiter($asset->getContent());
+        $result = $this->preProcessMergeResult($resultAsset, ltrim($delimiter, implode($result)));
         return $result;
     }
 
     /**
-     * Put CSS import directives to the start of CSS content
+     * Process an asset before merging into resulting asset
      *
-     * @param string $contents
+     * @param Asset\LocalInterface $item
+     * @param Asset\LocalInterface $result
+     * @param string $content
      * @return string
      */
-    protected function _popCssImportsUp($contents)
+    private function preProcessBeforeMerging(Asset\LocalInterface $item, Asset\LocalInterface $result, $content)
     {
-        $parts = preg_split('/(@import\s.+?;\s*)/', $contents, -1, PREG_SPLIT_DELIM_CAPTURE);
-        $imports = array();
-        $css = array();
-        foreach ($parts as $part) {
-            if (0 === strpos($part, '@import', 0)) {
-                $imports[] = trim($part);
-            } else {
-                $css[] = $part;
-            }
+        if ($result->getContentType() == 'css') {
+            $from = $item->getPath();
+            $to = $result->getPath();
+            return $this->cssUrlResolver->relocateRelativeUrls($content, $from, $to);
         }
+        return $content;
+    }
 
-        $result = implode($css);
-        if ($imports) {
-            $result = implode("\n", $imports) . "\n" . "/* Import directives above popped up. */\n" . $result;
+    /**
+     * Process the resulting asset after merging content is done
+     *
+     * @param Asset\LocalInterface $result
+     * @param string $content
+     * @return string
+     */
+    private function preProcessMergeResult(Asset\LocalInterface $result, $content)
+    {
+        if ($result->getContentType() == 'css') {
+            $content = $this->cssUrlResolver->aggregateImportDirectives($content);
         }
-        return $result;
+        return $content;
     }
 
     /**
@@ -125,7 +116,7 @@ class Direct implements \Magento\Framework\View\Asset\MergeStrategyInterface
      */
     protected function _getFilesContentDelimiter($contentType)
     {
-        if ($contentType == \Magento\Framework\View\Publisher::CONTENT_TYPE_JS) {
+        if ($contentType == 'js') {
             return self::MERGE_DELIMITER_JS;
         }
         return self::MERGE_DELIMITER_EMPTY;

@@ -11,12 +11,12 @@ namespace Magento\Less\PreProcessor\Instruction;
 class MagentoImportTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\DesignInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\DesignInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $design;
 
     /**
-     * @var \Magento\View\File\CollectorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\File\CollectorInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $fileSource;
 
@@ -26,12 +26,12 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
     private $errorHandler;
 
     /**
-     * @var \Magento\View\Asset\ModuleNotation\Resolver|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Asset\ModuleNotation\Resolver|\PHPUnit_Framework_MockObject_MockObject
      */
     private $notationResolver;
 
     /**
-     * @var \Magento\View\Asset\File|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Asset\File|\PHPUnit_Framework_MockObject_MockObject
      */
     private $asset;
 
@@ -64,7 +64,7 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcess($originalContent, $foundPath, $resolvedPath, $foundFiles, $expectedContent)
     {
-        $chain = new \Magento\View\Asset\PreProcessor\Chain($this->asset, $originalContent, 'css');
+        $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain($this->asset, $originalContent, 'css');
         $this->notationResolver->expects($this->once())
             ->method('convertModuleNotationToPath')
             ->with($this->asset, $foundPath)
@@ -75,7 +75,7 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($theme));
         $files = [];
         foreach ($foundFiles as $file) {
-            $fileObject = $this->getMock('Magento\View\File', array(), array(), '', false);
+            $fileObject = $this->getMock('Magento\Framework\View\File', array(), array(), '', false);
             $fileObject->expects($this->any())
                 ->method('getModule')
                 ->will($this->returnValue($file['module']));
@@ -125,7 +125,7 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
     {
         $originalContent = 'color: #000000;';
         $expectedContent = 'color: #000000;';
-        $chain = new \Magento\View\Asset\PreProcessor\Chain($this->asset, $originalContent, 'css');
+        $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain($this->asset, $originalContent, 'css');
         $this->notationResolver->expects($this->never())
             ->method('convertModuleNotationToPath');
         $this->object->process($chain);
@@ -135,7 +135,9 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessException()
     {
-        $chain = new \Magento\View\Asset\PreProcessor\Chain($this->asset, '//@magento_import "some/file.css";', 'css');
+        $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain(
+            $this->asset, '//@magento_import "some/file.css";', 'css'
+        );
         $exception = new \LogicException('Error happened');
         $this->notationResolver->expects($this->once())
             ->method('convertModuleNotationToPath')

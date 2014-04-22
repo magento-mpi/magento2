@@ -185,7 +185,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
                 ),
                 'filesystem' => $this->_filesystemMock,
                 'imageFactory' => $this->_adapterFactoryMock,
-                'assetRepo' => $this->getMock('Magento\View\Asset\Repository', array(), array(), '', false),
+                'assetRepo' => $this->getMock('Magento\Framework\View\Asset\Repository', array(), array(), '', false),
                 'storageCollectionFactory' => $this->_storageCollectionFactoryMock,
                 'storageFileFactory' => $this->_storageFileFactoryMock,
                 'storageDatabaseFactory' => $this->_storageDatabaseFactoryMock,

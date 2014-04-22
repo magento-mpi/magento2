@@ -8,9 +8,9 @@
 
 namespace Magento\Less\PreProcessor\Instruction;
 
-use Magento\View\Asset\PreProcessorInterface;
-use Magento\View\Asset\LocalInterface;
-use Magento\View\Asset\ModuleNotation;
+use Magento\Framework\View\Asset\PreProcessorInterface;
+use Magento\Framework\View\Asset\LocalInterface;
+use Magento\Framework\View\Asset\ModuleNotation;
 
 /**
  * Less @import instruction preprocessor
@@ -24,7 +24,7 @@ class Import implements PreProcessorInterface
         '#@import\s+(\((?P<type>\w+)\)\s+)?[\'\"](?P<path>(?![/\\\]|\w:[/\\\])[^\"\']+)[\'\"]\s*?(?P<media>.*?);#';
 
     /**
-     * @var \Magento\View\Asset\ModuleNotation\Resolver
+     * @var \Magento\Framework\View\Asset\ModuleNotation\Resolver
      */
     private $notationResolver;
 
@@ -44,7 +44,7 @@ class Import implements PreProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(\Magento\View\Asset\PreProcessor\Chain $chain)
+    public function process(\Magento\Framework\View\Asset\PreProcessor\Chain $chain)
     {
         $asset = $chain->getAsset();
         $replaceCallback = function ($matchContent) use ($asset) {

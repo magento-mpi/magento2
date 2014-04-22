@@ -48,7 +48,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                             \Magento\Framework\App\Filesystem::MODULES_DIR => array(
                                 'path' => dirname(dirname(__DIR__)) . '/_files/code'
                             ),
-                            \Magento\App\Filesystem::THEMES_DIR => array(
+                            \Magento\Framework\App\Filesystem::THEMES_DIR => array(
                                 'path' => dirname(dirname(__DIR__)) . '/_files/design'
                             ),
                         )
@@ -57,13 +57,13 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var \Magento\View\File\Collector\Base $sourceBase */
+        /** @var \Magento\Framework\View\File\Collector\Base $sourceBase */
         $sourceBase = $this->objectManager->create(
-            'Magento\View\File\Collector\Base', array('filesystem' => $filesystem, 'subDir' => 'web')
+            'Magento\Framework\View\File\Collector\Base', array('filesystem' => $filesystem, 'subDir' => 'web')
         );
-        /** @var \Magento\View\File\Collector\Base $sourceBase */
+        /** @var \Magento\Framework\View\File\Collector\Base $sourceBase */
         $sourceTheme = $this->objectManager->create(
-            'Magento\View\File\Collector\ThemeModular', array('filesystem' => $filesystem, 'subDir' => 'web')
+            'Magento\Framework\View\File\Collector\ThemeModular', array('filesystem' => $filesystem, 'subDir' => 'web')
         );
         $this->model = $this->objectManager->create(
             'Magento\Less\File\Collector\Aggregated',
@@ -91,7 +91,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
         $files = $this->model->getFiles($theme, $path);
         $this->assertCount(count($expectedFiles), $files, 'Files number doesn\'t match');
 
-        /** @var $file \Magento\View\File */
+        /** @var $file \Magento\Framework\View\File */
         foreach ($files as $file) {
             if (!in_array($file->getFilename(), $expectedFiles)) {
                 $this->fail(sprintf('File "%s" is not expected but found', $file->getFilename()));

@@ -39,7 +39,7 @@ class StaticResource implements \Magento\Framework\AppInterface
     private $publisher;
 
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     private $assetRepo;
 
@@ -63,7 +63,7 @@ class StaticResource implements \Magento\Framework\AppInterface
      * @param Response\FileInterface $response
      * @param Request\Http $request
      * @param \Magento\Framework\App\View\Asset\Publisher $publisher
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Module\ModuleList $moduleList
      * @param \Magento\ObjectManager $objectManager
      * @param ObjectManager\ConfigLoader $configLoader
@@ -73,7 +73,7 @@ class StaticResource implements \Magento\Framework\AppInterface
         Response\FileInterface $response,
         Request\Http $request,
         View\Asset\Publisher $publisher,
-        \Magento\View\Asset\Repository $assetRepo,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Module\ModuleList $moduleList,
         \Magento\ObjectManager $objectManager,
         ObjectManager\ConfigLoader $configLoader

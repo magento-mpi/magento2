@@ -8,28 +8,24 @@
 namespace Magento\Framework\View\Asset\MergeStrategy;
 
 /**
- * Merge strategy representing the following: merged file is being recreated if and only if file does not exist
- * or meta-file does not exist or checksums do not match
+ * Skip merging if all of the files that need to be merged were not modified
+ *
+ * Each file will be resolved and its mtime will be checked.
+ * Then combination of all mtimes will be compared to a special .dat file that contains mtimes from previous merging
  */
 class Checksum implements \Magento\Framework\View\Asset\MergeStrategyInterface
 {
     /**
-     * Strategy
-     *
      * @var \Magento\Framework\View\Asset\MergeStrategyInterface
      */
     protected $strategy;
 
     /**
-     * Filesystem
-     *
      * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
 
     /**
-     * Constructor
-     *
      * @param \Magento\Framework\View\Asset\MergeStrategyInterface $strategy
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
@@ -44,27 +40,23 @@ class Checksum implements \Magento\Framework\View\Asset\MergeStrategyInterface
     /**
      * {@inheritdoc}
      */
-    public function mergeFiles(array $publicFiles, $destinationFile, $contentType)
+    public function merge(array $assetsToMerge, \Magento\Framework\View\Asset\LocalInterface $resultAsset)
     {
-        $directory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::PUB_DIR);
-        $mergedMTimeFile = $directory->getRelativePath($destinationFile . '.dat');
-
-        // Check whether we have already merged these files
-        $filesMTimeData = '';
-        foreach ($publicFiles as $file) {
-            $filesMTimeData .= $directory->stat($directory->getRelativePath($file))['mtime'];
+        $sourceDir = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $mTime = null;
+        /** @var \Magento\Framework\View\Asset\MergeableInterface $asset */
+        foreach ($assetsToMerge as $asset) {
+            $mTime .= $sourceDir->stat($sourceDir->getRelativePath($asset->getSourceFile()))['mtime'];
         }
-        if (!($directory->isExist(
-            $destinationFile
-        ) && $directory->isExist(
-            $mergedMTimeFile
-        ) && strcmp(
-            $filesMTimeData,
-            $directory->readFile($mergedMTimeFile)
-        ) == 0)
-        ) {
-            $this->strategy->mergeFiles($publicFiles, $destinationFile, $contentType);
-            $directory->writeFile($mergedMTimeFile, $filesMTimeData);
+        if (null === $mTime) {
+            return; // nothing to merge
+        }
+
+        $dat = $resultAsset->getPath() . '.dat';
+        $targetDir = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR);
+        if (!$targetDir->isExist($dat) || strcmp($mTime, $targetDir->readFile($dat)) !== 0) {
+            $this->strategy->merge($assetsToMerge, $resultAsset);
+            $targetDir->writeFile($dat, $mTime);
         }
     }
 }

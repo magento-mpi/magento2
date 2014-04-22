@@ -30,12 +30,12 @@ class Widget
     protected $_configCacheType;
 
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
 
     /**
-     * @var \Magento\View\Asset\Source
+     * @var \Magento\Framework\View\Asset\Source
      */
     protected $_assetSource;
 
@@ -59,15 +59,15 @@ class Widget
     /**
      * @param \Magento\Escaper $escaper
      * @param \Magento\Widget\Model\Config\Data $dataStorage
-     * @param \Magento\View\Asset\Repository $assetRepo
-     * @param \Magento\View\Asset\Source $assetSource
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\Source $assetSource
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
      */
     public function __construct(
         \Magento\Escaper $escaper,
         \Magento\Widget\Model\Config\Data $dataStorage,
-        \Magento\View\Asset\Repository $assetRepo,
-        \Magento\View\Asset\Source $assetSource,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
+        \Magento\Framework\View\Asset\Source $assetSource,
         \Magento\Framework\View\FileSystem $viewFileSystem
     ) {
         $this->_escaper = $escaper;

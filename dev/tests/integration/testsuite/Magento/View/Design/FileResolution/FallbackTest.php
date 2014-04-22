@@ -19,20 +19,25 @@ use Magento\TestFramework\Helper\Bootstrap;
 class FallbackTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Design\Theme\FlyweightFactory
+     * @var \Magento\Framework\View\Design\Theme\FlyweightFactory
      */
     private $themeFactory;
 
     protected function setUp()
     {
         Bootstrap::getInstance()->reinitialize(array(
-            \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\App\Filesystem::THEMES_DIR => array('path' => __DIR__ . '/../../_files/fallback/design'),
-                \Magento\App\Filesystem::LIB_WEB => array('path' => __DIR__ . '/../../_files/fallback/lib/web'),
+            \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
+                \Magento\Framework\App\Filesystem::THEMES_DIR => array(
+                    'path' => __DIR__ . '/../../_files/fallback/design'
+                ),
+                \Magento\Framework\App\Filesystem::LIB_WEB => array(
+                    'path' => __DIR__ . '/../../_files/fallback/lib/web'
+                ),
             )
         ));
-        /** @var \Magento\View\Design\Theme\FlyweightFactory $themeFactory */
-        $this->themeFactory = Bootstrap::getObjectManager()->get('Magento\View\Design\Theme\FlyweightFactory');
+        /** @var \Magento\Framework\View\Design\Theme\FlyweightFactory $themeFactory */
+        $this->themeFactory = Bootstrap::getObjectManager()
+            ->get('Magento\Framework\View\Design\Theme\FlyweightFactory');
     }
 
     /**
@@ -45,8 +50,9 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTemplateFile($file, $themePath, $module, $expectedFilename)
     {
-        /** @var \Magento\View\Design\FileResolution\Fallback\TemplateFile $model */
-        $model = Bootstrap::getObjectManager()->create('Magento\View\Design\FileResolution\Fallback\TemplateFile');
+        /** @var \Magento\Framework\View\Design\FileResolution\Fallback\TemplateFile $model */
+        $model = Bootstrap::getObjectManager()
+            ->create('Magento\Framework\View\Design\FileResolution\Fallback\TemplateFile');
         $themeModel = $this->themeFactory->create($themePath);
 
         $actualFilename = $model->getFile('frontend', $themeModel, $file, $module);
@@ -102,8 +108,8 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetI18nCsvFile($themePath, $locale, $expectedFilename)
     {
-        /** @var \Magento\View\Design\FileResolution\Fallback\File $model */
-        $model = Bootstrap::getObjectManager()->create('Magento\View\Design\FileResolution\Fallback\File');
+        /** @var \Magento\Framework\View\Design\FileResolution\Fallback\File $model */
+        $model = Bootstrap::getObjectManager()->create('Magento\Framework\View\Design\FileResolution\Fallback\File');
         $themeModel = $this->themeFactory->create($themePath);
 
         $actualFilename = $model->getFile('frontend', $themeModel, 'i18n/' . $locale . '.csv');
@@ -148,8 +154,9 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetViewFile($file, $themePath, $locale, $module, $expectedFilename)
     {
-        /** @var \Magento\View\Design\FileResolution\Fallback\StaticFile $model */
-        $model = Bootstrap::getObjectManager()->create('Magento\View\Design\FileResolution\Fallback\StaticFile');
+        /** @var \Magento\Framework\View\Design\FileResolution\Fallback\StaticFile $model */
+        $model = Bootstrap::getObjectManager()
+            ->create('Magento\Framework\View\Design\FileResolution\Fallback\StaticFile');
         $themeModel = $this->themeFactory->create($themePath);
 
         $actualFilename = $model->getFile('frontend', $themeModel, $locale, $file, $module);

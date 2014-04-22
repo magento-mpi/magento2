@@ -23,12 +23,12 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     protected $themeRepo;
 
     /**
-     * @var \Magento\View\Design\FileResolution\Fallback\StaticFile
+     * @var \Magento\Framework\View\Design\FileResolution\Fallback\StaticFile
      */
     protected $viewFilesFallback;
 
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $assetRepo;
 
@@ -94,7 +94,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     private function resolveFileUsingFallback($fileId, $area, $themeId)
     {
         $params = array('area' => $area, 'themeId' => $themeId);
-        list($params['module'], $fileId) = \Magento\View\Asset\Repository::extractModule($fileId);
+        list($params['module'], $fileId) = \Magento\Framework\View\Asset\Repository::extractModule($fileId);
         $this->assetRepo->updateDesignParams($params);
         $themeModel = $this->themeRepo->create($themeId, $area);
         return $this->viewFilesFallback->getFile($area, $themeModel, $params['locale'], $fileId, $params['module']);
@@ -114,7 +114,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
              */
             function ($file, $area, $themeId) {
                 $params = array('area' => $area, 'themeId' => $themeId);
-                list($params['module'], $file) = \Magento\View\Asset\Repository::extractModule($file);
+                list($params['module'], $file) = \Magento\Framework\View\Asset\Repository::extractModule($file);
                 $this->assetRepo->updateDesignParams($params);
                 $originalViewFile = $this->viewFilesFallback->getFile(
                     $params['area'], $params['themeModel'], $params['locale'], $file, $params['module']
@@ -123,14 +123,14 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                 $this->assertFileExists($originalViewFile);
                 if (in_array(pathinfo($file, PATHINFO_EXTENSION), array('css', 'less'))) {
                     $content = file_get_contents($originalViewFile);
-                    preg_match_all(\Magento\View\Url\CssResolver::REGEX_CSS_RELATIVE_URLS, $content, $matches);
+                    preg_match_all(\Magento\Framework\View\Url\CssResolver::REGEX_CSS_RELATIVE_URLS, $content, $matches);
                     $absentFiles = array();
                     foreach ($matches[1] as $relatedSource) {
                         $relatedParams = $params;
                         $originalRelatedSource = $relatedSource;
                         $relatedSource = $this->_addCssDirectory($relatedSource, $file);
                         list($module, $relatedSource) =
-                            \Magento\View\Asset\Repository::extractModule($relatedSource);
+                            \Magento\Framework\View\Asset\Repository::extractModule($relatedSource);
                         if (!empty($module)) {
                             $relatedParams['module'] = $module;
                         }

@@ -13,31 +13,53 @@ namespace Magento\Framework\View;
 class FileSystem
 {
     /**
-     * Model, used to resolve the file paths
-     *
-     * @var \Magento\Framework\View\Design\FileResolution\StrategyPool
+     * @var \Magento\Framework\View\Design\FileResolution\Fallback\File
      */
-    protected $_resolutionPool;
+    protected $_fileResolution;
+
+    /**
+     * @var \Magento\Framework\View\Design\FileResolution\Fallback\TemplateFile
+     */
+    protected $_templateFileResolution;
+
+    /**
+     * @var \Magento\Framework\View\Design\FileResolution\Fallback\LocaleFile
+     */
+    protected $_localeFileResolution;
+
+    /**
+     * @var \Magento\Framework\View\Design\FileResolution\Fallback\StaticFile
+     */
+    protected $_staticFileResolution;
 
     /**
      * View service
      *
-     * @var Service
+     * @var \Magento\Framework\View\Asset\Repository
      */
-    protected $_viewService;
+    protected $_assetRepo;
 
     /**
      * Constructor
      *
-     * @param \Magento\Framework\View\Design\FileResolution\StrategyPool $resolutionPool
-     * @param Service $viewService
+     * @param \Magento\Framework\View\Design\FileResolution\Fallback\File $fallbackFile
+     * @param \Magento\Framework\View\Design\FileResolution\Fallback\TemplateFile $fallbackTemplateFile
+     * @param \Magento\Framework\View\Design\FileResolution\Fallback\LocaleFile $fallbackLocaleFile
+     * @param \Magento\Framework\View\Design\FileResolution\Fallback\StaticFile $fallbackStaticFile
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      */
     public function __construct(
-        \Magento\Framework\View\Design\FileResolution\StrategyPool $resolutionPool,
-        Service $viewService
+        \Magento\Framework\View\Design\FileResolution\Fallback\File $fallbackFile,
+        \Magento\Framework\View\Design\FileResolution\Fallback\TemplateFile $fallbackTemplateFile,
+        \Magento\Framework\View\Design\FileResolution\Fallback\LocaleFile $fallbackLocaleFile,
+        \Magento\Framework\View\Design\FileResolution\Fallback\StaticFile $fallbackStaticFile,
+        \Magento\Framework\View\Asset\Repository $assetRepo
     ) {
-        $this->_resolutionPool = $resolutionPool;
-        $this->_viewService = $viewService;
+        $this->_fileResolution = $fallbackFile;
+        $this->_templateFileResolution = $fallbackTemplateFile;
+        $this->_localeFileResolution = $fallbackLocaleFile;
+        $this->_staticFileResolution = $fallbackStaticFile;
+        $this->_assetRepo = $assetRepo;
     }
 
     /**
@@ -49,16 +71,14 @@ class FileSystem
      */
     public function getFilename($fileId, array $params = array())
     {
-        $filePath = $this->_viewService->extractScope($this->normalizePath($fileId), $params);
-        $this->_viewService->updateDesignParams($params);
-        return $this->_resolutionPool->getFileStrategy(
-            !empty($params['skipProxy'])
-        )->getFile(
-            $params['area'],
-            $params['themeModel'],
-            $filePath,
-            $params['module']
-        );
+        list($module, $filePath) = \Magento\Framework\View\Asset\Repository::extractModule($this->normalizePath($fileId));
+        if ($module) {
+            $params['module'] = $module;
+        }
+        $this->_assetRepo->updateDesignParams($params);
+        $file = $this->_fileResolution
+            ->getFile($params['area'], $params['themeModel'], $filePath, $params['module']);
+        return $file;
     }
 
     /**
@@ -70,81 +90,67 @@ class FileSystem
      */
     public function getLocaleFileName($file, array $params = array())
     {
-        $this->_viewService->updateDesignParams($params);
-        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
-        return $this->_resolutionPool->getLocaleStrategy(
-            $skipProxy
-        )->getLocaleFile(
-            $params['area'],
-            $params['themeModel'],
-            $params['locale'],
-            $file
-        );
+        $this->_assetRepo->updateDesignParams($params);
+        return $this->_localeFileResolution
+            ->getFile($params['area'], $params['themeModel'], $params['locale'], $file);
     }
 
     /**
-     * Find a view file using fallback mechanism
+     * Get a template file
      *
      * @param string $fileId
      * @param array $params
      * @return string
      */
-    public function getViewFile($fileId, array $params = array())
+    public function getTemplateFileName($fileId, array $params = array())
     {
-        $filePath = $this->_viewService->extractScope($this->normalizePath($fileId), $params);
-        $this->_viewService->updateDesignParams($params);
-        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
-        return $this->_resolutionPool->getViewStrategy(
-            $skipProxy
-        )->getViewFile(
-            $params['area'],
-            $params['themeModel'],
-            $params['locale'],
-            $filePath,
-            $params['module']
+        list($module, $filePath) = \Magento\Framework\View\Asset\Repository::extractModule(
+            $this->normalizePath($fileId)
         );
-    }
-
-    /**
-     * Notify that view file resolved path was changed (i.e. it was published to a public directory)
-     *
-     * @param Publisher\FileInterface $publisherFile
-     * @return $this
-     */
-    public function notifyViewFileLocationChanged(Publisher\FileInterface $publisherFile)
-    {
-        $params = $publisherFile->getViewParams();
-        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
-        $strategy = $this->_resolutionPool->getViewStrategy($skipProxy);
-        if ($strategy instanceof Design\FileResolution\Strategy\View\NotifiableInterface) {
-            /** @var $strategy Design\FileResolution\Strategy\View\NotifiableInterface  */
-            $strategy->setViewFilePathToMap(
-                $params['area'],
-                $params['themeModel'],
-                $params['locale'],
-                $params['module'],
-                $publisherFile->getFilePath(),
-                $publisherFile->buildPublicViewFilename()
-            );
+        if ($module) {
+            $params['module'] = $module;
         }
-
-        return $this;
+        $this->_assetRepo->updateDesignParams($params);
+        return $this->_templateFileResolution
+            ->getFile($params['area'], $params['themeModel'], $filePath, $params['module']);
     }
 
     /**
-     * Remove unmeaning path chunks from path
+     * Find a static view file using fallback mechanism
+     *
+     * @param string $fileId
+     * @param array $params
+     * @return string
+     */
+    public function getStaticFileName($fileId, array $params = array())
+    {
+        list($module, $filePath) = \Magento\Framework\View\Asset\Repository::extractModule(
+            $this->normalizePath($fileId)
+        );
+        if ($module) {
+            $params['module'] = $module;
+        }
+        $this->_assetRepo->updateDesignParams($params);
+        return $this->_staticFileResolution
+            ->getFile($params['area'], $params['themeModel'], $params['locale'], $filePath, $params['module']);
+    }
+
+    /**
+     * Remove excessive "." and ".." parts from a path
+     *
+     * For example foo/bar/../file.ext -> foo/file.ext
      *
      * @param string $path
      * @return string
      */
-    public function normalizePath($path)
+    public static function normalizePath($path)
     {
         $parts = explode('/', $path);
         $result = array();
 
         foreach ($parts as $part) {
             if ('..' === $part) {
-                if (!count($result) || $result[count($result) - 1] == '..') {
+                if (!count($result) || ($result[count($result) - 1] == '..')) {
                     $result[] = $part;
                 } else {
                     array_pop($result);
@@ -154,5 +160,55 @@ class FileSystem
             }
         }
         return implode('/', $result);
+    }
+
+    /**
+     * Get a relative path between $relatedPath and $path paths as if $path was to refer to $relatedPath
+     * relatively of itself
+     *
+     * Returns new calculated relative path.
+     * Examples:
+     *   $path: /some/directory/one/file.ext
+     *   $relatedPath: /some/directory/two/another/file.ext
+     *   Result: ../two/another
+     *
+     *   $path: http://example.com/themes/demo/css/styles.css
+     *   $relatedPath: http://example.com/images/logo.gif
+     *   Result: ../../../images
+     *
+     * @param string $relatedPath
+     * @param string $path
+     * @return string
+     */
+    public static function offsetPath($relatedPath, $path)
+    {
+        $relatedPath = self::normalizePath($relatedPath);
+        $path = self::normalizePath($path);
+        list($relatedPath, $path) = self::ltrimSamePart($relatedPath, $path);
+        $toDir = ltrim(dirname($path), '/');
+        if ($toDir == '.') {
+            $offset = '';
+        } else {
+            $offset = str_repeat('../', count(explode('/', $toDir)));
+        }
+        return rtrim($offset . dirname($relatedPath), '/');
+    }
+
+    /**
+     * Left-trim same part of two paths
+     *
+     * @param string $pathOne
+     * @param string $pathTwo
+     * @return array
+     */
+    private static function ltrimSamePart($pathOne, $pathTwo)
+    {
+        $one = explode('/', $pathOne);
+        $two = explode('/', $pathTwo);
+        while (isset($one[0]) && isset($two[0]) && $one[0] == $two[0]) {
+            array_shift($one);
+            array_shift($two);
+        }
+        return array(implode('/', $one), implode('/', $two));
     }
 }

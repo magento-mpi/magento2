@@ -8,8 +8,8 @@
 
 namespace Magento\RequireJs\Config\File\Collector;
 
-use Magento\View\Design\ThemeInterface;
-use Magento\View\File\CollectorInterface;
+use Magento\Framework\View\Design\ThemeInterface;
+use Magento\Framework\View\File\CollectorInterface;
 
 /**
  * Source of RequireJs config files basing on list of directories they may be located in
@@ -19,49 +19,49 @@ class Aggregated implements CollectorInterface
     /**
      * Base files
      *
-     * @var \Magento\View\File\CollectorInterface
+     * @var \Magento\Framework\View\File\CollectorInterface
      */
     protected $baseFiles;
 
     /**
      * Theme files
      *
-     * @var \Magento\View\File\CollectorInterface
+     * @var \Magento\Framework\View\File\CollectorInterface
      */
     protected $themeFiles;
 
     /**
      * Theme modular files
      *
-     * @var CollectorInterface
+     * @var \Magento\Framework\View\File\CollectorInterface
      */
     protected $themeModularFiles;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $libDirectory;
 
     /**
-     * @var \Magento\View\File\Factory
+     * @var \Magento\Framework\View\File\Factory
      */
     protected $fileFactory;
 
     /**
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\File\Factory $fileFactory
+     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\View\File\Factory $fileFactory
      * @param CollectorInterface $baseFiles
      * @param CollectorInterface $themeFiles
      * @param CollectorInterface $themeModularFiles
      */
     public function __construct(
-        \Magento\App\Filesystem $filesystem,
-        \Magento\View\File\Factory $fileFactory,
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\View\File\Factory $fileFactory,
         CollectorInterface $baseFiles,
         CollectorInterface $themeFiles,
         CollectorInterface $themeModularFiles
     ) {
-        $this->libDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::LIB_WEB);
+        $this->libDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::LIB_WEB);
         $this->fileFactory = $fileFactory;
         $this->baseFiles = $baseFiles;
         $this->themeFiles = $themeFiles;
@@ -74,7 +74,7 @@ class Aggregated implements CollectorInterface
      * @param ThemeInterface $theme
      * @param string $filePath
      * @throws \InvalidArgumentException
-     * @return \Magento\View\File[]
+     * @return \Magento\Framework\View\File[]
      */
     public function getFiles(ThemeInterface $theme, $filePath)
     {

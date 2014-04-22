@@ -140,7 +140,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             /**
              * Check whether page types are declared only in layout update files allowed for it - base ones
              */
-            function (\Magento\View\File $layout) {
+            function (\Magento\Framework\View\File $layout) {
                 $content = simplexml_load_file($layout->getFilename());
                 $this->assertEmpty(
                     $content->xpath(\Magento\Core\Model\Layout\Merge::XPATH_HANDLE_DECLARATION),
@@ -154,22 +154,22 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     /**
      * Get theme layout updates
      *
-     * @return \Magento\View\File[]
+     * @return \Magento\Framework\View\File[]
      */
     public function pageTypesDeclarationDataProvider()
     {
-        /** @var $themeUpdates \Magento\View\File\Collector\ThemeModular */
+        /** @var $themeUpdates \Magento\Framework\View\File\Collector\ThemeModular */
         $themeUpdates = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\File\Collector\ThemeModular', array('subDir' => 'layout'));
-        /** @var $themeUpdatesOverride \Magento\View\File\Collector\Override\ThemeModular */
+            ->create('Magento\Framework\View\File\Collector\ThemeModular', array('subDir' => 'layout'));
+        /** @var $themeUpdatesOverride \Magento\Framework\View\File\Collector\Override\ThemeModular */
         $themeUpdatesOverride = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\File\Collector\Override\ThemeModular', array('subDir' => 'layout/override'));
+            ->create('Magento\Framework\View\File\Collector\Override\ThemeModular', array('subDir' => 'layout/override'));
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
         $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Theme\Collection'
         );
         $themeCollection->addDefaultPattern('*');
-        /** @var $themeLayouts \Magento\View\File[] */
+        /** @var $themeLayouts \Magento\Framework\View\File[] */
         $themeLayouts = array();
         /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         foreach ($themeCollection as $theme) {
@@ -190,13 +190,13 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             /**
              * Check, that for an overriding file ($themeFile) in a theme ($theme), there is a corresponding base file
              *
-             * @param \Magento\View\File $themeFile
+             * @param \Magento\Framework\View\File $themeFile
              * @param \Magento\Framework\View\Design\ThemeInterface $theme
              */
             function ($themeFile, $theme) {
                 $baseFiles = self::_getCachedFiles(
                     $theme->getArea(),
-                    'Magento\View\File\Collector\Base',
+                    'Magento\Framework\View\File\Collector\Base',
                     $theme
                 );
                 $fileKey = $themeFile->getModule() . '/' . $themeFile->getName();
@@ -218,7 +218,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
              * Check, that for an ancestor-overriding file ($themeFile) in a theme ($theme),
              * there is a corresponding file in that ancestor theme
              *
-             * @param \Magento\View\File $themeFile
+             * @param \Magento\Framework\View\File $themeFile
              * @param \Magento\Framework\View\Design\ThemeInterface $theme
              */
             function ($themeFile, $theme) {
@@ -241,7 +241,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
                 // Search for the overridden file in the ancestor theme
                 $ancestorFiles = self::_getCachedFiles($ancestorTheme->getFullPath(),
-                    'Magento\View\File\Collector\ThemeModular', $ancestorTheme);
+                    'Magento\Framework\View\File\Collector\ThemeModular', $ancestorTheme);
                 $fileKey = $themeFile->getModule() . '/' . $themeFile->getName();
                 $this->assertArrayHasKey(
                     $fileKey,
@@ -263,7 +263,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
      * @param string $cacheKey
      * @param string $sourceClass
      * @param \Magento\Framework\View\Design\ThemeInterface $theme
-     * @return \Magento\View\File[]
+     * @return \Magento\Framework\View\File[]
      */
     protected static function _getCachedFiles(
         $cacheKey,
@@ -271,7 +271,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         \Magento\Framework\View\Design\ThemeInterface $theme
     ) {
         if (!isset(self::$_cachedFiles[$cacheKey])) {
-            /* @var $fileList \Magento\View\File[] */
+            /* @var $fileList \Magento\Framework\View\File[] */
             $fileList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->create($sourceClass, array('subDir' => 'layout'))->getFiles($theme, '*.xml');
             $files = array();
@@ -290,7 +290,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         return $this->_retrieveFilesForEveryTheme(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\View\File\Collector\Override\Base', array('subDir' => 'layout/override'))
+                ->create('Magento\Framework\View\File\Collector\Override\Base', array('subDir' => 'layout/override'))
         );
     }
 
@@ -301,7 +301,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         return $this->_retrieveFilesForEveryTheme(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\View\File\Collector\Override\ThemeModular', array('subDir' => 'layout/override'))
+                ->create('Magento\Framework\View\File\Collector\Override\ThemeModular', array('subDir' => 'layout/override'))
         );
     }
 
@@ -309,10 +309,10 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
      * Scan all the themes in the system, for each theme retrieve list of files via $filesRetriever,
      * and return them as array of pairs [file, theme].
      *
-     * @param \Magento\View\File\CollectorInterface $filesRetriever
+     * @param \Magento\Framework\View\File\CollectorInterface $filesRetriever
      * @return array
      */
-    protected function _retrieveFilesForEveryTheme(\Magento\View\File\CollectorInterface $filesRetriever)
+    protected function _retrieveFilesForEveryTheme(\Magento\Framework\View\File\CollectorInterface $filesRetriever)
     {
         $result = array();
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */

@@ -8,17 +8,17 @@
 namespace Magento\Framework\View\Asset;
 
 /**
- * Interface for different file merging strategies
+ * Interface for merging multiple assets into one
  */
 interface MergeStrategyInterface
 {
     /**
-     * Merge files into one and save to disk
+     * Merge assets into one
      *
-     * @param array $publicFiles List of full file paths to merge
-     * @param string $destinationFile Full file path for merged file
-     * @param string $contentType Asset content type
-     * @return void
+     * The $resultAsset may be used to persist result
+     *
+     * @param MergeableInterface[] $assetsToMerge
+     * @param LocalInterface $resultAsset
      */
-    public function mergeFiles(array $publicFiles, $destinationFile, $contentType);
+    public function merge(array $assetsToMerge, LocalInterface $resultAsset);
 }

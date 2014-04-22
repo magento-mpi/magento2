@@ -126,7 +126,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     protected $_filesystem;
 
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
 
@@ -163,7 +163,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Template\FilterFactory $emailFilterFactory
@@ -179,7 +179,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
         \Magento\Core\Model\App\Emulation $appEmulation,
         StoreManagerInterface $storeManager,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\View\Asset\Repository $assetRepo,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\View\FileSystem $viewFileSystem,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Email\Model\Template\FilterFactory $emailFilterFactory,

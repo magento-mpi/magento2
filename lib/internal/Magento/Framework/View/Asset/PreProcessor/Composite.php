@@ -8,6 +8,7 @@
 namespace Magento\Framework\View\Asset\PreProcessor;
 
 use Magento\Framework\View\Asset\PreProcessorFactory;
+use Magento\Framework\View\Asset\PreProcessorInterface;
 
 /**
  * View asset pre-processor composite

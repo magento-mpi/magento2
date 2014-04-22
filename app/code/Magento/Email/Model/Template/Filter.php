@@ -50,7 +50,7 @@ class Filter extends \Magento\Filter\Template
     protected $_plainTemplateMode = false;
 
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
 
@@ -112,7 +112,7 @@ class Filter extends \Magento\Filter\Template
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -127,7 +127,7 @@ class Filter extends \Magento\Filter\Template
         \Magento\Stdlib\String $string,
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
-        \Magento\View\Asset\Repository $assetRepo,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

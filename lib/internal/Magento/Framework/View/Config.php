@@ -38,9 +38,9 @@ class Config implements \Magento\Framework\View\ConfigInterface
     /**
      * View service
      *
-     * @var \Magento\Framework\View\Service
+     * @var \Magento\Framework\View\Asset\Repository
      */
-    protected $viewService;
+    protected $assetRepo;
 
     /**
      * View file system model
@@ -68,7 +68,7 @@ class Config implements \Magento\Framework\View\ConfigInterface
      *
      * @param \Magento\Module\Dir\Reader $moduleReader
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Framework\View\Service  $viewService
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param \Magento\Framework\Config\FileIteratorFactory $fileIteratorFactory
      * @param string $filename
@@ -76,14 +76,14 @@ class Config implements \Magento\Framework\View\ConfigInterface
     public function __construct(
         \Magento\Module\Dir\Reader $moduleReader,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Framework\View\Service $viewService,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\View\FileSystem $viewFileSystem,
         \Magento\Framework\Config\FileIteratorFactory $fileIteratorFactory,
         $filename = self::CONFIG_FILE_NAME
     ) {
         $this->moduleReader = $moduleReader;
         $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
-        $this->viewService = $viewService;
+        $this->assetRepo = $assetRepo;
         $this->viewFileSystem = $viewFileSystem;
         $this->filename = $filename;
         $this->fileIteratorFactory = $fileIteratorFactory;
@@ -97,7 +97,7 @@ class Config implements \Magento\Framework\View\ConfigInterface
      */
     public function getViewConfig(array $params = array())
     {
-        $this->viewService->updateDesignParams($params);
+        $this->assetRepo->updateDesignParams($params);
         /** @var $currentTheme \Magento\Framework\View\Design\ThemeInterface */
         $currentTheme = $params['themeModel'];
         $key = $currentTheme->getId();
@@ -105,8 +105,7 @@ class Config implements \Magento\Framework\View\ConfigInterface
             return $this->viewConfigs[$key];
         }
 
-        $configFiles = $this->moduleReader->getConfigurationFiles($this->filename)->toArray();
-
+        $configFiles = $this->moduleReader->getConfigurationFiles(basename($this->filename))->toArray();
         $themeConfigFile = $currentTheme->getCustomization()->getCustomViewConfigPath();
         if (empty($themeConfigFile) || !$this->rootDirectory->isExist(
             $this->rootDirectory->getRelativePath($themeConfigFile)

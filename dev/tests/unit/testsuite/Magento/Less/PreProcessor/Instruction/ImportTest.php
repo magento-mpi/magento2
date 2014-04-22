@@ -11,12 +11,12 @@ namespace Magento\Less\PreProcessor\Instruction;
 class ImportTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Asset\ModuleNotation\Resolver|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Asset\ModuleNotation\Resolver|\PHPUnit_Framework_MockObject_MockObject
      */
     private $notationResolver;
 
     /**
-     * @var \Magento\View\Asset\File|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Asset\File|\PHPUnit_Framework_MockObject_MockObject
      */
     private $asset;
 
@@ -43,7 +43,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcess($originalContent, $foundPath, $resolvedPath, $expectedContent)
     {
-        $chain = new \Magento\View\Asset\PreProcessor\Chain($this->asset, $originalContent, 'css');
+        $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain($this->asset, $originalContent, 'css');
         $this->notationResolver->expects($this->once())
             ->method('convertModuleNotationToPath')
             ->with($this->asset, $foundPath)
@@ -97,7 +97,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $originalContent = 'color: #000000;';
         $expectedContent = 'color: #000000;';
 
-        $chain = new \Magento\View\Asset\PreProcessor\Chain($this->asset, $originalContent, 'css');
+        $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain($this->asset, $originalContent, 'css');
         $this->notationResolver->expects($this->never())
             ->method('convertModuleNotationToPath');
         $this->object->process($chain);
@@ -116,13 +116,13 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             ->method('convertModuleNotationToPath')
             ->with($this->asset, 'Magento_Module::something.css')
             ->will($this->returnValue('Magento_Module/something.css'));
-        $chain = new \Magento\View\Asset\PreProcessor\Chain(
+        $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain(
             $this->asset,
             '@import (type) "Magento_Module::something.css" media;',
             'css'
         );
         $this->object->process($chain);
-        $chain = new \Magento\View\Asset\PreProcessor\Chain($this->asset, 'color: #000000;', 'css');
+        $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain($this->asset, 'color: #000000;', 'css');
         $this->object->process($chain);
 
         $expected = [['Magento_Module::something.css', $this->asset]];

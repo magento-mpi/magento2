@@ -8,7 +8,7 @@
 
 namespace Magento\Css\PreProcessor;
 
-use Magento\View\Asset\PreProcessorInterface;
+use Magento\Framework\View\Asset\PreProcessorInterface;
 
 class Less implements PreProcessorInterface
 {
@@ -45,7 +45,7 @@ class Less implements PreProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(\Magento\View\Asset\PreProcessor\Chain $chain)
+    public function process(\Magento\Framework\View\Asset\PreProcessor\Chain $chain)
     {
         $contentType = $chain->getContentType();
         try {
@@ -57,7 +57,7 @@ class Less implements PreProcessorInterface
                 $chain->setContent($cssContent);
                 $chain->setContentType('css');
             }
-        } catch (\Magento\Filesystem\FilesystemException $e) {
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
             $chain->setContentType($contentType);
             $this->logger->logException($e);
         } catch (Adapter\AdapterException $e) {

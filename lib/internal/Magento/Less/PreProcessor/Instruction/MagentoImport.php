@@ -8,10 +8,10 @@
 namespace Magento\Less\PreProcessor\Instruction;
 
 use Magento\Less\PreProcessor\ErrorHandlerInterface;
-use Magento\View\Asset\PreProcessorInterface;
-use Magento\View\Asset\LocalInterface;
-use Magento\View\DesignInterface;
-use Magento\View\File\CollectorInterface;
+use Magento\Framework\View\Asset\PreProcessorInterface;
+use Magento\Framework\View\Asset\LocalInterface;
+use Magento\Framework\View\DesignInterface;
+use Magento\Framework\View\File\CollectorInterface;
 
 /**
  * LESS @magento_import instruction preprocessor
@@ -39,7 +39,7 @@ class MagentoImport implements PreProcessorInterface
     protected $errorHandler;
 
     /**
-     * @var \Magento\View\Asset\ModuleNotation\Resolver
+     * @var \Magento\Framework\View\Asset\ModuleNotation\Resolver
      */
     protected $notationResolver;
 
@@ -47,13 +47,13 @@ class MagentoImport implements PreProcessorInterface
      * @param DesignInterface $design
      * @param CollectorInterface $fileSource
      * @param ErrorHandlerInterface $errorHandler
-     * @param \Magento\View\Asset\ModuleNotation\Resolver $notationResolver
+     * @param \Magento\Framework\View\Asset\ModuleNotation\Resolver $notationResolver
      */
     public function __construct(
         DesignInterface $design,
         CollectorInterface $fileSource,
         ErrorHandlerInterface $errorHandler,
-        \Magento\View\Asset\ModuleNotation\Resolver $notationResolver
+        \Magento\Framework\View\Asset\ModuleNotation\Resolver $notationResolver
     ) {
         $this->design = $design;
         $this->fileSource = $fileSource;
@@ -64,7 +64,7 @@ class MagentoImport implements PreProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(\Magento\View\Asset\PreProcessor\Chain $chain)
+    public function process(\Magento\Framework\View\Asset\PreProcessor\Chain $chain)
     {
         $asset = $chain->getAsset();
         $replaceCallback = function ($matchContent) use ($asset) {
@@ -87,7 +87,7 @@ class MagentoImport implements PreProcessorInterface
             $matchedFileId = $matchedContent['path'];
             $resolvedPath = $this->notationResolver->convertModuleNotationToPath($asset, $matchedFileId);
             $importFiles = $this->fileSource->getFiles($this->design->getDesignTheme(), $resolvedPath);
-            /** @var $importFile \Magento\View\File */
+            /** @var $importFile \Magento\Framework\View\File */
             foreach ($importFiles as $importFile) {
                 $importsContent .= $importFile->getModule()
                     ? "@import '{$importFile->getModule()}::{$importFile->getFilename()}';\n"

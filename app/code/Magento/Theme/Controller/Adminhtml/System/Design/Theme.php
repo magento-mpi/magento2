@@ -30,12 +30,12 @@ class Theme extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_appFileSystem;
 
@@ -43,15 +43,15 @@ class Theme extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\View\Asset\Repository $assetRepo
-     * @param \Magento\App\Filesystem $appFileSystem
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\App\Filesystem $appFileSystem
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
         \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
-        \Magento\View\Asset\Repository $assetRepo,
-        \Magento\App\Filesystem $appFileSystem
+        \Magento\Framework\View\Asset\Repository $assetRepo,
+        \Magento\Framework\App\Filesystem $appFileSystem
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
@@ -361,7 +361,7 @@ class Theme extends \Magento\Backend\App\Action
                 throw new \InvalidArgumentException(sprintf('Theme not found: "%1".', $themeId));
             }
             $asset = $this->_assetRepo->createAsset($fileId, array('themeModel' => $theme));
-            $relPath = $this->_appFileSystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR)
+            $relPath = $this->_appFileSystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR)
                 ->getRelativePath($asset->getSourceFile());
             return $this->_fileFactory->create(
                 $relPath,

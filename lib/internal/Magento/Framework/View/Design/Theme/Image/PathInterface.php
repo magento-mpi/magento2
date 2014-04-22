@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\View\Design\Theme\Image;
 
+use Magento\Framework\View\Design\ThemeInterface;
+
 /**
  * Theme Image Path interface
  */
@@ -20,9 +22,18 @@ interface PathInterface
     /**
      * Get preview image directory url
      *
+     * @param ThemeInterface $theme
      * @return string
      */
-    public function getPreviewImageDirectoryUrl();
+    public function getPreviewImageUrl(ThemeInterface $theme);
+
+    /**
+     * Get path to preview image
+     *
+     * @param \Magento\Core\Model\Theme|ThemeInterface $theme
+     * @return string
+     */
+    public function getPreviewImagePath(ThemeInterface $theme);
 
     /**
      * Return default themes preview image url

@@ -15,17 +15,17 @@ namespace Magento\Framework\View;
 class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\View\FileSystem|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     /**
-     * @var \Magento\Framework\View\Design\FileResolution\Fallback\File|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Design\FileResolution\Fallback\File|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileResolution;
 
     /**
-     * @var \Magento\Framework\View\Design\FileResolution\Fallback\TemplateFile|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Design\FileResolution\Fallback\TemplateFile|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_templateFileResolution;
 
@@ -66,7 +66,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
             array('extractScope', 'updateDesignParams', 'createAsset'), array(), '', false
         );
 
-        $this->_model = new \Magento\View\FileSystem(
+        $this->_model = new \Magento\Framework\View\FileSystem(
             $this->_fileResolution,
             $this->_templateFileResolution,
             $this->_localeFileResolution,
@@ -105,7 +105,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $params = array(
             'area'       => 'some_area',
             'themeModel' => $this->getMock('Magento\Framework\View\Design\ThemeInterface', array(), array(), '', false, false),
-            'module'     => 'Some_Module'   //It should be set in \Magento\View\Asset\Repository::extractScope
+            'module'     => 'Some_Module'   //It should be set in \Magento\Framework\View\Asset\Repository::extractScope
                                             // but PHPUnit has troubles with passing arguments by reference
         );
         $file = 'Some_Module::some_file.ext';

@@ -36,7 +36,7 @@ class Filter extends \Magento\Filter\Template
     protected $_useSessionInUrl = false;
 
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
 
@@ -50,13 +50,13 @@ class Filter extends \Magento\Filter\Template
     /**
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param array $variables
      */
     public function __construct(
         \Magento\Stdlib\String $string,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\View\Asset\Repository $assetRepo,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         $variables = array()
     ) {
         $this->_storeManager = $storeManager;

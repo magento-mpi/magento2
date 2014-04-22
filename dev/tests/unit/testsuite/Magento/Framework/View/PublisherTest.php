@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\View;
 
-use Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface;
+use Magento\Framework\View\Asset\PreProcessorInterface;
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class PublisherTest extends \PHPUnit_Framework_TestCase
@@ -76,7 +76,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->viewFileSystem = $this->getMock('Magento\Framework\View\FileSystem', array(), array(), '', false);
-        $this->preProcessorMock = $this->getMock('Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface');
+        $this->preProcessorMock = $this->getMock('Magento\Framework\View\Asset\PreProcessorInterface');
         $this->fileFactoryMock = $this->getMockBuilder('Magento\Framework\View\Publisher\FileFactory')
             ->disableOriginalConstructor()
             ->getMock();

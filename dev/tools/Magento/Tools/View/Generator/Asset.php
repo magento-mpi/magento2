@@ -8,7 +8,7 @@
 
 namespace Magento\Tools\View\Generator;
 
-use Magento\View\Asset\File;
+use Magento\Framework\View\Asset\File;
 
 /**
  * A workaround for assets to suppress context of locale and file resolution
@@ -19,7 +19,7 @@ class Asset extends File
 {
     /**
      * @param File\Context $context
-     * @param \Magento\View\Asset\ContextInterface $filePath
+     * @param \Magento\Framework\View\Asset\ContextInterface $filePath
      * @param string $module
      * @param string $contentType
      */

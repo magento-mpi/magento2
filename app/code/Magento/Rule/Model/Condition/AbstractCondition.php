@@ -47,7 +47,7 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
     protected $_arrayInputTypes = array();
 
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
 

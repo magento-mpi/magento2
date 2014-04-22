@@ -34,13 +34,13 @@ class PreProcessorFactory
      *
      * @param string $instanceName
      * @param array $data
-     * @return PreProcessor\PreProcessorInterface
+     * @return \Magento\Framework\View\Asset\PreProcessorInterface
      * @throws \UnexpectedValueException
      */
     public function create($instanceName, array $data = array())
     {
         $processorInstance = $this->objectManager->create($instanceName, $data);
-        if (!$processorInstance instanceof PreProcessor\PreProcessorInterface) {
+        if (!$processorInstance instanceof \Magento\Framework\View\Asset\PreProcessorInterface) {
             throw new \UnexpectedValueException("{$instanceName} has to implement the pre-processor interface.");
         }
         return $processorInstance;

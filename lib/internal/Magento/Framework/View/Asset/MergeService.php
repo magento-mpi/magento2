@@ -70,15 +70,15 @@ class MergeService
      */
     public function getMergedAssets(array $assets, $contentType)
     {
-        $isCss = $contentType == \Magento\Framework\View\Publisher::CONTENT_TYPE_CSS;
-        $isJs = $contentType == \Magento\Framework\View\Publisher::CONTENT_TYPE_JS;
+        $isCss = $contentType == 'css';
+        $isJs = $contentType == 'js';
         if (!$isCss && !$isJs) {
             throw new \InvalidArgumentException("Merge for content type '{$contentType}' is not supported.");
         }
 
         $isCssMergeEnabled = $this->config->isMergeCssFiles();
         $isJsMergeEnabled = $this->config->isMergeJsFiles();
-        if ($isCss && $isCssMergeEnabled || $isJs && $isJsMergeEnabled) {
+        if (($isCss && $isCssMergeEnabled) || ($isJs && $isJsMergeEnabled)) {
             if ($this->state->getMode() == \Magento\Framework\App\State::MODE_PRODUCTION) {
                 $mergeStrategyClass = 'Magento\Framework\View\Asset\MergeStrategy\FileExists';
             } else {
@@ -102,10 +102,7 @@ class MergeService
      */
     public function cleanMergedJsCss()
     {
-        $this->filesystem->getDirectoryWrite(
-            \Magento\Framework\App\Filesystem::PUB_VIEW_CACHE_DIR
-        )->delete(
-            Merged::PUBLIC_MERGE_DIR
-        );
+        $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR)
+            ->delete(Merged::getRelativeDir());
     }
 }

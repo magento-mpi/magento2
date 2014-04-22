@@ -7,12 +7,12 @@
  */
 namespace Magento\Less\File\Collector;
 
-use Magento\View\File\CollectorInterface;
+use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\App\Filesystem;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
-use Magento\View\File\Factory;
-use Magento\View\File\FileList\Factory as FileListFactory;
+use Magento\Framework\View\File\Factory;
+use Magento\Framework\View\File\FileList\Factory as FileListFactory;
 
 /**
  * Source of base layout files introduced by modules
@@ -60,7 +60,7 @@ class Library implements CollectorInterface
      *
      * @param ThemeInterface $theme
      * @param string $filePath
-     * @return array|\Magento\View\File[]
+     * @return array|\Magento\Framework\View\File[]
      */
     public function getFiles(ThemeInterface $theme, $filePath)
     {

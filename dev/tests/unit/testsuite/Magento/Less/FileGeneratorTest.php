@@ -21,17 +21,17 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
     private $magentoImport;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $tmpDirectory;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $rootDirectory;
 
     /**
-     * @var \Magento\View\Asset\Repository|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Asset\Repository|\PHPUnit_Framework_MockObject_MockObject
      */
     private $assetRepo;
 
@@ -55,7 +55,7 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryWrite')
-            ->with(\Magento\App\Filesystem::VAR_DIR)
+            ->with(\Magento\Framework\App\Filesystem::VAR_DIR)
             ->will($this->returnValue($this->tmpDirectory));
         $this->assetRepo = $this->getMock('\Magento\View\Asset\Repository', array(), array(), '', false);
         $this->magentoImport = $this->getMock(
@@ -78,7 +78,7 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
         $asset->expects($this->once())
             ->method('getPath')
             ->will($this->returnValue('some/file.css'));
-        $chain = new \Magento\View\Asset\PreProcessor\Chain($asset, $originalContent, 'less');
+        $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain($asset, $originalContent, 'less');
 
         $this->magentoImport->expects($this->once())
             ->method('process')

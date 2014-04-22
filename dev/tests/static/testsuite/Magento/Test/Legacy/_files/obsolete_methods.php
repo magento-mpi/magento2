@@ -1648,7 +1648,7 @@ return array(
     ['setCustomer', 'Magento\Checkout\Model\Session', 'Magento\Checkout\Model\Session::setCustomerData'],
     array('_isStaticFilesSigned', 'Magento\View\FileResolver',
         'Magento\Theme\Model\Url\Plugin\Signature::isUrlSignatureEnabled()'),
-    ['getViewFileUrl', 'Magento\View\Url', 'Magento\View\Asset\Repository::getUrl'],
+    ['getViewFileUrl', 'Magento\View\Url', 'Magento\Framework\View\Asset\Repository::getUrl'],
     ['getCssFiles', 'Magento\Core\Helper\Theme', 'Magento\Core\Helper\Theme::getCssAssets'],
     ['getGroupedCssFiles', 'Magento\Core\Helper\Theme'],
     ['_detectTheme', 'Magento\Core\Helper\Theme'],
@@ -1663,8 +1663,8 @@ return array(
     ['notifyViewFileLocationChanged', 'Magento\View\FileSystem'],
     [
         'convertModuleNotationToPath',
-        'Magento\View\Asset\PreProcessor\ModuleNotation',
-        'Magento\View\Asset\ModuleNotation\Resolver::convertModuleNotationToPath'
+        'Magento\Framework\View\Asset\PreProcessor\ModuleNotation',
+        'Magento\Framework\View\Asset\ModuleNotation\Resolver::convertModuleNotationToPath'
     ],
-    ['getViewFile', 'Magento\View\FileSystem', 'Magento\View\Asset\File::getSourceFile()']
+    ['getViewFile', 'Magento\View\FileSystem', 'Magento\Framework\View\Asset\File::getSourceFile()']
 );

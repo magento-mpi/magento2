@@ -49,7 +49,7 @@ class Storage extends \Magento\Object
     protected $_imageFactory;
 
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
 
@@ -136,7 +136,7 @@ class Storage extends \Magento\Object
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Image\AdapterFactory $imageFactory
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory $storageCollectionFactory
      * @param \Magento\Core\Model\File\Storage\FileFactory $storageFileFactory
      * @param \Magento\Core\Model\File\Storage\DatabaseFactory $storageDatabaseFactory
@@ -156,7 +156,7 @@ class Storage extends \Magento\Object
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Image\AdapterFactory $imageFactory,
-        \Magento\View\Asset\Repository $assetRepo,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory $storageCollectionFactory,
         \Magento\Core\Model\File\Storage\FileFactory $storageFileFactory,
         \Magento\Core\Model\File\Storage\DatabaseFactory $storageDatabaseFactory,

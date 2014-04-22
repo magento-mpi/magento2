@@ -19,7 +19,7 @@ namespace Magento\Customer\Block\Adminhtml\Form\Element;
 class File extends \Magento\Framework\Data\Form\Element\AbstractElement
 {
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
 
@@ -35,7 +35,7 @@ class File extends \Magento\Framework\Data\Form\Element\AbstractElement
      * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
      * @param \Magento\Backend\Helper\Data $adminhtmlData
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param array $data
      */
     public function __construct(
@@ -43,7 +43,7 @@ class File extends \Magento\Framework\Data\Form\Element\AbstractElement
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
         \Magento\Backend\Helper\Data $adminhtmlData,
-        \Magento\View\Asset\Repository $assetRepo,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         $data = array()
     ) {
         $this->_adminhtmlData = $adminhtmlData;

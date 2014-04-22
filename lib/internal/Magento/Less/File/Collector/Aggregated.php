@@ -8,9 +8,9 @@
 
 namespace Magento\Less\File\Collector;
 
-use Magento\View\File\CollectorInterface;
-use Magento\View\File\FileList\Factory;
-use Magento\View\Design\ThemeInterface;
+use Magento\Framework\View\File\CollectorInterface;
+use Magento\Framework\View\File\FileList\Factory;
+use Magento\Framework\View\Design\ThemeInterface;
 
 /**
  * Source of layout files aggregated from a theme and its parents according to merging and overriding conventions
@@ -23,17 +23,17 @@ class Aggregated implements CollectorInterface
     protected $fileListFactory;
 
     /**
-     * @var CollectorInterface
+     * @var \Magento\Framework\View\File\CollectorInterface
      */
     protected $libraryFiles;
 
     /**
-     * @var CollectorInterface
+     * @var \Magento\Framework\View\File\CollectorInterface
      */
     protected $baseFiles;
 
     /**
-     * @var CollectorInterface
+     * @var \Magento\Framework\View\File\CollectorInterface
      */
     protected $themeFiles;
 
@@ -60,9 +60,9 @@ class Aggregated implements CollectorInterface
      *
      * Aggregate LESS files from modules and a theme and its ancestors
      *
-     * @param \Magento\View\Design\ThemeInterface $theme
+     * @param \Magento\Framework\View\Design\ThemeInterface $theme
      * @param string $filePath
-     * @return \Magento\View\File[]
+     * @return \Magento\Framework\View\File[]
      * @throws \LogicException
      */
     public function getFiles(ThemeInterface $theme, $filePath)

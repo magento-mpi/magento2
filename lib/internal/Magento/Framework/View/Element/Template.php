@@ -192,7 +192,7 @@ class Template extends AbstractBlock
         if ($area) {
             $params['area'] = $area;
         }
-        $templateName = $this->_viewFileSystem->getFilename($this->getTemplate(), $params);
+        $templateName = $this->_viewFileSystem->getTemplateFileName($this->getTemplate(), $params);
         return $templateName;
     }
 

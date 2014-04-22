@@ -89,11 +89,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_scopeConfig;
 
     /**
-     * View URL
-     *
-     * @var \Magento\Framework\View\Url
+     * @var \Magento\Framework\View\Asset\Repository
      */
-    protected $_viewUrl;
+    protected $_assetRepo;
 
     /**
      * View config model
@@ -151,7 +149,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\View\Url $viewUrl
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\View\ConfigInterface $viewConfig
      * @param \Magento\Framework\App\Cache\StateInterface $cacheState
      * @param \Magento\Logger $logger
@@ -173,7 +171,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Session\SessionManagerInterface $session,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\View\Url $viewUrl,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\View\ConfigInterface $viewConfig,
         \Magento\Framework\App\Cache\StateInterface $cacheState,
         \Magento\Logger $logger,
@@ -192,7 +190,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_session = $session;
         $this->_sidResolver = $sidResolver;
         $this->_scopeConfig = $scopeConfig;
-        $this->_viewUrl = $viewUrl;
+        $this->_assetRepo = $assetRepo;
         $this->_viewConfig = $viewConfig;
         $this->_cacheState = $cacheState;
         $this->_logger = $logger;
@@ -313,13 +311,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * Get view URL
+     * Get asset service
      *
-     * @return \Magento\Framework\View\Url
+     * @return \Magento\Framework\View\Asset\Repository
      */
-    public function getViewUrl()
+    public function getAssetRepository()
     {
-        return $this->_viewUrl;
+        return $this->_assetRepo;
     }
 
     /**

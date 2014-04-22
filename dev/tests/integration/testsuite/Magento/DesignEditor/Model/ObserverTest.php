@@ -32,10 +32,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var \Magento\View\Asset\Repository $assetRepo */
-        $assetRepo = $objectManager->create('Magento\View\Asset\Repository');
+        /** @var \Magento\Framework\View\Asset\Repository $assetRepo */
+        $assetRepo = $objectManager->create('Magento\Framework\View\Asset\Repository');
 
-        /** @var $pageAssets \Magento\View\Asset\GroupedCollection */
+        /** @var $pageAssets \Magento\Framework\View\Asset\GroupedCollection */
         $pageAssets = $objectManager->get('Magento\Framework\View\Asset\GroupedCollection');
 
         $fixtureAssets = array(

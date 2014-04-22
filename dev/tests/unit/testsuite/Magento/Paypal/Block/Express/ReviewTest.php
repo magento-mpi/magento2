@@ -16,7 +16,7 @@ class ReviewTest extends \PHPUnit_Framework_TestCase
     protected $request;
 
     /**
-     * @var \Magento\View\Asset\Repository|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Asset\Repository|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $assetRepo;
 
@@ -29,7 +29,7 @@ class ReviewTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->request = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
-        $this->assetRepo = $this->getMock('Magento\View\Asset\Repository', [], [], '', false);
+        $this->assetRepo = $this->getMock('Magento\Framework\View\Asset\Repository', [], [], '', false);
         $this->model = $helper->getObject(
             'Magento\Paypal\Block\Express\Review',
             ['request' => $this->request, 'assetRepo' => $this->assetRepo]

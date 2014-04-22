@@ -100,7 +100,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
      * Create pre-processor callback
      *
      * @param string $className
-     * @return \Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface[]
+     * @return \Magento\Framework\View\Asset\PreProcessorInterface[]
      */
     public function createProcessor($className)
     {

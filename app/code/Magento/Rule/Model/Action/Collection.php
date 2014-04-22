@@ -17,13 +17,13 @@ class Collection extends AbstractAction
     protected $_actionFactory;
 
     /**
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Rule\Model\ActionFactory $actionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Asset\Repository $assetRepo,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Rule\Model\ActionFactory $actionFactory,
         array $data = array()

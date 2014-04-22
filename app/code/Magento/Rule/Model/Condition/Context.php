@@ -15,7 +15,7 @@ namespace Magento\Rule\Model\Condition;
 class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
 
@@ -40,14 +40,14 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_logger;
 
     /**
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Rule\Model\ConditionFactory $conditionFactory
      * @param \Magento\Logger $logger
      */
     public function __construct(
-        \Magento\View\Asset\Repository $assetRepo,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Rule\Model\ConditionFactory $conditionFactory,
@@ -61,7 +61,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\View\Asset\Repository
+     * @return \Magento\Framework\View\Asset\Repository
      */
     public function getAssetRepository()
     {

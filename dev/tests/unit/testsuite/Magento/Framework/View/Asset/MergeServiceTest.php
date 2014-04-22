@@ -168,7 +168,7 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testCleanMergedJsCss()
     {
-        $mergedDir = \Magento\View\Asset\Merged::getRelativeDir();
+        $mergedDir = \Magento\Framework\View\Asset\Merged::getRelativeDir();
         $this->_directory->expects($this->once())->method('delete')->with($mergedDir);
 
         $this->_object->cleanMergedJsCss();

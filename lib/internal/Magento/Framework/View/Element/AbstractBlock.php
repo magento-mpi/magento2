@@ -97,11 +97,11 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_frontController;
 
     /**
-     * View URL
+     * Asset service
      *
-     * @var \Magento\Framework\View\Url
+     * @var \Magento\Framework\View\Asset\Repository
      */
-    protected $_viewUrl;
+    protected $_assetRepo;
 
     /**
      * View config model
@@ -179,7 +179,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_session = $context->getSession();
         $this->_sidResolver = $context->getSidResolver();
         $this->_scopeConfig = $context->getScopeConfig();
-        $this->_viewUrl = $context->getViewUrl();
+        $this->_assetRepo = $context->getAssetRepository();
         $this->_viewConfig = $context->getViewConfig();
         $this->_cacheState = $context->getCacheState();
         $this->_logger = $context->getLogger();
@@ -703,17 +703,17 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     }
 
     /**
-     * Retrieve url of themes file
+     * Retrieve url of a view file
      *
-     * @param string $file path to file in theme
+     * @param string $fileId
      * @param array $params
      * @return string
      */
-    public function getViewFileUrl($file = null, array $params = array())
+    public function getViewFileUrl($fileId, array $params = array())
     {
         try {
             $params = array_merge(array('_secure' => $this->getRequest()->isSecure()), $params);
-            return $this->_viewUrl->getViewFileUrl($file, $params);
+            return $this->_assetRepo->getUrlWithParams($fileId, $params);
         } catch (\Magento\Exception $e) {
             $this->_logger->logException($e);
             return $this->_getNotFoundUrl();

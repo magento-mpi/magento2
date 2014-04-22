@@ -22,7 +22,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $theme = $this->getMockForAbstractClass('\Magento\Framework\View\Design\ThemeInterface');
         $theme->expects($this->once())->method('getArea')->will($this->returnValue('area'));
         $layoutMergeFactory = $this->_getLayoutMergeFactory($theme, $layoutStr);
-        $assetRepo = $this->getMock('Magento\View\Asset\Repository', array('createAsset'), array(), '', false);
+        $assetRepo = $this->getMock('Magento\Framework\View\Asset\Repository', array('createAsset'), array(), '', false);
         $assetRepo->expects($this->any())
             ->method('createAsset')
             ->will($this->returnArgument(0))

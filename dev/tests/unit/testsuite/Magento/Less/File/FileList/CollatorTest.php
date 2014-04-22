@@ -15,17 +15,17 @@ class CollatorTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\View\File[]
+     * @var \Magento\Framework\View\File[]
      */
     protected $originFiles;
 
     /**
-     * @var \Magento\View\File
+     * @var \Magento\Framework\View\File
      */
     protected $baseFile;
 
     /**
-     * @var \Magento\View\File
+     * @var \Magento\Framework\View\File
      */
     protected $themeFile;
 
@@ -46,7 +46,7 @@ class CollatorTest extends \PHPUnit_Framework_TestCase
      * @param string $filename
      * @param string $module
      * @param string|null $themeFullPath
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\View\File
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\View\File
      */
     protected function createLayoutFile($filename, $module, $themeFullPath = null)
     {
@@ -55,7 +55,7 @@ class CollatorTest extends \PHPUnit_Framework_TestCase
             $theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
             $theme->expects($this->any())->method('getFullPath')->will($this->returnValue($themeFullPath));
         }
-        return new \Magento\View\File($filename, $module, $theme);
+        return new \Magento\Framework\View\File($filename, $module, $theme);
     }
 
     public function testCollate()

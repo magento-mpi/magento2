@@ -39,7 +39,7 @@ class Factory
     protected $_objectManager;
 
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $assetRepo;
 
@@ -55,13 +55,13 @@ class Factory
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\Config\FileIteratorFactory $fileIteratorFactory
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\View\Asset\Repository $assetRepo,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\Config\FileIteratorFactory $fileIteratorFactory,
         \Magento\Framework\App\Filesystem $filesystem
     ) {
@@ -85,7 +85,7 @@ class Factory
             throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
         }
         return $this->assetRepo->createAsset($this->_fileNames[$type], array(
-            'area'       => \Magento\View\DesignInterface::DEFAULT_AREA,
+            'area'       => \Magento\Framework\View\DesignInterface::DEFAULT_AREA,
             'themeModel' => $theme
         ))->getSourceFile();
     }

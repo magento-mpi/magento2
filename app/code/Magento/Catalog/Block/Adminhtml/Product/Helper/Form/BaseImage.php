@@ -42,7 +42,7 @@ class BaseImage extends \Magento\Framework\Data\Form\Element\AbstractElement
     protected $_fileConfig;
 
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
 
@@ -50,7 +50,7 @@ class BaseImage extends \Magento\Framework\Data\Form\Element\AbstractElement
      * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Backend\Model\UrlFactory $backendUrlFactory
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\File\Size $fileConfig
@@ -60,7 +60,7 @@ class BaseImage extends \Magento\Framework\Data\Form\Element\AbstractElement
         \Magento\Framework\Data\Form\Element\Factory $factoryElement,
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
-        \Magento\View\Asset\Repository $assetRepo,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Backend\Model\UrlFactory $backendUrlFactory,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\File\Size $fileConfig,

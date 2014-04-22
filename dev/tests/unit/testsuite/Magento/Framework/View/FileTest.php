@@ -10,7 +10,7 @@ namespace Magento\Framework\View;
 class FileTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\File
+     * @var \Magento\Framework\View\File
      */
     private $_model;
 

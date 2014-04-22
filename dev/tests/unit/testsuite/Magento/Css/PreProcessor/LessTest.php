@@ -25,7 +25,7 @@ class LessTest extends \PHPUnit_Framework_TestCase
     private $logger;
 
     /**
-     * @var \Magento\View\Asset\PreProcessor\Chain
+     * @var \Magento\Framework\View\Asset\PreProcessor\Chain
      */
     private $chain;
 
@@ -41,7 +41,7 @@ class LessTest extends \PHPUnit_Framework_TestCase
         $this->logger = $this->getMock('\Magento\Logger', array(), array(), '', false);
         $asset = $this->getMockForAbstractClass('\Magento\View\Asset\LocalInterface');
         $asset->expects($this->once())->method('getContentType')->will($this->returnValue('origType'));
-        $this->chain = new \Magento\View\Asset\PreProcessor\Chain($asset, 'original content', 'origType');
+        $this->chain = new \Magento\Framework\View\Asset\PreProcessor\Chain($asset, 'original content', 'origType');
         $this->object = new \Magento\Css\PreProcessor\Less($this->fileGenerator, $this->adapter, $this->logger);
     }
 

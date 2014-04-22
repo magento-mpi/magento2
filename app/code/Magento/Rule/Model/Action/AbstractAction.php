@@ -18,7 +18,7 @@ use Magento\Framework\Data\Form\Element\AbstractElement;
 abstract class AbstractAction extends \Magento\Object implements ActionInterface
 {
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
 
@@ -28,12 +28,12 @@ abstract class AbstractAction extends \Magento\Object implements ActionInterface
     protected $_layout;
 
     /**
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Asset\Repository $assetRepo,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\View\LayoutInterface $layout,
         array $data = array()
     ) {

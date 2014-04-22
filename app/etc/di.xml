@@ -129,7 +129,7 @@
             <argument name="appMode" xsi:type="init_parameter">Magento\App\State::PARAM_MODE</argument>
         </arguments>
     </type>
-    <type name="Magento\View\Asset\MinifyService">
+    <type name="Magento\Framework\View\Asset\MinifyService">
         <arguments>
             <argument name="appMode" xsi:type="init_parameter">Magento\App\State::PARAM_MODE</argument>
         </arguments>

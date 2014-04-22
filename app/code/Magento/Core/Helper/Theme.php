@@ -23,19 +23,19 @@ class Theme extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_layoutProcessorFactory;
 
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\View\Layout\ProcessorFactory $layoutProcessorFactory
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\View\Layout\ProcessorFactory $layoutProcessorFactory,
-        \Magento\View\Asset\Repository $assetRepo
+        \Magento\Framework\View\Asset\Repository $assetRepo
     ) {
         $this->_layoutProcessorFactory = $layoutProcessorFactory;
         $this->_assetRepo = $assetRepo;
@@ -50,7 +50,7 @@ class Theme extends \Magento\Framework\App\Helper\AbstractHelper
      * The array will be sorted by keys
      *
      * @param \Magento\Framework\View\Design\ThemeInterface $theme
-     * @return \Magento\View\Asset\LocalInterface[]
+     * @return \Magento\Framework\View\Asset\LocalInterface[]
      */
     public function getCssAssets($theme)
     {

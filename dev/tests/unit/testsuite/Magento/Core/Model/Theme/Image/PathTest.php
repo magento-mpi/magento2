@@ -27,7 +27,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
     protected $filesystem;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Asset\Repository
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
 
@@ -37,7 +37,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
     protected $_storeManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Filesystem\Directory\ReadInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $mediaDirectory;
 
@@ -47,7 +47,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
         $this->mediaDirectory = $this->getMock(
             'Magento\Framework\Filesystem\Directory\ReadInterface', array(), array(), '', false
         );
-        $this->_assetRepo = $this->getMock('Magento\View\Asset\Repository', array(), array(), '', false);
+        $this->_assetRepo = $this->getMock('Magento\Framework\View\Asset\Repository', array(), array(), '', false);
         $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
 
 
@@ -61,7 +61,8 @@ class PathTest extends \PHPUnit_Framework_TestCase
             ->with('/theme/origin')
             ->will($this->returnValue('/theme/origin'));
 
-        $this->filesystem->expects($this->any())->method('getDirectoryRead')->with(\Magento\App\Filesystem::MEDIA_DIR)
+        $this->filesystem->expects($this->any())->method('getDirectoryRead')
+            ->with(\Magento\Framework\App\Filesystem::MEDIA_DIR)
             ->will($this->returnValue($this->mediaDirectory));
 
         $this->model = new Path(

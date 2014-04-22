@@ -44,7 +44,7 @@ class Publisher implements PublicFilesManagerInterface
     /**
      * Pre-processor
      *
-     * @var \Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface
+     * @var \Magento\Framework\View\Asset\PreProcessorInterface
      */
     protected $preProcessor;
 
@@ -79,13 +79,13 @@ class Publisher implements PublicFilesManagerInterface
     /**
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param FileSystem $viewFileSystem
-     * @param Asset\PreProcessor\PreProcessorInterface $preProcessor
+     * @param Asset\PreProcessorInterface $preProcessor
      * @param Publisher\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\View\FileSystem $viewFileSystem,
-        \Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface $preProcessor,
+        Asset\PreProcessorInterface $preProcessor,
         Publisher\FileFactory $fileFactory
     ) {
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);

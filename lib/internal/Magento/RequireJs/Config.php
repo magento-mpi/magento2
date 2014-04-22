@@ -57,35 +57,35 @@ config;
     private $fileSource;
 
     /**
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     private $design;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     private $baseDir;
 
     /**
-     * @var \Magento\View\Asset\ContextInterface
+     * @var \Magento\Framework\View\Asset\ContextInterface
      */
     private $staticContext;
 
     /**
      * @param Config\File\Collector\Aggregated $fileSource
-     * @param \Magento\View\DesignInterface $design
-     * @param \Magento\App\Filesystem $appFilesystem
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\DesignInterface $design
+     * @param \Magento\Framework\App\Filesystem $appFilesystem
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      */
     public function __construct(
         Config\File\Collector\Aggregated $fileSource,
-        \Magento\View\DesignInterface $design,
-        \Magento\App\Filesystem $appFilesystem,
-        \Magento\View\Asset\Repository $assetRepo
+        \Magento\Framework\View\DesignInterface $design,
+        \Magento\Framework\App\Filesystem $appFilesystem,
+        \Magento\Framework\View\Asset\Repository $assetRepo
     ) {
         $this->fileSource = $fileSource;
         $this->design = $design;
-        $this->baseDir = $appFilesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
+        $this->baseDir = $appFilesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
         $this->staticContext = $assetRepo->getStaticViewFileContext();
     }
 

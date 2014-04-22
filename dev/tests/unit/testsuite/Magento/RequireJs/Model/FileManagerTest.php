@@ -16,22 +16,22 @@ class FileManagerTest extends \PHPUnit_Framework_TestCase
     private $config;
 
     /**
-     * @var \Magento\App\FileSystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\FileSystem|\PHPUnit_Framework_MockObject_MockObject
      */
     private $fileSystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $dir;
 
     /**
-     * @var \Magento\App\State|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject
      */
     private $appState;
 
     /**
-     * @var \Magento\View\Asset\File|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Asset\File|\PHPUnit_Framework_MockObject_MockObject
      */
     private $asset;
 
@@ -50,7 +50,7 @@ class FileManagerTest extends \PHPUnit_Framework_TestCase
         $this->dir = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\WriteInterface');
         $this->fileSystem->expects($this->once())
             ->method('getDirectoryWrite')
-            ->with(\Magento\App\Filesystem::STATIC_VIEW_DIR)
+            ->with(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR)
             ->will($this->returnValue($this->dir))
         ;
         $this->config->expects($this->once())
@@ -99,7 +99,7 @@ class FileManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->appState->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue(\Magento\App\State::MODE_DEVELOPER))
+            ->will($this->returnValue(\Magento\Framework\App\State::MODE_DEVELOPER))
         ;
         $this->dir->expects($this->never())->method('isExist');
         $data = 'requirejs config data';

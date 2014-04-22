@@ -20,7 +20,7 @@ namespace Magento\Core\Model\Variable;
 class Config
 {
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
 
@@ -30,10 +30,10 @@ class Config
     protected $_url;
 
     /**
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Backend\Model\UrlInterface $url
      */
-    public function __construct(\Magento\View\Asset\Repository $assetRepo, \Magento\Backend\Model\UrlInterface $url)
+    public function __construct(\Magento\Framework\View\Asset\Repository $assetRepo, \Magento\Backend\Model\UrlInterface $url)
     {
         $this->_assetRepo = $assetRepo;
         $this->_url = $url;

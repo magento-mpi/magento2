@@ -101,7 +101,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_assetRepo = $this->getMock('Magento\View\Asset\Repository', array(), array(), '', false);
+        $this->_assetRepo = $this->getMock('Magento\Framework\View\Asset\Repository', array(), array(), '', false);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject(

@@ -37,7 +37,7 @@ class Observer
     protected $_config;
 
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
 
@@ -56,7 +56,7 @@ class Observer
      * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Framework\View\Asset\GroupedCollection $assets
      * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param Theme\Registration $registration
      * @param \Magento\Logger $logger
      */
@@ -65,7 +65,7 @@ class Observer
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\View\Asset\GroupedCollection $assets,
         \Magento\Framework\App\Config\ReinitableConfigInterface $config,
-        \Magento\View\Asset\Repository $assetRepo,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Core\Model\Theme\Registration $registration,
         \Magento\Logger $logger
     ) {
@@ -125,12 +125,12 @@ class Observer
                 $service = $themeFile->getCustomizationService();
                 if ($service instanceof \Magento\Framework\View\Design\Theme\Customization\FileAssetInterface) {
                     $identifier = $themeFile->getData('file_path');
-                    $dirPath = \Magento\View\Design\Theme\Customization\Path::DIR_NAME
+                    $dirPath = \Magento\Framework\View\Design\Theme\Customization\Path::DIR_NAME
                         . '/' . $this->_currentTheme->getId();
                     $asset = $this->_assetRepo->createArbitrary(
                         $identifier,
                         $dirPath,
-                        \Magento\App\Filesystem::MEDIA_DIR,
+                        \Magento\Framework\App\Filesystem::MEDIA_DIR,
                         \Magento\UrlInterface::URL_TYPE_MEDIA
                     );
                     $this->_pageAssets->add($identifier, $asset);

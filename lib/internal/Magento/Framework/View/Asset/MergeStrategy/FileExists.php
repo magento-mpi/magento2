@@ -8,27 +8,21 @@
 namespace Magento\Framework\View\Asset\MergeStrategy;
 
 /**
- * Merge strategy representing the following: merged file is being recreated if and only if merged file does not exist
+ * Skip merging if the merged file already exists
  */
 class FileExists implements \Magento\Framework\View\Asset\MergeStrategyInterface
 {
     /**
-     * Strategy
-     *
      * @var \Magento\Framework\View\Asset\MergeStrategyInterface
      */
     protected $strategy;
 
     /**
-     * Filesystem
-     *
      * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
 
     /**
-     * Constructor
-     *
      * @param \Magento\Framework\View\Asset\MergeStrategyInterface $strategy
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
@@ -43,11 +37,11 @@ class FileExists implements \Magento\Framework\View\Asset\MergeStrategyInterface
     /**
      * {@inheritdoc}
      */
-    public function mergeFiles(array $publicFiles, $destinationFile, $contentType)
+    public function merge(array $assetsToMerge, \Magento\Framework\View\Asset\LocalInterface $resultAsset)
     {
-        $directory = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::PUB_DIR);
-        if (!$directory->isExist($directory->getRelativePath($destinationFile))) {
-            $this->strategy->mergeFiles($publicFiles, $destinationFile, $contentType);
+        $dir = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR);
+        if (!$dir->isExist($resultAsset->getPath())) {
+            $this->strategy->merge($assetsToMerge, $resultAsset);
         }
     }
 }

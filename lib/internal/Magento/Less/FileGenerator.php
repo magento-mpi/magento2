@@ -8,8 +8,8 @@
 
 namespace Magento\Less;
 
-use Magento\View\Asset\LocalInterface;
-use Magento\View\Asset\Source;
+use Magento\Framework\View\Asset\LocalInterface;
+use Magento\Framework\View\Asset\Source;
 
 class FileGenerator
 {
@@ -19,12 +19,12 @@ class FileGenerator
     const TMP_LESS_DIR = 'less';
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $tmpDirectory;
 
     /**
-     * @var \Magento\View\Asset\Repository
+     * @var \Magento\Framework\View\Asset\Repository
      */
     private $assetRepo;
 
@@ -39,18 +39,18 @@ class FileGenerator
     private $importProcessor;
 
     /**
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param PreProcessor\Instruction\MagentoImport $magentoImportProcessor
      * @param PreProcessor\Instruction\Import $importProcessor
      */
     public function __construct(
-        \Magento\App\Filesystem $filesystem,
-        \Magento\View\Asset\Repository $assetRepo,
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         PreProcessor\Instruction\MagentoImport $magentoImportProcessor,
         PreProcessor\Instruction\Import $importProcessor
     ) {
-        $this->tmpDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $this->tmpDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         $this->assetRepo = $assetRepo;
         $this->magentoImportProcessor = $magentoImportProcessor;
         $this->importProcessor = $importProcessor;
@@ -59,13 +59,13 @@ class FileGenerator
     /**
      * Create a tree of self-sustainable files and return the topmost LESS file, ready for passing to 3rd party library
      *
-     * @param \Magento\View\Asset\PreProcessor\Chain $chain
+     * @param \Magento\Framework\View\Asset\PreProcessor\Chain $chain
      * @return string Absolute path of generated LESS file
      */
-    public function generateLessFileTree(\Magento\View\Asset\PreProcessor\Chain $chain)
+    public function generateLessFileTree(\Magento\Framework\View\Asset\PreProcessor\Chain $chain)
     {
         /**
-         * @bug This logic is duplicated at \Magento\View\Asset\PreProcessor\Pool::getPreProcessors()
+         * @bug This logic is duplicated at \Magento\Framework\View\Asset\PreProcessor\Pool::getPreProcessors()
          * If you need to extend or modify behavior of LESS preprocessing, you must account for both places
          */
         $this->magentoImportProcessor->process($chain);
