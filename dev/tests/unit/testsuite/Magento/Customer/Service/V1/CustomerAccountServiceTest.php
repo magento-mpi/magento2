@@ -10,11 +10,11 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Model\Converter;
 use Magento\Customer\Model\CustomerRegistry;
-use Magento\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Mail\Exception as MailException;
 
 /**
@@ -124,10 +124,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $filterGroupBuilder = $this->_objectManager
-            ->getObject('Magento\Service\V1\Data\Search\FilterGroupBuilder');
+            ->getObject('Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder');
         /** @var SearchCriteriaBuilder $searchBuilder */
         $this->_searchBuilder = $this->_objectManager->getObject(
-            'Magento\Service\V1\Data\SearchCriteriaBuilder',
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
             ['filterGroupBuilder' => $filterGroupBuilder]
         );
 
@@ -1482,7 +1482,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::FIRSTNAME, $actualCustomer->getFirstName());
         $this->assertEquals(self::LASTNAME, $actualCustomer->getLastName());
         $this->assertEquals(self::EMAIL, $actualCustomer->getEmail());
-        $this->assertEquals(4, count(\Magento\Service\DataObjectConverter::toFlatArray($actualCustomer)));
+        $this->assertEquals(4, count(\Magento\Framework\Service\DataObjectConverter::toFlatArray($actualCustomer)));
     }
 
     public function testSearchCustomersEmpty()

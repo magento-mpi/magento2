@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Service\V1\Data;
+namespace Magento\Framework\Service\V1\Data;
 
-use Magento\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractObject;
 
 /**
  * Data Object for SearchCriteria
@@ -29,7 +29,7 @@ class SearchCriteria extends AbstractObject
     /**
      * Returns a list of filter groups
      *
-     * @return \Magento\Service\V1\Data\Search\FilterGroup[]
+     * @return \Magento\Framework\Service\V1\Data\Search\FilterGroup[]
      */
     public function getFilterGroups()
     {

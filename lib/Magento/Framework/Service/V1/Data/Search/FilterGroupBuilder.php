@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Service\V1\Data\Search;
+namespace Magento\Framework\Service\V1\Data\Search;
 
-use Magento\Service\Data\AbstractObjectBuilder;
-use Magento\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\V1\Data\FilterBuilder;
 
 /**
  * Builder for FilterGroup Data.
@@ -35,10 +35,10 @@ class FilterGroupBuilder extends AbstractObjectBuilder
     /**
      * Add filter
      *
-     * @param \Magento\Service\V1\Data\Filter $filter
+     * @param \Magento\Framework\Service\V1\Data\Filter $filter
      * @return $this
      */
-    public function addFilter(\Magento\Service\V1\Data\Filter $filter)
+    public function addFilter(\Magento\Framework\Service\V1\Data\Filter $filter)
     {
         $this->_data[FilterGroup::FILTERS][] = $filter;
         return $this;
@@ -47,7 +47,7 @@ class FilterGroupBuilder extends AbstractObjectBuilder
     /**
      * Set filters
      *
-     * @param \Magento\Service\V1\Data\Filter[] $filters
+     * @param \Magento\Framework\Service\V1\Data\Filter[] $filters
      * @return $this
      */
     public function setFilters($filters)

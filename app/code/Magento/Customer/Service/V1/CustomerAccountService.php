@@ -15,7 +15,7 @@ use Magento\Customer\Model\CustomerFactory;
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Customer\Model\Metadata\Validator;
 use Magento\Customer\Model\Resource\Customer\Collection;
-use Magento\Service\V1\Data\Search\FilterGroup;
+use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\AuthenticationException;
@@ -23,13 +23,13 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
 use Magento\Mail\Exception as MailException;
 use Magento\Math\Random;
-use Magento\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\UrlInterface;
 use Magento\Framework\Logger;
 use Magento\Framework\Encryption\EncryptorInterface as Encryptor;
 use Magento\Customer\Model\Config\Share as ConfigShare;
 use Magento\Customer\Model\AddressRegistry;
-use Magento\Service\V1\Data\Filter;
+use Magento\Framework\Service\V1\Data\Filter;
 
 /**
  * Handle various customer account actions
@@ -618,7 +618,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     public function validateCustomerData(Data\Customer $customer, array $attributes = [])
     {
         $customerErrors = $this->validator->validateData(
-            \Magento\Service\DataObjectConverter::toFlatArray($customer),
+            \Magento\Framework\Service\DataObjectConverter::toFlatArray($customer),
             $attributes,
             'customer'
         );

@@ -9,8 +9,8 @@ namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Customer\Service\V1\CustomerMetadataService;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
-use Magento\Service\Data\AbstractObject;
-use Magento\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractObjectBuilder;
 
 class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -305,6 +305,6 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         );
         $customer = $this->_customerBuilder->populateWithArray($customerData)->create();
 
-        $this->assertEquals($expectedCustomerData, \Magento\Service\DataObjectConverter::toFlatArray($customer));
+        $this->assertEquals($expectedCustomerData, \Magento\Framework\Service\DataObjectConverter::toFlatArray($customer));
     }
 }

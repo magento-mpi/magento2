@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Service\Data\EAV;
+namespace Magento\Framework\Service\Data\EAV;
 
 /**
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractObjectBuilder extends \Magento\Service\Data\AbstractObjectBuilder
+abstract class AbstractObjectBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * Set array of custom attributes

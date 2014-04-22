@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Service;
+namespace Magento\Framework\Service;
 
-use Magento\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractObject;
 use Magento\Framework\Convert\ConvertArray;
 
 class DataObjectConverter

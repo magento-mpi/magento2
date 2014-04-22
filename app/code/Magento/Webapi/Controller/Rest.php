@@ -8,7 +8,7 @@
 namespace Magento\Webapi\Controller;
 
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
-use Magento\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractObject;
 use Magento\Webapi\Controller\Rest\Request as RestRequest;
 use Magento\Webapi\Controller\Rest\Response as RestResponse;
 use Magento\Webapi\Controller\Rest\Router;
@@ -163,7 +163,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             $inputData = $this->_overrideParams($inputData, $route->getParameters());
             $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
             $service = $this->_objectManager->get($serviceClassName);
-            /** @var \Magento\Service\Data\AbstractObject $outputData */
+            /** @var \Magento\Framework\Service\Data\AbstractObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
             $outputArray = $this->_processServiceOutput($outputData);
             $this->_response->prepareResponse($outputArray);

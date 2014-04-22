@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Service\V1\Data;
+namespace Magento\Framework\Service\V1\Data;
 
 /**
  * Filter which can be used by any methods from service layer.
  */
-class Filter extends \Magento\Service\Data\AbstractObject
+class Filter extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**
      * Get field

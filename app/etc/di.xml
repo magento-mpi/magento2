@@ -76,8 +76,8 @@
             <argument name="actionValidator" xsi:type="object">Magento\Framework\Model\ActionValidator\RemoveAction\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Service\V1\Data\FilterBuilder" shared="false" />
-    <type name="Magento\Service\V1\Data\SearchCriteriaBuilder" shared="false" />
+    <type name="Magento\Framework\Service\V1\Data\FilterBuilder" shared="false" />
+    <type name="Magento\Framework\Service\V1\Data\SearchCriteriaBuilder" shared="false" />
     <type name="Magento\Framework\Message\Manager">
         <arguments>
             <argument name="session" xsi:type="object">Magento\Framework\Message\Session\Proxy</argument>

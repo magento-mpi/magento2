@@ -119,7 +119,7 @@ class Converter
     {
         $customerModel = $this->_customerFactory->create();
 
-        $attributes = \Magento\Service\DataObjectConverter::toFlatArray($customer);
+        $attributes = \Magento\Framework\Service\DataObjectConverter::toFlatArray($customer);
         foreach ($attributes as $attributeCode => $attributeValue) {
             // avoid setting password through set attribute
             if ($attributeCode == 'password') {
@@ -153,7 +153,7 @@ class Converter
         \Magento\Customer\Model\Customer $customerModel,
         CustomerDataObject $customerData
     ) {
-        $attributes = \Magento\Service\DataObjectConverter::toFlatArray($customerData);
+        $attributes = \Magento\Framework\Service\DataObjectConverter::toFlatArray($customerData);
         foreach ($attributes as $attributeCode => $attributeValue) {
             $customerModel->setDataUsingMethod($attributeCode, $attributeValue);
         }

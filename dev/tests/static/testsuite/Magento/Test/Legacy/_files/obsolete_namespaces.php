@@ -47,4 +47,5 @@ return [
     ['Magento\Shell', 'Magento\Framework\Shell'],
     ['Magento\Encryption', 'Magento\Framework\Encryption'],
     ['Magento\Option', 'Magento\Framework\Option'],
+    ['Magento\Service', 'Magento\Framework\Service'],
 ];

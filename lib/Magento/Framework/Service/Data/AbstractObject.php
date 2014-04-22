@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Service\Data;
+namespace Magento\Framework\Service\Data;
 
 /**
  * Class AbstractObject

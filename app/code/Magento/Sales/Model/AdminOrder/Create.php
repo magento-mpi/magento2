@@ -1193,7 +1193,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $customerForm = $this->_metadataFormFactory->create(
             \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
             'adminhtml_checkout',
-            \Magento\Service\DataObjectConverter::toFlatArray($customerDataObject),
+            \Magento\Framework\Service\DataObjectConverter::toFlatArray($customerDataObject),
             false,
             CustomerForm::DONT_IGNORE_INVISIBLE
         );
@@ -1470,7 +1470,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $this->getQuote()->updateCustomerData($this->_customerBuilder->mergeDataObjectWithArray($customer, $data));
         $data = array();
 
-        $customerData = \Magento\Service\DataObjectConverter::toFlatArray($customer);
+        $customerData = \Magento\Framework\Service\DataObjectConverter::toFlatArray($customer);
         foreach ($form->getAttributes() as $attribute) {
             $code = sprintf('customer_%s', $attribute->getAttributeCode());
             $data[$code] = isset(
@@ -1642,7 +1642,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         }
         $this->getQuote()->updateCustomerData($customerDataObject);
 
-        $customerData = \Magento\Service\DataObjectConverter::toFlatArray($customerDataObject);
+        $customerData = \Magento\Framework\Service\DataObjectConverter::toFlatArray($customerDataObject);
         foreach ($this->_createCustomerForm($customerDataObject)->getUserAttributes() as $attribute) {
             if (isset($customerData[$attribute->getAttributeCode()])) {
                 $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());

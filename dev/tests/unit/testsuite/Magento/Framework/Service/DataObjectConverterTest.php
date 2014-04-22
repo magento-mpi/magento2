@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Service;
+namespace Magento\Framework\Service;
 
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
@@ -54,7 +54,7 @@ class DataObjectConverterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->dataObjectConverter = $objectManager->getObject('Magento\Service\DataObjectConverter');
+        $this->dataObjectConverter = $objectManager->getObject('Magento\Framework\Service\DataObjectConverter');
         parent::setUp();
     }
 

@@ -11,8 +11,8 @@ use Magento\Core\Model\EntityFactory;
 use Magento\Customer\Model\Resource\AbstractServiceCollection;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Data\CustomerGroup;
-use Magento\Service\V1\Data\FilterBuilder;
-use Magento\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 
 /**
  * Customer group collection backed by services
@@ -57,7 +57,7 @@ class ServiceCollection extends AbstractServiceCollection
             $groups = $searchResults->getItems();
             foreach ($groups as $group) {
                 $groupItem = new \Magento\Object();
-                $groupItem->addData(\Magento\Service\DataObjectConverter::toFlatArray($group));
+                $groupItem->addData(\Magento\Framework\Service\DataObjectConverter::toFlatArray($group));
                 $this->_addItem($groupItem);
             }
             $this->_setIsLoaded();

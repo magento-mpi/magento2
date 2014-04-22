@@ -216,7 +216,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForSendResponseExceptions()
     {
         return array(
-            'Magento\Service\ResourceNotFoundException' => array(
+            'Magento\Framework\Service\ResourceNotFoundException' => array(
                 new ServiceResourceNotFoundException(
                     'Resource not found',
                     2345,
@@ -230,7 +230,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
                 2345,
                 array('datail1' => 'value1', 'resource_id' => 'resource10')
             ),
-            'Magento_Service_ResourceNotFoundException (Empty message)' => array(
+            'Magento_Framework_Service_ResourceNotFoundException (Empty message)' => array(
                 new ServiceResourceNotFoundException(
                     '',
                     2345,

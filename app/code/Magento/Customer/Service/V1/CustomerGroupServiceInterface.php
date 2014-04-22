@@ -34,11 +34,11 @@ interface CustomerGroupServiceInterface
     /**
      * Search groups
      *
-     * @param \Magento\Service\V1\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
      * @return \Magento\Customer\Service\V1\Data\SearchResults containing Data\CustomerGroup objects
      */
-    public function searchGroups(\Magento\Service\V1\Data\SearchCriteria $searchCriteria);
+    public function searchGroups(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 
     /**
      * Get a customer group by group ID.

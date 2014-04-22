@@ -8,8 +8,8 @@
 namespace Magento\Webapi\Controller\Soap\Request;
 
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
-use Magento\Service\Data\AbstractObject;
-use Magento\Service\DataObjectConverter;
+use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\DataObjectConverter;
 use Magento\Webapi\Model\Soap\Config as SoapConfig;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;
 use Magento\Webapi\Exception as WebapiException;

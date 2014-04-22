@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Service\V1\Data;
+namespace Magento\Framework\Service\V1\Data;
 
-use Magento\Service\Data\AbstractObjectBuilder;
-use Magento\Service\V1\Data\Search\FilterGroupBuilder;
+use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder;
 
 /**
  * Builder for SearchCriteria Service Data Object
@@ -49,7 +49,7 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
     /**
      * Create a filter group based on the filter array provided and add to the filter groups
      *
-     * @param \Magento\Service\V1\Data\Filter[] $filter
+     * @param \Magento\Framework\Service\V1\Data\Filter[] $filter
      * @return $this
      */
     public function addFilter(array $filter)
@@ -61,7 +61,7 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
     /**
      * Set filter groups
      *
-     * @param \Magento\Service\V1\Data\Search\FilterGroup[] $filterGroups
+     * @param \Magento\Framework\Service\V1\Data\Search\FilterGroup[] $filterGroups
      * @return $this
      */
     public function setFilterGroups(array $filterGroups)

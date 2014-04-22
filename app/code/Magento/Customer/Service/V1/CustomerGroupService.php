@@ -16,12 +16,12 @@ use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\GroupRegistry;
 use Magento\Customer\Model\Resource\Group\Collection;
 use Magento\Customer\Service\V1\Data\CustomerGroup;
-use Magento\Service\V1\Data\Search\FilterGroup;
+use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
-use Magento\Service\V1\Data\Filter;
-use Magento\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\Filter;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Model\ClassModelFactory as TaxClassModelFactory;
 

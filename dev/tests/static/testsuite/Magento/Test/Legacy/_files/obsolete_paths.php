@@ -134,10 +134,16 @@ return [
     ['/dev/tests/unit/testsuite/Magento/Connect', '/dev/tests/unit/testsuite/Magento/Framework/Connect'],
     ['/lib/Magento/Profiler', '/lib/Magento/Framework/Profiler'],
     ['/dev/tests/unit/testsuite/Magento/Profiler', '/dev/tests/unit/testsuite/Magento/Framework/Profiler'],
-    ['/dev/tests/integration/testsuite/Magento/Profiler', '/dev/tests/integration/testsuite/Magento/Framework/Profiler'],
+    [
+        '/dev/tests/integration/testsuite/Magento/Profiler',
+        '/dev/tests/integration/testsuite/Magento/Framework/Profiler'
+    ],
     ['/lib/Magento/Simplexml', '/lib/Magento/Framework/Simplexml'],
     ['/dev/tests/unit/testsuite/Magento/Simplexml', '/dev/tests/unit/testsuite/Magento/Framework/Simplexml'],
-    ['/dev/tests/integration/testsuite/Magento/Simplexml', '/dev/tests/integration/testsuite/Magento/Framework/Simplexml'],
+    [
+        '/dev/tests/integration/testsuite/Magento/Simplexml',
+        '/dev/tests/integration/testsuite/Magento/Framework/Simplexml'
+    ],
     ['/lib/Magento/Controller', '/lib/Magento/Framework/Controller'],
     [
         '/dev/tests/integration/testsuite/Magento/Controller',
@@ -159,4 +165,7 @@ return [
     ['/lib/Magento/Option', '/lib/Magento/Framework/Option'],
     ['/dev/tests/unit/testsuite/Magento/Option', '/dev/tests/unit/testsuite/Magento/Framework/Option'],
     ['/dev/tests/integration/testsuite/Magento/Option', '/dev/tests/integration/testsuite/Magento/Framework/Option'],
+    ['/lib/Magento/Service', '/lib/Magento/Framework/Service'],
+    ['/dev/tests/unit/testsuite/Magento/Service', '/dev/tests/unit/testsuite/Magento/Framework/Service'],
+    ['/dev/tests/integration/testsuite/Magento/Service', '/dev/tests/integration/testsuite/Magento/Framework/Service'],
 ];

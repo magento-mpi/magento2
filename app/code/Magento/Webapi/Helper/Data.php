@@ -8,7 +8,7 @@
 namespace Magento\Webapi\Helper;
 
 use Magento\Integration\Controller\Adminhtml\Integration as IntegrationController;
-use Magento\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractObject;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {

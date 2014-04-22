@@ -14,7 +14,7 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
  *
  * @method Customer create()
  */
-class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
+class CustomerBuilder extends \Magento\Framework\Service\Data\EAV\AbstractObjectBuilder
 {
     /** @var CustomerMetadataServiceInterface */
     protected $_metadataService;
