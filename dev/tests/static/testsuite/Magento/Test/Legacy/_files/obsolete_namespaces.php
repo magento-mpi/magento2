@@ -50,5 +50,6 @@ return [
     ['Magento\Service', 'Magento\Framework\Service'],
     ['Magento\System', 'Magento\Framework\System'],
     ['Magento\Url', 'Magento\Framework\Url'],
+    ['Magento\Mview', 'Magento\Framework\Mview'],
     ['Magento\Validator', 'Magento\Framework\Validator'],
 ];
