@@ -44,7 +44,7 @@ class GuestTest extends \PHPUnit_Framework_TestCase
     private $mockRegistry;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\App\ViewInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\ViewInterface
      */
     private $mockView;
 
@@ -76,7 +76,7 @@ class GuestTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->mockView = $this->getMockBuilder('\Magento\App\ViewInterface')
+        $this->mockView = $this->getMockBuilder('\Magento\Framework\App\ViewInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -86,9 +86,9 @@ class GuestTest extends \PHPUnit_Framework_TestCase
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        /** @var \Magento\App\Helper\Context $context */
+        /** @var \Magento\Framework\App\Helper\Context $context */
         $context = $objectManagerHelper->getObject(
-            '\Magento\App\Helper\Context',
+            '\Magento\Framework\App\Helper\Context',
             ['urlBuilder' => $this->mockUrlInterface]
         );
 
@@ -114,7 +114,7 @@ class GuestTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse(
             $this->helper->loadValidOrder(
-                $this->getMock('\Magento\App\RequestInterface'),
+                $this->getMock('\Magento\Framework\App\RequestInterface'),
                 $this->getMockResponse('sales/order/history')
             )
         );
@@ -326,7 +326,7 @@ class GuestTest extends \PHPUnit_Framework_TestCase
 
     public function testGetBreadCrumbs()
     {
-        $mockLayout = $this->getMockBuilder('\Magento\View\LayoutInterface')
+        $mockLayout = $this->getMockBuilder('\Magento\Framework\View\LayoutInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -401,11 +401,11 @@ class GuestTest extends \PHPUnit_Framework_TestCase
      * Create a mock response object
      *
      * @param null $redirectName if provided will make sure that generated url is set as the redirect patch
-     * @return \PHPUnit_Framework_MockObject_MockObject | \Magento\App\ResponseInterface
+     * @return \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\ResponseInterface
      */
     private function getMockResponse($redirectName = null)
     {
-        $mockResponse = $this->getMockBuilder('\Magento\App\ResponseInterface')
+        $mockResponse = $this->getMockBuilder('\Magento\Framework\App\ResponseInterface')
             ->disableOriginalConstructor()
             ->setMethods(['setRedirect', 'sendResponse'])
             ->getMock();
@@ -427,11 +427,11 @@ class GuestTest extends \PHPUnit_Framework_TestCase
      * Returns a mock request object
      *
      * @param array $post list of data to be returned by getPost
-     * @return \PHPUnit_Framework_MockObject_MockObject | \Magento\App\RequestInterface
+     * @return \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\RequestInterface
      */
     private function getMockRequest(array $post)
     {
-        $mockRequest = $this->getMockBuilder('\Magento\App\RequestInterface')
+        $mockRequest = $this->getMockBuilder('\Magento\Framework\App\RequestInterface')
             ->setMethods(['getPost', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam'])
             ->getMock();
         $mockRequest->expects($this->once())

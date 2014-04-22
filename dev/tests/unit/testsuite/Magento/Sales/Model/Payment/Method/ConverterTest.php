@@ -43,11 +43,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $method
      * @param string $fieldName
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Model\AbstractModel
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Model\AbstractModel
      */
     private function mockModelObject($method, $fieldName)
     {
-        $modelMock = $this->getMockBuilder('Magento\Model\AbstractModel')
+        $modelMock = $this->getMockBuilder('Magento\Framework\Model\AbstractModel')
             ->setMethods(['__wakeup', 'getData'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();

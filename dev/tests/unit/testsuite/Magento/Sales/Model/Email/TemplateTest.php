@@ -22,13 +22,13 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     private $template;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\View\FileSystem
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\View\FileSystem
      */
     private $mockViewFilesystem;
 
     public function setUp()
     {
-        $this->mockViewFilesystem = $this->getMockBuilder('\Magento\View\FileSystem')
+        $this->mockViewFilesystem = $this->getMockBuilder('\Magento\Framework\View\FileSystem')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -39,7 +39,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->with('Magento\Email\Model\Resource\Template')
             ->will($this->returnValue($objectManagerHelper->getObject('Magento\Email\Model\Resource\Template')));
-        \Magento\App\ObjectManager::setInstance($objectManagerMock);
+        \Magento\Framework\App\ObjectManager::setInstance($objectManagerMock);
 
         $this->template = $objectManagerHelper->getObject(
             'Magento\Sales\Model\Email\Template',

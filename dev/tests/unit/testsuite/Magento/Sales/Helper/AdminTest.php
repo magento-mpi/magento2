@@ -12,7 +12,7 @@ use Magento\TestFramework\Helper\ObjectManager;
 class AdminTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\Helper\Context|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Helper\Context|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $contextMock;
 
@@ -43,7 +43,7 @@ class AdminTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->contextMock = $this->getMockBuilder('Magento\App\Helper\Context')
+        $this->contextMock = $this->getMockBuilder('Magento\Framework\App\Helper\Context')
             ->disableOriginalConstructor()
             ->getMock();
         $this->storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
@@ -276,7 +276,7 @@ class AdminTest extends \PHPUnit_Framework_TestCase
             'quote' => $quoteMock,
             'other' => 'other',
         ];
-        $collectionMock = $this->getMockBuilder('Magento\Model\Resource\Db\Collection\AbstractCollection')
+        $collectionMock = $this->getMockBuilder('Magento\Framework\Model\Resource\Db\Collection\AbstractCollection')
             ->disableOriginalConstructor()
             ->getMock();
         $collectionMock->expects($this->any())
