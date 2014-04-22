@@ -43,7 +43,7 @@ class ObjectManagerFactory
     /**
      * Create ObjectManager
      *
-     * @param $rootDir
+     * @param string $rootDir
      * @param array $arguments
      * @param bool $useCompiled
      * @return \Magento\ObjectManager

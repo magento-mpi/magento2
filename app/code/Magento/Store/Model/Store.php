@@ -813,7 +813,7 @@ class Store extends AbstractModel implements
     public function getBaseCurrency()
     {
         $currency = $this->getData('base_currency');
-       if (null === $currency) {
+        if (null === $currency) {
             $currency = \Magento\App\ObjectManager::getInstance()->create(
                 'Magento\Directory\Model\Currency'
             )->load(
