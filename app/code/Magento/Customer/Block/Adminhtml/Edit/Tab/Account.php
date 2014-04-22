@@ -129,9 +129,8 @@ class Account extends GenericMetadata
             )->setDisableAutoGroupChangeAttribute(
                 $customerForm->getAttribute(self::DISABLE_ATTRIBUTE_NAME)
             )->setDisableAutoGroupChangeAttributeValue(
-                $customerDataObject->getCustomAttribute(self::DISABLE_ATTRIBUTE_NAME)
-                    ? $customerDataObject->getCustomAttribute(self::DISABLE_ATTRIBUTE_NAME)->getValue()
-                    : null
+                $customerDataObject->getCustomAttribute(self::DISABLE_ATTRIBUTE_NAME) ?
+                    $customerDataObject->getCustomAttribute(self::DISABLE_ATTRIBUTE_NAME)->getValue() : null
             )
         );
 
@@ -321,21 +320,21 @@ class Account extends GenericMetadata
             $form->getElement(
                 'website_id'
             )->setAfterElementJs(
-                    '<script type="text/javascript">' .
-                    "\n                var {$prefix}_websites = " .
-                    $this->_jsonEncoder->encode(
-                        $websites
-                    ) .
-                    ";\n                jQuery.validator.addMethod('validate-website-has-store', function(v, elem)" .
-                    "{\n                       return {$prefix}_websites[elem.value] == true;\n                    }," .
-                    "\n                    '" .
-                    $note .
-                    "'\n                );\n                " .
-                    "Element.observe('{$prefix}website_id', 'change', function()" .
-                    "{\n                    jQuery.validator.validateElement('#{$prefix}website_id');" .
-                    "\n                }.bind(\$('{$prefix}website_id')));\n                " .
-                    '</script>'
-                );
+                '<script type="text/javascript">' .
+                "\n                var {$prefix}_websites = " .
+                $this->_jsonEncoder->encode(
+                    $websites
+                ) .
+                ";\n                jQuery.validator.addMethod('validate-website-has-store', function(v, elem)" .
+                "{\n                       return {$prefix}_websites[elem.value] == true;\n                    }," .
+                "\n                    '" .
+                $note .
+                "'\n                );\n                " .
+                "Element.observe('{$prefix}website_id', 'change', function()" .
+                "{\n                    jQuery.validator.validateElement('#{$prefix}website_id');" .
+                "\n                }.bind(\$('{$prefix}website_id')));\n                " .
+                '</script>'
+            );
             $renderer = $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
             );
