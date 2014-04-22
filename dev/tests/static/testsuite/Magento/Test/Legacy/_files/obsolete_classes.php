@@ -2290,5 +2290,6 @@ return array(
     ['Magento\Backend\Model\Resource\Translate', 'Magento\Translation\Model\Resource\Translate'],
     ['Magento\Backend\Model\Resource\Translate\String', 'Magento\Translation\Model\Resource\String'],
     ['Magento\Core\Model\Layout', 'Magento\View\Layout'],
-    ['Magento\Catalog\Block\Product\Price\Template']
+    ['Magento\Catalog\Block\Product\Price\Template'],
+    ['Magento\Bundle\Block\Catalog\Product\View']
 );

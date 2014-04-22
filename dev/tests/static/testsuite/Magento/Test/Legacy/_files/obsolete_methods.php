@@ -1638,4 +1638,8 @@ return array(
     ['getTierPriceHtml', 'Magento\GroupedProduct\Block\Product\View\Type\Grouped'],
     ['_construct', 'Magento\Reports\Block\Product\Widget\Viewed\Item'],
     ['addPriceBlockType', 'Magento\Rss\Block\Wishlist'],
+    ['getTierPriceTemplate', 'Magento\Catalog\Block\Product\AbstractProduct'],
+    ['getTierPrices', 'Magento\Catalog\Block\Product\AbstractProduct'],
+    ['getTierPrices', 'Magento\Catalog\Block\Product\Price'],
+    ['processTierPrices', 'Magento\Weee\Helper\Data'],
 );
