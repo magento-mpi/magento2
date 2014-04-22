@@ -24,6 +24,7 @@ class Flat implements Fallback\CacheDataInterface
     {
         $this->cache = $cache;
     }
+
     /**
      * {@inheritdoc}
      */

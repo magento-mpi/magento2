@@ -18,7 +18,7 @@ class Grouped implements Fallback\CacheDataInterface
     private $cache;
 
     /**
-     * @var bool[]
+     * @var string[]
      */
     private $isDirty = [];
 
