@@ -6,19 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Pricing\Price;
+namespace Magento\Pricing\Price;
 
-use Magento\Pricing\Price\PriceInterface;
+use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Amount\AmountInterface;
 use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Pricing\PriceInfoInterface;
-use Magento\Catalog\Model\Product;
 
 /**
  * Class AbstractPrice
  * Should be the base for creating any Price type class
- *
- * @package Magento\Catalog\Pricing\Price
  */
 abstract class AbstractPrice implements PriceInterface
 {
@@ -38,7 +35,7 @@ abstract class AbstractPrice implements PriceInterface
     protected $calculator;
 
     /**
-     * @var \Magento\Catalog\Model\Product
+     * @var SaleableInterface
      */
     protected $product;
 
@@ -63,12 +60,12 @@ abstract class AbstractPrice implements PriceInterface
     protected $value;
 
     /**
-     * @param Product $saleableItem
+     * @param SaleableInterface $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
      */
     public function __construct(
-        Product $saleableItem,
+        SaleableInterface $saleableItem,
         $quantity,
         CalculatorInterface $calculator
     ) {

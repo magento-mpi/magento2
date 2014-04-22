@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Pricing\Price;
+namespace Magento\Pricing\Price;
 
 /**
  * Class RegularPriceTest
@@ -14,7 +14,7 @@ namespace Magento\Catalog\Pricing\Price;
 class AbstractPriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Pricing\Price\AbstractPrice
+     * @var AbstractPrice
      */
     protected $price;
 
@@ -29,7 +29,7 @@ class AbstractPriceTest extends \PHPUnit_Framework_TestCase
     protected $amountMock;
 
     /**
-     * @var \Magento\Catalog\Model\Product |\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Pricing\Object\SaleableInterface |\PHPUnit_Framework_MockObject_MockObject
      */
     protected $saleableItemMock;
 
