@@ -59,8 +59,9 @@ class CustomerRegistry
             // customer does not exist
             throw NoSuchEntityException::singleField('customerId', $customerId);
         } else {
+            $emailKey = $this->getEmailKey($customer->getEmail(), $customer->getWebsiteId());
             $this->customerRegistryById[$customerId] = $customer;
-            $this->customerRegistryByEmail[$customer->getEmail() . $customer->getWebsiteId()] = $customer;
+            $this->customerRegistryByEmail[$emailKey] = $customer;
             return $customer;
         }
     }
@@ -75,7 +76,7 @@ class CustomerRegistry
      */
     public function retrieveByEmail($customerEmail, $websiteId)
     {
-        $emailKey = $customerEmail . $websiteId;
+        $emailKey = $this->getEmailKey($customerEmail, $websiteId);
         if (isset($this->customerRegistryByEmail[$emailKey])) {
             return $this->customerRegistryByEmail[$emailKey];
         }
@@ -117,7 +118,8 @@ class CustomerRegistry
         if (isset($this->customerRegistryById[$customerId])) {
             /** @var Customer $customer */
             $customer = $this->customerRegistryById[$customerId];
-            unset($this->customerRegistryByEmail[$customer->getEmail() . $customer->getWebsiteId()]);
+            $emailKey = $this->getEmailKey($customer->getEmail(), $customer->getWebsiteId());
+            unset($this->customerRegistryByEmail[$emailKey]);
             unset($this->customerRegistryById[$customerId]);
         }
     }
@@ -131,12 +133,24 @@ class CustomerRegistry
      */
     public function removeByEmail($customerEmail, $websiteId)
     {
-        $emailKey = $customerEmail . $websiteId;
+        $emailKey = $this->getEmailKey($customerEmail, $websiteId);
         if ($emailKey) {
             /** @var Customer $customer */
             $customer = $this->customerRegistryByEmail[$emailKey];
             unset($this->customerRegistryByEmail[$emailKey]);
             unset($this->customerRegistryById[$customer->getId()]);
         }
+    }
+
+    /**
+     * Helper function that calculates the email key.
+     *
+     * @param string $customerEmail
+     * @param string|int $websiteId
+     * @return string
+     */
+    private function getEmailKey($customerEmail, $websiteId)
+    {
+        return $customerEmail . '|' . $websiteId;
     }
 }
