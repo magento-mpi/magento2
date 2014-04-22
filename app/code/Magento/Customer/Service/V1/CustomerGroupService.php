@@ -18,6 +18,7 @@ use Magento\Service\V1\Data\Search\FilterGroup;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
+use Magento\Exception\State\InvalidTransitionException;
 use Magento\Service\V1\Data\SearchCriteria;
 use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Model\ClassModelFactory as TaxClassModelFactory;
@@ -283,10 +284,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
              *  difficult to do without imposing more database calls
              */
             if ($e->getMessage() === __('Customer Group already exists.')) {
-                throw new InputException(
-                    'Customer group with code %value already exists.',
-                    ['value' => $group->getCode()]
-                );
+                throw new InvalidTransitionException('Customer Group already exists.');
             }
             throw $e;
         }

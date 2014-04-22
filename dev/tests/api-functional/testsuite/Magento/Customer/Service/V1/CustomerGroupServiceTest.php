@@ -410,13 +410,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             $errorData = json_decode($e->getMessage(), true);
 
-            $this->assertContains(
-                'Customer group with code %value already exists.',
+            $this->assertEquals(
+                'Customer Group already exists.',
                 $errorData['message']
-            );
-            $this->assertContains(
-                '"parameters":{"value":"Duplicate Group Code REST"}',
-                $e->getMessage()
             );
             $this->assertEquals(400, $e->getCode(), 'Invalid HTTP code');
         }
@@ -673,7 +669,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = 'Customer group with code %value already exists.';
+        $expectedMessage = 'Customer Group already exists.';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
