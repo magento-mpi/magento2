@@ -195,7 +195,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $customerIdFromFixture = 1;
         $customerEmailFromFixture = 'customer@example.com';
         $city = 'TestCity';
-        $street = ['Street1'];
+        $street = 'Street1';
 
         /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder */
         $addressBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Data\AddressBuilder');
@@ -204,7 +204,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         )->setCity(
             $city
         )->setStreet(
-            $street
+            [$street]
         )->create();
         $this->_address->setQuote($this->_quote);
         $this->_address->importCustomerAddressData($addressData);
