@@ -31,11 +31,15 @@ abstract class AbstractObjectBuilder extends \Magento\Service\Data\AbstractObjec
      *
      * @param \Magento\Service\Data\Eav\AttributeValue[] $attributes
      * @return $this
+     * @throws \LogicException If array elements are not of AttributeValue type
      */
     public function setCustomAttributes(array $attributes)
     {
         $customAttributesCodes = $this->getCustomAttributesCodes();
         foreach ($attributes as $attribute) {
+            if (!$attribute instanceof AttributeValue) {
+                throw new \LogicException('Custom Attribute array elements can only be type of AttributeValue');
+            }
             if (in_array($attribute->getAttributeCode(), $customAttributesCodes)) {
                 $this->_data[AbstractObject::CUSTOM_ATTRIBUTES_KEY][$attribute->getAttributeCode()] = $attribute;
             }

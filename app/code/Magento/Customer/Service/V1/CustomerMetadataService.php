@@ -246,8 +246,8 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
                 || isset($this->customerDataObjectMethods['is' . $camelCaseKey]);
 
             /** Even though disable_auto_group_change is system attribute, it should be available to the clients */
-            if (!$isDataObjectMethod && (!$attributeMetadata->isSystem()
-                    || $attributeCode == 'disable_auto_group_change')
+            if (!$isDataObjectMethod
+                && (!$attributeMetadata->isSystem() || $attributeCode == 'disable_auto_group_change')
             ) {
                 $customAttributes[] = $attributeMetadata;
             }
