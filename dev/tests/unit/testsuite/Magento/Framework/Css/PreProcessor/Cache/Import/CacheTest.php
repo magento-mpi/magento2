@@ -20,7 +20,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Css\PreProcessor\Cache\Import\Map\Storage|\PHPUnit_Framework_MockObject_MockObject */
     protected $storageMock;
 
-    /** @var \Magento\Framework\Css\PreProcessor\Cache\Import\ImportEntityFactory|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ImportEntityFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $importEntityFactoryMock;
 
     /** @var \Magento\Framework\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject */

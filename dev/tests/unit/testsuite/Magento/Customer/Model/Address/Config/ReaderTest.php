@@ -55,7 +55,13 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
         $this->_converter = $this->getMock('Magento\Customer\Model\Address\Config\Converter', array('convert'));
 
-        $moduleReader = $this->getMock('Magento\Framework\Module\Dir\Reader', array('getModuleDir'), array(), '', false);
+        $moduleReader = $this->getMock(
+            'Magento\Framework\Module\Dir\Reader',
+            array('getModuleDir'),
+            array(),
+            '',
+            false
+        );
 
         $moduleReader->expects(
             $this->once()

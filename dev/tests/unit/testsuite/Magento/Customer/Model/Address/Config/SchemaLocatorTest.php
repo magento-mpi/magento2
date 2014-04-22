@@ -32,7 +32,13 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_xsdFile = $this->_xsdDir . '/address_formats.xsd';
-        $this->_moduleReader = $this->getMock('Magento\Framework\Module\Dir\Reader', array('getModuleDir'), array(), '', false);
+        $this->_moduleReader = $this->getMock(
+            'Magento\Framework\Module\Dir\Reader',
+            array('getModuleDir'),
+            array(),
+            '',
+            false
+        );
         $this->_moduleReader->expects(
             $this->once()
         )->method(

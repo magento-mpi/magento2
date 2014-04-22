@@ -862,7 +862,9 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
         if (empty($options[Element::CONTAINER_OPT_HTML_TAG]) && (!empty($options[Element::CONTAINER_OPT_HTML_ID]) ||
             !empty($options[Element::CONTAINER_OPT_HTML_CLASS]))
         ) {
-            throw new \Magento\Framework\Exception('HTML ID or class will not have effect, if HTML tag is not specified.');
+            throw new \Magento\Framework\Exception(
+                'HTML ID or class will not have effect, if HTML tag is not specified.'
+            );
         }
         foreach ($options as $key => $value) {
             $this->_structure->setAttribute($name, $key, $value);

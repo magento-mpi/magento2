@@ -44,7 +44,14 @@ class FormTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($mark)
         );
-        $localeResolver = $this->getMock('Magento\Framework\Locale\ResolverInterface', array(), array(), '', false, false);
+        $localeResolver = $this->getMock(
+            'Magento\Framework\Locale\ResolverInterface',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(
             'Magento\Paypal\Block\PayflowExpress\Form',

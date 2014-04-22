@@ -127,7 +127,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetSoapOperation()
     {
         $expectedResult = 'moduleFooV1SomeMethod';
-        $soapOperation = $this->_soapConfig->getSoapOperation('Magento\Framework\Module\Service\FooV1Interface', 'someMethod');
+        $soapOperation = $this->_soapConfig
+            ->getSoapOperation('Magento\Framework\Module\Service\FooV1Interface', 'someMethod');
         $this->assertEquals($expectedResult, $soapOperation);
     }
 }

@@ -244,7 +244,13 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->model->hasMessages());
         $message = 'Message';
-        $messageCollection = $this->getMock('Magento\Framework\Message\Collection', array('addMessage'), array(), '', false);
+        $messageCollection = $this->getMock(
+            'Magento\Framework\Message\Collection',
+            array('addMessage'),
+            array(),
+            '',
+            false
+        );
         $this->session->expects($this->any())
             ->method('getData')
             ->will($this->returnValue($messageCollection));
@@ -293,9 +299,15 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function addUniqueMessagesWhenMessagesImplementMessageInterfaceDataProvider()
     {
         return array(
-            'message_text_is_unique' => array($this->getMock('Magento\Framework\Message\MessageInterface'), 'text1', 'once'),
+            'message_text_is_unique' => array(
+                $this->getMock('Magento\Framework\Message\MessageInterface'),
+                'text1',
+                'once'
+            ),
             'message_text_is_already_exist' => array(
-                $this->getMock('Magento\Framework\Message\MessageInterface'), 'text', 'never'
+                $this->getMock('Magento\Framework\Message\MessageInterface'),
+                'text',
+                'never'
             )
         );
     }
@@ -329,8 +341,13 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testAddMessages()
     {
-        $messageCollection
-            = $this->getMock('Magento\Framework\Message\Collection', array('getItems', 'addMessage'), array(), '', false);
+        $messageCollection = $this->getMock(
+            'Magento\Framework\Message\Collection',
+            array('getItems', 'addMessage'),
+            array(),
+            '',
+            false
+        );
         $this->session->expects($this->any())
             ->method('getData')
             ->will($this->returnValue($messageCollection));

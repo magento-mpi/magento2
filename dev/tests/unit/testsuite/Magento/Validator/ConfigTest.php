@@ -49,7 +49,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         foreach ($files as $path) {
             $configFiles[$path] = file_get_contents($path);
         }
-        $config = new \Magento\Framework\ObjectManager\Config\Config(new \Magento\Framework\ObjectManager\Relations\Runtime());
+        $config = new \Magento\Framework\ObjectManager\Config\Config(
+            new \Magento\Framework\ObjectManager\Relations\Runtime()
+        );
         $factory = new \Magento\Framework\ObjectManager\Factory\Factory($config);
         $realObjectManager = new \Magento\Framework\ObjectManager\ObjectManager($factory, $config);
         $factory->setObjectManager($realObjectManager);

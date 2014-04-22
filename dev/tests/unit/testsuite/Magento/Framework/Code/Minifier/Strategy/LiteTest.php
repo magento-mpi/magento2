@@ -77,7 +77,12 @@ class LiteTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->pubViewCacheDir)
         );
-        $this->adapter = $this->getMockForAbstractClass('Magento\Framework\Code\Minifier\AdapterInterface', array(), '', false);
+        $this->adapter = $this->getMockForAbstractClass(
+            'Magento\Framework\Code\Minifier\AdapterInterface',
+            array(),
+            '',
+            false
+        );
     }
 
     /**

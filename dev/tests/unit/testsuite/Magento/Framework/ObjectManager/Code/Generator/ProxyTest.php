@@ -30,7 +30,8 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
         $sampleProxyCode = file_get_contents(__DIR__ . '/_files/SampleProxy.txt');
         
         $this->ioObjectMock->expects($this->once())->method('getResultFileName')
-            ->with('\Magento\Framework\ObjectManager\Code\Generator\Sample_Proxy')->will($this->returnValue('sample_file.php'));
+            ->with('\Magento\Framework\ObjectManager\Code\Generator\Sample_Proxy')
+            ->will($this->returnValue('sample_file.php'));
         $this->ioObjectMock->expects($this->once())->method('writeResultFile')
             ->with('sample_file.php', $sampleProxyCode);
 

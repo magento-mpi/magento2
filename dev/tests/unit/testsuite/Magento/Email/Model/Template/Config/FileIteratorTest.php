@@ -39,7 +39,13 @@ class FileIteratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->filePaths = ['/file1', '/file2'];
         $this->directoryMock = $this->getMock('Magento\Framework\Filesystem\Directory\Read', [], [], '', false);
-        $this->moduleDirResolverMock = $this->getMock('Magento\Framework\Module\Dir\ReverseResolver', [], [], '', false);
+        $this->moduleDirResolverMock = $this->getMock(
+            'Magento\Framework\Module\Dir\ReverseResolver',
+            [],
+            [],
+            '',
+            false
+        );
 
         $this->fileIterator = new FileIterator(
             $this->directoryMock,

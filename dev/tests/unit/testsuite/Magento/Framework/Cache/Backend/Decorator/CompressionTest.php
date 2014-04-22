@@ -53,10 +53,16 @@ class CompressionTest extends \PHPUnit_Framework_TestCase
 
     public function testDecompressData()
     {
-        $methodCompress = new \ReflectionMethod('Magento\Framework\Cache\Backend\Decorator\Compression', '_compressData');
+        $methodCompress = new \ReflectionMethod(
+            'Magento\Framework\Cache\Backend\Decorator\Compression',
+            '_compressData'
+        );
         $methodCompress->setAccessible(true);
 
-        $methodDecompress = new \ReflectionMethod('Magento\Framework\Cache\Backend\Decorator\Compression', '_decompressData');
+        $methodDecompress = new \ReflectionMethod(
+            'Magento\Framework\Cache\Backend\Decorator\Compression',
+            '_decompressData'
+        );
         $methodDecompress->setAccessible(true);
 
         $this->assertEquals(
@@ -70,7 +76,10 @@ class CompressionTest extends \PHPUnit_Framework_TestCase
 
     public function testIsCompressionNeeded()
     {
-        $method = new \ReflectionMethod('Magento\Framework\Cache\Backend\Decorator\Compression', '_isCompressionNeeded');
+        $method = new \ReflectionMethod(
+            'Magento\Framework\Cache\Backend\Decorator\Compression',
+            '_isCompressionNeeded'
+        );
         $method->setAccessible(true);
 
         $this->assertFalse($method->invoke($this->_decorator, $this->_testString));
@@ -82,7 +91,10 @@ class CompressionTest extends \PHPUnit_Framework_TestCase
     {
         $prefix = 'CACHE_COMPRESSION';
 
-        $method = new \ReflectionMethod('Magento\Framework\Cache\Backend\Decorator\Compression', '_isDecompressionNeeded');
+        $method = new \ReflectionMethod(
+            'Magento\Framework\Cache\Backend\Decorator\Compression',
+            '_isDecompressionNeeded'
+        );
         $method->setAccessible(true);
 
         $this->assertFalse($method->invoke($this->_decorator, $this->_testString));

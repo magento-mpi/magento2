@@ -52,7 +52,13 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_autoloader = $this->getMock('Magento\Framework\Autoload\IncludePath', array('getFile'), array(), '', false);
+        $this->_autoloader = $this->getMock(
+            'Magento\Framework\Autoload\IncludePath',
+            array('getFile'),
+            array(),
+            '',
+            false
+        );
         $this->_ioObjectMock = $this->getMockBuilder(
             '\Magento\Framework\Code\Generator\Io'
         )->disableOriginalConstructor()->getMock();

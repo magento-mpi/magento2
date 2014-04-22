@@ -114,7 +114,10 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     {
         $input = array(
             'value' => 'some text',
-            'updater' => array('Magento\Framework\View\Layout\Argument\UpdaterInterface', 'Magento\Framework\ObjectManager')
+            'updater' => array(
+                'Magento\Framework\View\Layout\Argument\UpdaterInterface',
+                'Magento\Framework\ObjectManager'
+            )
         );
         $self = $this;
         $this->_objectManager->expects($this->exactly(2))->method('get')->will(

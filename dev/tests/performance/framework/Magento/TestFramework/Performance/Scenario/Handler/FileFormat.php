@@ -59,7 +59,9 @@ class FileFormat implements \Magento\TestFramework\Performance\Scenario\HandlerI
         /** @var $scenarioHandler \Magento\TestFramework\Performance\Scenario\HandlerInterface */
         $scenarioHandler = $this->getHandler($scenarioExtension);
         if (!$scenarioHandler) {
-            throw new \Magento\Framework\Exception("Unable to run scenario '{$scenario->getTitle()}', format is not supported.");
+            throw new \Magento\Framework\Exception(
+                "Unable to run scenario '{$scenario->getTitle()}', format is not supported."
+            );
         }
         $scenarioHandler->run($scenario, $reportFile);
     }

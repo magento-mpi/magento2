@@ -353,7 +353,9 @@ class Application
         $localXml = file_get_contents($targetLocalXml);
         $localXml = str_replace($installDate, date('r'), $localXml, $replacementCount);
         if ($replacementCount != 1) {
-            throw new \Magento\Framework\Exception("Unable to replace installation date properly in '{$targetLocalXml}' file.");
+            throw new \Magento\Framework\Exception(
+                "Unable to replace installation date properly in '{$targetLocalXml}' file."
+            );
         }
         file_put_contents($targetLocalXml, $localXml, LOCK_EX);
 

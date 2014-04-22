@@ -55,7 +55,11 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         /** @var $moduleReader \Magento\Framework\Module\Dir\Reader */
         $moduleReader = $objectManager->get('Magento\Framework\Module\Dir\Reader');
         $moduleReader->setModuleDir('Magento_Core', 'i18n', dirname(__DIR__) . '/Core/Model/_files/Magento/Core/i18n');
-        $moduleReader->setModuleDir('Magento_Catalog', 'i18n', dirname(__DIR__) . '/Core/Model/_files/Magento/Catalog/i18n');
+        $moduleReader->setModuleDir(
+            'Magento_Catalog',
+            'i18n',
+            dirname(__DIR__) . '/Core/Model/_files/Magento/Catalog/i18n'
+        );
 
         /** @var \Magento\Core\Model\View\Design _designModel */
         $this->_designModel = $this->getMock(
@@ -76,7 +80,8 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
 
         $objectManager->addSharedInstance($this->_designModel, 'Magento\Core\Model\View\Design\Proxy');
 
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\Translate');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\Translate');
         $objectManager->addSharedInstance($this->_model, 'Magento\Framework\Translate');
         $objectManager->removeSharedInstance('Magento\Framework\Phrase\Renderer\Composite');
         $objectManager->removeSharedInstance('Magento\Framework\Phrase\Renderer\Translate');

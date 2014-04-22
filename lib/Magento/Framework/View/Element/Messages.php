@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\View\Element;
 
+use Magento\Framework\Message\MessageInterface;
+
 /**
  * Class Messages
  */
@@ -53,10 +55,10 @@ class Messages extends Template
      * @var string[]
      */
     protected $messageTypes = array(
-        \Magento\Framework\Message\MessageInterface::TYPE_ERROR,
-        \Magento\Framework\Message\MessageInterface::TYPE_WARNING,
-        \Magento\Framework\Message\MessageInterface::TYPE_NOTICE,
-        \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
+        MessageInterface::TYPE_ERROR,
+        MessageInterface::TYPE_WARNING,
+        MessageInterface::TYPE_NOTICE,
+        MessageInterface::TYPE_SUCCESS
     );
 
     /**
@@ -158,7 +160,7 @@ class Messages extends Template
     /**
      * Adding new message to message collection
      *
-     * @param \Magento\Framework\Message\MessageInterface $message
+     * @param MessageInterface $message
      * @return $this
      */
     public function addMessage(\Magento\Framework\Message\AbstractMessage $message)
@@ -175,7 +177,7 @@ class Messages extends Template
      */
     public function addError($message)
     {
-        $this->addMessage($this->messageFactory->create(\Magento\Framework\Message\MessageInterface::TYPE_ERROR, $message));
+        $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_ERROR, $message));
         return $this;
     }
 
@@ -187,7 +189,7 @@ class Messages extends Template
      */
     public function addWarning($message)
     {
-        $this->addMessage($this->messageFactory->create(\Magento\Framework\Message\MessageInterface::TYPE_WARNING, $message));
+        $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_WARNING, $message));
         return $this;
     }
 
@@ -199,7 +201,7 @@ class Messages extends Template
      */
     public function addNotice($message)
     {
-        $this->addMessage($this->messageFactory->create(\Magento\Framework\Message\MessageInterface::TYPE_NOTICE, $message));
+        $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_NOTICE, $message));
         return $this;
     }
 
@@ -211,7 +213,7 @@ class Messages extends Template
      */
     public function addSuccess($message)
     {
-        $this->addMessage($this->messageFactory->create(\Magento\Framework\Message\MessageInterface::TYPE_SUCCESS, $message));
+        $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_SUCCESS, $message));
         return $this;
     }
 

@@ -16,7 +16,9 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected function _createObjectManager()
     {
-        return $this->getMockBuilder('Magento\Framework\ObjectManager')->setMethods(array('create'))->getMockForAbstractClass();
+        return $this->getMockBuilder('Magento\Framework\ObjectManager')
+            ->setMethods(array('create'))
+            ->getMockForAbstractClass();
     }
 
     /**

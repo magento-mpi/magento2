@@ -114,7 +114,9 @@ class DataFixture
             foreach ($annotations[$scope]['magentoDataFixture'] as $fixture) {
                 if (strpos($fixture, '\\') !== false) {
                     // usage of a single directory separator symbol streamlines search across the source code
-                    throw new \Magento\Framework\Exception('Directory separator "\\" is prohibited in fixture declaration.');
+                    throw new \Magento\Framework\Exception(
+                        'Directory separator "\\" is prohibited in fixture declaration.'
+                    );
                 }
                 $fixtureMethod = array(get_class($test), $fixture);
                 if (is_callable($fixtureMethod)) {

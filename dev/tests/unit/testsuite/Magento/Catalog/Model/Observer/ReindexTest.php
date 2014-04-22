@@ -42,7 +42,13 @@ class ReindexTest extends \PHPUnit_Framework_TestCase
             $this->logicalOr($this->equalTo(null), $this->equalTo($affectedProduct))
         );
 
-        $objectManager = $this->getMock('Magento\Framework\ObjectManager\ObjectManager', array('get'), array(), '', false);
+        $objectManager = $this->getMock(
+            'Magento\Framework\ObjectManager\ObjectManager',
+            array('get'),
+            array(),
+            '',
+            false
+        );
         $objectManager->expects(
             $this->once()
         )->method(

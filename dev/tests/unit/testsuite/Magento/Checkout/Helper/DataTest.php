@@ -26,7 +26,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_translator = $this->getMock('Magento\Framework\Translate\Inline\StateInterface', array(), array(), '', false);
+        $this->_translator = $this->getMock(
+            'Magento\Framework\Translate\Inline\StateInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $context = $this->getMock('\Magento\Framework\App\Helper\Context', array(), array(), '', false);
 
         $scopeConfig = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
@@ -87,7 +93,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $checkoutSession = $this->getMock('\Magento\Checkout\Model\Session', array(), array(), '', false);
 
-        $localeDate = $this->getMock('\Magento\Framework\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false);
+        $localeDate = $this->getMock(
+            '\Magento\Framework\Stdlib\DateTime\TimezoneInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $localeDate->expects($this->any())->method('date')->will($this->returnValue('Oct 02, 2013'));
 
         $collectionFactory = $this->getMock(

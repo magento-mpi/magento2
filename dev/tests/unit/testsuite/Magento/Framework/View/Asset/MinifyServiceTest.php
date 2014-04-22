@@ -174,8 +174,14 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
     public function getAssetsAppModesDataProvider()
     {
         return array(
-            'production' => array(\Magento\Framework\App\State::MODE_PRODUCTION, 'Magento\Framework\Code\Minifier\Strategy\Lite'),
-            'default' => array(\Magento\Framework\App\State::MODE_DEFAULT, 'Magento\Framework\Code\Minifier\Strategy\Generate'),
+            'production' => array(
+                \Magento\Framework\App\State::MODE_PRODUCTION,
+                'Magento\Framework\Code\Minifier\Strategy\Lite'
+            ),
+            'default' => array(
+                \Magento\Framework\App\State::MODE_DEFAULT,
+                'Magento\Framework\Code\Minifier\Strategy\Generate'
+            ),
             'developer' => array(
                 \Magento\Framework\App\State::MODE_DEVELOPER,
                 'Magento\Framework\Code\Minifier\Strategy\Generate'

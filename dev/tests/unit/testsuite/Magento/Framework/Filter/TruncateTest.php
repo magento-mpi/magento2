@@ -32,7 +32,12 @@ class TruncateTest extends \PHPUnit_Framework_TestCase
     {
         $remainder = '';
         return array(
-            '1' => array('1234567890', array(new \Magento\Framework\Stdlib\String(), 5, '...', '', true), '12...', '34567890'),
+            '1' => array(
+                '1234567890',
+                array(new \Magento\Framework\Stdlib\String(), 5, '...', '', true),
+                '12...',
+                '34567890'
+            ),
             '2' => array(
                 '123 456 789',
                 array(new \Magento\Framework\Stdlib\String(), 8, '..', $remainder, false),

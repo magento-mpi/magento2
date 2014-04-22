@@ -59,7 +59,10 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_model = new \Magento\Framework\Locale\Hierarchy\Config\FileResolver($filesystem, $this->iteratorFactory);
+        $this->_model = new \Magento\Framework\Locale\Hierarchy\Config\FileResolver(
+            $filesystem,
+            $this->iteratorFactory
+        );
     }
 
     /**

@@ -9,6 +9,8 @@
  */
 require __DIR__ . '/../../../bootstrap.php';
 $rootDir = realpath(__DIR__ . '/../../../../../');
+use Magento\Framework\ObjectManager\Code\Generator\Factory;
+use Magento\Framework\ObjectManager\Code\Generator\Proxy;
 use Magento\Tools\Di\Compiler\Log\Log;
 use Magento\Tools\Di\Compiler\Log\Writer;
 use Magento\Tools\Di\Compiler\Directory;
@@ -81,8 +83,8 @@ try {
         array(
             \Magento\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
                 'Magento\Interception\Code\Generator\Interceptor',
-            \Magento\Framework\ObjectManager\Code\Generator\Proxy::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Proxy',
-            \Magento\Framework\ObjectManager\Code\Generator\Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory'
+            Proxy::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Proxy',
+            Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory'
         )
     );
     foreach (array('php', 'additional') as $type) {
