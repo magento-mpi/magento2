@@ -17,14 +17,9 @@ namespace Magento\Pricing\PriceInfo;
 class BaseTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Pricing\Object\SaleableInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Pricing\Price\Collection
      */
-    protected $saleableItem;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Pricing\PriceComposite
-     */
-    protected $prices;
+    protected $priceCollection;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Pricing\Adjustment\Collection
@@ -32,34 +27,15 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     protected $adjustmentCollection;
 
     /**
-     * @var float
-     */
-    protected $quantity;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Pricing\Amount\AmountFactory
-     */
-    protected $amountFactory;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|Base
+     * @var Base
      */
     protected $model;
 
     public function setUp()
     {
-        $this->saleableItem = $this->getMock('Magento\Pricing\Object\SaleableInterface', [], [], '', false);
-        $this->prices = $this->getMock('Magento\Pricing\Price\Collection', [], [], '', false);
+        $this->priceCollection = $this->getMock('Magento\Pricing\Price\Collection', [], [], '', false);
         $this->adjustmentCollection = $this->getMock('Magento\Pricing\Adjustment\Collection', [], [], '', false);
-        $this->amountFactory = $this->getMock('Magento\Pricing\Amount\AmountFactory', [], [], '', false);
-        $this->quantity = 3.;
-        $this->model = new Base(
-            $this->saleableItem,
-            $this->prices,
-            $this->adjustmentCollection,
-            $this->amountFactory,
-            $this->quantity
-        );
+        $this->model = new Base($this->priceCollection, $this->adjustmentCollection);
     }
 
     /**
@@ -67,7 +43,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPrices()
     {
-        $this->assertEquals($this->prices, $this->model->getPrices());
+        $this->assertEquals($this->priceCollection, $this->model->getPrices());
     }
 
     /**
@@ -79,7 +55,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     {
         $priceCode= current(array_values(reset($entryParams)));
 
-        $this->prices
+        $this->priceCollection
             ->expects($this->exactly($createCount))
             ->method('get')
             ->with($this->equalTo($priceCode))
