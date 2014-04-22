@@ -238,7 +238,7 @@ class Queue extends \Magento\Email\Model\AbstractTemplate
         /** @var \Magento\Newsletter\Model\Subscriber $item */
         foreach ($collection->getItems() as $item) {
             $transport = $this->_transportBuilder->setTemplateOptions(
-                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId())
+                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId())
             )->setTemplateVars(
                 array('subscriber' => $item)
             )->setFrom(

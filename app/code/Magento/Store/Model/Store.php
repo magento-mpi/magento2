@@ -300,6 +300,11 @@ class Store extends AbstractModel implements
     protected $_httpContext;
 
     /**
+     * @var \Magento\Directory\Model\CurrencyFactory
+     */
+    protected $currencyFactory;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\Resource\Store $resource
@@ -314,6 +319,8 @@ class Store extends AbstractModel implements
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Session\SessionManagerInterface $session
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param bool $isCustomEntryPoint
      * @param array $data
@@ -333,6 +340,8 @@ class Store extends AbstractModel implements
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Stdlib\Cookie $cookie,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Session\SessionManagerInterface $session,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()
@@ -349,6 +358,8 @@ class Store extends AbstractModel implements
         $this->_sidResolver = $sidResolver;
         $this->_cookie = $cookie;
         $this->_httpContext = $httpContext;
+        $this->_session = $session;
+        $this->currencyFactory = $currencyFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -396,10 +407,8 @@ class Store extends AbstractModel implements
      */
     protected function _getSession()
     {
-        if (!$this->_session) {
-            $this->_session = \Magento\Framework\App\ObjectManager::getInstance()->create(
-                'Magento\Session\SessionManagerInterface'
-            )->start(
+        if (!$this->_session->isSessionExists()) {
+            $this->_session->start(
                 'store_' . $this->getCode()
             );
         }
@@ -806,11 +815,7 @@ class Store extends AbstractModel implements
     {
         $currency = $this->getData('base_currency');
         if (null === $currency) {
-            $currency = \Magento\Framework\App\ObjectManager::getInstance()->create(
-                'Magento\Directory\Model\Currency'
-            )->load(
-                $this->getBaseCurrencyCode()
-            );
+            $currency = $this->currencyFactory->create()->load($this->getBaseCurrencyCode());
             $this->setData('base_currency', $currency);
         }
         return $currency;
@@ -836,11 +841,7 @@ class Store extends AbstractModel implements
     {
         $currency = $this->getData('default_currency');
         if (null === $currency) {
-            $currency = \Magento\Framework\App\ObjectManager::getInstance()->create(
-                'Magento\Directory\Model\Currency'
-            )->load(
-                $this->getDefaultCurrencyCode()
-            );
+            $currency = $this->currencyFactory->create()->load($this->getDefaultCurrencyCode());
             $this->setData('default_currency', $currency);
         }
         return $currency;
@@ -944,19 +945,15 @@ class Store extends AbstractModel implements
         $currency = $this->getData('current_currency');
 
         if (is_null($currency)) {
-            $currency = \Magento\Framework\App\ObjectManager::getInstance()->create(
-                'Magento\Directory\Model\Currency'
-            )->load(
-                $this->getCurrentCurrencyCode()
-            );
+            $currency = $this->currencyFactory->create()->load($this->getCurrentCurrencyCode());
             $baseCurrency = $this->getBaseCurrency();
 
             if (!$baseCurrency->getRate($currency)) {
                 $currency = $baseCurrency;
                 $this->setCurrentCurrencyCode($baseCurrency->getCode());
             }
+            $this->setData('current_currency', $currency);
         }
-        $this->setData('current_currency', $currency);
         return $currency;
     }
 

@@ -1,3 +1,6 @@
+* Modularity improvements:
+  * Introduced a new CheckoutAgreements module. Moved all "Terms and Conditions" related logic from Magento_Checkout to Magento_CheckoutAgreements
+  * Moved library related logic from “Magento\Core\Model\App”
 * Pricing Improvements:
   * Added price calculation component to library (MAGETWO-18226)
   * Eliminated price calculation from blocks and templates and implemented new calculation models for the next product types
@@ -10,6 +13,7 @@
 * Themes update:
   * Updated the look&feel of the Admin theme (MAGETWO-21912, MAGETWO-21913)
 * Fixed bugs:
+  * Fixed Magento breaks down after delete Main Web Site (MAGETWO-23537)
   * An issue with the inability to save product with grouped price when Price Scope = Website was fixed (MAGETWO-21709)
   * An issue with fatal error on attempt to edit product from wishlist if more than one store view available was fixed (MAGETWO-20859)
   * An issue product with custom quantity is not able to add to Wish List was fixed (MAGETWO-15355)
@@ -42,6 +46,10 @@
   * Fixed: Improve backend grids UI (MAGETWO-23338)
 * Framework Improvements:
   * Simplify Search related Data Objects (MAGETWO-22613)
+  * Moved lib/Magento/* to lib/Magento/Framework/*: (MAGETWO-20866)
+    * Moved lib/Magento/App to lib/Magento/Framework/App (MAGETWO-23476)
+  * Covered Magento Store components with unit tests:
+     * Magento\Store\Model\*
   * Updated obsolete_classes with changes, introduced by Offline Payment Methods Module implementation (MAGETWO-23619)
   * Moved lib/Magento/* to lib/Magento/Framework/* (Part 1): (MAGETWO-20866)
     * Moved lib/Magento/App to lib/Magento/Framework/App
@@ -52,6 +60,7 @@
     * Moved lib/Magento/Model to lib/Magento/Framework/Model
     * Moved lib/Magento/DB to lib/Magento/Framework/DB
     * Moved lib/Magento/View to lib/Magento/Framework/View
+
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
   * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)
