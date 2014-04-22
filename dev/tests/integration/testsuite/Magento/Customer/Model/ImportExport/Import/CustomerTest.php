@@ -29,7 +29,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     protected $_customerData;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $directoryWrite;
 
@@ -61,9 +61,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         ];
 
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\App\Filesystem');
+            ->create('Magento\Framework\App\Filesystem');
         $this->directoryWrite = $filesystem
-            ->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
+            ->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
     }
 
     /**
