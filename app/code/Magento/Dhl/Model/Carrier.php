@@ -52,13 +52,6 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
     protected $_request = null;
 
     /**
-     * Raw rate request data
-     *
-     * @var \Magento\Object|null
-     */
-    protected $_rawRequest = null;
-
-    /**
      * Rate result data
      *
      * @var Result|null
@@ -500,7 +493,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
 
         $requestObject->setBaseSubtotalInclTax($request->getBaseSubtotalInclTax());
 
-        $this->_rawRequest = $requestObject;
+        $this->setRawRequest($requestObject);
         return $this;
     }
 
@@ -1352,7 +1345,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
     protected function _mapRequestToShipment(\Magento\Object $request)
     {
         $request->setOrigCountryId($request->getShipperAddressCountryCode());
-        $this->_rawRequest = $request;
+        $this->setRawRequest($request);
         $customsValue = 0;
         $packageWeight = 0;
         $packages = $request->getPackages();

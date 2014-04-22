@@ -48,13 +48,6 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
     protected $_request;
 
     /**
-     * Raw rate request data
-     *
-     * @var \Magento\Object
-     */
-    protected $_rawRequest;
-
-    /**
      * Rate result data
      *
      * @var Result
@@ -345,7 +338,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         $rowRequest->setIsReturn($request->getIsReturn());
         $rowRequest->setBaseSubtotalInclTax($request->getBaseSubtotalInclTax());
 
-        $this->_rawRequest = $rowRequest;
+        $this->setRawRequest($rowRequest);
 
         return $this;
     }

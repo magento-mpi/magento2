@@ -55,13 +55,6 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     protected $_request = null;
 
     /**
-     * Raw rate request data
-     *
-     * @var \Magento\Object|null
-     */
-    protected $_rawRequest = null;
-
-    /**
      * Rate result data
      *
      * @var Result|null
@@ -336,7 +329,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
 
         $r->setBaseSubtotalInclTax($request->getBaseSubtotalInclTax());
 
-        $this->_rawRequest = $r;
+        $this->setRawRequest($r);
 
         return $this;
     }
