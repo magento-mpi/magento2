@@ -70,7 +70,7 @@ class Design
     {
         $areaCode = $this->appState->getAreaCode();
         $area = $this->_areaList->getArea($areaCode);
-        $area->load(\Magento\Core\Model\App\Area::PART_CONFIG);
+        $area->load(\Magento\Framework\App\Area::PART_CONFIG);
 
         $themePath = $this->_viewDesign->getConfigurationDesignTheme($areaCode);
         $themeFullPath = $areaCode . \Magento\Framework\View\Design\ThemeInterface::PATH_SEPARATOR . $themePath;
@@ -78,6 +78,6 @@ class Design
         $this->_viewDesign->setDesignTheme($themeModel);
 
         $area->detectDesign($this->_request);
-        $area->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
+        $area->load(\Magento\Framework\App\Area::PART_TRANSLATE);
     }
 }

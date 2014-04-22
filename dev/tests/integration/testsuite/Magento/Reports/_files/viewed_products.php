@@ -8,7 +8,7 @@
 
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\AreaList')
     ->getArea('adminhtml')
-    ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
+    ->load(\Magento\Framework\App\Area::PART_CONFIG);
 
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple_duplicated.php';

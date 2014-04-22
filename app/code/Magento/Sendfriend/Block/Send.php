@@ -43,10 +43,16 @@ class Send extends \Magento\Framework\View\Element\Template
     protected $httpContext;
 
     /**
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerViewHelper;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sendfriend\Helper\Data $sendfriendData
      * @param \Magento\Registry $registry
+     * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
@@ -55,6 +61,7 @@ class Send extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sendfriend\Helper\Data $sendfriendData,
         \Magento\Registry $registry,
+        \Magento\Customer\Helper\View $customerViewHelper,
         \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
@@ -64,6 +71,7 @@ class Send extends \Magento\Framework\View\Element\Template
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
         $this->httpContext = $httpContext;
+        $this->_customerViewHelper = $customerViewHelper;
     }
 
     /**
@@ -82,7 +90,9 @@ class Send extends \Magento\Framework\View\Element\Template
         $session = $this->_customerSession;
 
         if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
-            return $session->getCustomer()->getName();
+            return $this->_customerViewHelper->getCustomerName(
+                $session->getCustomerDataObject()
+            );
         }
 
         return '';
@@ -104,7 +114,7 @@ class Send extends \Magento\Framework\View\Element\Template
         $session = $this->_customerSession;
 
         if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
-            return $session->getCustomer()->getEmail();
+            return $session->getCustomerDataObject()->getEmail();
         }
 
         return '';

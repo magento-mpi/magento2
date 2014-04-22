@@ -129,11 +129,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $localeDate = $this->getMock('\Magento\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false);
         $localeDate->expects($this->any())->method('date')->will($this->returnValue('Oct 02, 2013'));
 
-        $this->_collectionFactory = $this->getMockBuilder('Magento\Checkout\Model\Resource\Agreement\CollectionFactory')
-            ->disableOriginalConstructor()
-            ->setMethods(['create'])
-            ->getMock();
-
         $this->_transportBuilder = $this->getMockBuilder('Magento\Mail\Template\TransportBuilder')
             ->disableOriginalConstructor()
             ->getMock();
@@ -144,7 +139,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->_storeManager,
             $this->_checkoutSession,
             $localeDate,
-            $this->_collectionFactory,
             $this->_transportBuilder,
             $this->_translator
         );
@@ -164,7 +158,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->method(
             'setTemplateOptions'
         )->with(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => 8)
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 8)
         )->will(
             $this->returnSelf()
         );
@@ -294,41 +288,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $quoteMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
         $storeMock->expects($this->once())->method('convertPrice')->will($this->returnValue('5.5'));
         $this->assertEquals(5.5, $this->_helper->convertPrice($price));
-    }
-
-    public function testGetRequiredAgreementIdsNegative()
-    {
-        $expected = [];
-        $this->_scopeConfig->expects($this->once())->method('isSetFlag')->with('checkout/options/enable_agreements')
-            ->will($this->returnValue(false));
-        $this->assertEquals($expected, $this->_helper->getRequiredAgreementIds());
-        $this->assertEquals($expected, $this->_helper->getRequiredAgreementIds());
-    }
-
-    public function testGetRequiredAgreementWithoutAgreements()
-    {
-        $storeId = 1;
-        $collectionMock = $this->getMock('\Magento\Checkout\Model\Resource\Agreement\Collection', [], [], '', false);
-        $this->_scopeConfig->expects($this->once())->method('isSetFlag')->will($this->returnValue(true));
-        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
-        $this->_collectionFactory->expects($this->any())->method('create')->will($this->returnValue($collectionMock));
-        $collectionMock->expects($this->once())->method('addStoreFilter')->with($storeId)->will($this->returnSelf());
-        $this->_storeManager->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
-        $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
-        $collectionMock->expects(
-            $this->once()
-        )->method(
-                'addFieldToFilter'
-            )->with(
-                'is_active', 1
-            )->will(
-                $this->returnValue(
-                    $collectionMock
-                )
-            );
-        $expected = [1, 2, 3];
-        $collectionMock->expects($this->once())->method('getAllIds')->will($this->returnValue($expected));
-        $this->assertEquals($expected, $this->_helper->getRequiredAgreementIds());
     }
 
     public function testCanOnepageCheckout()

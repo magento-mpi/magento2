@@ -271,7 +271,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             $transport = $this->_transportBuilder->setTemplateIdentifier(
                 $storeData['template_id']
             )->setTemplateOptions(
-                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
             )->setTemplateVars(
                 $templateVars
             )->setFrom(

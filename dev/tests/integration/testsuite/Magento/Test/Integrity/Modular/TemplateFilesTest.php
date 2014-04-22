@@ -89,7 +89,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                 )->getArea(
                     $area
                 )->load(
-                    \Magento\Core\Model\App\Area::PART_CONFIG
+                    \Magento\Framework\App\Area::PART_CONFIG
                 );
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                     'Magento\Framework\Config\ScopeInterface'
