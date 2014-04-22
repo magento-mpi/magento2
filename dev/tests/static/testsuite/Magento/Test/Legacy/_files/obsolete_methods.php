@@ -1620,10 +1620,17 @@ return array(
         'getRatingSummary',
         'Magento\Catalog\Model\Product'
     ),
+    ['getCustomer', 'Magento\ProductAlert\Helper\Data'],
+    ['addCustomerFilter', 'Magento\ProductAlert\Model\Resource\Stock\Collection'],
+    ['addCustomerFilter', 'Magento\ProductAlert\Model\Resource\Price\Collection'],
+    ['setCustomer', 'Magento\ProductAlert\Model\Email'],
+    ['getCustomer', 'Magento\Persistent\Helper\Session'],
     ['_getThemeInstance', 'Magento\Framework\View\Layout'],
     ['getArea', 'Magento\Framework\View\Layout'],
     ['setArea', 'Magento\Framework\View\Layout'],
     ['getCustomer', 'Magento\Tax\Model\Calculation', 'Magento\Tax\Model\Calculation::getCustomerData'],
     ['setCustomer', 'Magento\Tax\Model\Calculation', 'Magento\Tax\Model\Calculation::setCustomerData'],
     ['setCustomer', 'Magento\Checkout\Model\Session', 'Magento\Checkout\Model\Session::setCustomerData'],
+    ['getPersistentName', 'Magento\Persistent\Helper\Data'],
+    ['getCustomerDataObject', 'Magento\Persistent\Helper\Session'],
 );
