@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_System
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@
 /**
  * Command-line options parsing class.
  */
-namespace Magento\System;
+namespace Magento\Framework\System;
 
 class Args
 {

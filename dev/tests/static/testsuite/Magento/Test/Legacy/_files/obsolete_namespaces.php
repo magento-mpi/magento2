@@ -48,4 +48,5 @@ return [
     ['Magento\Encryption', 'Magento\Framework\Encryption'],
     ['Magento\Option', 'Magento\Framework\Option'],
     ['Magento\Service', 'Magento\Framework\Service'],
+    ['Magento\System', 'Magento\Framework\System'],
 ];

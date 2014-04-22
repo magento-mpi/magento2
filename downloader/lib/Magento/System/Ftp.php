@@ -2,19 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_System
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\System;
+namespace Magento\Framework\System;
 
 /**
  * Class to work with remote FTP server
- *
- * @category    Magento
- * @package     Magento_System
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Ftp
 {
@@ -221,6 +215,7 @@ class Ftp
      * @param string $local
      * @param int $dirMode
      * @param int $ftpMode
+     * @throws \Exception
      * @return unknown_type
      */
     public function upload($remote, $local, $dirMode = 0777, $ftpMode = FTP_BINARY)
@@ -228,13 +223,13 @@ class Ftp
         $this->checkConnected();
 
         if (!file_exists($local)) {
-            throw new \Exception("Local file doesn't exist: {$localFile}");
+            throw new \Exception("Local file doesn't exist: {$local}");
         }
         if (!is_readable($local)) {
-            throw new \Exception("Local file is not readable: {$localFile}");
+            throw new \Exception("Local file is not readable: {$local}");
         }
         if (is_dir($local)) {
-            throw new \Exception("Directory given instead of file: {$localFile}");
+            throw new \Exception("Directory given instead of file: {$local}");
         }
 
         $globalPathMode = substr($remote, 0, 1) == "/";

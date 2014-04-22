@@ -17,6 +17,6 @@
  */
 namespace Magento\Framework\Connect;
 
-class Ftp extends \Magento\System\Ftp
+class Ftp extends \Magento\Framework\System\Ftp
 {
 }

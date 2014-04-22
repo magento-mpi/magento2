@@ -21,7 +21,7 @@ class Ftp extends \Magento\Framework\Backup\Filesystem\Rollback\AbstractRollback
     /**
      * Ftp client
      *
-     * @var \Magento\System\Ftp
+     * @var \Magento\Framework\System\Ftp
      */
     protected $_ftpClient;
 
@@ -63,7 +63,7 @@ class Ftp extends \Magento\Framework\Backup\Filesystem\Rollback\AbstractRollback
     protected function _initFtpClient()
     {
         try {
-            $this->_ftpClient = new \Magento\System\Ftp();
+            $this->_ftpClient = new \Magento\Framework\System\Ftp();
             $this->_ftpClient->connect($this->_snapshot->getFtpConnectString());
         } catch (\Exception $e) {
             throw new \Magento\Framework\Backup\Exception\FtpConnectionFailed($e->getMessage());

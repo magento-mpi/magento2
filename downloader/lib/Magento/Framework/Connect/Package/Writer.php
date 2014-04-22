@@ -145,7 +145,7 @@ class Writer
         );
 
         //delete temporary dir
-        \Magento\System\Dirs::rm(array("-r", $this->_temporaryPackageDir));
+        \Magento\Framework\System\Dirs::rm(array("-r", $this->_temporaryPackageDir));
         return $this;
     }
 

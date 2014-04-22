@@ -241,8 +241,8 @@ final class Converter
             $tempDir = "tmp-" . basename($sourceFile) . uniqid();
             $outDir = "out-" . basename($sourceFile) . uniqid();
             $outDir = rtrim($outDir, "\\/");
-            \Magento\System\Dirs::mkdirStrict($outDir);
-            \Magento\System\Dirs::mkdirStrict($tempDir);
+            \Magento\Framework\System\Dirs::mkdirStrict($outDir);
+            \Magento\Framework\System\Dirs::mkdirStrict($tempDir);
 
             $result = $arc->unpack($sourceFile, $tempDir);
             if (!$result) {
@@ -296,7 +296,7 @@ final class Converter
                 $sourceFile = $pathSource . '/' . $name;
                 $targetFile = $outDir . '/' . $baseName . '/' . $name;
                 if (file_exists($sourceFile)) {
-                    \Magento\System\Dirs::mkdirStrict(dirname($targetFile));
+                    \Magento\Framework\System\Dirs::mkdirStrict(dirname($targetFile));
                     $copy = @copy($sourceFile, $targetFile);
                     if (false === $copy) {
                         throw new \Exception("Cannot copy '{$sourceFile}' to '{$targetFile}'");
@@ -312,16 +312,16 @@ final class Converter
             $mageObject->save(getcwd());
             @chdir($cwd);
             $filename = $outDir . '/' . $mageObject->getReleaseFilename() . ".tgz";
-            if (@file_exists($targetArchive)) {
-                @unlink($targetArchive);
+            if (@file_exists($destFile)) {
+                @unlink($destFile);
             }
-            \Magento\System\Dirs::mkdirStrict(dirname($destFile));
+            \Magento\Framework\System\Dirs::mkdirStrict(dirname($destFile));
             $copy = @copy($filename, $destFile);
             if (false === $copy) {
-                throw new \Exception("Cannot copy '{$filename}' to '{$targetArchive}'");
+                throw new \Exception("Cannot copy '{$filename}' to '{$destFile}'");
             }
-            \Magento\System\Dirs::rm($tempDir);
-            \Magento\System\Dirs::rm($outDir);
+            \Magento\Framework\System\Dirs::rm($tempDir);
+            \Magento\Framework\System\Dirs::rm($outDir);
         } catch (\Exception $e) {
             throw $e;
         }

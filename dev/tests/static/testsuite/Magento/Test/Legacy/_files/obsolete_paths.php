@@ -168,4 +168,7 @@ return [
     ['/lib/Magento/Service', '/lib/Magento/Framework/Service'],
     ['/dev/tests/unit/testsuite/Magento/Service', '/dev/tests/unit/testsuite/Magento/Framework/Service'],
     ['/dev/tests/integration/testsuite/Magento/Service', '/dev/tests/integration/testsuite/Magento/Framework/Service'],
+    ['/lib/Magento/System', '/lib/Magento/Framework/System'],
+    ['/dev/tests/unit/testsuite/Magento/System', '/dev/tests/unit/testsuite/Magento/Framework/System'],
+    ['/dev/tests/integration/testsuite/Magento/System', '/dev/tests/integration/testsuite/Magento/Framework/System'],
 ];

@@ -384,7 +384,7 @@ class Packager
         }
 
         $ftp->chdir($ftpDir);
-        \Magento\System\Dirs::rm(array("-r", $target));
+        \Magento\Framework\System\Dirs::rm(array("-r", $target));
     }
 
     /**
@@ -431,7 +431,7 @@ class Packager
             @chmod($dest, $modeFile);
         }
 
-        \Magento\System\Dirs::rm(array("-r", $target));
+        \Magento\Framework\System\Dirs::rm(array("-r", $target));
     }
 
     /**

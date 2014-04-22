@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_System
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\System;
+namespace Magento\Framework\System;
 
 class Dirs
 {

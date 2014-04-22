@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\System;
+namespace Magento\Framework\System;
 
 /**
  * Command-line options parsing class.

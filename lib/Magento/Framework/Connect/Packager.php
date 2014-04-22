@@ -262,7 +262,7 @@ class Packager
             }
         }
         $ftp->chdir($ftpDir);
-        \Magento\System\Dirs::rm(array("-r", $target));
+        \Magento\Framework\System\Dirs::rm(array("-r", $target));
     }
 
     /**
@@ -299,7 +299,7 @@ class Packager
                 @mkdir($dest, $modeDir);
             }
         }
-        \Magento\System\Dirs::rm(array("-r", $target));
+        \Magento\Framework\System\Dirs::rm(array("-r", $target));
     }
 
     /**

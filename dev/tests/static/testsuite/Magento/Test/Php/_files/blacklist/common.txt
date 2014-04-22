@@ -116,6 +116,6 @@ lib/Magento/Object.php
 lib/Magento/Framework/Pear
 lib/Magento/Framework/Pear.php
 lib/Magento/Framework/Simplexml
-lib/Magento/System
+lib/Magento/Framework/System
 lib/Magento/Util.php
 lib/Magento/Xml

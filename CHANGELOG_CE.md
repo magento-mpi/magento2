@@ -83,6 +83,7 @@
     * Moved lib/Magento/Encryption to lib/Magento/Framework/Encryption
     * Moved lib/Magento/Option to lib/Magento/Framework/Option
     * Moved lib/Magento/Service to lib/Magento/Framework/Service
+    * Moved lib/Magento/System to lib/Magento/Framework/System
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
   * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)
