@@ -85,8 +85,8 @@ class Price extends \Magento\Catalog\Block\Product\Price
     public function displayBothPrices()
     {
         $product = $this->getProduct();
-        if ($product->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC &&
-            $product->getPriceModel()->getIsPricesCalculatedByIndex() !== false
+        if ($product->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC
+            && $product->getPriceModel()->getIsPricesCalculatedByIndex() !== false
         ) {
             return false;
         }

@@ -27,7 +27,13 @@
     </referenceBlock>
     <referenceBlock name="product.info">
         <block class="Magento\Catalog\Block\Product\View" name="bundle.summary" as="form_top" template="Magento_Bundle::catalog/product/view/summary.phtml">
-            <block class="Magento\Bundle\Block\Catalog\Product\Price" name="bundle.prices" as="bundle_prices" template="catalog/product/view/price.phtml"/>
+            <block class="Magento\Catalog\Pricing\Render" name="product.price.render.bundle.customization">
+                <arguments>
+                    <argument name="price_render" xsi:type="string">product.price.render.default</argument>
+                    <argument name="price_type_code" xsi:type="string">configured_price</argument>
+                    <argument name="zone" xsi:type="string">item_view</argument>
+                </arguments>
+            </block>
             <block class="Magento\Catalog\Block\Product\View" name="product.info.addtocart.bundle" as="addtocart" template="product/view/addtocart.phtml"/>
             <block class="Magento\Catalog\Block\Product\View" name="product.info.addto.bundle" as="addto" template="product/view/addto.phtml"/>
         </block>

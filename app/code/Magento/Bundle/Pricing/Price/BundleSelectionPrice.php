@@ -65,6 +65,8 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
     }
 
     /**
+     * Get the price value for one of selection product
+     *
      * @return bool|float
      */
     public function getValue()
@@ -80,7 +82,6 @@ class BundleSelectionPrice extends CatalogPrice\AbstractPrice
         } else {
             if ($this->product->getSelectionPriceType()) {
                 // calculate price for selection type percent
-
                 $product = clone $this->bundleProduct;
                 $price = $product->getPriceInfo()
                     ->getPrice(CatalogPrice\RegularPrice::PRICE_CODE, $this->quantity)

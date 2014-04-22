@@ -15,21 +15,9 @@ $productId = $this->getSaleableItem()->getId();
 /** @var \Magento\Bundle\Pricing\Price\FinalPrice $finalPriceModel */
 $finalPriceModel = $this->getPrice();
 ?>
-<?php
-if (isset($_GET['showmeprice'])) {
-    echo 'Regular Price :' . $this->getPriceType('regular_price')->getValue() . "<br />";
-    echo 'Special Price :' . $this->getPriceType('special_price')->getValue(). "<br />";
-    echo 'Group Price :' . $this->getPriceType('group_price')->getValue(). "<br />";
-    echo 'Catalog Rule Price :' . $this->getPriceType('catalog_rule_price')->getValue(). "<br />";
-    echo 'Tier Price :' . $this->getPriceType('tier_price')->getValue(). "<br />";
-    echo 'Base Price :' . $this->getPriceType('base_price')->getValue(). "<br />";
-    echo 'Final Price :' . $finalPriceModel->getValue(). "<br />";
-    echo  "<br />";
-}
-?>
 <?php if ($this->getSaleableItem()->getPriceView()): ?>
     <p class="minimal-price">
-        <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
+        <?php echo $this->renderAmount($finalPriceModel->getMinimalPrice(), [
             'display_label'     => __('As low as'),
             'price_id'          => $this->getPriceId('from-'),
             'include_container' => true
@@ -38,7 +26,7 @@ if (isset($_GET['showmeprice'])) {
 <?php else: ?>
     <?php if ($this->showRangePrice()): ?>
         <p class="price-from">
-            <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
+            <?php echo $this->renderAmount($finalPriceModel->getMinimalPrice(), [
                 'display_label'     => __('From:'),
                 'price_id'          => $this->getPriceId('from-'),
                 'include_container' => true
@@ -52,7 +40,7 @@ if (isset($_GET['showmeprice'])) {
             ]); ?>
         </p>
     <?php else: ?>
-        <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
+        <?php echo $this->renderAmount($finalPriceModel->getMinimalPrice(), [
             'price_id'          => $this->getPriceId('product-price-'),
             'include_container' => true
         ]); ?>
