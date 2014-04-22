@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<fixture class="Magento\Tax\Test\Fixture\TaxRate">
+<fixture class="Magento\Tax\Test\Fixture\TaxClassInjectable">
     <module>Magento_Tax</module>
     <type>flat</type>
     <entity_type>tax_class</entity_type>
@@ -38,6 +38,6 @@
     </fields>
     <data_set></data_set>
     <data_config></data_config>
-    <repository_class>Magento\Tax\Test\Repository\TaxRate</repository_class>
-    <handler_interface>Magento\Tax\Test\Handler\TaxRate\TaxRateInterface</handler_interface>
+    <repository_class>Magento\Tax\Test\Repository\TaxClass</repository_class>
+    <handler_interface>Magento\Tax\Test\Handler\TaxClass\TaxClassInterface</handler_interface>
 </fixture>

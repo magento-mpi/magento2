@@ -18,9 +18,9 @@
         <area>adminhtml</area>
         <class>Magento\Customer\Test\Page\Adminhtml\CustomerGroupNew</class>
     </customerGroupNew>
-    <customerNew>
+    <customerIndexNew>
         <mca>customer/index/new/</mca>
         <area>adminhtml</area>
-        <class>Magento\Customer\Test\Page\Adminhtml\CustomerNew</class>
-    </customerNew>
+        <class>Magento\Customer\Test\Page\Adminhtml\CustomerIndexNew</class>
+    </customerIndexNew>
 </page>

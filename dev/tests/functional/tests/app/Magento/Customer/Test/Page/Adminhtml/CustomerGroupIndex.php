@@ -6,22 +6,22 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Test\Page\Adminhtml; 
+namespace Magento\Customer\Test\Page\Adminhtml;
 
 use Mtf\Page\BackendPage;
 
 /**
  * Class CustomerGroupIndex
  *
- * @package Adminhtml
+ * @package Magento\Customer\Test\Page\Adminhtml
  */
 class CustomerGroupIndex extends BackendPage
 {
     const MCA = 'customer/group/index';
 
     protected $_blocks = [
-        'messages' => [
-            'name' => 'messages',
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages .messages',
             'strategy' => 'css selector',
@@ -43,9 +43,9 @@ class CustomerGroupIndex extends BackendPage
     /**
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessages()
+    public function getMessagesBlock()
     {
-        return $this->getBlockInstance('messages');
+        return $this->getBlockInstance('messagesBlock');
     }
 
     /**

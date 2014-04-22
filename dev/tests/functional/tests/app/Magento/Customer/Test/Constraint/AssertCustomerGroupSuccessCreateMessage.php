@@ -14,7 +14,7 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerGroupIndex;
 /**
  * Class AssertCustomerGroupSuccessCreateMessage
  *
- * @package Constraint
+ * @package Magento\Customer\Test\Constraint
  */
 class AssertCustomerGroupSuccessCreateMessage extends AbstractConstraint
 {
@@ -33,10 +33,9 @@ class AssertCustomerGroupSuccessCreateMessage extends AbstractConstraint
      * @param CustomerGroupIndex $customerGroupIndex
      * @return void
      */
-    public function processAssert(
-        CustomerGroupIndex $customerGroupIndex
-    ) {
-        $actualMessage = $customerGroupIndex->getMessages()->getSuccessMessages();
+    public function processAssert(CustomerGroupIndex $customerGroupIndex)
+    {
+        $actualMessage = $customerGroupIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,

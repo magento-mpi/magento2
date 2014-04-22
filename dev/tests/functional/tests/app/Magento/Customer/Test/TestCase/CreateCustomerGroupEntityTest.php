@@ -11,6 +11,7 @@ namespace Magento\Customer\Test\TestCase;
 use Magento\Customer\Test\Fixture\CustomerGroup;
 use Magento\Customer\Test\Page\Adminhtml\CustomerGroupIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerGroupNew;
+use Magento\Tax\Test\Fixture\TaxClassInjectable;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -25,7 +26,7 @@ use Mtf\TestCase\Injectable;
  * 6.Perform all assertions.
  *
  * @group Customer_Groups_(MX)
- * @ZephyrId MTA-42
+ * @ZephyrId MAGETWO-23422
  */
 class CreateCustomerGroupEntityTest extends Injectable
 {
@@ -77,7 +78,6 @@ class CreateCustomerGroupEntityTest extends Injectable
         CustomerGroupNew $customerGroupNew,
         CustomerGroup $customerGroup
     ) {
-        $customerGroup->persist();
 
         //Steps
         $customerGroupIndex->open();

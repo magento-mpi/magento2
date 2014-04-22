@@ -15,7 +15,7 @@ use Mtf\Constraint\AbstractConstraint;
 /**
  * Class AssertCustomerGroupNotInGrid
  *
- * @package Constraint
+ * @package Magento\Customer\Test\Constraint
  */
 class AssertCustomerGroupNotInGrid extends AbstractConstraint
 {
@@ -37,10 +37,11 @@ class AssertCustomerGroupNotInGrid extends AbstractConstraint
         CustomerGroup $customerGroup,
         CustomerGroupIndex $customerGroupIndex
     ) {
+        $customerGroupIndex->open();
         $filter = ['type' => $customerGroup->getCode()];
         \PHPUnit_Framework_Assert::assertFalse(
             $customerGroupIndex->getCustomerGroupGrid()->isRowVisible($filter),
-            'Group with type \'' . $customerGroup->getCode() . '\' in customer groups grid.'
+            'Group with name \'' . $customerGroup->getCode() . '\' in customer groups grid.'
         );
     }
 

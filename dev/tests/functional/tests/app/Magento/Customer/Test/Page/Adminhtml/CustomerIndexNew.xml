@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<page mca="customer/index/new/" >
+<page mca="customer/index/new/">
     <block>
-        <name>mainForm</name>
-        <class>Magento\Customer\Test\Block\Adminhtml\Edit\Form</class>
-        <locator>#_accountbase_fieldset</locator>
+        <name>editForm</name>
+        <class>Magento\Customer\Test\Block\Adminhtml\Edit\CustomerForm</class>
+        <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

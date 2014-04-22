@@ -15,7 +15,7 @@ use Mtf\Constraint\AbstractConstraint;
 /**
  * Class AssertCustomerGroupInGrid
  *
- * @package Constraint
+ * @package Magento\Customer\Test\Constraint
  */
 class AssertCustomerGroupInGrid extends AbstractConstraint
 {
@@ -37,6 +37,7 @@ class AssertCustomerGroupInGrid extends AbstractConstraint
         CustomerGroup $customerGroup,
         CustomerGroupIndex $customerGroupIndex
     ) {
+        $customerGroupIndex->open();
         $filter = ['type' => $customerGroup->getCode()];
         \PHPUnit_Framework_Assert::assertTrue(
             $customerGroupIndex->getCustomerGroupGrid()->isRowVisible($filter),
@@ -45,7 +46,7 @@ class AssertCustomerGroupInGrid extends AbstractConstraint
     }
 
     /**
-     * Text of customer group in grid after save.
+     * Text of customer group in grid
      *
      * @return string
      */

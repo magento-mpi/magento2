@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Test\Page\Adminhtml; 
+namespace Magento\Customer\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class CustomerGroupNew
  *
- * @package Adminhtml
+ * @package Magento\Customer\Test\Page\Adminhtml
  */
 class CustomerGroupNew extends BackendPage
 {
@@ -29,7 +29,7 @@ class CustomerGroupNew extends BackendPage
         'pageMainForm' => [
             'name' => 'pageMainForm',
             'class' => 'Magento\Customer\Test\Block\Adminhtml\Group\Edit\Form',
-            'locator' => '#edit_form',
+            'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
         'messageBlock' => [
@@ -49,18 +49,18 @@ class CustomerGroupNew extends BackendPage
     }
 
     /**
-     * @return \Magento\Core\Test\Block\Messages
-     */
-    public function getMessageBlock()
-    {
-        return $this->getBlockInstance('messageBlock');
-    }
-
-    /**
      * @return \Magento\Customer\Test\Block\Adminhtml\Group\Edit\Form
      */
     public function getPageMainForm()
     {
         return $this->getBlockInstance('pageMainForm');
+    }
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessageBlock()
+    {
+        return $this->getBlockInstance('messageBlock');
     }
 }

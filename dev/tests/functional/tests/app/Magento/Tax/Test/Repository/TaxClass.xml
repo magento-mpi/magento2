@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<repository class="Magento\Tax\Test\Repository\TaxClass" >
+<item>
+<class_id>2</class_id>
+<class_name><![CDATA[Taxable Goods]]></class_name>
+<class_type><![CDATA[PRODUCT]]></class_type>
+<id>2</id>
+<mtf_dataset_name><![CDATA[dataset_2]]></mtf_dataset_name>
+</item>
+<item>
+<class_id>3</class_id>
+<class_name><![CDATA[Retail Customer]]></class_name>
+<class_type><![CDATA[CUSTOMER]]></class_type>
+<id>3</id>
+<mtf_dataset_name><![CDATA[retail_customer]]></mtf_dataset_name>
+</item>
+<item>
+<class_id>4</class_id>
+<class_name><![CDATA[TaxClass870197636]]></class_name>
+<class_type><![CDATA[CUSTOMER]]></class_type>
+<id>4</id>
+<mtf_dataset_name><![CDATA[dataset_4]]></mtf_dataset_name>
+</item>
+</repository>

@@ -8,18 +8,18 @@
 
 namespace Magento\Customer\Test\Constraint;
 
-use Magento\Customer\Test\Page\Adminhtml\CustomerGroupIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerGroupNew;
-use Magento\Customer\Test\Fixture\CustomerGroup;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCustomerGroupAlreadyExists
  *
- * @package Constraint
+ * @package Magento\Customer\Test\Constraint
  */
 class AssertCustomerGroupAlreadyExists extends AbstractConstraint
 {
+    const SUCCESS_MESSAGE = 'Customer Group already exists.';
+
     /**
      * Constraint severeness
      *
@@ -31,24 +31,16 @@ class AssertCustomerGroupAlreadyExists extends AbstractConstraint
      * Assert that customer group already exist
      *
      * @param CustomerGroupNew $customerGroupNew
-     * @param CustomerGroupIndex $customerGroupIndex
-     * @param CustomerGroup $customerGroup
      * @return void
      */
-    public function processAssert(
-        CustomerGroupNew $customerGroupNew,
-        CustomerGroupIndex $customerGroupIndex,
-        CustomerGroup $customerGroup
-    ) {
+    public function processAssert(CustomerGroupNew $customerGroupNew)
+    {
         $actualMessage = $customerGroupNew->getMessageBlock()->getErrorMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            'Customer Group already exists. { code: INVALID_FIELD_VALUE code: ' . $customerGroup->getCode(
-            ) . 'params: [] }',
+            self::SUCCESS_MESSAGE,
             $actualMessage,
             'Wrong error message is displayed.'
         );
-
-        $customerGroupIndex->open();
     }
 
     /**

@@ -13,23 +13,12 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class CustomerGroup
  *
- * @package Fixture
+ * @package Magento\Customer\Test\Fixture
  */
 class CustomerGroup extends InjectableFixture
 {
-    /**
-     * @var string
-     */
-    protected $repositoryClass = 'Magento\Customer\Test\Repository\CustomerGroup';
-
-    /**
-     * @var string
-     */
-    protected $handlerInterface = 'Magento\Customer\Test\Handler\CustomerGroup\CustomerGroupInterface';
-
     protected $defaultDataSet = [
         'code' => 'customer_code_%isolation%',
-        'tax_class' => 'Retail Customer',
     ];
 
     protected $code = [
@@ -46,6 +35,7 @@ class CustomerGroup extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'select',
+        'fixture' => 'Magento\Customer\Test\Fixture\CustomerGroup\TaxClassIds',
     ];
 
     public function getCode()

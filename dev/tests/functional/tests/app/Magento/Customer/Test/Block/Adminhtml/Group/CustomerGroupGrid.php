@@ -20,12 +20,14 @@ class CustomerGroupGrid extends Grid
 {
     /**
      * Initialize block elements
+     *
+     * @var array $filters
      */
-    protected $filters = array(
-        'type' => array(
+    protected $filters = [
+        'type' => [
             'selector' => '#customerGroupGrid_filter_type'
-        )
-    );
+        ]
+    ];
 
     /**
      * Update attributes for selected items
